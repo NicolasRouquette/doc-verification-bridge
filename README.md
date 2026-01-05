@@ -33,6 +33,102 @@ require «doc-verification-bridge» from git
 
 ---
 
+## Running on External Projects
+
+To analyze a project you haven't modified (e.g., `batteries`, `mathlib4`), you need a **nested docbuild directory** similar to doc-gen4. This is required because:
+
+1. The target project's compiled modules must be available to import
+2. doc-verification-bridge and its dependencies (doc-gen4, Cli) must be in scope
+3. The nested project approach allows both requirements without modifying the target
+
+### Setup Instructions
+
+1. **Create a `docbuild` subdirectory** inside the target project:
+
+```bash
+cd /path/to/target-project  # e.g., batteries
+mkdir docbuild
+cd docbuild
+```
+
+2. **Create `lakefile.toml`** with the following content:
+
+```toml
+name = "docbuild"
+reservoir = false
+version = "0.1.0"
+packagesDir = "../.lake/packages"
+
+[[require]]
+name = "batteries"       # Replace with your target library name
+path = "../"
+
+[[require]]
+name = "doc-verification-bridge"
+git = "https://github.com/YOUR_ORG/doc-verification-bridge"
+rev = "main"
+```
+
+3. **Copy the `lean-toolchain`** from the parent project:
+
+```bash
+cp ../lean-toolchain .
+```
+
+4. **Update dependencies:**
+
+```bash
+lake update doc-verification-bridge
+```
+
+5. **Build the target project** (if not already built):
+
+```bash
+cd ..
+lake build
+cd docbuild
+```
+
+6. **Run doc-verification-bridge:**
+
+```bash
+lake exe doc-verification-bridge --output docs Batteries Batteries
+```
+
+### Example: Analyzing batteries
+
+```bash
+# From batteries root
+cd /path/to/batteries
+mkdir -p docbuild
+cd docbuild
+
+# Create lakefile.toml
+cat > lakefile.toml << 'EOF'
+name = "docbuild"
+reservoir = false
+version = "0.1.0"
+packagesDir = "../.lake/packages"
+
+[[require]]
+name = "batteries"
+path = "../"
+
+[[require]]
+name = "doc-verification-bridge"
+git = "https://github.com/YOUR_ORG/doc-verification-bridge"
+rev = "main"
+EOF
+
+cp ../lean-toolchain .
+lake update doc-verification-bridge
+lake exe doc-verification-bridge --output docs Batteries
+```
+
+The generated documentation will be in `docbuild/docs/`.
+
+---
+
 ## Two Modes of Operation
 
 doc-verification-bridge supports two complementary modes:
@@ -46,7 +142,10 @@ doc-verification-bridge supports two complementary modes:
 
 ## Mode 1: Automatic (No Annotations Required)
 
-Run doc-verification-bridge on any Lean 4 project without modifying source code:
+Run doc-verification-bridge on any Lean 4 project without modifying source code.
+
+> **Note:** Run these commands from inside the `docbuild` directory after completing
+> the [setup instructions](#running-on-external-projects) above.
 
 ```bash
 lake exe doc-verification-bridge --output docs MyProject.Core MyProject.Theorems
@@ -58,6 +157,11 @@ lake exe doc-verification-bridge \
   --repo https://github.com/org/repo \
   --output docs \
   MyProject.Core MyProject.Theorems
+```
+
+For projects with a single top-level module:
+```bash
+lake exe doc-verification-bridge --output docs --project "Batteries" Batteries
 ```
 
 ### How Automatic Inference Works

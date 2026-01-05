@@ -28,8 +28,8 @@ def runMetaM (env : Environment) (x : MetaM α) : IO α := do
 
 /-- Run automatic classification and generate report -/
 def runAutoClassification (args : Cli.Parsed) : IO UInt32 := do
-  -- Get modules from positional arguments
-  let modules : List String := args.positionalArgs.map (·.as! String) |>.toList
+  -- Get modules from variadic arguments
+  let modules : List String := (args.variableArgsAs! String).toList
 
   if modules.isEmpty then
     IO.eprintln "Error: At least one module name required"
@@ -130,17 +130,36 @@ inspired by E.J. Lowe:
 
 Bridging theorems prove the fundamental ontological relations between these levels.
 
+SETUP (for analyzing external projects):
+
+  To analyze a project like 'batteries' or 'mathlib4', create a nested docbuild
+  directory with a lakefile.toml that depends on both the target project and
+  doc-verification-bridge:
+
+    cd /path/to/target-project
+    mkdir docbuild && cd docbuild
+    # Create lakefile.toml (see README for template)
+    cp ../lean-toolchain .
+    lake update doc-verification-bridge
+
+  Then run commands from inside the docbuild directory.
+
 EXAMPLES:
-  # Analyze a single module
+  # Analyze a single module (run from docbuild directory)
   lake exe doc-verification-bridge MyProject.Core
 
   # Analyze multiple modules with source links
   lake exe doc-verification-bridge --repo https://github.com/org/repo --output docs \\
     MyProject.Core MyProject.Data MyProject.Theorems
 
+  # Analyze batteries library
+  lake exe doc-verification-bridge --output docs --project Batteries Batteries
+
   # Use GitLab for source links
   lake exe doc-verification-bridge --platform gitlab --repo https://gitlab.com/org/repo \\
     MyProject
+
+See README.md for detailed setup instructions.
 "
 ]
 
