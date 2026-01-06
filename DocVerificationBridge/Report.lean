@@ -124,6 +124,8 @@ structure ReportConfig where
   modules : List String := []
   /-- Cached git file listing -/
   gitCache : GitFileCache := default
+  /-- Base URL for doc-gen4 API documentation (relative or absolute) -/
+  docGenBaseUrl : Option String := none
 deriving Repr, Inhabited
 
 /-- Strip all trailing slashes from URL -/
@@ -152,6 +154,31 @@ def ReportConfig.folderUrl (cfg : ReportConfig) (folderPath : String) : String :
   match cfg.platform with
   | .github => s!"{baseUrl}/tree/{cfg.branch}/{folderPath}"
   | .gitlab => s!"{baseUrl}/-/tree/{cfg.branch}/{folderPath}"
+
+/-- Generate a doc-gen4 documentation URL for a declaration.
+    The URL format is: <baseUrl>/<module-path>.html#<declaration-name>
+    Example: ../api/Batteries/Data/List/Basic.html#List.Chain -/
+def ReportConfig.docGenUrl (cfg : ReportConfig) (env : Environment) (name : Name) : Option String :=
+  cfg.docGenBaseUrl.map fun baseUrl =>
+    -- Get module name for this declaration
+    let modulePath := match env.getModuleIdxFor? name with
+      | some modIdx =>
+        let modName := env.header.moduleNames[modIdx.toNat]!
+        -- Convert module name to path: Batteries.Data.List.Basic → Batteries/Data/List/Basic
+        modName.components.map toString |> String.intercalate "/"
+      | none =>
+        -- Fallback: use the name's namespace path
+        let rec getModuleParts : Name → List String
+          | .str p s => s :: getModuleParts p
+          | .num p _ => getModuleParts p
+          | .anonymous => []
+        let parts := getModuleParts name |>.reverse
+        if parts.length >= 2 then
+          String.intercalate "/" (parts.dropLast)
+        else
+          "unknown"
+    let base := stripTrailingSlashes baseUrl
+    s!"{base}/{modulePath}.html#{name}"
 
 /-!
 ## Markdown Generation Helpers
@@ -255,7 +282,8 @@ def flatEntryToMarkdownXRef (env : Environment) (cfg : Option ReportConfig) (nam
   let anchorAttr := "{#" ++ anchorId ++ "}"
 
   -- Get source location: prefer git-based lookup, fallback to module-based
-  let sourceLink := match cfg with
+  -- Also generate doc-gen4 documentation link if configured
+  let (sourceLink, docLink) := match cfg with
     | some config =>
       -- Try git-based file lookup first (most accurate)
       let filePath := match findFileForName config.gitCache name with
@@ -273,8 +301,13 @@ def flatEntryToMarkdownXRef (env : Environment) (cfg : Option ReportConfig) (nam
       let url := match getDeclarationLine env name with
         | some line => config.sourceUrl filePath line
         | none => config.sourceUrlNoLine filePath
-      s!"[`{displayedName}`]({url})" ++ anchorAttr
-    | none => s!"`{displayedName}`" ++ anchorAttr
+      let srcLink := s!"[`{displayedName}`]({url})" ++ anchorAttr
+      -- Generate doc-gen4 link if configured
+      let docLnk := match config.docGenUrl env name with
+        | some docUrl => s!" [:material-book-open-page-variant:]({docUrl} \"API Documentation\")"
+        | none => ""
+      (srcLink, docLnk)
+    | none => (s!"`{displayedName}`" ++ anchorAttr, "")
 
   -- If this is a theorem, emit a row with TheoremKind, Assumes, Proves and Validates
   if m.isTheorem then
@@ -293,7 +326,7 @@ def flatEntryToMarkdownXRef (env : Environment) (cfg : Option ReportConfig) (nam
       | some .soundnessProperty, _ => "soundness"
       | some .completenessProperty, _ => "completeness"
       | none, _ => "—"
-    s!"| {sourceLink} | {tk} | {assumesCell} | {provesCell} | {validatesCell} |\n"
+    s!"| {sourceLink}{docLink} | {tk} | {assumesCell} | {provesCell} | {validatesCell} |\n"
   else
     -- Definition/type: show theorem counts by kind with expandable list
     -- Group theorems by kind
@@ -348,7 +381,7 @@ def flatEntryToMarkdownXRef (env : Environment) (cfg : Option ReportConfig) (nam
       | .apiDef ⟨.mathematicalDefinition, _⟩ => "MathDef"
       | .apiDef ⟨.computationalOperation, _⟩ => "CompOp"
       | .apiTheorem _ => "—"  -- shouldn't happen for defs
-    s!"| {sourceLink} | {catDisplay} | {tallyCell} |\n"
+    s!"| {sourceLink}{docLink} | {catDisplay} | {tallyCell} |\n"
 
 /-- Generate the full markdown report with namespace hierarchy and source links -/
 def generateReport (env : Environment) (entries : NameMap APIMeta)
