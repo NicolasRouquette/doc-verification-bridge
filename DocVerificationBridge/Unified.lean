@@ -626,6 +626,7 @@ def generateUnifiedMkDocsSite (cfg : UnifiedConfig) (result : UnifiedResult) (mo
   IO.FS.writeFile (verificationDir / "index.md") (generateVerificationIndexMd cfg.projectName)
 
   -- Generate coverage report (our main report)
+  -- In unified mode, doc-gen4 API docs are at ../../api/ relative to verification/coverage/
   let reportCfg : ReportConfig := {
     outputDir := mkdocsSrcDir  -- Not used directly, but needed for structure
     repoUrl := cfg.repoUrl
@@ -633,6 +634,7 @@ def generateUnifiedMkDocsSite (cfg : UnifiedConfig) (result : UnifiedResult) (mo
     branch := cfg.branch
     modules := modules
     gitCache := result.gitCache
+    docGenBaseUrl := some "../../api"  -- Link to doc-gen4 docs in unified site
   }
   let coverageReport := generateReport result.env result.verificationEntries (some reportCfg) cfg.projectName modules
   IO.FS.writeFile (verificationDir / "coverage.md") coverageReport
