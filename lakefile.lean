@@ -7,9 +7,15 @@ package «doc-verification-bridge» where
 lean_lib DocVerificationBridge where
   -- Library configuration
 
+-- Original standalone CLI (verification only, MkDocs output)
 @[default_target]
 lean_exe «doc-verification-bridge» where
   root := `Main
+  supportInterpreter := true
+
+-- Unified CLI combining doc-gen4 + verification
+lean_exe «unified-doc» where
+  root := `UnifiedMain
   supportInterpreter := true
 
 -- Dependencies

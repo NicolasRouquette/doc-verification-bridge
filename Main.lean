@@ -44,12 +44,18 @@ def runAutoClassification (args : Cli.Parsed) : IO UInt32 := do
 
   let platform := if platformStr == "gitlab" then GitPlatform.gitlab else GitPlatform.github
 
+  -- Build git file cache for accurate source links
+  IO.println s!"verification-bridge: Building git file cache..."
+  let gitCache ← buildGitFileCache
+  IO.println s!"  Found {gitCache.allFiles.size} .lean files in repository"
+
   let cfg : ReportConfig := {
     outputDir := outputDir
     repoUrl := repoUrl
     platform := platform
     branch := branch
     modules := modules
+    gitCache := gitCache
   }
 
   IO.println s!"verification-bridge: Analyzing {modules.length} module(s)..."
@@ -87,10 +93,11 @@ def runAutoClassification (args : Cli.Parsed) : IO UInt32 := do
   IO.FS.createDirAll stylesheetsPath
 
   -- Write files
+  let repoUrlOpt := if repoUrl.isEmpty then none else some repoUrl
   IO.FS.writeFile (docsPath / "API_Coverage.md") report
   IO.FS.writeFile (docsPath / "index.md") (generateIndexMd projectName)
   IO.FS.writeFile (stylesheetsPath / "extra.css") generateExtraCss
-  IO.FS.writeFile (outputPath / "mkdocs.yml") (generateMkDocsConfig projectName)
+  IO.FS.writeFile (outputPath / "mkdocs.yml") (generateMkDocsConfig projectName repoUrlOpt)
 
   IO.println s!"  Written to {outputPath}/"
   IO.println ""
