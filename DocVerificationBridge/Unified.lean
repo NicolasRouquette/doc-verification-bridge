@@ -70,6 +70,17 @@ structure UnifiedResult where
   /-- Git file cache for accurate source links -/
   gitCache : GitFileCache
 
+/-- Get the current git commit hash in a directory -/
+def getGitCommitHash (dir : System.FilePath) : IO (Option String) := do
+  let result ← IO.Process.output {
+    cmd := "git"
+    args := #["rev-parse", "HEAD"]
+    cwd := some dir
+  }
+  if result.exitCode != 0 then
+    return none
+  return some (result.stdout.trimAscii.copy)
+
 /-- Build a git file cache by running `git ls-files` in a specific directory -/
 def buildGitFileCacheIn (dir : System.FilePath) : IO GitFileCache := do
   let result ← IO.Process.output {
@@ -155,6 +166,38 @@ def loadAndAnalyze (cfg : UnifiedConfig) (modules : Array Name) : IO UnifiedResu
     gitCache
   }
 
+/-- Construct file path from module name (e.g., `Batteries.Data.List` → `Batteries/Data/List.lean`) -/
+def moduleToPath (module : Name) : String :=
+  let parts := module.components.map (Name.toString (escape := false))
+  "/".intercalate parts ++ ".lean"
+
+/-- GitHub/GitLab source linker with line range support -/
+def mkGitSourceLinker (baseUrl : String) (range : Option DeclarationRange) : String :=
+  match range with
+  | some range => s!"{baseUrl}#L{range.pos.line}-L{range.endPos.line}"
+  | none => baseUrl
+
+/-- Create a custom source linker for GitHub/GitLab that appends module paths.
+    The `repoBaseUrl` should be the base URL including `/blob/{ref}/`.
+    The `_sourceUrl?` parameter is ignored (we use our own computed URL). -/
+def makeSourceLinker (repoBaseUrl : String) : DocGen4.SourceLinkerFn := fun _sourceUrl? module =>
+  let leanHash := Lean.githash
+  let root := module.getRoot
+  -- Core modules link to lean4 repo
+  if root == `Lean ∨ root == `Init ∨ root == `Std then
+    let parts := module.components.map (Name.toString (escape := false))
+    let path := "/".intercalate parts
+    mkGitSourceLinker s!"https://github.com/leanprover/lean4/blob/{leanHash}/src/{path}.lean"
+  else if root == `Lake then
+    let parts := module.components.map (Name.toString (escape := false))
+    let path := "/".intercalate parts
+    mkGitSourceLinker s!"https://github.com/leanprover/lean4/blob/{leanHash}/src/lake/{path}.lean"
+  else
+    -- Project modules: append module path to base URL
+    let baseUrl := if repoBaseUrl.endsWith "/" then repoBaseUrl else repoBaseUrl ++ "/"
+    let path := moduleToPath module
+    mkGitSourceLinker s!"{baseUrl}{path}"
+
 /-- Generate doc-gen4 documentation to a temporary directory -/
 def generateDocGen4ToTemp (cfg : UnifiedConfig) (result : UnifiedResult) : IO System.FilePath := do
   IO.println s!"unified-doc: Generating doc-gen4 API documentation..."
@@ -165,14 +208,18 @@ def generateDocGen4ToTemp (cfg : UnifiedConfig) (result : UnifiedResult) : IO Sy
 
   let baseConfig ← DocGen4.getSimpleBaseContext apiTempDir result.hierarchy
 
-  -- Construct source URL for doc-gen4
-  let sourceUrl := if cfg.repoUrl.isEmpty then none
+  -- Create custom source linker if repo URL is provided
+  let sourceLinker? ← if cfg.repoUrl.isEmpty then pure none
     else
       let url := cfg.repoUrl
       let baseUrl := if url.endsWith "/" then url.take (url.length - 1) else url
-      some s!"{baseUrl}/blob/{cfg.branch}/"
+      -- Try to get git commit hash, fall back to branch name
+      let gitRef ← match ← getGitCommitHash cfg.sourceDir with
+        | some hash => pure hash
+        | none => pure cfg.branch
+      pure (some (makeSourceLinker s!"{baseUrl}/blob/{gitRef}/"))
 
-  discard <| DocGen4.htmlOutputResults baseConfig result.analyzerResult sourceUrl
+  discard <| DocGen4.htmlOutputResults baseConfig result.analyzerResult none sourceLinker?
   DocGen4.htmlOutputIndex baseConfig
 
   IO.println s!"  Generated API docs to {apiTempDir}/"
@@ -275,6 +322,9 @@ nav:
 {socialSection}
 extra_css:
   - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/extra.js
 "
 
 /-- Generate the home page for unified docs -/
@@ -357,24 +407,40 @@ def generateUnifiedExtraCss : String :=
   ".md-main__inner {\n" ++
   "  max-width: none;\n" ++
   "}\n\n" ++
-  "/* Verification report tables */\n" ++
+  "/* Verification report tables - full width with sticky headers */\n" ++
   ".md-typeset table:not([class]) {\n" ++
   "  width: 100%;\n" ++
+  "  table-layout: auto;\n" ++
   "  display: table;\n" ++
   "  border-collapse: collapse;\n" ++
   "  font-size: 0.8rem;\n" ++
   "}\n\n" ++
-  "/* Table column widths for coverage report */\n" ++
+  "/* Override MkDocs table wrapper to allow sticky headers */\n" ++
+  ".md-typeset__scrollwrap {\n" ++
+  "  overflow-x: visible;\n" ++
+  "}\n\n" ++
+  ".md-typeset__table {\n" ++
+  "  overflow: visible;\n" ++
+  "}\n\n" ++
+  "/* Sticky table headers */\n" ++
+  ".md-typeset table:not([class]) thead th {\n" ++
+  "  position: sticky;\n" ++
+  "  top: 3.6rem;\n" ++
+  "  z-index: 3;\n" ++
+  "  background: var(--md-default-bg-color);\n" ++
+  "  box-shadow: 0 2px 4px rgba(0,0,0,0.1);\n" ++
+  "}\n\n" ++
+  "/* Table column hints - allow auto-sizing but set min/max */\n" ++
   ".md-typeset table:not([class]) th:nth-child(1),\n" ++
-  ".md-typeset table:not([class]) td:nth-child(1) { width: 50%; min-width: 300px; }  /* Declaration */\n" ++
+  ".md-typeset table:not([class]) td:nth-child(1) { min-width: 250px; }  /* Name */\n" ++
   ".md-typeset table:not([class]) th:nth-child(2),\n" ++
-  ".md-typeset table:not([class]) td:nth-child(2) { width: 10%; text-align: center; }  /* Kind */\n" ++
+  ".md-typeset table:not([class]) td:nth-child(2) { text-align: center; white-space: nowrap; }  /* Kind */\n" ++
   ".md-typeset table:not([class]) th:nth-child(3),\n" ++
-  ".md-typeset table:not([class]) td:nth-child(3) { width: 15%; text-align: center; }  /* Assumes */\n" ++
+  ".md-typeset table:not([class]) td:nth-child(3) { text-align: center; }  /* Assumes */\n" ++
   ".md-typeset table:not([class]) th:nth-child(4),\n" ++
-  ".md-typeset table:not([class]) td:nth-child(4) { width: 15%; text-align: center; }  /* Proves */\n" ++
+  ".md-typeset table:not([class]) td:nth-child(4) { text-align: center; }  /* Proves */\n" ++
   ".md-typeset table:not([class]) th:nth-child(5),\n" ++
-  ".md-typeset table:not([class]) td:nth-child(5) { width: 10%; text-align: center; }  /* Validates */\n\n" ++
+  ".md-typeset table:not([class]) td:nth-child(5) { text-align: center; white-space: nowrap; }  /* Validates */\n\n" ++
   "/* Category badges */\n" ++
   ".category-badge {\n" ++
   "  display: inline-block;\n" ++
@@ -401,10 +467,125 @@ def generateUnifiedExtraCss : String :=
   "details summary:hover {\n" ++
   "  color: var(--md-accent-fg-color);\n" ++
   "}\n\n" ++
-  "/* Hide TOC on coverage pages to save horizontal space */\n" ++
-  ".md-sidebar--secondary {\n" ++
-  "  /* Keep sidebar but can hide with: display: none; */\n" ++
+  "/* Collapsible Table of Contents */\n" ++
+  "/* Hide level 3+ TOC items by default */\n" ++
+  ".md-nav--secondary .md-nav__list .md-nav__list .md-nav__list {\n" ++
+  "  display: none;\n" ++
+  "}\n\n" ++
+  "/* Show nested items when parent has 'expanded' class */\n" ++
+  ".md-nav--secondary .md-nav__item.toc-expanded > .md-nav__list {\n" ++
+  "  display: block !important;\n" ++
+  "}\n\n" ++
+  "/* Add expand/collapse indicator */\n" ++
+  ".md-nav--secondary .md-nav__item--nested > .md-nav__link::after {\n" ++
+  "  content: '▶';\n" ++
+  "  font-size: 0.6rem;\n" ++
+  "  margin-left: 0.5rem;\n" ++
+  "  transition: transform 0.2s;\n" ++
+  "}\n\n" ++
+  ".md-nav--secondary .md-nav__item--nested.toc-expanded > .md-nav__link::after {\n" ++
+  "  transform: rotate(90deg);\n" ++
+  "}\n\n" ++
+  "/* Make TOC items clickable for expand/collapse */\n" ++
+  ".md-nav--secondary .md-nav__link {\n" ++
+  "  cursor: pointer;\n" ++
+  "}\n\n" ++
+  "/* Limit TOC height and add scroll */\n" ++
+  ".md-sidebar--secondary .md-sidebar__scrollwrap {\n" ++
+  "  max-height: calc(100vh - 4rem);\n" ++
+  "  overflow-y: auto;\n" ++
+  "}\n\n" ++
+  "/* Compact TOC styling */\n" ++
+  ".md-nav--secondary .md-nav__link {\n" ++
+  "  font-size: 0.7rem;\n" ++
+  "  padding: 0.3rem 0.6rem;\n" ++
+  "}\n\n" ++
+  "/* Visual hierarchy for TOC levels */\n" ++
+  ".md-nav--secondary .md-nav__list .md-nav__list {\n" ++
+  "  margin-left: 0.5rem;\n" ++
+  "  border-left: 1px solid var(--md-default-fg-color--lightest);\n" ++
+  "  padding-left: 0.5rem;\n" ++
+  "}\n\n" ++
+  "/* High contrast active TOC item */\n" ++
+  ".md-nav--secondary .md-nav__link--active {\n" ++
+  "  font-weight: 700;\n" ++
+  "  color: var(--md-accent-fg-color) !important;\n" ++
+  "  background: var(--md-accent-fg-color--transparent);\n" ++
+  "  border-radius: 0.25rem;\n" ++
+  "}\n\n" ++
+  "/* Highlight parent TOC items of active section */\n" ++
+  ".md-nav--secondary .md-nav__item--active > .md-nav__link {\n" ++
+  "  font-weight: 600;\n" ++
+  "  color: var(--md-accent-fg-color) !important;\n" ++
+  "}\n\n" ++
+  "/* Section headers - not sticky, but with scroll margin for TOC navigation */\n" ++
+  ".md-typeset h2 {\n" ++
+  "  scroll-margin-top: 4.5rem;\n" ++
+  "  padding-top: 0.5rem;\n" ++
+  "  margin-top: 1.5rem;\n" ++
+  "  border-bottom: 1px solid var(--md-default-fg-color--lightest);\n" ++
+  "}\n\n" ++
+  ".md-typeset h3 {\n" ++
+  "  scroll-margin-top: 4.5rem;\n" ++
+  "  padding-top: 0.4rem;\n" ++
+  "  margin-top: 1rem;\n" ++
+  "}\n\n" ++
+  ".md-typeset h4 {\n" ++
+  "  scroll-margin-top: 4.5rem;\n" ++
+  "  padding-top: 0.3rem;\n" ++
+  "  margin-top: 0.75rem;\n" ++
+  "}\n\n" ++
+  "/* Add top padding to content */\n" ++
+  ".md-content__inner {\n" ++
+  "  padding-top: 1rem;\n" ++
   "}\n"
+
+/-- Generate JavaScript for collapsible TOC -/
+def generateUnifiedExtraJs : String :=
+  "/* Collapsible TOC functionality */\n" ++
+  "document.addEventListener('DOMContentLoaded', function() {\n" ++
+  "  // Find all TOC items with nested lists\n" ++
+  "  const tocItems = document.querySelectorAll('.md-nav--secondary .md-nav__item');\n" ++
+  "  \n" ++
+  "  tocItems.forEach(function(item) {\n" ++
+  "    const nestedList = item.querySelector(':scope > .md-nav__list');\n" ++
+  "    if (nestedList) {\n" ++
+  "      // Mark as nested item\n" ++
+  "      item.classList.add('md-nav__item--nested');\n" ++
+  "      \n" ++
+  "      // Add click handler to toggle\n" ++
+  "      const link = item.querySelector(':scope > .md-nav__link');\n" ++
+  "      if (link) {\n" ++
+  "        // Create a toggle button\n" ++
+  "        const toggle = document.createElement('span');\n" ++
+  "        toggle.className = 'toc-toggle';\n" ++
+  "        toggle.innerHTML = ' ▶';\n" ++
+  "        toggle.style.cssText = 'cursor:pointer;font-size:0.6rem;margin-left:0.3rem;';\n" ++
+  "        \n" ++
+  "        toggle.addEventListener('click', function(e) {\n" ++
+  "          e.preventDefault();\n" ++
+  "          e.stopPropagation();\n" ++
+  "          item.classList.toggle('toc-expanded');\n" ++
+  "          toggle.innerHTML = item.classList.contains('toc-expanded') ? ' ▼' : ' ▶';\n" ++
+  "        });\n" ++
+  "        \n" ++
+  "        link.appendChild(toggle);\n" ++
+  "      }\n" ++
+  "    }\n" ++
+  "  });\n" ++
+  "  \n" ++
+  "  // Auto-expand TOC to current section\n" ++
+  "  const activeItem = document.querySelector('.md-nav--secondary .md-nav__link--active');\n" ++
+  "  if (activeItem) {\n" ++
+  "    let parent = activeItem.closest('.md-nav__item');\n" ++
+  "    while (parent) {\n" ++
+  "      parent.classList.add('toc-expanded');\n" ++
+  "      const toggle = parent.querySelector(':scope > .md-nav__link .toc-toggle');\n" ++
+  "      if (toggle) toggle.innerHTML = ' ▼';\n" ++
+  "      parent = parent.parentElement?.closest('.md-nav__item');\n" ++
+  "    }\n" ++
+  "  }\n" ++
+  "});\n"
 
 /-- Copy directory recursively -/
 partial def copyDirRecursive (src dst : System.FilePath) : IO Unit := do
@@ -427,8 +608,10 @@ def generateUnifiedMkDocsSite (cfg : UnifiedConfig) (result : UnifiedResult) (mo
   let docsDir := mkdocsSrcDir / "docs"
   let verificationDir := docsDir / "verification"
   let stylesheetsDir := docsDir / "stylesheets"
+  let javascriptsDir := docsDir / "javascripts"
   IO.FS.createDirAll verificationDir
   IO.FS.createDirAll stylesheetsDir
+  IO.FS.createDirAll javascriptsDir
 
   -- Generate MkDocs configuration
   IO.FS.writeFile (mkdocsSrcDir / "mkdocs.yml") (generateUnifiedMkDocsConfig cfg)
@@ -456,6 +639,9 @@ def generateUnifiedMkDocsSite (cfg : UnifiedConfig) (result : UnifiedResult) (mo
 
   -- Generate extra CSS
   IO.FS.writeFile (stylesheetsDir / "extra.css") generateUnifiedExtraCss
+
+  -- Generate extra JavaScript (collapsible TOC)
+  IO.FS.writeFile (javascriptsDir / "extra.js") generateUnifiedExtraJs
 
   IO.println s!"  Generated MkDocs source at {mkdocsSrcDir}/"
 

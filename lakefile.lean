@@ -20,7 +20,7 @@ lean_exe «unified-doc» where
 
 -- Dependencies
 require «doc-gen4» from git
-  "https://github.com/leanprover/doc-gen4" @ "main"
+  "https://github.com/NicolasRouquette/doc-gen4" @ "feat/source-linker"
 
 require Cli from git
   "https://github.com/leanprover/lean4-cli" @ "main"
