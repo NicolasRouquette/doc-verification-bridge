@@ -150,6 +150,8 @@ structure TheoremData where
   proves : Array Name := #[]
   /-- Names of computational instances this theorem validates -/
   validates : Array Name := #[]
+  /-- Names of other theorems/lemmas this proof depends on (uses in its proof term) -/
+  dependsOn : Array Name := #[]
   /-- Names of axioms this proof depends on -/
   axiomDeps : Array Name := #[]
   /-- Usage example (code snippet) -/
@@ -171,12 +173,12 @@ def DeclKind.categoryString : DeclKind → String
   | .apiType .computationalDatatype => "computationalDatatype"
   | .apiDef ⟨.mathematicalDefinition, _⟩ => "mathematicalDefinition"
   | .apiDef ⟨.computationalOperation, _⟩ => "computationalOperation"
-  | .apiTheorem ⟨some .computationalProperty, _, _, _, _, _, _, _⟩ => "computationalProperty"
-  | .apiTheorem ⟨some .mathematicalProperty, _, _, _, _, _, _, _⟩ => "mathematicalProperty"
-  | .apiTheorem ⟨some .bridgingProperty, _, _, _, _, _, _, _⟩ => "bridgingProperty"
-  | .apiTheorem ⟨some .soundnessProperty, _, _, _, _, _, _, _⟩ => "soundnessProperty"
-  | .apiTheorem ⟨some .completenessProperty, _, _, _, _, _, _, _⟩ => "completenessProperty"
-  | .apiTheorem ⟨none, _, _, _, _, _, _, _⟩ => "theorem"
+  | .apiTheorem ⟨some .computationalProperty, _, _, _, _, _, _, _, _⟩ => "computationalProperty"
+  | .apiTheorem ⟨some .mathematicalProperty, _, _, _, _, _, _, _, _⟩ => "mathematicalProperty"
+  | .apiTheorem ⟨some .bridgingProperty, _, _, _, _, _, _, _, _⟩ => "bridgingProperty"
+  | .apiTheorem ⟨some .soundnessProperty, _, _, _, _, _, _, _, _⟩ => "soundnessProperty"
+  | .apiTheorem ⟨some .completenessProperty, _, _, _, _, _, _, _, _⟩ => "completenessProperty"
+  | .apiTheorem ⟨none, _, _, _, _, _, _, _, _⟩ => "theorem"
 
 /-- Get the theorem kind if this is a theorem -/
 def DeclKind.theoremKind? : DeclKind → Option TheoremKind
@@ -211,6 +213,11 @@ def DeclKind.proves? : DeclKind → Option (Array Name)
 /-- Get validates if this is a theorem -/
 def DeclKind.validates? : DeclKind → Option (Array Name)
   | .apiTheorem data => some data.validates
+  | _ => none
+
+/-- Get dependsOn if this is a theorem -/
+def DeclKind.dependsOn? : DeclKind → Option (Array Name)
+  | .apiTheorem data => some data.dependsOn
   | _ => none
 
 /-- Get bridgingDirection if this is a theorem -/
@@ -254,6 +261,10 @@ def APIMeta.proves (m : APIMeta) : Array Name :=
 /-- Get validates (for theorems) -/
 def APIMeta.validates (m : APIMeta) : Array Name :=
   m.kind.validates?.getD #[]
+
+/-- Get dependsOn (for theorems) -/
+def APIMeta.dependsOn (m : APIMeta) : Array Name :=
+  m.kind.dependsOn?.getD #[]
 
 /-- Get bridgingDirection (for theorems) -/
 def APIMeta.bridgingDirection? (m : APIMeta) : Option BridgingDirection :=

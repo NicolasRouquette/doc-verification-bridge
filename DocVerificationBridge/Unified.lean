@@ -432,7 +432,7 @@ def generateUnifiedExtraCss : String :=
   "}\n\n" ++
   "/* Table column hints - allow auto-sizing but set min/max */\n" ++
   ".md-typeset table:not([class]) th:nth-child(1),\n" ++
-  ".md-typeset table:not([class]) td:nth-child(1) { min-width: 250px; }  /* Name */\n" ++
+  ".md-typeset table:not([class]) td:nth-child(1) { min-width: 200px; }  /* Name */\n" ++
   ".md-typeset table:not([class]) th:nth-child(2),\n" ++
   ".md-typeset table:not([class]) td:nth-child(2) { text-align: center; white-space: nowrap; }  /* Kind */\n" ++
   ".md-typeset table:not([class]) th:nth-child(3),\n" ++
@@ -440,7 +440,9 @@ def generateUnifiedExtraCss : String :=
   ".md-typeset table:not([class]) th:nth-child(4),\n" ++
   ".md-typeset table:not([class]) td:nth-child(4) { text-align: center; }  /* Proves */\n" ++
   ".md-typeset table:not([class]) th:nth-child(5),\n" ++
-  ".md-typeset table:not([class]) td:nth-child(5) { text-align: center; white-space: nowrap; }  /* Validates */\n\n" ++
+  ".md-typeset table:not([class]) td:nth-child(5) { text-align: center; }  /* Validates */\n" ++
+  ".md-typeset table:not([class]) th:nth-child(6),\n" ++
+  ".md-typeset table:not([class]) td:nth-child(6) { text-align: center; }  /* Depends On */\n\n" ++
   "/* Category badges */\n" ++
   ".category-badge {\n" ++
   "  display: inline-block;\n" ++
@@ -716,7 +718,9 @@ def generateVerificationJson (buildDir : System.FilePath) (entries : NameMap API
       ("isTheorem", Json.bool m.isTheorem),
       ("anchor", Json.str (nameToAnchor name)),
       ("proves", Json.arr (m.proves.map (Json.str ∘ toString))),
-      ("assumes", Json.arr (m.assumes.map (Json.str ∘ toString)))
+      ("assumes", Json.arr (m.assumes.map (Json.str ∘ toString))),
+      ("validates", Json.arr (m.validates.map (Json.str ∘ toString))),
+      ("dependsOn", Json.arr (m.dependsOn.map (Json.str ∘ toString)))
     ]
     acc.push entry
   ) #[]
