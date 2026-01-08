@@ -309,13 +309,14 @@ def flatEntryToMarkdownXRef (env : Environment) (cfg : Option ReportConfig) (nam
       (srcLink, docLnk)
     | none => (s!"`{displayedName}`" ++ anchorAttr, "")
 
-  -- If this is a theorem, emit a row with TheoremKind, Assumes, Proves and Validates
+  -- If this is a theorem, emit a row with TheoremKind, Assumes, Proves, Validates, and Depends On
   if m.isTheorem then
     let assumesCell := formatSymbolLinks m.assumes shorten
     let provesCell := formatSymbolLinks m.proves shorten
     let validatesCell := match m.theoremKind? with
       | some .bridgingProperty => formatSymbolLinks m.validates shorten
       | _ => "—"
+    let dependsOnCell := formatSymbolLinks m.dependsOn shorten
     let tk := match m.theoremKind?, m.bridgingDirection? with
       | some .computationalProperty, _ => "computational"
       | some .mathematicalProperty, _ => "mathematical"
@@ -326,7 +327,7 @@ def flatEntryToMarkdownXRef (env : Environment) (cfg : Option ReportConfig) (nam
       | some .soundnessProperty, _ => "soundness"
       | some .completenessProperty, _ => "completeness"
       | none, _ => "—"
-    s!"| {sourceLink}{docLink} | {tk} | {assumesCell} | {provesCell} | {validatesCell} |\n"
+    s!"| {sourceLink}{docLink} | {tk} | {assumesCell} | {provesCell} | {validatesCell} | {dependsOnCell} |\n"
   else
     -- Definition/type: show theorem counts by kind with expandable list
     -- Group theorems by kind
@@ -428,6 +429,13 @@ def generateReport (env : Environment) (entries : NameMap APIMeta)
   output := output ++ "| bridging | Bridges Prop specifications with Bool computations |\n"
   output := output ++ "| soundness | Proves user type correctly embeds into external spec |\n"
   output := output ++ "| completeness | Proves external spec can be represented by user type |\n\n"
+  output := output ++ "### Theorem Columns\n\n"
+  output := output ++ "| Column | Description |\n"
+  output := output ++ "|--------|-------------|\n"
+  output := output ++ "| Assumes | Definitions the theorem takes as preconditions/hypotheses |\n"
+  output := output ++ "| Proves | Definitions the theorem establishes properties about |\n"
+  output := output ++ "| Validates | Bool-returning functions validated by bridging theorems |\n"
+  output := output ++ "| Depends On | Other theorems/lemmas used in the proof |\n\n"
   output := output ++ "### Definition Categories\n\n"
   output := output ++ "| Category | Description |\n"
   output := output ++ "|----------|-------------|\n"
@@ -557,8 +565,8 @@ def generateReport (env : Environment) (entries : NameMap APIMeta)
         subNum := subNum + 1
         output := output ++ s!"#### {fileNum}.{nsNum}.{subNum}. Theorems/Lemmas\n\n"
         output := output ++ "<div class=\"table-wrapper\" markdown=\"1\">\n\n"
-        output := output ++ "| Name | Kind | Assumes | Proves | Validates |\n"
-        output := output ++ "|------|------|---------|--------|-----------|\n"
+        output := output ++ "| Name | Kind | Assumes | Proves | Validates | Depends On |\n"
+        output := output ++ "|------|------|---------|--------|-----------|------------|\n"
         for (name, m) in theorems do
           output := output ++ flatEntryToMarkdownXRef env cfg name m #[] ns entries
         output := output ++ "\n</div>\n\n"
@@ -881,7 +889,7 @@ def generateExtraCss : String :=
   word-wrap: break-word;
 }
 
-/* ===== Theorem Tables (5 columns: Name, Kind, Assumes, Proves, Validates) ===== */
+/* ===== Theorem Tables (6 columns: Name, Kind, Assumes, Proves, Validates, Depends On) ===== */
 
 /* Kind column (2nd in theorem tables) - narrow for abbreviations */
 .md-typeset table:not([class]) th:nth-child(2):not(:last-child),
@@ -893,24 +901,26 @@ def generateExtraCss : String :=
   text-align: center;
 }
 
-/* Name column (1st) - flexible, gets 25% of remaining space */
+/* Name column (1st) - flexible, gets 20% of remaining space */
 .md-typeset table:not([class]) td:first-child,
 .md-typeset table:not([class]) th:first-child {
-  width: 25%;
+  width: 20%;
   min-width: 150px;
   white-space: normal;
   word-break: break-word;
 }
 
-/* Assumes/Proves/Validates columns (3rd, 4th, 5th in theorem tables) - equal flexible width */
+/* Assumes/Proves/Validates/Depends On columns (3rd-6th in theorem tables) - equal flexible width */
 .md-typeset table:not([class]) td:nth-child(3):not(:last-child),
 .md-typeset table:not([class]) td:nth-child(4),
 .md-typeset table:not([class]) td:nth-child(5),
+.md-typeset table:not([class]) td:nth-child(6),
 .md-typeset table:not([class]) th:nth-child(3):not(:last-child),
 .md-typeset table:not([class]) th:nth-child(4),
-.md-typeset table:not([class]) th:nth-child(5) {
-  width: 18%;
-  min-width: 120px;
+.md-typeset table:not([class]) th:nth-child(5),
+.md-typeset table:not([class]) th:nth-child(6) {
+  width: 15%;
+  min-width: 100px;
   white-space: normal;
   word-break: break-word;
 }
@@ -918,7 +928,8 @@ def generateExtraCss : String :=
 /* Scrollable content within cells */
 .md-typeset table:not([class]) td:nth-child(3),
 .md-typeset table:not([class]) td:nth-child(4),
-.md-typeset table:not([class]) td:nth-child(5) {
+.md-typeset table:not([class]) td:nth-child(5),
+.md-typeset table:not([class]) td:nth-child(6) {
   max-height: 200px;
   overflow-y: auto;
 }

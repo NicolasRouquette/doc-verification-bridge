@@ -126,6 +126,7 @@ def classifyConstant (env : Environment) (name : Name) (cinfo : ConstantInfo)
       assumes := inferred.assumesCandidates.filter (·.isInternal) |>.map (·.name)
       proves := inferred.provesCandidates.filter (·.isInternal) |>.map (·.name)
       validates := inferred.validatesCandidates.filter (·.isInternal) |>.map (·.name)
+      dependsOn := inferred.dependsOnCandidates.filter (·.isInternal) |>.map (·.name)
     }
     return some { kind := .apiTheorem thmData, coverage := .unverified }
 

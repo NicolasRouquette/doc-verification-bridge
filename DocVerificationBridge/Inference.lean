@@ -128,6 +128,8 @@ structure InferredTheoremAnnotations where
   assumesCandidates : Array InferredName := #[]
   provesCandidates : Array InferredName := #[]
   validatesCandidates : Array InferredName := #[]
+  /-- Names of theorems/lemmas this proof depends on -/
+  dependsOnCandidates : Array InferredName := #[]
   internalHypothesisTypes : Array InferredName := #[]
   externalConclusionTypes : Array InferredName := #[]
   externalHypothesisTypes : Array InferredName := #[]
@@ -266,6 +268,82 @@ def collectBoolFunctionsShallow (e : Expr) (sourceDesc : String := "") : MetaM (
   return result
 
 /-!
+## Proof Dependency Extraction
+
+Extract the names of theorems/lemmas that a proof term directly uses.
+This gives us the "depends on" relationship: if theorem A uses theorem B
+in its proof, then A depends on B.
+-/
+
+/-- Collect all constant names referenced in an expression (proof term) -/
+partial def collectProofDependencies (env : Environment) (e : Expr) : Array Name := Id.run do
+  let mut seen : Std.HashSet Name := {}
+  let mut result : Array Name := #[]
+  let mut stack : List Expr := [e]
+
+  while !stack.isEmpty do
+    match stack with
+    | [] => break
+    | expr :: rest =>
+      stack := rest
+      match expr with
+      | .const name _ =>
+        unless seen.contains name do
+          seen := seen.insert name
+          -- Only include theorems/lemmas, not definitions or types
+          match env.find? name with
+          | some (.thmInfo _) =>
+            unless shouldFilter name do
+              result := result.push name
+          | some (.axiomInfo _) =>
+            -- Include axioms as dependencies too
+            unless shouldFilter name do
+              result := result.push name
+          | _ => pure ()
+      | .app f a =>
+        stack := f :: a :: stack
+      | .lam _ t b _ =>
+        stack := t :: b :: stack
+      | .forallE _ t b _ =>
+        stack := t :: b :: stack
+      | .letE _ t v b _ =>
+        stack := t :: v :: b :: stack
+      | .mdata _ inner =>
+        stack := inner :: stack
+      | .proj _ _ inner =>
+        stack := inner :: stack
+      | _ => pure ()
+
+  return result
+
+/-- Extract proof dependencies for a theorem, filtering to internal names only -/
+def extractProofDependencies (env : Environment) (declName : Name) (internalPrefixes : Array String)
+    : Array InferredName := Id.run do
+  let some constInfo := env.find? declName | return #[]
+
+  -- Get the proof term (value) if available
+  let proofExpr := match constInfo with
+    | .thmInfo info => some info.value
+    | _ => none
+
+  let some proof := proofExpr | return #[]
+
+  let allDeps := collectProofDependencies env proof
+  let mut result : Array InferredName := #[]
+
+  for dep in allDeps do
+    -- Skip self-references
+    if dep == declName then continue
+    let isInt := isInternalName env internalPrefixes dep
+    result := result.push {
+      name := dep
+      source := "proof term"
+      isInternal := isInt
+    }
+
+  return result
+
+/-!
 ## Main Inference Entry Point
 -/
 
@@ -335,10 +413,14 @@ def inferTheoremAnnotations (declName : Name) : MetaM InferredTheoremAnnotations
           name := head, source := src, isInternal := isInt
         }
 
+    -- Extract proof dependencies (theorems used in the proof term)
+    let dependsOnCandidates := extractProofDependencies env declName internalPrefixes
+
     return {
       assumesCandidates
       provesCandidates
       validatesCandidates
+      dependsOnCandidates
     }
 
 /-!

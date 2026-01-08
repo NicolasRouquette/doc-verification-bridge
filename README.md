@@ -1,6 +1,6 @@
 # doc-verification-bridge
 
-**Theorem classification for specification-implementation refinement**
+**Linking theorems to what they assume, prove, validate, and depend on**
 
 A doc-gen4 plugin that automatically classifies theorems by their role in bridging mathematical specifications and computational implementations.
 
@@ -17,10 +17,11 @@ When writing verified software, proofs exist at different conceptual levels:
 | **Completeness Property** | Shows spec → impl (representation) |
 
 This tool:
-1. **Automatically infers** `assumes`/`proves` relationships from theorem types
+1. **Automatically infers** `assumes`/`proves`/`dependsOn` relationships from theorem types and proof terms
 2. **Classifies** definitions by their ontological category (mathematical vs computational)
 3. **Identifies** bridging theorems that connect Bool computations to Prop specifications
-4. **Generates** documentation showing verification coverage and proof relationships
+4. **Tracks proof dependencies** — which theorems a proof uses
+5. **Generates** documentation showing verification coverage and proof relationships
 
 ## Installation
 
@@ -122,7 +123,12 @@ EOF
 
 cp ../lean-toolchain .
 lake update doc-verification-bridge
-lake exe doc-verification-bridge --output docs Batteries
+
+# Run with automatic classification (default)
+lake exe unified-doc unified --auto --output docs Batteries
+
+# Or with annotation-based classification
+lake exe unified-doc unified --annotated --output docs Batteries
 ```
 
 The generated documentation will be in `docbuild/docs/`.
@@ -131,12 +137,12 @@ The generated documentation will be in `docbuild/docs/`.
 
 ## Two Modes of Operation
 
-doc-verification-bridge supports two complementary modes:
+doc-verification-bridge supports two complementary classification modes:
 
-| Mode | Effort | Precision | Best For |
-|------|--------|-----------|----------|
-| **Automatic** | Zero annotations | Good (heuristic-based) | Quick overview, existing codebases |
-| **Manual** | Explicit annotations | Exact | Production documentation, precise control |
+| Mode | Flag | Effort | Precision | Best For |
+|------|------|--------|-----------|----------|
+| **Automatic** | `--auto` | Zero annotations | Good (heuristic-based) | Quick overview, existing codebases |
+| **Annotated** | `--annotated` | Explicit annotations | Exact | Production documentation, precise control |
 
 ---
 
@@ -144,16 +150,20 @@ doc-verification-bridge supports two complementary modes:
 
 Run doc-verification-bridge on any Lean 4 project without modifying source code.
 
+> **Batch Analysis:** To automatically analyze multiple Lean 4 projects in parallel,
+> see the [experiments/README.md](experiments/README.md) for an automated pipeline
+> that clones, builds, and generates documentation for configured repositories.
+
 > **Note:** Run these commands from inside the `docbuild` directory after completing
 > the [setup instructions](#running-on-external-projects) above.
 
 ```bash
-lake exe doc-verification-bridge --output docs MyProject.Core MyProject.Theorems
+lake exe unified-doc unified --auto --output docs MyProject.Core MyProject.Theorems
 ```
 
 With source links:
 ```bash
-lake exe doc-verification-bridge \
+lake exe unified-doc unified --auto \
   --repo https://github.com/org/repo \
   --output docs \
   MyProject.Core MyProject.Theorems
@@ -161,12 +171,12 @@ lake exe doc-verification-bridge \
 
 For projects with a single top-level module:
 ```bash
-lake exe doc-verification-bridge --output docs --project "Batteries" Batteries
+lake exe unified-doc unified --auto --output docs --project "Batteries" Batteries
 ```
 
 ### How Automatic Inference Works
 
-The inference engine analyzes theorem types to classify names into `assumes`, `proves`, or `validates`:
+The inference engine analyzes theorem types to classify names into `assumes`, `proves`, `validates`, and `dependsOn`:
 
 #### H1: Predicate Hypotheses → `assumes`
 
@@ -198,6 +208,19 @@ theorem sound : isAcyclicBool g = true → IsAcyclic g
 --              ^^^^^^^^^^^^^                        → validates
 ```
 
+#### H5: Proof Term Analysis → `dependsOn`
+
+```lean
+theorem bar : P := by
+  apply foo  -- bar depends on foo
+  exact baz  -- bar depends on baz
+```
+
+The tool examines the proof term to find all theorems and lemmas used in the proof.
+This creates a "depends on" relationship: if theorem A uses theorem B in its proof,
+then A depends on B. This is useful for understanding proof structure and identifying
+which foundational lemmas are most widely used.
+
 #### Theorem Kind Inference
 
 | Pattern | Inferred Kind |
@@ -212,9 +235,14 @@ theorem sound : isAcyclicBool g = true → IsAcyclic g
 
 ---
 
-## Mode 2: Manual Annotations (Precise Control)
+## Mode 2: Annotated Mode (Precise Control)
 
 For production documentation, use explicit annotations to ensure accuracy.
+Run with `--annotated` flag to only classify declarations with explicit `@[api_*]` attributes:
+
+```bash
+lake exe unified-doc unified --annotated --output docs MyProject
+```
 
 ### Three Attributes for the Four-Category Ontology
 
