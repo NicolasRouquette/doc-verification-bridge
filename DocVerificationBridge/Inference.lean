@@ -156,7 +156,8 @@ def ppTypeShort (e : Expr) : MetaM String := do
   let fmt ← ppExpr e
   let str := fmt.pretty
   if str.length > 60 then
-    return (str.take 57).toString ++ "..."
+    -- Use toList/take/mk for cross-version compatibility (works in v4.24.0 through v4.27.0+)
+    return String.mk (str.toList.take 57) ++ "..."
   else
     return str
 

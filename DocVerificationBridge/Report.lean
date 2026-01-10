@@ -89,7 +89,8 @@ def findFileForName (cache : GitFileCache) (name : Name) : Option String :=
         let nameComponents := name.components.map toString |>.reverse
         let scored := paths.map fun path =>
           -- Remove .lean extension and split by /
-          let pathWithoutExt := if path.endsWith ".lean" then (path.take (path.length - 5)).toString else path
+          -- Use take for cross-version compatibility (dropLast doesn't take an argument)
+          let pathWithoutExt := if path.endsWith ".lean" then String.mk (path.toList.take (path.length - 5)) else path
           let pathParts := pathWithoutExt.splitOn "/"
           let score := nameComponents.foldl (fun acc comp =>
             if pathParts.contains comp then acc + 1 else acc) 0
@@ -132,7 +133,8 @@ deriving Repr, Inhabited
 def stripTrailingSlashes (s : String) : String :=
   let chars := s.toList
   let trimmed := chars.reverse.dropWhile (· == '/') |>.reverse
-  String.ofList trimmed
+  -- Use String.mk for cross-version compatibility (works in v4.24.0+, deprecated but functional in v4.27.0+)
+  String.mk trimmed
 
 /-- Generate a source URL for a given file path and line number -/
 def ReportConfig.sourceUrl (cfg : ReportConfig) (filePath : String) (line : Nat) : String :=

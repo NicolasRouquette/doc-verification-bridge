@@ -9,6 +9,7 @@ import DocGen4.Process.Analyze
 import DocGen4.Process.Hierarchy
 import DocVerificationBridge.Classify
 import DocVerificationBridge.Report
+import DocVerificationBridge.SourceLinkerCompat
 
 /-!
 # Unified Documentation Pipeline (MkDocs-First)
@@ -79,7 +80,7 @@ def getGitCommitHash (dir : System.FilePath) : IO (Option String) := do
   }
   if result.exitCode != 0 then
     return none
-  return some (result.stdout.trimAscii.copy)
+  return some result.stdout.trim
 
 /-- Build a git file cache by running `git ls-files` in a specific directory -/
 def buildGitFileCacheIn (dir : System.FilePath) : IO GitFileCache := do
@@ -179,24 +180,24 @@ def mkGitSourceLinker (baseUrl : String) (range : Option DeclarationRange) : Str
 
 /-- Create a custom source linker for GitHub/GitLab that appends module paths.
     The `repoBaseUrl` should be the base URL including `/blob/{ref}/`.
-    The `_sourceUrl?` parameter is ignored (we use our own computed URL). -/
-def makeSourceLinker (repoBaseUrl : String) : DocGen4.SourceLinkerFn := fun _sourceUrl? module =>
+    Uses explicit function type for cross-version compatibility (v4.24.0+). -/
+def makeSourceLinker (repoBaseUrl : String) : Name → Option DeclarationRange → String := fun module range =>
   let leanHash := Lean.githash
   let root := module.getRoot
   -- Core modules link to lean4 repo
   if root == `Lean ∨ root == `Init ∨ root == `Std then
     let parts := module.components.map (Name.toString (escape := false))
     let path := "/".intercalate parts
-    mkGitSourceLinker s!"https://github.com/leanprover/lean4/blob/{leanHash}/src/{path}.lean"
+    mkGitSourceLinker s!"https://github.com/leanprover/lean4/blob/{leanHash}/src/{path}.lean" range
   else if root == `Lake then
     let parts := module.components.map (Name.toString (escape := false))
     let path := "/".intercalate parts
-    mkGitSourceLinker s!"https://github.com/leanprover/lean4/blob/{leanHash}/src/lake/{path}.lean"
+    mkGitSourceLinker s!"https://github.com/leanprover/lean4/blob/{leanHash}/src/lake/{path}.lean" range
   else
     -- Project modules: append module path to base URL
     let baseUrl := if repoBaseUrl.endsWith "/" then repoBaseUrl else repoBaseUrl ++ "/"
     let path := moduleToPath module
-    mkGitSourceLinker s!"{baseUrl}{path}"
+    mkGitSourceLinker s!"{baseUrl}{path}" range
 
 /-- Generate doc-gen4 documentation to a temporary directory -/
 def generateDocGen4ToTemp (cfg : UnifiedConfig) (result : UnifiedResult) : IO System.FilePath := do
@@ -208,18 +209,23 @@ def generateDocGen4ToTemp (cfg : UnifiedConfig) (result : UnifiedResult) : IO Sy
 
   let baseConfig ← DocGen4.getSimpleBaseContext apiTempDir result.hierarchy
 
-  -- Create custom source linker if repo URL is provided
-  let sourceLinker? ← if cfg.repoUrl.isEmpty then pure none
+  -- Compute source URL and optional custom linker
+  let (sourceUrl?, customLinker?) ← if cfg.repoUrl.isEmpty then pure (none, none)
     else
       let url := cfg.repoUrl
-      let baseUrl := if url.endsWith "/" then url.take (url.length - 1) else url
+      -- Use dropLast for cross-version compatibility
+      let baseUrl := if url.endsWith "/" then String.mk (url.toList.take (url.length - 1)) else url
       -- Try to get git commit hash, fall back to branch name
       let gitRef ← match ← getGitCommitHash cfg.sourceDir with
         | some hash => pure hash
         | none => pure cfg.branch
-      pure (some (makeSourceLinker s!"{baseUrl}/blob/{gitRef}/"))
+      let srcUrl := s!"{baseUrl}/blob/{gitRef}/"
+      -- Create custom linker for better source link handling
+      let linker := makeSourceLinker srcUrl
+      pure (some srcUrl, some linker)
 
-  discard <| DocGen4.htmlOutputResults baseConfig result.analyzerResult none sourceLinker?
+  -- Use compatibility shim - will use custom linker if SourceLinkerCompatCustom is copied
+  discard <| htmlOutputResultsCompat baseConfig result.analyzerResult sourceUrl? customLinker?
   DocGen4.htmlOutputIndex baseConfig
 
   IO.println s!"  Generated API docs to {apiTempDir}/"
