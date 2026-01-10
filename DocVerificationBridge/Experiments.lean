@@ -65,6 +65,8 @@ structure Config where
   basePort : Nat
   maxParallelJobs : Nat
   projects : Array Project
+  /-- Use custom source linker from NicolasRouquette/doc-gen4 fork (requires feat/source-linker branch) -/
+  useCustomSourceLinker : Bool := false
   deriving Repr, Inhabited
 
 /-- Result of processing a project -/
@@ -103,6 +105,7 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
   let mut sitesDir : FilePath := "sites"
   let mut basePort : Nat := 9000
   let mut maxJobs : Nat := 8
+  let mut useCustomSourceLinker : Bool := false
   let mut projects : Array Project := #[]
   let mut currentProject : Option Project := none
 
@@ -157,6 +160,7 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
           | "sites_dir" => sitesDir := baseDir / value
           | "base_port" => basePort := value.toNat? |>.getD 9000
           | "max_parallel_jobs" => maxJobs := value.toNat? |>.getD 8
+          | "use_custom_source_linker" => useCustomSourceLinker := value == "true"
           | _ => pure ()
 
   -- Don't forget the last project
@@ -170,6 +174,7 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
     basePort := basePort
     maxParallelJobs := maxJobs
     projects := projects
+    useCustomSourceLinker := useCustomSourceLinker
   }
 
 /-! ## Utilities -/
@@ -221,19 +226,39 @@ def removeDir (path : FilePath) : IO Unit := do
 
 /-! ## Command Logging -/
 
+/-- Status of a command execution -/
+inductive CommandStatus where
+  | running
+  | success
+  | failed
+  deriving Repr, Inhabited, BEq
+
+instance : ToString CommandStatus where
+  toString
+    | .running => "running"
+    | .success => "success"
+    | .failed => "failed"
+
 /-- A logged command entry -/
 structure CommandLogEntry where
   step : String
   command : String
   args : Array String
   cwd : Option String
-  exitCode : UInt32
-  success : Bool
+  status : CommandStatus := .running
+  exitCode : Option UInt32 := none
   duration_ms : Option Nat := none
   deriving Repr, Inhabited
 
 /-- Mutable command log for a project -/
 abbrev CommandLog := Array CommandLogEntry
+
+/-- Context needed for incremental log saving -/
+structure LogContext where
+  projectName : String
+  repo : String
+  outputDir : FilePath
+  deriving Repr, Inhabited
 
 /-- Format command log as YAML -/
 def commandLogToYaml (log : CommandLog) (projectName : String) (repo : String) : String :=
@@ -242,11 +267,14 @@ def commandLogToYaml (log : CommandLog) (projectName : String) (repo : String) :
       | some cwd => s!"    cwd: \"{cwd}\"\n"
       | none => ""
     let argsFormatted := e.args.toList.map (s!"\"{·}\"") |> String.intercalate ", "
+    let exitCodeLine := match e.exitCode with
+      | some code => s!"    exit_code: {code}\n"
+      | none => ""
     s!"  - step: \"{e.step}\"
     command: \"{e.command}\"
     args: [{argsFormatted}]
-{cwdLine}    exit_code: {e.exitCode}
-    success: {e.success}"
+{cwdLine}    status: \"{e.status}\"
+{exitCodeLine}"
   let entriesStr := String.intercalate "\n" entries
   s!"# Command log for {projectName}
 # Repository: {repo}
@@ -265,28 +293,57 @@ def saveCommandLog (log : CommandLog) (projectName : String) (repo : String)
   let yaml := commandLogToYaml log projectName repo
   IO.FS.writeFile (outputDir / "commands.yaml") yaml
 
+/-- Save command log using context -/
+def saveCommandLogCtx (log : CommandLog) (ctx : LogContext) : IO Unit :=
+  saveCommandLog log ctx.projectName ctx.repo ctx.outputDir
+
 /-! ## Shell Commands -/
 
-/-- Run a shell command, log it, and return (success, output, updated log) -/
+/-- Run a shell command with incremental logging (writes before and after execution) -/
 def runCmdLogged (step : String) (cmd : String) (args : Array String)
     (cwd : Option FilePath := none) (log : CommandLog := #[])
+    (ctx : Option LogContext := none)
     (_timeout : Nat := 3600) (env : Array (String × Option String) := #[])
     : IO (Bool × String × CommandLog) := do
+  -- Create entry with "running" status
+  let runningEntry : CommandLogEntry := {
+    step := step
+    command := cmd
+    args := args
+    cwd := cwd.map toString
+    status := .running
+    exitCode := none
+  }
+
+  -- Add to log and save BEFORE execution
+  let logWithRunning := log.push runningEntry
+
+  if let some c := ctx then
+    saveCommandLogCtx logWithRunning c
+
+  -- Execute the command
   let result ← IO.Process.output {
     cmd := cmd
     args := args
     cwd := cwd
     env := env
   }
-  let entry : CommandLogEntry := {
-    step := step
-    command := cmd
-    args := args
-    cwd := cwd.map toString
-    exitCode := result.exitCode
-    success := result.exitCode == 0
+
+  -- Update entry with result
+  let completedEntry : CommandLogEntry := {
+    runningEntry with
+    status := if result.exitCode == 0 then .success else .failed
+    exitCode := some result.exitCode
   }
-  return (result.exitCode == 0, result.stdout ++ result.stderr, log.push entry)
+
+  -- Replace running entry with completed entry
+  let finalLog := log.push completedEntry
+
+  -- Save AFTER execution
+  if let some c := ctx then
+    saveCommandLogCtx finalLog c
+
+  return (result.exitCode == 0, result.stdout ++ result.stderr, finalLog)
 
 /-- Run a shell command and return (success, output) - legacy interface -/
 def runCmd (cmd : String) (args : Array String) (cwd : Option FilePath := none)
@@ -353,8 +410,9 @@ def parseVersion (toolchain : String) : Option (Nat × Nat × Nat) := do
   let parts := toolchain.splitOn ":v"
   if parts.length < 2 then failure
   let versionPart := parts[1]!
-  -- takeWhile returns a Slice, convert to String
-  let versionStr := (versionPart.takeWhile (fun c => c.isDigit || c == '.')).toString
+  -- Take characters while they are digits or dots
+  let versionChars := versionPart.toList.takeWhile (fun c => c.isDigit || c == '.')
+  let versionStr := String.mk versionChars
   let nums := versionStr.splitOn "."
   if nums.length < 3 then failure
   let major ← nums[0]!.toNat?
@@ -378,7 +436,23 @@ structure ToolchainCheck where
   dvbToolchain : String
   compatible : Bool
   message : String
+  /-- The doc-gen4 version tag to use (matches project toolchain) -/
+  docgen4Tag : String := ""
   deriving Repr, Inhabited
+
+/-- Minimum supported Lean version for doc-verification-bridge -/
+def minSupportedVersion : (Nat × Nat × Nat) := (4, 24, 0)
+
+/-- Maximum supported Lean version for doc-verification-bridge -/
+def maxSupportedVersion : (Nat × Nat × Nat) := (4, 27, 0)
+
+/-- Extract version tag from toolchain string (e.g., "leanprover/lean4:v4.26.0" → "v4.26.0") -/
+def extractVersionTag (toolchain : String) : String :=
+  match toolchain.splitOn ":v" with
+  | [_, ver] => s!"v{ver.trimAscii.toString}"
+  | _ => match toolchain.splitOn ":" with
+    | [_, ver] => ver.trimAscii.toString
+    | _ => "main"
 
 /-- Check if a project's toolchain is compatible with doc-verification-bridge -/
 def checkToolchainCompatibility (projectDir : FilePath) (dvbPath : FilePath)
@@ -389,72 +463,140 @@ def checkToolchainCompatibility (projectDir : FilePath) (dvbPath : FilePath)
   let projectStr := projectTc.getD "unknown"
   let dvbStr := dvbTc.getD "unknown"
 
-  match projectTc, dvbTc with
-  | some pTc, some dTc =>
-    match parseVersion pTc, parseVersion dTc with
-    | some pVer, some dVer =>
-      if versionGe pVer dVer then
+  match projectTc with
+  | some pTc =>
+    match parseVersion pTc with
+    | some pVer =>
+      let versionTag := extractVersionTag pTc
+      -- Check: minVersion <= projectVersion <= maxVersion
+      if versionGe pVer minSupportedVersion && versionGe maxSupportedVersion pVer then
         return { projectToolchain := projectStr, dvbToolchain := dvbStr,
-                 compatible := true,
-                 message := s!"✓ Project uses {projectStr} (>= {dvbStr})" }
+                 compatible := true, docgen4Tag := versionTag,
+                 message := s!"✓ Project uses {projectStr} (supported range: v{minSupportedVersion.1}.{minSupportedVersion.2.1}.{minSupportedVersion.2.2} - v{maxSupportedVersion.1}.{maxSupportedVersion.2.1}.{maxSupportedVersion.2.2})" }
+      else if !versionGe pVer minSupportedVersion then
+        return { projectToolchain := projectStr, dvbToolchain := dvbStr,
+                 compatible := false, docgen4Tag := versionTag,
+                 message := s!"✗ Toolchain too old: project uses {projectStr} but minimum supported is v{minSupportedVersion.1}.{minSupportedVersion.2.1}.{minSupportedVersion.2.2}" }
       else
         return { projectToolchain := projectStr, dvbToolchain := dvbStr,
-                 compatible := false,
-                 message := s!"✗ Toolchain mismatch: project uses {projectStr} but doc-verification-bridge requires {dvbStr}" }
-    | _, _ =>
-      -- Can't parse versions, assume compatible
+                 compatible := false, docgen4Tag := versionTag,
+                 message := s!"✗ Toolchain too new: project uses {projectStr} but maximum supported is v{maxSupportedVersion.1}.{maxSupportedVersion.2.1}.{maxSupportedVersion.2.2}" }
+    | none =>
+      -- Can't parse version, try to use anyway
+      let versionTag := extractVersionTag pTc
       return { projectToolchain := projectStr, dvbToolchain := dvbStr,
-               compatible := true,
-               message := s!"? Could not parse versions, assuming compatible" }
-  | none, _ =>
+               compatible := true, docgen4Tag := versionTag,
+               message := s!"? Could not parse version from {projectStr}, attempting anyway" }
+  | none =>
     return { projectToolchain := "missing", dvbToolchain := dvbStr,
              compatible := false,
              message := "✗ Project has no lean-toolchain file" }
-  | _, none =>
-    return { projectToolchain := projectStr, dvbToolchain := "missing",
-             compatible := false,
-             message := "✗ doc-verification-bridge has no lean-toolchain file" }
 
-/-- Setup the docvb directory for a project -/
+/-- Copy a file if source exists -/
+def copyFileIfExists (src dst : FilePath) : IO Bool := do
+  if ← src.pathExists then
+    let content ← IO.FS.readFile src
+    IO.FS.writeFile dst content
+    return true
+  return false
+
+/-- Setup the docvb directory for a project with dynamic toolchain support -/
 def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
-    (dvbPath : FilePath) (_modules : Array String) : IO (Bool × ToolchainCheck) := do
+    (dvbPath : FilePath) (_modules : Array String) (useCustomSourceLinker : Bool := false)
+    : IO (Bool × ToolchainCheck) := do
   let docvbDir := projectDir / "docvb"
   IO.FS.createDirAll docvbDir
 
   -- Check toolchain compatibility FIRST
   let tcCheck ← checkToolchainCompatibility projectDir dvbPath
 
-  -- Use the PROJECT's toolchain for docvb (it must match the project's compiled modules)
-  -- If the project's toolchain is older than dvb requires, this will fail
+  -- Use the PROJECT's toolchain for docvb (enables cross-version compatibility)
   let toolchainSrc := projectDir / "lean-toolchain"
   let toolchainDst := docvbDir / "lean-toolchain"
   if ← toolchainSrc.pathExists then
     let content ← IO.FS.readFile toolchainSrc
     IO.FS.writeFile toolchainDst content
   else
-    IO.FS.writeFile toolchainDst "leanprover/lean4:v4.14.0\n"
+    IO.FS.writeFile toolchainDst s!"leanprover/lean4:v{minSupportedVersion.1}.{minSupportedVersion.2.1}.{minSupportedVersion.2.2}\n"
 
   -- Detect main package name
   let mainPackage ← detectPackageName projectDir projectName
 
-  -- Get absolute path for dvb
-  let dvbAbsPath ← IO.FS.realPath dvbPath
+  -- Copy doc-verification-bridge source files to docvb (avoids cross-toolchain dependency)
+  let dvbSrcDir := docvbDir / "DocVerificationBridge"
+  IO.FS.createDirAll dvbSrcDir
 
-  -- Create lakefile.toml
-  let lakefileContent := s!"name = \"docvb\"
-reservoir = false
-version = \"0.1.0\"
-packagesDir = \"../.lake/packages\"
+  -- Copy all necessary source files
+  let sourceFiles := #["Types.lean", "Attributes.lean", "Inference.lean",
+                       "Classify.lean", "Report.lean", "Unified.lean"]
+  for file in sourceFiles do
+    discard <| copyFileIfExists (dvbPath / "DocVerificationBridge" / file) (dvbSrcDir / file)
 
-[[require]]
-name = \"{mainPackage}\"
-path = \"../\"
+  -- Copy the appropriate SourceLinkerCompat version based on config
+  -- Standard version: uses official doc-gen4 3-arg API
+  -- Custom version: uses NicolasRouquette/doc-gen4 fork with 4-arg API
+  let compatSrcFile := if useCustomSourceLinker
+    then dvbPath / "DocVerificationBridge" / "SourceLinkerCompatCustom.lean"
+    else dvbPath / "DocVerificationBridge" / "SourceLinkerCompat.lean"
+  discard <| copyFileIfExists compatSrcFile (dvbSrcDir / "SourceLinkerCompat.lean")
 
-[[require]]
-name = \"doc-verification-bridge\"
-path = \"{dvbAbsPath}\"
+  -- Copy UnifiedMain.lean
+  discard <| copyFileIfExists (dvbPath / "UnifiedMain.lean") (docvbDir / "UnifiedMain.lean")
+
+  -- Copy DocVerificationBridge.lean (the root module file)
+  discard <| copyFileIfExists (dvbPath / "DocVerificationBridge.lean") (docvbDir / "DocVerificationBridge.lean")
+
+  -- Determine which doc-gen4 version/repo to use
+  -- If custom source linker is enabled, use the fork; otherwise use official release tags
+  let (docgen4Repo, docgen4Ref) := if useCustomSourceLinker then
+    ("https://github.com/NicolasRouquette/doc-gen4", "feat/source-linker")
+  else
+    let tag := if tcCheck.docgen4Tag.isEmpty then "main" else tcCheck.docgen4Tag
+    ("https://github.com/leanprover/doc-gen4", tag)
+
+  -- Create lakefile.lean (using .lean format for more flexibility)
+  -- Note: We do NOT share packagesDir with the main project because toolchains may differ
+  let lakefileContent := s!"import Lake
+open Lake DSL
+
+package docvb where
+  -- Each docvb has its own packages dir for toolchain isolation
+
+-- Require the main project
+require «{mainPackage}» from \"../\"
+
+-- Require doc-gen4
+require «doc-gen4» from git
+  \"{docgen4Repo}\" @ \"{docgen4Ref}\"
+
+-- Local library with doc-verification-bridge sources (copied for toolchain compatibility)
+lean_lib DocVerificationBridge where
+
+-- Unified CLI executable
+@[default_target]
+lean_exe «unified-doc» where
+  root := `UnifiedMain
+  supportInterpreter := true
 "
-  IO.FS.writeFile (docvbDir / "lakefile.toml") lakefileContent
+  IO.FS.writeFile (docvbDir / "lakefile.lean") lakefileContent
+
+  -- Download lake-manifest.json from doc-gen4's repo/ref to lock transitive dependencies
+  -- Only download for official doc-gen4 releases (the fork may not have matching manifest)
+  if !useCustomSourceLinker then
+    let manifestUrl := s!"https://raw.githubusercontent.com/leanprover/doc-gen4/{docgen4Ref}/lake-manifest.json"
+    let (manifestOk, manifestContent) ← runCmd "curl" #["-fsSL", manifestUrl] none 30
+    if manifestOk && !manifestContent.isEmpty then
+      IO.FS.writeFile (docvbDir / "lake-manifest.json") manifestContent
+      IO.println s!"[{projectName}] Downloaded lake-manifest.json from doc-gen4@{docgen4Ref}"
+    else
+      IO.println s!"[{projectName}] Warning: Could not download lake-manifest.json from doc-gen4@{docgen4Ref}"
+  else
+    IO.println s!"[{projectName}] Using custom source linker (fork: {docgen4Repo}@{docgen4Ref})"
+
+  -- Remove old lakefile.toml if it exists (we're now using lakefile.lean)
+  let oldLakefile := docvbDir / "lakefile.toml"
+  if ← oldLakefile.pathExists then
+    IO.FS.removeFile oldLakefile
 
   return (!tcCheck.compatible, tcCheck)
 
@@ -470,14 +612,15 @@ def buildProject (projectDir : FilePath) (lakeExeCacheGet : Bool := false) : IO 
 /-- Run unified-doc to generate documentation -/
 def runUnifiedDoc (docvbDir : FilePath) (modules : Array String)
     (outputDir : FilePath) (classMode : ClassificationMode := .auto)
-    (disableEquations : Bool := false) : IO (Bool × String) := do
+    (disableEquations : Bool := false) (projectToolchain : String := "") : IO (Bool × String) := do
   -- Update lake dependencies with retry logic to handle lock contention
   -- Note: Post-update hook failures (e.g., mathlib cache) are treated as warnings, not errors
   let mut updateOk := false
   let mut updateLog := ""
   let maxRetries := 5
   for attempt in [:maxRetries] do
-    let (ok, log) ← runCmd "lake" #["update", "doc-verification-bridge"] (some docvbDir) 600
+    -- Update all dependencies (doc-gen4, Cli, main project)
+    let (ok, log) ← runCmd "lake" #["update"] (some docvbDir) 600
     if ok then
       updateOk := true
       updateLog := log
@@ -500,6 +643,12 @@ def runUnifiedDoc (docvbDir : FilePath) (modules : Array String)
 
   if !updateOk then
     return (false, s!"lake update failed:\n{updateLog}")
+
+  -- CRITICAL: Restore the project's toolchain after lake update
+  -- Lake/Elan may have "updated" it to a different version during post-update hooks
+  if !projectToolchain.isEmpty then
+    let toolchainPath := docvbDir / "lean-toolchain"
+    IO.FS.writeFile toolchainPath s!"{projectToolchain}\n"
 
   -- Build docvb
   let (buildOk, buildLog) ← runCmd "lake" #["build"] (some docvbDir) 1800
@@ -698,8 +847,9 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
     | none => repoDir
   let outputDir := config.sitesDir / name
 
-  -- Initialize command log
+  -- Initialize command log and context for incremental saving
   let mut cmdLog : CommandLog := #[]
+  let logCtx : LogContext := { projectName := name, repo := repo, outputDir := outputDir }
 
   -- Check current state and decide what to do
   let currentState ← readProjectState config.sitesDir name
@@ -738,20 +888,18 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
   -- Clone or update repository
   if mode == .update && (← repoDir.pathExists) then
     IO.println s!"[{name}] Updating repository..."
-    let (pullOk, pullLog, newLog) ← runCmdLogged "git-pull" "git" #["pull"] (some repoDir) cmdLog
+    let (pullOk, pullLog, newLog) ← runCmdLogged "git-pull" "git" #["pull"] (some repoDir) cmdLog (some logCtx)
     cmdLog := newLog
     if !pullOk then
-      saveCommandLog cmdLog name repo outputDir
       writeProjectState config.sitesDir name .failed
       return { name, repo, port, success := false,
                errorMessage := some "Git pull failed", buildLog := pullLog }
   else
     IO.println s!"[{name}] Cloning repository..."
     let (cloneOk, cloneLog, newLog) ← runCmdLogged "git-clone" "git"
-      #["clone", "--depth", "1", repo, repoDir.toString] none cmdLog
+      #["clone", "--depth", "1", repo, repoDir.toString] none cmdLog (some logCtx)
     cmdLog := newLog
     if !cloneOk then
-      saveCommandLog cmdLog name repo outputDir
       writeProjectState config.sitesDir name .failed
       return { name, repo, port, success := false,
                errorMessage := some "Clone failed", buildLog := cloneLog }
@@ -760,7 +908,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
   if !(← projectDir.pathExists) then
     let errMsg := s!"Project directory not found: {projectDir}" ++
       (if project.subdirectory.isSome then s!" (subdirectory: {project.subdirectory.get!})" else "")
-    saveCommandLog cmdLog name repo outputDir
+    saveCommandLogCtx cmdLog logCtx
     generateErrorPage name errMsg "" outputDir
     writeProjectState config.sitesDir name .failed
     return { name, repo, port, success := false,
@@ -768,7 +916,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
 
   -- Setup docvb directory and check toolchain compatibility
   IO.println s!"[{name}] Setting up docvb directory..."
-  let (hasToolchainIssue, tcCheck) ← setupDocvbDirectory projectDir name config.docVerificationBridgePath modules
+  let (hasToolchainIssue, tcCheck) ← setupDocvbDirectory projectDir name config.docVerificationBridgePath modules config.useCustomSourceLinker
 
   -- Log the toolchain check result
   IO.println s!"[{name}] {tcCheck.message}"
@@ -776,7 +924,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
   -- If there's a toolchain incompatibility, fail early with a clear message
   if hasToolchainIssue then
     let errMsg := s!"Toolchain incompatibility: {tcCheck.message}\n\nProject uses {tcCheck.projectToolchain} but doc-verification-bridge requires {tcCheck.dvbToolchain}.\n\nTo analyze this project, it must be updated to use Lean {tcCheck.dvbToolchain} or newer."
-    saveCommandLog cmdLog name repo outputDir
+    saveCommandLogCtx cmdLog logCtx
     generateErrorPage name errMsg "" outputDir (some tcCheck)
     writeProjectState config.sitesDir name .failed
     return { name, repo, port, success := false,
@@ -789,20 +937,18 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
   -- For projects like mathlib4, fetch the cloud cache first
   if project.lakeExeCacheGet then
     let (cacheOk, cacheLog, newLog) ← runCmdLogged "lake-exe-cache-get" "lake"
-      #["exe", "cache", "get"] (some projectDir) cmdLog
+      #["exe", "cache", "get"] (some projectDir) cmdLog (some logCtx)
     cmdLog := newLog
     if !cacheOk then
-      saveCommandLog cmdLog name repo outputDir
       generateErrorPage name "lake exe cache get failed" cacheLog outputDir (some tcCheck)
       writeProjectState config.sitesDir name .failed
       return { name, repo, port, success := false,
                errorMessage := some "cache get failed", buildLog := cacheLog,
                siteDir := some outputDir }
 
-  let (buildOk, buildLog, newLog) ← runCmdLogged "lake-build" "lake" #["build"] (some projectDir) cmdLog
+  let (buildOk, buildLog, newLog) ← runCmdLogged "lake-build" "lake" #["build"] (some projectDir) cmdLog (some logCtx)
   cmdLog := newLog
   if !buildOk then
-    saveCommandLog cmdLog name repo outputDir
     generateErrorPage name "Project build failed" buildLog outputDir (some tcCheck)
     writeProjectState config.sitesDir name .failed
     return { name, repo, port, success := false,
@@ -815,7 +961,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
 
   -- Update lake dependencies
   let (updateOk, updateLog, newLog) ← runCmdLogged "lake-update" "lake"
-    #["update", "doc-verification-bridge"] (some docvbDir) cmdLog
+    #["update"] (some docvbDir) cmdLog (some logCtx)
   cmdLog := newLog
 
   if !updateOk then
@@ -823,19 +969,25 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
     if updateLog.contains "post-update hooks" || updateLog.contains "failed to fetch cache" then
       IO.println s!"[{name}] Warning: post-update hooks failed, continuing anyway..."
     else
-      saveCommandLog cmdLog name repo outputDir
       generateErrorPage name "lake update failed" updateLog outputDir (some tcCheck)
       writeProjectState config.sitesDir name .failed
       return { name, repo, port, success := false,
                errorMessage := some "lake update failed", buildLog := updateLog,
                siteDir := some outputDir }
 
+  -- CRITICAL: Restore toolchain after lake update
+  -- Mathlib's post-update hooks can cause elan to switch to a different toolchain.
+  -- We need to restore the project's original toolchain to ensure we compile with
+  -- the version the project was designed for.
+  let docvbToolchainPath := docvbDir / "lean-toolchain"
+  IO.FS.writeFile docvbToolchainPath tcCheck.projectToolchain
+  IO.println s!"[{name}] Restored toolchain to {tcCheck.projectToolchain}"
+
   -- Build docvb
   let (docvbBuildOk, docvbBuildLog, newLog) ← runCmdLogged "docvb-build" "lake"
-    #["build"] (some docvbDir) cmdLog
+    #["build"] (some docvbDir) cmdLog (some logCtx)
   cmdLog := newLog
   if !docvbBuildOk then
-    saveCommandLog cmdLog name repo outputDir
     generateErrorPage name "docvb build failed" docvbBuildLog outputDir (some tcCheck)
     writeProjectState config.sitesDir name .failed
     return { name, repo, port, success := false,
@@ -851,11 +1003,10 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
   else
     #[]
 
-  let (docOk, docLog, newLog) ← runCmdLogged "unified-doc" "lake" unifiedArgs (some docvbDir) cmdLog 3600 env
+  let (docOk, docLog, newLog) ← runCmdLogged "unified-doc" "lake" unifiedArgs (some docvbDir) cmdLog (some logCtx) 3600 env
   cmdLog := newLog
 
-  -- Always save command log
-  saveCommandLog cmdLog name repo outputDir
+  -- Log is already saved incrementally by runCmdLogged
 
   if !docOk then
     generateErrorPage name "Documentation generation failed" (buildLog ++ "\n\n" ++ docLog) outputDir (some tcCheck)
