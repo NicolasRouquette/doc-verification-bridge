@@ -88,6 +88,9 @@ structure ProjectResult where
   soundnessTheorems : Nat := 0
   completenessTheorems : Nat := 0
   unclassifiedTheorems : Nat := 0
+  -- Sorry tracking
+  defsWithSorry : Nat := 0
+  theoremsWithSorry : Nat := 0
   siteDir : Option FilePath := none
   deriving Repr, Inhabited
 
@@ -679,10 +682,14 @@ def parseCoverageStats (coveragePath : FilePath) : IO ProjectResult := do
     name := "", repo := "", success := true
   }
 
-  if !(← coveragePath.pathExists) then
+  -- Try the new index.md format first, then fall back to old coverage.md
+  let indexPath := coveragePath.parent.get! / "index.md"
+  let actualPath := if (← indexPath.pathExists) then indexPath else coveragePath
+
+  if !(← actualPath.pathExists) then
     return emptyResult
 
-  let content ← IO.FS.readFile coveragePath
+  let content ← IO.FS.readFile actualPath
 
   let parseCount (pattern : String) : Nat := Id.run do
     -- Look for "| Pattern | count |" in markdown tables
@@ -698,20 +705,50 @@ def parseCoverageStats (coveragePath : FilePath) : IO ProjectResult := do
             return n
     return 0
 
+  -- New index.md format uses "| Definitions |" and "| Theorems |" in Overview section
+  -- Old coverage.md uses "**Total Definitions**" and "**Total Theorems**"
+  let totalDefs := parseCount "| Definitions |"
+  let totalDefs := if totalDefs > 0 then totalDefs else parseCount "**Total Definitions**"
+
+  let totalThms := parseCount "| Theorems |"
+  let totalThms := if totalThms > 0 then totalThms else parseCount "**Total Theorems**"
+
+  -- Parse sorry stats from the new "Proof Completeness" section
+  -- The sorry line has format "| Definitions | total | withSorry | proven | pct |"
+  -- We need to parse specifically from the Proof Completeness table
+  let parseFromSorryTable (category : String) : Nat := Id.run do
+    let lines := content.splitOn "\n"
+    let mut inSorrySection := false
+    for line in lines do
+      if line.contains "Proof Completeness" then
+        inSorrySection := true
+      else if inSorrySection && line.startsWith "###" then
+        inSorrySection := false  -- Hit next section
+      else if inSorrySection && line.contains category then
+        let parts := line.splitOn "|"
+        -- Format: | Category | Total | With Sorry | Proven | % Proven |
+        if parts.length >= 4 then
+          let withSorryPart := parts[3]!.trimAscii
+          if let some n := withSorryPart.toNat? then
+            return n
+    return 0
+
   return {
     emptyResult with
-    totalDefinitions := parseCount "**Total Definitions**"
+    totalDefinitions := totalDefs
     mathAbstractions := parseCount "Mathematical Abstractions"
     compDatatypes := parseCount "Computational Datatypes"
     mathDefinitions := parseCount "Mathematical Definitions"
     compOperations := parseCount "Computational Operations"
-    totalTheorems := parseCount "**Total Theorems**"
+    totalTheorems := totalThms
     computationalTheorems := parseCount "| Computational |"
     mathematicalTheorems := parseCount "| Mathematical |"
     bridgingTheorems := parseCount "| Bridging |"
     soundnessTheorems := parseCount "| Soundness |"
     completenessTheorems := parseCount "| Completeness |"
     unclassifiedTheorems := parseCount "| Unclassified |"
+    defsWithSorry := parseFromSorryTable "Definitions"
+    theoremsWithSorry := parseFromSorryTable "Theorems"
   }
 
 /-! ## HTML Generation -/
@@ -744,6 +781,7 @@ def generateErrorPage (projectName : String) (errorMsg : String)
   let html := s!"<!DOCTYPE html>
 <html>
 <head>
+<meta charset=\"UTF-8\">
 <title>Build Failed: {projectName}</title>
 <style>{css}</style>
 </head>
@@ -771,18 +809,24 @@ def generateSummaryPage (results : Array ProjectResult) (outputPath : FilePath) 
   let totalDefs := successful.foldl (· + ·.totalDefinitions) 0
   let totalThms := successful.foldl (· + ·.totalTheorems) 0
   let totalBridging := successful.foldl (· + ·.bridgingTheorems) 0
+  let totalDefsSorry := successful.foldl (· + ·.defsWithSorry) 0
+  let totalThmsSorry := successful.foldl (· + ·.theoremsWithSorry) 0
+  let totalSorry := totalDefsSorry + totalThmsSorry
 
   let now ← IO.Process.output { cmd := "date", args := #["+%Y-%m-%d %H:%M:%S"] }
   let timestamp := now.stdout.trimAscii.copy
 
   let mut tableRows := ""
   for r in successful do
-    tableRows := tableRows ++ s!"<tr><td><a href='{r.name}/site/' target='_blank'>{r.name}</a></td><td>{r.totalDefinitions}</td><td>{r.mathAbstractions}</td><td>{r.compDatatypes}</td><td>{r.mathDefinitions}</td><td>{r.compOperations}</td><td>{r.totalTheorems}</td><td>{r.computationalTheorems}</td><td>{r.mathematicalTheorems}</td><td>{r.bridgingTheorems}</td><td>{r.soundnessTheorems}</td><td>{r.completenessTheorems}</td><td>{r.unclassifiedTheorems}</td></tr>\n"
+    let sorryIndicator := if r.defsWithSorry + r.theoremsWithSorry > 0 then "⚠️ " else ""
+    tableRows := tableRows ++ s!"<tr><td><a href='{r.name}/site/' target='_blank'>{sorryIndicator}{r.name}</a></td><td>{r.totalDefinitions}</td><td>{r.defsWithSorry}</td><td>{r.totalTheorems}</td><td>{r.theoremsWithSorry}</td><td>{r.bridgingTheorems}</td><td>{r.unclassifiedTheorems}</td></tr>\n"
 
   let mut failedList := ""
   for r in failed do
     let errMsg := r.errorMessage.getD "Unknown error"
-    failedList := failedList ++ s!"<li><strong>{r.name}</strong> — {errMsg}<br><small><a href='{r.repo}' target='_blank'>{r.repo}</a></small></li>\n"
+    -- Link to error page if it exists (index.html in project directory)
+    let errorLink := s!"<a href='{r.name}/index.html' target='_blank'>View Error Details</a>"
+    failedList := failedList ++ s!"<li><strong>{r.name}</strong> — {errMsg}<br><small><a href='{r.repo}' target='_blank'>{r.repo}</a> | {errorLink}</small></li>\n"
 
   let failedSection := if failed.isEmpty then "" else
     s!"<div class='section'><h2>❌ Failed Projects ({failed.size})</h2><ul class='failed-list'>{failedList}</ul></div>"
@@ -809,16 +853,15 @@ def generateSummaryPage (results : Array ProjectResult) (outputPath : FilePath) 
 <div class='card'><div class='card-value'>{totalDefs}</div><div class='card-label'>Total Definitions</div></div>
 <div class='card'><div class='card-value'>{totalThms}</div><div class='card-label'>Total Theorems</div></div>
 <div class='card'><div class='card-value'>{totalBridging}</div><div class='card-label'>Bridging Theorems</div></div>
+<div class='card'><div class='card-value' style='color: #ff9f43'>{totalSorry}</div><div class='card-label'>⚠️ With Sorry</div></div>
 </div>
 <div class='section'>
 <h2>✅ Successful Projects ({successful.size})</h2>
 <table id='results-table'>
 <thead><tr>
 <th data-sort='string'>Project</th><th data-sort='number'>Defs</th>
-<th data-sort='number'>MathAb</th><th data-sort='number'>CompData</th><th data-sort='number'>MathDef</th>
-<th data-sort='number'>CompOp</th><th data-sort='number'>Thms</th><th data-sort='number'>Comp</th>
-<th data-sort='number'>Math</th><th data-sort='number'>Bridge</th><th data-sort='number'>Sound</th>
-<th data-sort='number'>Complete</th><th data-sort='number'>Unclass</th>
+<th data-sort='number'>Defs⚠️</th><th data-sort='number'>Thms</th>
+<th data-sort='number'>Thms⚠️</th><th data-sort='number'>Bridge</th><th data-sort='number'>Unclass</th>
 </tr></thead>
 <tbody>{tableRows}</tbody>
 </table>
@@ -995,8 +1038,11 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
 
   -- Run unified-doc
   let modeFlag := if project.classificationMode == .annotated then "--annotated" else "--auto"
+  -- Convert outputDir to absolute path since unified-doc runs from docvbDir
+  let outputDirAbs ← IO.FS.realPath outputDir
   let unifiedArgs := #["exe", "unified-doc", "unified", modeFlag,
-                       "--output", outputDir.toString] ++ modules
+                       "--output", outputDirAbs.toString,
+                       "--repo", repo] ++ modules
   let env : Array (String × Option String) := if project.disableEquations then
     #[("DISABLE_EQUATIONS", some "1")]
   else

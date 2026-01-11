@@ -77,11 +77,23 @@ def getRootNamespace (declName : Name) : Name :=
   | .num p _ => getRootNamespace p
   | .anonymous => .anonymous
 
-/-- Get all prefixes considered "internal" for a declaration -/
-def getInternalPrefixes (declName : Name) : Array String :=
+/-- Get all prefixes considered "internal" for a declaration.
+    Includes both the root namespace of the declaration and the module name. -/
+def getInternalPrefixes (env : Environment) (declName : Name) : Array String :=
   let root := getRootNamespace declName
   let rootStr := root.toString
-  if rootStr.isEmpty then #[] else #[rootStr]
+  -- Also get the module prefix if available
+  let modPfx := match env.getModuleIdxFor? declName with
+    | some modIdx =>
+      let modName := env.header.moduleNames[modIdx.toNat]!
+      let modRoot := getRootNamespace modName
+      modRoot.toString
+    | none => ""
+  -- Combine both prefixes (dedupe if same)
+  let prefixes := if rootStr.isEmpty then #[]
+    else if modPfx.isEmpty || modPfx == rootStr then #[rootStr]
+    else #[rootStr, modPfx]
+  prefixes
 
 /-- Check if a name is from the same project as the theorem being analyzed -/
 def isInternalName (env : Environment) (internalPrefixes : Array String) (n : Name) : Bool :=
@@ -353,7 +365,7 @@ def inferTheoremAnnotations (declName : Name) : MetaM InferredTheoremAnnotations
   let env ← getEnv
   let some constInfo := env.find? declName | return { notes := #[s!"Declaration `{declName}` not found"] }
 
-  let internalPrefixes := getInternalPrefixes declName
+  let internalPrefixes := getInternalPrefixes env declName
   let type := constInfo.type
 
   forallTelescope type fun params conclusion => do

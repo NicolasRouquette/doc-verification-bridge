@@ -122,6 +122,8 @@ structure DefData where
   category : DefCategory
   /-- Names of theorems that verify this definition -/
   verifiedBy : Array Name := #[]
+  /-- Whether the definition body contains sorry -/
+  hasSorry : Bool := false
 deriving Repr, BEq, Inhabited
 
 /-- Warning codes that can be suppressed -/
@@ -158,6 +160,8 @@ structure TheoremData where
   usageExample : String := ""
   /-- Warnings to suppress for this declaration -/
   suppress : Array SuppressableWarning := #[]
+  /-- Whether the proof contains sorry -/
+  hasSorry : Bool := false
 deriving Repr, BEq, Inhabited
 
 /-- Kind of declaration being tracked -/
@@ -171,14 +175,14 @@ deriving Repr, BEq, Inhabited
 def DeclKind.categoryString : DeclKind → String
   | .apiType .mathematicalAbstraction => "mathematicalAbstraction"
   | .apiType .computationalDatatype => "computationalDatatype"
-  | .apiDef ⟨.mathematicalDefinition, _⟩ => "mathematicalDefinition"
-  | .apiDef ⟨.computationalOperation, _⟩ => "computationalOperation"
-  | .apiTheorem ⟨some .computationalProperty, _, _, _, _, _, _, _, _⟩ => "computationalProperty"
-  | .apiTheorem ⟨some .mathematicalProperty, _, _, _, _, _, _, _, _⟩ => "mathematicalProperty"
-  | .apiTheorem ⟨some .bridgingProperty, _, _, _, _, _, _, _, _⟩ => "bridgingProperty"
-  | .apiTheorem ⟨some .soundnessProperty, _, _, _, _, _, _, _, _⟩ => "soundnessProperty"
-  | .apiTheorem ⟨some .completenessProperty, _, _, _, _, _, _, _, _⟩ => "completenessProperty"
-  | .apiTheorem ⟨none, _, _, _, _, _, _, _, _⟩ => "theorem"
+  | .apiDef ⟨.mathematicalDefinition, _, _⟩ => "mathematicalDefinition"
+  | .apiDef ⟨.computationalOperation, _, _⟩ => "computationalOperation"
+  | .apiTheorem ⟨some .computationalProperty, _, _, _, _, _, _, _, _, _⟩ => "computationalProperty"
+  | .apiTheorem ⟨some .mathematicalProperty, _, _, _, _, _, _, _, _, _⟩ => "mathematicalProperty"
+  | .apiTheorem ⟨some .bridgingProperty, _, _, _, _, _, _, _, _, _⟩ => "bridgingProperty"
+  | .apiTheorem ⟨some .soundnessProperty, _, _, _, _, _, _, _, _, _⟩ => "soundnessProperty"
+  | .apiTheorem ⟨some .completenessProperty, _, _, _, _, _, _, _, _, _⟩ => "completenessProperty"
+  | .apiTheorem ⟨none, _, _, _, _, _, _, _, _, _⟩ => "theorem"
 
 /-- Get the theorem kind if this is a theorem -/
 def DeclKind.theoremKind? : DeclKind → Option TheoremKind
@@ -269,6 +273,13 @@ def APIMeta.dependsOn (m : APIMeta) : Array Name :=
 /-- Get bridgingDirection (for theorems) -/
 def APIMeta.bridgingDirection? (m : APIMeta) : Option BridgingDirection :=
   m.kind.bridgingDirection?
+
+/-- Check if the declaration contains sorry -/
+def APIMeta.hasSorry (m : APIMeta) : Bool :=
+  match m.kind with
+  | .apiTheorem data => data.hasSorry
+  | .apiDef data => data.hasSorry
+  | .apiType _ => false
 
 /-- Get the category string for display -/
 def APIMeta.categoryString (m : APIMeta) : String := m.kind.categoryString

@@ -329,7 +329,9 @@ def flatEntryToMarkdownXRef (env : Environment) (cfg : Option ReportConfig) (nam
       | some .soundnessProperty, _ => "soundness"
       | some .completenessProperty, _ => "completeness"
       | none, _ => "—"
-    s!"| {sourceLink}{docLink} | {tk} | {assumesCell} | {provesCell} | {validatesCell} | {dependsOnCell} |\n"
+    -- Add sorry indicator if proof contains sorry
+    let sorryIndicator := if m.hasSorry then " ⚠️" else ""
+    s!"| {sourceLink}{docLink}{sorryIndicator} | {tk} | {assumesCell} | {provesCell} | {validatesCell} | {dependsOnCell} |\n"
   else
     -- Definition/type: show theorem counts by kind with expandable list
     -- Group theorems by kind
@@ -381,10 +383,12 @@ def flatEntryToMarkdownXRef (env : Environment) (cfg : Option ReportConfig) (nam
     let catDisplay := match m.kind with
       | .apiType .mathematicalAbstraction => "MathAb"
       | .apiType .computationalDatatype => "CompData"
-      | .apiDef ⟨.mathematicalDefinition, _⟩ => "MathDef"
-      | .apiDef ⟨.computationalOperation, _⟩ => "CompOp"
+      | .apiDef ⟨.mathematicalDefinition, _, _⟩ => "MathDef"
+      | .apiDef ⟨.computationalOperation, _, _⟩ => "CompOp"
       | .apiTheorem _ => "—"  -- shouldn't happen for defs
-    s!"| {sourceLink}{docLink} | {catDisplay} | {tallyCell} |\n"
+    -- Add sorry indicator if definition contains sorry
+    let sorryIndicator := if m.hasSorry then " ⚠️" else ""
+    s!"| {sourceLink}{docLink}{sorryIndicator} | {catDisplay} | {tallyCell} |\n"
 
 /-- Generate the full markdown report with namespace hierarchy and source links -/
 def generateReport (env : Environment) (entries : NameMap APIMeta)
@@ -608,8 +612,8 @@ def generateReport (env : Environment) (entries : NameMap APIMeta)
       match m.kind with
       | .apiType .mathematicalAbstraction => mathAbstractions := mathAbstractions.push name
       | .apiType .computationalDatatype => compDatatypes := compDatatypes.push name
-      | .apiDef ⟨.mathematicalDefinition, _⟩ => mathDefs := mathDefs.push name
-      | .apiDef ⟨.computationalOperation, _⟩ => compOps := compOps.push name
+      | .apiDef ⟨.mathematicalDefinition, _, _⟩ => mathDefs := mathDefs.push name
+      | .apiDef ⟨.computationalOperation, _, _⟩ => compOps := compOps.push name
       | _ => pure ()
 
   -- Helper to format a list of names as links (HTML unordered list for details sections)
@@ -713,14 +717,14 @@ def generateSummaryReport (entries : NameMap APIMeta) (projectName : String := "
       match m.kind with
       | .apiType .mathematicalAbstraction => mathAbstractions := mathAbstractions + 1
       | .apiType .computationalDatatype => compDatatypes := compDatatypes + 1
-      | .apiDef ⟨.mathematicalDefinition, _⟩ => mathDefs := mathDefs + 1
-      | .apiDef ⟨.computationalOperation, _⟩ => compOps := compOps + 1
+      | .apiDef ⟨.mathematicalDefinition, _, _⟩ => mathDefs := mathDefs + 1
+      | .apiDef ⟨.computationalOperation, _, _⟩ => compOps := compOps + 1
       | _ => pure ()
 
   let mut output := s!"# {projectName} Summary\n\n"
 
-  output := output ++ "This is a quick-loading summary page. For the full report with all declarations, "
-  output := output ++ "see the [Coverage Report](coverage.md).\n\n"
+  output := output ++ "This is a quick-loading summary page. For detailed per-module reports, "
+  output := output ++ "see the [Module Index](index.md).\n\n"
 
   -- Overall stats cards (using MkDocs admonitions for visual appeal)
   output := output ++ "## Overview\n\n"
@@ -762,7 +766,340 @@ def generateSummaryReport (entries : NameMap APIMeta) (projectName : String := "
   output := output ++ "| **CompOp** | Computational Operations — computable functions |\n\n"
 
   output := output ++ "---\n\n"
-  output := output ++ "[📋 View Full Coverage Report →](coverage.md)\n"
+  output := output ++ "[📋 Browse Modules →](index.md)\n"
+
+  output
+
+/-!
+## Per-Module Report Generation (for fast loading)
+-/
+
+/-- Statistics for a single module/file -/
+structure ModuleStats where
+  filePath : String
+  totalDefs : Nat := 0
+  mathAbstractions : Nat := 0
+  compDatatypes : Nat := 0
+  mathDefs : Nat := 0
+  compOps : Nat := 0
+  totalTheorems : Nat := 0
+  compTheorems : Nat := 0
+  mathTheorems : Nat := 0
+  bridgingTheorems : Nat := 0
+  soundnessTheorems : Nat := 0
+  completenessTheorems : Nat := 0
+  unclassifiedTheorems : Nat := 0
+  -- Sorry tracking
+  defsWithSorry : Nat := 0
+  theoremsWithSorry : Nat := 0
+  deriving Repr, Inhabited
+
+/-- Convert file path to a safe filename for markdown -/
+def filePathToSafeFilename (filePath : String) : String :=
+  filePath.replace "/" "_" |>.replace ".lean" ""
+
+/-- Generate a single module's verification report -/
+def generateModuleReport (env : Environment) (filePath : String)
+    (entries : Array (Name × APIMeta)) (cfg : Option ReportConfig)
+    (allEntries : NameMap APIMeta) : String × ModuleStats := Id.run do
+  let provedByMap := computeProvedByMap allEntries
+
+  let isTheorem := fun (m : APIMeta) => m.isTheorem
+  let isDefinition := fun (m : APIMeta) => !isTheorem m
+
+  let getNamespace (name : Name) : Name :=
+    match name with
+    | .str parent _ => parent
+    | .num parent _ => parent
+    | .anonymous => .anonymous
+
+  -- Calculate stats
+  let mut stats : ModuleStats := { filePath }
+  for (_, m) in entries do
+    if m.isTheorem then
+      stats := { stats with totalTheorems := stats.totalTheorems + 1 }
+      if m.hasSorry then
+        stats := { stats with theoremsWithSorry := stats.theoremsWithSorry + 1 }
+      match m.theoremKind? with
+      | some .computationalProperty => stats := { stats with compTheorems := stats.compTheorems + 1 }
+      | some .mathematicalProperty => stats := { stats with mathTheorems := stats.mathTheorems + 1 }
+      | some .bridgingProperty => stats := { stats with bridgingTheorems := stats.bridgingTheorems + 1 }
+      | some .soundnessProperty => stats := { stats with soundnessTheorems := stats.soundnessTheorems + 1 }
+      | some .completenessProperty => stats := { stats with completenessTheorems := stats.completenessTheorems + 1 }
+      | none => stats := { stats with unclassifiedTheorems := stats.unclassifiedTheorems + 1 }
+    else
+      stats := { stats with totalDefs := stats.totalDefs + 1 }
+      if m.hasSorry then
+        stats := { stats with defsWithSorry := stats.defsWithSorry + 1 }
+      match m.kind with
+      | .apiType .mathematicalAbstraction => stats := { stats with mathAbstractions := stats.mathAbstractions + 1 }
+      | .apiType .computationalDatatype => stats := { stats with compDatatypes := stats.compDatatypes + 1 }
+      | .apiDef ⟨.mathematicalDefinition, _, _⟩ => stats := { stats with mathDefs := stats.mathDefs + 1 }
+      | .apiDef ⟨.computationalOperation, _, _⟩ => stats := { stats with compOps := stats.compOps + 1 }
+      | _ => pure ()
+
+  -- Generate markdown
+  let displayName := filePath.splitOn "/" |>.getLast!.replace ".lean" ""
+  let mut output := s!"# {displayName}\n\n"
+
+  -- Source link
+  match cfg with
+  | some config =>
+    let url := config.sourceUrlNoLine filePath
+    output := output ++ s!"📁 **Source:** [{filePath}]({url})\n\n"
+  | none =>
+    output := output ++ s!"📁 **Source:** `{filePath}`\n\n"
+
+  -- Collect lists for expandable sections (sorted alphabetically)
+  let defNames := entries.filter (fun (_, m) => !m.isTheorem) |>.map (·.1)
+    |>.qsort (fun a b => a.toString < b.toString)
+  let thmNames := entries.filter (fun (_, m) => m.isTheorem) |>.map (·.1)
+    |>.qsort (fun a b => a.toString < b.toString)
+  let defsSorry := entries.filter (fun (_, m) => !m.isTheorem && m.hasSorry) |>.map (·.1)
+    |>.qsort (fun a b => a.toString < b.toString)
+  let thmsSorry := entries.filter (fun (_, m) => m.isTheorem && m.hasSorry) |>.map (·.1)
+    |>.qsort (fun a b => a.toString < b.toString)
+
+  -- Helper to format name list as links
+  let formatNameLinks := fun (names : Array Name) =>
+    let links := names.map fun n =>
+      let anchor := nameToAnchor n
+      let display := n.toString.splitOn "." |>.getLast!
+      s!"[`{display}`](#{anchor})"
+    String.intercalate ", " links.toList
+
+  -- Quick stats with expandable lists
+  output := output ++ "## Statistics\n\n"
+  output := output ++ s!"| Metric | Count |\n"
+  output := output ++ s!"|--------|------:|\n"
+
+  -- Definitions with expandable list
+  if defNames.size > 0 then
+    output := output ++ s!"| <details><summary>Definitions</summary>{formatNameLinks defNames}</details> | {stats.totalDefs} |\n"
+  else
+    output := output ++ s!"| Definitions | {stats.totalDefs} |\n"
+
+  -- Theorems with expandable list
+  if thmNames.size > 0 then
+    output := output ++ s!"| <details><summary>Theorems</summary>{formatNameLinks thmNames}</details> | {stats.totalTheorems} |\n"
+  else
+    output := output ++ s!"| Theorems | {stats.totalTheorems} |\n"
+
+  output := output ++ s!"| **Total** | **{stats.totalDefs + stats.totalTheorems}** |\n"
+
+  -- Show sorry stats if any with expandable list
+  let totalSorry := stats.defsWithSorry + stats.theoremsWithSorry
+  if totalSorry > 0 then
+    let allSorry := defsSorry ++ thmsSorry
+    output := output ++ s!"| <details><summary>⚠️ With sorry</summary>{formatNameLinks allSorry}</details> | {totalSorry} |\n"
+  output := output ++ "\n"
+
+  -- Group by namespace
+  let mut nsGroups : Std.HashMap Name (Array (Name × APIMeta)) := {}
+  for (name, apiMeta) in entries do
+    let ns := getNamespace name
+    let existing := nsGroups.getD ns #[]
+    nsGroups := nsGroups.insert ns (existing.push (name, apiMeta))
+
+  let sortedNs := nsGroups.toArray.map (·.1) |>.qsort (fun a b => a.toString < b.toString)
+
+  for ns in sortedNs do
+    let nsEntries := nsGroups.getD ns #[]
+    if nsEntries.isEmpty then continue
+
+    let nsDisplay := if ns.isAnonymous then "(root)" else ns.toString
+    output := output ++ s!"## {nsDisplay}\n\n"
+
+    let defs := nsEntries.filter (fun (_, m) => isDefinition m)
+      |>.qsort (fun (n1, _) (n2, _) => n1.toString < n2.toString)
+    let theorems := nsEntries.filter (fun (_, m) => isTheorem m)
+      |>.qsort (fun (n1, _) (n2, _) => n1.toString < n2.toString)
+
+    unless defs.isEmpty do
+      output := output ++ "### Definitions\n\n"
+      output := output ++ "| Name | Category | Theorems |\n"
+      output := output ++ "|------|----------|----------|\n"
+      for (name, m) in defs do
+        let provedBy := provedByMap.find? name |>.getD #[]
+        output := output ++ flatEntryToMarkdownXRef env cfg name m provedBy ns allEntries
+      output := output ++ "\n"
+
+    unless theorems.isEmpty do
+      output := output ++ "### Theorems\n\n"
+      output := output ++ "| Name | Kind | Assumes | Proves | Validates | Depends On |\n"
+      output := output ++ "|------|------|---------|--------|-----------|------------|\n"
+      for (name, m) in theorems do
+        output := output ++ flatEntryToMarkdownXRef env cfg name m #[] ns allEntries
+      output := output ++ "\n"
+
+  output := output ++ "---\n\n"
+  output := output ++ "[← Back to Index](index.md)\n"
+
+  (output, stats)
+
+/-- Generate per-module verification reports (returns list of generated files and stats) -/
+def generatePerModuleReports (env : Environment) (entries : NameMap APIMeta)
+    (cfg : Option ReportConfig := none) : Array (String × String × ModuleStats) := Id.run do
+  let entryList := entries.foldl (fun acc name m => acc.push (name, m)) #[]
+
+  -- Get file path for each entry
+  let getFilePath (config : ReportConfig) (name : Name) : String :=
+    match findFileForName config.gitCache name with
+    | some path => path
+    | none =>
+      match env.getModuleIdxFor? name with
+      | some modIdx =>
+        let modName := env.header.moduleNames[modIdx.toNat]!
+        moduleToFilePath modName
+      | none => inferFilePathFromName name
+
+  -- Group by file
+  let mut fileGroups : Std.HashMap String (Array (Name × APIMeta)) := {}
+  match cfg with
+  | some config =>
+    for (name, apiMeta) in entryList do
+      let filePath := getFilePath config name
+      let existing := fileGroups.getD filePath #[]
+      fileGroups := fileGroups.insert filePath (existing.push (name, apiMeta))
+  | none =>
+    for (name, apiMeta) in entryList do
+      let filePath := inferFilePathFromName name
+      let existing := fileGroups.getD filePath #[]
+      fileGroups := fileGroups.insert filePath (existing.push (name, apiMeta))
+
+  -- Generate report for each file
+  let mut results : Array (String × String × ModuleStats) := #[]
+  for (filePath, fileEntries) in fileGroups.toArray do
+    if fileEntries.isEmpty then continue
+    let (content, stats) := generateModuleReport env filePath fileEntries cfg entries
+    let safeFilename := filePathToSafeFilename filePath
+    results := results.push (safeFilename, content, { stats with filePath })
+
+  results
+
+/-- Generate the module index page for per-module reports -/
+def generateModuleIndex (allStats : Array ModuleStats) (projectName : String)
+    (entries : NameMap APIMeta := {}) (cfg : Option ReportConfig := none) : String := Id.run do
+  -- Aggregate stats
+  let mut totalDefs := 0
+  let mut totalTheorems := 0
+  let mut totalMathAb := 0
+  let mut totalCompData := 0
+  let mut totalMathDef := 0
+  let mut totalCompOp := 0
+  let mut totalCompThm := 0
+  let mut totalMathThm := 0
+  let mut totalBridging := 0
+  let mut totalDefsWithSorry := 0
+  let mut totalTheoremsWithSorry := 0
+
+  -- Also collect sorry declarations for collapsible lists
+  let mut defsWithSorry : Array (Name × APIMeta) := #[]
+  let mut theoremsWithSorry : Array (Name × APIMeta) := #[]
+
+  for s in allStats do
+    totalDefs := totalDefs + s.totalDefs
+    totalTheorems := totalTheorems + s.totalTheorems
+    totalMathAb := totalMathAb + s.mathAbstractions
+    totalCompData := totalCompData + s.compDatatypes
+    totalMathDef := totalMathDef + s.mathDefs
+    totalCompOp := totalCompOp + s.compOps
+    totalCompThm := totalCompThm + s.compTheorems
+    totalMathThm := totalMathThm + s.mathTheorems
+    totalBridging := totalBridging + s.bridgingTheorems
+    totalDefsWithSorry := totalDefsWithSorry + s.defsWithSorry
+    totalTheoremsWithSorry := totalTheoremsWithSorry + s.theoremsWithSorry
+
+  -- Collect sorry declarations from entries
+  for (name, m) in entries do
+    if m.hasSorry then
+      if m.isTheorem then
+        theoremsWithSorry := theoremsWithSorry.push (name, m)
+      else
+        defsWithSorry := defsWithSorry.push (name, m)
+
+  let mut output := s!"# {projectName} Verification Coverage\n\n"
+
+  -- Overall summary
+  output := output ++ "## Overview\n\n"
+  output := output ++ s!"| Metric | Count |\n"
+  output := output ++ s!"|--------|------:|\n"
+  output := output ++ s!"| **Total Declarations** | **{totalDefs + totalTheorems}** |\n"
+  output := output ++ s!"| Definitions | {totalDefs} |\n"
+  output := output ++ s!"| Theorems | {totalTheorems} |\n"
+  output := output ++ s!"| Modules | {allStats.size} |\n\n"
+
+  -- Sorry statistics (show only if there are any)
+  let totalWithSorry := totalDefsWithSorry + totalTheoremsWithSorry
+  if totalWithSorry > 0 then
+    let provenDefs := totalDefs - totalDefsWithSorry
+    let provenThms := totalTheorems - totalTheoremsWithSorry
+    let pctProvenDefs := if totalDefs > 0 then (provenDefs * 100) / totalDefs else 100
+    let pctProvenThms := if totalTheorems > 0 then (provenThms * 100) / totalTheorems else 100
+
+    output := output ++ "### Proof Completeness\n\n"
+
+    -- Summary table
+    output := output ++ s!"| Category | Total | With Sorry | Complete | % Complete |\n"
+    output := output ++ s!"|----------|------:|----------:|-------:|---------:|\n"
+    output := output ++ s!"| Definitions | {totalDefs} | {totalDefsWithSorry} | {provenDefs} | {pctProvenDefs}% |\n"
+    output := output ++ s!"| Theorems | {totalTheorems} | {totalTheoremsWithSorry} | {provenThms} | {pctProvenThms}% |\n\n"
+
+    -- Collapsible list of definitions with sorry
+    if totalDefsWithSorry > 0 then
+      output := output ++ s!"??? warning \"Definitions with `sorry` ({totalDefsWithSorry})\"\n\n"
+      -- Sort by name
+      let sortedDefs := defsWithSorry.qsort (fun a b => a.1.toString < b.1.toString)
+      for (name, _) in sortedDefs do
+        let anchor := nameToAnchor name
+        let filePath := inferFilePathFromName name
+        let safeFilename := filePathToSafeFilename filePath
+        output := output ++ s!"    - [`{name}`](modules/{safeFilename}.md#{anchor})\n"
+      output := output ++ "\n"
+
+    -- Collapsible list of theorems with sorry
+    if totalTheoremsWithSorry > 0 then
+      output := output ++ s!"??? warning \"Theorems with `sorry` ({totalTheoremsWithSorry})\"\n\n"
+      -- Sort by name
+      let sortedThms := theoremsWithSorry.qsort (fun a b => a.1.toString < b.1.toString)
+      for (name, _) in sortedThms do
+        let anchor := nameToAnchor name
+        let filePath := inferFilePathFromName name
+        let safeFilename := filePathToSafeFilename filePath
+        output := output ++ s!"    - [`{name}`](modules/{safeFilename}.md#{anchor})\n"
+      output := output ++ "\n"
+
+  -- Definition breakdown
+  output := output ++ "### Definitions by Category\n\n"
+  output := output ++ "| Category | Count |\n"
+  output := output ++ "|----------|------:|\n"
+  output := output ++ s!"| Mathematical Abstractions | {totalMathAb} |\n"
+  output := output ++ s!"| Computational Datatypes | {totalCompData} |\n"
+  output := output ++ s!"| Mathematical Definitions | {totalMathDef} |\n"
+  output := output ++ s!"| Computational Operations | {totalCompOp} |\n\n"
+
+  -- Theorem breakdown
+  output := output ++ "### Theorems by Kind\n\n"
+  output := output ++ "| Kind | Count |\n"
+  output := output ++ "|------|------:|\n"
+  output := output ++ s!"| Computational | {totalCompThm} |\n"
+  output := output ++ s!"| Mathematical | {totalMathThm} |\n"
+  output := output ++ s!"| Bridging | {totalBridging} |\n\n"
+
+  -- Module list with links
+  output := output ++ "## Modules\n\n"
+  output := output ++ "Click on a module to view its detailed verification report.\n\n"
+  output := output ++ "| Module | Defs | Thms | Total |\n"
+  output := output ++ "|--------|-----:|-----:|------:|\n"
+
+  -- Sort alphabetically by file path (which gives alphabetical module order)
+  let sorted := allStats.qsort (fun a b => a.filePath < b.filePath)
+  for s in sorted do
+    let safeFilename := filePathToSafeFilename s.filePath
+    -- Show full module path (e.g., "Batteries.Classes.Cast" instead of just "Cast")
+    let displayName := s.filePath.replace ".lean" "" |>.replace "/" "."
+    let total := s.totalDefs + s.totalTheorems
+    output := output ++ s!"| [{displayName}](modules/{safeFilename}.md) | {s.totalDefs} | {s.totalTheorems} | {total} |\n"
 
   output
 
