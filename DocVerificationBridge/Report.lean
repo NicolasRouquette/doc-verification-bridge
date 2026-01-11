@@ -395,6 +395,11 @@ def generateReport (env : Environment) (entries : NameMap APIMeta)
   -- Header
   let mut output := s!"# {title}\n\n"
 
+  -- Quick navigation for large reports
+  output := output ++ "!!! tip \"Quick Navigation\"\n\n"
+  output := output ++ "    📊 **[View Summary Page →](summary.md)** for a quick overview of statistics\n\n"
+  output := output ++ "    ⬇️ [Jump to Summary](#summary) at the bottom of this page\n\n"
+
   -- Reproducibility section
   unless modules.isEmpty do
     let moduleList := modules |> String.intercalate " "
@@ -619,7 +624,9 @@ def generateReport (env : Environment) (entries : NameMap APIMeta)
       "<ul>\n" ++ (links.toList |> String.intercalate "\n") ++ "\n</ul>"
 
   let summaryNum := fileNum + 1
+  output := output ++ s!"<a id=\"summary\"></a>\n\n"
   output := output ++ s!"## {summaryNum}. Summary\n\n"
+  output := output ++ "📊 **[View full Summary Page →](summary.md)** for a standalone quick-loading summary\n\n"
 
   output := output ++ "### Definitions by Category\n\n"
   output := output ++ s!"| Category | Count |\n"
@@ -670,6 +677,92 @@ def generateReport (env : Environment) (entries : NameMap APIMeta)
 
   output := output ++ "<details>\n<summary><strong>Unclassified Theorems</strong> (click to expand)</summary>\n"
   output := output ++ formatNameLinks unclassifiedTheorems ++ "\n</details>\n\n"
+
+  output
+
+/-- Generate a standalone summary page (quick-loading, without full declaration tables) -/
+def generateSummaryReport (entries : NameMap APIMeta) (projectName : String := "API Coverage") : String := Id.run do
+  -- Tally definitions and theorems
+  let entryList := entries.foldl (fun acc name m => acc.push (name, m)) #[]
+
+  let mut totalDefs := 0
+  let mut totalTheorems := 0
+  let mut mathAbstractions := 0
+  let mut compDatatypes := 0
+  let mut mathDefs := 0
+  let mut compOps := 0
+  let mut compTheorems := 0
+  let mut mathTheorems := 0
+  let mut bridgingTheorems := 0
+  let mut soundnessTheorems := 0
+  let mut completenessTheorems := 0
+  let mut unclassifiedTheorems := 0
+
+  for (_, m) in entryList do
+    if m.isTheorem then
+      totalTheorems := totalTheorems + 1
+      match m.theoremKind? with
+      | some .computationalProperty => compTheorems := compTheorems + 1
+      | some .mathematicalProperty => mathTheorems := mathTheorems + 1
+      | some .bridgingProperty => bridgingTheorems := bridgingTheorems + 1
+      | some .soundnessProperty => soundnessTheorems := soundnessTheorems + 1
+      | some .completenessProperty => completenessTheorems := completenessTheorems + 1
+      | none => unclassifiedTheorems := unclassifiedTheorems + 1
+    else
+      totalDefs := totalDefs + 1
+      match m.kind with
+      | .apiType .mathematicalAbstraction => mathAbstractions := mathAbstractions + 1
+      | .apiType .computationalDatatype => compDatatypes := compDatatypes + 1
+      | .apiDef ⟨.mathematicalDefinition, _⟩ => mathDefs := mathDefs + 1
+      | .apiDef ⟨.computationalOperation, _⟩ => compOps := compOps + 1
+      | _ => pure ()
+
+  let mut output := s!"# {projectName} Summary\n\n"
+
+  output := output ++ "This is a quick-loading summary page. For the full report with all declarations, "
+  output := output ++ "see the [Coverage Report](coverage.md).\n\n"
+
+  -- Overall stats cards (using MkDocs admonitions for visual appeal)
+  output := output ++ "## Overview\n\n"
+  output := output ++ s!"!!! success \"Total Analyzed\"\n\n"
+  output := output ++ s!"    **{totalDefs + totalTheorems}** declarations analyzed\n\n"
+  output := output ++ s!"    - {totalDefs} definitions\n"
+  output := output ++ s!"    - {totalTheorems} theorems\n\n"
+
+  output := output ++ "## Definitions by Category\n\n"
+  output := output ++ "| Category | Count | Percentage |\n"
+  output := output ++ "|----------|------:|:----------:|\n"
+  let defPct := fun n => if totalDefs > 0 then s!"{(n * 100) / totalDefs}%" else "—"
+  output := output ++ s!"| Mathematical Abstractions | {mathAbstractions} | {defPct mathAbstractions} |\n"
+  output := output ++ s!"| Computational Datatypes | {compDatatypes} | {defPct compDatatypes} |\n"
+  output := output ++ s!"| Mathematical Definitions | {mathDefs} | {defPct mathDefs} |\n"
+  output := output ++ s!"| Computational Operations | {compOps} | {defPct compOps} |\n"
+  output := output ++ s!"| **Total Definitions** | **{totalDefs}** | **100%** |\n\n"
+
+  output := output ++ "## Theorems by Kind\n\n"
+  output := output ++ "| Kind | Count | Percentage |\n"
+  output := output ++ "|------|------:|:----------:|\n"
+  let thmPct := fun n => if totalTheorems > 0 then s!"{(n * 100) / totalTheorems}%" else "—"
+  output := output ++ s!"| Computational | {compTheorems} | {thmPct compTheorems} |\n"
+  output := output ++ s!"| Mathematical | {mathTheorems} | {thmPct mathTheorems} |\n"
+  output := output ++ s!"| Bridging | {bridgingTheorems} | {thmPct bridgingTheorems} |\n"
+  output := output ++ s!"| Soundness | {soundnessTheorems} | {thmPct soundnessTheorems} |\n"
+  output := output ++ s!"| Completeness | {completenessTheorems} | {thmPct completenessTheorems} |\n"
+  output := output ++ s!"| Unclassified | {unclassifiedTheorems} | {thmPct unclassifiedTheorems} |\n"
+  output := output ++ s!"| **Total Theorems** | **{totalTheorems}** | **100%** |\n\n"
+
+  -- Four-Category explanation (brief)
+  output := output ++ "## Classification System\n\n"
+  output := output ++ "This report uses a **Four-Category Ontology** inspired by E.J. Lowe:\n\n"
+  output := output ++ "| Category | Description |\n"
+  output := output ++ "|----------|-------------|\n"
+  output := output ++ "| **MathAb** | Mathematical Abstractions — abstract types, Prop-based structures |\n"
+  output := output ++ "| **CompData** | Computational Datatypes — concrete data structures |\n"
+  output := output ++ "| **MathDef** | Mathematical Definitions — Prop-returning predicates |\n"
+  output := output ++ "| **CompOp** | Computational Operations — computable functions |\n\n"
+
+  output := output ++ "---\n\n"
+  output := output ++ "[📋 View Full Coverage Report →](coverage.md)\n"
 
   output
 

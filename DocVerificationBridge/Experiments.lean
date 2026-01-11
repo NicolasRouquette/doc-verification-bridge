@@ -45,7 +45,6 @@ instance : ToString ClassificationMode where
 structure Project where
   name : String
   repo : String
-  portOffset : Nat
   modules : Array String
   description : String := ""
   classificationMode : ClassificationMode := .auto
@@ -73,7 +72,6 @@ structure Config where
 structure ProjectResult where
   name : String
   repo : String
-  port : Nat
   success : Bool
   errorMessage : Option String := none
   buildLog : String := ""
@@ -117,7 +115,7 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
       -- Save previous project if any
       if let some proj := currentProject then
         projects := projects.push proj
-      currentProject := some { name := "", repo := "", portOffset := 0, modules := #[] }
+      currentProject := some { name := "", repo := "", modules := #[] }
     else if line.startsWith "[settings]" then
       continue
     else if line.contains "=" then
@@ -136,7 +134,6 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
           let updatedProj := match key with
             | "name" => { proj with name := value }
             | "repo" => { proj with repo := value }
-            | "port_offset" => { proj with portOffset := value.toNat? |>.getD 0 }
             | "description" => { proj with description := value }
             | "subdirectory" => { proj with subdirectory := some value }
             | "lake_exe_cache_get" => { proj with lakeExeCacheGet := value == "true" }
@@ -679,7 +676,7 @@ def runUnifiedDoc (docvbDir : FilePath) (modules : Array String)
 /-- Parse coverage statistics from a coverage.md file -/
 def parseCoverageStats (coveragePath : FilePath) : IO ProjectResult := do
   let emptyResult : ProjectResult := {
-    name := "", repo := "", port := 0, success := true
+    name := "", repo := "", success := true
   }
 
   if !(← coveragePath.pathExists) then
@@ -695,7 +692,9 @@ def parseCoverageStats (coveragePath : FilePath) : IO ProjectResult := do
         -- Extract number after the pattern
         let parts := line.splitOn "|"
         for part in parts do
-          if let some n := part.trimAscii.copy.toNat? then
+          -- Strip markdown bold markers (**) before parsing
+          let cleaned := part.trimAscii.replace "**" ""
+          if let some n := cleaned.toNat? then
             return n
     return 0
 
@@ -778,12 +777,12 @@ def generateSummaryPage (results : Array ProjectResult) (outputPath : FilePath) 
 
   let mut tableRows := ""
   for r in successful do
-    tableRows := tableRows ++ s!"<tr><td><a href='http://localhost:{r.port}/' target='_blank'>{r.name}</a></td><td>{r.port}</td><td>{r.totalDefinitions}</td><td>{r.mathAbstractions}</td><td>{r.compDatatypes}</td><td>{r.mathDefinitions}</td><td>{r.compOperations}</td><td>{r.totalTheorems}</td><td>{r.computationalTheorems}</td><td>{r.mathematicalTheorems}</td><td>{r.bridgingTheorems}</td><td>{r.soundnessTheorems}</td><td>{r.completenessTheorems}</td><td>{r.unclassifiedTheorems}</td></tr>\n"
+    tableRows := tableRows ++ s!"<tr><td><a href='{r.name}/site/' target='_blank'>{r.name}</a></td><td>{r.totalDefinitions}</td><td>{r.mathAbstractions}</td><td>{r.compDatatypes}</td><td>{r.mathDefinitions}</td><td>{r.compOperations}</td><td>{r.totalTheorems}</td><td>{r.computationalTheorems}</td><td>{r.mathematicalTheorems}</td><td>{r.bridgingTheorems}</td><td>{r.soundnessTheorems}</td><td>{r.completenessTheorems}</td><td>{r.unclassifiedTheorems}</td></tr>\n"
 
   let mut failedList := ""
   for r in failed do
     let errMsg := r.errorMessage.getD "Unknown error"
-    failedList := failedList ++ s!"<li><strong><a href='http://localhost:{r.port}/'>{r.name}</a></strong> — {errMsg}<br><small><a href='{r.repo}' target='_blank'>{r.repo}</a></small></li>\n"
+    failedList := failedList ++ s!"<li><strong>{r.name}</strong> — {errMsg}<br><small><a href='{r.repo}' target='_blank'>{r.repo}</a></small></li>\n"
 
   let failedSection := if failed.isEmpty then "" else
     s!"<div class='section'><h2>❌ Failed Projects ({failed.size})</h2><ul class='failed-list'>{failedList}</ul></div>"
@@ -797,6 +796,7 @@ def generateSummaryPage (results : Array ProjectResult) (outputPath : FilePath) 
   let html := s!"<!DOCTYPE html>
 <html>
 <head>
+<meta charset=\"UTF-8\">
 <title>doc-verification-bridge Experiment Results</title>
 <style>{css}</style>
 </head>
@@ -814,7 +814,7 @@ def generateSummaryPage (results : Array ProjectResult) (outputPath : FilePath) 
 <h2>✅ Successful Projects ({successful.size})</h2>
 <table id='results-table'>
 <thead><tr>
-<th data-sort='string'>Project</th><th data-sort='number'>Port</th><th data-sort='number'>Defs</th>
+<th data-sort='string'>Project</th><th data-sort='number'>Defs</th>
 <th data-sort='number'>MathAb</th><th data-sort='number'>CompData</th><th data-sort='number'>MathDef</th>
 <th data-sort='number'>CompOp</th><th data-sort='number'>Thms</th><th data-sort='number'>Comp</th>
 <th data-sort='number'>Math</th><th data-sort='number'>Bridge</th><th data-sort='number'>Sound</th>
@@ -837,7 +837,6 @@ def generateSummaryPage (results : Array ProjectResult) (outputPath : FilePath) 
 def processProject (project : Project) (config : Config) (mode : RunMode) : IO ProjectResult := do
   let name := project.name
   let repo := project.repo
-  let port := config.basePort + project.portOffset
   let modules := project.modules
 
   let repoDir := config.reposDir / name  -- Where the repo is cloned
@@ -865,10 +864,10 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
     match currentState with
     | .completed =>
       IO.println s!"[{name}] Already completed, skipping (use --update to re-run)"
-      -- Read existing stats if available
-      let coverageMd := projectDir / "docvb" / "build" / "mkdocs" / "docs" / "verification" / "coverage.md"
+      -- Read existing stats if available (from the output directory)
+      let coverageMd := outputDir / "mkdocs-src" / "docs" / "verification" / "coverage.md"
       let stats ← parseCoverageStats coverageMd
-      return { stats with name, repo, port, success := true, siteDir := some (outputDir / "site") }
+      return { stats with name, repo, success := true, siteDir := some (outputDir / "site") }
     | .inProgress | .failed =>
       IO.println s!"[{name}] Incomplete/failed - restarting..."
       removeDir repoDir
@@ -892,7 +891,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
     cmdLog := newLog
     if !pullOk then
       writeProjectState config.sitesDir name .failed
-      return { name, repo, port, success := false,
+      return { name, repo, success := false,
                errorMessage := some "Git pull failed", buildLog := pullLog }
   else
     IO.println s!"[{name}] Cloning repository..."
@@ -901,7 +900,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
     cmdLog := newLog
     if !cloneOk then
       writeProjectState config.sitesDir name .failed
-      return { name, repo, port, success := false,
+      return { name, repo, success := false,
                errorMessage := some "Clone failed", buildLog := cloneLog }
 
   -- Verify the project directory exists (relevant for subdirectory projects)
@@ -911,7 +910,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
     saveCommandLogCtx cmdLog logCtx
     generateErrorPage name errMsg "" outputDir
     writeProjectState config.sitesDir name .failed
-    return { name, repo, port, success := false,
+    return { name, repo, success := false,
              errorMessage := some errMsg, siteDir := some outputDir }
 
   -- Setup docvb directory and check toolchain compatibility
@@ -927,7 +926,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
     saveCommandLogCtx cmdLog logCtx
     generateErrorPage name errMsg "" outputDir (some tcCheck)
     writeProjectState config.sitesDir name .failed
-    return { name, repo, port, success := false,
+    return { name, repo, success := false,
              errorMessage := some s!"Toolchain incompatibility: project uses {tcCheck.projectToolchain}, requires {tcCheck.dvbToolchain}",
              siteDir := some outputDir }
 
@@ -942,7 +941,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
     if !cacheOk then
       generateErrorPage name "lake exe cache get failed" cacheLog outputDir (some tcCheck)
       writeProjectState config.sitesDir name .failed
-      return { name, repo, port, success := false,
+      return { name, repo, success := false,
                errorMessage := some "cache get failed", buildLog := cacheLog,
                siteDir := some outputDir }
 
@@ -951,7 +950,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
   if !buildOk then
     generateErrorPage name "Project build failed" buildLog outputDir (some tcCheck)
     writeProjectState config.sitesDir name .failed
-    return { name, repo, port, success := false,
+    return { name, repo, success := false,
              errorMessage := some "Build failed", buildLog,
              siteDir := some outputDir }
 
@@ -971,7 +970,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
     else
       generateErrorPage name "lake update failed" updateLog outputDir (some tcCheck)
       writeProjectState config.sitesDir name .failed
-      return { name, repo, port, success := false,
+      return { name, repo, success := false,
                errorMessage := some "lake update failed", buildLog := updateLog,
                siteDir := some outputDir }
 
@@ -990,7 +989,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
   if !docvbBuildOk then
     generateErrorPage name "docvb build failed" docvbBuildLog outputDir (some tcCheck)
     writeProjectState config.sitesDir name .failed
-    return { name, repo, port, success := false,
+    return { name, repo, success := false,
              errorMessage := some "docvb build failed", buildLog := docvbBuildLog,
              siteDir := some outputDir }
 
@@ -1011,12 +1010,13 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
   if !docOk then
     generateErrorPage name "Documentation generation failed" (buildLog ++ "\n\n" ++ docLog) outputDir (some tcCheck)
     writeProjectState config.sitesDir name .failed
-    return { name, repo, port, success := false,
+    return { name, repo, success := false,
              errorMessage := some "unified-doc failed", buildLog := docLog,
              siteDir := some outputDir }
 
-  -- Parse statistics
-  let coverageMd := docvbDir / "build" / "mkdocs" / "docs" / "verification" / "coverage.md"
+  -- Parse statistics from the generated coverage.md
+  -- unified-doc outputs to: outputDir/mkdocs-src/docs/verification/coverage.md
+  let coverageMd := outputDir / "mkdocs-src" / "docs" / "verification" / "coverage.md"
   let stats ← parseCoverageStats coverageMd
 
   -- Mark as completed
@@ -1024,7 +1024,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
   IO.println s!"[{name}] ✓ Complete!"
 
   return { stats with
-    name, repo, port, success := true,
+    name, repo, success := true,
     buildLog := buildLog ++ "\n\n" ++ docLog,
     siteDir := some (outputDir / "site")
   }
@@ -1042,7 +1042,6 @@ def saveResultsJson (results : Array ProjectResult) (outputPath : FilePath) : IO
     json := json ++ s!"  {lb}
     \"name\": \"{r.name}\",
     \"repo\": \"{r.repo}\",
-    \"port\": {r.port},
     \"success\": {r.success},
     \"error_message\": {errMsg},
     \"total_definitions\": {r.totalDefinitions},
@@ -1102,22 +1101,42 @@ def runExperiments (configPath : FilePath) (mode : RunMode := .fresh)
 
   -- Process projects in parallel batches
   let mut results : Array ProjectResult := #[]
-  let batches := chunks projects config.maxParallelJobs
 
-  for batch in batches do
-    -- Spawn tasks for this batch
-    let tasks ← batch.toList.mapM fun project => do
-      IO.asTask (processProject project config mode)
+  -- Worker pool: keep up to maxParallelJobs running at all times
+  -- As soon as one completes, start another
+  let mut pending := projects.toList  -- Projects not yet started
+  let mut running : Array (Task (Except IO.Error ProjectResult)) := #[]
 
-    -- Wait for all tasks in batch to complete
-    for task in tasks do
-      match ← IO.wait task with
-      | .ok result =>
-        results := results.push result
-        let status := if result.success then "✓" else "✗"
-        IO.println s!"[{result.name}] {status} Complete"
-      | .error e =>
-        IO.println s!"[batch] Error: {e}"
+  while !pending.isEmpty || !running.isEmpty do
+    -- Start new tasks if we have capacity and pending work
+    while running.size < config.maxParallelJobs && !pending.isEmpty do
+      match pending with
+      | project :: rest =>
+        pending := rest
+        let task ← IO.asTask (prio := .dedicated) (processProject project config mode)
+        running := running.push task
+        IO.println s!"[{project.name}] Started ({running.size} running, {pending.length} pending)"
+      | [] => break
+
+    -- Wait a bit then check for completed tasks
+    -- (Lean doesn't have a "wait for any" primitive, so we poll)
+    IO.sleep 100  -- 100ms polling interval
+
+    -- Check each task for completion using IO.hasFinished
+    let mut newRunning : Array (Task (Except IO.Error ProjectResult)) := #[]
+    for task in running do
+      let finished ← IO.hasFinished task
+      if finished then
+        match task.get with
+        | .ok result =>
+          results := results.push result
+          let status := if result.success then "✓" else "✗"
+          IO.println s!"[{result.name}] {status} Complete ({results.size}/{projects.size} done)"
+        | .error e =>
+          IO.println s!"[task] Error: {e}"
+      else
+        newRunning := newRunning.push task
+    running := newRunning
 
   -- Generate summary page
   let summaryPath := config.sitesDir / "index.html"
@@ -1152,8 +1171,10 @@ def serveResults (configPath : FilePath) : IO UInt32 := do
   let configContent ← IO.FS.readFile configPath
   let config ← parseConfig configContent baseDir
 
-  IO.println "Starting HTTP servers..."
+  IO.println "Starting HTTP server..."
   IO.println s!"Summary available at: http://localhost:{config.basePort}/"
+  IO.println ""
+  IO.println "Tip: Run 'experiments refresh' first to update the summary page."
   IO.println ""
   IO.println "Press Ctrl+C to stop."
   IO.println ""
@@ -1167,6 +1188,77 @@ def serveResults (configPath : FilePath) : IO UInt32 := do
 
   -- Wait forever (until Ctrl+C) - just wait for process
   let _ ← IO.Process.output { cmd := "sleep", args := #["infinity"] }
+  return 0
+
+/-- Refresh the summary page by re-reading all existing coverage stats -/
+def refreshSummary (configPath : FilePath) : IO UInt32 := do
+  let baseDir := configPath.parent.get!
+  let configContent ← IO.FS.readFile configPath
+  let config ← parseConfig configContent baseDir
+
+  IO.println s!"Refreshing summary from {config.projects.size} projects..."
+  IO.println ""
+
+  let mut results : Array ProjectResult := #[]
+
+  for project in config.projects do
+    let name := project.name
+    let repo := project.repo
+    let outputDir := config.sitesDir / name
+
+    -- Check if project was completed
+    let state ← readProjectState config.sitesDir name
+
+    -- Read coverage stats if available
+    let coverageMd := outputDir / "mkdocs-src" / "docs" / "verification" / "coverage.md"
+    let stats ← parseCoverageStats coverageMd
+
+    let (success, errorMsg) := match state with
+      | .completed => (true, none)
+      | .failed => (false, some "Previously failed")
+      | .inProgress => (false, some "Incomplete")
+      | .notStarted => (false, some "Not started")
+
+    let result : ProjectResult := { stats with
+      name, repo, success,
+      errorMessage := errorMsg,
+      siteDir := some (outputDir / "site")
+    }
+
+    let statusIcon := if success then "✓" else "✗"
+    let statsStr := if stats.totalDefinitions > 0 || stats.totalTheorems > 0
+      then s!" ({stats.totalDefinitions} defs, {stats.totalTheorems} thms)"
+      else ""
+    IO.println s!"[{name}] {statusIcon}{statsStr}"
+
+    results := results.push result
+
+  -- Generate summary page
+  let summaryPath := config.sitesDir / "index.html"
+  generateSummaryPage results summaryPath
+  IO.println s!"\nSummary page generated: {summaryPath}"
+
+  -- Save results as JSON
+  let resultsJson := baseDir / "results.json"
+  saveResultsJson results resultsJson
+  IO.println s!"Results saved to: {resultsJson}"
+
+  -- Print summary
+  let sep := "".pushn '=' 60
+  IO.println s!"\n{sep}"
+  IO.println "SUMMARY"
+  IO.println sep
+
+  let successful := results.filter (·.success)
+  let failed := results.filter (!·.success)
+  IO.println s!"Successful: {successful.size}/{results.size}"
+  IO.println s!"Failed: {failed.size}/{results.size}"
+
+  if !successful.isEmpty then
+    IO.println s!"\nTotal definitions: {successful.foldl (· + ·.totalDefinitions) 0}"
+    IO.println s!"Total theorems: {successful.foldl (· + ·.totalTheorems) 0}"
+    IO.println s!"Bridging theorems: {successful.foldl (· + ·.bridgingTheorems) 0}"
+
   return 0
 
 end Experiments
@@ -1203,11 +1295,15 @@ def experimentsMain (args : List String) : IO UInt32 := do
   -- Serve commands
   | ["serve"] => Experiments.serveResults "config.toml"
   | ["serve", "--config", path] => Experiments.serveResults path
+  -- Refresh commands
+  | ["refresh"] => Experiments.refreshSummary "config.toml"
+  | ["refresh", "--config", path] => Experiments.refreshSummary path
   | _ =>
     IO.println "Usage: experiments <command> [options]"
     IO.println ""
     IO.println "Commands:"
     IO.println "  run              Clone, build, and analyze all configured projects"
+    IO.println "  refresh          Regenerate summary page from existing coverage data"
     IO.println "  serve            Start HTTP server to view results"
     IO.println ""
     IO.println "Run Options:"
@@ -1216,6 +1312,9 @@ def experimentsMain (args : List String) : IO UInt32 := do
     IO.println "  --config <path>      Path to config.toml (default: ./config.toml)"
     IO.println "  --projects <names>   Only run specified projects (space-separated)"
     IO.println ""
+    IO.println "Common Options (all commands):"
+    IO.println "  --config <path>      Path to config.toml (default: ./config.toml)"
+    IO.println ""
     IO.println "Examples:"
     IO.println "  experiments run                          # Fresh run of all projects"
     IO.println "  experiments run --resume                 # Continue interrupted run"
@@ -1223,5 +1322,6 @@ def experimentsMain (args : List String) : IO UInt32 := do
     IO.println "  experiments run --projects mathlib4      # Run only mathlib4"
     IO.println "  experiments run --projects batteries mm0 # Run batteries and mm0"
     IO.println "  experiments run --update --projects mathlib4  # Update only mathlib4"
+    IO.println "  experiments refresh                      # Regenerate summary only"
     IO.println "  experiments serve                        # Start HTTP server"
     return 1
