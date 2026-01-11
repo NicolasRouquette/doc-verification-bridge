@@ -64,6 +64,10 @@ def classifyDefinition (type : Expr) : MetaM DefCategory := do
   else
     return .computationalOperation
 
+/-- Check if an expression contains any sorry (sorryAx application) -/
+def exprContainsSorry (e : Expr) : Bool :=
+  Option.isSome <| e.find? fun sub => sub.isAppOf ``sorryAx
+
 /-!
 ## Blacklist Filtering
 -/
@@ -87,9 +91,8 @@ def shouldExclude (name : Name) : Bool :=
   let str := name.toString
   -- Exclude private/internal definitions
   str.startsWith "_private" ||
-  str.startsWith "_root_" ||
-  -- Exclude instance auto-generated names
-  (str.splitOn "inst").length > 1 && str.startsWith "inst"
+  str.startsWith "_root_"
+  -- Note: We no longer exclude "inst*" names - instances are tracked for sorry detection
 
 /-!
 ## Main Classification
@@ -113,13 +116,15 @@ def classifyConstant (env : Environment) (name : Name) (cinfo : ConstantInfo)
   if !isInternalName env internalPrefixes name then return none
 
   match cinfo with
-  | .thmInfo _info =>
-    -- Theorem: infer annotations
+  | .thmInfo info =>
+    -- Theorem: infer annotations and check for sorry
     let inferred ← inferTheoremAnnotations name
     let theoremKind := suggestTheoremKind inferred
     let bridgingDir := if theoremKind == some .bridgingProperty
       then inferBridgingDirection inferred
       else none
+    -- Check if the proof contains sorry
+    let hasSorry := exprContainsSorry info.value
     let thmData : TheoremData := {
       kind := theoremKind
       bridgingDirection := bridgingDir
@@ -127,13 +132,15 @@ def classifyConstant (env : Environment) (name : Name) (cinfo : ConstantInfo)
       proves := inferred.provesCandidates.filter (·.isInternal) |>.map (·.name)
       validates := inferred.validatesCandidates.filter (·.isInternal) |>.map (·.name)
       dependsOn := inferred.dependsOnCandidates.filter (·.isInternal) |>.map (·.name)
+      hasSorry := hasSorry
     }
     return some { kind := .apiTheorem thmData, coverage := .unverified }
 
   | .defnInfo info =>
-    -- Definition: classify by return type
+    -- Definition: classify by return type and check for sorry
     let category ← classifyDefinition info.type
-    let defData : DefData := { category }
+    let hasSorry := exprContainsSorry info.value
+    let defData : DefData := { category, hasSorry }
     return some { kind := .apiDef defData, coverage := .unverified }
 
   | .inductInfo info =>
@@ -144,6 +151,14 @@ def classifyConstant (env : Environment) (name : Name) (cinfo : ConstantInfo)
   | .axiomInfo _ =>
     -- Axiom: treat as mathematical abstraction
     return some { kind := .apiType .mathematicalAbstraction, coverage := .axiomDependent }
+
+  | .opaqueInfo info =>
+    -- Opaque constant (includes noncomputable instances and definitions)
+    -- Check if it has sorry in its value
+    let category ← classifyDefinition info.type
+    let hasSorry := exprContainsSorry info.value
+    let defData : DefData := { category, hasSorry }
+    return some { kind := .apiDef defData, coverage := .unverified }
 
   | _ => return none  -- Skip other kinds (constructors, recursors, etc.)
 

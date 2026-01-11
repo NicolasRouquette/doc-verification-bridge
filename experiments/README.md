@@ -171,6 +171,8 @@ To regenerate the summary without starting a server:
 ./run.sh refresh
 ```
 
+> **Tip:** The `refresh` command is safe to run while long-running projects (like mathlib4) are still being analyzed. It only reads existing files and regenerates the summary page—it won't interfere with in-progress builds. Projects still running will show as "Incomplete" in the summary.
+
 The summary page features:
 - Overall statistics cards
 - Sortable table of all projects
