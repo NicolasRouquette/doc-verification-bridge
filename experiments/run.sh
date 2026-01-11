@@ -20,9 +20,14 @@ case "${1:-help}" in
         echo "Starting experiment pipeline..."
         "$DVB_DIR/.lake/build/bin/experiments" run "$@" --config "$SCRIPT_DIR/config.toml"
         ;;
+    refresh)
+        build_experiments
+        echo "Refreshing summary page..."
+        "$DVB_DIR/.lake/build/bin/experiments" refresh --config "$SCRIPT_DIR/config.toml"
+        ;;
     serve)
         build_experiments
-        echo "Starting HTTP servers for all projects..."
+        echo "Starting HTTP server..."
         "$DVB_DIR/.lake/build/bin/experiments" serve --config "$SCRIPT_DIR/config.toml"
         ;;
     clean)
@@ -35,7 +40,8 @@ case "${1:-help}" in
         echo ""
         echo "Commands:"
         echo "  run              Clone, build, and analyze all projects"
-        echo "  serve            Start HTTP servers for viewing results"
+        echo "  refresh          Regenerate summary page from existing coverage data"
+        echo "  serve            Start HTTP server to view results"
         echo "  clean            Remove all generated artifacts"
         echo ""
         echo "Run Options:"
@@ -50,6 +56,7 @@ case "${1:-help}" in
         echo "  $0 run --projects mathlib4        # Run only mathlib4"
         echo "  $0 run --projects batteries mm0   # Run batteries and mm0"
         echo "  $0 run --update --projects mathlib4  # Update only mathlib4"
+        echo "  $0 refresh                        # Regenerate summary only"
         echo "  $0 serve                          # Start HTTP server"
         echo "  $0 clean                          # Remove all artifacts"
         exit 1

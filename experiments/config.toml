@@ -1,5 +1,5 @@
 # Experiment Configuration for doc-verification-bridge evaluation
-# Each project gets a unique port for serving documentation
+# All project documentation is served from sites/ subdirectory
 
 [settings]
 # Relative to the experiments directory
@@ -16,7 +16,7 @@ max_parallel_jobs = 4
 use_custom_source_linker = false
 
 # Projects to analyze
-# Format: repo URL, port offset, top-level module(s), project display name
+# Format: repo URL, top-level module(s), project description
 #
 # Optional fields:
 #   classification_mode: "auto" (default) or "annotated"
@@ -24,42 +24,37 @@ use_custom_source_linker = false
 #     - annotated: Only classify declarations with @[api_*] annotations
 #   subdirectory: path within repo to Lean project (for monorepos)
 #   lake_exe_cache_get: true to run `lake exe cache get` before build (for mathlib4)
+#   disable_equations: true to disable equation generation (avoids timeouts)
 
 [[projects]]
 name = "batteries"
 repo = "https://github.com/leanprover-community/batteries"
-port_offset = 1
 modules = ["Batteries"]
 description = "Standard library extensions for Lean 4"
-# classification_mode = "auto"  # default
 
 [[projects]]
 name = "mathlib4"
 repo = "https://github.com/leanprover-community/mathlib4"
-port_offset = 2
 modules = ["Mathlib"]
 description = "Mathematical library for Lean 4"
 lake_exe_cache_get = true
-disable_equations = true  # Avoid timeouts from equation generation
+disable_equations = true
 
 [[projects]]
 name = "aesop"
 repo = "https://github.com/leanprover-community/aesop"
-port_offset = 3
 modules = ["Aesop"]
 description = "Automated proof search tactic"
 
 [[projects]]
 name = "plausible"
 repo = "https://github.com/leanprover-community/plausible"
-port_offset = 4
 modules = ["Plausible"]
 description = "Property-based testing for Lean 4"
 
 [[projects]]
 name = "mm0"
 repo = "https://github.com/digama0/mm0"
-port_offset = 5
 modules = ["MM0"]
 subdirectory = "mm0-lean4"
 description = "Metamath Zero proof language"
@@ -67,97 +62,147 @@ description = "Metamath Zero proof language"
 [[projects]]
 name = "SciLean"
 repo = "https://github.com/lecopivo/SciLean"
-port_offset = 6
 modules = ["SciLean"]
 description = "Scientific computing in Lean"
 
 [[projects]]
 name = "fad"
 repo = "https://github.com/arademaker/fad"
-port_offset = 7
 modules = ["Fad"]
 description = "Functional Algorithm Design"
 
 [[projects]]
 name = "logical_verification_2025"
 repo = "https://github.com/lean-forward/logical_verification_2025"
-port_offset = 8
 modules = ["LoVe"]
 description = "Logical Verification course materials"
 
 [[projects]]
 name = "puzzles"
 repo = "https://github.com/arademaker/puzzles"
-port_offset = 9
 modules = ["Puzzles"]
 description = "Logic puzzles in Lean"
 
 [[projects]]
 name = "RLTL-derivatives"
 repo = "https://github.com/ezhuchko/RLTL-derivatives"
-port_offset = 10
 modules = ["RLTL"]
 description = "Regular LTL derivatives"
 
-# [[projects]]
-# name = "lean-loris"
-# repo = "https://github.com/siddhartha-gadgil/lean-loris"
-# port_offset = 11
-# modules = ["Loris"]
-# description = "Lean Loris project"
+[[projects]]
+name = "lean-loris"
+repo = "https://github.com/siddhartha-gadgil/lean-loris"
+modules = ["Loris"]
+description = "Lean Loris project"
 
 [[projects]]
 name = "LeanLangur"
 repo = "https://github.com/siddhartha-gadgil/LeanLangur"
-port_offset = 12
 modules = ["LeanLangur"]
 description = "Language experiments in Lean"
 
 [[projects]]
 name = "proofs_with_lean"
 repo = "https://github.com/PatrickMassot/proofs_with_lean"
-port_offset = 13
 modules = ["ProofsWithLean"]
 description = "Proofs with Lean tutorial"
 
 [[projects]]
 name = "LeanMetaCompute"
 repo = "https://github.com/siddhartha-gadgil/LeanMetaCompute"
-port_offset = 14
 modules = ["LeanMetaCompute"]
 description = "Meta-level computation in Lean"
 
 [[projects]]
 name = "verbose-lean4"
 repo = "https://github.com/PatrickMassot/verbose-lean4"
-port_offset = 15
 modules = ["Verbose"]
 description = "Verbose tactic mode for Lean 4"
 
 [[projects]]
 name = "LeanLion"
 repo = "https://github.com/siddhartha-gadgil/LeanLion"
-port_offset = 16
 modules = ["LeanLion"]
 description = "Lean Lion project"
 
 [[projects]]
 name = "Polylean"
 repo = "https://github.com/siddhartha-gadgil/Polylean"
-port_offset = 17
 modules = ["Polylean"]
 description = "Polynomial computations in Lean"
 
 [[projects]]
 name = "fil-rb"
 repo = "https://github.com/hargoniX/fil-rb"
-port_offset = 18
 modules = ["FilRb"]
 description = "Red-black trees"
 
 [[projects]]
 name = "banach-tarski"
 repo = "https://github.com/aetilley/banach-tarski"
-port_offset = 19
 modules = ["BanachTarski"]
 description = "Banach-Tarski paradox formalization"
+
+[[projects]]
+name = "FLT"
+repo = "https://github.com/ImperialCollegeLondon/FLT"
+modules = ["FLT"]
+description = "FermatsLastTheorem"
+lake_exe_cache_get = true
+disable_equations = true
+
+[[projects]]
+name = "ClassFieldTheory"
+repo = "https://github.com/kbuzzard/ClassFieldTheory"
+modules = ["ClassFieldTheory"]
+description = "Class Field Theory"
+lake_exe_cache_get = true
+disable_equations = true
+
+[[projects]]
+name = "Sudoku4"
+repo = "https://github.com/kckennylau/Sudoku4"
+modules = ["Sudoku4"]
+description = "Sudoku4"
+lake_exe_cache_get = true
+disable_equations = true
+
+[[projects]]
+name = "SDG"
+repo = "https://github.com/riccardobrasca/SDG"
+modules = ["SDG"]
+description = "Synthetic Differential Geometry"
+lake_exe_cache_get = true
+disable_equations = true
+
+[[projects]]
+name = "PhysLean"
+repo = "https://github.com/HEPLean/PhysLean"
+modules = ["PhysLean"]
+description = "Physics in Lean"
+lake_exe_cache_get = true
+disable_equations = true
+
+[[projects]]
+name = "ClassFieldTheory"
+repo = "https://github.com/kbuzzard/ClassFieldTheory"
+modules = ["ClassFieldTheory"]
+description = "Class Field Theory"
+lake_exe_cache_get = true
+disable_equations = true
+
+[[projects]]
+name = "EllipticCurve"
+repo = "https://github.com/kckennylau/EllipticCurve"
+modules = ["EllipticCurve"]
+description = "Elliptic Curve"
+lake_exe_cache_get = true
+disable_equations = true
+
+[[projects]]
+name = "Hochster"
+repo = "https://github.com/FMLJohn/Hochster"
+modules = ["Hochster"]
+description = "Prime Ideal Structure in Commutative Rings"
+lake_exe_cache_get = true
+disable_equations = true

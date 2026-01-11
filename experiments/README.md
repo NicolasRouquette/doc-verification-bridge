@@ -23,7 +23,10 @@ The pipeline (implemented in Lean 4):
 # Update all projects (git pull + regenerate docs)
 ./run.sh run --update
 
-# After completion, serve the results
+# Regenerate summary page from existing coverage data (no rebuild)
+./run.sh refresh
+
+# Refresh summary and serve the results
 ./run.sh serve
 
 # Clean up all artifacts
@@ -38,6 +41,7 @@ lake build experiments
 .lake/build/bin/experiments run --config experiments/config.toml
 .lake/build/bin/experiments run --resume --config experiments/config.toml
 .lake/build/bin/experiments run --update --config experiments/config.toml
+.lake/build/bin/experiments refresh --config experiments/config.toml
 .lake/build/bin/experiments serve --config experiments/config.toml
 ```
 
@@ -45,7 +49,6 @@ lake build experiments
 
 Edit `config.toml` to:
 - Add/remove projects
-- Change port assignments
 - Adjust parallelism settings
 - Set classification mode per project
 
@@ -57,7 +60,6 @@ All paths in `config.toml` are relative to the experiments directory.
 [[projects]]
 name = "my-project"
 repo = "https://github.com/user/my-project"
-port_offset = 20  # Will be served on base_port + 20
 modules = ["MyProject"]
 description = "Description for the summary page"
 classification_mode = "auto"  # or "annotated"
@@ -71,7 +73,6 @@ For repositories where the Lean project is in a subdirectory (e.g., monorepos wi
 [[projects]]
 name = "mm0"
 repo = "https://github.com/digama0/mm0"
-port_offset = 5
 modules = ["MM0"]
 subdirectory = "mm0-lean4"  # Lean 4 project is in this subdirectory
 description = "Metamath Zero proof language"
@@ -91,7 +92,6 @@ Example with annotated mode:
 [[projects]]
 name = "my-annotated-project"
 repo = "https://github.com/user/my-annotated-project"
-port_offset = 21
 modules = ["MyProject"]
 description = "Project using explicit annotations"
 classification_mode = "annotated"
@@ -162,25 +162,20 @@ experiments/
 After running `./run.sh serve`:
 
 - **Summary page**: http://localhost:9000/
-- **Individual projects**: http://localhost:900X/ (see port assignments in config.toml)
+- **Individual projects**: Click project links on the summary page (served as subdirectories, e.g., `http://localhost:9000/batteries/site/`)
+
+The `serve` command automatically refreshes the summary page from existing coverage data before starting the HTTP server, so you always see up-to-date statistics.
+
+To regenerate the summary without starting a server:
+```bash
+./run.sh refresh
+```
 
 The summary page features:
 - Overall statistics cards
 - Sortable table of all projects
 - Links to individual documentation sites
 - List of failed builds with error details
-
-## Port Assignments
-
-| Port | Project |
-|------|---------|
-| 9000 | Summary page |
-| 9001 | batteries |
-| 9002 | mathlib4 |
-| 9003 | aesop |
-| ... | ... |
-
-See `config.toml` for the full list.
 
 ## Troubleshooting
 
