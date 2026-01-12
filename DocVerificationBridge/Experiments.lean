@@ -25,9 +25,10 @@ inductive ProjectState where
 
 /-- Run mode for experiments -/
 inductive RunMode where
-  | fresh    -- Process all projects from scratch
-  | resume   -- Skip completed, restart incomplete
-  | update   -- Update repos and re-run for all
+  | fresh     -- Process all projects from scratch
+  | resume    -- Skip completed, restart incomplete
+  | update    -- Update repos and re-run for all
+  | reanalyze -- Skip build, only re-run unified-doc analysis (requires existing build)
   deriving Repr, Inhabited, BEq
 
 /-- Classification mode for documentation generation -/
@@ -1001,14 +1002,27 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
     -- Update git repo (don't delete), regenerate docs
     IO.println s!"[{name}] Update mode - will update repo and regenerate docs"
     removeDir outputDir  -- Only remove the generated site
+  | .reanalyze =>
+    -- Skip build entirely, only re-run unified-doc (requires existing build)
+    IO.println s!"[{name}] Reanalyze mode - skipping build, running unified-doc only"
+    removeDir outputDir  -- Remove generated site to force regeneration
 
   -- Mark as in-progress
   writeProjectState config.sitesDir name .inProgress
 
   IO.println s!"[{name}] Starting processing..."
 
-  -- Clone or update repository
-  if mode == .update && (← repoDir.pathExists) then
+  -- Clone or update repository (skip for reanalyze mode)
+  if mode == .reanalyze then
+    -- Reanalyze mode: verify repo and build exist
+    if !(← repoDir.pathExists) then
+      let errMsg := s!"Reanalyze mode requires existing repo at {repoDir}"
+      generateErrorPage name errMsg "" outputDir
+      writeProjectState config.sitesDir name .failed
+      return { name, repo, success := false,
+               errorMessage := some errMsg, siteDir := some outputDir }
+    IO.println s!"[{name}] Using existing repository (reanalyze mode)"
+  else if mode == .update && (← repoDir.pathExists) then
     IO.println s!"[{name}] Updating repository..."
     let (pullOk, pullLog, newLog) ← runCmdLogged "git-pull" "git" #["pull"] (some repoDir) cmdLog (some logCtx)
     cmdLog := newLog
@@ -1059,29 +1073,42 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
              errorMessage := some s!"Toolchain incompatibility: project uses {tcCheck.projectToolchain}, requires {tcCheck.dvbToolchain}",
              siteDir := some outputDir }
 
-  -- Build main project
-  IO.println s!"[{name}] Building project{if project.lakeExeCacheGet then " (with cache)" else ""}..."
-
-  -- For projects like mathlib4, fetch the cloud cache first
-  if project.lakeExeCacheGet then
-    let (cacheOk, cacheLog, newLog) ← runCmdLogged "lake-exe-cache-get" "lake"
-      #["exe", "cache", "get"] (some projectDir) cmdLog (some logCtx)
-    cmdLog := newLog
-    if !cacheOk then
-      generateErrorPage name "lake exe cache get failed" cacheLog outputDir (some tcCheck)
+  -- Build main project (skip for reanalyze mode)
+  let mut buildLog := ""
+  if mode == .reanalyze then
+    IO.println s!"[{name}] Skipping build (reanalyze mode - using existing build)"
+    -- Verify .lake/build exists
+    let lakeBuildDir := projectDir / ".lake" / "build"
+    if !(← lakeBuildDir.pathExists) then
+      let errMsg := s!"Reanalyze mode requires existing build at {lakeBuildDir}"
+      generateErrorPage name errMsg "" outputDir (some tcCheck)
       writeProjectState config.sitesDir name .failed
       return { name, repo, success := false,
-               errorMessage := some "cache get failed", buildLog := cacheLog,
-               siteDir := some outputDir }
+               errorMessage := some errMsg, siteDir := some outputDir }
+  else
+    IO.println s!"[{name}] Building project{if project.lakeExeCacheGet then " (with cache)" else ""}..."
 
-  let (buildOk, buildLog, newLog) ← runCmdLogged "lake-build" "lake" #["build"] (some projectDir) cmdLog (some logCtx)
-  cmdLog := newLog
-  if !buildOk then
-    generateErrorPage name "Project build failed" buildLog outputDir (some tcCheck)
-    writeProjectState config.sitesDir name .failed
-    return { name, repo, success := false,
-             errorMessage := some "Build failed", buildLog,
-             siteDir := some outputDir }
+    -- For projects like mathlib4, fetch the cloud cache first
+    if project.lakeExeCacheGet then
+      let (cacheOk, cacheLog, newLog) ← runCmdLogged "lake-exe-cache-get" "lake"
+        #["exe", "cache", "get"] (some projectDir) cmdLog (some logCtx)
+      cmdLog := newLog
+      if !cacheOk then
+        generateErrorPage name "lake exe cache get failed" cacheLog outputDir (some tcCheck)
+        writeProjectState config.sitesDir name .failed
+        return { name, repo, success := false,
+                 errorMessage := some "cache get failed", buildLog := cacheLog,
+                 siteDir := some outputDir }
+
+    let (buildOk, buildLog', newLog) ← runCmdLogged "lake-build" "lake" #["build"] (some projectDir) cmdLog (some logCtx)
+    cmdLog := newLog
+    buildLog := buildLog'
+    if !buildOk then
+      generateErrorPage name "Project build failed" buildLog outputDir (some tcCheck)
+      writeProjectState config.sitesDir name .failed
+      return { name, repo, success := false,
+               errorMessage := some "Build failed", buildLog,
+               siteDir := some outputDir }
 
   -- Run unified-doc
   IO.println s!"[{name}] Generating documentation (mode: {project.classificationMode})..."
@@ -1226,6 +1253,7 @@ def runExperiments (configPath : FilePath) (mode : RunMode := .fresh)
     | .fresh => "fresh"
     | .resume => "resume"
     | .update => "update"
+    | .reanalyze => "reanalyze"
   let filterStr := match projectFilter with
     | some names => s!" (filtered: {names})"
     | none => ""
@@ -1426,11 +1454,14 @@ def experimentsMain (args : List String) : IO UInt32 := do
   | ["run"] => Experiments.runExperiments "config.toml" .fresh projectFilter
   | ["run", "--resume"] => Experiments.runExperiments "config.toml" .resume projectFilter
   | ["run", "--update"] => Experiments.runExperiments "config.toml" .update projectFilter
+  | ["run", "--reanalyze"] => Experiments.runExperiments "config.toml" .reanalyze projectFilter
   | ["run", "--config", path] => Experiments.runExperiments path .fresh projectFilter
   | ["run", "--resume", "--config", path] => Experiments.runExperiments path .resume projectFilter
   | ["run", "--config", path, "--resume"] => Experiments.runExperiments path .resume projectFilter
   | ["run", "--update", "--config", path] => Experiments.runExperiments path .update projectFilter
   | ["run", "--config", path, "--update"] => Experiments.runExperiments path .update projectFilter
+  | ["run", "--reanalyze", "--config", path] => Experiments.runExperiments path .reanalyze projectFilter
+  | ["run", "--config", path, "--reanalyze"] => Experiments.runExperiments path .reanalyze projectFilter
   -- Serve commands
   | ["serve"] => Experiments.serveResults "config.toml"
   | ["serve", "--config", path] => Experiments.serveResults path
@@ -1448,6 +1479,7 @@ def experimentsMain (args : List String) : IO UInt32 := do
     IO.println "Run Options:"
     IO.println "  --resume             Skip completed projects, restart incomplete/failed ones"
     IO.println "  --update             Update git repos and regenerate docs for all projects"
+    IO.println "  --reanalyze          Re-run unified-doc analysis only (skip build, requires existing build)"
     IO.println "  --config <path>      Path to config.toml (default: ./config.toml)"
     IO.println "  --projects <names>   Only run specified projects (space-separated)"
     IO.println ""
@@ -1458,6 +1490,7 @@ def experimentsMain (args : List String) : IO UInt32 := do
     IO.println "  experiments run                          # Fresh run of all projects"
     IO.println "  experiments run --resume                 # Continue interrupted run"
     IO.println "  experiments run --update                 # Update repos and regenerate"
+    IO.println "  experiments run --reanalyze --projects mathlib4  # Re-analyze without rebuild"
     IO.println "  experiments run --projects mathlib4      # Run only mathlib4"
     IO.println "  experiments run --projects batteries mm0 # Run batteries and mm0"
     IO.println "  experiments run --update --projects mathlib4  # Update only mathlib4"
