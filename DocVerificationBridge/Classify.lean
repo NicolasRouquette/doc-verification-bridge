@@ -168,15 +168,31 @@ def classifyAllDeclarations (env : Environment) (modulePrefix : Name) : MetaM Cl
   let mut entries : NameMap APIMeta := {}
   let mut notes : Array String := #[]
 
-  for (name, cinfo) in env.constants do
-    -- Check if this constant is from a relevant module
+  -- Count total constants for progress reporting
+  let relevantConsts := env.constants.fold (init := #[]) fun acc name cinfo =>
     match env.getModuleIdxFor? name with
     | some modIdx =>
       let modName := env.header.moduleNames[modIdx.toNat]!
-      if modulePrefix.isPrefixOf modName then
-        if let some apiMeta ← classifyConstant env name cinfo internalPrefixes then
-          entries := entries.insert name apiMeta
-    | none => continue
+      if modulePrefix.isPrefixOf modName then acc.push (name, cinfo) else acc
+    | none => acc
+
+  let total := relevantConsts.size
+  IO.println s!"  Classifying {total} declarations..."
+
+  let mut processed := 0
+  let progressInterval := max 1 (total / 20)  -- Report every 5%
+
+  for (name, cinfo) in relevantConsts do
+    processed := processed + 1
+    if processed % progressInterval == 0 then
+      let pct := (processed * 100) / total
+      IO.print s!"\r  Progress: {processed}/{total} ({pct}%)    "
+      (← IO.getStdout).flush
+
+    if let some apiMeta ← classifyConstant env name cinfo internalPrefixes then
+      entries := entries.insert name apiMeta
+
+  IO.println s!"\r  Classified {entries.size} declarations (from {total} total)    "
 
   return { entries, notes }
 

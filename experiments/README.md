@@ -82,6 +82,7 @@ classification_mode = "auto"  # or "annotated"
 | `branch` | string | auto-detect | Git branch (auto-detected if not specified) |
 | `lake_exe_cache_get` | bool | `false` | Run `lake exe cache get` (for mathlib4) |
 | `disable_equations` | bool | `false` | Disable equation generation (avoids timeouts) |
+| `skip_proof_deps` | bool | `false` | Skip proof dependency extraction (significantly speeds up large projects) |
 
 ### Monorepo Support
 

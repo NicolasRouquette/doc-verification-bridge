@@ -286,6 +286,17 @@ def collectBoolFunctionsShallow (e : Expr) (sourceDesc : String := "") : MetaM (
 Extract the names of theorems/lemmas that a proof term directly uses.
 This gives us the "depends on" relationship: if theorem A uses theorem B
 in its proof, then A depends on B.
+
+**Performance Note**: For large projects like mathlib (~180k declarations),
+proof dependency extraction can be extremely slow because proof terms can be
+very large (millions of nodes). Set `skip_proof_deps = true` in config.toml
+to skip this analysis for specific projects.
+
+**Future Optimization**: `collectProofDependencies` is a pure function that
+could be parallelized using `IO.mapTasks`, but this requires restructuring
+the classification pipeline to do a two-pass approach:
+1. First pass: Classify all declarations without proof deps (runs in MetaM)
+2. Second pass: Extract proof deps in parallel (pure, can use worker threads)
 -/
 
 /-- Collect all constant names referenced in an expression (proof term) -/
@@ -427,7 +438,10 @@ def inferTheoremAnnotations (declName : Name) : MetaM InferredTheoremAnnotations
         }
 
     -- Extract proof dependencies (theorems used in the proof term)
-    let dependsOnCandidates := extractProofDependencies env declName internalPrefixes
+    -- Skip if SKIP_PROOF_DEPS=1 (set via skip_proof_deps config option for large projects)
+    let skipProofDeps := (← IO.getEnv "SKIP_PROOF_DEPS").getD "" == "1"
+    let dependsOnCandidates := if skipProofDeps then #[]
+      else extractProofDependencies env declName internalPrefixes
 
     return {
       assumesCandidates
