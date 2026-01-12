@@ -6,10 +6,13 @@ This directory contains the experimental pipeline for evaluating doc-verificatio
 
 The pipeline (implemented in Lean 4):
 1. Clones repositories from the configured list
-2. Sets up a `docvb` subdirectory with proper lakefile.toml
-3. Builds each project
-4. Runs `unified-doc` with the configured classification mode (auto or annotated)
-5. Generates a meta-summary page with sortable statistics
+2. Auto-detects the git branch (or uses configured value)
+3. Sets up a `docvb` subdirectory with proper lakefile
+4. Builds each project
+5. Runs `unified-doc` with the configured classification mode (auto or annotated)
+6. Generates per-module verification reports with source and API links
+7. Detects `sorry` in definitions and theorems
+8. Generates a meta-summary page with sortable statistics
 
 ## Quick Start
 
@@ -51,6 +54,7 @@ Edit `config.toml` to:
 - Add/remove projects
 - Adjust parallelism settings
 - Set classification mode per project
+- Override branch name if needed
 
 All paths in `config.toml` are relative to the experiments directory.
 
@@ -65,9 +69,23 @@ description = "Description for the summary page"
 classification_mode = "auto"  # or "annotated"
 ```
 
+### Project Configuration Options
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `name` | string | required | Project identifier (used for directory names) |
+| `repo` | string | required | Git repository URL |
+| `modules` | array | required | Top-level module name(s) to analyze |
+| `description` | string | `""` | Description shown on summary page |
+| `classification_mode` | string | `"auto"` | `"auto"` or `"annotated"` |
+| `subdirectory` | string | none | Subdirectory for monorepos |
+| `branch` | string | auto-detect | Git branch (auto-detected if not specified) |
+| `lake_exe_cache_get` | bool | `false` | Run `lake exe cache get` (for mathlib4) |
+| `disable_equations` | bool | `false` | Disable equation generation (avoids timeouts) |
+
 ### Monorepo Support
 
-For repositories where the Lean project is in a subdirectory (e.g., monorepos with multiple implementations), use the `subdirectory` field:
+For repositories where the Lean project is in a subdirectory:
 
 ```toml
 [[projects]]
@@ -78,6 +96,18 @@ subdirectory = "mm0-lean4"  # Lean 4 project is in this subdirectory
 description = "Metamath Zero proof language"
 ```
 
+### Branch Auto-Detection
+
+The git branch is automatically detected from the cloned repository. This handles repos that use `master` instead of `main`. You can override this if needed:
+
+```toml
+[[projects]]
+name = "legacy-project"
+repo = "https://github.com/user/legacy-project"
+modules = ["Legacy"]
+branch = "develop"  # Override auto-detection
+```
+
 ### Classification Modes
 
 Each project can specify its classification mode:
@@ -86,16 +116,6 @@ Each project can specify its classification mode:
 |------|-------|-------------|
 | **Auto** | `"auto"` | Automatic heuristic-based classification (default) |
 | **Annotated** | `"annotated"` | Only classify declarations with explicit `@[api_type]`, `@[api_def]`, `@[api_theorem]` annotations |
-
-Example with annotated mode:
-```toml
-[[projects]]
-name = "my-annotated-project"
-repo = "https://github.com/user/my-annotated-project"
-modules = ["MyProject"]
-description = "Project using explicit annotations"
-classification_mode = "annotated"
-```
 
 ## Run Modes
 
@@ -132,7 +152,7 @@ The experiment runner supports three modes for different workflows:
 Each project's state is tracked in `sites/<project>/.state`:
 
 | State | Meaning |
-|-------|--------|
+|-------|---------|
 | `not-started` | Project hasn't been processed yet |
 | `in-progress` | Currently processing (set at start) |
 | `completed` | Successfully finished |
@@ -142,50 +162,88 @@ Each project's state is tracked in `sites/<project>/.state`:
 
 ```
 experiments/
-├── config.toml          # Configuration
-├── run.sh              # Convenience wrapper
-├── repos/              # Cloned repositories
+├── config.toml           # Configuration
+├── run.sh                # Convenience wrapper
+├── repos/                # Cloned repositories
 │   ├── batteries/
 │   ├── mathlib4/
 │   └── ...
-├── sites/              # Generated documentation
-│   ├── index.html      # Meta-summary page
+├── sites/                # Generated documentation
+│   ├── index.html        # Meta-summary page
 │   ├── batteries/
-│   │   ├── .state      # State file (completed/failed/in-progress)
-│   │   └── site/       # MkDocs output
+│   │   ├── .state        # State file
+│   │   ├── commands.yaml # Command execution log
+│   │   ├── index.html    # Status/error page (for incomplete/failed)
+│   │   └── site/         # MkDocs output (for successful builds)
+│   │       ├── index.html
+│   │       ├── api/           # doc-gen4 API documentation
+│   │       └── verification/  # Verification coverage reports
+│   │           ├── index.md   # Module index with statistics
+│   │           └── modules/   # Per-module reports
 │   └── ...
-└── results.json        # Machine-readable results
+└── results.json          # Machine-readable results
 ```
+
+## Generated Documentation
+
+Each successful project generates a unified documentation site with:
+
+### API Documentation (`site/api/`)
+- doc-gen4 generated HTML documentation
+- Searchable API reference
+- Source code links
+
+### Verification Coverage (`site/verification/`)
+- **Module Index**: Overview with aggregated statistics
+- **Per-Module Reports**: Fast-loading individual pages for each source file
+- **Sorry Detection**: Tracks definitions and theorems containing `sorry`
+- **Source Links**: Links to the actual source code on GitHub/GitLab
+- **API Links**: Links to the doc-gen4 documentation for each declaration
+
+### Statistics Tracked
+
+| Category | Description |
+|----------|-------------|
+| **Definitions** | Mathematical abstractions, computational datatypes, math definitions, computational operations |
+| **Theorems** | Computational, mathematical, bridging theorems |
+| **Sorry Count** | Definitions and theorems with `sorry` (incomplete proofs) |
 
 ## Viewing Results
 
 After running `./run.sh serve`:
 
 - **Summary page**: http://localhost:9000/
-- **Individual projects**: Click project links on the summary page (served as subdirectories, e.g., `http://localhost:9000/batteries/site/`)
+- **Successful projects**: Click project name → opens `site/` directory
+- **Incomplete/Failed projects**: Click "View Status" → shows command log
 
-The `serve` command automatically refreshes the summary page from existing coverage data before starting the HTTP server, so you always see up-to-date statistics.
+The summary page displays:
+- Overall statistics cards (projects analyzed, definitions, theorems, bridging, sorry count)
+- Sortable table of successful projects with sorry indicators (⚠️)
+- Separate sections for incomplete projects (⏳) and failed projects (❌)
+- Links to individual documentation sites
+
+### Status Pages
+
+For incomplete or failed projects, clicking "View Status" shows:
+- Current state (Not Started, In Progress, Failed)
+- Repository link
+- Full command execution log (commands.yaml)
+- Link to documentation site if partially generated
 
 To regenerate the summary without starting a server:
 ```bash
 ./run.sh refresh
 ```
 
-> **Tip:** The `refresh` command is safe to run while long-running projects (like mathlib4) are still being analyzed. It only reads existing files and regenerates the summary page—it won't interfere with in-progress builds. Projects still running will show as "Incomplete" in the summary.
-
-The summary page features:
-- Overall statistics cards
-- Sortable table of all projects
-- Links to individual documentation sites
-- List of failed builds with error details
+> **Tip:** The `refresh` command is safe to run while long-running projects (like mathlib4) are still being analyzed. Projects still running will show as "Incomplete" in the summary.
 
 ## Troubleshooting
 
 ### Build Failures
 
 If a project fails to build:
-1. Check the error page at the project's port
-2. Look at the build log in `repos/<project>/`
+1. Click "View Status" on the summary page to see the error
+2. Check `commands.yaml` for the full command execution log
 3. Common issues:
    - Mismatched Lean toolchain versions
    - Missing dependencies
@@ -205,12 +263,28 @@ name = "my-project"
 modules = ["ActualModuleName"]  # Override
 ```
 
+### Branch Issues
+
+If source links point to the wrong branch:
+1. The branch is auto-detected from the cloned repo
+2. Override with `branch = "branch-name"` in config.toml if needed
+3. Re-run the project to regenerate with correct links
+
+## Publishing to GitHub Pages
+
+The generated `site/` folder for each project is ready for GitHub Pages deployment:
+
+1. Copy `sites/<project>/site/` to your GitHub Pages repository
+2. All links are relative, so no configuration needed
+3. Works with both project pages and organization pages
+
 ## For the Paper
 
 After running experiments, `results.json` contains all statistics in machine-readable format for generating tables and figures.
 
 Key metrics:
-- `total_definitions`: Sum of all definition categories
-- `total_theorems`: Sum of all theorem kinds
-- `bridging_theorems`: The key metric for spec-impl correspondence
+- `totalDefinitions`: Sum of all definition categories
+- `totalTheorems`: Sum of all theorem kinds
+- `bridgingTheorems`: The key metric for spec-impl correspondence
+- `defsWithSorry` / `theoremsWithSorry`: Proof completeness metrics
 - Per-category breakdowns for the Four-Category Ontology analysis

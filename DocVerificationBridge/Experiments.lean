@@ -54,6 +54,8 @@ structure Project where
   lakeExeCacheGet : Bool := false
   /-- Whether to disable equation generation (avoids timeouts for complex projects) -/
   disableEquations : Bool := false
+  /-- Git branch name (auto-detected from repo if not specified) -/
+  branch : Option String := none
   deriving Repr, Inhabited
 
 /-- Experiment configuration -/
@@ -151,6 +153,7 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
               let mode := if value == "annotated" then ClassificationMode.annotated
                           else ClassificationMode.auto
               { proj with classificationMode := mode }
+            | "branch" => { proj with branch := some value }
             | _ => proj
           currentProject := some updatedProj
         | none =>
@@ -355,6 +358,19 @@ def runCmd (cmd : String) (args : Array String) (cwd : Option FilePath := none)
     env := env
   }
   return (result.exitCode == 0, result.stdout ++ result.stderr)
+
+/-- Detect the current branch of a git repository -/
+def detectGitBranch (repoDir : FilePath) : IO String := do
+  let result ← IO.Process.output {
+    cmd := "git"
+    args := #["rev-parse", "--abbrev-ref", "HEAD"]
+    cwd := some repoDir
+  }
+  if result.exitCode == 0 then
+    return result.stdout.trimAscii.copy
+  else
+    -- Fallback to main if detection fails
+    return "main"
 
 /-- Clone or update a git repository -/
 def cloneRepository (repoUrl : String) (targetDir : FilePath) : IO (Bool × String) := do
@@ -801,10 +817,60 @@ def generateErrorPage (projectName : String) (errorMsg : String)
 
   IO.FS.writeFile (outputDir / "index.html") html
 
+/-- Generate a status page for in-progress or incomplete projects showing commands.yaml -/
+def generateStatusPage (projectName : String) (repo : String) (outputDir : FilePath)
+    (state : ProjectState) : IO Unit := do
+  -- Read commands.yaml if it exists
+  let commandsPath := outputDir / "commands.yaml"
+  let commandsContent ← if ← commandsPath.pathExists then
+    IO.FS.readFile commandsPath
+  else
+    pure "# No commands recorded yet"
+
+  let stateLabel := match state with
+    | .notStarted => ("⏳", "Not Started", "#888")
+    | .inProgress => ("🔄", "In Progress", "#ffa500")
+    | .completed => ("✅", "Completed", "#4ecdc4")
+    | .failed => ("❌", "Failed", "#ff6b6b")
+
+  let css := "body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 40px; background: #1a1a2e; color: #eee; } h1 { color: #4ecdc4; } h2 { color: #fff; margin-top: 30px; } .status-box { background: #2d2d44; padding: 20px; border-radius: 8px; margin-bottom: 20px; } .status-label { font-size: 1.2em; margin-bottom: 10px; } .repo-link { color: #4ecdc4; } pre { background: #16213e; padding: 15px; border-radius: 4px; overflow-x: auto; font-size: 12px; white-space: pre-wrap; max-height: 600px; overflow-y: auto; } a { color: #4ecdc4; } .site-link { margin-top: 20px; padding: 15px; background: rgba(78, 205, 196, 0.1); border-radius: 8px; border-left: 4px solid #4ecdc4; }"
+
+  let siteLink := if ← (outputDir / "site" / "index.html").pathExists then
+    s!"<div class='site-link'><strong>📚 Site Ready:</strong> <a href='site/'>View Documentation Site</a></div>"
+  else ""
+
+  let html := s!"<!DOCTYPE html>
+<html>
+<head>
+<meta charset=\"UTF-8\">
+<title>{projectName} - Build Status</title>
+<style>{css}</style>
+</head>
+<body>
+<h1>{stateLabel.1} {projectName}</h1>
+<div class='status-box'>
+<p class='status-label'>Status: <span style='color: {stateLabel.2.2}'>{stateLabel.2.1}</span></p>
+<p>Repository: <a class='repo-link' href='{repo}' target='_blank'>{repo}</a></p>
+</div>
+{siteLink}
+<h2>📋 Command Log</h2>
+<pre>{commandsContent}</pre>
+<p><a href='/'>← Back to Summary</a></p>
+</body>
+</html>"
+
+  IO.FS.createDirAll outputDir
+  IO.FS.writeFile (outputDir / "index.html") html
+
 /-- Generate the meta-summary page -/
 def generateSummaryPage (results : Array ProjectResult) (outputPath : FilePath) : IO Unit := do
   let successful := results.filter (·.success)
-  let failed := results.filter (!·.success)
+  let unsuccessful := results.filter (!·.success)
+  -- Separate incomplete (no error message or "Incomplete") from actual failures
+  let incomplete := unsuccessful.filter fun r =>
+    r.errorMessage.isNone || r.errorMessage == some "Incomplete"
+  let failed := unsuccessful.filter fun r =>
+    r.errorMessage.isSome && r.errorMessage != some "Incomplete"
 
   let totalDefs := successful.foldl (· + ·.totalDefinitions) 0
   let totalThms := successful.foldl (· + ·.totalTheorems) 0
@@ -821,18 +887,27 @@ def generateSummaryPage (results : Array ProjectResult) (outputPath : FilePath) 
     let sorryIndicator := if r.defsWithSorry + r.theoremsWithSorry > 0 then "⚠️ " else ""
     tableRows := tableRows ++ s!"<tr><td><a href='{r.name}/site/' target='_blank'>{sorryIndicator}{r.name}</a></td><td>{r.totalDefinitions}</td><td>{r.defsWithSorry}</td><td>{r.totalTheorems}</td><td>{r.theoremsWithSorry}</td><td>{r.bridgingTheorems}</td><td>{r.unclassifiedTheorems}</td></tr>\n"
 
+  -- Build incomplete projects list (not yet started or in progress)
+  let mut incompleteList := ""
+  for r in incomplete do
+    let statusLink := s!"<a href='{r.name}/index.html' target='_blank'>View Status</a>"
+    incompleteList := incompleteList ++ s!"<li><strong>{r.name}</strong><br><small><a href='{r.repo}' target='_blank'>{r.repo}</a> | {statusLink}</small></li>\n"
+
+  let incompleteSection := if incomplete.isEmpty then "" else
+    s!"<div class='section'><h2>⏳ Incomplete Projects ({incomplete.size})</h2><ul class='incomplete-list'>{incompleteList}</ul></div>"
+
+  -- Build failed projects list (actual errors)
   let mut failedList := ""
   for r in failed do
     let errMsg := r.errorMessage.getD "Unknown error"
-    -- Link to error page if it exists (index.html in project directory)
-    let errorLink := s!"<a href='{r.name}/index.html' target='_blank'>View Error Details</a>"
-    failedList := failedList ++ s!"<li><strong>{r.name}</strong> — {errMsg}<br><small><a href='{r.repo}' target='_blank'>{r.repo}</a> | {errorLink}</small></li>\n"
+    let statusLink := s!"<a href='{r.name}/index.html' target='_blank'>View Details</a>"
+    failedList := failedList ++ s!"<li><strong>{r.name}</strong> — {errMsg}<br><small><a href='{r.repo}' target='_blank'>{r.repo}</a> | {statusLink}</small></li>\n"
 
   let failedSection := if failed.isEmpty then "" else
     s!"<div class='section'><h2>❌ Failed Projects ({failed.size})</h2><ul class='failed-list'>{failedList}</ul></div>"
 
   -- CSS without interpolation (no curly braces to escape)
-  let css := "body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 40px; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #eee; min-height: 100vh; } h1 { color: #4ecdc4; margin-bottom: 10px; } .subtitle { color: #888; margin-bottom: 30px; } .summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px; } .card { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; text-align: center; border: 1px solid rgba(255,255,255,0.1); } .card-value { font-size: 2.5em; font-weight: bold; color: #4ecdc4; } .card-label { color: #888; margin-top: 5px; } table { width: 100%; border-collapse: collapse; background: rgba(255,255,255,0.02); border-radius: 12px; overflow: hidden; } th { background: rgba(78, 205, 196, 0.2); padding: 15px; text-align: left; cursor: pointer; user-select: none; } th:hover { background: rgba(78, 205, 196, 0.3); } td { padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); } tr:hover { background: rgba(255,255,255,0.05); } .success { color: #4ecdc4; } .failure { color: #ff6b6b; } a { color: #4ecdc4; text-decoration: none; } a:hover { text-decoration: underline; } .section { margin-bottom: 40px; } .section h2 { color: #fff; border-bottom: 2px solid #4ecdc4; padding-bottom: 10px; margin-bottom: 20px; } .failed-list { list-style: none; padding: 0; } .failed-list li { background: rgba(255, 107, 107, 0.1); padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #ff6b6b; } .timestamp { color: #666; font-size: 0.9em; }"
+  let css := "body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 40px; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #eee; min-height: 100vh; } h1 { color: #4ecdc4; margin-bottom: 10px; } .subtitle { color: #888; margin-bottom: 30px; } .summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px; } .card { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; text-align: center; border: 1px solid rgba(255,255,255,0.1); } .card-value { font-size: 2.5em; font-weight: bold; color: #4ecdc4; } .card-label { color: #888; margin-top: 5px; } table { width: 100%; border-collapse: collapse; background: rgba(255,255,255,0.02); border-radius: 12px; overflow: hidden; } th { background: rgba(78, 205, 196, 0.2); padding: 15px; text-align: left; cursor: pointer; user-select: none; } th:hover { background: rgba(78, 205, 196, 0.3); } td { padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); } tr:hover { background: rgba(255,255,255,0.05); } .success { color: #4ecdc4; } .failure { color: #ff6b6b; } a { color: #4ecdc4; text-decoration: none; } a:hover { text-decoration: underline; } .section { margin-bottom: 40px; } .section h2 { color: #fff; border-bottom: 2px solid #4ecdc4; padding-bottom: 10px; margin-bottom: 20px; } .incomplete-list { list-style: none; padding: 0; } .incomplete-list li { background: rgba(136, 136, 136, 0.1); padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #888; } .failed-list { list-style: none; padding: 0; } .failed-list li { background: rgba(255, 107, 107, 0.1); padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #ff6b6b; } .timestamp { color: #666; font-size: 0.9em; }"
 
   -- JavaScript for table sorting (kept simple without interpolation)
   let js := "document.querySelectorAll('#results-table th').forEach(function(th, index) { th.addEventListener('click', function() { var table = th.closest('table'); var tbody = table.querySelector('tbody'); var rows = Array.from(tbody.querySelectorAll('tr')); var sortType = th.dataset.sort; var isAsc = th.classList.contains('sorted-asc'); table.querySelectorAll('th').forEach(function(h) { h.classList.remove('sorted-asc', 'sorted-desc'); }); rows.sort(function(a, b) { var aVal = a.cells[index].textContent; var bVal = b.cells[index].textContent; if (sortType === 'number') { aVal = parseFloat(aVal) || 0; bVal = parseFloat(bVal) || 0; return isAsc ? bVal - aVal : aVal - bVal; } else { return isAsc ? bVal.localeCompare(aVal) : aVal.localeCompare(bVal); } }); rows.forEach(function(row) { tbody.appendChild(row); }); th.classList.add(isAsc ? 'sorted-desc' : 'sorted-asc'); }); });"
@@ -866,6 +941,7 @@ def generateSummaryPage (results : Array ProjectResult) (outputPath : FilePath) 
 <tbody>{tableRows}</tbody>
 </table>
 </div>
+{incompleteSection}
 {failedSection}
 <script>{js}</script>
 </body>
@@ -945,6 +1021,12 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
       writeProjectState config.sitesDir name .failed
       return { name, repo, success := false,
                errorMessage := some "Clone failed", buildLog := cloneLog }
+
+  -- Detect git branch (use configured value or auto-detect from repo)
+  let branch ← match project.branch with
+    | some b => pure b
+    | none => detectGitBranch repoDir
+  IO.println s!"[{name}] Using branch: {branch}"
 
   -- Verify the project directory exists (relevant for subdirectory projects)
   if !(← projectDir.pathExists) then
@@ -1042,7 +1124,8 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
   let outputDirAbs ← IO.FS.realPath outputDir
   let unifiedArgs := #["exe", "unified-doc", "unified", modeFlag,
                        "--output", outputDirAbs.toString,
-                       "--repo", repo] ++ modules
+                       "--repo", repo,
+                       "--branch", branch] ++ modules
   let env : Array (String × Option String) := if project.disableEquations then
     #[("DISABLE_EQUATIONS", some "1")]
   else
@@ -1264,6 +1347,11 @@ def refreshSummary (configPath : FilePath) : IO UInt32 := do
       | .failed => (false, some "Previously failed")
       | .inProgress => (false, some "Incomplete")
       | .notStarted => (false, some "Not started")
+
+    -- Generate status page for incomplete projects (shows commands.yaml)
+    -- Don't overwrite error pages for failed projects
+    if !success && state != .failed then
+      generateStatusPage name repo outputDir state
 
     let result : ProjectResult := { stats with
       name, repo, success,
