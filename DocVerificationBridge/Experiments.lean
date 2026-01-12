@@ -576,7 +576,8 @@ def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
 open Lake DSL
 
 package docvb where
-  -- Each docvb has its own packages dir for toolchain isolation
+  -- Share parent project's packagesDir so we can find transitive dependencies
+  packagesDir := \"../.lake/packages\"
 
 -- Require the main project
 require «{mainPackage}» from \"../\"
