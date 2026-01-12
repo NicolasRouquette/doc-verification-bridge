@@ -9,6 +9,7 @@ import DocGen4.Process.Analyze
 import DocGen4.Process.Hierarchy
 import DocVerificationBridge.Classify
 import DocVerificationBridge.Report
+import DocVerificationBridge.SourceLinkerCompat
 
 /-!
 # Unified Documentation Pipeline (MkDocs-First)
@@ -221,12 +222,10 @@ def generateDocGen4ToTemp (cfg : UnifiedConfig) (result : UnifiedResult) : IO Sy
       let srcUrl := s!"{baseUrl}/blob/{gitRef}/"
       -- Create custom linker for better source link handling
       let linker := makeSourceLinker srcUrl
-      -- Convert to doc-gen4's SourceLinkerFn type: Option String → Name → Option DeclarationRange → String
-      let sourceLinkerFn : DocGen4.SourceLinkerFn := fun _srcUrl? modName range => linker modName range
-      pure (some srcUrl, some sourceLinkerFn)
+      pure (some srcUrl, some linker)
 
-  -- Use doc-gen4's native 4-argument API (custom source linker support merged upstream)
-  discard <| DocGen4.htmlOutputResults baseConfig result.analyzerResult sourceUrl? customLinker?
+  -- Use compatibility shim - will use custom linker if SourceLinkerCompatCustom is copied
+  discard <| htmlOutputResultsCompat baseConfig result.analyzerResult sourceUrl? customLinker?
   DocGen4.htmlOutputIndex baseConfig
 
   IO.println s!"  Generated API docs to {apiTempDir}/"
