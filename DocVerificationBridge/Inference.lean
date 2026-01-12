@@ -154,9 +154,26 @@ deriving Repr, Inhabited
 ## Core Inference Logic
 -/
 
+/-- Cache for whnf results on type expressions.
+    Used to avoid redundant whnf calls on the same type within a declaration. -/
+abbrev WhnfCache := IO.Ref (Std.HashMap Expr Expr)
+
+/-- Create a new whnf cache -/
+def WhnfCache.new : IO WhnfCache := IO.mkRef {}
+
+/-- Cached whnf for type expressions.
+    Use this for whnf calls on types (which have high sharing).
+    Don't use for whnf calls during expression traversal (which vary per call). -/
+def whnfCached (cache : WhnfCache) (e : Expr) : MetaM Expr := do
+  if let some result := (← cache.get).get? e then
+    return result
+  let result ← whnf e
+  cache.modify (·.insert e result)
+  return result
+
 /-- Check if an expression is a type class constraint -/
-def isTypeClassConstraint (e : Expr) : MetaM Bool := do
-  let e ← whnf e
+def isTypeClassConstraint (cache : WhnfCache) (e : Expr) : MetaM Bool := do
+  let e ← whnfCached cache e
   match e.getAppFn with
   | .const name _ =>
     let env ← getEnv
@@ -168,8 +185,8 @@ def ppTypeShort (e : Expr) : MetaM String := do
   let fmt ← ppExpr e
   let str := fmt.pretty
   if str.length > 60 then
-    -- Use toList/take/mk for cross-version compatibility (works in v4.24.0 through v4.27.0+)
-    return String.mk (str.toList.take 57) ++ "..."
+    -- Use toList/take/ofList for cross-version compatibility
+    return String.ofList (str.toList.take 57) ++ "..."
   else
     return str
 
@@ -235,7 +252,7 @@ partial def collectHeadConstantsFromTerm (e : Expr) (sourceDesc : String := "") 
 end
 
 /-- Extract Bool-returning function from `f x = true` or `f x = false` pattern -/
-def extractBoolFunction (e : Expr) : MetaM (Option Name) := do
+def extractBoolFunction (cache : WhnfCache) (e : Expr) : MetaM (Option Name) := do
   match e.getAppFn, e.getAppArgs with
   | .const ``Eq _, #[_, lhs, rhs] =>
     let isTrueOrFalse := match rhs with
@@ -246,7 +263,8 @@ def extractBoolFunction (e : Expr) : MetaM (Option Name) := do
       match lhs.getAppFn with
       | .const name _ =>
         let lhsType ← try inferType lhs catch _ => pure (mkConst ``Bool)
-        let lhsType ← whnf lhsType
+        -- Use cached whnf since lhsType is a type expression (high sharing potential)
+        let lhsType ← whnfCached cache lhsType
         if lhsType.isConstOf ``Bool then return some name
         else return none
       | _ => return none
@@ -254,27 +272,27 @@ def extractBoolFunction (e : Expr) : MetaM (Option Name) := do
   | _, _ => return none
 
 /-- Collect Bool-returning functions from bridging patterns -/
-def collectBoolFunctionsShallow (e : Expr) (sourceDesc : String := "") : MetaM (Array (Name × String)) := do
+def collectBoolFunctionsShallow (cache : WhnfCache) (e : Expr) (sourceDesc : String := "") : MetaM (Array (Name × String)) := do
   let mut result : Array (Name × String) := #[]
 
-  if let some name ← extractBoolFunction e then
+  if let some name ← extractBoolFunction cache e then
     unless shouldFilter name do
       result := result.push (name, sourceDesc)
 
   if let some (p, q) := e.app2? ``Iff then
     let iffSourceDesc := s!"{sourceDesc} (Iff)"
-    if let some name ← extractBoolFunction p then
+    if let some name ← extractBoolFunction cache p then
       unless shouldFilter name do
         result := result.push (name, iffSourceDesc)
-    if let some name ← extractBoolFunction q then
+    if let some name ← extractBoolFunction cache q then
       unless shouldFilter name do
         result := result.push (name, iffSourceDesc)
 
   if let some (p, q) := e.app2? ``And then
-    if let some name ← extractBoolFunction p then
+    if let some name ← extractBoolFunction cache p then
       unless shouldFilter name do
         result := result.push (name, sourceDesc)
-    if let some name ← extractBoolFunction q then
+    if let some name ← extractBoolFunction cache q then
       unless shouldFilter name do
         result := result.push (name, sourceDesc)
 
@@ -379,6 +397,9 @@ def inferTheoremAnnotations (declName : Name) : MetaM InferredTheoremAnnotations
   let internalPrefixes := getInternalPrefixes env declName
   let type := constInfo.type
 
+  -- Create whnf cache for type expressions within this declaration
+  let cache ← WhnfCache.new
+
   forallTelescope type fun params conclusion => do
     let mut assumesCandidates : Array InferredName := #[]
     let mut provesCandidates : Array InferredName := #[]
@@ -389,9 +410,10 @@ def inferTheoremAnnotations (declName : Name) : MetaM InferredTheoremAnnotations
     -- Process each parameter (hypothesis)
     for param in params do
       let paramType ← inferType param
-      let paramTypeWhnf ← whnf paramType
+      -- Use cached whnf since paramType is a type expression (high sharing potential)
+      let paramTypeWhnf ← whnfCached cache paramType
 
-      if ← isTypeClassConstraint paramTypeWhnf then
+      if ← isTypeClassConstraint cache paramTypeWhnf then
         continue
 
       if ← isProp paramTypeWhnf then
@@ -408,7 +430,7 @@ def inferTheoremAnnotations (declName : Name) : MetaM InferredTheoremAnnotations
               name := head, source := src, isInternal := isInt
             }
 
-        let boolFuns ← collectBoolFunctionsShallow paramType sourceDesc
+        let boolFuns ← collectBoolFunctionsShallow cache paramType sourceDesc
         for (head, src) in boolFuns do
           unless seenValidates.contains head do
             seenValidates := seenValidates.push head
@@ -428,7 +450,7 @@ def inferTheoremAnnotations (declName : Name) : MetaM InferredTheoremAnnotations
           name := head, source := src, isInternal := isInt
         }
 
-    let concBoolFuns ← collectBoolFunctionsShallow conclusion concSourceDesc
+    let concBoolFuns ← collectBoolFunctionsShallow cache conclusion concSourceDesc
     for (head, src) in concBoolFuns do
       unless seenValidates.contains head do
         seenValidates := seenValidates.push head
