@@ -56,6 +56,8 @@ structure Project where
   disableEquations : Bool := false
   /-- Git branch name (auto-detected from repo if not specified) -/
   branch : Option String := none
+  /-- Whether to skip proof dependency extraction (significantly speeds up large projects) -/
+  skipProofDeps : Bool := false
   deriving Repr, Inhabited
 
 /-- Experiment configuration -/
@@ -143,6 +145,7 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
             | "subdirectory" => { proj with subdirectory := some value }
             | "lake_exe_cache_get" => { proj with lakeExeCacheGet := value == "true" }
             | "disable_equations" => { proj with disableEquations := value == "true" }
+            | "skip_proof_deps" => { proj with skipProofDeps := value == "true" }
             | "modules" =>
               -- Parse array like ["Batteries"]
               let mods := value.replace "[" "" |>.replace "]" ""
@@ -1127,10 +1130,11 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
                        "--output", outputDirAbs.toString,
                        "--repo", repo,
                        "--branch", branch] ++ modules
-  let env : Array (String × Option String) := if project.disableEquations then
-    #[("DISABLE_EQUATIONS", some "1")]
-  else
-    #[]
+  let mut env : Array (String × Option String) := #[]
+  if project.disableEquations then
+    env := env.push ("DISABLE_EQUATIONS", some "1")
+  if project.skipProofDeps then
+    env := env.push ("SKIP_PROOF_DEPS", some "1")
 
   let (docOk, docLog, newLog) ← runCmdLogged "unified-doc" "lake" unifiedArgs (some docvbDir) cmdLog (some logCtx) 3600 env
   cmdLog := newLog
