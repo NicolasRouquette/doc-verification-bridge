@@ -139,31 +139,31 @@ The generated documentation will be in `docbuild/docs/`.
 
 For very large projects like mathlib4, proof dependency extraction can be slow because it traverses proof terms to find which lemmas each theorem uses.
 
-### Environment Variables
+### CLI Flags
 
-| Variable | Effect |
-|----------|--------|
-| `SKIP_PROOF_DEPS=1` | Skip proof dependency extraction entirely (fastest, no `dependsOn` data) |
-| `PROOF_DEP_WORKERS=N` | Use up to N worker threads for parallel proof extraction |
+| Flag | Effect |
+|------|--------|
+| `--skip-proof-deps` | Skip proof dependency extraction entirely (fastest, no `dependsOn` data) |
+| `--proof-dep-workers N` | Use up to N worker threads for parallel proof extraction |
 
 **Example:**
 ```bash
 # Skip proof deps entirely (fastest)
-SKIP_PROOF_DEPS=1 lake exe unified-doc unified --auto --output docs Mathlib
+lake exe unified-doc unified --auto --skip-proof-deps --output docs Mathlib
 
 # Parallel proof extraction with 8 workers
-PROOF_DEP_WORKERS=8 lake exe unified-doc unified --auto --output docs Mathlib
+lake exe unified-doc unified --auto --proof-dep-workers 8 --output docs Mathlib
 ```
 
 ### How Parallel Extraction Works
 
-When `PROOF_DEP_WORKERS` is set to a value > 0, the classifier uses a two-phase approach:
+When `--proof-dep-workers N` is specified with N > 0, the classifier uses a two-phase approach:
 1. **Phase 1 (Sequential in MetaM)**: Extract type information, infer theorem kinds, and detect `sorry` usage
 2. **Phase 2 (Parallel in IO)**: Extract proof dependencies using worker threads
 
 This provides good speedup while maintaining correctness, since proof term traversal is pure and can be safely parallelized.
 
-> **Tip:** For batch analysis of multiple projects, see the [experiments pipeline](experiments/README.md) which handles this configuration via TOML.
+> **Tip:** For batch analysis of multiple projects, see the [experiments pipeline](experiments/README.md) which handles this configuration via TOML (`skip_proof_deps` and `proof_dep_workers` fields).
 
 ---
 

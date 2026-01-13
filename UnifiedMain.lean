@@ -27,6 +27,31 @@ The unified mode shares module loading for efficiency.
 
 open Lean System Cli DocVerificationBridge DocVerificationBridge.Unified
 
+/-!
+## Timing Helpers
+-/
+
+/-- Format milliseconds as human-readable duration -/
+def formatDuration (ms : Nat) : String :=
+  let secs := ms / 1000
+  let mins := secs / 60
+  let hours := mins / 60
+  if hours > 0 then
+    s!"{hours}h {mins % 60}m {secs % 60}s"
+  else if mins > 0 then
+    s!"{mins}m {secs % 60}s"
+  else
+    s!"{secs}.{(ms % 1000) / 100}s"
+
+/-- Print a timed step message with delta and cumulative time -/
+def printTimedStep (step : String) (startTime : Nat) (lastStepTime : Nat) : IO Nat := do
+  let now ← IO.monoMsNow
+  let delta := now - lastStepTime
+  let total := now - startTime
+  IO.println s!"{step} (Δ{formatDuration delta}, total: {formatDuration total})"
+  (← IO.getStdout).flush
+  return now
+
 /-- Classification mode for the verification analysis -/
 inductive ClassificationMode
   | auto      -- Automatic heuristic-based classification
@@ -70,19 +95,23 @@ def classifyAnnotatedDeclarations (env : Environment) (modName : Name) : MetaM C
 
 /-- Classify declarations based on the selected mode -/
 def classifyWithMode (env : Environment) (modName : Name) (mode : ClassificationMode)
+    (skipProofDeps : Bool := false) (proofDepWorkers : Nat := 0)
     : MetaM ClassificationResult := do
   match mode with
   | .auto =>
     -- Use automatic heuristic-based classification
-    classifyAllDeclarations env modName
+    classifyAllDeclarations env modName skipProofDeps proofDepWorkers
   | .annotated =>
     -- Only collect declarations with explicit annotations
     classifyAnnotatedDeclarations env modName
 
 /-- Load modules and analyze with the specified classification mode -/
 def loadAndAnalyzeWithMode (cfg : UnifiedConfig) (modules : Array Name)
-    (mode : ClassificationMode) : IO UnifiedResult := do
-  -- Initialize search path
+    (mode : ClassificationMode) : IO (UnifiedResult × Nat × Nat) := do
+  -- Initialize search path and timing
+  let pipelineStart ← IO.monoMsNow
+  let mut lastStep := pipelineStart
+
   Lean.initSearchPath (← Lean.findSysroot)
 
   IO.println s!"unified-doc [1/7]: Loading {modules.size} module(s)..."
@@ -109,17 +138,19 @@ def loadAndAnalyzeWithMode (cfg : UnifiedConfig) (modules : Array Name)
   }
   let ((analyzerResult, hierarchy), _) ← Meta.MetaM.toIO (DocGen4.Process.process task) config { env := env } {} {}
 
-  IO.println s!"  Loaded {analyzerResult.moduleInfo.size} modules"
-  (← IO.getStdout).flush
+  lastStep ← printTimedStep s!"  Loaded {analyzerResult.moduleInfo.size} modules" pipelineStart lastStep
 
   -- Build git file cache from the source directory
-  IO.println s!"unified-doc [2/6]: Building git file cache from {cfg.sourceDir}..."
-  let gitCache ← buildGitFileCacheIn cfg.sourceDir
-  IO.println s!"  Found {gitCache.allFiles.size} .lean files"
+  IO.println s!"unified-doc [2/7]: Building git file cache from {cfg.sourceDir}..."
   (← IO.getStdout).flush
+  let gitCache ← buildGitFileCacheIn cfg.sourceDir
+  lastStep ← printTimedStep s!"  Found {gitCache.allFiles.size} .lean files" pipelineStart lastStep
 
   -- Run classification with the specified mode
-  IO.println s!"unified-doc [3/7]: Classifying declarations (mode: {repr mode})..."
+  let proofDepsInfo := if cfg.skipProofDeps then " (no proof deps)"
+                       else if cfg.proofDepWorkers > 0 then s!" ({cfg.proofDepWorkers} workers)"
+                       else " (sequential)"
+  IO.println s!"unified-doc [3/7]: Classifying declarations (mode: {repr mode}){proofDepsInfo}..."
   (← IO.getStdout).flush
 
   let mut allEntries : NameMap APIMeta := {}
@@ -132,31 +163,31 @@ def loadAndAnalyzeWithMode (cfg : UnifiedConfig) (modules : Array Name)
       maxHeartbeats := 0  -- Unlimited heartbeats for classification
     }
     let coreState : Core.State := { env }
-    let (result, _) ← (classifyWithMode env modName mode).run' {} |>.toIO coreCtx coreState
+    let (result, _) ← (classifyWithMode env modName mode cfg.skipProofDeps cfg.proofDepWorkers).run' {} |>.toIO coreCtx coreState
     allEntries := result.entries.foldl (fun acc name apiMeta => acc.insert name apiMeta) allEntries
 
-  IO.println s!"  Classified {allEntries.size} declarations"
-  (← IO.getStdout).flush
+  lastStep ← printTimedStep s!"  Classified {allEntries.size} declarations" pipelineStart lastStep
 
   if mode == .annotated && allEntries.isEmpty then
     IO.println "  ⚠ Warning: No annotated declarations found."
     IO.println "    Use @[api_type], @[api_def], or @[api_theorem] to annotate declarations,"
     IO.println "    or use --auto mode for automatic classification."
 
-  return {
+  return ({
     analyzerResult
     hierarchy
     env
     verificationEntries := allEntries
     gitCache
-  }
+  }, pipelineStart, lastStep)
 
 /-- Run unified pipeline with specified classification mode -/
 def runUnifiedPipelineWithMode (cfg : UnifiedConfig) (modules : Array Name)
     (mode : ClassificationMode) : IO UInt32 := do
   try
     -- Step 1: Load and analyze with the specified mode
-    let result ← loadAndAnalyzeWithMode cfg modules mode
+    let (result, pipelineStart, lastStepInit) ← loadAndAnalyzeWithMode cfg modules mode
+    let mut lastStep := lastStepInit
 
     -- Step 2: Generate doc-gen4 to temp location (or use existing)
     let apiTempDir := cfg.buildDir / "api-temp"
@@ -166,21 +197,27 @@ def runUnifiedPipelineWithMode (cfg : UnifiedConfig) (modules : Array Name)
       let expectedDoc := apiTempDir / "doc"
       if !(← expectedDoc.pathExists) then
         throw <| IO.userError s!"--skip-docgen requires existing doc-gen4 output at {expectedDoc}"
-      IO.println s!"  Found existing API docs at {apiTempDir}/"
+      lastStep ← printTimedStep s!"  Found existing API docs at {apiTempDir}/" pipelineStart lastStep
     else
       let _ ← generateDocGen4ToTemp cfg result
+      lastStep ← printTimedStep s!"  Generated API docs to {apiTempDir}/" pipelineStart lastStep
 
     -- Step 3: Generate MkDocs site (includes verification)
     let siteDir ← generateUnifiedMkDocsSite cfg result (modules.toList.map toString)
+    lastStep ← printTimedStep s!"  Generated MkDocs site at {siteDir}/" pipelineStart lastStep
 
     -- Step 4: Copy doc-gen4 output into MkDocs site
     IO.println s!"unified-doc [7/7]: Copying API docs into site..."
     let apiDestDir := siteDir / "api"
     copyDirRecursive (apiTempDir / "doc") apiDestDir
-    IO.println s!"  Copied API docs to {apiDestDir}/"
+    let _ ← printTimedStep s!"  Copied API docs to {apiDestDir}/" pipelineStart lastStep
+
+    -- Final timing
+    let finalTime ← IO.monoMsNow
+    let totalDuration := finalTime - pipelineStart
 
     IO.println ""
-    IO.println "✅ Unified documentation generated successfully!"
+    IO.println s!"✅ Unified documentation generated successfully! (total: {formatDuration totalDuration})"
     IO.println s!"   Site:          {siteDir}/"
     IO.println s!"   Home:          {siteDir}/index.html"
     IO.println s!"   API:           {siteDir}/api/index.html"
@@ -189,10 +226,10 @@ def runUnifiedPipelineWithMode (cfg : UnifiedConfig) (modules : Array Name)
     IO.println "To serve locally:"
     IO.println s!"   python3 -m http.server -d {siteDir} 8000"
 
-    return 0
+    return (0 : UInt32)
   catch e =>
     IO.eprintln s!"Error: {e}"
-    return 1
+    return (1 : UInt32)
 
 /-- Run the unified doc-gen4 + verification pipeline -/
 def runUnifiedCmd (args : Cli.Parsed) : IO UInt32 := do
@@ -217,9 +254,15 @@ def runUnifiedCmd (args : Cli.Parsed) : IO UInt32 := do
     sourceDir := args.flag? "source-dir" |>.map (·.as! String) |>.map (·) |>.getD ".."
     generateVerification := !(args.hasFlag "no-verification")
     skipDocGen := args.hasFlag "skip-docgen"
+    proofDepWorkers := args.flag? "proof-dep-workers" |>.map (·.as! Nat) |>.getD 0
+    skipProofDeps := args.hasFlag "skip-proof-deps"
   }
 
   IO.println s!"Classification mode: {repr mode}"
+  if cfg.skipProofDeps then
+    IO.println s!"Proof deps: skipped"
+  else if cfg.proofDepWorkers > 0 then
+    IO.println s!"Proof dep workers: {cfg.proofDepWorkers}"
   (← IO.getStdout).flush
   runUnifiedPipelineWithMode cfg (modules.map String.toName) mode
 
@@ -356,6 +399,8 @@ def unifiedCmd := `[Cli|
     "source-dir" : String;   "Source directory for git file lookup (default: ..)"
     "no-verification";       "Skip verification report generation"
     "skip-docgen";           "Skip doc-gen4 generation (use existing api-temp output)"
+    "skip-proof-deps";       "Skip proof dependency extraction (faster, but no dependsOn data)"
+    "proof-dep-workers" : Nat; "Number of parallel workers for proof dep extraction (default: 0 = sequential)"
     auto;                    "Use automatic heuristic-based classification (default)"
     annotated;               "Only classify declarations with explicit @[api_*] annotations"
 

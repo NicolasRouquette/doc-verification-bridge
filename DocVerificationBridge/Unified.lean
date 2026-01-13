@@ -58,6 +58,10 @@ structure UnifiedConfig where
   generateVerification : Bool := true
   /-- Whether to skip doc-gen4 generation (use existing api-temp output) -/
   skipDocGen : Bool := false
+  /-- Number of workers for parallel proof dependency extraction (0 = sequential) -/
+  proofDepWorkers : Nat := 0
+  /-- Skip proof dependency extraction entirely -/
+  skipProofDeps : Bool := false
 deriving Repr, Inhabited
 
 /-- Result of the unified pipeline -/
@@ -677,7 +681,7 @@ def generateUnifiedMkDocsSite (cfg : UnifiedConfig) (result : UnifiedResult) (mo
   let siteDir ← IO.FS.realPath (cfg.buildDir / "site")
   IO.println s!"unified-doc: Running mkdocs build..."
   (← IO.getStdout).flush
-  
+
   let mkdocsResult ← IO.Process.output {
     cmd := "mkdocs"
     args := #["build", "--site-dir", siteDir.toString]
