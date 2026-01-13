@@ -25,10 +25,11 @@ inductive ProjectState where
 
 /-- Run mode for experiments -/
 inductive RunMode where
-  | fresh     -- Process all projects from scratch
-  | resume    -- Skip completed, restart incomplete
-  | update    -- Update repos and re-run for all
-  | reanalyze -- Skip build, only re-run unified-doc analysis (requires existing build)
+  | fresh      -- Process all projects from scratch
+  | resume     -- Skip completed, restart incomplete
+  | update     -- Update repos and re-run for all
+  | reanalyze  -- Skip build, only re-run unified-doc analysis (requires existing build)
+  | reclassify -- Skip build AND doc-gen4, only re-run classification (requires existing doc-gen4 output)
   deriving Repr, Inhabited, BEq
 
 /-- Classification mode for documentation generation -/
@@ -1009,22 +1010,27 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
     -- Skip build entirely, only re-run unified-doc (requires existing build)
     IO.println s!"[{name}] Reanalyze mode - skipping build, running unified-doc only"
     removeDir outputDir  -- Remove generated site to force regeneration
+  | .reclassify =>
+    -- Skip build AND doc-gen4, only re-run classification (requires existing api-temp)
+    IO.println s!"[{name}] Reclassify mode - skipping build and doc-gen4, running classification only"
+    removeDir outputDir  -- Remove generated site to force regeneration
 
   -- Mark as in-progress
   writeProjectState config.sitesDir name .inProgress
 
   IO.println s!"[{name}] Starting processing..."
 
-  -- Clone or update repository (skip for reanalyze mode)
-  if mode == .reanalyze then
-    -- Reanalyze mode: verify repo and build exist
+  -- Clone or update repository (skip for reanalyze/reclassify modes)
+  if mode == .reanalyze || mode == .reclassify then
+    -- Reanalyze/reclassify mode: verify repo and build exist
+    let modeName := if mode == .reclassify then "reclassify" else "reanalyze"
     if !(← repoDir.pathExists) then
-      let errMsg := s!"Reanalyze mode requires existing repo at {repoDir}"
+      let errMsg := s!"{modeName} mode requires existing repo at {repoDir}"
       generateErrorPage name errMsg "" outputDir
       writeProjectState config.sitesDir name .failed
       return { name, repo, success := false,
                errorMessage := some errMsg, siteDir := some outputDir }
-    IO.println s!"[{name}] [1/6] Using existing repository (reanalyze mode)"
+    IO.println s!"[{name}] [1/6] Using existing repository ({modeName} mode)"
   else if mode == .update && (← repoDir.pathExists) then
     IO.println s!"[{name}] [1/6] Updating repository..."
     let (pullOk, pullLog, newLog) ← runCmdLogged "git-pull" "git" #["pull"] (some repoDir) cmdLog (some logCtx)
@@ -1076,14 +1082,15 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
              errorMessage := some s!"Toolchain incompatibility: project uses {tcCheck.projectToolchain}, requires {tcCheck.dvbToolchain}",
              siteDir := some outputDir }
 
-  -- Build main project (skip for reanalyze mode)
+  -- Build main project (skip for reanalyze/reclassify modes)
   let mut buildLog := ""
-  if mode == .reanalyze then
-    IO.println s!"[{name}] [4/6] Skipping build (reanalyze mode - using existing build)"
+  if mode == .reanalyze || mode == .reclassify then
+    let modeName := if mode == .reclassify then "reclassify" else "reanalyze"
+    IO.println s!"[{name}] [4/6] Skipping build ({modeName} mode - using existing build)"
     -- Verify .lake/build exists
     let lakeBuildDir := projectDir / ".lake" / "build"
     if !(← lakeBuildDir.pathExists) then
-      let errMsg := s!"Reanalyze mode requires existing build at {lakeBuildDir}"
+      let errMsg := s!"{modeName} mode requires existing build at {lakeBuildDir}"
       generateErrorPage name errMsg "" outputDir (some tcCheck)
       writeProjectState config.sitesDir name .failed
       return { name, repo, success := false,
@@ -1156,10 +1163,13 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
   let modeFlag := if project.classificationMode == .annotated then "--annotated" else "--auto"
   -- Convert outputDir to absolute path since unified-doc runs from docvbDir
   let outputDirAbs ← IO.FS.realPath outputDir
-  let unifiedArgs := #["exe", "unified-doc", "unified", modeFlag,
+  let mut unifiedArgs := #["exe", "unified-doc", "unified", modeFlag,
                        "--output", outputDirAbs.toString,
                        "--repo", repo,
                        "--branch", branch] ++ modules
+  -- Add --skip-docgen flag for reclassify mode
+  if mode == .reclassify then
+    unifiedArgs := unifiedArgs ++ #["--skip-docgen"]
   let mut env : Array (String × Option String) := #[]
   if project.disableEquations then
     env := env.push ("DISABLE_EQUATIONS", some "1")
@@ -1259,6 +1269,7 @@ def runExperiments (configPath : FilePath) (mode : RunMode := .fresh)
     | .resume => "resume"
     | .update => "update"
     | .reanalyze => "reanalyze"
+    | .reclassify => "reclassify"
   let filterStr := match projectFilter with
     | some names => s!" (filtered: {names})"
     | none => ""
@@ -1460,6 +1471,7 @@ def experimentsMain (args : List String) : IO UInt32 := do
   | ["run", "--resume"] => Experiments.runExperiments "config.toml" .resume projectFilter
   | ["run", "--update"] => Experiments.runExperiments "config.toml" .update projectFilter
   | ["run", "--reanalyze"] => Experiments.runExperiments "config.toml" .reanalyze projectFilter
+  | ["run", "--reclassify"] => Experiments.runExperiments "config.toml" .reclassify projectFilter
   | ["run", "--config", path] => Experiments.runExperiments path .fresh projectFilter
   | ["run", "--resume", "--config", path] => Experiments.runExperiments path .resume projectFilter
   | ["run", "--config", path, "--resume"] => Experiments.runExperiments path .resume projectFilter
@@ -1467,6 +1479,8 @@ def experimentsMain (args : List String) : IO UInt32 := do
   | ["run", "--config", path, "--update"] => Experiments.runExperiments path .update projectFilter
   | ["run", "--reanalyze", "--config", path] => Experiments.runExperiments path .reanalyze projectFilter
   | ["run", "--config", path, "--reanalyze"] => Experiments.runExperiments path .reanalyze projectFilter
+  | ["run", "--reclassify", "--config", path] => Experiments.runExperiments path .reclassify projectFilter
+  | ["run", "--config", path, "--reclassify"] => Experiments.runExperiments path .reclassify projectFilter
   -- Serve commands
   | ["serve"] => Experiments.serveResults "config.toml"
   | ["serve", "--config", path] => Experiments.serveResults path
@@ -1485,6 +1499,7 @@ def experimentsMain (args : List String) : IO UInt32 := do
     IO.println "  --resume             Skip completed projects, restart incomplete/failed ones"
     IO.println "  --update             Update git repos and regenerate docs for all projects"
     IO.println "  --reanalyze          Re-run unified-doc analysis only (skip build, requires existing build)"
+    IO.println "  --reclassify         Re-run classification only (skip build AND doc-gen4)"
     IO.println "  --config <path>      Path to config.toml (default: ./config.toml)"
     IO.println "  --projects <names>   Only run specified projects (space-separated)"
     IO.println ""
@@ -1496,6 +1511,7 @@ def experimentsMain (args : List String) : IO UInt32 := do
     IO.println "  experiments run --resume                 # Continue interrupted run"
     IO.println "  experiments run --update                 # Update repos and regenerate"
     IO.println "  experiments run --reanalyze --projects mathlib4  # Re-analyze without rebuild"
+    IO.println "  experiments run --reclassify --projects mathlib4 # Re-classify (uses existing doc-gen4)"
     IO.println "  experiments run --projects mathlib4      # Run only mathlib4"
     IO.println "  experiments run --projects batteries mm0 # Run batteries and mm0"
     IO.println "  experiments run --update --projects mathlib4  # Update only mathlib4"
