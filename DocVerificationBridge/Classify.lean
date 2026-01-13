@@ -328,17 +328,16 @@ def classifyAllDeclarationsParallel (env : Environment) (modulePrefix : Name) (n
 
   return { entries, notes }
 
-/-- Classify all declarations from relevant modules -/
-def classifyAllDeclarations (env : Environment) (modulePrefix : Name) : MetaM ClassificationResult := do
+/-- Classify all declarations from relevant modules
+    @param skipProofDeps If true, skip proof dependency extraction entirely (fast mode)
+    @param proofDepWorkers Number of parallel workers for proof dep extraction (0 = sequential) -/
+def classifyAllDeclarations (env : Environment) (modulePrefix : Name)
+    (skipProofDeps : Bool := false) (proofDepWorkers : Nat := 0) : MetaM ClassificationResult := do
   let internalPrefixes := #[modulePrefix.toString]
-
-  -- Check if we should skip proof deps (sequential mode) or use parallel extraction
-  let skipProofDeps := (← IO.getEnv "SKIP_PROOF_DEPS").getD "" == "1"
-  let proofDepWorkers := (← IO.getEnv "PROOF_DEP_WORKERS").getD "0" |>.toNat?.getD 0
 
   if skipProofDeps then
     -- Fast mode: skip proof deps entirely
-    IO.println s!"  (SKIP_PROOF_DEPS=1: skipping proof dependency extraction)"
+    IO.println s!"  (--skip-proof-deps: skipping proof dependency extraction)"
     (← IO.getStdout).flush
     let mut entries : NameMap APIMeta := {}
     let mut notes : Array String := #[]

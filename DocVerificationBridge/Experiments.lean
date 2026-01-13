@@ -281,11 +281,14 @@ def commandLogToYaml (log : CommandLog) (projectName : String) (repo : String) :
     let exitCodeLine := match e.exitCode with
       | some code => s!"    exit_code: {code}\n"
       | none => ""
+    let durationLine := match e.duration_ms with
+      | some ms => s!"    duration_ms: {ms}\n"
+      | none => ""
     s!"  - step: \"{e.step}\"
     command: \"{e.command}\"
     args: [{argsFormatted}]
 {cwdLine}    status: \"{e.status}\"
-{exitCodeLine}"
+{exitCodeLine}{durationLine}"
   let entriesStr := String.intercalate "\n" entries
   s!"# Command log for {projectName}
 # Repository: {repo}
@@ -324,6 +327,7 @@ def runCmdLogged (step : String) (cmd : String) (args : Array String)
     cwd := cwd.map toString
     status := .running
     exitCode := none
+    duration_ms := none
   }
 
   -- Add to log and save BEFORE execution
@@ -332,19 +336,23 @@ def runCmdLogged (step : String) (cmd : String) (args : Array String)
   if let some c := ctx then
     saveCommandLogCtx logWithRunning c
 
-  -- Execute the command
+  -- Record start time and execute the command
+  let startTime ← IO.monoMsNow
   let result ← IO.Process.output {
     cmd := cmd
     args := args
     cwd := cwd
     env := env
   }
+  let endTime ← IO.monoMsNow
+  let durationMs := endTime - startTime
 
   -- Update entry with result
   let completedEntry : CommandLogEntry := {
     runningEntry with
     status := if result.exitCode == 0 then .success else .failed
     exitCode := some result.exitCode
+    duration_ms := some durationMs
   }
 
   -- Replace running entry with completed entry
@@ -1170,13 +1178,15 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
   -- Add --skip-docgen flag for reclassify mode
   if mode == .reclassify then
     unifiedArgs := unifiedArgs ++ #["--skip-docgen"]
+  -- Add proof dep flags as CLI args (instead of env vars)
+  if project.skipProofDeps then
+    unifiedArgs := unifiedArgs ++ #["--skip-proof-deps"]
+  if project.proofDepWorkers > 0 then
+    unifiedArgs := unifiedArgs ++ #["--proof-dep-workers", s!"{project.proofDepWorkers}"]
+  -- Only DISABLE_EQUATIONS still uses env var (not yet a CLI flag)
   let mut env : Array (String × Option String) := #[]
   if project.disableEquations then
     env := env.push ("DISABLE_EQUATIONS", some "1")
-  if project.skipProofDeps then
-    env := env.push ("SKIP_PROOF_DEPS", some "1")
-  if project.proofDepWorkers > 0 then
-    env := env.push ("PROOF_DEP_WORKERS", some s!"{project.proofDepWorkers}")
 
   let (docOk, docLog, newLog) ← runCmdLogged "unified-doc" "lake" unifiedArgs (some docvbDir) cmdLog (some logCtx) 3600 env
   cmdLog := newLog
