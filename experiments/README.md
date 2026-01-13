@@ -82,7 +82,8 @@ classification_mode = "auto"  # or "annotated"
 | `branch` | string | auto-detect | Git branch (auto-detected if not specified) |
 | `lake_exe_cache_get` | bool | `false` | Run `lake exe cache get` (for mathlib4) |
 | `disable_equations` | bool | `false` | Disable equation generation (avoids timeouts) |
-| `skip_proof_deps` | bool | `false` | Skip proof dependency extraction (significantly speeds up large projects) |
+| `skip_proof_deps` | bool | `false` | Skip proof dependency extraction entirely (fastest, but no `dependsOn` data) |
+| `proof_dep_workers` | int | `0` | Upper bound on worker threads for parallel proof extraction (0 = sequential) |
 
 ### Monorepo Support
 
@@ -117,6 +118,31 @@ Each project can specify its classification mode:
 |------|-------|-------------|
 | **Auto** | `"auto"` | Automatic heuristic-based classification (default) |
 | **Annotated** | `"annotated"` | Only classify declarations with explicit `@[api_type]`, `@[api_def]`, `@[api_theorem]` annotations |
+
+### Performance Options for Large Projects
+
+For very large projects like mathlib4, proof dependency extraction can be slow. Two options help:
+
+| Option | Effect | Trade-off |
+|--------|--------|-----------|
+| `skip_proof_deps = true` | Skips proof dependency extraction entirely | Fast, but no `dependsOn` data in reports |
+| `proof_dep_workers = N` | Parallel proof extraction with up to N workers | Full data with better throughput |
+
+**Example for mathlib4:**
+
+```toml
+[[projects]]
+name = "mathlib4"
+repo = "https://github.com/leanprover-community/mathlib4"
+modules = ["Mathlib"]
+lake_exe_cache_get = true     # Use cache for faster build
+disable_equations = true       # Avoid timeout on complex proofs
+proof_dep_workers = 8          # Parallel proof dep extraction with up to 8 workers
+```
+
+The `proof_dep_workers` option uses a two-phase classification:
+1. **Phase 1 (Sequential)**: Extract type information and light annotations in MetaM
+2. **Phase 2 (Parallel)**: Extract proof dependencies using worker threads
 
 ## Run Modes
 

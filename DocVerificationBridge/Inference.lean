@@ -461,6 +461,7 @@ def inferTheoremAnnotations (declName : Name) : MetaM InferredTheoremAnnotations
 
     -- Extract proof dependencies (theorems used in the proof term)
     -- Skip if SKIP_PROOF_DEPS=1 (set via skip_proof_deps config option for large projects)
+    -- Note: When using parallel classification, proof deps are extracted separately
     let skipProofDeps := (← IO.getEnv "SKIP_PROOF_DEPS").getD "" == "1"
     let dependsOnCandidates := if skipProofDeps then #[]
       else extractProofDependencies env declName internalPrefixes
@@ -470,6 +471,82 @@ def inferTheoremAnnotations (declName : Name) : MetaM InferredTheoremAnnotations
       provesCandidates
       validatesCandidates
       dependsOnCandidates
+    }
+
+/-- Infer assumes/proves candidates WITHOUT proof dependencies (fast, for Phase 1 of parallel processing) -/
+def inferTheoremAnnotationsLight (declName : Name) : MetaM InferredTheoremAnnotations := do
+  let env ← getEnv
+  let some constInfo := env.find? declName | return { notes := #[s!"Declaration `{declName}` not found"] }
+
+  let internalPrefixes := getInternalPrefixes env declName
+  let type := constInfo.type
+
+  -- Create whnf cache for type expressions within this declaration
+  let cache ← WhnfCache.new
+
+  forallTelescope type fun params conclusion => do
+    let mut assumesCandidates : Array InferredName := #[]
+    let mut provesCandidates : Array InferredName := #[]
+    let mut validatesCandidates : Array InferredName := #[]
+    let mut seenNames : Array Name := #[]
+    let mut seenValidates : Array Name := #[]
+
+    -- Process each parameter (hypothesis)
+    for param in params do
+      let paramType ← inferType param
+      let paramTypeWhnf ← whnfCached cache paramType
+
+      if ← isTypeClassConstraint cache paramTypeWhnf then
+        continue
+
+      if ← isProp paramTypeWhnf then
+        let typeStr ← ppTypeShort paramType
+        let sourceDesc := s!"hypothesis: {typeStr}"
+
+        let heads ← collectHeadConstants paramType sourceDesc internalPrefixes
+        for (head, src) in heads do
+          unless seenNames.contains head do
+            seenNames := seenNames.push head
+            let isInt := isInternalName env internalPrefixes head
+            assumesCandidates := assumesCandidates.push {
+              name := head, source := src, isInternal := isInt
+            }
+
+        let boolFuns ← collectBoolFunctionsShallow cache paramType sourceDesc
+        for (head, src) in boolFuns do
+          unless seenValidates.contains head do
+            seenValidates := seenValidates.push head
+            let isInt := isInternalName env internalPrefixes head
+            validatesCandidates := validatesCandidates.push {
+              name := head, source := src, isInternal := isInt
+            }
+
+    -- Process conclusion
+    let concSourceDesc := "conclusion"
+    let concHeads ← collectHeadConstants conclusion concSourceDesc internalPrefixes
+    for (head, src) in concHeads do
+      unless seenNames.contains head do
+        seenNames := seenNames.push head
+        let isInt := isInternalName env internalPrefixes head
+        provesCandidates := provesCandidates.push {
+          name := head, source := src, isInternal := isInt
+        }
+
+    let concBoolFuns ← collectBoolFunctionsShallow cache conclusion concSourceDesc
+    for (head, src) in concBoolFuns do
+      unless seenValidates.contains head do
+        seenValidates := seenValidates.push head
+        let isInt := isInternalName env internalPrefixes head
+        validatesCandidates := validatesCandidates.push {
+          name := head, source := src, isInternal := isInt
+        }
+
+    -- Return WITHOUT proof dependencies (they'll be added in parallel Phase 2)
+    return {
+      assumesCandidates
+      provesCandidates
+      validatesCandidates
+      dependsOnCandidates := #[]
     }
 
 /-!

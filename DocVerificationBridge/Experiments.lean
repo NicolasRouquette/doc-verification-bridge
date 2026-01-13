@@ -59,6 +59,8 @@ structure Project where
   branch : Option String := none
   /-- Whether to skip proof dependency extraction (significantly speeds up large projects) -/
   skipProofDeps : Bool := false
+  /-- Upper bound on worker threads for parallel proof dependency extraction (0 = disabled/sequential, >0 = max workers) -/
+  proofDepWorkers : Nat := 0
   deriving Repr, Inhabited
 
 /-- Experiment configuration -/
@@ -147,6 +149,7 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
             | "lake_exe_cache_get" => { proj with lakeExeCacheGet := value == "true" }
             | "disable_equations" => { proj with disableEquations := value == "true" }
             | "skip_proof_deps" => { proj with skipProofDeps := value == "true" }
+            | "proof_dep_workers" => { proj with proofDepWorkers := value.toNat?.getD 0 }
             | "modules" =>
               -- Parse array like ["Batteries"]
               let mods := value.replace "[" "" |>.replace "]" ""
@@ -1021,9 +1024,9 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
       writeProjectState config.sitesDir name .failed
       return { name, repo, success := false,
                errorMessage := some errMsg, siteDir := some outputDir }
-    IO.println s!"[{name}] Using existing repository (reanalyze mode)"
+    IO.println s!"[{name}] [1/6] Using existing repository (reanalyze mode)"
   else if mode == .update && (← repoDir.pathExists) then
-    IO.println s!"[{name}] Updating repository..."
+    IO.println s!"[{name}] [1/6] Updating repository..."
     let (pullOk, pullLog, newLog) ← runCmdLogged "git-pull" "git" #["pull"] (some repoDir) cmdLog (some logCtx)
     cmdLog := newLog
     if !pullOk then
@@ -1031,7 +1034,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
       return { name, repo, success := false,
                errorMessage := some "Git pull failed", buildLog := pullLog }
   else
-    IO.println s!"[{name}] Cloning repository..."
+    IO.println s!"[{name}] [1/6] Cloning repository..."
     let (cloneOk, cloneLog, newLog) ← runCmdLogged "git-clone" "git"
       #["clone", "--depth", "1", repo, repoDir.toString] none cmdLog (some logCtx)
     cmdLog := newLog
@@ -1044,7 +1047,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
   let branch ← match project.branch with
     | some b => pure b
     | none => detectGitBranch repoDir
-  IO.println s!"[{name}] Using branch: {branch}"
+  IO.println s!"[{name}] [2/6] Using branch: {branch}"
 
   -- Verify the project directory exists (relevant for subdirectory projects)
   if !(← projectDir.pathExists) then
@@ -1057,11 +1060,11 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
              errorMessage := some errMsg, siteDir := some outputDir }
 
   -- Setup docvb directory and check toolchain compatibility
-  IO.println s!"[{name}] Setting up docvb directory..."
+  IO.println s!"[{name}] [3/6] Setting up docvb directory..."
   let (hasToolchainIssue, tcCheck) ← setupDocvbDirectory projectDir name config.docVerificationBridgePath modules config.useCustomSourceLinker
 
   -- Log the toolchain check result
-  IO.println s!"[{name}] {tcCheck.message}"
+  IO.println s!"[{name}]       {tcCheck.message}"
 
   -- If there's a toolchain incompatibility, fail early with a clear message
   if hasToolchainIssue then
@@ -1076,7 +1079,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
   -- Build main project (skip for reanalyze mode)
   let mut buildLog := ""
   if mode == .reanalyze then
-    IO.println s!"[{name}] Skipping build (reanalyze mode - using existing build)"
+    IO.println s!"[{name}] [4/6] Skipping build (reanalyze mode - using existing build)"
     -- Verify .lake/build exists
     let lakeBuildDir := projectDir / ".lake" / "build"
     if !(← lakeBuildDir.pathExists) then
@@ -1086,7 +1089,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
       return { name, repo, success := false,
                errorMessage := some errMsg, siteDir := some outputDir }
   else
-    IO.println s!"[{name}] Building project{if project.lakeExeCacheGet then " (with cache)" else ""}..."
+    IO.println s!"[{name}] [4/6] Building project{if project.lakeExeCacheGet then " (with cache)" else ""}..."
 
     -- For projects like mathlib4, fetch the cloud cache first
     if project.lakeExeCacheGet then
@@ -1111,7 +1114,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
                siteDir := some outputDir }
 
   -- Run unified-doc
-  IO.println s!"[{name}] Generating documentation (mode: {project.classificationMode})..."
+  IO.println s!"[{name}] [5/6] Generating documentation (mode: {project.classificationMode})..."
   let docvbDir := projectDir / "docvb"
 
   -- Update lake dependencies
@@ -1122,7 +1125,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
   if !updateOk then
     -- Check if it's a recoverable error
     if updateLog.contains "post-update hooks" || updateLog.contains "failed to fetch cache" then
-      IO.println s!"[{name}] Warning: post-update hooks failed, continuing anyway..."
+      IO.println s!"[{name}]       Warning: post-update hooks failed, continuing anyway..."
     else
       generateErrorPage name "lake update failed" updateLog outputDir (some tcCheck)
       writeProjectState config.sitesDir name .failed
@@ -1136,7 +1139,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
   -- the version the project was designed for.
   let docvbToolchainPath := docvbDir / "lean-toolchain"
   IO.FS.writeFile docvbToolchainPath tcCheck.projectToolchain
-  IO.println s!"[{name}] Restored toolchain to {tcCheck.projectToolchain}"
+  IO.println s!"[{name}]       Restored toolchain to {tcCheck.projectToolchain}"
 
   -- Build docvb
   let (docvbBuildOk, docvbBuildLog, newLog) ← runCmdLogged "docvb-build" "lake"
@@ -1162,6 +1165,8 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
     env := env.push ("DISABLE_EQUATIONS", some "1")
   if project.skipProofDeps then
     env := env.push ("SKIP_PROOF_DEPS", some "1")
+  if project.proofDepWorkers > 0 then
+    env := env.push ("PROOF_DEP_WORKERS", some s!"{project.proofDepWorkers}")
 
   let (docOk, docLog, newLog) ← runCmdLogged "unified-doc" "lake" unifiedArgs (some docvbDir) cmdLog (some logCtx) 3600 env
   cmdLog := newLog
@@ -1182,7 +1187,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
 
   -- Mark as completed
   writeProjectState config.sitesDir name .completed
-  IO.println s!"[{name}] ✓ Complete!"
+  IO.println s!"[{name}] [6/6] ✓ Complete!"
 
   return { stats with
     name, repo, success := true,

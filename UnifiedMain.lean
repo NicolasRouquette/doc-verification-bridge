@@ -89,7 +89,7 @@ def loadAndAnalyzeWithMode (cfg : UnifiedConfig) (modules : Array Name)
   -- Initialize search path
   Lean.initSearchPath (← Lean.findSysroot)
 
-  IO.println s!"unified-doc: Loading {modules.size} module(s)..."
+  IO.println s!"unified-doc [1/7]: Loading {modules.size} module(s)..."
 
   -- Load environment using doc-gen4's helper
   let env ← DocGen4.envOfImports modules
@@ -115,12 +115,12 @@ def loadAndAnalyzeWithMode (cfg : UnifiedConfig) (modules : Array Name)
   IO.println s!"  Loaded {analyzerResult.moduleInfo.size} modules"
 
   -- Build git file cache from the source directory
-  IO.println s!"unified-doc: Building git file cache from {cfg.sourceDir}..."
+  IO.println s!"unified-doc [2/6]: Building git file cache from {cfg.sourceDir}..."
   let gitCache ← buildGitFileCacheIn cfg.sourceDir
   IO.println s!"  Found {gitCache.allFiles.size} .lean files"
 
   -- Run classification with the specified mode
-  IO.println s!"unified-doc: Classifying declarations (mode: {repr mode})..."
+  IO.println s!"unified-doc [3/7]: Classifying declarations (mode: {repr mode})..."
 
   let mut allEntries : NameMap APIMeta := {}
 
@@ -164,7 +164,7 @@ def runUnifiedPipelineWithMode (cfg : UnifiedConfig) (modules : Array Name)
     let siteDir ← generateUnifiedMkDocsSite cfg result (modules.toList.map toString)
 
     -- Step 4: Copy doc-gen4 output into MkDocs site
-    IO.println s!"unified-doc: Copying API docs into site..."
+    IO.println s!"unified-doc [7/7]: Copying API docs into site..."
     let apiDestDir := siteDir / "api"
     copyDirRecursive (apiTempDir / "doc") apiDestDir
     IO.println s!"  Copied API docs to {apiDestDir}/"
