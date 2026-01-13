@@ -257,7 +257,7 @@ def classifyAllDeclarationsParallel (env : Environment) (modulePrefix : Name) (n
     | none => acc
 
   let total := relevantConsts.size
-  IO.println s!"  [3/7] Classifying {total} declarations (sequential)..."
+  IO.println s!"  [3/7] Phase 1: Classifying {total} declarations (MetaM, single-threaded)..."
   (← IO.getStdout).flush
 
   -- Phase 1: Sequential MetaM classification (collect proof dep tasks)
@@ -284,7 +284,7 @@ def classifyAllDeclarationsParallel (env : Environment) (modulePrefix : Name) (n
     IO.println s!"  [4/7] No proof dependencies to extract (skipped)"
     (← IO.getStdout).flush
   else
-    IO.println s!"  [4/7] Extracting proof deps for {proofDepTasks.size} theorems ({numWorkers} workers)..."
+    IO.println s!"  [4/7] Phase 2: Extracting proof deps for {proofDepTasks.size} theorems ({numWorkers} parallel workers)..."
     (← IO.getStdout).flush
 
     -- Create tasks for parallel execution
