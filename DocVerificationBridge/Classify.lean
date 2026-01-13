@@ -106,7 +106,72 @@ structure ClassificationResult where
   notes : Array String
 deriving Inhabited
 
-/-- Classify a single constant from the environment -/
+/-- Data needed for parallel proof dependency extraction -/
+structure ProofDepTask where
+  name : Name
+  proofExpr : Expr
+  internalPrefixes : Array String
+deriving Inhabited
+
+/-- Classify a single constant from the environment (Phase 1: without proof deps) -/
+def classifyConstantLight (env : Environment) (name : Name) (cinfo : ConstantInfo)
+    (internalPrefixes : Array String) : MetaM (Option (APIMeta × Option ProofDepTask)) := do
+  -- Skip blacklisted declarations
+  if ← isBlackListed env name then return none
+  if shouldExclude name then return none
+  -- Skip if not from internal modules
+  if !isInternalName env internalPrefixes name then return none
+
+  match cinfo with
+  | .thmInfo info =>
+    -- Theorem: infer annotations (light - no proof deps yet)
+    let inferred ← inferTheoremAnnotationsLight name
+    let theoremKind := suggestTheoremKind inferred
+    let bridgingDir := if theoremKind == some .bridgingProperty
+      then inferBridgingDirection inferred
+      else none
+    -- Check if the proof contains sorry
+    let hasSorry := exprContainsSorry info.value
+    let thmData : TheoremData := {
+      kind := theoremKind
+      bridgingDirection := bridgingDir
+      assumes := inferred.assumesCandidates.filter (·.isInternal) |>.map (·.name)
+      proves := inferred.provesCandidates.filter (·.isInternal) |>.map (·.name)
+      validates := inferred.validatesCandidates.filter (·.isInternal) |>.map (·.name)
+      dependsOn := #[]  -- Will be filled in Phase 2
+      hasSorry := hasSorry
+    }
+    let apiMeta := { kind := .apiTheorem thmData, coverage := .unverified }
+    -- Return task data for parallel proof dep extraction
+    let task := ProofDepTask.mk name info.value internalPrefixes
+    return some (apiMeta, some task)
+
+  | .defnInfo info =>
+    -- Definition: classify by return type and check for sorry
+    let category ← classifyDefinition info.type
+    let hasSorry := exprContainsSorry info.value
+    let defData : DefData := { category, hasSorry }
+    return some ({ kind := .apiDef defData, coverage := .unverified }, none)
+
+  | .inductInfo info =>
+    -- Inductive type: classify as mathematical or computational
+    let category := classifyInductiveType env info
+    return some ({ kind := .apiType category, coverage := .unverified }, none)
+
+  | .axiomInfo _ =>
+    -- Axiom: treat as mathematical abstraction
+    return some ({ kind := .apiType .mathematicalAbstraction, coverage := .axiomDependent }, none)
+
+  | .opaqueInfo info =>
+    -- Opaque constant (includes noncomputable instances and definitions)
+    let category ← classifyDefinition info.type
+    let hasSorry := exprContainsSorry info.value
+    let defData : DefData := { category, hasSorry }
+    return some ({ kind := .apiDef defData, coverage := .unverified }, none)
+
+  | _ => return none  -- Skip other kinds (constructors, recursors, etc.)
+
+/-- Classify a single constant (non-parallel version, used when proof deps are skipped) -/
 def classifyConstant (env : Environment) (name : Name) (cinfo : ConstantInfo)
     (internalPrefixes : Array String) : MetaM (Option APIMeta) := do
   -- Skip blacklisted declarations
@@ -154,7 +219,6 @@ def classifyConstant (env : Environment) (name : Name) (cinfo : ConstantInfo)
 
   | .opaqueInfo info =>
     -- Opaque constant (includes noncomputable instances and definitions)
-    -- Check if it has sorry in its value
     let category ← classifyDefinition info.type
     let hasSorry := exprContainsSorry info.value
     let defData : DefData := { category, hasSorry }
@@ -162,10 +226,26 @@ def classifyConstant (env : Environment) (name : Name) (cinfo : ConstantInfo)
 
   | _ => return none  -- Skip other kinds (constructors, recursors, etc.)
 
-/-- Classify all declarations from relevant modules -/
-def classifyAllDeclarations (env : Environment) (modulePrefix : Name) : MetaM ClassificationResult := do
+/-- Extract proof dependencies for a single task (pure, can run in parallel) -/
+def extractProofDepsTask (env : Environment) (task : ProofDepTask) : Array Name :=
+  let allDeps := collectProofDependencies env task.proofExpr
+  allDeps.filter fun dep =>
+    dep != task.name && isInternalName env task.internalPrefixes dep
+
+/-- Merge proof dependencies into APIMeta -/
+def mergeProofDeps (apiMeta : APIMeta) (deps : Array Name) : APIMeta :=
+  match apiMeta.kind with
+  | .apiTheorem thmData =>
+    let newThmData := { thmData with dependsOn := deps }
+    { apiMeta with kind := .apiTheorem newThmData }
+  | _ => apiMeta
+
+/-- Classify all declarations with parallel proof dependency extraction -/
+def classifyAllDeclarationsParallel (env : Environment) (modulePrefix : Name) (numWorkers : Nat := 8)
+    : MetaM ClassificationResult := do
   let internalPrefixes := #[modulePrefix.toString]
   let mut entries : NameMap APIMeta := {}
+  let mut proofDepTasks : Array (Name × ProofDepTask) := #[]
   let mut notes : Array String := #[]
 
   -- Count total constants for progress reporting
@@ -177,24 +257,156 @@ def classifyAllDeclarations (env : Environment) (modulePrefix : Name) : MetaM Cl
     | none => acc
 
   let total := relevantConsts.size
-  IO.println s!"  Classifying {total} declarations..."
+  IO.println s!"  [3/7] Classifying {total} declarations (sequential)..."
+  (← IO.getStdout).flush
 
+  -- Phase 1: Sequential MetaM classification (collect proof dep tasks)
   let mut processed := 0
-  let progressInterval := max 1 (total / 20)  -- Report every 5%
+  let progressInterval := max 1 (total / 20)
 
   for (name, cinfo) in relevantConsts do
     processed := processed + 1
     if processed % progressInterval == 0 then
       let pct := (processed * 100) / total
-      IO.print s!"\r  Progress: {processed}/{total} ({pct}%)    "
+      IO.print s!"\r  [3/7] Classifying: {processed}/{total} ({pct}%)    "
       (← IO.getStdout).flush
 
-    if let some apiMeta ← classifyConstant env name cinfo internalPrefixes then
+    if let some (apiMeta, taskOpt) ← classifyConstantLight env name cinfo internalPrefixes then
       entries := entries.insert name apiMeta
+      if let some task := taskOpt then
+        proofDepTasks := proofDepTasks.push (name, task)
 
-  IO.println s!"\r  Classified {entries.size} declarations (from {total} total)    "
+  IO.println s!"\r  [3/7] Classification complete: {entries.size} declarations    "
+  (← IO.getStdout).flush
+
+  -- Phase 2: Parallel proof dependency extraction
+  if proofDepTasks.isEmpty then
+    IO.println s!"  [4/7] No proof dependencies to extract (skipped)"
+    (← IO.getStdout).flush
+  else
+    IO.println s!"  [4/7] Extracting proof deps for {proofDepTasks.size} theorems ({numWorkers} workers)..."
+    (← IO.getStdout).flush
+
+    -- Create tasks for parallel execution
+    let taskChunks := proofDepTasks.toList.toArray
+    let chunkSize := max 1 ((taskChunks.size + numWorkers - 1) / numWorkers)
+
+    -- Process in parallel using IO.mapTasks
+    let chunks : Array (Array (Name × ProofDepTask)) := Id.run do
+      let mut result : Array (Array (Name × ProofDepTask)) := #[]
+      let mut i := 0
+      while i < taskChunks.size do
+        let endIdx := min (i + chunkSize) taskChunks.size
+        result := result.push (taskChunks.extract i endIdx)
+        i := endIdx
+      result
+
+    -- Spawn worker tasks
+    let workers ← chunks.mapM fun chunk => do
+      IO.asTask (prio := .default) do
+        let mut results : Array (Name × Array Name) := #[]
+        for (name, task) in chunk do
+          let deps := extractProofDepsTask env task
+          results := results.push (name, deps)
+        return results
+
+    -- Wait for all workers and collect results
+    let mut allResults : Array (Name × Array Name) := #[]
+    for worker in workers do
+      let result ← IO.wait worker
+      match result with
+      | .ok results => allResults := allResults ++ results
+      | .error e => notes := notes.push s!"Worker error: {e}"
+
+    -- Merge proof deps into entries
+    for (name, deps) in allResults do
+      if let some existing := entries.find? name then
+        entries := entries.insert name (mergeProofDeps existing deps)
+
+    IO.println s!"  [4/7] Proof deps complete: extracted for {allResults.size} theorems"
+    (← IO.getStdout).flush
 
   return { entries, notes }
+
+/-- Classify all declarations from relevant modules -/
+def classifyAllDeclarations (env : Environment) (modulePrefix : Name) : MetaM ClassificationResult := do
+  let internalPrefixes := #[modulePrefix.toString]
+
+  -- Check if we should skip proof deps (sequential mode) or use parallel extraction
+  let skipProofDeps := (← IO.getEnv "SKIP_PROOF_DEPS").getD "" == "1"
+  let proofDepWorkers := (← IO.getEnv "PROOF_DEP_WORKERS").getD "0" |>.toNat?.getD 0
+
+  if skipProofDeps then
+    -- Fast mode: skip proof deps entirely
+    IO.println s!"  (SKIP_PROOF_DEPS=1: skipping proof dependency extraction)"
+    (← IO.getStdout).flush
+    let mut entries : NameMap APIMeta := {}
+    let mut notes : Array String := #[]
+
+    let relevantConsts := env.constants.fold (init := #[]) fun acc name cinfo =>
+      match env.getModuleIdxFor? name with
+      | some modIdx =>
+        let modName := env.header.moduleNames[modIdx.toNat]!
+        if modulePrefix.isPrefixOf modName then acc.push (name, cinfo) else acc
+      | none => acc
+
+    let total := relevantConsts.size
+    IO.println s!"  [3/7] Classifying {total} declarations (no proof deps)..."
+    (← IO.getStdout).flush
+
+    let mut processed := 0
+    let progressInterval := max 1 (total / 20)
+
+    for (name, cinfo) in relevantConsts do
+      processed := processed + 1
+      if processed % progressInterval == 0 then
+        let pct := (processed * 100) / total
+        IO.print s!"\r  [3/7] Classifying: {processed}/{total} ({pct}%)    "
+        (← IO.getStdout).flush
+
+      if let some (apiMeta, _) ← classifyConstantLight env name cinfo internalPrefixes then
+        entries := entries.insert name apiMeta
+
+    IO.println s!"\r  [3/7] Classification complete: {entries.size} declarations    "
+    (← IO.getStdout).flush
+    return { entries, notes }
+
+  else if proofDepWorkers > 0 then
+    -- Parallel mode: extract proof deps in parallel
+    classifyAllDeclarationsParallel env modulePrefix proofDepWorkers
+
+  else
+    -- Sequential mode with proof deps (original behavior)
+    let mut entries : NameMap APIMeta := {}
+    let mut notes : Array String := #[]
+
+    let relevantConsts := env.constants.fold (init := #[]) fun acc name cinfo =>
+      match env.getModuleIdxFor? name with
+      | some modIdx =>
+        let modName := env.header.moduleNames[modIdx.toNat]!
+        if modulePrefix.isPrefixOf modName then acc.push (name, cinfo) else acc
+      | none => acc
+
+    let total := relevantConsts.size
+    IO.println s!"  [3/7] Classifying {total} declarations (sequential with proof deps)..."
+    (← IO.getStdout).flush
+
+    let mut processed := 0
+    let progressInterval := max 1 (total / 20)
+
+    for (name, cinfo) in relevantConsts do
+      processed := processed + 1
+      if processed % progressInterval == 0 then
+        let pct := (processed * 100) / total
+        IO.print s!"\r  [3/6] Classifying: {processed}/{total} ({pct}%)    "
+        (← IO.getStdout).flush
+
+      if let some apiMeta ← classifyConstant env name cinfo internalPrefixes then
+        entries := entries.insert name apiMeta
+
+    IO.println s!"\r  [3/6] Classification complete: {entries.size} declarations    "
+    (← IO.getStdout).flush
+    return { entries, notes }
 
 /-- Compute the "provedBy" relationship: for each definition, which theorems prove things about it -/
 def computeProvedByMap (entries : NameMap APIMeta) : NameMap (Array Name) := Id.run do

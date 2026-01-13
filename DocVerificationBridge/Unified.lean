@@ -201,7 +201,7 @@ def makeSourceLinker (repoBaseUrl : String) : Name â†’ Option DeclarationRange â
 
 /-- Generate doc-gen4 documentation to a temporary directory -/
 def generateDocGen4ToTemp (cfg : UnifiedConfig) (result : UnifiedResult) : IO System.FilePath := do
-  IO.println s!"unified-doc: Generating doc-gen4 API documentation..."
+  IO.println s!"unified-doc [5/7]: Generating doc-gen4 API documentation..."
 
   -- Generate to a temp directory that we'll copy later
   let apiTempDir := cfg.buildDir / "api-temp"
@@ -592,7 +592,7 @@ partial def copyDirRecursive (src dst : System.FilePath) : IO Unit := do
 
 /-- Generate unified MkDocs site -/
 def generateUnifiedMkDocsSite (cfg : UnifiedConfig) (result : UnifiedResult) (modules : List String) : IO System.FilePath := do
-  IO.println s!"unified-doc: Generating MkDocs site..."
+  IO.println s!"unified-doc [6/7]: Generating MkDocs site..."
 
   -- Create MkDocs source directory structure
   let mkdocsSrcDir := cfg.buildDir / "mkdocs-src"
