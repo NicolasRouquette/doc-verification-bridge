@@ -33,21 +33,17 @@ inductive ClassificationMode
   | annotated -- Only use explicit annotations
 deriving Repr, BEq
 
-/-- Get api_type annotation metadata (stub - returns none until attributes are implemented) -/
-def getApiTypeAnnotation (_env : Environment) (_declName : Name) : MetaM (Option APIMeta) := do
-  -- TODO: Implement attribute lookup when api_type attribute handler is added
-  -- For now, return none (no annotations found)
-  return none
+/-- Get api_type annotation metadata from the environment extension -/
+def getApiTypeAnnotation (env : Environment) (declName : Name) : MetaM (Option APIMeta) := do
+  return DocVerificationBridge.getApiTypeAttr env declName
 
-/-- Get api_def annotation metadata (stub - returns none until attributes are implemented) -/
-def getApiDefAnnotation (_env : Environment) (_declName : Name) : MetaM (Option APIMeta) := do
-  -- TODO: Implement attribute lookup when api_def attribute handler is added
-  return none
+/-- Get api_def annotation metadata from the environment extension -/
+def getApiDefAnnotation (env : Environment) (declName : Name) : MetaM (Option APIMeta) := do
+  return DocVerificationBridge.getApiDefAttr env declName
 
-/-- Get api_theorem annotation metadata (stub - returns none until attributes are implemented) -/
-def getApiTheoremAnnotation (_env : Environment) (_declName : Name) : MetaM (Option APIMeta) := do
-  -- TODO: Implement attribute lookup when api_theorem attribute handler is added
-  return none
+/-- Get api_theorem annotation metadata from the environment extension -/
+def getApiTheoremAnnotation (env : Environment) (declName : Name) : MetaM (Option APIMeta) := do
+  return DocVerificationBridge.getApiTheoremAttr env declName
 
 /-- Try to get annotation metadata for a declaration -/
 def tryGetAnnotation (env : Environment) (declName : Name) : MetaM (Option APIMeta) := do
@@ -90,6 +86,7 @@ def loadAndAnalyzeWithMode (cfg : UnifiedConfig) (modules : Array Name)
   Lean.initSearchPath (← Lean.findSysroot)
 
   IO.println s!"unified-doc [1/7]: Loading {modules.size} module(s)..."
+  (← IO.getStdout).flush
 
   -- Load environment using doc-gen4's helper
   let env ← DocGen4.envOfImports modules
@@ -113,14 +110,17 @@ def loadAndAnalyzeWithMode (cfg : UnifiedConfig) (modules : Array Name)
   let ((analyzerResult, hierarchy), _) ← Meta.MetaM.toIO (DocGen4.Process.process task) config { env := env } {} {}
 
   IO.println s!"  Loaded {analyzerResult.moduleInfo.size} modules"
+  (← IO.getStdout).flush
 
   -- Build git file cache from the source directory
   IO.println s!"unified-doc [2/6]: Building git file cache from {cfg.sourceDir}..."
   let gitCache ← buildGitFileCacheIn cfg.sourceDir
   IO.println s!"  Found {gitCache.allFiles.size} .lean files"
+  (← IO.getStdout).flush
 
   -- Run classification with the specified mode
   IO.println s!"unified-doc [3/7]: Classifying declarations (mode: {repr mode})..."
+  (← IO.getStdout).flush
 
   let mut allEntries : NameMap APIMeta := {}
 
@@ -136,6 +136,7 @@ def loadAndAnalyzeWithMode (cfg : UnifiedConfig) (modules : Array Name)
     allEntries := result.entries.foldl (fun acc name apiMeta => acc.insert name apiMeta) allEntries
 
   IO.println s!"  Classified {allEntries.size} declarations"
+  (← IO.getStdout).flush
 
   if mode == .annotated && allEntries.isEmpty then
     IO.println "  ⚠ Warning: No annotated declarations found."
@@ -219,6 +220,7 @@ def runUnifiedCmd (args : Cli.Parsed) : IO UInt32 := do
   }
 
   IO.println s!"Classification mode: {repr mode}"
+  (← IO.getStdout).flush
   runUnifiedPipelineWithMode cfg (modules.map String.toName) mode
 
 /-- Run standalone doc-gen4 (delegates to doc-gen4's infrastructure) -/
@@ -233,6 +235,7 @@ def runDocGen4Cmd (args : Cli.Parsed) : IO UInt32 := do
   let sourceUrl := args.flag? "source-url" |>.map (·.as! String)
 
   IO.println s!"doc-gen4: Loading {modules.size} module(s)..."
+  (← IO.getStdout).flush
 
   Lean.initSearchPath (← Lean.findSysroot)
 
@@ -241,9 +244,11 @@ def runDocGen4Cmd (args : Cli.Parsed) : IO UInt32 := do
   let (result, hierarchy) ← DocGen4.load task
 
   IO.println s!"doc-gen4: Generating HTML..."
+  (← IO.getStdout).flush
   DocGen4.htmlOutput buildDir result hierarchy sourceUrl
 
   IO.println s!"✅ Documentation generated at {buildDir}/doc/"
+  (← IO.getStdout).flush
   return 0
 
 /-- Run standalone verification analysis -/
@@ -268,8 +273,10 @@ def runVerifyCmd (args : Cli.Parsed) : IO UInt32 := do
   let platform := if platformStr == "gitlab" then GitPlatform.gitlab else GitPlatform.github
 
   IO.println s!"verification-bridge: Building git file cache..."
+  (← IO.getStdout).flush
   let gitCache ← buildGitFileCache
   IO.println s!"  Found {gitCache.allFiles.size} .lean files in repository"
+  (← IO.getStdout).flush
 
   let cfg : ReportConfig := {
     outputDir := outputDir
@@ -281,6 +288,7 @@ def runVerifyCmd (args : Cli.Parsed) : IO UInt32 := do
   }
 
   IO.println s!"verification-bridge: Analyzing {modules.length} module(s) (mode: {repr mode})..."
+  (← IO.getStdout).flush
 
   Lean.initSearchPath (← Lean.findSysroot)
 
@@ -289,6 +297,7 @@ def runVerifyCmd (args : Cli.Parsed) : IO UInt32 := do
   let env ← importModules (moduleNames.toArray.map (fun n => { module := n })) options
 
   IO.println s!"  Loaded environment with {env.header.moduleNames.size} modules"
+  (← IO.getStdout).flush
 
   let mut allEntries : NameMap APIMeta := {}
   for modName in moduleNames do
@@ -303,6 +312,7 @@ def runVerifyCmd (args : Cli.Parsed) : IO UInt32 := do
     allEntries := result.entries.foldl (fun acc name apiMeta => acc.insert name apiMeta) allEntries
 
   IO.println s!"  Classified {allEntries.size} declarations"
+  (← IO.getStdout).flush
 
   if mode == .annotated && allEntries.isEmpty then
     IO.println "  ⚠ Warning: No annotated declarations found."
