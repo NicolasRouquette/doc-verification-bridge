@@ -56,6 +56,8 @@ structure UnifiedConfig where
   sourceDir : System.FilePath := ".."
   /-- Whether to generate verification pages -/
   generateVerification : Bool := true
+  /-- Whether to skip doc-gen4 generation (use existing api-temp output) -/
+  skipDocGen : Bool := false
 deriving Repr, Inhabited
 
 /-- Result of the unified pipeline -/
@@ -111,6 +113,7 @@ def loadAndAnalyze (cfg : UnifiedConfig) (modules : Array Name) : IO UnifiedResu
   Lean.initSearchPath (← Lean.findSysroot)
 
   IO.println s!"unified-doc: Loading {modules.size} module(s)..."
+  (← IO.getStdout).flush
 
   -- Load environment using doc-gen4's helper
   let env ← DocGen4.envOfImports modules
@@ -135,14 +138,18 @@ def loadAndAnalyze (cfg : UnifiedConfig) (modules : Array Name) : IO UnifiedResu
   let ((analyzerResult, hierarchy), _) ← Meta.MetaM.toIO (process task) config { env := env } {} {}
 
   IO.println s!"  Loaded {analyzerResult.moduleInfo.size} modules"
+  (← IO.getStdout).flush
 
   -- Build git file cache from the source directory
   IO.println s!"unified-doc: Building git file cache from {cfg.sourceDir}..."
+  (← IO.getStdout).flush
   let gitCache ← buildGitFileCacheIn cfg.sourceDir
   IO.println s!"  Found {gitCache.allFiles.size} .lean files"
+  (← IO.getStdout).flush
 
   -- Run our classification
   IO.println s!"unified-doc: Classifying declarations..."
+  (← IO.getStdout).flush
 
   let mut allEntries : NameMap APIMeta := {}
 
@@ -158,6 +165,7 @@ def loadAndAnalyze (cfg : UnifiedConfig) (modules : Array Name) : IO UnifiedResu
     allEntries := result.entries.foldl (fun acc name apiMeta => acc.insert name apiMeta) allEntries
 
   IO.println s!"  Classified {allEntries.size} declarations"
+  (← IO.getStdout).flush
 
   return {
     analyzerResult
@@ -202,6 +210,7 @@ def makeSourceLinker (repoBaseUrl : String) : Name → Option DeclarationRange �
 /-- Generate doc-gen4 documentation to a temporary directory -/
 def generateDocGen4ToTemp (cfg : UnifiedConfig) (result : UnifiedResult) : IO System.FilePath := do
   IO.println s!"unified-doc [5/7]: Generating doc-gen4 API documentation..."
+  (← IO.getStdout).flush
 
   -- Generate to a temp directory that we'll copy later
   let apiTempDir := cfg.buildDir / "api-temp"
@@ -229,6 +238,7 @@ def generateDocGen4ToTemp (cfg : UnifiedConfig) (result : UnifiedResult) : IO Sy
   DocGen4.htmlOutputIndex baseConfig
 
   IO.println s!"  Generated API docs to {apiTempDir}/"
+  (← IO.getStdout).flush
 
   return apiTempDir
 
@@ -593,6 +603,7 @@ partial def copyDirRecursive (src dst : System.FilePath) : IO Unit := do
 /-- Generate unified MkDocs site -/
 def generateUnifiedMkDocsSite (cfg : UnifiedConfig) (result : UnifiedResult) (modules : List String) : IO System.FilePath := do
   IO.println s!"unified-doc [6/7]: Generating MkDocs site..."
+  (← IO.getStdout).flush
 
   -- Create MkDocs source directory structure
   let mkdocsSrcDir := cfg.buildDir / "mkdocs-src"
@@ -635,6 +646,8 @@ def generateUnifiedMkDocsSite (cfg : UnifiedConfig) (result : UnifiedResult) (mo
 
   -- Generate per-module reports
   IO.println s!"unified-doc: Generating per-module verification reports..."
+  (← IO.getStdout).flush
+
   let moduleReports := generatePerModuleReports result.env result.verificationEntries (some reportCfg)
 
   -- Write each module's report
@@ -663,6 +676,8 @@ def generateUnifiedMkDocsSite (cfg : UnifiedConfig) (result : UnifiedResult) (mo
   IO.FS.createDirAll (cfg.buildDir / "site")
   let siteDir ← IO.FS.realPath (cfg.buildDir / "site")
   IO.println s!"unified-doc: Running mkdocs build..."
+  (← IO.getStdout).flush
+  
   let mkdocsResult ← IO.Process.output {
     cmd := "mkdocs"
     args := #["build", "--site-dir", siteDir.toString]
@@ -675,6 +690,7 @@ def generateUnifiedMkDocsSite (cfg : UnifiedConfig) (result : UnifiedResult) (mo
     throw <| IO.userError "MkDocs build failed"
   else
     IO.println s!"  MkDocs site built at {siteDir}/"
+    (← IO.getStdout).flush
 
   return siteDir
 

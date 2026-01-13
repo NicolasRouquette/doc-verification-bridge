@@ -174,6 +174,24 @@ The experiment runner supports three modes for different workflows:
 - Regenerates documentation with latest code
 - Useful for periodic updates without full re-clone
 
+### Reanalyze Mode
+```bash
+./run.sh run --reanalyze
+```
+- Skips git clone/pull AND project build (requires existing build)
+- Re-runs full unified-doc pipeline: doc-gen4 + classification
+- Useful when updating doc-verification-bridge itself (no project changes)
+
+### Reclassify Mode
+```bash
+./run.sh run --reclassify
+```
+- Skips git clone/pull, project build, AND doc-gen4 generation
+- Only re-runs classification and report generation
+- Requires existing doc-gen4 output in `api-temp/` directory
+- **Fastest option** for iterating on classification logic
+- Useful when classification code changes but API docs don't need regeneration
+
 ### State Tracking
 
 Each project's state is tracked in `sites/<project>/.state`:

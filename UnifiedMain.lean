@@ -157,8 +157,17 @@ def runUnifiedPipelineWithMode (cfg : UnifiedConfig) (modules : Array Name)
     -- Step 1: Load and analyze with the specified mode
     let result ← loadAndAnalyzeWithMode cfg modules mode
 
-    -- Step 2: Generate doc-gen4 to temp location
-    let apiTempDir ← generateDocGen4ToTemp cfg result
+    -- Step 2: Generate doc-gen4 to temp location (or use existing)
+    let apiTempDir := cfg.buildDir / "api-temp"
+    if cfg.skipDocGen then
+      IO.println s!"unified-doc [5/7]: Skipping doc-gen4 (using existing output)..."
+      -- Verify existing output exists
+      let expectedDoc := apiTempDir / "doc"
+      if !(← expectedDoc.pathExists) then
+        throw <| IO.userError s!"--skip-docgen requires existing doc-gen4 output at {expectedDoc}"
+      IO.println s!"  Found existing API docs at {apiTempDir}/"
+    else
+      let _ ← generateDocGen4ToTemp cfg result
 
     -- Step 3: Generate MkDocs site (includes verification)
     let siteDir ← generateUnifiedMkDocsSite cfg result (modules.toList.map toString)
@@ -206,6 +215,7 @@ def runUnifiedCmd (args : Cli.Parsed) : IO UInt32 := do
     projectName := args.flag? "project" |>.map (·.as! String) |>.getD "Documentation"
     sourceDir := args.flag? "source-dir" |>.map (·.as! String) |>.map (·) |>.getD ".."
     generateVerification := !(args.hasFlag "no-verification")
+    skipDocGen := args.hasFlag "skip-docgen"
   }
 
   IO.println s!"Classification mode: {repr mode}"
@@ -335,6 +345,7 @@ def unifiedCmd := `[Cli|
     project : String;        "Project name (default: Documentation)"
     "source-dir" : String;   "Source directory for git file lookup (default: ..)"
     "no-verification";       "Skip verification report generation"
+    "skip-docgen";           "Skip doc-gen4 generation (use existing api-temp output)"
     auto;                    "Use automatic heuristic-based classification (default)"
     annotated;               "Only classify declarations with explicit @[api_*] annotations"
 
