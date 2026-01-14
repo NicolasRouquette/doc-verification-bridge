@@ -7,6 +7,7 @@ import DocGen4
 import DocGen4.Load
 import DocVerificationBridge
 import DocVerificationBridge.Unified
+import DocVerificationBridge.Cache
 
 /-!
 # Unified Documentation CLI
@@ -146,32 +147,48 @@ def loadAndAnalyzeWithMode (cfg : UnifiedConfig) (modules : Array Name)
   let gitCache ← buildGitFileCacheIn cfg.sourceDir
   lastStep ← printTimedStep s!"  Found {gitCache.allFiles.size} .lean files" pipelineStart lastStep
 
-  -- Run classification with the specified mode
-  let proofDepsInfo := if cfg.skipProofDeps then " (no proof deps)"
-                       else if cfg.proofDepWorkers > 0 then s!" ({cfg.proofDepWorkers} workers)"
-                       else " (sequential)"
-  IO.println s!"unified-doc [3/7]: Classifying declarations (mode: {repr mode}){proofDepsInfo}..."
-  (← IO.getStdout).flush
+  -- Check if we should load classification from cache
+  let allEntries ← if let some cachePath := cfg.loadClassificationCache then
+    IO.println s!"unified-doc [3/7]: Loading classification from cache..."
+    (← IO.getStdout).flush
+    let entries ← Cache.loadClassification cachePath
+    lastStep ← printTimedStep s!"  Loaded {entries.size} declarations from cache" pipelineStart lastStep
+    pure entries
+  else do
+    -- Run classification with the specified mode
+    let proofDepsInfo := if cfg.skipProofDeps then " (no proof deps)"
+                         else if cfg.proofDepWorkers > 0 then s!" ({cfg.proofDepWorkers} workers)"
+                         else " (sequential)"
+    IO.println s!"unified-doc [3/7]: Classifying declarations (mode: {repr mode}){proofDepsInfo}..."
+    (← IO.getStdout).flush
 
-  let mut allEntries : NameMap APIMeta := {}
+    let mut allEntries : NameMap APIMeta := {}
 
-  for modName in modules do
-    let coreCtx : Core.Context := {
-      options := {},
-      fileName := "<verification-bridge>",
-      fileMap := default,
-      maxHeartbeats := 0  -- Unlimited heartbeats for classification
-    }
-    let coreState : Core.State := { env }
-    let (result, _) ← (classifyWithMode env modName mode cfg.skipProofDeps cfg.proofDepWorkers).run' {} |>.toIO coreCtx coreState
-    allEntries := result.entries.foldl (fun acc name apiMeta => acc.insert name apiMeta) allEntries
+    for modName in modules do
+      let coreCtx : Core.Context := {
+        options := {},
+        fileName := "<verification-bridge>",
+        fileMap := default,
+        maxHeartbeats := 0  -- Unlimited heartbeats for classification
+      }
+      let coreState : Core.State := { env }
+      let (result, _) ← (classifyWithMode env modName mode cfg.skipProofDeps cfg.proofDepWorkers).run' {} |>.toIO coreCtx coreState
+      allEntries := result.entries.foldl (fun acc name apiMeta => acc.insert name apiMeta) allEntries
 
-  lastStep ← printTimedStep s!"  Classified {allEntries.size} declarations" pipelineStart lastStep
+    lastStep ← printTimedStep s!"  Classified {allEntries.size} declarations" pipelineStart lastStep
 
-  if mode == .annotated && allEntries.isEmpty then
-    IO.println "  ⚠ Warning: No annotated declarations found."
-    IO.println "    Use @[api_type], @[api_def], or @[api_theorem] to annotate declarations,"
-    IO.println "    or use --auto mode for automatic classification."
+    -- Save to cache if requested
+    if let some cachePath := cfg.saveClassificationCache then
+      if let some parentDir := cachePath.parent then
+        IO.FS.createDirAll parentDir
+      Cache.saveClassification allEntries cfg.projectName cachePath
+
+    if mode == .annotated && allEntries.isEmpty then
+      IO.println "  ⚠ Warning: No annotated declarations found."
+      IO.println "    Use @[api_type], @[api_def], or @[api_theorem] to annotate declarations,"
+      IO.println "    or use --auto mode for automatic classification."
+
+    pure allEntries
 
   return ({
     analyzerResult
@@ -256,6 +273,9 @@ def runUnifiedCmd (args : Cli.Parsed) : IO UInt32 := do
     skipDocGen := args.hasFlag "skip-docgen"
     proofDepWorkers := args.flag? "proof-dep-workers" |>.map (·.as! Nat) |>.getD 0
     skipProofDeps := args.hasFlag "skip-proof-deps"
+    loadClassificationCache := args.flag? "load-classification" |>.map (·.as! String)
+    saveClassificationCache := args.flag? "save-classification" |>.map (·.as! String)
+    mkdocsWorkers := args.flag? "mkdocs-workers" |>.map (·.as! Nat) |>.getD 0
   }
 
   IO.println s!"Classification mode: {repr mode}"
@@ -401,6 +421,9 @@ def unifiedCmd := `[Cli|
     "skip-docgen";           "Skip doc-gen4 generation (use existing api-temp output)"
     "skip-proof-deps";       "Skip proof dependency extraction (faster, but no dependsOn data)"
     "proof-dep-workers" : Nat; "Number of parallel workers for proof dep extraction (default: 0 = sequential)"
+    "load-classification" : String; "Load classification from cache file (skip classification step)"
+    "save-classification" : String; "Save classification to cache file (for future runs)"
+    "mkdocs-workers" : Nat;  "Number of parallel workers for MkDocs file writing (default: 0 = sequential)"
     auto;                    "Use automatic heuristic-based classification (default)"
     annotated;               "Only classify declarations with explicit @[api_*] annotations"
 

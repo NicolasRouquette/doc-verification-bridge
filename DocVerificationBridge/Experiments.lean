@@ -30,6 +30,7 @@ inductive RunMode where
   | update     -- Update repos and re-run for all
   | reanalyze  -- Skip build, only re-run unified-doc analysis (requires existing build)
   | reclassify -- Skip build AND doc-gen4, only re-run classification (requires existing doc-gen4 output)
+  | mkdocsOnly -- Skip classification, only regenerate MkDocs (requires existing classification cache)
   deriving Repr, Inhabited, BEq
 
 /-- Classification mode for documentation generation -/
@@ -62,6 +63,8 @@ structure Project where
   skipProofDeps : Bool := false
   /-- Upper bound on worker threads for parallel proof dependency extraction (0 = disabled/sequential, >0 = max workers) -/
   proofDepWorkers : Nat := 0
+  /-- Number of parallel workers for MkDocs file writing (0 = sequential) -/
+  mkdocsWorkers : Nat := 0
   deriving Repr, Inhabited
 
 /-- Experiment configuration -/
@@ -151,6 +154,7 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
             | "disable_equations" => { proj with disableEquations := value == "true" }
             | "skip_proof_deps" => { proj with skipProofDeps := value == "true" }
             | "proof_dep_workers" => { proj with proofDepWorkers := value.toNat?.getD 0 }
+            | "mkdocs_workers" => { proj with mkdocsWorkers := value.toNat?.getD 0 }
             | "modules" =>
               -- Parse array like ["Batteries"]
               let mods := value.replace "[" "" |>.replace "]" ""
@@ -256,6 +260,7 @@ structure CommandLogEntry where
   command : String
   args : Array String
   cwd : Option String
+  env : Array (String × String) := #[]  -- Environment variables set for this command
   status : CommandStatus := .running
   exitCode : Option UInt32 := none
   duration_ms : Option Nat := none
@@ -278,6 +283,9 @@ def commandLogToYaml (log : CommandLog) (projectName : String) (repo : String) :
       | some cwd => s!"    cwd: \"{cwd}\"\n"
       | none => ""
     let argsFormatted := e.args.toList.map (s!"\"{·}\"") |> String.intercalate ", "
+    let envLines := if e.env.isEmpty then "" else
+      let envFormatted := e.env.toList.map (fun (k, v) => s!"      {k}: \"{v}\"") |> String.intercalate "\n"
+      s!"    env:\n{envFormatted}\n"
     let exitCodeLine := match e.exitCode with
       | some code => s!"    exit_code: {code}\n"
       | none => ""
@@ -287,7 +295,7 @@ def commandLogToYaml (log : CommandLog) (projectName : String) (repo : String) :
     s!"  - step: \"{e.step}\"
     command: \"{e.command}\"
     args: [{argsFormatted}]
-{cwdLine}    status: \"{e.status}\"
+{cwdLine}{envLines}    status: \"{e.status}\"
 {exitCodeLine}{durationLine}"
   let entriesStr := String.intercalate "\n" entries
   s!"# Command log for {projectName}
@@ -375,6 +383,72 @@ def runCmd (cmd : String) (args : Array String) (cwd : Option FilePath := none)
   }
   return (result.exitCode == 0, result.stdout ++ result.stderr)
 
+/-- Run a shell command with STREAMING output (shows progress in real-time).
+    Use this for long-running commands like unified-doc on large projects.
+    Output is printed to console AND captured for logging. -/
+def runCmdStreaming (step : String) (cmd : String) (args : Array String)
+    (cwd : Option FilePath := none) (log : CommandLog := #[])
+    (ctx : Option LogContext := none)
+    (env : Array (String × Option String) := #[])
+    : IO (Bool × String × CommandLog) := do
+  -- Convert env to logged format (filter out None values)
+  let envForLog := env.filterMap fun (k, v) => v.map fun val => (k, val)
+
+  -- Create entry with "running" status
+  let runningEntry : CommandLogEntry := {
+    step := step
+    command := cmd
+    args := args
+    cwd := cwd.map toString
+    env := envForLog
+    status := .running
+    exitCode := none
+    duration_ms := none
+  }
+
+  -- Add to log and save BEFORE execution
+  let logWithRunning := log.push runningEntry
+  if let some c := ctx then
+    saveCommandLogCtx logWithRunning c
+
+  -- Record start time
+  let startTime ← IO.monoMsNow
+
+  -- Use inherited stdout/stderr so output goes directly to the terminal in real-time
+  -- This avoids buffering issues with piped I/O and Lean's task scheduler
+  -- We sacrifice capturing output but get reliable streaming
+  let child ← IO.Process.spawn {
+    cmd := cmd
+    args := args
+    cwd := cwd
+    env := env
+    stdout := .inherit
+    stderr := .inherit
+  }
+
+  -- Wait for process to exit
+  let exitCode ← child.wait
+
+  let endTime ← IO.monoMsNow
+  let durationMs := endTime - startTime
+
+  -- Update entry with result (note: we don't capture output with inherit mode)
+  let completedEntry : CommandLogEntry := {
+    runningEntry with
+    status := if exitCode == 0 then .success else .failed
+    exitCode := some exitCode
+    duration_ms := some durationMs
+  }
+
+  -- Replace running entry with completed entry
+  let finalLog := log.push completedEntry
+
+  -- Save AFTER execution
+  if let some c := ctx then
+    saveCommandLogCtx finalLog c
+
+  return (exitCode == 0, "", finalLog)
+
 /-- Detect the current branch of a git repository -/
 def detectGitBranch (repoDir : FilePath) : IO String := do
   let result ← IO.Process.output {
@@ -444,7 +518,7 @@ def parseVersion (toolchain : String) : Option (Nat × Nat × Nat) := do
   let versionPart := parts[1]!
   -- Take characters while they are digits or dots
   let versionChars := versionPart.toList.takeWhile (fun c => c.isDigit || c == '.')
-  let versionStr := String.mk versionChars
+  let versionStr := String.ofList versionChars
   let nums := versionStr.splitOn "."
   if nums.length < 3 then failure
   let major ← nums[0]!.toNat?
@@ -1022,16 +1096,23 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
     -- Skip build AND doc-gen4, only re-run classification (requires existing api-temp)
     IO.println s!"[{name}] Reclassify mode - skipping build and doc-gen4, running classification only"
     removeDir outputDir  -- Remove generated site to force regeneration
+  | .mkdocsOnly =>
+    -- Skip everything except MkDocs, load classification from cache
+    IO.println s!"[{name}] MkDocs-only mode - regenerating site from classification cache"
+    removeDir outputDir  -- Remove generated site to force regeneration
 
   -- Mark as in-progress
   writeProjectState config.sitesDir name .inProgress
 
   IO.println s!"[{name}] Starting processing..."
 
-  -- Clone or update repository (skip for reanalyze/reclassify modes)
-  if mode == .reanalyze || mode == .reclassify then
-    -- Reanalyze/reclassify mode: verify repo and build exist
-    let modeName := if mode == .reclassify then "reclassify" else "reanalyze"
+  -- Clone or update repository (skip for reanalyze/reclassify/mkdocsOnly modes)
+  if mode == .reanalyze || mode == .reclassify || mode == .mkdocsOnly then
+    -- Reanalyze/reclassify/mkdocsOnly mode: verify repo and build exist
+    let modeName := match mode with
+      | .reclassify => "reclassify"
+      | .mkdocsOnly => "mkdocs-only"
+      | _ => "reanalyze"
     if !(← repoDir.pathExists) then
       let errMsg := s!"{modeName} mode requires existing repo at {repoDir}"
       generateErrorPage name errMsg "" outputDir
@@ -1090,10 +1171,13 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
              errorMessage := some s!"Toolchain incompatibility: project uses {tcCheck.projectToolchain}, requires {tcCheck.dvbToolchain}",
              siteDir := some outputDir }
 
-  -- Build main project (skip for reanalyze/reclassify modes)
+  -- Build main project (skip for reanalyze/reclassify/mkdocsOnly modes)
   let mut buildLog := ""
-  if mode == .reanalyze || mode == .reclassify then
-    let modeName := if mode == .reclassify then "reclassify" else "reanalyze"
+  if mode == .reanalyze || mode == .reclassify || mode == .mkdocsOnly then
+    let modeName := match mode with
+      | .reclassify => "reclassify"
+      | .mkdocsOnly => "mkdocs-only"
+      | _ => "reanalyze"
     IO.println s!"[{name}] [4/6] Skipping build ({modeName} mode - using existing build)"
     -- Verify .lake/build exists
     let lakeBuildDir := projectDir / ".lake" / "build"
@@ -1171,24 +1255,71 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
   let modeFlag := if project.classificationMode == .annotated then "--annotated" else "--auto"
   -- Convert outputDir to absolute path since unified-doc runs from docvbDir
   let outputDirAbs ← IO.FS.realPath outputDir
-  let mut unifiedArgs := #["exe", "unified-doc", "unified", modeFlag,
+  let mut unifiedArgs := #["unified", modeFlag,
                        "--output", outputDirAbs.toString,
                        "--repo", repo,
                        "--branch", branch] ++ modules
-  -- Add --skip-docgen flag for reclassify mode
-  if mode == .reclassify then
+  -- Add --skip-docgen flag for reclassify and mkdocsOnly modes
+  if mode == .reclassify || mode == .mkdocsOnly then
     unifiedArgs := unifiedArgs ++ #["--skip-docgen"]
   -- Add proof dep flags as CLI args (instead of env vars)
   if project.skipProofDeps then
     unifiedArgs := unifiedArgs ++ #["--skip-proof-deps"]
   if project.proofDepWorkers > 0 then
     unifiedArgs := unifiedArgs ++ #["--proof-dep-workers", s!"{project.proofDepWorkers}"]
+  -- Add mkdocs workers flag
+  if project.mkdocsWorkers > 0 then
+    unifiedArgs := unifiedArgs ++ #["--mkdocs-workers", s!"{project.mkdocsWorkers}"]
+  -- Add classification cache flags for efficiency
+  -- Cache uses split format: <basePath>.json (metadata) + <basePath>.jsonl (entries)
+  let cachePath := outputDirAbs / "classification-cache"  -- No extension - save/load adds .json/.jsonl
+  if mode == .mkdocsOnly then
+    -- Load classification from cache (skip classification step entirely)
+    unifiedArgs := unifiedArgs ++ #["--load-classification", cachePath.toString]
+  else
+    -- Save classification for future mkdocsOnly runs
+    unifiedArgs := unifiedArgs ++ #["--save-classification", cachePath.toString]
   -- Only DISABLE_EQUATIONS still uses env var (not yet a CLI flag)
   let mut env : Array (String × Option String) := #[]
   if project.disableEquations then
     env := env.push ("DISABLE_EQUATIONS", some "1")
 
-  let (docOk, docLog, newLog) ← runCmdLogged "unified-doc" "lake" unifiedArgs (some docvbDir) cmdLog (some logCtx) 3600 env
+  -- Get LEAN_PATH from lake env so we can run the binary directly with unbuffered output
+  let unifiedBin := docvbDir / ".lake" / "build" / "bin" / "unified-doc"
+  let (unifiedCmd, unifiedCmdArgs) ← if ← unifiedBin.pathExists then do
+    -- Get environment variables from lake
+    let leanPathResult ← IO.Process.output {
+      cmd := "lake"
+      args := #["env", "printenv", "LEAN_PATH"]
+      cwd := some docvbDir
+    }
+    let leanSrcPathResult ← IO.Process.output {
+      cmd := "lake"
+      args := #["env", "printenv", "LEAN_SRC_PATH"]
+      cwd := some docvbDir
+    }
+    if leanPathResult.exitCode == 0 then
+      let leanPath := leanPathResult.stdout.trimAscii.copy
+      IO.println s!"[{name}]       LEAN_PATH={leanPath}"
+      env := env.push ("LEAN_PATH", some leanPath)
+      if leanSrcPathResult.exitCode == 0 then
+        let leanSrcPath := leanSrcPathResult.stdout.trimAscii.copy
+        env := env.push ("LEAN_SRC_PATH", some leanSrcPath)
+      -- Run binary directly with LEAN_PATH set - no buffering intermediaries
+      IO.println s!"[{name}]       Running: {unifiedBin}"
+      pure (unifiedBin.toString, unifiedArgs)
+    else
+      IO.println s!"[{name}]       Warning: Could not get LEAN_PATH, falling back to lake exe"
+      -- Fall back to lake exe if we can't get LEAN_PATH
+      pure ("lake", #["exe", "unified-doc"] ++ unifiedArgs)
+  else
+    IO.println s!"[{name}]       Warning: Binary not found at {unifiedBin}, falling back to lake exe"
+    -- Fall back to lake exe if binary not found
+    pure ("lake", #["exe", "unified-doc"] ++ unifiedArgs)
+
+  -- Use streaming output so we see progress in real-time (important for long-running Mathlib4 analysis)
+  -- Output goes directly to terminal (inherit mode) - no prefix added
+  let (docOk, docLog, newLog) ← runCmdStreaming "unified-doc" unifiedCmd unifiedCmdArgs (some docvbDir) cmdLog (some logCtx) env
   cmdLog := newLog
 
   -- Log is already saved incrementally by runCmdLogged
@@ -1280,6 +1411,7 @@ def runExperiments (configPath : FilePath) (mode : RunMode := .fresh)
     | .update => "update"
     | .reanalyze => "reanalyze"
     | .reclassify => "reclassify"
+    | .mkdocsOnly => "mkdocs-only"
   let filterStr := match projectFilter with
     | some names => s!" (filtered: {names})"
     | none => ""
@@ -1482,6 +1614,7 @@ def experimentsMain (args : List String) : IO UInt32 := do
   | ["run", "--update"] => Experiments.runExperiments "config.toml" .update projectFilter
   | ["run", "--reanalyze"] => Experiments.runExperiments "config.toml" .reanalyze projectFilter
   | ["run", "--reclassify"] => Experiments.runExperiments "config.toml" .reclassify projectFilter
+  | ["run", "--mkdocs-only"] => Experiments.runExperiments "config.toml" .mkdocsOnly projectFilter
   | ["run", "--config", path] => Experiments.runExperiments path .fresh projectFilter
   | ["run", "--resume", "--config", path] => Experiments.runExperiments path .resume projectFilter
   | ["run", "--config", path, "--resume"] => Experiments.runExperiments path .resume projectFilter
@@ -1491,6 +1624,8 @@ def experimentsMain (args : List String) : IO UInt32 := do
   | ["run", "--config", path, "--reanalyze"] => Experiments.runExperiments path .reanalyze projectFilter
   | ["run", "--reclassify", "--config", path] => Experiments.runExperiments path .reclassify projectFilter
   | ["run", "--config", path, "--reclassify"] => Experiments.runExperiments path .reclassify projectFilter
+  | ["run", "--mkdocs-only", "--config", path] => Experiments.runExperiments path .mkdocsOnly projectFilter
+  | ["run", "--config", path, "--mkdocs-only"] => Experiments.runExperiments path .mkdocsOnly projectFilter
   -- Serve commands
   | ["serve"] => Experiments.serveResults "config.toml"
   | ["serve", "--config", path] => Experiments.serveResults path
@@ -1510,6 +1645,7 @@ def experimentsMain (args : List String) : IO UInt32 := do
     IO.println "  --update             Update git repos and regenerate docs for all projects"
     IO.println "  --reanalyze          Re-run unified-doc analysis only (skip build, requires existing build)"
     IO.println "  --reclassify         Re-run classification only (skip build AND doc-gen4)"
+    IO.println "  --mkdocs-only        Regenerate MkDocs only (skip classification, requires cache)"
     IO.println "  --config <path>      Path to config.toml (default: ./config.toml)"
     IO.println "  --projects <names>   Only run specified projects (space-separated)"
     IO.println ""
@@ -1522,6 +1658,7 @@ def experimentsMain (args : List String) : IO UInt32 := do
     IO.println "  experiments run --update                 # Update repos and regenerate"
     IO.println "  experiments run --reanalyze --projects mathlib4  # Re-analyze without rebuild"
     IO.println "  experiments run --reclassify --projects mathlib4 # Re-classify (uses existing doc-gen4)"
+    IO.println "  experiments run --mkdocs-only --projects mathlib4 # Regenerate MkDocs (uses cache)"
     IO.println "  experiments run --projects mathlib4      # Run only mathlib4"
     IO.println "  experiments run --projects batteries mm0 # Run batteries and mm0"
     IO.println "  experiments run --update --projects mathlib4  # Update only mathlib4"

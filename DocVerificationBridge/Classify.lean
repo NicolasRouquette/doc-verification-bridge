@@ -261,6 +261,7 @@ def classifyAllDeclarationsParallel (env : Environment) (modulePrefix : Name) (n
   (← IO.getStdout).flush
 
   -- Phase 1: Sequential MetaM classification (collect proof dep tasks)
+  let phase1Start ← IO.monoMsNow
   let mut processed := 0
   let progressInterval := max 1 (total / 20)
 
@@ -276,7 +277,11 @@ def classifyAllDeclarationsParallel (env : Environment) (modulePrefix : Name) (n
       if let some task := taskOpt then
         proofDepTasks := proofDepTasks.push (name, task)
 
-  IO.println s!"\r  [3/7] Classification complete: {entries.size} declarations    "
+  let phase1End ← IO.monoMsNow
+  let phase1Duration := phase1End - phase1Start
+  let phase1Mins := phase1Duration / 60000
+  let phase1Secs := (phase1Duration % 60000) / 1000
+  IO.println s!"\r  [3/7] Classification complete: {entries.size} declarations ({phase1Mins}m {phase1Secs}s)    "
   (← IO.getStdout).flush
 
   -- Phase 2: Parallel proof dependency extraction
@@ -286,6 +291,8 @@ def classifyAllDeclarationsParallel (env : Environment) (modulePrefix : Name) (n
   else
     IO.println s!"  [4/7] Phase 2: Extracting proof deps for {proofDepTasks.size} theorems ({numWorkers} parallel workers)..."
     (← IO.getStdout).flush
+
+    let phase2Start ← IO.monoMsNow
 
     -- Create tasks for parallel execution
     let taskChunks := proofDepTasks.toList.toArray
@@ -323,7 +330,11 @@ def classifyAllDeclarationsParallel (env : Environment) (modulePrefix : Name) (n
       if let some existing := entries.find? name then
         entries := entries.insert name (mergeProofDeps existing deps)
 
-    IO.println s!"  [4/7] Proof deps complete: extracted for {allResults.size} theorems"
+    let phase2End ← IO.monoMsNow
+    let phase2Duration := phase2End - phase2Start
+    let phase2Mins := phase2Duration / 60000
+    let phase2Secs := (phase2Duration % 60000) / 1000
+    IO.println s!"  [4/7] Proof deps complete: extracted for {allResults.size} theorems ({phase2Mins}m {phase2Secs}s)"
     (← IO.getStdout).flush
 
   return { entries, notes }

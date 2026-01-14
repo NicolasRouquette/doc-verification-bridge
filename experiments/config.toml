@@ -25,6 +25,9 @@ use_custom_source_linker = false
 #   subdirectory: path within repo to Lean project (for monorepos)
 #   lake_exe_cache_get: true to run `lake exe cache get` before build (for mathlib4)
 #   disable_equations: true to disable equation generation (avoids timeouts)
+#   skip_proof_deps: true to skip proof dependency extraction (faster)
+#   proof_dep_workers: number of parallel workers for proof dep extraction (0 = sequential)
+#   mkdocs_workers: number of parallel workers for MkDocs file writing (0 = sequential)
 
 [[projects]]
 name = "batteries"
@@ -40,7 +43,8 @@ description = "Mathematical library for Lean 4"
 lake_exe_cache_get = true
 disable_equations = true
 skip_proof_deps = false
-proof_dep_workers = 40
+proof_dep_workers = 50
+mkdocs_workers = 20
 
 [[projects]]
 name = "aesop"

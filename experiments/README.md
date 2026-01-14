@@ -84,6 +84,7 @@ classification_mode = "auto"  # or "annotated"
 | `disable_equations` | bool | `false` | Disable equation generation (avoids timeouts) |
 | `skip_proof_deps` | bool | `false` | Skip proof dependency extraction entirely (fastest, but no `dependsOn` data) |
 | `proof_dep_workers` | int | `0` | Upper bound on worker threads for parallel proof extraction (0 = sequential) |
+| `mkdocs_workers` | int | `0` | Parallel workers for MkDocs file generation (0 = sequential) |
 
 ### Monorepo Support
 
@@ -138,6 +139,7 @@ modules = ["Mathlib"]
 lake_exe_cache_get = true     # Use cache for faster build
 disable_equations = true       # Avoid timeout on complex proofs
 proof_dep_workers = 8          # Parallel proof dep extraction with up to 8 workers
+mkdocs_workers = 20            # Parallel MkDocs file generation
 ```
 
 The `proof_dep_workers` option uses a two-phase classification:
@@ -191,6 +193,16 @@ The experiment runner supports three modes for different workflows:
 - Requires existing doc-gen4 output in `api-temp/` directory
 - **Fastest option** for iterating on classification logic
 - Useful when classification code changes but API docs don't need regeneration
+
+### MkDocs-Only Mode
+```bash
+./run.sh run --mkdocs-only
+```
+- Loads classification from cache file (requires prior run with caching)
+- Skips git, build, doc-gen4, AND classification phases
+- Only regenerates MkDocs markdown files and builds the site
+- **Fastest option** for iterating on report templates and MkDocs styling
+- Requires `--load-classification` or cached classification from previous run
 
 ### State Tracking
 
