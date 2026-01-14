@@ -240,9 +240,25 @@ def mergeProofDeps (apiMeta : APIMeta) (deps : Array Name) : APIMeta :=
     { apiMeta with kind := .apiTheorem newThmData }
   | _ => apiMeta
 
+/-- Format milliseconds as duration string (handles hours if >= 60 minutes) -/
+def formatDurationMs (ms : Nat) : String :=
+  let totalMins := ms / 60000
+  let secs := (ms % 60000) / 1000
+  if totalMins >= 60 then
+    let hours := totalMins / 60
+    let mins := totalMins % 60
+    s!"{hours}h {mins}m {secs}s"
+  else
+    s!"{totalMins}m {secs}s"
+
+/-- Format delta and total time as "(Δ Xm Ys, total: Am Bs)" -/
+def formatTimingWithTotal (deltaMs : Nat) (overallStartTime : Nat) (currentTime : Nat) : String :=
+  let totalMs := currentTime - overallStartTime
+  s!"(Δ {formatDurationMs deltaMs}, total: {formatDurationMs totalMs})"
+
 /-- Classify all declarations with parallel proof dependency extraction -/
 def classifyAllDeclarationsParallel (env : Environment) (modulePrefix : Name) (numWorkers : Nat := 8)
-    : MetaM ClassificationResult := do
+    (overallStartTime : Nat := 0) : MetaM ClassificationResult := do
   let internalPrefixes := #[modulePrefix.toString]
   let mut entries : NameMap APIMeta := {}
   let mut proofDepTasks : Array (Name × ProofDepTask) := #[]
@@ -279,9 +295,8 @@ def classifyAllDeclarationsParallel (env : Environment) (modulePrefix : Name) (n
 
   let phase1End ← IO.monoMsNow
   let phase1Duration := phase1End - phase1Start
-  let phase1Mins := phase1Duration / 60000
-  let phase1Secs := (phase1Duration % 60000) / 1000
-  IO.println s!"\r  [3/7] Classification complete: {entries.size} declarations ({phase1Mins}m {phase1Secs}s)    "
+  let timingStr := formatTimingWithTotal phase1Duration overallStartTime phase1End
+  IO.println s!"\r  [3/7] Classification complete: {entries.size} declarations {timingStr}    "
   (← IO.getStdout).flush
 
   -- Phase 2: Parallel proof dependency extraction
@@ -332,18 +347,19 @@ def classifyAllDeclarationsParallel (env : Environment) (modulePrefix : Name) (n
 
     let phase2End ← IO.monoMsNow
     let phase2Duration := phase2End - phase2Start
-    let phase2Mins := phase2Duration / 60000
-    let phase2Secs := (phase2Duration % 60000) / 1000
-    IO.println s!"  [4/7] Proof deps complete: extracted for {allResults.size} theorems ({phase2Mins}m {phase2Secs}s)"
+    let timingStr2 := formatTimingWithTotal phase2Duration overallStartTime phase2End
+    IO.println s!"  [4/7] Proof deps complete: extracted for {allResults.size} theorems {timingStr2}"
     (← IO.getStdout).flush
 
   return { entries, notes }
 
 /-- Classify all declarations from relevant modules
     @param skipProofDeps If true, skip proof dependency extraction entirely (fast mode)
-    @param proofDepWorkers Number of parallel workers for proof dep extraction (0 = sequential) -/
+    @param proofDepWorkers Number of parallel workers for proof dep extraction (0 = sequential)
+    @param overallStartTime Start time of overall process for cumulative timing -/
 def classifyAllDeclarations (env : Environment) (modulePrefix : Name)
-    (skipProofDeps : Bool := false) (proofDepWorkers : Nat := 0) : MetaM ClassificationResult := do
+    (skipProofDeps : Bool := false) (proofDepWorkers : Nat := 0)
+    (overallStartTime : Nat := 0) : MetaM ClassificationResult := do
   let internalPrefixes := #[modulePrefix.toString]
 
   if skipProofDeps then
@@ -383,7 +399,7 @@ def classifyAllDeclarations (env : Environment) (modulePrefix : Name)
 
   else if proofDepWorkers > 0 then
     -- Parallel mode: extract proof deps in parallel
-    classifyAllDeclarationsParallel env modulePrefix proofDepWorkers
+    classifyAllDeclarationsParallel env modulePrefix proofDepWorkers overallStartTime
 
   else
     -- Sequential mode with proof deps (original behavior)
@@ -422,7 +438,10 @@ def classifyAllDeclarations (env : Environment) (modulePrefix : Name)
 def computeProvedByMap (entries : NameMap APIMeta) : NameMap (Array Name) := Id.run do
   let mut provedBy : NameMap (Array Name) := {}
 
-  for (thmName, apiMeta) in entries do
+  -- Convert to array first to avoid stack overflow on large NameMaps
+  let entriesArray := entries.foldl (init := #[]) fun acc name apiMeta => acc.push (name, apiMeta)
+
+  for (thmName, apiMeta) in entriesArray do
     if apiMeta.isTheorem then
       -- This theorem proves things about the names in its `proves` field
       for defName in apiMeta.proves do
@@ -435,7 +454,10 @@ def computeProvedByMap (entries : NameMap APIMeta) : NameMap (Array Name) := Id.
 def updateCoverageStatus (entries : NameMap APIMeta) (provedBy : NameMap (Array Name)) : NameMap APIMeta := Id.run do
   let mut result := entries
 
-  for (name, apiMeta) in entries do
+  -- Convert to array first to avoid stack overflow on large NameMaps
+  let entriesArray := entries.foldl (init := #[]) fun acc name apiMeta => acc.push (name, apiMeta)
+
+  for (name, apiMeta) in entriesArray do
     if !apiMeta.isTheorem then
       -- Check if any theorems prove things about this definition
       let proofs := provedBy.find? name |>.getD #[]

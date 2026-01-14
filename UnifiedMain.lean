@@ -97,11 +97,11 @@ def classifyAnnotatedDeclarations (env : Environment) (modName : Name) : MetaM C
 /-- Classify declarations based on the selected mode -/
 def classifyWithMode (env : Environment) (modName : Name) (mode : ClassificationMode)
     (skipProofDeps : Bool := false) (proofDepWorkers : Nat := 0)
-    : MetaM ClassificationResult := do
+    (overallStartTime : Nat := 0) : MetaM ClassificationResult := do
   match mode with
   | .auto =>
     -- Use automatic heuristic-based classification
-    classifyAllDeclarations env modName skipProofDeps proofDepWorkers
+    classifyAllDeclarations env modName skipProofDeps proofDepWorkers overallStartTime
   | .annotated =>
     -- Only collect declarations with explicit annotations
     classifyAnnotatedDeclarations env modName
@@ -172,8 +172,11 @@ def loadAndAnalyzeWithMode (cfg : UnifiedConfig) (modules : Array Name)
         maxHeartbeats := 0  -- Unlimited heartbeats for classification
       }
       let coreState : Core.State := { env }
-      let (result, _) ← (classifyWithMode env modName mode cfg.skipProofDeps cfg.proofDepWorkers).run' {} |>.toIO coreCtx coreState
-      allEntries := result.entries.foldl (fun acc name apiMeta => acc.insert name apiMeta) allEntries
+      let (result, _) ← (classifyWithMode env modName mode cfg.skipProofDeps cfg.proofDepWorkers pipelineStart).run' {} |>.toIO coreCtx coreState
+      -- Convert to array first, then use foldl (tail-recursive) to avoid stack overflow
+      let entriesArray := result.entries.foldl (init := #[]) fun acc name apiMeta => acc.push (name, apiMeta)
+      allEntries := entriesArray.foldl (init := allEntries) fun acc (name, apiMeta) =>
+        acc.insert name apiMeta
 
     lastStep ← printTimedStep s!"  Classified {allEntries.size} declarations" pipelineStart lastStep
 
@@ -372,7 +375,10 @@ def runVerifyCmd (args : Cli.Parsed) : IO UInt32 := do
     }
     let coreState : Core.State := { env }
     let (result, _) ← (classifyWithMode env modName mode).run' {} |>.toIO coreCtx coreState
-    allEntries := result.entries.foldl (fun acc name apiMeta => acc.insert name apiMeta) allEntries
+    -- Convert to array first, then use foldl (tail-recursive) to avoid stack overflow
+    let entriesArray := result.entries.foldl (init := #[]) fun acc name apiMeta => acc.push (name, apiMeta)
+    allEntries := entriesArray.foldl (init := allEntries) fun acc (name, apiMeta) =>
+      acc.insert name apiMeta
 
   IO.println s!"  Classified {allEntries.size} declarations"
   (← IO.getStdout).flush
