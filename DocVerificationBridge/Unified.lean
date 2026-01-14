@@ -62,6 +62,12 @@ structure UnifiedConfig where
   proofDepWorkers : Nat := 0
   /-- Skip proof dependency extraction entirely -/
   skipProofDeps : Bool := false
+  /-- Path to load classification cache from (skips classification step) -/
+  loadClassificationCache : Option System.FilePath := none
+  /-- Path to save classification cache to (for future runs) -/
+  saveClassificationCache : Option System.FilePath := none
+  /-- Number of parallel workers for MkDocs file writing (0 = sequential) -/
+  mkdocsWorkers : Nat := 0
 deriving Repr, Inhabited
 
 /-- Result of the unified pipeline -/
@@ -653,14 +659,71 @@ def generateUnifiedMkDocsSite (cfg : UnifiedConfig) (result : UnifiedResult) (mo
   (← IO.getStdout).flush
 
   let moduleReports := generatePerModuleReports result.env result.verificationEntries (some reportCfg)
+  let totalModules := moduleReports.size
+  let workersInfo := if cfg.mkdocsWorkers > 0 then s!" ({cfg.mkdocsWorkers} workers)" else ""
+  IO.println s!"  Processing {totalModules} modules...{workersInfo}"
+  (← IO.getStdout).flush
 
-  -- Write each module's report
-  let mut allStats : Array ModuleStats := #[]
-  for (safeFilename, content, stats) in moduleReports do
-    IO.FS.writeFile (modulesDir / s!"{safeFilename}.md") content
-    allStats := allStats.push stats
+  -- Write each module's report (parallel if workers > 0)
+  let allStats ← if cfg.mkdocsWorkers > 0 then do
+    -- Parallel writing with bounded concurrency
+    let numWorkers := min cfg.mkdocsWorkers totalModules
+    let chunkSize := (totalModules + numWorkers - 1) / numWorkers  -- ceiling division
+    let chunks := moduleReports.toList.toArray.toSubarray |>.toArray
+      |> (fun arr => Id.run do
+        let mut result : Array (Array (String × String × ModuleStats)) := #[]
+        let mut i := 0
+        while i < arr.size do
+          let endIdx := min (i + chunkSize) arr.size
+          result := result.push (arr.extract i endIdx)
+          i := endIdx
+        return result)
+
+    IO.println s!"  Spawning {chunks.size} parallel workers..."
+    (← IO.getStdout).flush
+
+    -- Spawn tasks for each chunk
+    let tasks ← chunks.mapM fun chunk => do
+      IO.asTask do
+        let mut stats : Array ModuleStats := #[]
+        for (safeFilename, content, moduleStats) in chunk do
+          IO.FS.writeFile (modulesDir / s!"{safeFilename}.md") content
+          stats := stats.push moduleStats
+        return stats
+
+    -- Wait for all tasks and collect results
+    let mut allStats : Array ModuleStats := #[]
+    let mut completed := 0
+    for task in tasks do
+      let stats ← IO.ofExcept (← IO.wait task)
+      allStats := allStats ++ stats
+      completed := completed + 1
+      let pct := (completed * 100) / chunks.size
+      IO.print s!"\r  Completed workers: {completed}/{chunks.size} ({pct}%)    "
+      (← IO.getStdout).flush
+    IO.println s!"\r  Written {allStats.size} module reports                    "
+    (← IO.getStdout).flush
+    pure allStats
+  else do
+    -- Sequential writing with progress
+    let mut allStats : Array ModuleStats := #[]
+    let mut written := 0
+    let progressInterval := max 1 (totalModules / 20)  -- Report every 5%
+    for (safeFilename, content, stats) in moduleReports do
+      IO.FS.writeFile (modulesDir / s!"{safeFilename}.md") content
+      allStats := allStats.push stats
+      written := written + 1
+      if written % progressInterval == 0 then
+        let pct := (written * 100) / totalModules
+        IO.print s!"\r  Writing modules: {written}/{totalModules} ({pct}%)    "
+        (← IO.getStdout).flush
+    IO.println s!"\r  Written {written} module reports                    "
+    (← IO.getStdout).flush
+    pure allStats
 
   -- Generate module index (with sorry declaration lists)
+  IO.println s!"  Generating module index..."
+  (← IO.getStdout).flush
   let moduleIndex := generateModuleIndex allStats cfg.projectName result.verificationEntries (some reportCfg)
   IO.FS.writeFile (verificationDir / "index.md") moduleIndex
 

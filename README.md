@@ -34,6 +34,62 @@ require «doc-verification-bridge» from git
 
 ---
 
+## Using Annotations in Your Code
+
+To use the `@[api_type]`, `@[api_def]`, `@[api_theorem]`, and `@[api_lemma]` attributes in your Lean files, import the attributes module:
+
+```lean
+import DocVerificationBridge.Attributes
+```
+
+This gives you access to all the annotation attributes for tracking API coverage. If you're migrating from a local `Meta.APICoverage` implementation, simply change:
+
+```lean
+-- Before
+import Meta.APICoverage
+
+-- After
+import DocVerificationBridge.Attributes
+```
+
+The annotation syntax is identical. For example:
+
+```lean
+import DocVerificationBridge.Attributes
+
+@[api_type { category := .mathematicalAbstraction, coverage := .complete }]
+inductive PathWithLength {α : Type*} (r : α → α → Prop) : α → α → Nat → Prop
+  | single {a b} : r a b → PathWithLength r a b 1
+  | cons {a b c n} : r a b → PathWithLength r b c n → PathWithLength r a c (n + 1)
+
+@[api_theorem {
+  theoremKind := .soundnessProperty,
+  assumes := #[`PathWithLength],
+  proves := #[`Relation.TransGen]
+}]
+theorem PathWithLength_soundness {a b : α} {n : Nat} (h : PathWithLength r a b n) :
+    Relation.TransGen r a b := by
+  induction h <;> simp_all [Relation.TransGen.single, Relation.TransGen.trans]
+```
+
+### Adding as a Dependency (Path-based)
+
+For local development, add doc-verification-bridge as a path-based dependency in your `lakefile.toml`:
+
+```toml
+[[require]]
+name = "doc-verification-bridge"
+path = "../path/to/doc-verification-bridge"
+```
+
+Or in `lakefile.lean`:
+
+```lean
+require «doc-verification-bridge» from "../path/to/doc-verification-bridge"
+```
+
+---
+
 ## Running on External Projects
 
 To analyze a project you haven't modified (e.g., `batteries`, `mathlib4`), you need a **nested docbuild directory** similar to doc-gen4. This is required because:
@@ -145,6 +201,9 @@ For very large projects like mathlib4, proof dependency extraction can be slow b
 |------|--------|
 | `--skip-proof-deps` | Skip proof dependency extraction entirely (fastest, no `dependsOn` data) |
 | `--proof-dep-workers N` | Use up to N worker threads for parallel proof extraction |
+| `--save-classification PATH` | Save classification results to cache (creates PATH.json + PATH.jsonl) |
+| `--load-classification PATH` | Load classification from cache, skip classification phase |
+| `--mkdocs-workers N` | Use N parallel workers for MkDocs file generation |
 
 **Example:**
 ```bash
@@ -153,7 +212,29 @@ lake exe unified-doc unified --auto --skip-proof-deps --output docs Mathlib
 
 # Parallel proof extraction with 8 workers
 lake exe unified-doc unified --auto --proof-dep-workers 8 --output docs Mathlib
+
+# Parallel MkDocs generation with 20 workers (speeds up file writing for large projects)
+lake exe unified-doc unified --auto --mkdocs-workers 20 --output docs Mathlib
+
+# Combined: parallel proof extraction + parallel MkDocs generation
+lake exe unified-doc unified --auto --proof-dep-workers 50 --mkdocs-workers 20 --output docs Mathlib
+
+# Save classification to cache (for large projects like mathlib4)
+# Creates /tmp/mathlib-cache.json (metadata) and /tmp/mathlib-cache.jsonl (entries)
+lake exe unified-doc unified --auto --save-classification /tmp/mathlib-cache --output docs Mathlib
+
+# Load from cache and regenerate MkDocs only (fast iteration)
+lake exe unified-doc unified --auto --load-classification /tmp/mathlib-cache --mkdocs-workers 20 --output docs Mathlib
 ```
+
+### Classification Cache Format
+
+The classification cache uses a split format for streaming I/O with large projects:
+
+- **`<path>.json`**: Small metadata file with version and entry count
+- **`<path>.jsonl`**: Pure [JSON Lines](https://jsonlines.org/) with one entry per line
+
+This enables standard JSONL tooling (`jq`, `wc -l`, `head`, `tail`) and avoids stack overflow when serializing/deserializing 280K+ entries.
 
 ### How Parallel Extraction Works
 
