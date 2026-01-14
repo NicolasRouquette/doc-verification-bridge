@@ -335,6 +335,84 @@ The generated `site/` folder for each project is ready for GitHub Pages deployme
 2. All links are relative, so no configuration needed
 3. Works with both project pages and organization pages
 
+## Scaling to Mathlib4
+
+Analyzing Mathlib4 (400K+ declarations, 220K+ theorems, 7,400+ modules) required several engineering techniques to handle the scale:
+
+### Parallel Processing
+
+| Component | Challenge | Solution |
+|-----------|-----------|----------|
+| **Proof Dependencies** | Traversing proof terms for 220K theorems | Two-phase approach: Phase 1 extracts types in MetaM (sequential), Phase 2 extracts proof deps in pure IO (parallel workers) |
+| **MkDocs Generation** | Writing 7,400+ markdown files | Parallel file writer with configurable worker count (`--mkdocs-workers N`) |
+
+### Streaming Serialization
+
+The classification cache (280K entries) cannot be serialized/deserialized with standard JSON due to stack overflow from recursive descent parsing. The solution uses a **split format**:
+
+- **Metadata file** (`.json`): Small JSON with version and entry count
+- **Entries file** (`.jsonl`): Pure [JSON Lines](https://jsonlines.org/) format, one entry per line
+
+This enables:
+- **Streaming writes**: One `Json.compress` call per entry, periodic flush
+- **Streaming reads**: Line-by-line parsing, no recursive JSON AST construction
+- **Standard tooling**: Works with `jq`, `wc -l`, `head`, `tail`, Python's `jsonlines`
+
+### Memory and Stack Management
+
+| Issue | Cause | Solution |
+|-------|-------|----------|
+| Stack overflow in RBMap traversal | Deep recursion in `NameMap.foldl` for 280K entries | Convert to Array first using tail-recursive `foldl` |
+| Stack overflow in `for` loops | `for ... in` in `do` blocks accumulates continuation frames | Replace with `Array.foldl` which is guaranteed tail-recursive |
+| Stack overflow in JSON serialization | Building huge `Json.arr` AST | Write entries one-at-a-time with `Json.compress` |
+| UTF-8 panics in subprocess output | Invalid byte sequences in compiler warnings | Byte-safe filtering before UTF-8 conversion |
+| Output buffering hiding progress | Piped I/O buffering in Lean's task scheduler | Use `.inherit` mode for direct terminal output |
+
+**Why `Array.foldl` is stack-safe**: The Lean 4 standard library implements `Array.foldl` via `Array.foldlM` 
+([Init/Data/Array/Basic.lean, line 627](https://github.com/leanprover/lean4/blob/v4.27.0-rc1/src/lean/Init/Data/Array/Basic.lean#L627)), 
+which uses a tail-recursive `loop` function where the recursive call is always in tail position. 
+At runtime, it's implemented by `foldlMUnsafe` 
+([line 583](https://github.com/leanprover/lean4/blob/v4.27.0-rc1/src/lean/Init/Data/Array/Basic.lean#L583)) 
+using `USize` indices for efficiency—also tail-recursive. This makes `Array.foldl` safe for iterating 
+over 280K+ entries without stack overflow, unlike `for ... in` loops in `do` blocks which can 
+accumulate continuation frames.
+
+### docvb Overlay Architecture
+
+Rather than forking each project, the pipeline creates a lightweight `docvb/` subdirectory that:
+- Imports the parent project as a Lake dependency (via `..`)
+- Adds doc-gen4 and unified-doc as dependencies
+- Inherits the correct Lean toolchain from the parent
+- Can be built without modifying the original project
+
+This allows analyzing any Lean 4 project without requiring upstream changes.
+
+### Environment Extraction
+
+Running unified-doc with proper module resolution requires `LEAN_PATH` to be set correctly. The pipeline:
+1. Runs `lake env printenv LEAN_PATH` to extract the environment
+2. Passes the environment to the subprocess directly
+3. Runs the binary with inherited stdout/stderr for real-time output
+
+This approach works around a blocking I/O issue: when running `lake exe docvb ...` as a subprocess, Lake becomes an intermediary process. Output flows through a double-buffered path (`docvb` → `lake` → parent), causing progress output to appear blocked until completion. By extracting the environment and running the binary directly, we eliminate the intermediate process and get real-time streaming output.
+
+### Potential `lake exe` Improvements
+
+The environment extraction workaround suggests several potential improvements to Lake:
+
+1. **`--unbuffered` or `--passthrough` flag** - Configure `lake exe` to use unbuffered I/O or inherit stdio directly when real-time output is needed.
+
+2. **Subprocess detection** - When Lake detects it's running as a subprocess (not a TTY), it could automatically use different I/O handling to avoid double-buffering.
+
+3. **`lake exec-env <target>` command** - A dedicated command that prints the environment needed to run an executable, making the extraction pattern first-class:
+   ```bash
+   lake exec-env docvb  # Outputs: LEAN_PATH=... LD_LIBRARY_PATH=... etc.
+   ```
+
+4. **Direct exec mode** - An option where Lake uses `execve` to *replace* itself with the target executable rather than spawning a child process (similar to shell's `exec` builtin).
+
+These would benefit any tooling that needs to orchestrate Lake-built executables while preserving real-time output streaming.
+
 ## For the Paper
 
 After running experiments, `results.json` contains all statistics in machine-readable format for generating tables and figures.
@@ -345,3 +423,4 @@ Key metrics:
 - `bridgingTheorems`: The key metric for spec-impl correspondence
 - `defsWithSorry` / `theoremsWithSorry`: Proof completeness metrics
 - Per-category breakdowns for the Four-Category Ontology analysis
+
