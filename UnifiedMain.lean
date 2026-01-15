@@ -285,7 +285,7 @@ def runUnifiedCmd (args : Cli.Parsed) : IO UInt32 := do
   if cfg.skipProofDeps then
     IO.println s!"Proof deps: skipped"
   else if cfg.proofDepWorkers > 0 then
-    IO.println s!"Proof dep workers: {cfg.proofDepWorkers}"
+    IO.println s!"Proof dep workers: {cfg.proofDepWorkers} (dedicated threads)"
   (← IO.getStdout).flush
   runUnifiedPipelineWithMode cfg (modules.map String.toName) mode
 

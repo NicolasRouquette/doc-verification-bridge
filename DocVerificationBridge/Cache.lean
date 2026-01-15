@@ -354,7 +354,7 @@ def loadClassification (basePath : System.FilePath) : IO (NameMap APIMeta) := do
     let line ← handle.getLine
     if line.isEmpty then break
 
-    let trimmed := line.trimAscii.copy
+    let trimmed := line.trimCompat
     if trimmed.isEmpty then continue
 
     match Json.parse trimmed with

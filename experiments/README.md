@@ -377,6 +377,61 @@ using `USize` indices for efficiency—also tail-recursive. This makes `Array.fo
 over 280K+ entries without stack overflow, unlike `for ... in` loops in `do` blocks which can 
 accumulate continuation frames.
 
+### Lean 4 Task Parallelism
+
+Lean 4's runtime uses a task scheduler with important constraints on parallelism
+([Init/Core.lean, lines 620-680](https://github.com/leanprover/lean4/blob/v4.27.0-rc1/src/lean/Init/Core.lean#L620)):
+
+| Priority | Value | Behavior |
+|----------|-------|----------|
+| `Task.Priority.default` | 0 | Shared thread pool, limited to `LEAN_NUM_THREADS` (defaults to hardware concurrency) |
+| `Task.Priority.max` | 8 | Highest priority within the shared pool |
+| `Task.Priority.dedicated` | 9 | Spawns a dedicated OS thread per task |
+
+**Why 50 vs 20 workers showed no difference**: With `Task.Priority.default`, all tasks share a pool 
+capped at `LEAN_NUM_THREADS` (typically 28 on your Xeon). Spawning 50 tasks doesn't create 50 threads—
+it creates 50 work items for the same ~28 threads.
+
+**Solution for true parallelism**: Use `Task.Priority.dedicated` for compute-bound or I/O-bound workers:
+```lean
+-- Before: limited to thread pool size
+let task ← IO.asTask (prio := .default) do ...
+
+-- After: dedicated thread per task
+let task ← IO.asTask (prio := .dedicated) do ...
+```
+
+The tradeoff: `dedicated` threads have more overhead (thread creation/destruction) but guarantee 
+true parallelism. Use for long-running tasks; prefer `default` for many short tasks.
+
+### Lean 4 Runtime Diagnostics
+
+When debugging stack overflows or panics, the Lean 4 runtime provides several environment variables
+([src/runtime/object.cpp](https://github.com/leanprover/lean4/blob/v4.27.0-rc1/src/runtime/object.cpp)):
+
+| Variable | Purpose |
+|----------|---------|
+| `LEAN_BACKTRACE=1` | Print native stack trace on panic (Linux/macOS only; line 156 in object.cpp) |
+| `LEAN_ABORT_ON_PANIC=1` | Abort instead of throwing exception, useful for core dumps (line 72) |
+| `LEAN_NUM_THREADS=N` | Override hardware concurrency for task manager (line 1016) |
+
+Usage for debugging stack overflow:
+```bash
+# Get stack trace on crash (Linux with debug symbols)
+LEAN_BACKTRACE=1 LEAN_ABORT_ON_PANIC=1 .lake/build/bin/docvb unified ...
+
+# Generate core dump for post-mortem analysis
+ulimit -c unlimited
+LEAN_ABORT_ON_PANIC=1 .lake/build/bin/docvb unified ...
+```
+
+For pure Lean code, use `dbgStackTrace` (Init/Util.lean line 31):
+```lean
+-- Print stack trace at a specific point (currently Linux only)
+let _ := dbgStackTrace fun _ =>
+  IO.println "About to do risky operation"
+```
+
 ### docvb Overlay Architecture
 
 Rather than forking each project, the pipeline creates a lightweight `docvb/` subdirectory that:

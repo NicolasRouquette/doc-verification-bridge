@@ -304,41 +304,87 @@ def classifyAllDeclarationsParallel (env : Environment) (modulePrefix : Name) (n
     IO.println s!"  [4/7] No proof dependencies to extract (skipped)"
     (← IO.getStdout).flush
   else
-    IO.println s!"  [4/7] Phase 2: Extracting proof deps for {proofDepTasks.size} theorems ({numWorkers} parallel workers)..."
+    IO.println s!"  [4/7] Phase 2: Extracting proof deps for {proofDepTasks.size} theorems ({numWorkers} workers, dynamic scheduling)..."
     (← IO.getStdout).flush
 
     let phase2Start ← IO.monoMsNow
 
-    -- Create tasks for parallel execution
-    let taskChunks := proofDepTasks.toList.toArray
-    let chunkSize := max 1 ((taskChunks.size + numWorkers - 1) / numWorkers)
+    -- Dynamic work queue pattern: workers pull tasks from a shared queue
+    -- This keeps all workers busy until the queue is exhausted, avoiding
+    -- load imbalance from static pre-chunking.
+    let workQueue ← IO.mkRef (0 : Nat)  -- Index into task array
+    let resultsRef ← IO.mkRef (#[] : Array (Name × Array Name))
+    let taskArray := proofDepTasks
+    let taskCountRef ← IO.mkRef (#[] : Array Nat)  -- Track tasks processed per worker
+    let completedRef ← IO.mkRef (0 : Nat)  -- Track total completed for progress
+    let activeWorkersRef ← IO.mkRef numWorkers  -- Track active workers
 
-    -- Process in parallel using IO.mapTasks
-    let chunks : Array (Array (Name × ProofDepTask)) := Id.run do
-      let mut result : Array (Array (Name × ProofDepTask)) := #[]
-      let mut i := 0
-      while i < taskChunks.size do
-        let endIdx := min (i + chunkSize) taskChunks.size
-        result := result.push (taskChunks.extract i endIdx)
-        i := endIdx
-      result
+    -- Worker function: atomically grab next task index, process, store result
+    let workerFn (_workerId : Nat) : IO Unit := do
+      let mut localResults : Array (Name × Array Name) := #[]
+      let mut count := 0
+      while true do
+        -- Atomically grab next task index
+        let idx ← workQueue.modifyGet fun i => (i, i + 1)
+        if idx >= taskArray.size then break
+        let (name, task) := taskArray[idx]!
+        let deps := extractProofDepsTask env task
+        localResults := localResults.push (name, deps)
+        count := count + 1
+        -- Update progress counter
+        completedRef.modify (· + 1)
+      -- Atomically merge local results into shared results
+      resultsRef.modify fun arr => arr ++ localResults
+      taskCountRef.modify fun arr => arr.push count
+      activeWorkersRef.modify (· - 1)
 
-    -- Spawn worker tasks
-    let workers ← chunks.mapM fun chunk => do
-      IO.asTask (prio := .default) do
-        let mut results : Array (Name × Array Name) := #[]
-        for (name, task) in chunk do
-          let deps := extractProofDepsTask env task
-          results := results.push (name, deps)
-        return results
+    -- Progress reporter task
+    let progressFn : IO Unit := do
+      let total := taskArray.size
+      let mut lastPct := 0
+      let mut lastActive := numWorkers
+      while true do
+        IO.sleep 2000  -- Check every 2 seconds
+        let completed ← completedRef.get
+        let active ← activeWorkersRef.get
+        let pct := (completed * 100) / total
+        if pct != lastPct || active != lastActive then
+          let status := if active == 0 then "done" else s!"{active} workers active"
+          IO.print s!"\r        Progress: {completed}/{total} ({pct}%) - {status}    "
+          (← IO.getStdout).flush
+          lastPct := pct
+          lastActive := active
+        -- Exit when all workers have exited (not just when tasks are grabbed)
+        if active == 0 then break
 
-    -- Wait for all workers and collect results
-    let mut allResults : Array (Name × Array Name) := #[]
+    -- Spawn worker tasks (use dedicated threads for true parallelism)
+    IO.println s!"        Spawning {numWorkers} worker threads..."
+    (← IO.getStdout).flush
+    let workerIds := Array.range numWorkers
+    let workers ← workerIds.mapM fun i =>
+      IO.asTask (prio := .dedicated) (workerFn i)
+    -- Start progress reporter
+    let progressTask ← IO.asTask (prio := .default) progressFn
+    IO.println s!"        All {workers.size} workers spawned, waiting for completion..."
+    (← IO.getStdout).flush
+
+    -- Wait for all workers to complete
     for worker in workers do
       let result ← IO.wait worker
       match result with
-      | .ok results => allResults := allResults ++ results
+      | .ok () => pure ()
       | .error e => notes := notes.push s!"Worker error: {e}"
+
+    -- Cancel progress reporter
+    IO.cancel progressTask
+
+    -- Get final results and worker stats
+    let allResults ← resultsRef.get
+    let taskCounts ← taskCountRef.get
+    let totalProcessed := taskCounts.foldl (· + ·) 0
+    let activeWorkers := taskCounts.filter (· > 0) |>.size
+    IO.println s!"\n        Workers finished: {activeWorkers}/{numWorkers} active, processed {totalProcessed} tasks"
+    (← IO.getStdout).flush
 
     -- Merge proof deps into entries
     for (name, deps) in allResults do

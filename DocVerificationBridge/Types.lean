@@ -2,6 +2,7 @@
 -- Core types for theorem classification and verification tracking
 
 import Lean
+import DocVerificationBridge.Compatibility
 
 /-!
 # Core Types for Doc Verification Bridge

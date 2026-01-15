@@ -8,6 +8,7 @@
   4. Generating a meta-summary page with sortable statistics
 -/
 import Lean
+import DocVerificationBridge.Compatibility
 
 open Lean System IO
 
@@ -30,6 +31,7 @@ inductive RunMode where
   | update     -- Update repos and re-run for all
   | reanalyze  -- Skip build, only re-run unified-doc analysis (requires existing build)
   | reclassify -- Skip build AND doc-gen4, only re-run classification (requires existing doc-gen4 output)
+  | docgenOnly -- Skip build AND classification, only re-run doc-gen4 (loads classification from cache)
   | mkdocsOnly -- Skip classification, only regenerate MkDocs (requires existing classification cache)
   deriving Repr, Inhabited, BEq
 
@@ -122,7 +124,7 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
   let mut currentProject : Option Project := none
 
   for line in lines do
-    let line := line.trimAscii.copy
+    let line := line.trimCompat
     if line.startsWith "#" || line.isEmpty then continue
 
     if line.startsWith "[[projects]]" then
@@ -135,11 +137,11 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
     else if line.contains "=" then
       let parts := line.splitOn "="
       if parts.length >= 2 then
-        let key := parts[0]!.trimAscii.copy
+        let key := parts[0]!.trimCompat
         -- Strip inline comments (everything after #) and quotes
-        let rawValue := (parts.drop 1 |> String.intercalate "=").trimAscii.copy
+        let rawValue := (parts.drop 1 |> String.intercalate "=").trimCompat
         let valueNoComment := match rawValue.splitOn "#" with
-          | v :: _ => v.trimAscii.copy
+          | v :: _ => v.trimCompat
           | [] => rawValue
         let value := valueNoComment.replace "\"" ""
 
@@ -158,7 +160,7 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
             | "modules" =>
               -- Parse array like ["Batteries"]
               let mods := value.replace "[" "" |>.replace "]" ""
-                |>.splitOn "," |>.map (·.trimAscii.copy.replace "\"" "")
+                |>.splitOn "," |>.map (·.trimCompat.replace "\"" "")
                 |>.filter (·.length > 0) |>.toArray
               { proj with modules := mods }
             | "classification_mode" =>
@@ -215,7 +217,7 @@ def readProjectState (sitesDir : FilePath) (projectName : String) : IO ProjectSt
   let path := stateFilePath sitesDir projectName
   if ← path.pathExists then
     let content ← IO.FS.readFile path
-    match content.trimAscii.copy with
+    match content.trimCompat with
     | "in-progress" => return .inProgress
     | "completed" => return .completed
     | "failed" => return .failed
@@ -457,7 +459,7 @@ def detectGitBranch (repoDir : FilePath) : IO String := do
     cwd := some repoDir
   }
   if result.exitCode == 0 then
-    return result.stdout.trimAscii.copy
+    return result.stdout.trimCompat
   else
     -- Fallback to main if detection fails
     return "main"
@@ -479,11 +481,11 @@ def detectPackageName (projectDir : FilePath) (fallback : String) : IO String :=
   if ← lakefileToml.pathExists then
     let content ← IO.FS.readFile lakefileToml
     for line in content.splitOn "\n" do
-      let line := line.trimAscii.copy
+      let line := line.trimCompat
       if line.startsWith "name" && line.contains "=" then
         let parts := line.splitOn "="
         if parts.length >= 2 then
-          return parts[1]!.trimAscii.copy.replace "\"" ""
+          return parts[1]!.trimCompat.replace "\"" ""
     return fallback
   else if ← lakefileLean.pathExists then
     let content ← IO.FS.readFile lakefileLean
@@ -492,10 +494,10 @@ def detectPackageName (projectDir : FilePath) (fallback : String) : IO String :=
       if line.contains "package" then
         -- Extract name after "package"
         let afterPackage := (line.splitOn "package").getD 1 ""
-        let name := afterPackage.trimAscii.copy
+        let name := afterPackage.trimCompat
           |>.replace "«" "" |>.replace "»" ""
           |>.splitOn " " |>.getD 0 ""
-          |>.replace "where" "" |>.trimAscii.copy
+          |>.replace "where" "" |>.trimCompat
         if name.length > 0 then
           return name
     return fallback
@@ -506,7 +508,7 @@ def detectPackageName (projectDir : FilePath) (fallback : String) : IO String :=
 def readToolchain (path : FilePath) : IO (Option String) := do
   if ← path.pathExists then
     let content ← IO.FS.readFile path
-    return some content.trimAscii.copy
+    return some content.trimCompat
   else
     return none
 
@@ -555,9 +557,9 @@ def maxSupportedVersion : (Nat × Nat × Nat) := (4, 27, 0)
 /-- Extract version tag from toolchain string (e.g., "leanprover/lean4:v4.26.0" → "v4.26.0") -/
 def extractVersionTag (toolchain : String) : String :=
   match toolchain.splitOn ":v" with
-  | [_, ver] => s!"v{ver.trimAscii.toString}"
+  | [_, ver] => s!"v{ver.trimCompat}"
   | _ => match toolchain.splitOn ":" with
-    | [_, ver] => ver.trimAscii.toString
+    | [_, ver] => ver.trimCompat
     | _ => "main"
 
 /-- Check if a project's toolchain is compatible with doc-verification-bridge -/
@@ -629,14 +631,21 @@ def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
   let mainPackage ← detectPackageName projectDir projectName
 
   -- Copy doc-verification-bridge source files to docvb (avoids cross-toolchain dependency)
+  -- We automatically discover all .lean files, excluding:
+  --   - Experiments.lean (the pipeline itself, not needed in docvb)
+  --   - SourceLinkerCompatCustom.lean (handled specially below based on config)
+  -- This ensures new files are automatically included without manual list maintenance.
   let dvbSrcDir := docvbDir / "DocVerificationBridge"
   IO.FS.createDirAll dvbSrcDir
 
-  -- Copy all necessary source files
-  let sourceFiles := #["Types.lean", "Attributes.lean", "Inference.lean",
-                       "Classify.lean", "Report.lean", "Unified.lean"]
-  for file in sourceFiles do
-    discard <| copyFileIfExists (dvbPath / "DocVerificationBridge" / file) (dvbSrcDir / file)
+  let excludeFiles : Array String := #["Experiments.lean", "SourceLinkerCompatCustom.lean"]
+  for entry in ← System.FilePath.readDir (dvbPath / "DocVerificationBridge") do
+    let fileName := entry.fileName
+    if fileName.endsWith ".lean" && !excludeFiles.contains fileName then
+      -- SourceLinkerCompat.lean is only copied when useCustomSourceLinker is false
+      -- (handled specially below), so skip it here
+      if fileName == "SourceLinkerCompat.lean" then continue
+      discard <| copyFileIfExists (dvbPath / "DocVerificationBridge" / fileName) (dvbSrcDir / fileName)
 
   -- Copy the appropriate SourceLinkerCompat version based on config
   -- Standard version: uses official doc-gen4 3-arg API
@@ -807,7 +816,7 @@ def parseCoverageStats (coveragePath : FilePath) : IO ProjectResult := do
         let parts := line.splitOn "|"
         for part in parts do
           -- Strip markdown bold markers (**) before parsing
-          let cleaned := part.trimAscii.replace "**" ""
+          let cleaned := part.trimCompat.replace "**" ""
           if let some n := cleaned.toNat? then
             return n
     return 0
@@ -835,7 +844,7 @@ def parseCoverageStats (coveragePath : FilePath) : IO ProjectResult := do
         let parts := line.splitOn "|"
         -- Format: | Category | Total | With Sorry | Proven | % Proven |
         if parts.length >= 4 then
-          let withSorryPart := parts[3]!.trimAscii
+          let withSorryPart := parts[3]!.trimCompat
           if let some n := withSorryPart.toNat? then
             return n
     return 0
@@ -971,7 +980,7 @@ def generateSummaryPage (results : Array ProjectResult) (outputPath : FilePath) 
   let totalSorry := totalDefsSorry + totalThmsSorry
 
   let now ← IO.Process.output { cmd := "date", args := #["+%Y-%m-%d %H:%M:%S"] }
-  let timestamp := now.stdout.trimAscii.copy
+  let timestamp := now.stdout.trimCompat
 
   let mut tableRows := ""
   for r in successful do
@@ -1094,23 +1103,56 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
     removeDir outputDir  -- Remove generated site to force regeneration
   | .reclassify =>
     -- Skip build AND doc-gen4, only re-run classification (requires existing api-temp)
+    -- NOTE: Do NOT removeDir here - api-temp must be preserved for source linking!
     IO.println s!"[{name}] Reclassify mode - skipping build and doc-gen4, running classification only"
-    removeDir outputDir  -- Remove generated site to force regeneration
+    -- Only remove MkDocs output files, preserve api-temp and cache files
+    let mkdocsDir := outputDir / "docs"
+    if ← mkdocsDir.pathExists then
+      removeDir mkdocsDir
+    for file in ["index.html", "mkdocs.yml", "requirements.txt"] do
+      let filePath := outputDir / file
+      if ← filePath.pathExists then
+        IO.FS.removeFile filePath
+  | .docgenOnly =>
+    -- Skip build AND classification, only re-run doc-gen4 + mkdocs (loads classification from cache)
+    -- NOTE: Preserves classification cache but regenerates api-temp and mkdocs
+    IO.println s!"[{name}] Doc-gen4-only mode - regenerating docs from classification cache"
+    -- Remove api-temp and mkdocs output, preserve classification cache
+    let apiTempDir := outputDir / "api-temp"
+    if ← apiTempDir.pathExists then
+      removeDir apiTempDir
+    let mkdocsDir := outputDir / "docs"
+    if ← mkdocsDir.pathExists then
+      removeDir mkdocsDir
+    for file in ["index.html", "mkdocs.yml", "requirements.txt"] do
+      let filePath := outputDir / file
+      if ← filePath.pathExists then
+        IO.FS.removeFile filePath
   | .mkdocsOnly =>
     -- Skip everything except MkDocs, load classification from cache
+    -- NOTE: Do NOT removeDir here - the classification cache is stored in outputDir!
     IO.println s!"[{name}] MkDocs-only mode - regenerating site from classification cache"
-    removeDir outputDir  -- Remove generated site to force regeneration
+    -- Only remove MkDocs output files, preserve classification cache
+    let mkdocsDir := outputDir / "docs"
+    if ← mkdocsDir.pathExists then
+      removeDir mkdocsDir
+    -- Remove old HTML files at top level, but keep cache files
+    for file in ["index.html", "mkdocs.yml", "requirements.txt"] do
+      let filePath := outputDir / file
+      if ← filePath.pathExists then
+        IO.FS.removeFile filePath
 
   -- Mark as in-progress
   writeProjectState config.sitesDir name .inProgress
 
   IO.println s!"[{name}] Starting processing..."
 
-  -- Clone or update repository (skip for reanalyze/reclassify/mkdocsOnly modes)
-  if mode == .reanalyze || mode == .reclassify || mode == .mkdocsOnly then
-    -- Reanalyze/reclassify/mkdocsOnly mode: verify repo and build exist
+  -- Clone or update repository (skip for reanalyze/reclassify/docgenOnly/mkdocsOnly modes)
+  if mode == .reanalyze || mode == .reclassify || mode == .docgenOnly || mode == .mkdocsOnly then
+    -- Reanalyze/reclassify/docgenOnly/mkdocsOnly mode: verify repo and build exist
     let modeName := match mode with
       | .reclassify => "reclassify"
+      | .docgenOnly => "docgen-only"
       | .mkdocsOnly => "mkdocs-only"
       | _ => "reanalyze"
     if !(← repoDir.pathExists) then
@@ -1171,11 +1213,12 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
              errorMessage := some s!"Toolchain incompatibility: project uses {tcCheck.projectToolchain}, requires {tcCheck.dvbToolchain}",
              siteDir := some outputDir }
 
-  -- Build main project (skip for reanalyze/reclassify/mkdocsOnly modes)
+  -- Build main project (skip for reanalyze/reclassify/docgenOnly/mkdocsOnly modes)
   let mut buildLog := ""
-  if mode == .reanalyze || mode == .reclassify || mode == .mkdocsOnly then
+  if mode == .reanalyze || mode == .reclassify || mode == .docgenOnly || mode == .mkdocsOnly then
     let modeName := match mode with
       | .reclassify => "reclassify"
+      | .docgenOnly => "docgen-only"
       | .mkdocsOnly => "mkdocs-only"
       | _ => "reanalyze"
     IO.println s!"[{name}] [4/6] Skipping build ({modeName} mode - using existing build)"
@@ -1259,7 +1302,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
                        "--output", outputDirAbs.toString,
                        "--repo", repo,
                        "--branch", branch] ++ modules
-  -- Add --skip-docgen flag for reclassify and mkdocsOnly modes
+  -- Add --skip-docgen flag for reclassify and mkdocsOnly modes (but NOT docgenOnly)
   if mode == .reclassify || mode == .mkdocsOnly then
     unifiedArgs := unifiedArgs ++ #["--skip-docgen"]
   -- Add proof dep flags as CLI args (instead of env vars)
@@ -1273,11 +1316,11 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
   -- Add classification cache flags for efficiency
   -- Cache uses split format: <basePath>.json (metadata) + <basePath>.jsonl (entries)
   let cachePath := outputDirAbs / "classification-cache"  -- No extension - save/load adds .json/.jsonl
-  if mode == .mkdocsOnly then
+  if mode == .mkdocsOnly || mode == .docgenOnly then
     -- Load classification from cache (skip classification step entirely)
     unifiedArgs := unifiedArgs ++ #["--load-classification", cachePath.toString]
   else
-    -- Save classification for future mkdocsOnly runs
+    -- Save classification for future mkdocsOnly/docgenOnly runs
     unifiedArgs := unifiedArgs ++ #["--save-classification", cachePath.toString]
   -- Only DISABLE_EQUATIONS still uses env var (not yet a CLI flag)
   let mut env : Array (String × Option String) := #[]
@@ -1299,11 +1342,11 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
       cwd := some docvbDir
     }
     if leanPathResult.exitCode == 0 then
-      let leanPath := leanPathResult.stdout.trimAscii.copy
+      let leanPath := leanPathResult.stdout.trimCompat
       IO.println s!"[{name}]       LEAN_PATH={leanPath}"
       env := env.push ("LEAN_PATH", some leanPath)
       if leanSrcPathResult.exitCode == 0 then
-        let leanSrcPath := leanSrcPathResult.stdout.trimAscii.copy
+        let leanSrcPath := leanSrcPathResult.stdout.trimCompat
         env := env.push ("LEAN_SRC_PATH", some leanSrcPath)
       -- Run binary directly with LEAN_PATH set - no buffering intermediaries
       IO.println s!"[{name}]       Running: {unifiedBin}"
@@ -1411,6 +1454,7 @@ def runExperiments (configPath : FilePath) (mode : RunMode := .fresh)
     | .update => "update"
     | .reanalyze => "reanalyze"
     | .reclassify => "reclassify"
+    | .docgenOnly => "docgen-only"
     | .mkdocsOnly => "mkdocs-only"
   let filterStr := match projectFilter with
     | some names => s!" (filtered: {names})"
@@ -1614,6 +1658,7 @@ def experimentsMain (args : List String) : IO UInt32 := do
   | ["run", "--update"] => Experiments.runExperiments "config.toml" .update projectFilter
   | ["run", "--reanalyze"] => Experiments.runExperiments "config.toml" .reanalyze projectFilter
   | ["run", "--reclassify"] => Experiments.runExperiments "config.toml" .reclassify projectFilter
+  | ["run", "--docgen-only"] => Experiments.runExperiments "config.toml" .docgenOnly projectFilter
   | ["run", "--mkdocs-only"] => Experiments.runExperiments "config.toml" .mkdocsOnly projectFilter
   | ["run", "--config", path] => Experiments.runExperiments path .fresh projectFilter
   | ["run", "--resume", "--config", path] => Experiments.runExperiments path .resume projectFilter
@@ -1624,6 +1669,8 @@ def experimentsMain (args : List String) : IO UInt32 := do
   | ["run", "--config", path, "--reanalyze"] => Experiments.runExperiments path .reanalyze projectFilter
   | ["run", "--reclassify", "--config", path] => Experiments.runExperiments path .reclassify projectFilter
   | ["run", "--config", path, "--reclassify"] => Experiments.runExperiments path .reclassify projectFilter
+  | ["run", "--docgen-only", "--config", path] => Experiments.runExperiments path .docgenOnly projectFilter
+  | ["run", "--config", path, "--docgen-only"] => Experiments.runExperiments path .docgenOnly projectFilter
   | ["run", "--mkdocs-only", "--config", path] => Experiments.runExperiments path .mkdocsOnly projectFilter
   | ["run", "--config", path, "--mkdocs-only"] => Experiments.runExperiments path .mkdocsOnly projectFilter
   -- Serve commands
@@ -1645,6 +1692,7 @@ def experimentsMain (args : List String) : IO UInt32 := do
     IO.println "  --update             Update git repos and regenerate docs for all projects"
     IO.println "  --reanalyze          Re-run unified-doc analysis only (skip build, requires existing build)"
     IO.println "  --reclassify         Re-run classification only (skip build AND doc-gen4)"
+    IO.println "  --docgen-only        Re-run doc-gen4 + MkDocs only (loads classification from cache)"
     IO.println "  --mkdocs-only        Regenerate MkDocs only (skip classification, requires cache)"
     IO.println "  --config <path>      Path to config.toml (default: ./config.toml)"
     IO.println "  --projects <names>   Only run specified projects (space-separated)"
@@ -1658,6 +1706,7 @@ def experimentsMain (args : List String) : IO UInt32 := do
     IO.println "  experiments run --update                 # Update repos and regenerate"
     IO.println "  experiments run --reanalyze --projects mathlib4  # Re-analyze without rebuild"
     IO.println "  experiments run --reclassify --projects mathlib4 # Re-classify (uses existing doc-gen4)"
+    IO.println "  experiments run --docgen-only --projects mathlib4 # Re-gen doc-gen4 (uses cached classification)"
     IO.println "  experiments run --mkdocs-only --projects mathlib4 # Regenerate MkDocs (uses cache)"
     IO.println "  experiments run --projects mathlib4      # Run only mathlib4"
     IO.println "  experiments run --projects batteries mm0 # Run batteries and mm0"
