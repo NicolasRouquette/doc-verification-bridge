@@ -90,7 +90,7 @@ def findFileForName (cache : GitFileCache) (name : Name) : Option String :=
         let scored := paths.map fun path =>
           -- Remove .lean extension and split by /
           -- Use take for cross-version compatibility (dropLast doesn't take an argument)
-          let pathWithoutExt := if path.endsWith ".lean" then String.mk (path.toList.take (path.length - 5)) else path
+          let pathWithoutExt := if path.endsWith ".lean" then String.ofList (path.toList.take (path.length - 5)) else path
           let pathParts := pathWithoutExt.splitOn "/"
           let score := nameComponents.foldl (fun acc comp =>
             if pathParts.contains comp then acc + 1 else acc) 0
@@ -134,7 +134,7 @@ def stripTrailingSlashes (s : String) : String :=
   let chars := s.toList
   let trimmed := chars.reverse.dropWhile (· == '/') |>.reverse
   -- Use String.mk for cross-version compatibility (works in v4.24.0+, deprecated but functional in v4.27.0+)
-  String.mk trimmed
+  String.ofList trimmed
 
 /-- Generate a source URL for a given file path and line number -/
 def ReportConfig.sourceUrl (cfg : ReportConfig) (filePath : String) (line : Nat) : String :=
@@ -801,9 +801,7 @@ def filePathToSafeFilename (filePath : String) : String :=
 /-- Generate a single module's verification report -/
 def generateModuleReport (env : Environment) (filePath : String)
     (entries : Array (Name × APIMeta)) (cfg : Option ReportConfig)
-    (allEntries : NameMap APIMeta) : String × ModuleStats := Id.run do
-  let provedByMap := computeProvedByMap allEntries
-
+    (allEntries : NameMap APIMeta) (provedByMap : NameMap (Array Name)) : String × ModuleStats := Id.run do
   let isTheorem := fun (m : APIMeta) => m.isTheorem
   let isDefinition := fun (m : APIMeta) => !isTheorem m
 
@@ -942,6 +940,9 @@ def generatePerModuleReports (env : Environment) (entries : NameMap APIMeta)
     (cfg : Option ReportConfig := none) : Array (String × String × ModuleStats) := Id.run do
   let entryList := entries.foldl (fun acc name m => acc.push (name, m)) #[]
 
+  -- Compute provedByMap ONCE for all modules (was being recomputed per-module = O(n*m) bug!)
+  let provedByMap := computeProvedByMap entries
+
   -- Get file path for each entry
   let getFilePath (config : ReportConfig) (name : Name) : String :=
     match findFileForName config.gitCache name with
@@ -971,7 +972,7 @@ def generatePerModuleReports (env : Environment) (entries : NameMap APIMeta)
   let mut results : Array (String × String × ModuleStats) := #[]
   for (filePath, fileEntries) in fileGroups.toArray do
     if fileEntries.isEmpty then continue
-    let (content, stats) := generateModuleReport env filePath fileEntries cfg entries
+    let (content, stats) := generateModuleReport env filePath fileEntries cfg entries provedByMap
     let safeFilename := filePathToSafeFilename filePath
     results := results.push (safeFilename, content, { stats with filePath })
 
@@ -979,7 +980,7 @@ def generatePerModuleReports (env : Environment) (entries : NameMap APIMeta)
 
 /-- Generate the module index page for per-module reports -/
 def generateModuleIndex (allStats : Array ModuleStats) (projectName : String)
-    (entries : NameMap APIMeta := {}) (cfg : Option ReportConfig := none) : String := Id.run do
+    (entries : NameMap APIMeta := {}) (_cfg : Option ReportConfig := none) : String := Id.run do
   -- Aggregate stats
   let mut totalDefs := 0
   let mut totalTheorems := 0

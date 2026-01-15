@@ -28,15 +28,25 @@ site/
   index.html          # MkDocs home
   verification/       # MkDocs verification report
   api/                # doc-gen4 API documentation (copied)
-    index.html
-    Batteries.html
-    Batteries/
-      Data/
-        ...
 ```
 -/
 
 namespace DocVerificationBridge.Unified
+
+open Lean
+open DocGen4
+
+/-- Format milliseconds as human-readable duration -/
+def formatDurationMs (ms : Nat) : String :=
+  let secs := ms / 1000
+  let mins := secs / 60
+  let hours := mins / 60
+  if hours > 0 then
+    s!"{hours}h {mins % 60}m {secs % 60}s"
+  else if mins > 0 then
+    s!"{mins}m {secs % 60}s"
+  else
+    s!"{secs}.{(ms % 1000) / 100}s"
 
 open Lean System IO DocGen4 DocGen4.Output DocGen4.Process
 
@@ -92,7 +102,7 @@ def getGitCommitHash (dir : System.FilePath) : IO (Option String) := do
   }
   if result.exitCode != 0 then
     return none
-  return some result.stdout.trim
+  return some result.stdout.trimCompat
 
 /-- Build a git file cache by running `git ls-files` in a specific directory -/
 def buildGitFileCacheIn (dir : System.FilePath) : IO GitFileCache := do
@@ -233,7 +243,7 @@ def generateDocGen4ToTemp (cfg : UnifiedConfig) (result : UnifiedResult) : IO Sy
     else
       let url := cfg.repoUrl
       -- Use dropLast for cross-version compatibility
-      let baseUrl := if url.endsWith "/" then String.mk (url.toList.take (url.length - 1)) else url
+      let baseUrl := if url.endsWith "/" then String.ofList (url.toList.take (url.length - 1)) else url
       -- Try to get git commit hash, fall back to branch name
       let gitRef ← match ← getGitCommitHash cfg.sourceDir with
         | some hash => pure hash
@@ -394,11 +404,6 @@ def generateApiLandingMd (_cfg : UnifiedConfig) : String :=
   "- Use **Ctrl/Cmd + K** to search within the API docs\n\n" ++
   "---\n\n" ++
   "[Open Full API Reference](api/index.html)\n"
-
-/-- Generate verification index page (DEPRECATED - now using generateModuleIndex from Report.lean) -/
-def generateVerificationIndexMd (_projectName : String) : String :=
-  "# Verification Coverage\n\n" ++
-  "See the module index generated dynamically.\n"
 
 /-- Generate extra CSS for unified docs -/
 def generateUnifiedExtraCss : String :=
@@ -656,15 +661,22 @@ def generateUnifiedMkDocsSite (cfg : UnifiedConfig) (result : UnifiedResult) (mo
 
   -- Generate per-module reports
   IO.println s!"unified-doc: Generating per-module verification reports..."
+  IO.println s!"  DEBUG: entries.size = {result.verificationEntries.size}"
   (← IO.getStdout).flush
 
+  let reportsStartTime ← IO.monoMsNow
   let moduleReports := generatePerModuleReports result.env result.verificationEntries (some reportCfg)
+  let reportsEndTime ← IO.monoMsNow
+  let reportsDuration := formatDurationMs (reportsEndTime - reportsStartTime)
+  IO.println s!"  DEBUG: generatePerModuleReports returned {moduleReports.size} reports ({reportsDuration})"
+  (← IO.getStdout).flush
   let totalModules := moduleReports.size
   let workersInfo := if cfg.mkdocsWorkers > 0 then s!" ({cfg.mkdocsWorkers} workers)" else ""
   IO.println s!"  Processing {totalModules} modules...{workersInfo}"
   (← IO.getStdout).flush
 
   -- Write each module's report (parallel if workers > 0)
+  let writeStartTime ← IO.monoMsNow
   let allStats ← if cfg.mkdocsWorkers > 0 then do
     -- Parallel writing with bounded concurrency
     let numWorkers := min cfg.mkdocsWorkers totalModules
@@ -682,9 +694,11 @@ def generateUnifiedMkDocsSite (cfg : UnifiedConfig) (result : UnifiedResult) (mo
     IO.println s!"  Spawning {chunks.size} parallel workers..."
     (← IO.getStdout).flush
 
-    -- Spawn tasks for each chunk
+    -- Spawn tasks for each chunk (use dedicated threads for I/O-bound work)
+    -- Task.Priority.dedicated spawns a dedicated thread per task rather than
+    -- using the shared pool which is limited to num_cores
     let tasks ← chunks.mapM fun chunk => do
-      IO.asTask do
+      IO.asTask (prio := .dedicated) do
         let mut stats : Array ModuleStats := #[]
         for (safeFilename, content, moduleStats) in chunk do
           IO.FS.writeFile (modulesDir / s!"{safeFilename}.md") content
@@ -721,6 +735,10 @@ def generateUnifiedMkDocsSite (cfg : UnifiedConfig) (result : UnifiedResult) (mo
     (← IO.getStdout).flush
     pure allStats
 
+  let writeEndTime ← IO.monoMsNow
+  let writeDuration := formatDurationMs (writeEndTime - writeStartTime)
+  IO.println s!"  Module reports written ({writeDuration})"
+
   -- Generate module index (with sorry declaration lists)
   IO.println s!"  Generating module index..."
   (← IO.getStdout).flush
@@ -739,24 +757,27 @@ def generateUnifiedMkDocsSite (cfg : UnifiedConfig) (result : UnifiedResult) (mo
 
   IO.println s!"  Generated MkDocs source at {mkdocsSrcDir}/"
 
-  -- Build MkDocs
+  -- Build MkDocs with timing
   IO.FS.createDirAll (cfg.buildDir / "site")
   let siteDir ← IO.FS.realPath (cfg.buildDir / "site")
   IO.println s!"unified-doc: Running mkdocs build..."
   (← IO.getStdout).flush
 
+  let mkdocsStartTime ← IO.monoMsNow
   let mkdocsResult ← IO.Process.output {
     cmd := "mkdocs"
     args := #["build", "--site-dir", siteDir.toString]
     cwd := some mkdocsSrcDir
   }
+  let mkdocsEndTime ← IO.monoMsNow
+  let mkdocsDuration := formatDurationMs (mkdocsEndTime - mkdocsStartTime)
 
   if mkdocsResult.exitCode != 0 then
-    IO.eprintln s!"  Error: mkdocs build failed:"
+    IO.eprintln s!"  Error: mkdocs build failed after {mkdocsDuration}:"
     IO.eprintln mkdocsResult.stderr
     throw <| IO.userError "MkDocs build failed"
   else
-    IO.println s!"  MkDocs site built at {siteDir}/"
+    IO.println s!"  MkDocs site built at {siteDir}/ ({mkdocsDuration})"
     (← IO.getStdout).flush
 
   return siteDir
