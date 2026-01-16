@@ -664,40 +664,51 @@ def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
   -- Detect main package name
   let mainPackage ← detectPackageName projectDir projectName
 
+  -- Determine doc-gen4 reference based on project toolchain:
+  -- - For Lean >= 4.27.0: use "main" to get PR #341 (custom source linker) and #344 (html decorator support)
+  -- - For older Lean versions: use matching version tag (no decorator support, but compatible)
+  let useDecoratorSupport := match parseVersion tcCheck.projectToolchain with
+    | some ver => versionGe ver (4, 27, 0)
+    | none => false
+  let docgen4Ref := if useDecoratorSupport then "main"
+    else if tcCheck.docgen4Tag.isEmpty then "main" else tcCheck.docgen4Tag
+
   -- Copy doc-verification-bridge source files to docvb (avoids cross-toolchain dependency)
   -- We automatically discover all .lean files, excluding:
   --   - Experiments.lean (the pipeline itself, not needed in docvb)
   --   - SourceLinkerCompatStandard.lean (deprecated stub, no longer needed)
   --   - VerificationDecoratorStandard.lean (deprecated stub, no longer needed)
-  -- Note: PR #344 merged to official doc-gen4, so we always use the full decorator support now.
+  -- For older toolchains (< 4.27.0), also exclude:
+  --   - VerificationDecorator.lean (requires PR #344 DeclarationDecoratorFn)
+  --   - SourceLinkerCompat.lean (requires PR #341 SourceLinkerFn 4-arg API)
   let dvbSrcDir := docvbDir / "DocVerificationBridge"
   IO.FS.createDirAll dvbSrcDir
 
-  let excludeFiles : Array String := #[
+  let baseExcludeFiles : Array String := #[
     "Experiments.lean",
     "SourceLinkerCompatCustom.lean",
     "SourceLinkerCompatStandard.lean",
-    "VerificationDecoratorStandard.lean"
+    "VerificationDecoratorStandard.lean",
+    "UnifiedBasic.lean"  -- Copied separately based on toolchain version
   ]
+  -- For older toolchains, exclude decorator/source-linker/unified files that need PR #341/#344
+  let excludeFiles := if useDecoratorSupport then baseExcludeFiles
+    else baseExcludeFiles ++ #["VerificationDecorator.lean", "SourceLinkerCompat.lean", "Unified.lean"]
+
   for entry in ← System.FilePath.readDir (dvbPath / "DocVerificationBridge") do
     let fileName := entry.fileName
     if fileName.endsWith ".lean" && !excludeFiles.contains fileName then
       discard <| copyFileIfExists (dvbPath / "DocVerificationBridge" / fileName) (dvbSrcDir / fileName)
 
-  -- Copy UnifiedMain.lean
+  -- For older toolchains, copy UnifiedBasic.lean as Unified.lean (provides same API without decorators)
+  if !useDecoratorSupport then
+    discard <| copyFileIfExists (dvbPath / "DocVerificationBridge" / "UnifiedBasic.lean") (dvbSrcDir / "Unified.lean")
+
+  -- Copy UnifiedMain.lean (works with either Unified.lean version)
   discard <| copyFileIfExists (dvbPath / "UnifiedMain.lean") (docvbDir / "UnifiedMain.lean")
 
   -- Copy DocVerificationBridge.lean (the root module file)
   discard <| copyFileIfExists (dvbPath / "DocVerificationBridge.lean") (docvbDir / "DocVerificationBridge.lean")
-
-  -- Determine doc-gen4 reference based on project toolchain:
-  -- - For Lean >= 4.27.0: use "main" to get PR #341 (custom source linker) and #344 (html decorator support)
-  -- - For older Lean versions: use matching version tag (no decorator support, but compatible)
-  let docgen4Ref := match parseVersion tcCheck.projectToolchain with
-    | some ver =>
-      if versionGe ver (4, 27, 0) then "main"
-      else if tcCheck.docgen4Tag.isEmpty then "main" else tcCheck.docgen4Tag
-    | none => if tcCheck.docgen4Tag.isEmpty then "main" else tcCheck.docgen4Tag
 
   -- Create lakefile.lean (using .lean format for more flexibility)
   -- Note: We do NOT share packagesDir with the main project because toolchains may differ
