@@ -259,6 +259,12 @@ def formatTimingWithTotal (deltaMs : Nat) (overallStartTime : Nat) (currentTime 
 /-- Classify all declarations with parallel proof dependency extraction -/
 def classifyAllDeclarationsParallel (env : Environment) (modulePrefix : Name) (numWorkers : Nat := 8)
     (overallStartTime : Nat := 0) : MetaM ClassificationResult := do
+  -- Validate modulePrefix - if anonymous, all declarations will match!
+  if modulePrefix.isAnonymous then
+    IO.println s!"  ⚠️ WARNING: modulePrefix is anonymous - will match ALL declarations!"
+    IO.println s!"    This is likely a bug. Expected a module name like `Mathlib or `FLT."
+    (← IO.getStdout).flush
+
   let internalPrefixes := #[modulePrefix.toString]
   let mut entries : NameMap APIMeta := {}
   let mut proofDepTasks : Array (Name × ProofDepTask) := #[]
@@ -269,11 +275,11 @@ def classifyAllDeclarationsParallel (env : Environment) (modulePrefix : Name) (n
     match env.getModuleIdxFor? name with
     | some modIdx =>
       let modName := env.header.moduleNames[modIdx.toNat]!
-      if modulePrefix.isPrefixOf modName then acc.push (name, cinfo) else acc
+      if modulePrefix.isPrefixOf modName then acc.push (name, cinfo, modName) else acc
     | none => acc
 
   let total := relevantConsts.size
-  IO.println s!"  [3/7] Phase 1: Classifying {total} declarations (MetaM, single-threaded)..."
+  IO.println s!"  [{modulePrefix}] [3/7] Phase 1: Classifying {total} declarations (MetaM, single-threaded)..."
   (← IO.getStdout).flush
 
   -- Phase 1: Sequential MetaM classification (collect proof dep tasks)
@@ -281,14 +287,14 @@ def classifyAllDeclarationsParallel (env : Environment) (modulePrefix : Name) (n
   let mut processed := 0
   let progressInterval := max 1 (total / 20)
 
-  for (name, cinfo) in relevantConsts do
+  for (name, cinfo, modName) in relevantConsts do
     processed := processed + 1
     if processed % progressInterval == 0 then
       let pct := (processed * 100) / total
-      IO.print s!"\r  [3/7] Classifying: {processed}/{total} ({pct}%)    "
+      IO.print s!"\r  [{modulePrefix}] [3/7] Classifying: {processed}/{total} ({pct}%)    "
       (← IO.getStdout).flush
 
-    if let some (apiMeta, taskOpt) ← classifyConstantLight env name cinfo internalPrefixes then
+    if let some (apiMeta, taskOpt) ← classifyConstantLight env name cinfo internalPrefixes modName then
       entries := entries.insert name apiMeta
       if let some task := taskOpt then
         proofDepTasks := proofDepTasks.push (name, task)
@@ -296,15 +302,15 @@ def classifyAllDeclarationsParallel (env : Environment) (modulePrefix : Name) (n
   let phase1End ← IO.monoMsNow
   let phase1Duration := phase1End - phase1Start
   let timingStr := formatTimingWithTotal phase1Duration overallStartTime phase1End
-  IO.println s!"\r  [3/7] Classification complete: {entries.size} declarations {timingStr}    "
+  IO.println s!"\r  [{modulePrefix}] [3/7] Classification complete: {entries.size} declarations {timingStr}    "
   (← IO.getStdout).flush
 
   -- Phase 2: Parallel proof dependency extraction
   if proofDepTasks.isEmpty then
-    IO.println s!"  [4/7] No proof dependencies to extract (skipped)"
+    IO.println s!"  [{modulePrefix}] [4/7] No proof dependencies to extract (skipped)"
     (← IO.getStdout).flush
   else
-    IO.println s!"  [4/7] Phase 2: Extracting proof deps for {proofDepTasks.size} theorems ({numWorkers} workers, dynamic scheduling)..."
+    IO.println s!"  [{modulePrefix}] [4/7] Phase 2: Extracting proof deps for {proofDepTasks.size} theorems ({numWorkers} workers, dynamic scheduling)..."
     (← IO.getStdout).flush
 
     let phase2Start ← IO.monoMsNow
@@ -350,7 +356,7 @@ def classifyAllDeclarationsParallel (env : Environment) (modulePrefix : Name) (n
         let pct := (completed * 100) / total
         if pct != lastPct || active != lastActive then
           let status := if active == 0 then "done" else s!"{active} workers active"
-          IO.print s!"\r        Progress: {completed}/{total} ({pct}%) - {status}    "
+          IO.print s!"\r        [{modulePrefix}] Progress: {completed}/{total} ({pct}%) - {status}    "
           (← IO.getStdout).flush
           lastPct := pct
           lastActive := active
@@ -358,14 +364,14 @@ def classifyAllDeclarationsParallel (env : Environment) (modulePrefix : Name) (n
         if active == 0 then break
 
     -- Spawn worker tasks (use dedicated threads for true parallelism)
-    IO.println s!"        Spawning {numWorkers} worker threads..."
+    IO.println s!"        [{modulePrefix}] Spawning {numWorkers} worker threads..."
     (← IO.getStdout).flush
     let workerIds := Array.range numWorkers
     let workers ← workerIds.mapM fun i =>
       IO.asTask (prio := .dedicated) (workerFn i)
     -- Start progress reporter
     let progressTask ← IO.asTask (prio := .default) progressFn
-    IO.println s!"        All {workers.size} workers spawned, waiting for completion..."
+    IO.println s!"        [{modulePrefix}] All {workers.size} workers spawned, waiting for completion..."
     (← IO.getStdout).flush
 
     -- Wait for all workers to complete
@@ -383,7 +389,7 @@ def classifyAllDeclarationsParallel (env : Environment) (modulePrefix : Name) (n
     let taskCounts ← taskCountRef.get
     let totalProcessed := taskCounts.foldl (· + ·) 0
     let activeWorkers := taskCounts.filter (· > 0) |>.size
-    IO.println s!"\n        Workers finished: {activeWorkers}/{numWorkers} active, processed {totalProcessed} tasks"
+    IO.println s!"\n        [{modulePrefix}] Workers finished: {activeWorkers}/{numWorkers} active, processed {totalProcessed} tasks"
     (← IO.getStdout).flush
 
     -- Merge proof deps into entries
@@ -394,7 +400,7 @@ def classifyAllDeclarationsParallel (env : Environment) (modulePrefix : Name) (n
     let phase2End ← IO.monoMsNow
     let phase2Duration := phase2End - phase2Start
     let timingStr2 := formatTimingWithTotal phase2Duration overallStartTime phase2End
-    IO.println s!"  [4/7] Proof deps complete: extracted for {allResults.size} theorems {timingStr2}"
+    IO.println s!"  [{modulePrefix}] [4/7] Proof deps complete: extracted for {allResults.size} theorems {timingStr2}"
     (← IO.getStdout).flush
 
   return { entries, notes }
@@ -406,11 +412,17 @@ def classifyAllDeclarationsParallel (env : Environment) (modulePrefix : Name) (n
 def classifyAllDeclarations (env : Environment) (modulePrefix : Name)
     (skipProofDeps : Bool := false) (proofDepWorkers : Nat := 0)
     (overallStartTime : Nat := 0) : MetaM ClassificationResult := do
+  -- Validate modulePrefix - if anonymous, all declarations will match!
+  if modulePrefix.isAnonymous then
+    IO.println s!"  ⚠️ WARNING: modulePrefix is anonymous - will match ALL declarations!"
+    IO.println s!"    This is likely a bug. Expected a module name like `Mathlib or `FLT."
+    (← IO.getStdout).flush
+
   let internalPrefixes := #[modulePrefix.toString]
 
   if skipProofDeps then
     -- Fast mode: skip proof deps entirely
-    IO.println s!"  (--skip-proof-deps: skipping proof dependency extraction)"
+    IO.println s!"  [{modulePrefix}] (--skip-proof-deps: skipping proof dependency extraction)"
     (← IO.getStdout).flush
     let mut entries : NameMap APIMeta := {}
     let mut notes : Array String := #[]
@@ -419,27 +431,27 @@ def classifyAllDeclarations (env : Environment) (modulePrefix : Name)
       match env.getModuleIdxFor? name with
       | some modIdx =>
         let modName := env.header.moduleNames[modIdx.toNat]!
-        if modulePrefix.isPrefixOf modName then acc.push (name, cinfo) else acc
+        if modulePrefix.isPrefixOf modName then acc.push (name, cinfo, modName) else acc
       | none => acc
 
     let total := relevantConsts.size
-    IO.println s!"  [3/7] Classifying {total} declarations (no proof deps)..."
+    IO.println s!"  [{modulePrefix}] [3/7] Classifying {total} declarations (no proof deps)..."
     (← IO.getStdout).flush
 
     let mut processed := 0
     let progressInterval := max 1 (total / 20)
 
-    for (name, cinfo) in relevantConsts do
+    for (name, cinfo, modName) in relevantConsts do
       processed := processed + 1
       if processed % progressInterval == 0 then
         let pct := (processed * 100) / total
-        IO.print s!"\r  [3/7] Classifying: {processed}/{total} ({pct}%)    "
+        IO.print s!"\r  [{modulePrefix}] [3/7] Classifying: {processed}/{total} ({pct}%)    "
         (← IO.getStdout).flush
 
-      if let some (apiMeta, _) ← classifyConstantLight env name cinfo internalPrefixes then
+      if let some (apiMeta, _) ← classifyConstantLight env name cinfo internalPrefixes modName then
         entries := entries.insert name apiMeta
 
-    IO.println s!"\r  [3/7] Classification complete: {entries.size} declarations    "
+    IO.println s!"\r  [{modulePrefix}] [3/7] Classification complete: {entries.size} declarations    "
     (← IO.getStdout).flush
     return { entries, notes }
 
@@ -456,27 +468,27 @@ def classifyAllDeclarations (env : Environment) (modulePrefix : Name)
       match env.getModuleIdxFor? name with
       | some modIdx =>
         let modName := env.header.moduleNames[modIdx.toNat]!
-        if modulePrefix.isPrefixOf modName then acc.push (name, cinfo) else acc
+        if modulePrefix.isPrefixOf modName then acc.push (name, cinfo, modName) else acc
       | none => acc
 
     let total := relevantConsts.size
-    IO.println s!"  [3/7] Classifying {total} declarations (sequential with proof deps)..."
+    IO.println s!"  [{modulePrefix}] [3/7] Classifying {total} declarations (sequential with proof deps)..."
     (← IO.getStdout).flush
 
     let mut processed := 0
     let progressInterval := max 1 (total / 20)
 
-    for (name, cinfo) in relevantConsts do
+    for (name, cinfo, modName) in relevantConsts do
       processed := processed + 1
       if processed % progressInterval == 0 then
         let pct := (processed * 100) / total
-        IO.print s!"\r  [3/6] Classifying: {processed}/{total} ({pct}%)    "
+        IO.print s!"\r  [{modulePrefix}] [3/6] Classifying: {processed}/{total} ({pct}%)    "
         (← IO.getStdout).flush
 
-      if let some apiMeta ← classifyConstant env name cinfo internalPrefixes then
+      if let some apiMeta ← classifyConstant env name cinfo internalPrefixes modName then
         entries := entries.insert name apiMeta
 
-    IO.println s!"\r  [3/6] Classification complete: {entries.size} declarations    "
+    IO.println s!"\r  [{modulePrefix}] [3/6] Classification complete: {entries.size} declarations    "
     (← IO.getStdout).flush
     return { entries, notes }
 

@@ -73,9 +73,6 @@ structure Project where
   /-- Number of parallel workers for HTML file writing (0 = sequential).
       When `none`: use global setting. -/
   htmlWorkers : Option Nat := none
-  /-- Override to use doc-gen4 fork for this project (enables bidirectional navigation).
-      When `some true`: force use fork. When `some false`: force use official. When `none`: use global setting. -/
-  useDocGen4Fork : Option Bool := none
   deriving Repr, Inhabited
 
 /-- Experiment configuration -/
@@ -86,8 +83,6 @@ structure Config where
   basePort : Nat
   maxParallelJobs : Nat
   projects : Array Project
-  /-- Global default: Use doc-gen4 fork (enables bidirectional navigation between API and verification pages) -/
-  useDocGen4Fork : Bool := false
   /-- Global default: Whether to run `lake exe cache get` before building -/
   lakeExeCacheGet : Bool := false
   /-- Global default: Whether to disable equation generation -/
@@ -139,7 +134,6 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
   let mut basePort : Nat := 9000
   let mut maxJobs : Nat := 8
   -- Global defaults for settings that can be overridden per-project
-  let mut useDocGen4Fork : Bool := false
   let mut lakeExeCacheGet : Bool := false
   let mut disableEquations : Bool := false
   let mut skipProofDeps : Bool := false
@@ -182,13 +176,16 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
             | "skip_proof_deps" => { proj with skipProofDeps := some (value == "true") }
             | "proof_dep_workers" => { proj with proofDepWorkers := some (value.toNat?.getD 0) }
             | "html_workers" => { proj with htmlWorkers := some (value.toNat?.getD 0) }
-            | "use_doc_gen4_fork" => { proj with useDocGen4Fork := some (value == "true") }
+            | "use_doc_gen4_fork" => proj  -- Deprecated, ignored (PR merged to official doc-gen4)
             | "modules" =>
-              -- Parse array like ["Batteries"]
+              -- Parse array like ["Batteries"], eliminate duplicates
               let mods := value.replace "[" "" |>.replace "]" ""
                 |>.splitOn "," |>.map (·.trimCompat.replace "\"" "")
-                |>.filter (·.length > 0) |>.toArray
-              { proj with modules := mods }
+                |>.filter (·.length > 0)
+              -- Eliminate duplicates while preserving order
+              let uniqueMods := mods.foldl (init := #[]) fun acc m =>
+                if acc.contains m then acc else acc.push m
+              { proj with modules := uniqueMods }
             | "classification_mode" =>
               let mode := if value == "annotated" then ClassificationMode.annotated
                           else ClassificationMode.auto
@@ -204,8 +201,8 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
           | "sites_dir" => sitesDir := baseDir / value
           | "base_port" => basePort := value.toNat? |>.getD 9000
           | "max_parallel_jobs" => maxJobs := value.toNat? |>.getD 8
-          -- Global defaults for per-project settings
-          | "use_doc_gen4_fork" => useDocGen4Fork := value == "true"
+          -- Global defaults for per-project settings (use_doc_gen4_fork removed - PR merged to official doc-gen4)
+          | "use_doc_gen4_fork" => pure ()  -- Deprecated, ignored
           | "lake_exe_cache_get" => lakeExeCacheGet := value == "true"
           | "disable_equations" => disableEquations := value == "true"
           | "skip_proof_deps" => skipProofDeps := value == "true"
@@ -224,7 +221,6 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
     basePort := basePort
     maxParallelJobs := maxJobs
     projects := projects
-    useDocGen4Fork := useDocGen4Fork
     lakeExeCacheGet := lakeExeCacheGet
     disableEquations := disableEquations
     skipProofDeps := skipProofDeps
@@ -648,7 +644,7 @@ def copyFileIfExists (src dst : FilePath) : IO Bool := do
 
 /-- Setup the docvb directory for a project with dynamic toolchain support -/
 def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
-    (dvbPath : FilePath) (_modules : Array String) (useDocGen4Fork : Bool := false)
+    (dvbPath : FilePath) (_modules : Array String)
     : IO (Bool × ToolchainCheck) := do
   let docvbDir := projectDir / "docvb"
   IO.FS.createDirAll docvbDir
@@ -671,10 +667,9 @@ def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
   -- Copy doc-verification-bridge source files to docvb (avoids cross-toolchain dependency)
   -- We automatically discover all .lean files, excluding:
   --   - Experiments.lean (the pipeline itself, not needed in docvb)
-  --   - SourceLinkerCompatCustom.lean (handled specially below based on config)
-  --   - SourceLinkerCompatStandard.lean (handled specially below based on config)
-  --   - VerificationDecoratorStandard.lean (handled specially below based on config)
-  -- This ensures new files are automatically included without manual list maintenance.
+  --   - SourceLinkerCompatStandard.lean (deprecated stub, no longer needed)
+  --   - VerificationDecoratorStandard.lean (deprecated stub, no longer needed)
+  -- Note: PR #344 merged to official doc-gen4, so we always use the full decorator support now.
   let dvbSrcDir := docvbDir / "DocVerificationBridge"
   IO.FS.createDirAll dvbSrcDir
 
@@ -687,26 +682,7 @@ def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
   for entry in ← System.FilePath.readDir (dvbPath / "DocVerificationBridge") do
     let fileName := entry.fileName
     if fileName.endsWith ".lean" && !excludeFiles.contains fileName then
-      -- SourceLinkerCompat.lean and VerificationDecorator.lean are only copied when useDocGen4Fork is true
-      -- (handled specially below), so skip them here when useDocGen4Fork is false
-      if !useDocGen4Fork && (fileName == "SourceLinkerCompat.lean" || fileName == "VerificationDecorator.lean") then continue
       discard <| copyFileIfExists (dvbPath / "DocVerificationBridge" / fileName) (dvbSrcDir / fileName)
-
-  -- Copy the appropriate SourceLinkerCompat version based on config
-  -- Standard version: uses official doc-gen4 3-arg API (ignores decorator)
-  -- Custom version: uses NicolasRouquette/doc-gen4 fork with decorator support
-  let compatSrcFile := if useDocGen4Fork
-    then dvbPath / "DocVerificationBridge" / "SourceLinkerCompat.lean"
-    else dvbPath / "DocVerificationBridge" / "SourceLinkerCompatStandard.lean"
-  discard <| copyFileIfExists compatSrcFile (dvbSrcDir / "SourceLinkerCompat.lean")
-
-  -- Copy the appropriate VerificationDecorator version based on config
-  -- Standard version: stub that returns empty HTML (decorator not supported)
-  -- Custom version: actual decorator using NicolasRouquette/doc-gen4 fork
-  let decoratorSrcFile := if useDocGen4Fork
-    then dvbPath / "DocVerificationBridge" / "VerificationDecorator.lean"
-    else dvbPath / "DocVerificationBridge" / "VerificationDecoratorStandard.lean"
-  discard <| copyFileIfExists decoratorSrcFile (dvbSrcDir / "VerificationDecorator.lean")
 
   -- Copy UnifiedMain.lean
   discard <| copyFileIfExists (dvbPath / "UnifiedMain.lean") (docvbDir / "UnifiedMain.lean")
@@ -714,13 +690,14 @@ def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
   -- Copy DocVerificationBridge.lean (the root module file)
   discard <| copyFileIfExists (dvbPath / "DocVerificationBridge.lean") (docvbDir / "DocVerificationBridge.lean")
 
-  -- Determine which doc-gen4 version/repo to use
-  -- If doc-gen4 fork is enabled, use the fork with decorator support; otherwise use official release tags
-  let (docgen4Repo, docgen4Ref) := if useDocGen4Fork then
-    ("https://github.com/NicolasRouquette/doc-gen4", "feat/declaration-decorator")
-  else
-    let tag := if tcCheck.docgen4Tag.isEmpty then "main" else tcCheck.docgen4Tag
-    ("https://github.com/leanprover/doc-gen4", tag)
+  -- Determine doc-gen4 reference based on project toolchain:
+  -- - For Lean >= 4.27.0: use "main" to get PR #341 (custom source linker) and #344 (html decorator support)
+  -- - For older Lean versions: use matching version tag (no decorator support, but compatible)
+  let docgen4Ref := match parseVersion tcCheck.projectToolchain with
+    | some ver =>
+      if versionGe ver (4, 27, 0) then "main"
+      else if tcCheck.docgen4Tag.isEmpty then "main" else tcCheck.docgen4Tag
+    | none => if tcCheck.docgen4Tag.isEmpty then "main" else tcCheck.docgen4Tag
 
   -- Create lakefile.lean (using .lean format for more flexibility)
   -- Note: We do NOT share packagesDir with the main project because toolchains may differ
@@ -734,9 +711,11 @@ package docvb where
 -- Require the main project
 require «{mainPackage}» from \"../\"
 
--- Require doc-gen4
+-- Require doc-gen4 (version-matched for toolchain compatibility)
+-- For Lean >= 4.27.0: main branch with PR #344 decorator support
+-- For older versions: matching version tag without decorator support
 require «doc-gen4» from git
-  \"{docgen4Repo}\" @ \"{docgen4Ref}\"
+  \"https://github.com/leanprover/doc-gen4\" @ \"{docgen4Ref}\"
 
 -- Local library with doc-verification-bridge sources (copied for toolchain compatibility)
 lean_lib DocVerificationBridge where
@@ -749,18 +728,14 @@ lean_exe «unified-doc» where
 "
   IO.FS.writeFile (docvbDir / "lakefile.lean") lakefileContent
 
-  -- Download lake-manifest.json from doc-gen4's repo/ref to lock transitive dependencies
-  -- Only download for official doc-gen4 releases (the fork may not have matching manifest)
-  if !useDocGen4Fork then
-    let manifestUrl := s!"https://raw.githubusercontent.com/leanprover/doc-gen4/{docgen4Ref}/lake-manifest.json"
-    let (manifestOk, manifestContent) ← runCmd "curl" #["-fsSL", manifestUrl] none 30
-    if manifestOk && !manifestContent.isEmpty then
-      IO.FS.writeFile (docvbDir / "lake-manifest.json") manifestContent
-      IO.println s!"[{projectName}] Downloaded lake-manifest.json from doc-gen4@{docgen4Ref}"
-    else
-      IO.println s!"[{projectName}] Warning: Could not download lake-manifest.json from doc-gen4@{docgen4Ref}"
+  -- Download lake-manifest.json from doc-gen4 to lock transitive dependencies
+  let manifestUrl := s!"https://raw.githubusercontent.com/leanprover/doc-gen4/{docgen4Ref}/lake-manifest.json"
+  let (manifestOk, manifestContent) ← runCmd "curl" #["-fsSL", manifestUrl] none 30
+  if manifestOk && !manifestContent.isEmpty then
+    IO.FS.writeFile (docvbDir / "lake-manifest.json") manifestContent
+    IO.println s!"[{projectName}] Downloaded lake-manifest.json from doc-gen4@{docgen4Ref}"
   else
-    IO.println s!"[{projectName}] Using custom source linker (fork: {docgen4Repo}@{docgen4Ref})"
+    IO.println s!"[{projectName}] Warning: Could not download lake-manifest.json from doc-gen4@{docgen4Ref}"
 
   -- Remove old lakefile.toml if it exists (we're now using lakefile.lean)
   let oldLakefile := docvbDir / "lakefile.toml"
@@ -851,22 +826,54 @@ def parseCoverageStats (statsPath : FilePath) : IO ProjectResult := do
     name := "", repo := "", success := true
   }
 
+  -- Helper to extract Nat from JSON with default
+  let getNat (json : Json) (field : String) (default : Nat := 0) : Nat :=
+    match json.getObjVal? field with
+    | .ok (.num n) => n.mantissa.toNat  -- JsonNumber stores as mantissa * 10^exponent
+    | _ => default
+
   -- Try stats.json first (new static HTML format)
   if statsPath.extension == some "json" && (← statsPath.pathExists) then
     let content ← IO.FS.readFile statsPath
     match Json.parse content with
     | .error _ => pure ()  -- Fall through to legacy parsing
     | .ok json =>
-      match Lean.fromJson? json with
-      | .error _ => pure ()  -- Fall through to legacy parsing
-      | .ok (stats : DocVerificationBridge.StaticHtml.VerificationStats) =>
-        return {
-          emptyResult with
-          totalDefinitions := stats.definitions
-          totalTheorems := stats.theorems
-          defsWithSorry := stats.sorryDefinitions
-          theoremsWithSorry := stats.sorryTheorems
-        }
+      -- Manual extraction with defaults for backwards compatibility
+      let definitions := getNat json "definitions"
+      let theorems := getNat json "theorems"
+      let sorryDefinitions := getNat json "sorryDefinitions"
+      let sorryTheorems := getNat json "sorryTheorems"
+      -- Four-category ontology (may be missing in old stats.json)
+      let mathAbstractions := getNat json "mathAbstractions"
+      let compDatatypes := getNat json "compDatatypes"
+      let mathDefinitions := getNat json "mathDefinitions"
+      let compOperations := getNat json "compOperations"
+      -- Theorem taxonomy (may be missing in old stats.json)
+      let computationalTheorems := getNat json "computationalTheorems"
+      let mathematicalTheorems := getNat json "mathematicalTheorems"
+      let bridgingTheorems := getNat json "bridgingTheorems"
+      let soundnessTheorems := getNat json "soundnessTheorems"
+      let completenessTheorems := getNat json "completenessTheorems"
+      let unclassifiedTheorems := getNat json "unclassifiedTheorems"
+      return {
+        emptyResult with
+        totalDefinitions := definitions
+        totalTheorems := theorems
+        defsWithSorry := sorryDefinitions
+        theoremsWithSorry := sorryTheorems
+        -- Four-category ontology
+        mathAbstractions := mathAbstractions
+        compDatatypes := compDatatypes
+        mathDefinitions := mathDefinitions
+        compOperations := compOperations
+        -- Theorem taxonomy
+        computationalTheorems := computationalTheorems
+        mathematicalTheorems := mathematicalTheorems
+        bridgingTheorems := bridgingTheorems
+        soundnessTheorems := soundnessTheorems
+        completenessTheorems := completenessTheorems
+        unclassifiedTheorems := unclassifiedTheorems
+      }
 
   -- Legacy path: try index.md or coverage.md
   let indexPath := statsPath.parent.get! / "index.md"
@@ -1053,13 +1060,41 @@ def generateSummaryPage (results : Array ProjectResult) (outputPath : FilePath) 
   let totalThmsSorry := successful.foldl (· + ·.theoremsWithSorry) 0
   let totalSorry := totalDefsSorry + totalThmsSorry
 
+  -- Aggregate ontology counts
+  let totalMathAbstractions := successful.foldl (· + ·.mathAbstractions) 0
+  let totalCompDatatypes := successful.foldl (· + ·.compDatatypes) 0
+  let totalMathDefinitions := successful.foldl (· + ·.mathDefinitions) 0
+  let totalCompOperations := successful.foldl (· + ·.compOperations) 0
+  let totalTypes := totalMathAbstractions + totalCompDatatypes
+
+  -- Aggregate theorem taxonomy counts
+  let totalMathThms := successful.foldl (· + ·.mathematicalTheorems) 0
+  let totalCompThms := successful.foldl (· + ·.computationalTheorems) 0
+  let totalSoundThms := successful.foldl (· + ·.soundnessTheorems) 0
+  let totalCompleteThms := successful.foldl (· + ·.completenessTheorems) 0
+  let totalUnclassified := successful.foldl (· + ·.unclassifiedTheorems) 0
+
+  -- Percentage helper
+  let pct := fun (n : Nat) (total : Nat) => if total > 0 then (n * 100) / total else 0
+
   let now ← IO.Process.output { cmd := "date", args := #["+%Y-%m-%d %H:%M:%S"] }
   let timestamp := now.stdout.trimCompat
 
+  -- Per-project table rows
   let mut tableRows := ""
   for r in successful do
     let sorryIndicator := if r.defsWithSorry + r.theoremsWithSorry > 0 then "⚠️ " else ""
     tableRows := tableRows ++ s!"<tr><td><a href='{r.name}/site/' target='_blank'>{sorryIndicator}{r.name}</a></td><td>{r.totalDefinitions}</td><td>{r.defsWithSorry}</td><td>{r.totalTheorems}</td><td>{r.theoremsWithSorry}</td><td>{r.bridgingTheorems}</td><td>{r.unclassifiedTheorems}</td></tr>\n"
+
+  -- Per-project ontology table rows
+  let mut ontologyRows := ""
+  for r in successful do
+    ontologyRows := ontologyRows ++ s!"<tr><td><a href='{r.name}/site/' target='_blank'>{r.name}</a></td><td>{r.mathAbstractions}</td><td>{r.compDatatypes}</td><td>{r.mathDefinitions}</td><td>{r.compOperations}</td></tr>\n"
+
+  -- Per-project theorem taxonomy table rows
+  let mut taxonomyRows := ""
+  for r in successful do
+    taxonomyRows := taxonomyRows ++ s!"<tr><td><a href='{r.name}/site/' target='_blank'>{r.name}</a></td><td>{r.mathematicalTheorems}</td><td>{r.bridgingTheorems}</td><td>{r.computationalTheorems}</td><td>{r.soundnessTheorems}</td><td>{r.completenessTheorems}</td><td>{r.unclassifiedTheorems}</td></tr>\n"
 
   -- Build incomplete projects list (not yet started or in progress)
   let mut incompleteList := ""
@@ -1081,10 +1116,10 @@ def generateSummaryPage (results : Array ProjectResult) (outputPath : FilePath) 
     s!"<div class='section'><h2>❌ Failed Projects ({failed.size})</h2><ul class='failed-list'>{failedList}</ul></div>"
 
   -- CSS without interpolation (no curly braces to escape)
-  let css := "body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 40px; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #eee; min-height: 100vh; } h1 { color: #4ecdc4; margin-bottom: 10px; } .subtitle { color: #888; margin-bottom: 30px; } .summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px; } .card { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; text-align: center; border: 1px solid rgba(255,255,255,0.1); } .card-value { font-size: 2.5em; font-weight: bold; color: #4ecdc4; } .card-label { color: #888; margin-top: 5px; } table { width: 100%; border-collapse: collapse; background: rgba(255,255,255,0.02); border-radius: 12px; overflow: hidden; } th { background: rgba(78, 205, 196, 0.2); padding: 15px; text-align: left; cursor: pointer; user-select: none; } th:hover { background: rgba(78, 205, 196, 0.3); } td { padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); } tr:hover { background: rgba(255,255,255,0.05); } .success { color: #4ecdc4; } .failure { color: #ff6b6b; } a { color: #4ecdc4; text-decoration: none; } a:hover { text-decoration: underline; } .section { margin-bottom: 40px; } .section h2 { color: #fff; border-bottom: 2px solid #4ecdc4; padding-bottom: 10px; margin-bottom: 20px; } .incomplete-list { list-style: none; padding: 0; } .incomplete-list li { background: rgba(136, 136, 136, 0.1); padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #888; } .failed-list { list-style: none; padding: 0; } .failed-list li { background: rgba(255, 107, 107, 0.1); padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #ff6b6b; } .timestamp { color: #666; font-size: 0.9em; }"
+  let css := "body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 40px; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #eee; min-height: 100vh; } h1 { color: #4ecdc4; margin-bottom: 10px; } .subtitle { color: #888; margin-bottom: 30px; } .summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px; } .card { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; text-align: center; border: 1px solid rgba(255,255,255,0.1); } .card-value { font-size: 2.5em; font-weight: bold; color: #4ecdc4; } .card-label { color: #888; margin-top: 5px; } table { width: 100%; border-collapse: collapse; background: rgba(255,255,255,0.02); border-radius: 12px; overflow: hidden; margin-bottom: 20px; } th { background: rgba(78, 205, 196, 0.2); padding: 15px; text-align: left; cursor: pointer; user-select: none; } th:hover { background: rgba(78, 205, 196, 0.3); } td { padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); } tr:hover { background: rgba(255,255,255,0.05); } .success { color: #4ecdc4; } .failure { color: #ff6b6b; } a { color: #4ecdc4; text-decoration: none; } a:hover { text-decoration: underline; } .section { margin-bottom: 40px; } .section h2 { color: #fff; border-bottom: 2px solid #4ecdc4; padding-bottom: 10px; margin-bottom: 20px; } .section h3 { color: #ccc; margin-top: 25px; margin-bottom: 15px; } .aggregate-row { background: rgba(78, 205, 196, 0.1) !important; font-weight: bold; } .aggregate-row td { border-top: 2px solid #4ecdc4; } .incomplete-list { list-style: none; padding: 0; } .incomplete-list li { background: rgba(136, 136, 136, 0.1); padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #888; } .failed-list { list-style: none; padding: 0; } .failed-list li { background: rgba(255, 107, 107, 0.1); padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #ff6b6b; } .timestamp { color: #666; font-size: 0.9em; } .ontology-summary { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 20px 0; } .ontology-cell { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; text-align: center; } .ontology-cell .label { color: #888; font-size: 0.9em; } .ontology-cell .value { font-size: 1.8em; font-weight: bold; color: #4ecdc4; }"
 
   -- JavaScript for table sorting (kept simple without interpolation)
-  let js := "document.querySelectorAll('#results-table th').forEach(function(th, index) { th.addEventListener('click', function() { var table = th.closest('table'); var tbody = table.querySelector('tbody'); var rows = Array.from(tbody.querySelectorAll('tr')); var sortType = th.dataset.sort; var isAsc = th.classList.contains('sorted-asc'); table.querySelectorAll('th').forEach(function(h) { h.classList.remove('sorted-asc', 'sorted-desc'); }); rows.sort(function(a, b) { var aVal = a.cells[index].textContent; var bVal = b.cells[index].textContent; if (sortType === 'number') { aVal = parseFloat(aVal) || 0; bVal = parseFloat(bVal) || 0; return isAsc ? bVal - aVal : aVal - bVal; } else { return isAsc ? bVal.localeCompare(aVal) : aVal.localeCompare(bVal); } }); rows.forEach(function(row) { tbody.appendChild(row); }); th.classList.add(isAsc ? 'sorted-desc' : 'sorted-asc'); }); });"
+  let js := "document.querySelectorAll('table th[data-sort]').forEach(function(th, index) { th.addEventListener('click', function() { var table = th.closest('table'); var tbody = table.querySelector('tbody'); var rows = Array.from(tbody.querySelectorAll('tr:not(.aggregate-row)')); var sortType = th.dataset.sort; var isAsc = th.classList.contains('sorted-asc'); table.querySelectorAll('th').forEach(function(h) { h.classList.remove('sorted-asc', 'sorted-desc'); }); rows.sort(function(a, b) { var aVal = a.cells[index].textContent; var bVal = b.cells[index].textContent; if (sortType === 'number') { aVal = parseFloat(aVal) || 0; bVal = parseFloat(bVal) || 0; return isAsc ? bVal - aVal : aVal - bVal; } else { return isAsc ? bVal.localeCompare(aVal) : aVal.localeCompare(bVal); } }); rows.forEach(function(row) { tbody.appendChild(row); }); var aggRow = tbody.querySelector('.aggregate-row'); if (aggRow) tbody.appendChild(aggRow); th.classList.add(isAsc ? 'sorted-desc' : 'sorted-asc'); }); });"
 
   let html := s!"<!DOCTYPE html>
 <html>
@@ -1097,6 +1132,7 @@ def generateSummaryPage (results : Array ProjectResult) (outputPath : FilePath) 
 <h1>🔬 doc-verification-bridge Experiment Results</h1>
 <p class='subtitle'>Automatic theorem classification across Lean 4 projects</p>
 <p class='timestamp'>Generated: {timestamp}</p>
+
 <div class='summary-cards'>
 <div class='card'><div class='card-value'>{successful.size}/{results.size}</div><div class='card-label'>Projects Analyzed</div></div>
 <div class='card'><div class='card-value'>{totalDefs}</div><div class='card-label'>Total Definitions</div></div>
@@ -1104,16 +1140,78 @@ def generateSummaryPage (results : Array ProjectResult) (outputPath : FilePath) 
 <div class='card'><div class='card-value'>{totalBridging}</div><div class='card-label'>Bridging Theorems</div></div>
 <div class='card'><div class='card-value' style='color: #ff9f43'>{totalSorry}</div><div class='card-label'>⚠️ With Sorry</div></div>
 </div>
+
+<div class='section'>
+<h2>📊 Four-Category Ontology (Aggregate)</h2>
+<p>Classification based on E.J. Lowe's metaphysical framework across all analyzed projects.</p>
+<table>
+<thead><tr>
+<th></th><th>Mathematical (Prop)</th><th>Computational (Data)</th>
+</tr></thead>
+<tbody>
+<tr><th>Substantial (Types)</th><td>{totalMathAbstractions} ({pct totalMathAbstractions totalTypes}%)</td><td>{totalCompDatatypes} ({pct totalCompDatatypes totalTypes}%)</td></tr>
+<tr><th>Non-substantial (Defs)</th><td>{totalMathDefinitions} ({pct totalMathDefinitions totalDefs}%)</td><td>{totalCompOperations} ({pct totalCompOperations totalDefs}%)</td></tr>
+</tbody>
+</table>
+</div>
+
+<div class='section'>
+<h2>📈 Theorem Taxonomy (Aggregate)</h2>
+<p>Classification of theorems by what they prove across all analyzed projects.</p>
+<table>
+<thead><tr>
+<th>Theorem Kind</th><th>Count</th><th>Percentage</th>
+</tr></thead>
+<tbody>
+<tr><td>mathematicalProperty</td><td>{totalMathThms}</td><td>{pct totalMathThms totalThms}%</td></tr>
+<tr><td>bridgingProperty</td><td>{totalBridging}</td><td>{pct totalBridging totalThms}%</td></tr>
+<tr><td>computationalProperty</td><td>{totalCompThms}</td><td>{pct totalCompThms totalThms}%</td></tr>
+<tr><td>soundnessProperty</td><td>{totalSoundThms}</td><td>{pct totalSoundThms totalThms}%</td></tr>
+<tr><td>completenessProperty</td><td>{totalCompleteThms}</td><td>{pct totalCompleteThms totalThms}%</td></tr>
+<tr style='color: #888;'><td>unclassified</td><td>{totalUnclassified}</td><td>{pct totalUnclassified totalThms}%</td></tr>
+</tbody>
+</table>
+</div>
+
 <div class='section'>
 <h2>✅ Successful Projects ({successful.size})</h2>
+
+<h3>Overview</h3>
 <table id='results-table'>
 <thead><tr>
 <th data-sort='string'>Project</th><th data-sort='number'>Defs</th>
 <th data-sort='number'>Defs⚠️</th><th data-sort='number'>Thms</th>
 <th data-sort='number'>Thms⚠️</th><th data-sort='number'>Bridge</th><th data-sort='number'>Unclass</th>
 </tr></thead>
-<tbody>{tableRows}</tbody>
+<tbody>{tableRows}
+<tr class='aggregate-row'><td><strong>TOTAL</strong></td><td>{totalDefs}</td><td>{totalDefsSorry}</td><td>{totalThms}</td><td>{totalThmsSorry}</td><td>{totalBridging}</td><td>{totalUnclassified}</td></tr>
+</tbody>
 </table>
+
+<h3>Four-Category Ontology per Project</h3>
+<table id='ontology-table'>
+<thead><tr>
+<th data-sort='string'>Project</th><th data-sort='number'>Math Abstractions</th>
+<th data-sort='number'>Comp Datatypes</th><th data-sort='number'>Math Definitions</th>
+<th data-sort='number'>Comp Operations</th>
+</tr></thead>
+<tbody>{ontologyRows}
+<tr class='aggregate-row'><td><strong>TOTAL</strong></td><td>{totalMathAbstractions}</td><td>{totalCompDatatypes}</td><td>{totalMathDefinitions}</td><td>{totalCompOperations}</td></tr>
+</tbody>
+</table>
+
+<h3>Theorem Taxonomy per Project</h3>
+<table id='taxonomy-table'>
+<thead><tr>
+<th data-sort='string'>Project</th><th data-sort='number'>Math</th>
+<th data-sort='number'>Bridge</th><th data-sort='number'>Comp</th>
+<th data-sort='number'>Sound</th><th data-sort='number'>Complete</th><th data-sort='number'>Unclass</th>
+</tr></thead>
+<tbody>{taxonomyRows}
+<tr class='aggregate-row'><td><strong>TOTAL</strong></td><td>{totalMathThms}</td><td>{totalBridging}</td><td>{totalCompThms}</td><td>{totalSoundThms}</td><td>{totalCompleteThms}</td><td>{totalUnclassified}</td></tr>
+</tbody>
+</table>
+
 </div>
 {incompleteSection}
 {failedSection}
@@ -1268,11 +1366,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
 
   -- Setup docvb directory and check toolchain compatibility
   IO.println s!"[{name}] [3/6] Setting up docvb directory..."
-  -- Per-project override takes precedence over global setting
-  let useDocGen4Fork := project.useDocGen4Fork.getD config.useDocGen4Fork
-  if useDocGen4Fork then
-    IO.println s!"[{name}]       Using doc-gen4 fork (bidirectional navigation enabled)"
-  let (hasToolchainIssue, tcCheck) ← setupDocvbDirectory projectDir name config.docVerificationBridgePath modules useDocGen4Fork
+  let (hasToolchainIssue, tcCheck) ← setupDocvbDirectory projectDir name config.docVerificationBridgePath modules
 
   -- Log the toolchain check result
   IO.println s!"[{name}]       {tcCheck.message}"

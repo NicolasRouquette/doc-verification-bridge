@@ -71,7 +71,6 @@ base_port = 9000
 max_parallel_jobs = 8
 
 # Global defaults for per-project settings
-use_doc_gen4_fork = true      # Enable bidirectional navigation
 lake_exe_cache_get = false    # Run lake exe cache get
 disable_equations = false     # Disable equation generation
 skip_proof_deps = false       # Skip proof dependency extraction
@@ -81,7 +80,6 @@ html_workers = 0              # Parallel HTML generation workers
 
 | Setting | Type | Default | Description |
 |---------|------|---------|-------------|
-| `use_doc_gen4_fork` | bool | `false` | Use [NicolasRouquette/doc-gen4](https://github.com/NicolasRouquette/doc-gen4) fork for bidirectional API ↔ verification navigation |
 | `lake_exe_cache_get` | bool | `false` | Run `lake exe cache get` before build |
 | `disable_equations` | bool | `false` | Disable equation generation (avoids timeouts) |
 | `skip_proof_deps` | bool | `false` | Skip proof dependency extraction entirely |
@@ -110,7 +108,6 @@ classification_mode = "auto"  # or "annotated"
 | `classification_mode` | string | `"auto"` | `"auto"` or `"annotated"` |
 | `subdirectory` | string | none | Subdirectory for monorepos |
 | `branch` | string | auto-detect | Git branch (auto-detected if not specified) |
-| `use_doc_gen4_fork` | bool | global | Use doc-gen4 fork for bidirectional navigation (overrides global) |
 | `lake_exe_cache_get` | bool | global | Run `lake exe cache get` (overrides global) |
 | `disable_equations` | bool | global | Disable equation generation (overrides global) |
 | `skip_proof_deps` | bool | global | Skip proof dependency extraction (overrides global) |

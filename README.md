@@ -516,9 +516,7 @@ Clicking a badge navigates to the corresponding coverage report page.
 **From Coverage reports → API docs:**
 Each entry in the verification coverage reports links back to the doc-gen4 API page for that declaration.
 
-This bidirectional linking is achieved through a custom `DeclarationDecoratorFn` hook in doc-gen4 (available in the [NicolasRouquette/doc-gen4](https://github.com/NicolasRouquette/doc-gen4) fork).
-
-> **Note:** When using the [experiments pipeline](experiments/README.md), enable bidirectional navigation by setting `use_doc_gen4_fork = true` in your `config.toml` (either globally in `[settings]` or per-project).
+This bidirectional linking is achieved through a custom `DeclarationDecoratorFn` hook in doc-gen4 (added in [PR #344](https://github.com/leanprover/doc-gen4/pull/344)).
 
 Serve locally:
 ```bash

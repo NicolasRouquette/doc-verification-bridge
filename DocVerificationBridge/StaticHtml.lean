@@ -507,6 +507,50 @@ details[open] summary {
 details > *:not(summary) {
   padding: 15px;
 }
+
+/* Ontology and Taxonomy tables */
+.ontology-section,
+.taxonomy-section {
+  margin: 30px 0;
+}
+
+.ontology-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 15px 0;
+}
+
+.ontology-table th,
+.ontology-table td {
+  padding: 12px 15px;
+  border: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.ontology-table th:first-child,
+.ontology-table td:first-child {
+  text-align: left;
+  font-weight: 600;
+}
+
+.ontology-table thead th {
+  background: var(--header-bg);
+  font-weight: 600;
+}
+
+.ontology-table tbody th {
+  background: var(--header-bg);
+  width: 200px;
+}
+
+/* Indent and muted styles */
+.indent {
+  padding-left: 30px !important;
+}
+
+.muted {
+  color: #888;
+}
 "
 
 /-- JavaScript for search and interactivity -/
@@ -660,6 +704,18 @@ structure VerificationStats where
   definitions : Nat
   sorryDefinitions : Nat
   totalModules : Nat
+  -- Four-Category Ontology (Definition Categories)
+  mathAbstractions : Nat := 0
+  compDatatypes : Nat := 0
+  mathDefinitions : Nat := 0
+  compOperations : Nat := 0
+  -- Theorem Taxonomy
+  computationalTheorems : Nat := 0
+  mathematicalTheorems : Nat := 0
+  bridgingTheorems : Nat := 0
+  soundnessTheorems : Nat := 0
+  completenessTheorems : Nat := 0
+  unclassifiedTheorems : Nat := 0
   deriving Repr, Inhabited, ToJson, FromJson
 
 /-- Compute verification statistics from entries -/
@@ -673,13 +729,23 @@ def computeStats (entries : NameMap APIMeta) : VerificationStats := Id.run do
     definitions := 0
     sorryDefinitions := 0
     totalModules := 0
+    mathAbstractions := 0
+    compDatatypes := 0
+    mathDefinitions := 0
+    compOperations := 0
+    computationalTheorems := 0
+    mathematicalTheorems := 0
+    bridgingTheorems := 0
+    soundnessTheorems := 0
+    completenessTheorems := 0
+    unclassifiedTheorems := 0
   }
   let mut modules : Std.HashSet Name := {}
 
   for (_, apiMeta) in entries.toList do
     modules := modules.insert apiMeta.module
     match apiMeta.kind with
-    | .apiTheorem _ =>
+    | .apiTheorem thmData =>
       stats := { stats with theorems := stats.theorems + 1 }
       if apiMeta.hasSorry then
         stats := { stats with sorryTheorems := stats.sorryTheorems + 1 }
@@ -687,11 +753,37 @@ def computeStats (entries : NameMap APIMeta) : VerificationStats := Id.run do
         stats := { stats with axiomTheorems := stats.axiomTheorems + 1 }
       else
         stats := { stats with provedTheorems := stats.provedTheorems + 1 }
-    | .apiDef _ =>
+      -- Count by theorem kind
+      match thmData.kind with
+      | some .computationalProperty =>
+        stats := { stats with computationalTheorems := stats.computationalTheorems + 1 }
+      | some .mathematicalProperty =>
+        stats := { stats with mathematicalTheorems := stats.mathematicalTheorems + 1 }
+      | some .bridgingProperty =>
+        stats := { stats with bridgingTheorems := stats.bridgingTheorems + 1 }
+      | some .soundnessProperty =>
+        stats := { stats with soundnessTheorems := stats.soundnessTheorems + 1 }
+      | some .completenessProperty =>
+        stats := { stats with completenessTheorems := stats.completenessTheorems + 1 }
+      | none =>
+        stats := { stats with unclassifiedTheorems := stats.unclassifiedTheorems + 1 }
+    | .apiDef defData =>
       stats := { stats with definitions := stats.definitions + 1 }
       if apiMeta.hasSorry then
         stats := { stats with sorryDefinitions := stats.sorryDefinitions + 1 }
-    | _ => pure ()
+      -- Count by definition category
+      match defData.category with
+      | .mathematicalDefinition =>
+        stats := { stats with mathDefinitions := stats.mathDefinitions + 1 }
+      | .computationalOperation =>
+        stats := { stats with compOperations := stats.compOperations + 1 }
+    | .apiType typeCategory =>
+      -- Count types by category
+      match typeCategory with
+      | .mathematicalAbstraction =>
+        stats := { stats with mathAbstractions := stats.mathAbstractions + 1 }
+      | .computationalDatatype =>
+        stats := { stats with compDatatypes := stats.compDatatypes + 1 }
 
   { stats with totalModules := modules.size }
 
@@ -706,6 +798,12 @@ def generateIndexPage (stats : VerificationStats) (cfg : StaticHtmlConfig) : Bas
   let sorryPct := if stats.theorems > 0
     then (stats.sorryTheorems * 100) / stats.theorems
     else 0
+
+  -- Helper to compute percentage
+  let pct := fun (n : Nat) (total : Nat) => if total > 0 then (n * 100) / total else 0
+
+  -- Total types = mathAbstractions + compDatatypes
+  let totalTypes := stats.mathAbstractions + stats.compDatatypes
 
   let content := Html.element "div" false #[("class", "container")] #[
     Html.element "h1" true #[] #[Html.text "Verification Overview"],
@@ -775,6 +873,80 @@ def generateIndexPage (stats : VerificationStats) (cfg : StaticHtmlConfig) : Bas
         Html.element "span" true #[] #[
           Html.element "span" true #[("class", "badge badge-sorry")] #[Html.text "Sorry"],
           Html.text s!" {stats.sorryTheorems}"
+        ]
+      ]
+    ],
+
+    -- Four-Category Ontology Table
+    Html.element "section" false #[("class", "ontology-section")] #[
+      Html.element "h2" true #[] #[Html.text "Four-Category Ontology"],
+      Html.element "p" true #[] #[Html.text "Classification of declarations based on E.J. Lowe's metaphysical framework."],
+      Html.element "table" false #[("class", "ontology-table")] #[
+        Html.element "thead" false #[] #[
+          Html.element "tr" false #[] #[
+            Html.element "th" true #[] #[Html.text ""],
+            Html.element "th" true #[] #[Html.text "Mathematical (Prop)"],
+            Html.element "th" true #[] #[Html.text "Computational (Data)"]
+          ]
+        ],
+        Html.element "tbody" false #[] #[
+          Html.element "tr" false #[] #[
+            Html.element "th" true #[] #[Html.text "Substantial (Types)"],
+            Html.element "td" true #[] #[Html.text s!"{stats.mathAbstractions} ({pct stats.mathAbstractions totalTypes}%)"],
+            Html.element "td" true #[] #[Html.text s!"{stats.compDatatypes} ({pct stats.compDatatypes totalTypes}%)"]
+          ],
+          Html.element "tr" false #[] #[
+            Html.element "th" true #[] #[Html.text "Non-substantial (Defs)"],
+            Html.element "td" true #[] #[Html.text s!"{stats.mathDefinitions} ({pct stats.mathDefinitions stats.definitions}%)"],
+            Html.element "td" true #[] #[Html.text s!"{stats.compOperations} ({pct stats.compOperations stats.definitions}%)"]
+          ]
+        ]
+      ]
+    ],
+
+    -- Theorem Taxonomy Table
+    Html.element "section" false #[("class", "taxonomy-section")] #[
+      Html.element "h2" true #[] #[Html.text "Theorem Taxonomy"],
+      Html.element "p" true #[] #[Html.text "Classification of theorems by what they prove."],
+      Html.element "table" false #[] #[
+        Html.element "thead" false #[] #[
+          Html.element "tr" false #[] #[
+            Html.element "th" true #[] #[Html.text "Theorem Kind"],
+            Html.element "th" true #[] #[Html.text "Count"],
+            Html.element "th" true #[] #[Html.text "Percentage"]
+          ]
+        ],
+        Html.element "tbody" false #[] #[
+          Html.element "tr" false #[] #[
+            Html.element "td" true #[] #[Html.text "mathematicalProperty"],
+            Html.element "td" true #[] #[Html.text (toString stats.mathematicalTheorems)],
+            Html.element "td" true #[] #[Html.text s!"{pct stats.mathematicalTheorems stats.theorems}%"]
+          ],
+          Html.element "tr" false #[] #[
+            Html.element "td" true #[] #[Html.text "bridgingProperty"],
+            Html.element "td" true #[] #[Html.text (toString stats.bridgingTheorems)],
+            Html.element "td" true #[] #[Html.text s!"{pct stats.bridgingTheorems stats.theorems}%"]
+          ],
+          Html.element "tr" false #[] #[
+            Html.element "td" true #[] #[Html.text "computationalProperty"],
+            Html.element "td" true #[] #[Html.text (toString stats.computationalTheorems)],
+            Html.element "td" true #[] #[Html.text s!"{pct stats.computationalTheorems stats.theorems}%"]
+          ],
+          Html.element "tr" false #[] #[
+            Html.element "td" true #[] #[Html.text "soundnessProperty"],
+            Html.element "td" true #[] #[Html.text (toString stats.soundnessTheorems)],
+            Html.element "td" true #[] #[Html.text s!"{pct stats.soundnessTheorems stats.theorems}%"]
+          ],
+          Html.element "tr" false #[] #[
+            Html.element "td" true #[] #[Html.text "completenessProperty"],
+            Html.element "td" true #[] #[Html.text (toString stats.completenessTheorems)],
+            Html.element "td" true #[] #[Html.text s!"{pct stats.completenessTheorems stats.theorems}%"]
+          ],
+          Html.element "tr" false #[] #[
+            Html.element "td" true #[("class", "muted")] #[Html.text "unclassified"],
+            Html.element "td" true #[("class", "muted")] #[Html.text (toString stats.unclassifiedTheorems)],
+            Html.element "td" true #[("class", "muted")] #[Html.text s!"{pct stats.unclassifiedTheorems stats.theorems}%"]
+          ]
         ]
       ]
     ],

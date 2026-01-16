@@ -139,27 +139,29 @@ def loadAndAnalyzeWithMode (cfg : UnifiedConfig) (modules : Array Name)
   }
   let ((analyzerResult, hierarchy), _) ← Meta.MetaM.toIO (DocGen4.Process.process task) config { env := env } {} {}
 
-  lastStep ← printTimedStep s!"  Loaded {analyzerResult.moduleInfo.size} modules" pipelineStart lastStep
+  -- Use first module name as project identifier for logging
+  let projectName := if modules.isEmpty then "unknown" else modules[0]!.toString
+  lastStep ← printTimedStep s!"  [{projectName}] Loaded {analyzerResult.moduleInfo.size} modules" pipelineStart lastStep
 
   -- Build git file cache from the source directory
-  IO.println s!"unified-doc [2/7]: Building git file cache from {cfg.sourceDir}..."
+  IO.println s!"unified-doc [2/7]: [{projectName}] Building git file cache from {cfg.sourceDir}..."
   (← IO.getStdout).flush
   let gitCache ← buildGitFileCacheIn cfg.sourceDir
-  lastStep ← printTimedStep s!"  Found {gitCache.allFiles.size} .lean files" pipelineStart lastStep
+  lastStep ← printTimedStep s!"  [{projectName}] Found {gitCache.allFiles.size} .lean files" pipelineStart lastStep
 
   -- Check if we should load classification from cache
   let allEntries ← if let some cachePath := cfg.loadClassificationCache then
-    IO.println s!"unified-doc [3/7]: Loading classification from cache..."
+    IO.println s!"unified-doc [3/7]: [{projectName}] Loading classification from cache..."
     (← IO.getStdout).flush
     let entries ← Cache.loadClassification cachePath
-    lastStep ← printTimedStep s!"  Loaded {entries.size} declarations from cache" pipelineStart lastStep
+    lastStep ← printTimedStep s!"  [{projectName}] Loaded {entries.size} declarations from cache" pipelineStart lastStep
     pure entries
   else do
     -- Run classification with the specified mode
     let proofDepsInfo := if cfg.skipProofDeps then " (no proof deps)"
                          else if cfg.proofDepWorkers > 0 then s!" ({cfg.proofDepWorkers} workers)"
                          else " (sequential)"
-    IO.println s!"unified-doc [3/7]: Classifying declarations (mode: {repr mode}){proofDepsInfo}..."
+    IO.println s!"unified-doc [3/7]: [{projectName}] Classifying declarations (mode: {repr mode}){proofDepsInfo}..."
     (← IO.getStdout).flush
 
     let mut allEntries : NameMap APIMeta := {}
@@ -178,7 +180,7 @@ def loadAndAnalyzeWithMode (cfg : UnifiedConfig) (modules : Array Name)
       allEntries := entriesArray.foldl (init := allEntries) fun acc (name, apiMeta) =>
         acc.insert name apiMeta
 
-    lastStep ← printTimedStep s!"  Classified {allEntries.size} declarations" pipelineStart lastStep
+    lastStep ← printTimedStep s!"  [{projectName}] Classified {allEntries.size} declarations" pipelineStart lastStep
 
     -- Save to cache if requested
     if let some cachePath := cfg.saveClassificationCache then
@@ -258,6 +260,13 @@ def runUnifiedCmd (args : Cli.Parsed) : IO UInt32 := do
   if modules.isEmpty then
     IO.eprintln "Error: At least one module name required"
     return 1
+
+  -- Validate module names - empty strings would become Name.anonymous which matches everything!
+  for m in modules do
+    if m.isEmpty then
+      IO.eprintln s!"Error: Empty module name detected. Module names must be non-empty."
+      IO.eprintln s!"  Received modules: {modules}"
+      return 1
 
   -- Determine classification mode
   let mode : ClassificationMode :=
