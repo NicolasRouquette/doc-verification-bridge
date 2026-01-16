@@ -200,9 +200,9 @@ def generateDocGen4ToTemp (cfg : UnifiedConfig) (result : UnifiedResult) : IO Sy
   let baseConfig ← DocGen4.getSimpleBaseContext apiTempDir result.hierarchy
 
   -- Call doc-gen4's htmlOutputResults WITHOUT decorator support (standard API)
-  -- For Lean < 4.27.0, we use the basic API without custom linker or decorator
+  -- For Lean < 4.27.0, we use the basic 3-argument API without custom decorator
   let sourceUrl? := if cfg.repoUrl.isEmpty then none else some cfg.repoUrl
-  discard <| DocGen4.htmlOutputResults baseConfig result.analyzerResult sourceUrl? none
+  discard <| DocGen4.htmlOutputResults baseConfig result.analyzerResult sourceUrl?
   DocGen4.htmlOutputIndex baseConfig
 
   IO.println s!"  Generated API docs to {apiTempDir}/"
