@@ -40,7 +40,7 @@ The software addresses several critical challenges in verified software developm
 
 **Bridging Theorem Detection:** The software automatically identifies theorems that connect decidable Boolean computations to undecidable Prop specifications. These bridging theorems are highlighted with directionality information (sound, complete, or iff), enabling reviewers to quickly assess the strength of specification-implementation correspondence.
 
-**MkDocs Integration with doc-gen4:** The unified pipeline generates a single documentation site combining traditional API reference (via [doc-gen4](https://github.com/leanprover/doc-gen4)) with semantic verification coverage reports (via https://github.com/mkdocs/mkdocs). Users can navigate from API documentation to see "what theorems verify this function?" and from coverage reports to see "what is the API documentation for this definition?"
+**Integration with doc-gen4:** The unified pipeline generates a single documentation site combining traditional API reference (via [doc-gen4](https://github.com/leanprover/doc-gen4)) with semantic verification coverage reports. True bidirectional navigation is enabled: API documentation pages include verification badges linking to coverage reports ("what theorems verify this function?"), and coverage report pages link back to API documentation ("what is the API documentation for this definition?").
 
 **Compile-Time Validation:** When using manual annotations, the software validates consistency at compile time, catching errors such as unresolved symbol references, missing required fields, and contradictory classifications before documentation is generated.
 
@@ -54,7 +54,7 @@ The software implements a Four-Category Ontology inspired by E.J. Lowe's metaphy
 
 The core contribution is automatic inference of semantic classification from theorem types. By analyzing the structure of hypotheses and conclusions, the tool identifies what each theorem assumes, proves, and validates—distinguishing bridging theorems (which connect specifications to implementations) from mathematical properties (internal to the specification layer) and computational properties (internal to the implementation layer). Bridging theorems are further classified by directionality: soundness proofs show implementations are conservative; completeness proofs show implementations are exhaustive.
 
-Doc-verification-bridge operates in two modes: automatic mode requires no source modifications and is suitable for analyzing existing codebases; manual mode provides precise control through Lean 4 attributes for production documentation. The software generates MkDocs-compatible documentation integrated with doc-gen4 API reference, enabling unified navigation between "what does this function do?" and "how do we know it's correct?"
+Doc-verification-bridge operates in two modes: automatic mode requires no source modifications and is suitable for analyzing existing codebases; manual mode provides precise control through Lean 4 attributes for production documentation. The software generates static HTML documentation integrated with doc-gen4 API reference, enabling unified navigation between "what does this function do?" and "how do we know it's correct?"
 
 The tool is designed for safety-critical domains such as autonomous systems, where systematic verification coverage tracking is essential for regulatory compliance and assurance argumentation.
 
@@ -98,7 +98,7 @@ Unlike tools that require extensive source code modification, doc-verification-b
 
 **Unified Documentation Experience:**
 
-Rather than maintaining separate documentation systems (API reference in doc-gen4, proof graphs in blueprint, coverage reports in custom tooling), doc-verification-bridge generates a unified MkDocs site integrating all perspectives. Users navigate seamlessly from "what is the type signature of `lookup`?" to "what theorems prove `lookup` is correct?" to "what percentage of the Map API has been verified?"
+Rather than maintaining separate documentation systems (API reference in doc-gen4, proof graphs in blueprint, coverage reports in custom tooling), doc-verification-bridge generates a unified documentation site integrating all perspectives. Through a custom declaration decorator hook in doc-gen4, API documentation pages display verification badges (📐 mathematical, ⚙️ computational, ⬇️ soundness, ⬆️ completeness) that link directly to coverage reports. Users navigate seamlessly from "what is the type signature of `lookup`?" to "what theorems prove `lookup` is correct?" to "what percentage of the Map API has been verified?"
 
 **Principled Ontological Foundation:**
 

@@ -115,7 +115,7 @@ deriving Inhabited
 
 /-- Classify a single constant from the environment (Phase 1: without proof deps) -/
 def classifyConstantLight (env : Environment) (name : Name) (cinfo : ConstantInfo)
-    (internalPrefixes : Array String) : MetaM (Option (APIMeta × Option ProofDepTask)) := do
+    (internalPrefixes : Array String) (modName : Name := Name.anonymous) : MetaM (Option (APIMeta × Option ProofDepTask)) := do
   -- Skip blacklisted declarations
   if ← isBlackListed env name then return none
   if shouldExclude name then return none
@@ -141,7 +141,7 @@ def classifyConstantLight (env : Environment) (name : Name) (cinfo : ConstantInf
       dependsOn := #[]  -- Will be filled in Phase 2
       hasSorry := hasSorry
     }
-    let apiMeta := { kind := .apiTheorem thmData, coverage := .unverified }
+    let apiMeta := { kind := .apiTheorem thmData, module := modName, coverage := .unverified }
     -- Return task data for parallel proof dep extraction
     let task := ProofDepTask.mk name info.value internalPrefixes
     return some (apiMeta, some task)
@@ -151,29 +151,29 @@ def classifyConstantLight (env : Environment) (name : Name) (cinfo : ConstantInf
     let category ← classifyDefinition info.type
     let hasSorry := exprContainsSorry info.value
     let defData : DefData := { category, hasSorry }
-    return some ({ kind := .apiDef defData, coverage := .unverified }, none)
+    return some ({ kind := .apiDef defData, module := modName, coverage := .unverified }, none)
 
   | .inductInfo info =>
     -- Inductive type: classify as mathematical or computational
     let category := classifyInductiveType env info
-    return some ({ kind := .apiType category, coverage := .unverified }, none)
+    return some ({ kind := .apiType category, module := modName, coverage := .unverified }, none)
 
   | .axiomInfo _ =>
     -- Axiom: treat as mathematical abstraction
-    return some ({ kind := .apiType .mathematicalAbstraction, coverage := .axiomDependent }, none)
+    return some ({ kind := .apiType .mathematicalAbstraction, module := modName, coverage := .axiomDependent }, none)
 
   | .opaqueInfo info =>
     -- Opaque constant (includes noncomputable instances and definitions)
     let category ← classifyDefinition info.type
     let hasSorry := exprContainsSorry info.value
     let defData : DefData := { category, hasSorry }
-    return some ({ kind := .apiDef defData, coverage := .unverified }, none)
+    return some ({ kind := .apiDef defData, module := modName, coverage := .unverified }, none)
 
   | _ => return none  -- Skip other kinds (constructors, recursors, etc.)
 
 /-- Classify a single constant (non-parallel version, used when proof deps are skipped) -/
 def classifyConstant (env : Environment) (name : Name) (cinfo : ConstantInfo)
-    (internalPrefixes : Array String) : MetaM (Option APIMeta) := do
+    (internalPrefixes : Array String) (modName : Name := Name.anonymous) : MetaM (Option APIMeta) := do
   -- Skip blacklisted declarations
   if ← isBlackListed env name then return none
   if shouldExclude name then return none
@@ -199,30 +199,30 @@ def classifyConstant (env : Environment) (name : Name) (cinfo : ConstantInfo)
       dependsOn := inferred.dependsOnCandidates.filter (·.isInternal) |>.map (·.name)
       hasSorry := hasSorry
     }
-    return some { kind := .apiTheorem thmData, coverage := .unverified }
+    return some { kind := .apiTheorem thmData, module := modName, coverage := .unverified }
 
   | .defnInfo info =>
     -- Definition: classify by return type and check for sorry
     let category ← classifyDefinition info.type
     let hasSorry := exprContainsSorry info.value
     let defData : DefData := { category, hasSorry }
-    return some { kind := .apiDef defData, coverage := .unverified }
+    return some { kind := .apiDef defData, module := modName, coverage := .unverified }
 
   | .inductInfo info =>
     -- Inductive type: classify as mathematical or computational
     let category := classifyInductiveType env info
-    return some { kind := .apiType category, coverage := .unverified }
+    return some { kind := .apiType category, module := modName, coverage := .unverified }
 
   | .axiomInfo _ =>
     -- Axiom: treat as mathematical abstraction
-    return some { kind := .apiType .mathematicalAbstraction, coverage := .axiomDependent }
+    return some { kind := .apiType .mathematicalAbstraction, module := modName, coverage := .axiomDependent }
 
   | .opaqueInfo info =>
     -- Opaque constant (includes noncomputable instances and definitions)
     let category ← classifyDefinition info.type
     let hasSorry := exprContainsSorry info.value
     let defData : DefData := { category, hasSorry }
-    return some { kind := .apiDef defData, coverage := .unverified }
+    return some { kind := .apiDef defData, module := modName, coverage := .unverified }
 
   | _ => return none  -- Skip other kinds (constructors, recursors, etc.)
 

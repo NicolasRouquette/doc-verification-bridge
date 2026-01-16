@@ -52,11 +52,41 @@ lake build experiments
 
 Edit `config.toml` to:
 - Add/remove projects
-- Adjust parallelism settings
+- Configure global default settings
 - Set classification mode per project
-- Override branch name if needed
+- Override global settings per-project
 
 All paths in `config.toml` are relative to the experiments directory.
+
+### Global Settings
+
+The `[settings]` section defines global defaults that apply to all projects unless overridden:
+
+```toml
+[settings]
+doc_verification_bridge_path = ".."
+repos_dir = "repos"
+sites_dir = "sites"
+base_port = 9000
+max_parallel_jobs = 8
+
+# Global defaults for per-project settings
+use_doc_gen4_fork = true      # Enable bidirectional navigation
+lake_exe_cache_get = false    # Run lake exe cache get
+disable_equations = false     # Disable equation generation
+skip_proof_deps = false       # Skip proof dependency extraction
+proof_dep_workers = 0         # Parallel proof extraction workers
+html_workers = 0              # Parallel HTML generation workers
+```
+
+| Setting | Type | Default | Description |
+|---------|------|---------|-------------|
+| `use_doc_gen4_fork` | bool | `false` | Use [NicolasRouquette/doc-gen4](https://github.com/NicolasRouquette/doc-gen4) fork for bidirectional API ↔ verification navigation |
+| `lake_exe_cache_get` | bool | `false` | Run `lake exe cache get` before build |
+| `disable_equations` | bool | `false` | Disable equation generation (avoids timeouts) |
+| `skip_proof_deps` | bool | `false` | Skip proof dependency extraction entirely |
+| `proof_dep_workers` | int | `0` | Parallel workers for proof extraction (0 = sequential) |
+| `html_workers` | int | `0` | Parallel workers for HTML generation (0 = sequential) |
 
 ### Adding a New Project
 
@@ -80,11 +110,14 @@ classification_mode = "auto"  # or "annotated"
 | `classification_mode` | string | `"auto"` | `"auto"` or `"annotated"` |
 | `subdirectory` | string | none | Subdirectory for monorepos |
 | `branch` | string | auto-detect | Git branch (auto-detected if not specified) |
-| `lake_exe_cache_get` | bool | `false` | Run `lake exe cache get` (for mathlib4) |
-| `disable_equations` | bool | `false` | Disable equation generation (avoids timeouts) |
-| `skip_proof_deps` | bool | `false` | Skip proof dependency extraction entirely (fastest, but no `dependsOn` data) |
-| `proof_dep_workers` | int | `0` | Upper bound on worker threads for parallel proof extraction (0 = sequential) |
-| `mkdocs_workers` | int | `0` | Parallel workers for MkDocs file generation (0 = sequential) |
+| `use_doc_gen4_fork` | bool | global | Use doc-gen4 fork for bidirectional navigation (overrides global) |
+| `lake_exe_cache_get` | bool | global | Run `lake exe cache get` (overrides global) |
+| `disable_equations` | bool | global | Disable equation generation (overrides global) |
+| `skip_proof_deps` | bool | global | Skip proof dependency extraction (overrides global) |
+| `proof_dep_workers` | int | global | Parallel proof extraction workers (overrides global) |
+| `html_workers` | int | global | Parallel HTML generation workers (overrides global) |
+
+> **Note:** Per-project settings override global defaults. If a project doesn't specify a value, the global setting is used.
 
 ### Monorepo Support
 
@@ -122,14 +155,15 @@ Each project can specify its classification mode:
 
 ### Performance Options for Large Projects
 
-For very large projects like mathlib4, proof dependency extraction can be slow. Two options help:
+For very large projects like mathlib4, proof dependency extraction can be slow. You can configure these either globally (in `[settings]`) or per-project:
 
 | Option | Effect | Trade-off |
 |--------|--------|-----------|
 | `skip_proof_deps = true` | Skips proof dependency extraction entirely | Fast, but no `dependsOn` data in reports |
 | `proof_dep_workers = N` | Parallel proof extraction with up to N workers | Full data with better throughput |
+| `html_workers = N` | Parallel HTML file generation | Faster output for large projects |
 
-**Example for mathlib4:**
+**Example for mathlib4 (project-specific overrides):**
 
 ```toml
 [[projects]]
@@ -138,8 +172,17 @@ repo = "https://github.com/leanprover-community/mathlib4"
 modules = ["Mathlib"]
 lake_exe_cache_get = true     # Use cache for faster build
 disable_equations = true       # Avoid timeout on complex proofs
-proof_dep_workers = 8          # Parallel proof dep extraction with up to 8 workers
-mkdocs_workers = 20            # Parallel MkDocs file generation
+proof_dep_workers = 50         # Parallel proof dep extraction
+html_workers = 20              # Parallel HTML file generation
+```
+
+**Or set global defaults for all projects:**
+
+```toml
+[settings]
+# ... other settings ...
+proof_dep_workers = 8          # Default for all projects
+html_workers = 10              # Default for all projects
 ```
 
 The `proof_dep_workers` option uses a two-phase classification:
@@ -194,14 +237,14 @@ The experiment runner supports three modes for different workflows:
 - **Fastest option** for iterating on classification logic
 - Useful when classification code changes but API docs don't need regeneration
 
-### MkDocs-Only Mode
+### HTML-Only Mode
 ```bash
-./run.sh run --mkdocs-only
+./run.sh run --html-only
 ```
 - Loads classification from cache file (requires prior run with caching)
 - Skips git, build, doc-gen4, AND classification phases
-- Only regenerates MkDocs markdown files and builds the site
-- **Fastest option** for iterating on report templates and MkDocs styling
+- Only regenerates HTML files and builds the site
+- **Fastest option** for iterating on report templates and styling
 - Requires `--load-classification` or cached classification from previous run
 
 ### State Tracking
@@ -231,12 +274,12 @@ experiments/
 │   │   ├── .state        # State file
 │   │   ├── commands.yaml # Command execution log
 │   │   ├── index.html    # Status/error page (for incomplete/failed)
-│   │   └── site/         # MkDocs output (for successful builds)
+│   │   └── site/         # Static HTML output (for successful builds)
 │   │       ├── index.html
 │   │       ├── api/           # doc-gen4 API documentation
-│   │       └── verification/  # Verification coverage reports
-│   │           ├── index.md   # Module index with statistics
-│   │           └── modules/   # Per-module reports
+│   │       └── modules/       # Verification coverage reports
+│   │           ├── index.html # Module index with statistics
+│   │           └── <module>.html  # Per-module reports
 │   └── ...
 └── results.json          # Machine-readable results
 ```
@@ -344,7 +387,7 @@ Analyzing Mathlib4 (400K+ declarations, 220K+ theorems, 7,400+ modules) required
 | Component | Challenge | Solution |
 |-----------|-----------|----------|
 | **Proof Dependencies** | Traversing proof terms for 220K theorems | Two-phase approach: Phase 1 extracts types in MetaM (sequential), Phase 2 extracts proof deps in pure IO (parallel workers) |
-| **MkDocs Generation** | Writing 7,400+ markdown files | Parallel file writer with configurable worker count (`--mkdocs-workers N`) |
+| **HTML Generation** | Writing 7,400+ HTML files | Parallel file writer with configurable worker count (`--html-workers N`) |
 
 ### Streaming Serialization
 

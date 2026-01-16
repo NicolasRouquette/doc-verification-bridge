@@ -40,22 +40,6 @@ To use the `@[api_type]`, `@[api_def]`, `@[api_theorem]`, and `@[api_lemma]` att
 
 ```lean
 import DocVerificationBridge.Attributes
-```
-
-This gives you access to all the annotation attributes for tracking API coverage. If you're migrating from a local `Meta.APICoverage` implementation, simply change:
-
-```lean
--- Before
-import Meta.APICoverage
-
--- After
-import DocVerificationBridge.Attributes
-```
-
-The annotation syntax is identical. For example:
-
-```lean
-import DocVerificationBridge.Attributes
 
 @[api_type { category := .mathematicalAbstraction, coverage := .complete }]
 inductive PathWithLength {α : Type*} (r : α → α → Prop) : α → α → Nat → Prop
@@ -203,7 +187,7 @@ For very large projects like mathlib4, proof dependency extraction can be slow b
 | `--proof-dep-workers N` | Use up to N worker threads for parallel proof extraction |
 | `--save-classification PATH` | Save classification results to cache (creates PATH.json + PATH.jsonl) |
 | `--load-classification PATH` | Load classification from cache, skip classification phase |
-| `--mkdocs-workers N` | Use N parallel workers for MkDocs file generation |
+| `--html-workers N` | Use N parallel workers for HTML file generation |
 
 **Example:**
 ```bash
@@ -213,18 +197,18 @@ lake exe unified-doc unified --auto --skip-proof-deps --output docs Mathlib
 # Parallel proof extraction with 8 workers
 lake exe unified-doc unified --auto --proof-dep-workers 8 --output docs Mathlib
 
-# Parallel MkDocs generation with 20 workers (speeds up file writing for large projects)
-lake exe unified-doc unified --auto --mkdocs-workers 20 --output docs Mathlib
+# Parallel HTML generation with 20 workers (speeds up file writing for large projects)
+lake exe unified-doc unified --auto --html-workers 20 --output docs Mathlib
 
-# Combined: parallel proof extraction + parallel MkDocs generation
-lake exe unified-doc unified --auto --proof-dep-workers 50 --mkdocs-workers 20 --output docs Mathlib
+# Combined: parallel proof extraction + parallel HTML generation
+lake exe unified-doc unified --auto --proof-dep-workers 50 --html-workers 20 --output docs Mathlib
 
 # Save classification to cache (for large projects like mathlib4)
 # Creates /tmp/mathlib-cache.json (metadata) and /tmp/mathlib-cache.jsonl (entries)
 lake exe unified-doc unified --auto --save-classification /tmp/mathlib-cache --output docs Mathlib
 
-# Load from cache and regenerate MkDocs only (fast iteration)
-lake exe unified-doc unified --auto --load-classification /tmp/mathlib-cache --mkdocs-workers 20 --output docs Mathlib
+# Load from cache and regenerate HTML only (fast iteration)
+lake exe unified-doc unified --auto --load-classification /tmp/mathlib-cache --html-workers 20 --output docs Mathlib
 ```
 
 ### Classification Cache Format
@@ -244,7 +228,7 @@ When `--proof-dep-workers N` is specified with N > 0, the classifier uses a two-
 
 This provides good speedup while maintaining correctness, since proof term traversal is pure and can be safely parallelized.
 
-> **Tip:** For batch analysis of multiple projects, see the [experiments pipeline](experiments/README.md) which handles this configuration via TOML (`skip_proof_deps` and `proof_dep_workers` fields).
+> **Tip:** For batch analysis of multiple projects, see the [experiments pipeline](experiments/README.md) which handles this configuration via TOML. Global settings like `proof_dep_workers` and `html_workers` can be set once and overridden per-project.
 
 ---
 
@@ -491,7 +475,7 @@ theorem myTheorem : ... := ...
 
 ## Output
 
-Generates MkDocs-compatible documentation with:
+Generates static HTML documentation (Python-free) with:
 - Cross-referenced definitions and theorems
 - Source code links with line numbers
 - Coverage status (✅ complete, ⚠️ axiom-dependent, 🔄 partial, ❌ unverified)
@@ -501,18 +485,44 @@ Generates MkDocs-compatible documentation with:
 ### Example Output Structure
 
 ```
-docs/
-├── mkdocs.yml
-└── docs/
-    ├── index.md
-    ├── API_Coverage.md
-    └── stylesheets/
-        └── extra.css
+site/
+├── index.html
+├── style.css
+├── modules/
+│   ├── index.html
+│   └── <module>.html
+└── api/
+    └── (doc-gen4 output with verification badges)
 ```
+
+### Bidirectional Navigation
+
+The unified pipeline enables true bidirectional navigation between API documentation and verification coverage:
+
+**From API docs → Coverage reports:**
+Each declaration in the doc-gen4 API documentation displays a verification badge indicating its classification:
+- 🔷 Mathematical abstraction type
+- 🔶 Computational datatype  
+- 🔹 Mathematical definition
+- 🔸 Computational operation
+- 📐 Mathematical property (theorem)
+- ⚙️ Computational property (theorem)
+- ⬇️ Soundness theorem
+- ⬆️ Completeness theorem
+- ⇕ Equivalence theorem
+
+Clicking a badge navigates to the corresponding coverage report page.
+
+**From Coverage reports → API docs:**
+Each entry in the verification coverage reports links back to the doc-gen4 API page for that declaration.
+
+This bidirectional linking is achieved through a custom `DeclarationDecoratorFn` hook in doc-gen4 (available in the [NicolasRouquette/doc-gen4](https://github.com/NicolasRouquette/doc-gen4) fork).
+
+> **Note:** When using the [experiments pipeline](experiments/README.md), enable bidirectional navigation by setting `use_doc_gen4_fork = true` in your `config.toml` (either globally in `[settings]` or per-project).
 
 Serve locally:
 ```bash
-cd docs && mkdocs serve
+python3 -m http.server -d site 8000
 ```
 
 ---
@@ -532,3 +542,9 @@ cd docs && mkdocs serve
 ## License
 
 Apache 2.0
+
+---
+
+## TODO
+
+- [ ] **Compute `usesAxioms` automatically**: Currently `APIMeta.usesAxioms` defaults to `false`. Enhance the attribute handlers or add post-processing to analyze axiom dependencies in proofs and set this field accurately. This would enable the static HTML generator to show which theorems rely on non-standard axioms.

@@ -238,8 +238,12 @@ def DeclKind.bridgingDirection? : DeclKind → Option BridgingDirection
 structure APIMeta where
   /-- What kind of declaration this is (with type-specific data) -/
   kind : DeclKind
+  /-- Which module this declaration belongs to -/
+  module : Name
   /-- Verification status -/
   coverage : CoverageStatus := .unverified
+  /-- Whether this declaration's proof uses non-standard axioms -/
+  usesAxioms : Bool := false
 deriving Repr, Inhabited
 
 /-- Check if this is a theorem/lemma -/

@@ -298,8 +298,12 @@ initialize registerBuiltinAttribute {
     -- Default to mathematicalAbstraction if not specified
     let category := parsed.category.getD .mathematicalAbstraction
 
+    -- Get the module name from the environment
+    let modName := env.header.mainModule
+
     let apiMeta : APIMeta := {
       kind := .apiType category
+      module := modName
       coverage := parsed.coverage.getD .unverified
     }
 
@@ -320,8 +324,12 @@ initialize registerBuiltinAttribute {
       | some .computationalDatatype => .computationalOperation
       | none => .computationalOperation
 
+    -- Get the module name from the environment
+    let modName := env.header.mainModule
+
     let apiMeta : APIMeta := {
       kind := .apiDef { category := defCat }
+      module := modName
       coverage := parsed.coverage.getD .unverified
     }
 
@@ -339,6 +347,9 @@ initialize registerBuiltinAttribute {
     -- Default to mathematicalProperty if not specified
     let theoremKind := parsed.theoremKind.getD .mathematicalProperty
 
+    -- Get the module name from the environment
+    let modName := env.header.mainModule
+
     let apiMeta : APIMeta := {
       kind := .apiTheorem {
         kind := some theoremKind
@@ -348,6 +359,7 @@ initialize registerBuiltinAttribute {
         validates := parsed.validates
         suppress := parsed.suppress
       }
+      module := modName
       coverage := parsed.coverage.getD .complete
     }
 
@@ -364,6 +376,9 @@ initialize registerBuiltinAttribute {
 
     let theoremKind := parsed.theoremKind.getD .mathematicalProperty
 
+    -- Get the module name from the environment
+    let modName := env.header.mainModule
+
     let apiMeta : APIMeta := {
       kind := .apiTheorem {
         kind := some theoremKind
@@ -373,6 +388,7 @@ initialize registerBuiltinAttribute {
         validates := parsed.validates
         suppress := parsed.suppress
       }
+      module := modName
       coverage := parsed.coverage.getD .complete
     }
 

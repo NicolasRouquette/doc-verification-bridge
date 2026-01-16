@@ -222,11 +222,11 @@ def runUnifiedPipelineWithMode (cfg : UnifiedConfig) (modules : Array Name)
       let _ ← generateDocGen4ToTemp cfg result
       lastStep ← printTimedStep s!"  Generated API docs to {apiTempDir}/" pipelineStart lastStep
 
-    -- Step 3: Generate MkDocs site (includes verification)
-    let siteDir ← generateUnifiedMkDocsSite cfg result (modules.toList.map toString)
-    lastStep ← printTimedStep s!"  Generated MkDocs site at {siteDir}/" pipelineStart lastStep
+    -- Step 3: Generate static HTML site (includes verification)
+    let siteDir ← generateStaticHtmlSite cfg result (modules.toList.map toString)
+    lastStep ← printTimedStep s!"  Generated static HTML site at {siteDir}/" pipelineStart lastStep
 
-    -- Step 4: Copy doc-gen4 output into MkDocs site
+    -- Step 4: Copy doc-gen4 output into site
     IO.println s!"unified-doc [7/7]: Copying API docs into site..."
     let apiDestDir := siteDir / "api"
     copyDirRecursive (apiTempDir / "doc") apiDestDir
@@ -241,7 +241,7 @@ def runUnifiedPipelineWithMode (cfg : UnifiedConfig) (modules : Array Name)
     IO.println s!"   Site:          {siteDir}/"
     IO.println s!"   Home:          {siteDir}/index.html"
     IO.println s!"   API:           {siteDir}/api/index.html"
-    IO.println s!"   Verification:  {siteDir}/verification/coverage/"
+    IO.println s!"   Verification:  {siteDir}/modules/"
     IO.println ""
     IO.println "To serve locally:"
     IO.println s!"   python3 -m http.server -d {siteDir} 8000"
@@ -278,10 +278,11 @@ def runUnifiedCmd (args : Cli.Parsed) : IO UInt32 := do
     skipProofDeps := args.hasFlag "skip-proof-deps"
     loadClassificationCache := args.flag? "load-classification" |>.map (·.as! String)
     saveClassificationCache := args.flag? "save-classification" |>.map (·.as! String)
-    mkdocsWorkers := args.flag? "mkdocs-workers" |>.map (·.as! Nat) |>.getD 0
+    htmlWorkers := args.flag? "html-workers" |>.map (·.as! Nat) |>.getD 0
   }
 
   IO.println s!"Classification mode: {repr mode}"
+  IO.println s!"Site generation: Static HTML (Python-free)"
   if cfg.skipProofDeps then
     IO.println s!"Proof deps: skipped"
   else if cfg.proofDepWorkers > 0 then
@@ -397,17 +398,14 @@ def runVerifyCmd (args : Cli.Parsed) : IO UInt32 := do
 
   IO.FS.createDirAll stylesheetsPath
 
-  let repoUrlOpt := if repoUrl.isEmpty then none else some repoUrl
   IO.FS.writeFile (docsPath / "API_Coverage.md") report
   IO.FS.writeFile (docsPath / "index.md") (generateIndexMd projectName)
   IO.FS.writeFile (stylesheetsPath / "extra.css") generateExtraCss
-  IO.FS.writeFile (outputPath / "mkdocs.yml") (generateMkDocsConfig projectName repoUrlOpt)
 
   IO.println s!"  Written to {outputPath}/"
   IO.println ""
   IO.println "To serve the documentation locally:"
-  IO.println s!"  cd {outputPath}"
-  IO.println "  mkdocs serve"
+  IO.println s!"  python3 -m http.server -d {outputPath} 8000"
 
   return 0
 
@@ -429,7 +427,7 @@ def unifiedCmd := `[Cli|
     "proof-dep-workers" : Nat; "Number of parallel workers for proof dep extraction (default: 0 = sequential)"
     "load-classification" : String; "Load classification from cache file (skip classification step)"
     "save-classification" : String; "Save classification to cache file (for future runs)"
-    "mkdocs-workers" : Nat;  "Number of parallel workers for MkDocs file writing (default: 0 = sequential)"
+    "html-workers" : Nat;    "Number of parallel workers for HTML file writing (default: 0 = sequential)"
     auto;                    "Use automatic heuristic-based classification (default)"
     annotated;               "Only classify declarations with explicit @[api_*] annotations"
 
@@ -453,7 +451,7 @@ def docgen4Cmd := `[Cli|
 /-- Verification only subcommand -/
 def verifyCmd := `[Cli|
   verify VIA runVerifyCmd;
-  "Generate verification coverage report only (MkDocs format)"
+  "Generate verification coverage report only (static HTML format)"
 
   FLAGS:
     o, output : String;    "Output directory for generated docs (default: docs)"
@@ -506,7 +504,7 @@ COMMANDS:
 
   unified   Generate combined doc-gen4 + verification (recommended)
   docgen4   Generate doc-gen4 HTML only
-  verify    Generate verification report only (MkDocs)
+  verify    Generate verification report only (static HTML)
 
 CLASSIFICATION MODES:
 
