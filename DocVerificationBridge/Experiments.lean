@@ -9,6 +9,7 @@
 -/
 import Lean
 import DocVerificationBridge.Compatibility
+import DocVerificationBridge.StaticHtml
 
 open Lean System IO
 
@@ -32,7 +33,7 @@ inductive RunMode where
   | reanalyze  -- Skip build, only re-run unified-doc analysis (requires existing build)
   | reclassify -- Skip build AND doc-gen4, only re-run classification (requires existing doc-gen4 output)
   | docgenOnly -- Skip build AND classification, only re-run doc-gen4 (loads classification from cache)
-  | mkdocsOnly -- Skip classification, only regenerate MkDocs (requires existing classification cache)
+  | htmlOnly   -- Skip classification, only regenerate HTML (requires existing classification cache)
   deriving Repr, Inhabited, BEq
 
 /-- Classification mode for documentation generation -/
@@ -55,18 +56,26 @@ structure Project where
   classificationMode : ClassificationMode := .auto
   /-- Subdirectory within repo containing the Lean project (for monorepos) -/
   subdirectory : Option String := none
-  /-- Whether to run `lake exe cache get` before building (for mathlib4 and dependents) -/
-  lakeExeCacheGet : Bool := false
-  /-- Whether to disable equation generation (avoids timeouts for complex projects) -/
-  disableEquations : Bool := false
+  /-- Whether to run `lake exe cache get` before building (for mathlib4 and dependents).
+      When `none`: use global setting. -/
+  lakeExeCacheGet : Option Bool := none
+  /-- Whether to disable equation generation (avoids timeouts for complex projects).
+      When `none`: use global setting. -/
+  disableEquations : Option Bool := none
   /-- Git branch name (auto-detected from repo if not specified) -/
   branch : Option String := none
-  /-- Whether to skip proof dependency extraction (significantly speeds up large projects) -/
-  skipProofDeps : Bool := false
-  /-- Upper bound on worker threads for parallel proof dependency extraction (0 = disabled/sequential, >0 = max workers) -/
-  proofDepWorkers : Nat := 0
-  /-- Number of parallel workers for MkDocs file writing (0 = sequential) -/
-  mkdocsWorkers : Nat := 0
+  /-- Whether to skip proof dependency extraction (significantly speeds up large projects).
+      When `none`: use global setting. -/
+  skipProofDeps : Option Bool := none
+  /-- Upper bound on worker threads for parallel proof dependency extraction (0 = disabled/sequential, >0 = max workers).
+      When `none`: use global setting. -/
+  proofDepWorkers : Option Nat := none
+  /-- Number of parallel workers for HTML file writing (0 = sequential).
+      When `none`: use global setting. -/
+  htmlWorkers : Option Nat := none
+  /-- Override to use doc-gen4 fork for this project (enables bidirectional navigation).
+      When `some true`: force use fork. When `some false`: force use official. When `none`: use global setting. -/
+  useDocGen4Fork : Option Bool := none
   deriving Repr, Inhabited
 
 /-- Experiment configuration -/
@@ -77,8 +86,18 @@ structure Config where
   basePort : Nat
   maxParallelJobs : Nat
   projects : Array Project
-  /-- Use custom source linker from NicolasRouquette/doc-gen4 fork (requires feat/source-linker branch) -/
-  useCustomSourceLinker : Bool := false
+  /-- Global default: Use doc-gen4 fork (enables bidirectional navigation between API and verification pages) -/
+  useDocGen4Fork : Bool := false
+  /-- Global default: Whether to run `lake exe cache get` before building -/
+  lakeExeCacheGet : Bool := false
+  /-- Global default: Whether to disable equation generation -/
+  disableEquations : Bool := false
+  /-- Global default: Whether to skip proof dependency extraction -/
+  skipProofDeps : Bool := false
+  /-- Global default: Number of parallel workers for proof dependency extraction (0 = sequential) -/
+  proofDepWorkers : Nat := 0
+  /-- Global default: Number of parallel workers for HTML file writing (0 = sequential) -/
+  htmlWorkers : Nat := 0
   deriving Repr, Inhabited
 
 /-- Result of processing a project -/
@@ -119,7 +138,13 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
   let mut sitesDir : FilePath := "sites"
   let mut basePort : Nat := 9000
   let mut maxJobs : Nat := 8
-  let mut useCustomSourceLinker : Bool := false
+  -- Global defaults for settings that can be overridden per-project
+  let mut useDocGen4Fork : Bool := false
+  let mut lakeExeCacheGet : Bool := false
+  let mut disableEquations : Bool := false
+  let mut skipProofDeps : Bool := false
+  let mut proofDepWorkers : Nat := 0
+  let mut htmlWorkers : Nat := 0
   let mut projects : Array Project := #[]
   let mut currentProject : Option Project := none
 
@@ -152,11 +177,12 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
             | "repo" => { proj with repo := value }
             | "description" => { proj with description := value }
             | "subdirectory" => { proj with subdirectory := some value }
-            | "lake_exe_cache_get" => { proj with lakeExeCacheGet := value == "true" }
-            | "disable_equations" => { proj with disableEquations := value == "true" }
-            | "skip_proof_deps" => { proj with skipProofDeps := value == "true" }
-            | "proof_dep_workers" => { proj with proofDepWorkers := value.toNat?.getD 0 }
-            | "mkdocs_workers" => { proj with mkdocsWorkers := value.toNat?.getD 0 }
+            | "lake_exe_cache_get" => { proj with lakeExeCacheGet := some (value == "true") }
+            | "disable_equations" => { proj with disableEquations := some (value == "true") }
+            | "skip_proof_deps" => { proj with skipProofDeps := some (value == "true") }
+            | "proof_dep_workers" => { proj with proofDepWorkers := some (value.toNat?.getD 0) }
+            | "html_workers" => { proj with htmlWorkers := some (value.toNat?.getD 0) }
+            | "use_doc_gen4_fork" => { proj with useDocGen4Fork := some (value == "true") }
             | "modules" =>
               -- Parse array like ["Batteries"]
               let mods := value.replace "[" "" |>.replace "]" ""
@@ -171,13 +197,20 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
             | _ => proj
           currentProject := some updatedProj
         | none =>
+          -- Global settings
           match key with
           | "doc_verification_bridge_path" => dvbPath := baseDir / value
           | "repos_dir" => reposDir := baseDir / value
           | "sites_dir" => sitesDir := baseDir / value
           | "base_port" => basePort := value.toNat? |>.getD 9000
           | "max_parallel_jobs" => maxJobs := value.toNat? |>.getD 8
-          | "use_custom_source_linker" => useCustomSourceLinker := value == "true"
+          -- Global defaults for per-project settings
+          | "use_doc_gen4_fork" => useDocGen4Fork := value == "true"
+          | "lake_exe_cache_get" => lakeExeCacheGet := value == "true"
+          | "disable_equations" => disableEquations := value == "true"
+          | "skip_proof_deps" => skipProofDeps := value == "true"
+          | "proof_dep_workers" => proofDepWorkers := value.toNat?.getD 0
+          | "html_workers" => htmlWorkers := value.toNat?.getD 0
           | _ => pure ()
 
   -- Don't forget the last project
@@ -191,7 +224,12 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
     basePort := basePort
     maxParallelJobs := maxJobs
     projects := projects
-    useCustomSourceLinker := useCustomSourceLinker
+    useDocGen4Fork := useDocGen4Fork
+    lakeExeCacheGet := lakeExeCacheGet
+    disableEquations := disableEquations
+    skipProofDeps := skipProofDeps
+    proofDepWorkers := proofDepWorkers
+    htmlWorkers := htmlWorkers
   }
 
 /-! ## Utilities -/
@@ -610,7 +648,7 @@ def copyFileIfExists (src dst : FilePath) : IO Bool := do
 
 /-- Setup the docvb directory for a project with dynamic toolchain support -/
 def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
-    (dvbPath : FilePath) (_modules : Array String) (useCustomSourceLinker : Bool := false)
+    (dvbPath : FilePath) (_modules : Array String) (useDocGen4Fork : Bool := false)
     : IO (Bool × ToolchainCheck) := do
   let docvbDir := projectDir / "docvb"
   IO.FS.createDirAll docvbDir
@@ -634,26 +672,41 @@ def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
   -- We automatically discover all .lean files, excluding:
   --   - Experiments.lean (the pipeline itself, not needed in docvb)
   --   - SourceLinkerCompatCustom.lean (handled specially below based on config)
+  --   - SourceLinkerCompatStandard.lean (handled specially below based on config)
+  --   - VerificationDecoratorStandard.lean (handled specially below based on config)
   -- This ensures new files are automatically included without manual list maintenance.
   let dvbSrcDir := docvbDir / "DocVerificationBridge"
   IO.FS.createDirAll dvbSrcDir
 
-  let excludeFiles : Array String := #["Experiments.lean", "SourceLinkerCompatCustom.lean"]
+  let excludeFiles : Array String := #[
+    "Experiments.lean",
+    "SourceLinkerCompatCustom.lean",
+    "SourceLinkerCompatStandard.lean",
+    "VerificationDecoratorStandard.lean"
+  ]
   for entry in ← System.FilePath.readDir (dvbPath / "DocVerificationBridge") do
     let fileName := entry.fileName
     if fileName.endsWith ".lean" && !excludeFiles.contains fileName then
-      -- SourceLinkerCompat.lean is only copied when useCustomSourceLinker is false
-      -- (handled specially below), so skip it here
-      if fileName == "SourceLinkerCompat.lean" then continue
+      -- SourceLinkerCompat.lean and VerificationDecorator.lean are only copied when useDocGen4Fork is true
+      -- (handled specially below), so skip them here when useDocGen4Fork is false
+      if !useDocGen4Fork && (fileName == "SourceLinkerCompat.lean" || fileName == "VerificationDecorator.lean") then continue
       discard <| copyFileIfExists (dvbPath / "DocVerificationBridge" / fileName) (dvbSrcDir / fileName)
 
   -- Copy the appropriate SourceLinkerCompat version based on config
-  -- Standard version: uses official doc-gen4 3-arg API
-  -- Custom version: uses NicolasRouquette/doc-gen4 fork with 4-arg API
-  let compatSrcFile := if useCustomSourceLinker
-    then dvbPath / "DocVerificationBridge" / "SourceLinkerCompatCustom.lean"
-    else dvbPath / "DocVerificationBridge" / "SourceLinkerCompat.lean"
+  -- Standard version: uses official doc-gen4 3-arg API (ignores decorator)
+  -- Custom version: uses NicolasRouquette/doc-gen4 fork with decorator support
+  let compatSrcFile := if useDocGen4Fork
+    then dvbPath / "DocVerificationBridge" / "SourceLinkerCompat.lean"
+    else dvbPath / "DocVerificationBridge" / "SourceLinkerCompatStandard.lean"
   discard <| copyFileIfExists compatSrcFile (dvbSrcDir / "SourceLinkerCompat.lean")
+
+  -- Copy the appropriate VerificationDecorator version based on config
+  -- Standard version: stub that returns empty HTML (decorator not supported)
+  -- Custom version: actual decorator using NicolasRouquette/doc-gen4 fork
+  let decoratorSrcFile := if useDocGen4Fork
+    then dvbPath / "DocVerificationBridge" / "VerificationDecorator.lean"
+    else dvbPath / "DocVerificationBridge" / "VerificationDecoratorStandard.lean"
+  discard <| copyFileIfExists decoratorSrcFile (dvbSrcDir / "VerificationDecorator.lean")
 
   -- Copy UnifiedMain.lean
   discard <| copyFileIfExists (dvbPath / "UnifiedMain.lean") (docvbDir / "UnifiedMain.lean")
@@ -662,9 +715,9 @@ def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
   discard <| copyFileIfExists (dvbPath / "DocVerificationBridge.lean") (docvbDir / "DocVerificationBridge.lean")
 
   -- Determine which doc-gen4 version/repo to use
-  -- If custom source linker is enabled, use the fork; otherwise use official release tags
-  let (docgen4Repo, docgen4Ref) := if useCustomSourceLinker then
-    ("https://github.com/NicolasRouquette/doc-gen4", "feat/source-linker")
+  -- If doc-gen4 fork is enabled, use the fork with decorator support; otherwise use official release tags
+  let (docgen4Repo, docgen4Ref) := if useDocGen4Fork then
+    ("https://github.com/NicolasRouquette/doc-gen4", "feat/declaration-decorator")
   else
     let tag := if tcCheck.docgen4Tag.isEmpty then "main" else tcCheck.docgen4Tag
     ("https://github.com/leanprover/doc-gen4", tag)
@@ -698,7 +751,7 @@ lean_exe «unified-doc» where
 
   -- Download lake-manifest.json from doc-gen4's repo/ref to lock transitive dependencies
   -- Only download for official doc-gen4 releases (the fork may not have matching manifest)
-  if !useCustomSourceLinker then
+  if !useDocGen4Fork then
     let manifestUrl := s!"https://raw.githubusercontent.com/leanprover/doc-gen4/{docgen4Ref}/lake-manifest.json"
     let (manifestOk, manifestContent) ← runCmd "curl" #["-fsSL", manifestUrl] none 30
     if manifestOk && !manifestContent.isEmpty then
@@ -792,15 +845,37 @@ def runUnifiedDoc (docvbDir : FilePath) (modules : Array String)
 
 /-! ## Statistics Parsing -/
 
-/-- Parse coverage statistics from a coverage.md file -/
-def parseCoverageStats (coveragePath : FilePath) : IO ProjectResult := do
+/-- Parse coverage statistics from stats.json or legacy coverage.md file -/
+def parseCoverageStats (statsPath : FilePath) : IO ProjectResult := do
   let emptyResult : ProjectResult := {
     name := "", repo := "", success := true
   }
 
-  -- Try the new index.md format first, then fall back to old coverage.md
-  let indexPath := coveragePath.parent.get! / "index.md"
-  let actualPath := if (← indexPath.pathExists) then indexPath else coveragePath
+  -- Try stats.json first (new static HTML format)
+  if statsPath.extension == some "json" && (← statsPath.pathExists) then
+    let content ← IO.FS.readFile statsPath
+    match Json.parse content with
+    | .error _ => pure ()  -- Fall through to legacy parsing
+    | .ok json =>
+      match Lean.fromJson? json with
+      | .error _ => pure ()  -- Fall through to legacy parsing
+      | .ok (stats : DocVerificationBridge.StaticHtml.VerificationStats) =>
+        return {
+          emptyResult with
+          totalDefinitions := stats.definitions
+          totalTheorems := stats.theorems
+          defsWithSorry := stats.sorryDefinitions
+          theoremsWithSorry := stats.sorryTheorems
+        }
+
+  -- Legacy path: try index.md or coverage.md
+  let indexPath := statsPath.parent.get! / "index.md"
+  let coveragePath := statsPath.parent.get! / "coverage.md"
+  let indexExists ← indexPath.pathExists
+  let coverageExists ← coveragePath.pathExists
+  let actualPath := if indexExists then indexPath
+                    else if coverageExists then coveragePath
+                    else statsPath
 
   if !(← actualPath.pathExists) then
     return emptyResult
@@ -866,7 +941,6 @@ def parseCoverageStats (coveragePath : FilePath) : IO ProjectResult := do
     defsWithSorry := parseFromSorryTable "Definitions"
     theoremsWithSorry := parseFromSorryTable "Theorems"
   }
-
 /-! ## HTML Generation -/
 
 /-- Generate an error page for a failed build with detailed diagnostics -/
@@ -1084,8 +1158,8 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
     | .completed =>
       IO.println s!"[{name}] Already completed, skipping (use --update to re-run)"
       -- Read existing stats if available (from the output directory)
-      let coverageMd := outputDir / "mkdocs-src" / "docs" / "verification" / "coverage.md"
-      let stats ← parseCoverageStats coverageMd
+      let statsJson := outputDir / "site" / "stats.json"  -- Static HTML stats file
+      let stats ← parseCoverageStats statsJson
       return { stats with name, repo, success := true, siteDir := some (outputDir / "site") }
     | .inProgress | .failed =>
       IO.println s!"[{name}] Incomplete/failed - restarting..."
@@ -1105,55 +1179,51 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
     -- Skip build AND doc-gen4, only re-run classification (requires existing api-temp)
     -- NOTE: Do NOT removeDir here - api-temp must be preserved for source linking!
     IO.println s!"[{name}] Reclassify mode - skipping build and doc-gen4, running classification only"
-    -- Only remove MkDocs output files, preserve api-temp and cache files
-    let mkdocsDir := outputDir / "docs"
-    if ← mkdocsDir.pathExists then
-      removeDir mkdocsDir
-    for file in ["index.html", "mkdocs.yml", "requirements.txt"] do
-      let filePath := outputDir / file
-      if ← filePath.pathExists then
-        IO.FS.removeFile filePath
+    -- Only remove HTML output files, preserve api-temp and cache files
+    let htmlSiteDir := outputDir / "site"
+    if ← htmlSiteDir.pathExists then
+      removeDir htmlSiteDir
+    let modulesDir := outputDir / "modules"
+    if ← modulesDir.pathExists then
+      removeDir modulesDir
   | .docgenOnly =>
-    -- Skip build AND classification, only re-run doc-gen4 + mkdocs (loads classification from cache)
-    -- NOTE: Preserves classification cache but regenerates api-temp and mkdocs
+    -- Skip build AND classification, only re-run doc-gen4 + HTML (loads classification from cache)
+    -- NOTE: Preserves classification cache but regenerates api-temp and HTML
     IO.println s!"[{name}] Doc-gen4-only mode - regenerating docs from classification cache"
-    -- Remove api-temp and mkdocs output, preserve classification cache
+    -- Remove api-temp and HTML output, preserve classification cache
     let apiTempDir := outputDir / "api-temp"
     if ← apiTempDir.pathExists then
       removeDir apiTempDir
-    let mkdocsDir := outputDir / "docs"
-    if ← mkdocsDir.pathExists then
-      removeDir mkdocsDir
-    for file in ["index.html", "mkdocs.yml", "requirements.txt"] do
-      let filePath := outputDir / file
-      if ← filePath.pathExists then
-        IO.FS.removeFile filePath
-  | .mkdocsOnly =>
-    -- Skip everything except MkDocs, load classification from cache
+    let htmlSiteDir := outputDir / "site"
+    if ← htmlSiteDir.pathExists then
+      removeDir htmlSiteDir
+    let modulesDir := outputDir / "modules"
+    if ← modulesDir.pathExists then
+      removeDir modulesDir
+  | .htmlOnly =>
+    -- Skip everything except HTML generation, load classification from cache
     -- NOTE: Do NOT removeDir here - the classification cache is stored in outputDir!
-    IO.println s!"[{name}] MkDocs-only mode - regenerating site from classification cache"
-    -- Only remove MkDocs output files, preserve classification cache
-    let mkdocsDir := outputDir / "docs"
-    if ← mkdocsDir.pathExists then
-      removeDir mkdocsDir
-    -- Remove old HTML files at top level, but keep cache files
-    for file in ["index.html", "mkdocs.yml", "requirements.txt"] do
-      let filePath := outputDir / file
-      if ← filePath.pathExists then
-        IO.FS.removeFile filePath
+    IO.println s!"[{name}] HTML-only mode - regenerating site from classification cache"
+    -- Only remove HTML output files, preserve classification cache
+    let htmlSiteDir := outputDir / "site"
+    if ← htmlSiteDir.pathExists then
+      removeDir htmlSiteDir
+    let modulesDir := outputDir / "modules"
+    if ← modulesDir.pathExists then
+      removeDir modulesDir
 
   -- Mark as in-progress
   writeProjectState config.sitesDir name .inProgress
 
   IO.println s!"[{name}] Starting processing..."
 
-  -- Clone or update repository (skip for reanalyze/reclassify/docgenOnly/mkdocsOnly modes)
-  if mode == .reanalyze || mode == .reclassify || mode == .docgenOnly || mode == .mkdocsOnly then
-    -- Reanalyze/reclassify/docgenOnly/mkdocsOnly mode: verify repo and build exist
+  -- Clone or update repository (skip for reanalyze/reclassify/docgenOnly/htmlOnly modes)
+  if mode == .reanalyze || mode == .reclassify || mode == .docgenOnly || mode == .htmlOnly then
+    -- Reanalyze/reclassify/docgenOnly/htmlOnly mode: verify repo and build exist
     let modeName := match mode with
       | .reclassify => "reclassify"
       | .docgenOnly => "docgen-only"
-      | .mkdocsOnly => "mkdocs-only"
+      | .htmlOnly => "html-only"
       | _ => "reanalyze"
     if !(← repoDir.pathExists) then
       let errMsg := s!"{modeName} mode requires existing repo at {repoDir}"
@@ -1198,7 +1268,11 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
 
   -- Setup docvb directory and check toolchain compatibility
   IO.println s!"[{name}] [3/6] Setting up docvb directory..."
-  let (hasToolchainIssue, tcCheck) ← setupDocvbDirectory projectDir name config.docVerificationBridgePath modules config.useCustomSourceLinker
+  -- Per-project override takes precedence over global setting
+  let useDocGen4Fork := project.useDocGen4Fork.getD config.useDocGen4Fork
+  if useDocGen4Fork then
+    IO.println s!"[{name}]       Using doc-gen4 fork (bidirectional navigation enabled)"
+  let (hasToolchainIssue, tcCheck) ← setupDocvbDirectory projectDir name config.docVerificationBridgePath modules useDocGen4Fork
 
   -- Log the toolchain check result
   IO.println s!"[{name}]       {tcCheck.message}"
@@ -1213,13 +1287,13 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
              errorMessage := some s!"Toolchain incompatibility: project uses {tcCheck.projectToolchain}, requires {tcCheck.dvbToolchain}",
              siteDir := some outputDir }
 
-  -- Build main project (skip for reanalyze/reclassify/docgenOnly/mkdocsOnly modes)
+  -- Build main project (skip for reanalyze/reclassify/docgenOnly/htmlOnly modes)
   let mut buildLog := ""
-  if mode == .reanalyze || mode == .reclassify || mode == .docgenOnly || mode == .mkdocsOnly then
+  if mode == .reanalyze || mode == .reclassify || mode == .docgenOnly || mode == .htmlOnly then
     let modeName := match mode with
       | .reclassify => "reclassify"
       | .docgenOnly => "docgen-only"
-      | .mkdocsOnly => "mkdocs-only"
+      | .htmlOnly => "html-only"
       | _ => "reanalyze"
     IO.println s!"[{name}] [4/6] Skipping build ({modeName} mode - using existing build)"
     -- Verify .lake/build exists
@@ -1231,10 +1305,12 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
       return { name, repo, success := false,
                errorMessage := some errMsg, siteDir := some outputDir }
   else
-    IO.println s!"[{name}] [4/6] Building project{if project.lakeExeCacheGet then " (with cache)" else ""}..."
+    -- Per-project override takes precedence over global setting
+    let lakeExeCacheGet := project.lakeExeCacheGet.getD config.lakeExeCacheGet
+    IO.println s!"[{name}] [4/6] Building project{if lakeExeCacheGet then " (with cache)" else ""}..."
 
     -- For projects like mathlib4, fetch the cloud cache first
-    if project.lakeExeCacheGet then
+    if lakeExeCacheGet then
       let (cacheOk, cacheLog, newLog) ← runCmdLogged "lake-exe-cache-get" "lake"
         #["exe", "cache", "get"] (some projectDir) cmdLog (some logCtx)
       cmdLog := newLog
@@ -1302,34 +1378,41 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
                        "--output", outputDirAbs.toString,
                        "--repo", repo,
                        "--branch", branch] ++ modules
-  -- Add --skip-docgen flag for reclassify and mkdocsOnly modes (but NOT docgenOnly)
-  if mode == .reclassify || mode == .mkdocsOnly then
+  -- Add --skip-docgen flag for reclassify and htmlOnly modes (but NOT docgenOnly)
+  if mode == .reclassify || mode == .htmlOnly then
     unifiedArgs := unifiedArgs ++ #["--skip-docgen"]
   -- Add proof dep flags as CLI args (instead of env vars)
-  if project.skipProofDeps then
+  -- Per-project overrides take precedence over global settings
+  let skipProofDeps := project.skipProofDeps.getD config.skipProofDeps
+  let proofDepWorkers := project.proofDepWorkers.getD config.proofDepWorkers
+  let htmlWorkers := project.htmlWorkers.getD config.htmlWorkers
+  let disableEquations := project.disableEquations.getD config.disableEquations
+  if skipProofDeps then
     unifiedArgs := unifiedArgs ++ #["--skip-proof-deps"]
-  if project.proofDepWorkers > 0 then
-    unifiedArgs := unifiedArgs ++ #["--proof-dep-workers", s!"{project.proofDepWorkers}"]
-  -- Add mkdocs workers flag
-  if project.mkdocsWorkers > 0 then
-    unifiedArgs := unifiedArgs ++ #["--mkdocs-workers", s!"{project.mkdocsWorkers}"]
+  if proofDepWorkers > 0 then
+    unifiedArgs := unifiedArgs ++ #["--proof-dep-workers", s!"{proofDepWorkers}"]
+  -- Add HTML workers flag
+  if htmlWorkers > 0 then
+    unifiedArgs := unifiedArgs ++ #["--html-workers", s!"{htmlWorkers}"]
   -- Add classification cache flags for efficiency
   -- Cache uses split format: <basePath>.json (metadata) + <basePath>.jsonl (entries)
   let cachePath := outputDirAbs / "classification-cache"  -- No extension - save/load adds .json/.jsonl
-  if mode == .mkdocsOnly || mode == .docgenOnly then
+  if mode == .htmlOnly || mode == .docgenOnly then
     -- Load classification from cache (skip classification step entirely)
     unifiedArgs := unifiedArgs ++ #["--load-classification", cachePath.toString]
   else
-    -- Save classification for future mkdocsOnly/docgenOnly runs
+    -- Save classification for future htmlOnly/docgenOnly runs
     unifiedArgs := unifiedArgs ++ #["--save-classification", cachePath.toString]
   -- Only DISABLE_EQUATIONS still uses env var (not yet a CLI flag)
   let mut env : Array (String × Option String) := #[]
-  if project.disableEquations then
+  if disableEquations then
     env := env.push ("DISABLE_EQUATIONS", some "1")
 
   -- Get LEAN_PATH from lake env so we can run the binary directly with unbuffered output
-  let unifiedBin := docvbDir / ".lake" / "build" / "bin" / "unified-doc"
-  let (unifiedCmd, unifiedCmdArgs) ← if ← unifiedBin.pathExists then do
+  -- Note: unifiedBin uses a relative path from docvbDir since that's where we set cwd
+  let unifiedBinRelative : FilePath := ".lake" / "build" / "bin" / "unified-doc"
+  let unifiedBinAbsolute := docvbDir / ".lake" / "build" / "bin" / "unified-doc"
+  let (unifiedCmd, unifiedCmdArgs) ← if ← unifiedBinAbsolute.pathExists then do
     -- Get environment variables from lake
     let leanPathResult ← IO.Process.output {
       cmd := "lake"
@@ -1349,14 +1432,15 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
         let leanSrcPath := leanSrcPathResult.stdout.trimCompat
         env := env.push ("LEAN_SRC_PATH", some leanSrcPath)
       -- Run binary directly with LEAN_PATH set - no buffering intermediaries
-      IO.println s!"[{name}]       Running: {unifiedBin}"
-      pure (unifiedBin.toString, unifiedArgs)
+      -- Use relative path since we set cwd to docvbDir
+      IO.println s!"[{name}]       Running: {unifiedBinRelative} (from {docvbDir})"
+      pure (unifiedBinRelative.toString, unifiedArgs)
     else
       IO.println s!"[{name}]       Warning: Could not get LEAN_PATH, falling back to lake exe"
       -- Fall back to lake exe if we can't get LEAN_PATH
       pure ("lake", #["exe", "unified-doc"] ++ unifiedArgs)
   else
-    IO.println s!"[{name}]       Warning: Binary not found at {unifiedBin}, falling back to lake exe"
+    IO.println s!"[{name}]       Warning: Binary not found at {unifiedBinAbsolute}, falling back to lake exe"
     -- Fall back to lake exe if binary not found
     pure ("lake", #["exe", "unified-doc"] ++ unifiedArgs)
 
@@ -1374,10 +1458,10 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
              errorMessage := some "unified-doc failed", buildLog := docLog,
              siteDir := some outputDir }
 
-  -- Parse statistics from the generated coverage.md
-  -- unified-doc outputs to: outputDir/mkdocs-src/docs/verification/coverage.md
-  let coverageMd := outputDir / "mkdocs-src" / "docs" / "verification" / "coverage.md"
-  let stats ← parseCoverageStats coverageMd
+  -- Parse statistics from the generated site
+  -- unified-doc outputs to: outputDir/site/ (static HTML)
+  let statsJson := outputDir / "site" / "stats.json"
+  let stats ← parseCoverageStats statsJson
 
   -- Mark as completed
   writeProjectState config.sitesDir name .completed
@@ -1426,7 +1510,10 @@ def saveResultsJson (results : Array ProjectResult) (outputPath : FilePath) : IO
 
 def runExperiments (configPath : FilePath) (mode : RunMode := .fresh)
     (projectFilter : Option (Array String) := none) : IO UInt32 := do
-  let baseDir := configPath.parent.get!
+  -- Get the base directory - use "." if config is in current directory
+  let baseDir := match configPath.parent with
+    | some p => if p.toString.isEmpty then "." else p
+    | none => "."
 
   -- Load config
   let configContent ← IO.FS.readFile configPath
@@ -1455,7 +1542,7 @@ def runExperiments (configPath : FilePath) (mode : RunMode := .fresh)
     | .reanalyze => "reanalyze"
     | .reclassify => "reclassify"
     | .docgenOnly => "docgen-only"
-    | .mkdocsOnly => "mkdocs-only"
+    | .htmlOnly => "html-only"
   let filterStr := match projectFilter with
     | some names => s!" (filtered: {names})"
     | none => ""
@@ -1531,7 +1618,9 @@ def runExperiments (configPath : FilePath) (mode : RunMode := .fresh)
   return 0
 
 def serveResults (configPath : FilePath) : IO UInt32 := do
-  let baseDir := configPath.parent.get!
+  let baseDir := match configPath.parent with
+    | some p => if p.toString.isEmpty then "." else p
+    | none => "."
   let configContent ← IO.FS.readFile configPath
   let config ← parseConfig configContent baseDir
 
@@ -1556,7 +1645,9 @@ def serveResults (configPath : FilePath) : IO UInt32 := do
 
 /-- Refresh the summary page by re-reading all existing coverage stats -/
 def refreshSummary (configPath : FilePath) : IO UInt32 := do
-  let baseDir := configPath.parent.get!
+  let baseDir := match configPath.parent with
+    | some p => if p.toString.isEmpty then "." else p
+    | none => "."
   let configContent ← IO.FS.readFile configPath
   let config ← parseConfig configContent baseDir
 
@@ -1573,9 +1664,9 @@ def refreshSummary (configPath : FilePath) : IO UInt32 := do
     -- Check if project was completed
     let state ← readProjectState config.sitesDir name
 
-    -- Read coverage stats if available
-    let coverageMd := outputDir / "mkdocs-src" / "docs" / "verification" / "coverage.md"
-    let stats ← parseCoverageStats coverageMd
+    -- Read coverage stats if available (from stats.json in static HTML site)
+    let statsJson := outputDir / "site" / "stats.json"
+    let stats ← parseCoverageStats statsJson
 
     let (success, errorMsg) := match state with
       | .completed => (true, none)
@@ -1659,7 +1750,7 @@ def experimentsMain (args : List String) : IO UInt32 := do
   | ["run", "--reanalyze"] => Experiments.runExperiments "config.toml" .reanalyze projectFilter
   | ["run", "--reclassify"] => Experiments.runExperiments "config.toml" .reclassify projectFilter
   | ["run", "--docgen-only"] => Experiments.runExperiments "config.toml" .docgenOnly projectFilter
-  | ["run", "--mkdocs-only"] => Experiments.runExperiments "config.toml" .mkdocsOnly projectFilter
+  | ["run", "--html-only"] => Experiments.runExperiments "config.toml" .htmlOnly projectFilter
   | ["run", "--config", path] => Experiments.runExperiments path .fresh projectFilter
   | ["run", "--resume", "--config", path] => Experiments.runExperiments path .resume projectFilter
   | ["run", "--config", path, "--resume"] => Experiments.runExperiments path .resume projectFilter
@@ -1671,8 +1762,8 @@ def experimentsMain (args : List String) : IO UInt32 := do
   | ["run", "--config", path, "--reclassify"] => Experiments.runExperiments path .reclassify projectFilter
   | ["run", "--docgen-only", "--config", path] => Experiments.runExperiments path .docgenOnly projectFilter
   | ["run", "--config", path, "--docgen-only"] => Experiments.runExperiments path .docgenOnly projectFilter
-  | ["run", "--mkdocs-only", "--config", path] => Experiments.runExperiments path .mkdocsOnly projectFilter
-  | ["run", "--config", path, "--mkdocs-only"] => Experiments.runExperiments path .mkdocsOnly projectFilter
+  | ["run", "--html-only", "--config", path] => Experiments.runExperiments path .htmlOnly projectFilter
+  | ["run", "--config", path, "--html-only"] => Experiments.runExperiments path .htmlOnly projectFilter
   -- Serve commands
   | ["serve"] => Experiments.serveResults "config.toml"
   | ["serve", "--config", path] => Experiments.serveResults path
@@ -1692,8 +1783,8 @@ def experimentsMain (args : List String) : IO UInt32 := do
     IO.println "  --update             Update git repos and regenerate docs for all projects"
     IO.println "  --reanalyze          Re-run unified-doc analysis only (skip build, requires existing build)"
     IO.println "  --reclassify         Re-run classification only (skip build AND doc-gen4)"
-    IO.println "  --docgen-only        Re-run doc-gen4 + MkDocs only (loads classification from cache)"
-    IO.println "  --mkdocs-only        Regenerate MkDocs only (skip classification, requires cache)"
+    IO.println "  --docgen-only        Re-run doc-gen4 + HTML only (loads classification from cache)"
+    IO.println "  --html-only        Regenerate HTML only (skip classification, requires cache)"
     IO.println "  --config <path>      Path to config.toml (default: ./config.toml)"
     IO.println "  --projects <names>   Only run specified projects (space-separated)"
     IO.println ""
@@ -1707,7 +1798,7 @@ def experimentsMain (args : List String) : IO UInt32 := do
     IO.println "  experiments run --reanalyze --projects mathlib4  # Re-analyze without rebuild"
     IO.println "  experiments run --reclassify --projects mathlib4 # Re-classify (uses existing doc-gen4)"
     IO.println "  experiments run --docgen-only --projects mathlib4 # Re-gen doc-gen4 (uses cached classification)"
-    IO.println "  experiments run --mkdocs-only --projects mathlib4 # Regenerate MkDocs (uses cache)"
+    IO.println "  experiments run --html-only --projects mathlib4 # Regenerate HTML (uses cache)"
     IO.println "  experiments run --projects mathlib4      # Run only mathlib4"
     IO.println "  experiments run --projects batteries mm0 # Run batteries and mm0"
     IO.println "  experiments run --update --projects mathlib4  # Update only mathlib4"

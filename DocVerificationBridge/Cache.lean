@@ -10,7 +10,7 @@ import DocVerificationBridge.Types
 
 This module provides JSON serialization for classification results,
 allowing large projects like Mathlib4 to skip the ~2 hour classification
-step when only MkDocs generation needs to be re-run.
+step when only HTML generation needs to be re-run.
 
 ## File Format
 
@@ -99,7 +99,9 @@ def apiMetaToJson (name : Name) (m : APIMeta) : Json :=
     ("name", toJson name),
     ("kind", kindStr),
     ("category", m.categoryString),
+    ("module", toJson m.module),
     ("hasSorry", m.hasSorry),
+    ("usesAxioms", m.usesAxioms),
     ("coverage", toJson m.coverage)
   ]
 
@@ -200,6 +202,9 @@ def parseEntry (j : Json) : Except String (Name × APIMeta) := do
   let kindStr ← j.getObjValAs? String "kind"
   let hasSorry := j.getObjValAs? Bool "hasSorry" |>.toOption |>.getD false
   let coverage ← j.getObjValAs? CoverageStatus "coverage" <|> pure .unverified
+  -- Parse new fields with defaults for backward compatibility
+  let modName := (j.getObjValAs? String "module" |>.toOption |>.getD "").toName
+  let usesAxioms := j.getObjValAs? Bool "usesAxioms" |>.toOption |>.getD false
 
   let declKind ← match kindStr with
   | "type" =>
@@ -237,7 +242,7 @@ def parseEntry (j : Json) : Except String (Name × APIMeta) := do
     })
   | _ => throw s!"unknown kind: {kindStr}"
 
-  return (name, { kind := declKind, coverage })
+  return (name, { kind := declKind, module := modName, coverage, usesAxioms })
 
 /-- Parse all entries from JSON -/
 def parseEntries (json : Json) : Except String (NameMap APIMeta) := do

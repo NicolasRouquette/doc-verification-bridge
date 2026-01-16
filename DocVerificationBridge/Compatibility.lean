@@ -7,12 +7,17 @@
 This module provides compatibility helpers that work across the supported
 Lean version range (4.24.0 - 4.27.0+).
 
-## String.trim vs String.trimAscii
+## String Slice Changes in Lean 4.27.0
 
-In Lean 4.27.0, `String.trim` was deprecated in favor of `String.trimAscii`,
-and the return type changed from `String` to `String.Slice`.
+In Lean 4.27.0, many String operations that returned `String` now return `String.Slice`:
+- `String.trim` → `String.trimAscii` (returns Slice)
+- `String.drop` (returns Slice)
+- `String.take` (returns Slice)
+- `String.splitOn` (returns List of Slices)
+- `String.startsWith` / `String.endsWith` (may involve Slices)
 
-We implement our own trim that works consistently across all versions.
+We implement our own versions that work consistently across all versions
+by using character-level operations.
 -/
 
 /-- Check if a character is ASCII whitespace -/
@@ -27,3 +32,75 @@ def String.trimCompat (s : String) : String :=
   let trimLeft := chars.dropWhile isAsciiWhitespace
   let trimBoth := trimLeft.reverse.dropWhile isAsciiWhitespace |>.reverse
   String.ofList trimBoth
+
+/-- Drop n characters from the beginning of a string.
+    Works across Lean 4.24.0 - 4.27.0+ with consistent String return type. -/
+def String.dropCompat (s : String) (n : Nat) : String :=
+  String.ofList (s.toList.drop n)
+
+/-- Take n characters from the beginning of a string.
+    Works across Lean 4.24.0 - 4.27.0+ with consistent String return type. -/
+def String.takeCompat (s : String) (n : Nat) : String :=
+  String.ofList (s.toList.take n)
+
+/-- Split a string on a separator, returning a list of Strings.
+    Works across Lean 4.24.0 - 4.27.0+ with consistent String return type. -/
+partial def String.splitOnCompat (s : String) (sep : String) : List String :=
+  if sep.isEmpty then [s]
+  else
+    let sepChars := sep.toList
+    go s.toList sepChars [] []
+where
+  /-- Check if list starts with prefix -/
+  startsWith (xs : List Char) (start_prefix : List Char) : Bool :=
+    match start_prefix, xs with
+    | [], _ => true
+    | _ :: _, [] => false
+    | p :: ps, x :: rest => p == x && startsWith rest ps
+
+  /-- Main splitting loop -/
+  go (remaining : List Char) (sepChars : List Char) (current : List Char) (acc : List String) : List String :=
+    match remaining with
+    | [] => acc ++ [String.ofList current.reverse]
+    | c :: rest =>
+      -- Check if remaining starts with separator
+      if startsWith remaining sepChars then
+        -- Found separator: add current segment, skip separator chars
+        let newAcc := acc ++ [String.ofList current.reverse]
+        go (remaining.drop sepChars.length) sepChars [] newAcc
+      else
+        -- No match: add char to current segment
+        go rest sepChars (c :: current) acc
+
+/-- Drop characters from the end of a string.
+    Works across Lean 4.24.0 - 4.27.0+ with consistent String return type. -/
+def String.dropRightCompat (s : String) (n : Nat) : String :=
+  let chars := s.toList
+  String.ofList (chars.take (chars.length - n))
+
+/-- Take characters from the end of a string.
+    Works across Lean 4.24.0 - 4.27.0+ with consistent String return type. -/
+def String.takeRightCompat (s : String) (n : Nat) : String :=
+  let chars := s.toList
+  String.ofList (chars.drop (chars.length - n))
+
+/-- Trim whitespace from the left side of a string.
+    Compatible across Lean versions. -/
+def String.trimLeftCompat (s : String) : String :=
+  let chars := s.toList.dropWhile fun c => c.isWhitespace
+  String.ofList chars
+
+/-- Check if string starts with prefix (returns Bool, not dependent on Slice).
+    This is a compatibility helper that explicitly returns Bool. -/
+@[inline] def String.startsWithCompat (s : String) (start_prefix : String) : Bool :=
+  s.takeCompat start_prefix.length == start_prefix
+
+/-- Check if string ends with suffix (returns Bool, not dependent on Slice).
+    This is a compatibility helper that explicitly returns Bool. -/
+@[inline] def String.endsWithCompat (s : String) (end_suffix : String) : Bool :=
+  s.takeRightCompat end_suffix.length == end_suffix
+
+/-- Check if string contains a substring.
+    This is a compatibility helper that explicitly returns Bool. -/
+@[inline] def String.containsCompat (s : String) (sub : String) : Bool :=
+  (s.splitOnCompat sub).length > 1

@@ -20,7 +20,7 @@ lean_exe «experiments» where
 
 -- Dependencies
 require «doc-gen4» from git
-  "https://github.com/NicolasRouquette/doc-gen4" @ "feat/source-linker"
+  "https://github.com/NicolasRouquette/doc-gen4" @ "feat/declaration-decorator"
 
 require Cli from git
   "https://github.com/leanprover/lean4-cli" @ "main"
