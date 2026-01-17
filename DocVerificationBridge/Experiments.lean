@@ -73,6 +73,8 @@ structure Project where
   /-- Number of parallel workers for HTML file writing (0 = sequential).
       When `none`: use global setting. -/
   htmlWorkers : Option Nat := none
+  /-- List of theorem names to skip during proof dependency extraction (for slow theorems) -/
+  proofDepBlacklist : Array String := #[]
   deriving Repr, Inhabited
 
 /-- Experiment configuration -/
@@ -93,6 +95,8 @@ structure Config where
   proofDepWorkers : Nat := 0
   /-- Global default: Number of parallel workers for HTML file writing (0 = sequential) -/
   htmlWorkers : Nat := 0
+  /-- Global default: Threshold in seconds before warning about slow theorems during proof dep extraction -/
+  slowThresholdSecs : Nat := 30
   deriving Repr, Inhabited
 
 /-- Result of processing a project -/
@@ -139,6 +143,7 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
   let mut skipProofDeps : Bool := false
   let mut proofDepWorkers : Nat := 0
   let mut htmlWorkers : Nat := 0
+  let mut slowThresholdSecs : Nat := 30
   let mut projects : Array Project := #[]
   let mut currentProject : Option Project := none
 
@@ -176,6 +181,14 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
             | "skip_proof_deps" => { proj with skipProofDeps := some (value == "true") }
             | "proof_dep_workers" => { proj with proofDepWorkers := some (value.toNat?.getD 0) }
             | "html_workers" => { proj with htmlWorkers := some (value.toNat?.getD 0) }
+            | "proof_dep_blacklist" =>
+              -- Parse array like ["Thm1", "Thm2"], eliminate duplicates
+              let names := value.replace "[" "" |>.replace "]" ""
+                |>.splitOn "," |>.map (·.trimCompat.replace "\"" "")
+                |>.filter (·.length > 0)
+              let uniqueNames := names.foldl (init := #[]) fun acc n =>
+                if acc.contains n then acc else acc.push n
+              { proj with proofDepBlacklist := uniqueNames }
             | "use_doc_gen4_fork" => proj  -- Deprecated, ignored (PR merged to official doc-gen4)
             | "modules" =>
               -- Parse array like ["Batteries"], eliminate duplicates
@@ -208,6 +221,7 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
           | "skip_proof_deps" => skipProofDeps := value == "true"
           | "proof_dep_workers" => proofDepWorkers := value.toNat?.getD 0
           | "html_workers" => htmlWorkers := value.toNat?.getD 0
+          | "slow_threshold_secs" => slowThresholdSecs := value.toNat?.getD 30
           | _ => pure ()
 
   -- Don't forget the last project
@@ -226,6 +240,7 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
     skipProofDeps := skipProofDeps
     proofDepWorkers := proofDepWorkers
     htmlWorkers := htmlWorkers
+    slowThresholdSecs := slowThresholdSecs
   }
 
 /-! ## Utilities -/
@@ -588,13 +603,24 @@ def minSupportedVersion : (Nat × Nat × Nat) := (4, 24, 0)
 /-- Maximum supported Lean version for doc-verification-bridge -/
 def maxSupportedVersion : (Nat × Nat × Nat) := (4, 27, 0)
 
-/-- Extract version tag from toolchain string (e.g., "leanprover/lean4:v4.26.0" → "v4.26.0") -/
+/-- Strip RC suffix from version tag (e.g., "v4.25.0-rc2" → "v4.25.0")
+    doc-gen4 typically only has release tags, not RC tags -/
+def stripRcSuffix (version : String) : String :=
+  match version.splitOn "-rc" with
+  | [base, _] => base
+  | _ => match version.splitOn "-" with
+    | [base, _] => base  -- Also handle other pre-release suffixes
+    | _ => version
+
+/-- Extract version tag from toolchain string (e.g., "leanprover/lean4:v4.26.0" → "v4.26.0")
+    Strips RC suffixes since doc-gen4 typically only has release tags -/
 def extractVersionTag (toolchain : String) : String :=
-  match toolchain.splitOn ":v" with
-  | [_, ver] => s!"v{ver.trimCompat}"
-  | _ => match toolchain.splitOn ":" with
-    | [_, ver] => ver.trimCompat
-    | _ => "main"
+  let rawTag := match toolchain.splitOn ":v" with
+    | [_, ver] => s!"v{ver.trimCompat}"
+    | _ => match toolchain.splitOn ":" with
+      | [_, ver] => ver.trimCompat
+      | _ => "main"
+  stripRcSuffix rawTag
 
 /-- Check if a project's toolchain is compatible with doc-verification-bridge -/
 def checkToolchainCompatibility (projectDir : FilePath) (dvbPath : FilePath)
@@ -1496,9 +1522,16 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
     unifiedArgs := unifiedArgs ++ #["--skip-proof-deps"]
   if proofDepWorkers > 0 then
     unifiedArgs := unifiedArgs ++ #["--proof-dep-workers", s!"{proofDepWorkers}"]
+  -- Add proof dep blacklist if specified
+  if !project.proofDepBlacklist.isEmpty then
+    let blacklistStr := project.proofDepBlacklist.toList |> String.intercalate ","
+    unifiedArgs := unifiedArgs ++ #["--proof-dep-blacklist", blacklistStr]
   -- Add HTML workers flag
   if htmlWorkers > 0 then
     unifiedArgs := unifiedArgs ++ #["--html-workers", s!"{htmlWorkers}"]
+  -- Add slow threshold flag
+  if config.slowThresholdSecs != 30 then
+    unifiedArgs := unifiedArgs ++ #["--slow-threshold", s!"{config.slowThresholdSecs}"]
   -- Add classification cache flags for efficiency
   -- Cache uses split format: <basePath>.json (metadata) + <basePath>.jsonl (entries)
   let cachePath := outputDirAbs / "classification-cache"  -- No extension - save/load adds .json/.jsonl

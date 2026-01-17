@@ -163,6 +163,8 @@ structure TheoremData where
   suppress : Array SuppressableWarning := #[]
   /-- Whether the proof contains sorry -/
   hasSorry : Bool := false
+  /-- Time in milliseconds spent extracting proof dependencies for this theorem -/
+  proofDepTimeMs : Option Nat := none
 deriving Repr, BEq, Inhabited
 
 /-- Kind of declaration being tracked -/
@@ -178,12 +180,12 @@ def DeclKind.categoryString : DeclKind → String
   | .apiType .computationalDatatype => "computationalDatatype"
   | .apiDef ⟨.mathematicalDefinition, _, _⟩ => "mathematicalDefinition"
   | .apiDef ⟨.computationalOperation, _, _⟩ => "computationalOperation"
-  | .apiTheorem ⟨some .computationalProperty, _, _, _, _, _, _, _, _, _⟩ => "computationalProperty"
-  | .apiTheorem ⟨some .mathematicalProperty, _, _, _, _, _, _, _, _, _⟩ => "mathematicalProperty"
-  | .apiTheorem ⟨some .bridgingProperty, _, _, _, _, _, _, _, _, _⟩ => "bridgingProperty"
-  | .apiTheorem ⟨some .soundnessProperty, _, _, _, _, _, _, _, _, _⟩ => "soundnessProperty"
-  | .apiTheorem ⟨some .completenessProperty, _, _, _, _, _, _, _, _, _⟩ => "completenessProperty"
-  | .apiTheorem ⟨none, _, _, _, _, _, _, _, _, _⟩ => "theorem"
+  | .apiTheorem { kind := some .computationalProperty, .. } => "computationalProperty"
+  | .apiTheorem { kind := some .mathematicalProperty, .. } => "mathematicalProperty"
+  | .apiTheorem { kind := some .bridgingProperty, .. } => "bridgingProperty"
+  | .apiTheorem { kind := some .soundnessProperty, .. } => "soundnessProperty"
+  | .apiTheorem { kind := some .completenessProperty, .. } => "completenessProperty"
+  | .apiTheorem { kind := none, .. } => "theorem"
 
 /-- Get the theorem kind if this is a theorem -/
 def DeclKind.theoremKind? : DeclKind → Option TheoremKind

@@ -4,6 +4,7 @@
 import Lean
 import DocVerificationBridge.Types
 import DocVerificationBridge.Classify
+import DocVerificationBridge.Compatibility
 
 /-!
 # Report Generation
@@ -89,8 +90,8 @@ def findFileForName (cache : GitFileCache) (name : Name) : Option String :=
         let nameComponents := name.components.map toString |>.reverse
         let scored := paths.map fun path =>
           -- Remove .lean extension and split by /
-          -- Use take for cross-version compatibility (dropLast doesn't take an argument)
-          let pathWithoutExt := if path.endsWith ".lean" then String.ofList (path.toList.take (path.length - 5)) else path
+          -- Use dropRightCompat for cross-version compatibility
+          let pathWithoutExt := if path.endsWith ".lean" then path.dropRightCompat 5 else path
           let pathParts := pathWithoutExt.splitOn "/"
           let score := nameComponents.foldl (fun acc comp =>
             if pathParts.contains comp then acc + 1 else acc) 0
@@ -133,8 +134,8 @@ deriving Repr, Inhabited
 def stripTrailingSlashes (s : String) : String :=
   let chars := s.toList
   let trimmed := chars.reverse.dropWhile (· == '/') |>.reverse
-  -- Use String.mk for cross-version compatibility (works in v4.24.0+, deprecated but functional in v4.27.0+)
-  String.ofList trimmed
+  -- Use foldl+push for cross-version compatibility (String.ofList doesn't exist in Lean < 4.26)
+  trimmed.foldl (init := "") fun acc c => acc.push c
 
 /-- Generate a source URL for a given file path and line number -/
 def ReportConfig.sourceUrl (cfg : ReportConfig) (filePath : String) (line : Nat) : String :=

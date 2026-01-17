@@ -70,6 +70,10 @@ structure UnifiedConfig where
   saveClassificationCache : Option System.FilePath := none
   /-- Number of parallel workers for HTML file writing (0 = sequential) -/
   htmlWorkers : Nat := 0
+  /-- Blacklisted theorems for proof dependency extraction (known slow theorems) -/
+  proofDepBlacklist : Array String := #[]
+  /-- Threshold in seconds for slow theorem detection (default: 30) -/
+  slowThresholdSecs : Nat := 30
 deriving Repr, Inhabited
 
 /-- Result of the unified pipeline -/
@@ -121,10 +125,12 @@ def buildGitFileCacheIn (dir : System.FilePath) : IO GitFileCache := do
 
 /-- Load modules and run both doc-gen4's analysis and our classification -/
 def loadAndAnalyze (cfg : UnifiedConfig) (modules : Array Name) : IO UnifiedResult := do
+  let startTime ← IO.monoMsNow
+
   -- Initialize search path
   Lean.initSearchPath (← Lean.findSysroot)
 
-  IO.println s!"unified-doc: Loading {modules.size} module(s)..."
+  IO.println s!"unified-doc [1/7]: Loading {modules.size} module(s)..."
   (← IO.getStdout).flush
 
   -- Load environment using doc-gen4's helper
@@ -152,14 +158,14 @@ def loadAndAnalyze (cfg : UnifiedConfig) (modules : Array Name) : IO UnifiedResu
   (← IO.getStdout).flush
 
   -- Build git file cache from the source directory
-  IO.println s!"unified-doc: Building git file cache from {cfg.sourceDir}..."
+  IO.println s!"unified-doc [2/7]: Building git file cache from {cfg.sourceDir}..."
   (← IO.getStdout).flush
   let gitCache ← buildGitFileCacheIn cfg.sourceDir
   IO.println s!"  Found {gitCache.allFiles.size} .lean files"
   (← IO.getStdout).flush
 
-  -- Run our classification
-  IO.println s!"unified-doc: Classifying declarations..."
+  -- Run our classification with proper parallel proof dep extraction
+  IO.println s!"unified-doc [3/7]: Classifying declarations..."
   (← IO.getStdout).flush
 
   let mut allEntries : NameMap APIMeta := {}
@@ -172,7 +178,8 @@ def loadAndAnalyze (cfg : UnifiedConfig) (modules : Array Name) : IO UnifiedResu
       fileMap := default
     }
     let coreState : Core.State := { env }
-    let (result, _) ← (classifyAllDeclarations env modName).run' {} |>.toIO coreCtx coreState
+    -- Use proper parallel proof dep extraction
+    let (result, _) ← (classifyAllDeclarations env modName cfg.skipProofDeps cfg.proofDepWorkers startTime cfg.proofDepBlacklist cfg.slowThresholdSecs).run' {} |>.toIO coreCtx coreState
     allEntries := result.entries.foldl (fun acc name apiMeta => acc.insert name apiMeta) allEntries
 
   IO.println s!"  Classified {allEntries.size} declarations"

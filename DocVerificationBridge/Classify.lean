@@ -226,17 +226,28 @@ def classifyConstant (env : Environment) (name : Name) (cinfo : ConstantInfo)
 
   | _ => return none  -- Skip other kinds (constructors, recursors, etc.)
 
+/-- Extract proof dependencies for a single task (pure, can run in parallel).
+    Uses Lean's built-in DAG-aware foldConsts, so no longer hits node limits.
+    Returns (deps, false) - hitLimit is always false now but kept for API compat. -/
+def extractProofDepsTaskWithLimit (env : Environment) (task : ProofDepTask) : Array Name × Bool :=
+  let (allDeps, _) := collectProofDependenciesWithLimit env task.proofExpr
+  let filtered := allDeps.filter fun dep =>
+    dep != task.name && isInternalName env task.internalPrefixes dep
+  (filtered, false)  -- Never hits limit with proper DAG traversal
+
 /-- Extract proof dependencies for a single task (pure, can run in parallel) -/
 def extractProofDepsTask (env : Environment) (task : ProofDepTask) : Array Name :=
-  let allDeps := collectProofDependencies env task.proofExpr
-  allDeps.filter fun dep =>
-    dep != task.name && isInternalName env task.internalPrefixes dep
+  (extractProofDepsTaskWithLimit env task).1
 
-/-- Merge proof dependencies into APIMeta -/
-def mergeProofDeps (apiMeta : APIMeta) (deps : Array Name) : APIMeta :=
+/-- Merge proof dependencies and timing into APIMeta -/
+def mergeProofDeps (apiMeta : APIMeta) (deps : Array Name) (timeMs : Option Nat := none) (_hitLimit : Bool := false) : APIMeta :=
   match apiMeta.kind with
   | .apiTheorem thmData =>
-    let newThmData := { thmData with dependsOn := deps }
+    let newThmData := { thmData with
+      dependsOn := deps
+      proofDepTimeMs := timeMs
+      -- Could add a field for hitLimit in the future if needed
+    }
     { apiMeta with kind := .apiTheorem newThmData }
   | _ => apiMeta
 
@@ -258,11 +269,18 @@ def formatTimingWithTotal (deltaMs : Nat) (overallStartTime : Nat) (currentTime 
 
 /-- Classify all declarations with parallel proof dependency extraction -/
 def classifyAllDeclarationsParallel (env : Environment) (modulePrefix : Name) (numWorkers : Nat := 8)
-    (overallStartTime : Nat := 0) : MetaM ClassificationResult := do
+    (overallStartTime : Nat := 0) (proofDepBlacklist : Array String := #[])
+    (slowThresholdSecs : Nat := 30) : MetaM ClassificationResult := do
   -- Validate modulePrefix - if anonymous, all declarations will match!
   if modulePrefix.isAnonymous then
     IO.println s!"  ⚠️ WARNING: modulePrefix is anonymous - will match ALL declarations!"
     IO.println s!"    This is likely a bug. Expected a module name like `Mathlib or `FLT."
+    (← IO.getStdout).flush
+
+  -- Convert blacklist to a HashSet for fast lookup
+  let blacklistSet : Std.HashSet String := proofDepBlacklist.foldl (·.insert ·) {}
+  if !proofDepBlacklist.isEmpty then
+    IO.println s!"  [{modulePrefix}] Proof dep blacklist: {proofDepBlacklist.size} theorems will be skipped"
     (← IO.getStdout).flush
 
   let internalPrefixes := #[modulePrefix.toString]
@@ -297,7 +315,10 @@ def classifyAllDeclarationsParallel (env : Environment) (modulePrefix : Name) (n
     if let some (apiMeta, taskOpt) ← classifyConstantLight env name cinfo internalPrefixes modName then
       entries := entries.insert name apiMeta
       if let some task := taskOpt then
-        proofDepTasks := proofDepTasks.push (name, task)
+        -- Skip blacklisted theorems for proof dep extraction
+        let nameStr := name.toString
+        if !blacklistSet.contains nameStr then
+          proofDepTasks := proofDepTasks.push (name, task)
 
   let phase1End ← IO.monoMsNow
   let phase1Duration := phase1End - phase1Start
@@ -306,11 +327,13 @@ def classifyAllDeclarationsParallel (env : Environment) (modulePrefix : Name) (n
   (← IO.getStdout).flush
 
   -- Phase 2: Parallel proof dependency extraction
+  let skippedCount := blacklistSet.size
   if proofDepTasks.isEmpty then
     IO.println s!"  [{modulePrefix}] [4/7] No proof dependencies to extract (skipped)"
     (← IO.getStdout).flush
   else
-    IO.println s!"  [{modulePrefix}] [4/7] Phase 2: Extracting proof deps for {proofDepTasks.size} theorems ({numWorkers} workers, dynamic scheduling)..."
+    let blacklistNote := if skippedCount > 0 then s!" ({skippedCount} blacklisted)" else ""
+    IO.println s!"  [{modulePrefix}] [4/7] Phase 2: Extracting proof deps for {proofDepTasks.size} theorems{blacklistNote} ({numWorkers} workers, dynamic scheduling)..."
     (← IO.getStdout).flush
 
     let phase2Start ← IO.monoMsNow
@@ -319,47 +342,134 @@ def classifyAllDeclarationsParallel (env : Environment) (modulePrefix : Name) (n
     -- This keeps all workers busy until the queue is exhausted, avoiding
     -- load imbalance from static pre-chunking.
     let workQueue ← IO.mkRef (0 : Nat)  -- Index into task array
-    let resultsRef ← IO.mkRef (#[] : Array (Name × Array Name))
+    -- Each worker stores results in its own slot to avoid contention
+    -- Each worker stores results (name, deps, timeMs) in its own slot to avoid contention
+    let workerResultsRef ← IO.mkRef ((List.replicate numWorkers (#[] : Array (Name × Array Name × Nat))).toArray)
     let taskArray := proofDepTasks
-    let taskCountRef ← IO.mkRef (#[] : Array Nat)  -- Track tasks processed per worker
+    let taskCountRef ← IO.mkRef ((List.replicate numWorkers (0 : Nat)).toArray)  -- Track tasks processed per worker
     let completedRef ← IO.mkRef (0 : Nat)  -- Track total completed for progress
     let activeWorkersRef ← IO.mkRef numWorkers  -- Track active workers
+    -- Debug: track which theorems are currently being processed by each worker WITH start time
+    let currentTasksRef ← IO.mkRef ((List.replicate numWorkers (none : Option (Name × Nat))).toArray)
+    -- Track theorems we've already warned about (to avoid spam)
+    let warnedTheoremsRef ← IO.mkRef (∅ : Std.HashSet Name)
 
-    -- Worker function: atomically grab next task index, process, store result
-    let workerFn (_workerId : Nat) : IO Unit := do
-      let mut localResults : Array (Name × Array Name) := #[]
+    -- Worker function: atomically grab next task index, process, store result in own slot
+    let workerFn (workerId : Nat) : IO Unit := do
+      let mut localResults : Array (Name × Array Name × Nat) := #[]
       let mut count := 0
       while true do
         -- Atomically grab next task index
         let idx ← workQueue.modifyGet fun i => (i, i + 1)
         if idx >= taskArray.size then break
         let (name, task) := taskArray[idx]!
-        let deps := extractProofDepsTask env task
-        localResults := localResults.push (name, deps)
+        -- Debug: record that we're starting this theorem WITH timestamp
+        let startTime ← IO.monoMsNow
+        currentTasksRef.modify fun arr => arr.set! workerId (some (name, startTime))
+        let (deps, _) := extractProofDepsTaskWithLimit env task
+        let endTime ← IO.monoMsNow
+        let elapsed := endTime - startTime
+        -- Report if it took > 5 seconds (for debugging slow theorems)
+        if elapsed > 5000 then
+          IO.println s!"        [DEBUG] Worker {workerId}: `{name}` took {elapsed/1000}s"
+          (← IO.getStdout).flush
+        -- Clear after completion
+        currentTasksRef.modify fun arr => arr.set! workerId none
+        -- Store result with timing
+        localResults := localResults.push (name, deps, elapsed)
         count := count + 1
         -- Update progress counter
         completedRef.modify (· + 1)
-      -- Atomically merge local results into shared results
-      resultsRef.modify fun arr => arr ++ localResults
-      taskCountRef.modify fun arr => arr.push count
+      -- Worker finished processing all tasks - store results in own slot (no contention!)
+      IO.println s!"        [DEBUG] Worker {workerId}: finished loop, storing {localResults.size} results..."
+      (← IO.getStdout).flush
+      currentTasksRef.modify fun arr => arr.set! workerId none
+      workerResultsRef.modify fun arr => arr.set! workerId localResults
+      IO.println s!"        [DEBUG] Worker {workerId}: stored results, updating counts..."
+      (← IO.getStdout).flush
+      taskCountRef.modify fun arr => arr.set! workerId count
+      IO.println s!"        [DEBUG] Worker {workerId}: decrementing active workers..."
+      (← IO.getStdout).flush
       activeWorkersRef.modify (· - 1)
+      IO.println s!"        [DEBUG] Worker {workerId}: done!"
+      (← IO.getStdout).flush
 
-    -- Progress reporter task
+    -- Progress reporter task (enhanced with debug info)
     let progressFn : IO Unit := do
       let total := taskArray.size
       let mut lastPct := 0
       let mut lastActive := numWorkers
+      let mut stuckCount := 0  -- Count consecutive checks with same progress
+      let mut lastCompleted := 0
+      let slowThresholdMs := slowThresholdSecs * 1000  -- Convert seconds to milliseconds
+      IO.println s!"        [{modulePrefix}] Monitor started: slowThreshold={slowThresholdSecs}s ({slowThresholdMs}ms)"
+      (← IO.getStdout).flush
+      let mut checkCount := 0
       while true do
         IO.sleep 2000  -- Check every 2 seconds
         let completed ← completedRef.get
         let active ← activeWorkersRef.get
         let pct := (completed * 100) / total
+        let now ← IO.monoMsNow
+
+        -- Check for slow theorems (configurable threshold)
+        let currentTasks ← currentTasksRef.get
+        let warned ← warnedTheoremsRef.get
+        -- Count how many workers have active tasks
+        let mut activeTaskCount := 0
+        let mut maxElapsed : Nat := 0
+        let mut maxElapsedName : Name := Name.anonymous
+        for i in [:currentTasks.size] do
+          if let some (name, startTime) := currentTasks[i]! then
+            activeTaskCount := activeTaskCount + 1
+            let elapsed := now - startTime
+            let elapsedSecs := elapsed / 1000
+            if elapsed > maxElapsed then
+              maxElapsed := elapsed
+              maxElapsedName := name
+            -- Print slow warning if over threshold
+            if elapsed > slowThresholdMs && !warned.contains name then
+              IO.println ""
+              IO.println s!"        [{modulePrefix}] ⏱️ SLOW: Worker {i} has spent {elapsedSecs}s on `{name}` (threshold: {slowThresholdSecs}s)"
+              (← IO.getStdout).flush
+              warnedTheoremsRef.modify (·.insert name)
+            -- Also print periodic status for long-running theorems (every 60s after first 30s)
+            else if elapsedSecs >= 30 && elapsedSecs % 60 < 3 && warned.contains name then
+              IO.println ""
+              IO.println s!"        [{modulePrefix}] ⏳ Still running: Worker {i} on `{name}` ({elapsedSecs}s)"
+              (← IO.getStdout).flush
+
+        -- Debug: every 10 seconds, print status of active tasks
+        checkCount := checkCount + 1
+        if checkCount % 10 == 0 then
+          IO.println ""
+          IO.println s!"        [{modulePrefix}] 📊 Debug (check #{checkCount}): {activeTaskCount} workers with active tasks, max elapsed: {maxElapsed/1000}s"
+          if maxElapsed > 0 then
+            IO.println s!"        [{modulePrefix}]    Longest running: `{maxElapsedName}`"
+          (← IO.getStdout).flush
+
         if pct != lastPct || active != lastActive then
           let status := if active == 0 then "done" else s!"{active} workers active"
           IO.print s!"\r        [{modulePrefix}] Progress: {completed}/{total} ({pct}%) - {status}    "
           (← IO.getStdout).flush
           lastPct := pct
           lastActive := active
+          stuckCount := 0
+        else if completed == lastCompleted && active > 0 && completed < total then
+          -- Only track stuck when there's still work to extract (not during cleanup)
+          stuckCount := stuckCount + 1
+          -- If stuck for 60 seconds (30 checks), print debug info
+          if stuckCount >= 30 then
+            IO.println ""
+            IO.println s!"        [{modulePrefix}] ⚠️ STUCK DETECTION: No progress for 60s with {active} workers active"
+            for i in [:currentTasks.size] do
+              if let some (name, startTime) := currentTasks[i]! then
+                let elapsed := (now - startTime) / 1000
+                IO.println s!"        [{modulePrefix}]   Worker {i}: `{name}` ({elapsed}s)"
+            IO.println s!"        [{modulePrefix}]   Consider killing and re-running with --skip-proof-deps to debug"
+            (← IO.getStdout).flush
+            stuckCount := 0  -- Reset to avoid spam
+        lastCompleted := completed
         -- Exit when all workers have exited (not just when tasks are grabbed)
         if active == 0 then break
 
@@ -375,27 +485,49 @@ def classifyAllDeclarationsParallel (env : Environment) (modulePrefix : Name) (n
     (← IO.getStdout).flush
 
     -- Wait for all workers to complete
-    for worker in workers do
-      let result ← IO.wait worker
+    for idx in [:workers.size] do
+      IO.println s!"        [{modulePrefix}] Waiting for worker {idx}..."
+      (← IO.getStdout).flush
+      let result ← IO.wait workers[idx]!
       match result with
-      | .ok () => pure ()
-      | .error e => notes := notes.push s!"Worker error: {e}"
+      | .ok () =>
+        IO.println s!"        [{modulePrefix}] Worker {idx} completed"
+        (← IO.getStdout).flush
+      | .error e =>
+        IO.println s!"        [{modulePrefix}] Worker {idx} ERROR: {e}"
+        notes := notes.push s!"Worker {idx} error: {e}"
+        (← IO.getStdout).flush
+
+    IO.println s!"\n        [{modulePrefix}] All workers completed, cancelling progress reporter..."
+    (← IO.getStdout).flush
 
     -- Cancel progress reporter
     IO.cancel progressTask
 
-    -- Get final results and worker stats
-    let allResults ← resultsRef.get
-    let taskCounts ← taskCountRef.get
-    let totalProcessed := taskCounts.foldl (· + ·) 0
-    let activeWorkers := taskCounts.filter (· > 0) |>.size
-    IO.println s!"\n        [{modulePrefix}] Workers finished: {activeWorkers}/{numWorkers} active, processed {totalProcessed} tasks"
+    IO.println s!"        [{modulePrefix}] Collecting results from worker slots..."
     (← IO.getStdout).flush
 
-    -- Merge proof deps into entries
-    for (name, deps) in allResults do
+    -- Get final results by concatenating all worker slots (no contention during extraction!)
+    let workerResults ← workerResultsRef.get
+    let taskCounts ← taskCountRef.get
+    let allResults := workerResults.foldl (· ++ ·) #[]
+    let totalProcessed := taskCounts.foldl (· + ·) 0
+    let activeWorkers := taskCounts.filter (· > 0) |>.size
+    IO.println s!"        [{modulePrefix}] Workers finished: {activeWorkers}/{numWorkers} active, processed {totalProcessed} tasks"
+    (← IO.getStdout).flush
+
+    IO.println s!"        [{modulePrefix}] Merging {allResults.size} proof dep results into entries..."
+    (← IO.getStdout).flush
+
+    -- Merge proof deps and timing into entries
+    let mut mergeCount := 0
+    for (name, deps, timeMs) in allResults do
       if let some existing := entries.find? name then
-        entries := entries.insert name (mergeProofDeps existing deps)
+        entries := entries.insert name (mergeProofDeps existing deps (some timeMs))
+        mergeCount := mergeCount + 1
+
+    IO.println s!"        [{modulePrefix}] Merged {mergeCount} entries"
+    (← IO.getStdout).flush
 
     let phase2End ← IO.monoMsNow
     let phase2Duration := phase2End - phase2Start
@@ -404,14 +536,16 @@ def classifyAllDeclarationsParallel (env : Environment) (modulePrefix : Name) (n
     (← IO.getStdout).flush
 
   return { entries, notes }
-
 /-- Classify all declarations from relevant modules
     @param skipProofDeps If true, skip proof dependency extraction entirely (fast mode)
     @param proofDepWorkers Number of parallel workers for proof dep extraction (0 = sequential)
-    @param overallStartTime Start time of overall process for cumulative timing -/
+    @param overallStartTime Start time of overall process for cumulative timing
+    @param proofDepBlacklist List of theorem name strings to skip during proof dep extraction
+    @param slowThresholdSecs Seconds before warning about slow theorems (default: 30) -/
 def classifyAllDeclarations (env : Environment) (modulePrefix : Name)
     (skipProofDeps : Bool := false) (proofDepWorkers : Nat := 0)
-    (overallStartTime : Nat := 0) : MetaM ClassificationResult := do
+    (overallStartTime : Nat := 0) (proofDepBlacklist : Array String := #[])
+    (slowThresholdSecs : Nat := 30) : MetaM ClassificationResult := do
   -- Validate modulePrefix - if anonymous, all declarations will match!
   if modulePrefix.isAnonymous then
     IO.println s!"  ⚠️ WARNING: modulePrefix is anonymous - will match ALL declarations!"
@@ -457,7 +591,7 @@ def classifyAllDeclarations (env : Environment) (modulePrefix : Name)
 
   else if proofDepWorkers > 0 then
     -- Parallel mode: extract proof deps in parallel
-    classifyAllDeclarationsParallel env modulePrefix proofDepWorkers overallStartTime
+    classifyAllDeclarationsParallel env modulePrefix proofDepWorkers overallStartTime proofDepBlacklist slowThresholdSecs
 
   else
     -- Sequential mode with proof deps (original behavior)
