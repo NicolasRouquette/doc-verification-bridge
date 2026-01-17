@@ -74,12 +74,16 @@ structure UnifiedConfig where
   proofDepWorkers : Nat := 0
   /-- Skip proof dependency extraction entirely -/
   skipProofDeps : Bool := false
+  /-- Theorem names to skip during proof dependency extraction (for slow theorems) -/
+  proofDepBlacklist : Array String := #[]
   /-- Path to load classification cache from (skips classification step) -/
   loadClassificationCache : Option System.FilePath := none
   /-- Path to save classification cache to (for future runs) -/
   saveClassificationCache : Option System.FilePath := none
   /-- Number of parallel workers for HTML file writing (0 = sequential) -/
   htmlWorkers : Nat := 0
+  /-- Threshold in seconds before warning about slow theorems during proof dep extraction -/
+  slowThresholdSecs : Nat := 30
 deriving Repr, Inhabited
 
 /-- Result of the unified pipeline -/

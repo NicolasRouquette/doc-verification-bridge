@@ -129,6 +129,10 @@ def apiMetaToJson (name : Name) (m : APIMeta) : Json :=
         fields ++ [("dependsOn", toJson (data.dependsOn.map toString))] else fields
       let fields := if !data.axiomDeps.isEmpty then
         fields ++ [("axiomDeps", toJson (data.axiomDeps.map toString))] else fields
+      -- Add proof dep timing if available (only for theorems that took > 0ms)
+      let fields := match data.proofDepTimeMs with
+        | some ms => fields ++ [("proofDepTimeMs", toJson ms)]
+        | none => fields
       fields
 
   Json.mkObj (baseFields ++ typeFields)
@@ -234,11 +238,14 @@ def parseEntry (j : Json) : Except String (Name × APIMeta) := do
     let axiomDeps := match j.getObjVal? "axiomDeps" with
       | Except.ok arr => parseNameArray arr |>.toOption |>.getD #[]
       | _ => #[]
+    -- Parse timing if available (backward compatible)
+    let proofDepTimeMs := j.getObjValAs? Nat "proofDepTimeMs" |>.toOption
     pure (DeclKind.apiTheorem {
       kind := kindOpt
       bridgingDirection := dirOpt
       assumes, proves, validates, dependsOn, axiomDeps
       hasSorry
+      proofDepTimeMs
     })
   | _ => throw s!"unknown kind: {kindStr}"
 

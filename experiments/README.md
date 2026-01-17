@@ -76,6 +76,7 @@ disable_equations = false     # Disable equation generation
 skip_proof_deps = false       # Skip proof dependency extraction
 proof_dep_workers = 0         # Parallel proof extraction workers
 html_workers = 0              # Parallel HTML generation workers
+slow_threshold_secs = 30      # Warn about slow theorems during proof dep extraction
 ```
 
 | Setting | Type | Default | Description |
@@ -85,6 +86,7 @@ html_workers = 0              # Parallel HTML generation workers
 | `skip_proof_deps` | bool | `false` | Skip proof dependency extraction entirely |
 | `proof_dep_workers` | int | `0` | Parallel workers for proof extraction (0 = sequential) |
 | `html_workers` | int | `0` | Parallel workers for HTML generation (0 = sequential) |
+| `slow_threshold_secs` | int | `30` | Seconds before warning about slow theorems during proof dep extraction |
 
 ### Adding a New Project
 
@@ -112,6 +114,7 @@ classification_mode = "auto"  # or "annotated"
 | `disable_equations` | bool | global | Disable equation generation (overrides global) |
 | `skip_proof_deps` | bool | global | Skip proof dependency extraction (overrides global) |
 | `proof_dep_workers` | int | global | Parallel proof extraction workers (overrides global) |
+| `proof_dep_blacklist` | array | `[]` | Theorem names to skip during proof dep extraction |
 | `html_workers` | int | global | Parallel HTML generation workers (overrides global) |
 
 > **Note:** Per-project settings override global defaults. If a project doesn't specify a value, the global setting is used.
@@ -159,7 +162,23 @@ For very large projects like mathlib4, proof dependency extraction can be slow. 
 | `skip_proof_deps = true` | Skips proof dependency extraction entirely | Fast, but no `dependsOn` data in reports |
 | `proof_dep_workers = N` | Parallel proof extraction with up to N workers | Full data with better throughput |
 | `html_workers = N` | Parallel HTML file generation | Faster output for large projects |
+### Handling Slow Theorems
 
+Some theorems have very large proof terms that take a long time to analyze. The pipeline provides two mechanisms:
+
+1. **Slow theorem warnings**: When a theorem takes longer than `slow_threshold_secs` (default: 30s), a warning is printed:
+   ```
+   [PhysLean] ⏱️ SLOW: Worker 3 has spent 35s on `PhysLean.SomeSlowTheorem`
+   ```
+
+2. **Per-project blacklist**: Add slow theorems to the blacklist to skip them in future runs:
+   ```toml
+   [[projects]]
+   name = "PhysLean"
+   proof_dep_blacklist = ["PhysLean.SlowTheorem1", "PhysLean.SlowTheorem2"]
+   ```
+
+The blacklist uses exact theorem name matching (fully qualified names).
 **Example for mathlib4 (project-specific overrides):**
 
 ```toml

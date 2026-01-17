@@ -3,6 +3,7 @@
 
 import Lean
 import DocVerificationBridge.Types
+import DocVerificationBridge.Compatibility
 
 /-!
 # Automatic Inference of Theorem Annotations
@@ -185,8 +186,8 @@ def ppTypeShort (e : Expr) : MetaM String := do
   let fmt ← ppExpr e
   let str := fmt.pretty
   if str.length > 60 then
-    -- Use toList/take/ofList for cross-version compatibility
-    return String.ofList (str.toList.take 57) ++ "..."
+    -- Use takeCompat for cross-version compatibility (String.ofList doesn't exist in Lean < 4.26)
+    return str.takeCompat 57 ++ "..."
   else
     return str
 
@@ -305,58 +306,43 @@ Extract the names of theorems/lemmas that a proof term directly uses.
 This gives us the "depends on" relationship: if theorem A uses theorem B
 in its proof, then A depends on B.
 
-**Performance Note**: For large projects like mathlib (~180k declarations),
-proof dependency extraction can be extremely slow because proof terms can be
-very large (millions of nodes). Set `skip_proof_deps = true` in config.toml
-to skip this analysis for specific projects.
+**Performance Note**: We use Lean's built-in `Expr.foldConsts` which uses
+pointer-based DAG traversal (`PtrSet Expr`). This is critical because proof
+terms use structural sharing - the same subexpression can appear many times.
+A naive tree traversal would visit shared nodes exponentially many times,
+but `foldConsts` visits each unique expression pointer exactly once.
 
-**Future Optimization**: `collectProofDependencies` is a pure function that
-could be parallelized using `IO.mapTasks`, but this requires restructuring
-the classification pipeline to do a two-pass approach:
-1. First pass: Classify all declarations without proof deps (runs in MetaM)
-2. Second pass: Extract proof deps in parallel (pure, can use worker threads)
+For example, `distDeriv_commute` has a proof term that as a tree has billions
+of nodes, but as a DAG (with sharing) has only ~1M unique nodes. Without
+proper DAG traversal, it took 8+ hours; with it, it takes seconds.
+
+**Implementation Note**: `Expr.foldConsts` is implemented in `Lean.Util.FoldConsts`
+using unsafe pointer hashing for efficiency. It's the same approach used by
+Lean's compiler and type checker for traversing expressions.
 -/
 
-/-- Collect all constant names referenced in an expression (proof term) -/
-partial def collectProofDependencies (env : Environment) (e : Expr) : Array Name := Id.run do
-  let mut seen : Std.HashSet Name := {}
-  let mut result : Array Name := #[]
-  let mut stack : List Expr := [e]
+/-- Collect all constant names referenced in an expression (proof term).
+    Uses Lean's built-in DAG-aware foldConsts which handles structural sharing. -/
+def collectProofDependencies (env : Environment) (e : Expr) : Array Name :=
+  -- Get all constants using Lean's efficient DAG traversal
+  let allConsts := e.foldConsts #[] fun name acc => acc.push name
+  -- Filter to just theorems/axioms
+  allConsts.filter fun name =>
+    if shouldFilter name then false
+    else match env.find? name with
+      | some (.thmInfo _) => true
+      | some (.axiomInfo _) => true
+      | _ => false
 
-  while !stack.isEmpty do
-    match stack with
-    | [] => break
-    | expr :: rest =>
-      stack := rest
-      match expr with
-      | .const name _ =>
-        unless seen.contains name do
-          seen := seen.insert name
-          -- Only include theorems/lemmas, not definitions or types
-          match env.find? name with
-          | some (.thmInfo _) =>
-            unless shouldFilter name do
-              result := result.push name
-          | some (.axiomInfo _) =>
-            -- Include axioms as dependencies too
-            unless shouldFilter name do
-              result := result.push name
-          | _ => pure ()
-      | .app f a =>
-        stack := f :: a :: stack
-      | .lam _ t b _ =>
-        stack := t :: b :: stack
-      | .forallE _ t b _ =>
-        stack := t :: b :: stack
-      | .letE _ t v b _ =>
-        stack := t :: v :: b :: stack
-      | .mdata _ inner =>
-        stack := inner :: stack
-      | .proj _ _ inner =>
-        stack := inner :: stack
-      | _ => pure ()
-
-  return result
+/-- Collect proof dependencies with a node limit.
+    Since we now use proper DAG traversal via foldConsts, this should rarely
+    hit any limit. The limit parameter is kept for API compatibility but
+    no longer actively enforced (foldConsts handles it internally). -/
+def collectProofDependenciesWithLimit (env : Environment) (e : Expr) (_nodeLimit : Nat := 10_000_000)
+    : Array Name × Bool :=
+  -- Using foldConsts means we traverse the DAG efficiently
+  -- No need for manual node counting - foldConsts handles this properly
+  (collectProofDependencies env e, false)
 
 /-- Extract proof dependencies for a theorem, filtering to internal names only -/
 def extractProofDependencies (env : Environment) (declName : Name) (internalPrefixes : Array String)

@@ -97,11 +97,12 @@ def classifyAnnotatedDeclarations (env : Environment) (modName : Name) : MetaM C
 /-- Classify declarations based on the selected mode -/
 def classifyWithMode (env : Environment) (modName : Name) (mode : ClassificationMode)
     (skipProofDeps : Bool := false) (proofDepWorkers : Nat := 0)
-    (overallStartTime : Nat := 0) : MetaM ClassificationResult := do
+    (overallStartTime : Nat := 0) (proofDepBlacklist : Array String := #[])
+    (slowThresholdSecs : Nat := 30) : MetaM ClassificationResult := do
   match mode with
   | .auto =>
     -- Use automatic heuristic-based classification
-    classifyAllDeclarations env modName skipProofDeps proofDepWorkers overallStartTime
+    classifyAllDeclarations env modName skipProofDeps proofDepWorkers overallStartTime proofDepBlacklist slowThresholdSecs
   | .annotated =>
     -- Only collect declarations with explicit annotations
     classifyAnnotatedDeclarations env modName
@@ -174,7 +175,7 @@ def loadAndAnalyzeWithMode (cfg : UnifiedConfig) (modules : Array Name)
         maxHeartbeats := 0  -- Unlimited heartbeats for classification
       }
       let coreState : Core.State := { env }
-      let (result, _) ← (classifyWithMode env modName mode cfg.skipProofDeps cfg.proofDepWorkers pipelineStart).run' {} |>.toIO coreCtx coreState
+      let (result, _) ← (classifyWithMode env modName mode cfg.skipProofDeps cfg.proofDepWorkers pipelineStart cfg.proofDepBlacklist cfg.slowThresholdSecs).run' {} |>.toIO coreCtx coreState
       -- Convert to array first, then use foldl (tail-recursive) to avoid stack overflow
       let entriesArray := result.entries.foldl (init := #[]) fun acc name apiMeta => acc.push (name, apiMeta)
       allEntries := entriesArray.foldl (init := allEntries) fun acc (name, apiMeta) =>
@@ -285,9 +286,13 @@ def runUnifiedCmd (args : Cli.Parsed) : IO UInt32 := do
     skipDocGen := args.hasFlag "skip-docgen"
     proofDepWorkers := args.flag? "proof-dep-workers" |>.map (·.as! Nat) |>.getD 0
     skipProofDeps := args.hasFlag "skip-proof-deps"
+    proofDepBlacklist := args.flag? "proof-dep-blacklist" |>.map (·.as! String)
+      |>.map (fun s => s.splitOn "," |>.map (·.trimCompat) |>.filter (·.length > 0) |>.toArray)
+      |>.getD #[]
     loadClassificationCache := args.flag? "load-classification" |>.map (·.as! String)
     saveClassificationCache := args.flag? "save-classification" |>.map (·.as! String)
     htmlWorkers := args.flag? "html-workers" |>.map (·.as! Nat) |>.getD 0
+    slowThresholdSecs := args.flag? "slow-threshold" |>.map (·.as! Nat) |>.getD 30
   }
 
   IO.println s!"Classification mode: {repr mode}"
@@ -434,9 +439,11 @@ def unifiedCmd := `[Cli|
     "skip-docgen";           "Skip doc-gen4 generation (use existing api-temp output)"
     "skip-proof-deps";       "Skip proof dependency extraction (faster, but no dependsOn data)"
     "proof-dep-workers" : Nat; "Number of parallel workers for proof dep extraction (default: 0 = sequential)"
+    "proof-dep-blacklist" : String; "Comma-separated list of theorem names to skip during proof dep extraction"
     "load-classification" : String; "Load classification from cache file (skip classification step)"
     "save-classification" : String; "Save classification to cache file (for future runs)"
     "html-workers" : Nat;    "Number of parallel workers for HTML file writing (default: 0 = sequential)"
+    "slow-threshold" : Nat;  "Seconds before warning about slow theorem proof dep extraction (default: 30)"
     auto;                    "Use automatic heuristic-based classification (default)"
     annotated;               "Only classify declarations with explicit @[api_*] annotations"
 

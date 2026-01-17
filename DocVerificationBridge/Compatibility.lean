@@ -24,6 +24,11 @@ by using character-level operations.
 @[inline] private def isAsciiWhitespace (c : Char) : Bool :=
   c == ' ' || c == '\t' || c == '\n' || c == '\r'
 
+/-- Convert a list of characters to a String.
+    Compatibility helper for Lean < 4.26.0 which doesn't have String.ofList. -/
+@[inline] private def listToString (chars : List Char) : String :=
+  chars.foldl (init := "") fun acc c => acc.push c
+
 /-- Trim ASCII whitespace from both ends of a string.
     Works across Lean 4.24.0 - 4.27.0+ with consistent String return type. -/
 def String.trimCompat (s : String) : String :=
@@ -31,17 +36,17 @@ def String.trimCompat (s : String) : String :=
   let chars := s.toList
   let trimLeft := chars.dropWhile isAsciiWhitespace
   let trimBoth := trimLeft.reverse.dropWhile isAsciiWhitespace |>.reverse
-  String.ofList trimBoth
+  listToString trimBoth
 
 /-- Drop n characters from the beginning of a string.
     Works across Lean 4.24.0 - 4.27.0+ with consistent String return type. -/
 def String.dropCompat (s : String) (n : Nat) : String :=
-  String.ofList (s.toList.drop n)
+  listToString (s.toList.drop n)
 
 /-- Take n characters from the beginning of a string.
     Works across Lean 4.24.0 - 4.27.0+ with consistent String return type. -/
 def String.takeCompat (s : String) (n : Nat) : String :=
-  String.ofList (s.toList.take n)
+  listToString (s.toList.take n)
 
 /-- Split a string on a separator, returning a list of Strings.
     Works across Lean 4.24.0 - 4.27.0+ with consistent String return type. -/
@@ -61,12 +66,12 @@ where
   /-- Main splitting loop -/
   go (remaining : List Char) (sepChars : List Char) (current : List Char) (acc : List String) : List String :=
     match remaining with
-    | [] => acc ++ [String.ofList current.reverse]
+    | [] => acc ++ [listToString current.reverse]
     | c :: rest =>
       -- Check if remaining starts with separator
       if startsWith remaining sepChars then
         -- Found separator: add current segment, skip separator chars
-        let newAcc := acc ++ [String.ofList current.reverse]
+        let newAcc := acc ++ [listToString current.reverse]
         go (remaining.drop sepChars.length) sepChars [] newAcc
       else
         -- No match: add char to current segment
@@ -76,19 +81,19 @@ where
     Works across Lean 4.24.0 - 4.27.0+ with consistent String return type. -/
 def String.dropRightCompat (s : String) (n : Nat) : String :=
   let chars := s.toList
-  String.ofList (chars.take (chars.length - n))
+  listToString (chars.take (chars.length - n))
 
 /-- Take characters from the end of a string.
     Works across Lean 4.24.0 - 4.27.0+ with consistent String return type. -/
 def String.takeRightCompat (s : String) (n : Nat) : String :=
   let chars := s.toList
-  String.ofList (chars.drop (chars.length - n))
+  listToString (chars.drop (chars.length - n))
 
 /-- Trim whitespace from the left side of a string.
     Compatible across Lean versions. -/
 def String.trimLeftCompat (s : String) : String :=
   let chars := s.toList.dropWhile fun c => c.isWhitespace
-  String.ofList chars
+  listToString chars
 
 /-- Check if string starts with prefix (returns Bool, not dependent on Slice).
     This is a compatibility helper that explicitly returns Bool. -/
