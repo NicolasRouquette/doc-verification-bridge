@@ -106,7 +106,7 @@ path = "../"
 
 [[require]]
 name = "doc-verification-bridge"
-git = "https://github.com/YOUR_ORG/doc-verification-bridge"
+git = "https://github.com/NicolasRouquette/doc-verification-bridge"
 rev = "main"
 ```
 
@@ -157,7 +157,7 @@ path = "../"
 
 [[require]]
 name = "doc-verification-bridge"
-git = "https://github.com/YOUR_ORG/doc-verification-bridge"
+git = "https://github.com/NicolasRouquette/doc-verification-bridge"
 rev = "main"
 EOF
 
