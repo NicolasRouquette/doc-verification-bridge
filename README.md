@@ -29,7 +29,7 @@ Add to your `lakefile.lean`:
 
 ```lean
 require «doc-verification-bridge» from git
-  "https://github.com/YOUR_ORG/doc-verification-bridge" @ "main"
+  "https://github.com/NicolasRouquette/doc-verification-bridge" @ "main"
 ```
 
 ---
