@@ -541,8 +541,3 @@ python3 -m http.server -d site 8000
 
 Apache 2.0
 
----
-
-## TODO
-
-- [ ] **Compute `usesAxioms` automatically**: Currently `APIMeta.usesAxioms` defaults to `false`. Enhance the attribute handlers or add post-processing to analyze axiom dependencies in proofs and set this field accurately. This would enable the static HTML generator to show which theorems rely on non-standard axioms.
