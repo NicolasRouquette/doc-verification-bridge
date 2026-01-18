@@ -4,6 +4,8 @@
 
 A doc-gen4 plugin that automatically classifies theorems by their role in bridging mathematical specifications and computational implementations.
 
+[NFM 2026 Paper Submission](./paper/doc_verification_bridge_NFM2026.pdf)
+
 ## Overview
 
 When writing verified software, proofs exist at different conceptual levels:
