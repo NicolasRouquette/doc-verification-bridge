@@ -527,14 +527,3 @@ The environment extraction workaround suggests several potential improvements to
 
 These would benefit any tooling that needs to orchestrate Lake-built executables while preserving real-time output streaming.
 
-## For the Paper
-
-After running experiments, `results.json` contains all statistics in machine-readable format for generating tables and figures.
-
-Key metrics:
-- `totalDefinitions`: Sum of all definition categories
-- `totalTheorems`: Sum of all theorem kinds
-- `bridgingTheorems`: The key metric for spec-impl correspondence
-- `defsWithSorry` / `theoremsWithSorry`: Proof completeness metrics
-- Per-category breakdowns for the Four-Category Ontology analysis
-
