@@ -261,7 +261,7 @@ def generateDocGen4ToTemp (cfg : UnifiedConfig) (result : UnifiedResult) : IO Sy
 
   -- Create verification decorator for bidirectional navigation
   -- Links from API pages to verification coverage pages
-  let verificationDecorator := makeVerificationDecorator result.verificationEntries "../modules"
+  let verificationDecorator := makeVerificationDecorator result.verificationEntries
 
   -- Use compatibility shim with custom linker and decorator
   discard <| htmlOutputResultsCompat baseConfig result.analyzerResult sourceUrl? customLinker? (some verificationDecorator)
@@ -354,6 +354,10 @@ def runUnifiedPipeline (cfg : UnifiedConfig) (modules : Array Name) : IO UInt32 
     let apiDestDir := siteDir / "api"
     copyDirRecursive (apiTempDir / "doc") apiDestDir
     IO.println s!"  Copied API docs to {apiDestDir}/"
+
+    -- Step 5: Create stub pages for missing dependency modules
+    -- doc-gen4 generates links to dependencies (Batteries, Init, Std, etc.) that aren't included
+    StaticHtml.createMissingDependencyStubs apiDestDir cfg.projectName
 
     IO.println ""
     IO.println "✅ Unified documentation generated successfully!"

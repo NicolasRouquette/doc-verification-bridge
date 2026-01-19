@@ -1,0 +1,63 @@
+name: Update Documentation
+
+on:
+  schedule:
+    # Run weekly on Sunday at 2 AM UTC
+    - cron: '0 2 * * 0'
+  workflow_dispatch:  # Allow manual trigger
+    inputs:
+      projects:
+        description: 'Projects to update (space-separated, empty for all)'
+        required: false
+        default: ''
+      mode:
+        description: 'Run mode'
+        required: false
+        default: '--update'
+        type: choice
+        options:
+          - '--update'
+          - '--html-only'
+          - '--reanalyze'
+          - '--reclassify'
+
+jobs:
+  update-docs:
+    # Use self-hosted runner on your workstation
+    # Falls back to ubuntu-latest if self-hosted unavailable
+    runs-on: [self-hosted, linux, x64]
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+      
+      - name: Ensure Elan is installed
+        run: |
+          if ! command -v elan &> /dev/null; then
+            curl https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh -sSf | sh -s -- -y --default-toolchain none
+          fi
+          echo "$HOME/.elan/bin" >> $GITHUB_PATH
+      
+      - name: Build doc-verification-bridge
+        run: lake build experiments
+      
+      - name: Run update pipeline
+        run: |
+          cd experiments
+          PROJECTS="${{ github.event.inputs.projects }}"
+          MODE="${{ github.event.inputs.mode || '--update' }}"
+          if [ -n "$PROJECTS" ]; then
+            ./run.sh run $MODE --projects $PROJECTS
+          else
+            ./run.sh run $MODE
+          fi
+        timeout-minutes: 1440  # 24 hours max for self-hosted
+      
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./experiments/sites
+          publish_branch: gh-pages

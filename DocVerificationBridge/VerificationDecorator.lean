@@ -69,11 +69,20 @@ def badgeCssClass : VerificationBadge → String
 
 /-- Generate URL from module name to verification page.
     The module name uses underscores to match the StaticHtml file naming convention:
-    e.g., Mathlib.Algebra.AddTorsor.Basic → modules/Mathlib_Algebra_AddTorsor_Basic.html -/
-def moduleToVerificationUrl (moduleName : Name) (declName : Name) (baseUrl : String) : String :=
+    e.g., Mathlib.Algebra.AddTorsor.Basic → modules/Mathlib_Algebra_AddTorsor_Basic.html
+
+    The depth parameter indicates how many directory levels deep the current API page is.
+    For a module like Mathlib.MeasureTheory.Integral.RieszMarkovKakutani.Basic,
+    the API page is at api/Mathlib/MeasureTheory/Integral/RieszMarkovKakutani/Basic.html
+    which is 5 levels deep inside api/, so we need "../../../../../modules/..." to get back. -/
+def moduleToVerificationUrl (moduleName : Name) (declName : Name) : String :=
   -- Convert module name to safe filename (using underscores, matching Report.filePathToSafeFilename)
   let safeModuleName := moduleName.toString.replace "." "_"
-  s!"{baseUrl}/{safeModuleName}.html#{declName}"
+  -- Compute depth: number of components in the module name (determines nesting in api/)
+  let depth := moduleName.components.length
+  -- Build relative path: go up 'depth' levels from the API page to reach api/, then one more to site root
+  let upPath := String.intercalate "/" (List.replicate depth "..")
+  s!"{upPath}/modules/{safeModuleName}.html#{declName}"
 
 /-- Create a declaration decorator that adds verification badges and links.
 
@@ -83,12 +92,9 @@ def moduleToVerificationUrl (moduleName : Name) (declName : Name) (baseUrl : Str
 
     Parameters:
     - `verificationIndex`: Map from declaration names to their verification metadata
-    - `verificationBaseUrl`: Base URL for verification pages (relative to API pages)
-      Default "../modules" works when API is at `site/api/` and verification at `site/modules/`
 -/
 def makeVerificationDecorator
     (verificationIndex : NameMap APIMeta)
-    (verificationBaseUrl : String := "../modules")
     : DeclarationDecoratorFn := fun moduleName declName _kind =>
   match verificationIndex.find? declName with
   | none => #[]  -- No verification info for this declaration
@@ -96,7 +102,7 @@ def makeVerificationDecorator
     let (badge, symbol, tooltip) := getBadgeInfo apiMeta
     if symbol.isEmpty then #[]
     else
-      let url := moduleToVerificationUrl moduleName declName verificationBaseUrl
+      let url := moduleToVerificationUrl moduleName declName
       let cssClass := badgeCssClass badge
       #[
         Html.element "div" false #[("class", "verification_link")] #[

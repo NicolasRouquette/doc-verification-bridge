@@ -109,3 +109,19 @@ def String.trimLeftCompat (s : String) : String :=
     This is a compatibility helper that explicitly returns Bool. -/
 @[inline] def String.containsCompat (s : String) (sub : String) : Bool :=
   (s.splitOnCompat sub).length > 1
+
+/-- Find the first occurrence of a substring in a string.
+    Returns the character index (not byte position) if found, or none.
+    This is a compatibility helper for cross-version support. -/
+def String.findOccurrenceCompat (s : String) (sub : String) : Option Nat :=
+  if sub.isEmpty then some 0
+  else
+    let chars := s.toList
+    let subChars := sub.toList
+    let rec go (remaining : List Char) (idx : Nat) : Option Nat :=
+      match remaining with
+      | [] => none
+      | _ :: rest =>
+        if remaining.take subChars.length == subChars then some idx
+        else go rest (idx + 1)
+    go chars 0

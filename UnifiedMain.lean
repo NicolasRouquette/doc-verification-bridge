@@ -26,7 +26,7 @@ This CLI provides commands to:
 The unified mode shares module loading for efficiency.
 -/
 
-open Lean System Cli DocVerificationBridge DocVerificationBridge.Unified
+open Lean System Cli DocVerificationBridge DocVerificationBridge.Unified DocVerificationBridge.StaticHtml
 
 /-!
 ## Timing Helpers
@@ -234,6 +234,12 @@ def runUnifiedPipelineWithMode (cfg : UnifiedConfig) (modules : Array Name)
     let apiDestDir := siteDir / "api"
     copyDirRecursive (apiTempDir / "doc") apiDestDir
     let _ ← printTimedStep s!"  Copied API docs to {apiDestDir}/" pipelineStart lastStep
+
+    -- Step 5: Create stub pages for missing dependency modules
+    -- doc-gen4 generates links to dependencies (Batteries, Init, Std, etc.) that aren't included
+    -- Create in both locations for consistency
+    StaticHtml.createMissingDependencyStubs apiDestDir cfg.projectName
+    StaticHtml.createMissingDependencyStubs (apiTempDir / "doc") cfg.projectName
 
     -- Final timing
     let finalTime ← IO.monoMsNow

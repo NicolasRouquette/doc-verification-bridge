@@ -87,7 +87,7 @@ def processCodeMarkdown (input : String) : String :=
         else goCode rest true (acc ++ p)
     goCode parts false ""
 
-/-- Process markdown links: [text](url){#anchor} → <a href="url" id="anchor">text</a> -/
+/-- Process markdown links: [text](url "title"){#anchor} → <a href="url" title="title" id="anchor">text</a> -/
 partial def processLinksMarkdown (input : String) : String :=
   let rec goLinks (remaining : String) (acc : String) : String :=
     match remaining.splitOnCompat "[" with
@@ -100,8 +100,21 @@ partial def processLinksMarkdown (input : String) : String :=
         let afterTextStr := String.intercalate "](" afterText
         match afterTextStr.splitOnCompat ")" with
         | [noClose] => acc ++ before ++ "[" ++ textPart ++ "](" ++ noClose
-        | url :: restParts =>
+        | urlPart :: restParts =>
           let rest := String.intercalate ")" restParts
+          -- Parse URL and optional title: url "title" or just url
+          let (url, titleAttr) :=
+            -- Check for title in format: url "title" or url 'title'
+            if let some idx := urlPart.findOccurrenceCompat " \"" then
+              let urlOnly := urlPart.takeCompat idx
+              let titlePart := urlPart.dropCompat (idx + 2)
+              -- Remove trailing quote
+              let title := if titlePart.endsWith "\"" then
+                titlePart.dropRightCompat 1
+              else titlePart
+              (urlOnly, s!" title=\"{title}\"")
+            else
+              (urlPart, "")
           -- Check if there's an anchor ID AFTER the link: {#anchor-id}
           let (anchorId, restAfterAnchor) := if rest.trimLeftCompat.startsWithCompat "{#" then
             -- Find the closing }
@@ -117,7 +130,7 @@ partial def processLinksMarkdown (input : String) : String :=
           let anchor := match anchorId with
             | some id => s!" id=\"{id}\""
             | none => ""
-          let link := s!"<a href=\"{url}\"{anchor}>{textPart}</a>"
+          let link := s!"<a href=\"{url}\"{titleAttr}{anchor}>{textPart}</a>"
           goLinks restAfterAnchor (acc ++ before ++ link)
         | [] => acc ++ before
       | [] => acc ++ before
@@ -596,7 +609,7 @@ function search(query) {
         <span class=\"badge badge-${d.status}\">${d.status}</span>
       </div>
       <div class=\"decl-body\">
-        <a href=\"modules/${d.module}.html#${d.name}\">View in ${d.module}</a>
+        <a href=\"modules/${d.module.replace(/\\./g, '_')}.html#${d.name}\">View in ${d.module}</a>
       </div>
     </div>
   `).join('');
@@ -627,9 +640,13 @@ document.querySelectorAll('.nav-toggle').forEach(toggle => {
 
 /-! ## HTML Page Templates -/
 
-/-- Generate the base HTML structure for a page -/
+/-- Generate the base HTML structure for a page.
+    `depthToRoot` indicates how many directory levels deep we are from the site root.
+    0 = at root (e.g., index.html), 1 = one level deep (e.g., modules/index.html) -/
 def baseHtml (title : String) (content : Html) (cfg : StaticHtmlConfig)
-    (breadcrumbs : List (String × String) := []) : BaseHtmlM Html := pure <|
+    (breadcrumbs : List (String × String) := []) (depthToRoot : Nat := 0) : BaseHtmlM Html := pure <|
+  let pathPrefix := String.intercalate "/" (List.replicate depthToRoot "..")
+  let slashPrefix := if pathPrefix.isEmpty then "" else pathPrefix ++ "/"
   let breadcrumbItems : Array Html := breadcrumbs.toArray.map fun (name, url) =>
     if url.isEmpty then Html.text name
     else Html.element "span" true #[] #[
@@ -645,17 +662,17 @@ def baseHtml (title : String) (content : Html) (cfg : StaticHtmlConfig)
       Html.element "meta" true #[("charset", "UTF-8")] #[],
       Html.element "meta" true #[("name", "viewport"), ("content", "width=device-width, initial-scale=1.0")] #[],
       Html.element "title" true #[] #[Html.text s!"{title} - {cfg.projectName} Verification"],
-      Html.element "link" true #[("rel", "stylesheet"), ("href", "style.css")] #[],
-      Html.element "script" true #[("defer", "true"), ("src", "verification.js")] #[]
+      Html.element "link" true #[("rel", "stylesheet"), ("href", s!"{slashPrefix}style.css")] #[],
+      Html.element "script" true #[("defer", "true"), ("src", s!"{slashPrefix}verification.js")] #[]
     ],
     Html.element "body" false #[] #[
       Html.element "header" false #[] <| #[
         Html.element "h1" true #[] #[Html.text s!"{cfg.projectName} Verification Report"],
         Html.element "nav" false #[] #[
-          Html.element "a" true #[("href", "index.html")] #[Html.text "Overview"],
-          Html.element "a" true #[("href", "modules/index.html")] #[Html.text "Modules"],
-          Html.element "a" true #[("href", "search.html")] #[Html.text "Search"],
-          Html.element "a" true #[("href", s!"{cfg.apiBaseUrl}/index.html")] #[Html.text "API Docs"]
+          Html.element "a" true #[("href", s!"{slashPrefix}index.html")] #[Html.text "Overview"],
+          Html.element "a" true #[("href", s!"{slashPrefix}modules/index.html")] #[Html.text "Modules"],
+          Html.element "a" true #[("href", s!"{slashPrefix}search.html")] #[Html.text "Search"],
+          Html.element "a" true #[("href", s!"{slashPrefix}{cfg.apiBaseUrl}/index.html")] #[Html.text "API Docs"]
         ]
       ] ++ breadcrumbNav,
       Html.element "main" false #[] #[content]
@@ -1008,7 +1025,8 @@ def generateModuleIndexPage (moduleReports : Array (String × String × ModuleSt
     ]
   ]
 
-  baseHtml "Modules" content cfg [("Verification", "index.html")]
+  -- depthToRoot = 1 because modules/index.html is one level deep
+  baseHtml "Modules" content cfg [("Verification", "../index.html")] 1
 
 /-- Declaration entry for search index -/
 structure DeclIndexEntry where
@@ -1167,5 +1185,51 @@ def generateStaticSite (cfg : StaticHtmlConfig)
   let endTime ← IO.monoMsNow
   let totalDuration := formatDurationMs (endTime - startTime)
   IO.println s!"  Static site generated at {cfg.outputDir}/ ({totalDuration})"
+
+/-! ## Dependency Stub Generation
+
+doc-gen4 generates links to external dependencies (Batteries, Init, Std, etc.) that aren't
+included in the project's documentation. We create stub pages for these to avoid broken links.
+-/
+
+/-- Common Lean dependencies that doc-gen4 may link to but aren't included in project docs -/
+private def commonDependencies : List String := ["Batteries", "Init", "Std", "Lean", "Lake"]
+
+/-- CSS for dependency stub pages (separate to avoid string interpolation issues) -/
+private def dependencyStubCss : String :=
+  "body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; " ++
+  "max-width: 600px; margin: 100px auto; padding: 20px; text-align: center; } " ++
+  "h1 { color: #333; } " ++
+  "p { color: #666; line-height: 1.6; } " ++
+  "a { color: #0366d6; } " ++
+  ".back { margin-top: 30px; }"
+
+/-- Generate a stub HTML page for a missing dependency module -/
+private def generateDependencyStub (name : String) (projectName : String) : String :=
+  "<!DOCTYPE html>\n<html>\n<head>\n" ++
+  "  <meta charset=\"UTF-8\">\n" ++
+  s!"  <title>{name} - External Dependency</title>\n" ++
+  s!"  <style>{dependencyStubCss}</style>\n" ++
+  "</head>\n<body>\n" ++
+  s!"  <h1>{name}</h1>\n" ++
+  s!"  <p><strong>{name}</strong> is a dependency of {projectName}, but its documentation is not included in this site.</p>\n" ++
+  "  <p>You can find the official documentation at:</p>\n" ++
+  "  <ul style=\"list-style: none; padding: 0;\">\n" ++
+  s!"    <li><a href=\"https://leanprover-community.github.io/mathlib4_docs/{name}.html\">Mathlib4 Docs</a> (if part of Mathlib)</li>\n" ++
+  s!"    <li><a href=\"https://leanprover-community.github.io/batteries/docs/{name}.html\">Batteries Docs</a> (if part of Batteries)</li>\n" ++
+  "  </ul>\n" ++
+  s!"  <p class=\"back\"><a href=\"index.html\">← Back to {projectName} documentation</a></p>\n" ++
+  "</body>\n</html>"
+
+/-- Create stub HTML pages for missing dependency modules that doc-gen4 links to -/
+def createMissingDependencyStubs (apiDir : System.FilePath) (projectName : String) : IO Unit := do
+  let mut created := #[]
+  for dep in commonDependencies do
+    let stubPath := apiDir / s!"{dep}.html"
+    if !(← stubPath.pathExists) then
+      IO.FS.writeFile stubPath (generateDependencyStub dep projectName)
+      created := created.push dep
+  if created.size > 0 then
+    IO.println s!"  Created stub pages for missing dependencies: {created.toList}"
 
 end DocVerificationBridge.StaticHtml
