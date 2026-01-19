@@ -32,6 +32,9 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
+          # Don't run git clean - experiments/repos and experiments/sites are large
+          # and should persist across runs for incremental updates
+          clean: false
       
       - name: Ensure Elan is installed
         run: |
