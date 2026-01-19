@@ -74,13 +74,13 @@ def badgeCssClass : VerificationBadge → String
     The depth parameter indicates how many directory levels deep the current API page is.
     For a module like Mathlib.MeasureTheory.Integral.RieszMarkovKakutani.Basic,
     the API page is at api/Mathlib/MeasureTheory/Integral/RieszMarkovKakutani/Basic.html
-    which is 5 levels deep inside api/, so we need "../../../../../modules/..." to get back. -/
+    which is 6 levels deep (api/ + 5 subdirectories), so we need "../../../../../../modules/..." -/
 def moduleToVerificationUrl (moduleName : Name) (declName : Name) : String :=
   -- Convert module name to safe filename (using underscores, matching Report.filePathToSafeFilename)
   let safeModuleName := moduleName.toString.replace "." "_"
-  -- Compute depth: number of components in the module name (determines nesting in api/)
-  let depth := moduleName.components.length
-  -- Build relative path: go up 'depth' levels from the API page to reach api/, then one more to site root
+  -- Compute depth: number of components in module name + 1 for the api/ directory
+  let depth := moduleName.components.length + 1
+  -- Build relative path: go up 'depth' levels from the API page to reach site root
   let upPath := String.intercalate "/" (List.replicate depth "..")
   s!"{upPath}/modules/{safeModuleName}.html#{declName}"
 
