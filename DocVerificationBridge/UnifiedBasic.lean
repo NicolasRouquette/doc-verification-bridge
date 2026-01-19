@@ -74,6 +74,12 @@ structure UnifiedConfig where
   proofDepBlacklist : Array String := #[]
   /-- Threshold in seconds for slow theorem detection (default: 30) -/
   slowThresholdSecs : Nat := 30
+  /-- Optional project description (shown on index page) -/
+  projectDescription : Option String := none
+  /-- Top-level modules being analyzed (shown on index page) -/
+  projectModules : Array String := #[]
+  /-- Additional config settings to display (key-value pairs) -/
+  projectSettings : Array (String × String) := #[]
 deriving Repr, Inhabited
 
 /-- Result of the unified pipeline -/
@@ -262,6 +268,7 @@ def generateStaticHtmlSite (cfg : UnifiedConfig) (result : UnifiedResult) (modul
   (← IO.getStdout).flush
 
   -- Use StaticHtml generator
+  -- dataFilesDir is the buildDir (parent of siteDir) where classification-cache.json etc. are stored
   let staticCfg : StaticHtml.StaticHtmlConfig := {
     outputDir := siteDir
     projectName := cfg.projectName
@@ -269,6 +276,10 @@ def generateStaticHtmlSite (cfg : UnifiedConfig) (result : UnifiedResult) (modul
     branch := cfg.branch
     apiBaseUrl := "api"
     workers := cfg.htmlWorkers
+    dataFilesDir := some cfg.buildDir
+    projectDescription := cfg.projectDescription
+    projectModules := cfg.projectModules
+    projectSettings := cfg.projectSettings
   }
 
   StaticHtml.generateStaticSite staticCfg result.verificationEntries moduleReports

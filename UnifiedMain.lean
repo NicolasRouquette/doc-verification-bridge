@@ -280,6 +280,14 @@ def runUnifiedCmd (args : Cli.Parsed) : IO UInt32 := do
     if args.hasFlag "annotated" then .annotated
     else .auto  -- default
 
+  -- Parse project settings from CLI (comma-separated key=value pairs)
+  let projectSettingsStr := args.flag? "project-settings" |>.map (·.as! String) |>.getD ""
+  let projectSettings := if projectSettingsStr.isEmpty then #[]
+    else projectSettingsStr.splitOn "," |>.filterMap (fun kv =>
+      match kv.splitOn "=" with
+      | [k, v] => some (k.trimCompat, v.trimCompat)
+      | _ => none) |>.toArray
+
   let cfg : UnifiedConfig := {
     buildDir := args.flag? "output" |>.map (·.as! String) |>.getD ".lake/build/doc"
     repoUrl := args.flag? "repo" |>.map (·.as! String) |>.getD ""
@@ -299,6 +307,11 @@ def runUnifiedCmd (args : Cli.Parsed) : IO UInt32 := do
     saveClassificationCache := args.flag? "save-classification" |>.map (·.as! String)
     htmlWorkers := args.flag? "html-workers" |>.map (·.as! Nat) |>.getD 0
     slowThresholdSecs := args.flag? "slow-threshold" |>.map (·.as! Nat) |>.getD 30
+    projectDescription := args.flag? "project-description" |>.map (·.as! String)
+    projectModules := args.flag? "project-modules" |>.map (·.as! String)
+      |>.map (fun s => s.splitOn "," |>.map (·.trimCompat) |>.filter (·.length > 0) |>.toArray)
+      |>.getD #[]
+    projectSettings := projectSettings
   }
 
   IO.println s!"Classification mode: {repr mode}"
@@ -450,6 +463,9 @@ def unifiedCmd := `[Cli|
     "save-classification" : String; "Save classification to cache file (for future runs)"
     "html-workers" : Nat;    "Number of parallel workers for HTML file writing (default: 0 = sequential)"
     "slow-threshold" : Nat;  "Seconds before warning about slow theorem proof dep extraction (default: 30)"
+    "project-description" : String; "Project description (shown on index page)"
+    "project-modules" : String;     "Comma-separated list of top-level modules (shown on index page)"
+    "project-settings" : String;    "Comma-separated key=value config settings (shown on index page)"
     auto;                    "Use automatic heuristic-based classification (default)"
     annotated;               "Only classify declarations with explicit @[api_*] annotations"
 

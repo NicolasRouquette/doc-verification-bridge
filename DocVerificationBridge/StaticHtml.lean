@@ -54,6 +54,15 @@ structure StaticHtmlConfig where
   apiBaseUrl : String := "api"
   /-- Number of parallel workers for HTML generation -/
   workers : Nat := 20
+  /-- Optional directory containing data files (classification-cache.json, etc.)
+      If set, download links will be shown on the index page -/
+  dataFilesDir : Option System.FilePath := none
+  /-- Optional project description (from config.toml) -/
+  projectDescription : Option String := none
+  /-- Optional list of top-level modules being analyzed -/
+  projectModules : Array String := #[]
+  /-- Optional config settings to display (key-value pairs) -/
+  projectSettings : Array (String × String) := #[]
   deriving Repr, Inhabited
 
 /-! ## HTML Helpers -/
@@ -804,8 +813,127 @@ def computeStats (entries : NameMap APIMeta) : VerificationStats := Id.run do
 
   { stats with totalModules := modules.size }
 
-/-- Generate the main index page -/
-def generateIndexPage (stats : VerificationStats) (cfg : StaticHtmlConfig) : BaseHtmlM Html := do
+/-- Format a file size in human-readable format (KB, MB, GB) -/
+def formatFileSize (bytes : UInt64) : String :=
+  if bytes < 1024 then
+    s!"{bytes} B"
+  else if bytes < 1024 * 1024 then
+    let kb := bytes.toNat / 1024
+    s!"{kb} KB"
+  else if bytes < 1024 * 1024 * 1024 then
+    let mb := bytes.toNat / (1024 * 1024)
+    let kb := (bytes.toNat % (1024 * 1024)) / 1024
+    if kb >= 100 then s!"{mb}.{kb / 100} MB" else s!"{mb} MB"
+  else
+    let gb := bytes.toNat / (1024 * 1024 * 1024)
+    s!"{gb} GB"
+
+/-- Get file size if file exists -/
+def getFileSizeOpt (path : System.FilePath) : IO (Option UInt64) := do
+  if ← path.pathExists then
+    let fileMeta ← path.metadata
+    return some fileMeta.byteSize
+  else
+    return none
+
+/-- Generate downloads section for index page (IO because it needs file system access) -/
+def generateDownloadsSectionIO (dataDir : System.FilePath) : IO Html := do
+  -- Check which files exist and get their sizes
+  let jsonPath := dataDir / "classification-cache.json"
+  let jsonlPath := dataDir / "classification-cache.jsonl"
+  let yamlPath := dataDir / "commands.yaml"
+
+  let jsonSize ← getFileSizeOpt jsonPath
+  let jsonlSize ← getFileSizeOpt jsonlPath
+  let yamlSize ← getFileSizeOpt yamlPath
+
+  -- Build list of download items
+  let mut items : Array Html := #[]
+
+  if let some size := jsonSize then
+    items := items.push <| Html.element "li" false #[] #[
+      Html.element "a" true #[("href", "../classification-cache.json"), ("download", "")] #[
+        Html.text "📄 classification-cache.json"
+      ],
+      Html.text s!" ({formatFileSize size}) — Classification metadata"
+    ]
+
+  if let some size := jsonlSize then
+    items := items.push <| Html.element "li" false #[] #[
+      Html.element "a" true #[("href", "../classification-cache.jsonl"), ("download", "")] #[
+        Html.text "📄 classification-cache.jsonl"
+      ],
+      Html.text s!" ({formatFileSize size}) — Full classification data",
+      Html.element "br" true #[] #[],
+      Html.element "small" true #[("style", "color: #888;")] #[
+        Html.text "⚠️ Note: This is a Git LFS file; download may be large"
+      ]
+    ]
+
+  if let some size := yamlSize then
+    items := items.push <| Html.element "li" false #[] #[
+      Html.element "a" true #[("href", "../commands.yaml"), ("download", "")] #[
+        Html.text "📋 commands.yaml"
+      ],
+      Html.text s!" ({formatFileSize size}) — Build commands log"
+    ]
+
+  if items.isEmpty then
+    return Html.text ""
+  else
+    return Html.element "section" false #[("class", "downloads")] #[
+      Html.element "h2" true #[] #[Html.text "Downloads"],
+      Html.element "p" true #[] #[Html.text "Data files for this project:"],
+      Html.element "ul" false #[] items
+    ]
+
+/-- Generate project info section showing config.toml settings -/
+def generateProjectInfoSection (cfg : StaticHtmlConfig) : Html :=
+  -- Only show if we have project info
+  if cfg.projectDescription.isNone && cfg.projectModules.isEmpty && cfg.projectSettings.isEmpty then
+    Html.text ""
+  else
+    let descHtml := match cfg.projectDescription with
+      | some desc => Html.element "p" true #[] #[Html.text desc]
+      | none => Html.text ""
+
+    let modulesHtml := if cfg.projectModules.isEmpty then Html.text ""
+      else Html.element "p" true #[] #[
+        Html.element "strong" true #[] #[Html.text "Modules: "],
+        Html.text (String.intercalate ", " cfg.projectModules.toList)
+      ]
+
+    let repoHtml := Html.element "p" true #[] #[
+      Html.element "strong" true #[] #[Html.text "Repository: "],
+      Html.element "a" true #[("href", cfg.repoUrl), ("target", "_blank")] #[Html.text cfg.repoUrl]
+    ]
+
+    let settingsHtml := if cfg.projectSettings.isEmpty then Html.text ""
+      else
+        let settingItems := cfg.projectSettings.map fun (k, v) =>
+          Html.element "li" false #[] #[
+            Html.element "code" true #[] #[Html.text k],
+            Html.text ": ",
+            Html.element "code" true #[] #[Html.text v]
+          ]
+        Html.element "details" false #[] #[
+          Html.element "summary" true #[("style", "cursor: pointer; color: #4ecdc4;")] #[
+            Html.text "Analysis settings"
+          ],
+          Html.element "ul" false #[("style", "margin-top: 10px;")] settingItems
+        ]
+
+    Html.element "section" false #[("class", "project-info")] #[
+      Html.element "h2" true #[] #[Html.text "Project Info"],
+      descHtml,
+      repoHtml,
+      modulesHtml,
+      settingsHtml
+    ]
+
+/-- Generate the main index page. The optional downloadsSection should be pre-computed via IO. -/
+def generateIndexPage (stats : VerificationStats) (cfg : StaticHtmlConfig)
+    (downloadsSection : Option Html := none) : BaseHtmlM Html := do
   let provedPct := if stats.theorems > 0
     then (stats.provedTheorems * 100) / stats.theorems
     else 0
@@ -978,7 +1106,15 @@ def generateIndexPage (stats : VerificationStats) (cfg : StaticHtmlConfig) : Bas
     ]
   ]
 
-  baseHtml "Overview" content cfg
+  -- Build full content with project info and downloads sections
+  let projectInfoHtml := generateProjectInfoSection cfg
+  let sectionsHtml := match downloadsSection with
+    | some ds => Html.element "div" false #[] #[projectInfoHtml, ds]
+    | none => projectInfoHtml
+
+  let fullContent := Html.element "div" false #[] #[content, sectionsHtml]
+
+  baseHtml "Overview" fullContent cfg
 
 /-- Generate the search page -/
 def generateSearchPage (cfg : StaticHtmlConfig) : BaseHtmlM Html := do
@@ -1136,9 +1272,14 @@ def generateStaticSite (cfg : StaticHtmlConfig)
   -- Write stats.json for programmatic access (used by experiments pipeline)
   IO.FS.writeFile (cfg.outputDir / "stats.json") (Lean.toJson stats).compress
 
+  -- Generate downloads section (needs IO for file sizes)
+  let downloadsSection ← match cfg.dataFilesDir with
+    | some dataDir => some <$> generateDownloadsSectionIO dataDir
+    | none => pure none
+
   -- Generate and write index page
   IO.println s!"  Generating index page..."
-  let indexHtml := runBaseHtmlM (generateIndexPage stats cfg) cfg.outputDir
+  let indexHtml := runBaseHtmlM (generateIndexPage stats cfg downloadsSection) cfg.outputDir
   IO.FS.writeFile (cfg.outputDir / "index.html") indexHtml.toString
 
   -- Generate search page

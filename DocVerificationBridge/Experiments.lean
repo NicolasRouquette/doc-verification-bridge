@@ -1252,6 +1252,13 @@ def generateSummaryPage (results : Array ProjectResult) (outputPath : FilePath) 
 </div>
 {incompleteSection}
 {failedSection}
+
+<div class='section'>
+<h2>📋 Configuration</h2>
+<p>View the <a href='https://github.com/NicolasRouquette/doc-verification-bridge/blob/main/experiments/config.toml' target='_blank'>config.toml</a> file used for analyzing these projects.</p>
+<p style='margin-top: 15px;'>📝 <strong>Want to add a project?</strong> <a href='https://github.com/NicolasRouquette/doc-verification-bridge/pulls' target='_blank'>Submit a PR</a> to suggest additional Lean 4 projects for analysis.</p>
+</div>
+
 <script>{js}</script>
 </body>
 </html>"
@@ -1509,6 +1516,25 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
                        "--output", outputDirAbs.toString,
                        "--repo", repo,
                        "--branch", branch] ++ modules
+  -- Add project info for the index page
+  if !project.description.isEmpty then
+    unifiedArgs := unifiedArgs ++ #["--project-description", project.description]
+  if !project.modules.isEmpty then
+    unifiedArgs := unifiedArgs ++ #["--project-modules", String.intercalate "," project.modules.toList]
+  -- Build project settings string from relevant config.toml options
+  let mut settingsKVs : Array String := #[]
+  if project.disableEquations.getD false then
+    settingsKVs := settingsKVs.push "disable_equations=true"
+  if project.skipProofDeps.getD false then
+    settingsKVs := settingsKVs.push "skip_proof_deps=true"
+  if let some workers := project.proofDepWorkers then
+    if workers > 0 then settingsKVs := settingsKVs.push s!"proof_dep_workers={workers}"
+  if let some workers := project.htmlWorkers then
+    if workers > 0 then settingsKVs := settingsKVs.push s!"html_workers={workers}"
+  if project.lakeExeCacheGet.getD false then
+    settingsKVs := settingsKVs.push "lake_exe_cache_get=true"
+  if !settingsKVs.isEmpty then
+    unifiedArgs := unifiedArgs ++ #["--project-settings", String.intercalate "," settingsKVs.toList]
   -- Add --skip-docgen flag for reclassify and htmlOnly modes (but NOT docgenOnly)
   if mode == .reclassify || mode == .htmlOnly then
     unifiedArgs := unifiedArgs ++ #["--skip-docgen"]
