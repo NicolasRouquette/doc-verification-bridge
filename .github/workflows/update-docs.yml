@@ -56,10 +56,19 @@ jobs:
         timeout-minutes: 1440  # 24 hours max for self-hosted
       
       - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./experiments/sites
-          publish_branch: pages
-          destination_dir: docs
-          force_orphan: true  # Don't clone existing branch, create fresh each time
+        env:
+          # Disable GPG signing for deployment commits (self-hosted runner may have signing configured)
+          GIT_COMMITTER_NAME: github-actions[bot]
+          GIT_COMMITTER_EMAIL: github-actions[bot]@users.noreply.github.com
+        run: |
+          # Disable commit signing for this deployment
+          git config --global commit.gpgsign false
+          
+          cd experiments/sites
+          git init
+          git checkout --orphan pages
+          git add -A
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit --no-gpg-sign -m "Deploy: ${{ github.sha }}"
+          git push --force "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:pages
