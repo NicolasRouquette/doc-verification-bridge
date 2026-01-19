@@ -22,11 +22,21 @@ read_projects_from_config() {
 mapfile -t PROJECTS < <(read_projects_from_config)
 
 # External dependency patterns to ignore (these link to docs not included in project)
+# doc-gen4 generates cross-reference links to external dependencies in navbar.html
+# and declaration pages, but we don't include those dependency docs in project sites
 IGNORE_PATTERNS=(
+    # Core Lean libraries
     'Init/.*\.html'
     'Std/.*\.html'
     'Lean/.*\.html'
     'Lake/.*\.html'
+    # Top-level stubs (we create these but nested paths still 404)
+    './Aesop\.html'
+    './Batteries\.html'
+    './LeanSearchClient\.html'
+    './Plausible\.html'
+    './Qq\.html'
+    # External library paths in navbar and cross-references
     'Batteries/.*\.html'  # For non-batteries projects
     'Mathlib/.*\.html'    # For non-mathlib projects
     'Qq/.*\.html'
@@ -42,6 +52,8 @@ IGNORE_PATTERNS=(
     'BibtexQuery/.*\.html'
     'MD4Lean/.*\.html'
     'SubVerso/.*\.html'
+    'Architect/.*\.html'  # For PrimeNumberTheoremAnd
+    './Architect\.html'
 )
 
 usage() {

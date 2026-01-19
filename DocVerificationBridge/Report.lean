@@ -158,9 +158,14 @@ def ReportConfig.folderUrl (cfg : ReportConfig) (folderPath : String) : String :
   | .github => s!"{baseUrl}/tree/{cfg.branch}/{folderPath}"
   | .gitlab => s!"{baseUrl}/-/tree/{cfg.branch}/{folderPath}"
 
+/-- Strip guillemets («») from a string - doc-gen4 removes these from filenames -/
+def stripGuillemets (s : String) : String :=
+  s.replace "«" "" |>.replace "»" ""
+
 /-- Generate a doc-gen4 documentation URL for a declaration.
     The URL format is: <baseUrl>/<module-path>.html#<declaration-name>
-    Example: ../api/Batteries/Data/List/Basic.html#List.Chain -/
+    Example: ../api/Batteries/Data/List/Basic.html#List.Chain
+    Note: doc-gen4 strips guillemets from filenames, so «Chapter1-Ex» → Chapter1-Ex -/
 def ReportConfig.docGenUrl (cfg : ReportConfig) (env : Environment) (name : Name) : Option String :=
   cfg.docGenBaseUrl.map fun baseUrl =>
     -- Get module name for this declaration
@@ -168,14 +173,15 @@ def ReportConfig.docGenUrl (cfg : ReportConfig) (env : Environment) (name : Name
       | some modIdx =>
         let modName := env.header.moduleNames[modIdx.toNat]!
         -- Convert module name to path: Batteries.Data.List.Basic → Batteries/Data/List/Basic
-        modName.components.map toString |> String.intercalate "/"
+        -- Strip guillemets since doc-gen4 removes them from filenames
+        modName.components.map (stripGuillemets ∘ toString) |> String.intercalate "/"
       | none =>
         -- Fallback: use the name's namespace path
         let rec getModuleParts : Name → List String
           | .str p s => s :: getModuleParts p
           | .num p _ => getModuleParts p
           | .anonymous => []
-        let parts := getModuleParts name |>.reverse
+        let parts := getModuleParts name |>.reverse |>.map stripGuillemets
         if parts.length >= 2 then
           String.intercalate "/" (parts.dropLast)
         else
