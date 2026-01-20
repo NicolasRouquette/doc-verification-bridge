@@ -40,6 +40,25 @@ NETWORK_MODE="$2"
 shift 2
 LAKE_ARGS=("$@")
 
+# --- Compute workspace root ---
+# For docvb subdirectories, we need to bind the parent project directory
+# so Lake can resolve `require «project» from "../"` dependencies.
+# We find the workspace root by looking for the nearest directory containing
+# a .git directory or being two levels up from a "docvb" directory.
+compute_workspace_root() {
+  local dir="$1"
+  # If this is a docvb directory, the workspace is the grandparent (repos/project)
+  # But we want to bind the entire repos directory for safety
+  if [[ "$(basename "$dir")" == "docvb" ]]; then
+    # Bind two levels up (repos/project -> repos)
+    dirname "$(dirname "$dir")"
+  else
+    # For non-docvb directories, just bind the project itself and its parent
+    dirname "$dir"
+  fi
+}
+WORKSPACE_ROOT="$(compute_workspace_root "$PROJECT_DIR")"
+
 # --- Validation ---
 if [[ ! -d "$PROJECT_DIR" ]]; then
   echo "Error: Project directory does not exist: $PROJECT_DIR" >&2
@@ -136,9 +155,11 @@ else
   BWRAP_OPTS+=(--unshare-net)
 fi
 
-# Writable directories: project and cache
+# Writable directories: workspace root (includes project and parent deps) and cache
+# We bind the workspace root to allow Lake to resolve relative path dependencies
+# like `require «project» from "../"` in docvb lakefiles.
 BWRAP_OPTS+=(
-  --bind "$PROJECT_DIR" "$PROJECT_DIR"
+  --bind "$WORKSPACE_ROOT" "$WORKSPACE_ROOT"
   --bind "$HOME/.cache" "$HOME/.cache"
   --tmpfs /tmp
 )

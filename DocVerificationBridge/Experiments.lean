@@ -1436,12 +1436,14 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
 
   -- If there's a toolchain incompatibility, fail early with a clear message
   if hasToolchainIssue then
-    let errMsg := s!"Toolchain incompatibility: {tcCheck.message}\n\nProject uses {tcCheck.projectToolchain} but doc-verification-bridge requires {tcCheck.dvbToolchain}.\n\nTo analyze this project, it must be updated to use Lean {tcCheck.dvbToolchain} or newer."
+    let minVerStr := s!"v{minSupportedVersion.1}.{minSupportedVersion.2.1}.{minSupportedVersion.2.2}"
+    let maxVerStr := s!"v{maxSupportedVersion.1}.{maxSupportedVersion.2.1}.{maxSupportedVersion.2.2}"
+    let errMsg := s!"Toolchain incompatibility: {tcCheck.message}\n\nProject uses {tcCheck.projectToolchain}.\nSupported range: {minVerStr} to {maxVerStr}.\n\nTo analyze this project, it must be updated to use a Lean version in the supported range."
     saveCommandLogCtx cmdLog logCtx
     generateErrorPage name errMsg "" outputDir (some tcCheck)
     writeProjectState config.sitesDir name .failed
     return { name, repo, success := false,
-             errorMessage := some s!"Toolchain incompatibility: project uses {tcCheck.projectToolchain}, requires {tcCheck.dvbToolchain}",
+             errorMessage := some s!"Toolchain incompatibility: project uses {tcCheck.projectToolchain}, supported range is {minVerStr} to {maxVerStr}",
              siteDir := some outputDir }
 
   -- Build main project (skip for reanalyze/reclassify/docgenOnly/htmlOnly modes)
