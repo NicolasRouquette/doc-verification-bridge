@@ -385,11 +385,7 @@ def classifyAllDeclarationsParallel (env : Environment) (modulePrefix : Name) (n
       (← IO.getStdout).flush
       currentTasksRef.modify fun arr => arr.set! workerId none
       workerResultsRef.modify fun arr => arr.set! workerId localResults
-      IO.println s!"        [DEBUG] Worker {workerId}: stored results, updating counts..."
-      (← IO.getStdout).flush
       taskCountRef.modify fun arr => arr.set! workerId count
-      IO.println s!"        [DEBUG] Worker {workerId}: decrementing active workers..."
-      (← IO.getStdout).flush
       activeWorkersRef.modify (· - 1)
       IO.println s!"        [DEBUG] Worker {workerId}: done!"
       (← IO.getStdout).flush

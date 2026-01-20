@@ -262,15 +262,14 @@ def generateStaticHtmlSite (cfg : UnifiedConfig) (result : UnifiedResult) (modul
     docGenBaseUrl := some "../api"  -- Link to doc-gen4 docs from modules/X.html
   }
 
-  IO.println s!"unified-doc: Generating per-module verification reports..."
-  IO.println s!"  DEBUG: entries.size = {result.verificationEntries.size}"
+  IO.println s!"unified-doc: Generating per-module verification reports for {result.verificationEntries.size} entries..."
   (← IO.getStdout).flush
 
   let reportsStartTime ← IO.monoMsNow
   let moduleReports := generatePerModuleReports result.env result.verificationEntries (some reportCfg)
   let reportsEndTime ← IO.monoMsNow
   let reportsDuration := formatDurationMs (reportsEndTime - reportsStartTime)
-  IO.println s!"  DEBUG: generatePerModuleReports returned {moduleReports.size} reports ({reportsDuration})"
+  IO.println s!"unified-doc: generatePerModuleReports returned {moduleReports.size} reports ({reportsDuration})"
   (← IO.getStdout).flush
 
   -- Use StaticHtml generator
