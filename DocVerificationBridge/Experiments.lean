@@ -100,6 +100,10 @@ structure Config where
   /-- External documentation URLs for transitive dependencies (module prefix → base URL).
       Configured via [external_docs] section in config.toml. -/
   externalDocs : List (String × String) := []
+  /-- Whether to use bubblewrap sandbox for builds (strongly recommended for security).
+      When enabled, all `lake build` commands run in a network-isolated sandbox.
+      See SECURITY.md for details on the threat model. -/
+  useSandbox : Bool := true
   deriving Repr, Inhabited
 
 /-- Result of processing a project -/
@@ -147,6 +151,7 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
   let mut proofDepWorkers : Nat := 0
   let mut htmlWorkers : Nat := 0
   let mut slowThresholdSecs : Nat := 30
+  let mut useSandbox : Bool := true
   let mut externalDocs : List (String × String) := []
   let mut inExternalDocs : Bool := false
   let mut projects : Array Project := #[]
@@ -235,6 +240,7 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
           | "proof_dep_workers" => proofDepWorkers := value.toNat?.getD 0
           | "html_workers" => htmlWorkers := value.toNat?.getD 0
           | "slow_threshold_secs" => slowThresholdSecs := value.toNat?.getD 30
+          | "use_sandbox" => useSandbox := value == "true"
           | _ => pure ()
 
   -- Don't forget the last project
@@ -258,6 +264,7 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
     htmlWorkers := htmlWorkers
     slowThresholdSecs := slowThresholdSecs
     externalDocs := finalExternalDocs
+    useSandbox := useSandbox
   }
 
 /-! ## Utilities -/
@@ -517,6 +524,66 @@ def runCmdStreaming (step : String) (cmd : String) (args : Array String)
 
   return (exitCode == 0, "", finalLog)
 
+/-! ## Sandboxed Lake Commands -/
+
+/-- Run a lake command in a bubblewrap sandbox.
+    - `dvbPath`: Path to doc-verification-bridge (contains scripts/sandbox-lake.sh)
+    - `projectDir`: The Lean project directory
+    - `networkMode`: "network" (allow network) or "isolated" (block network)
+    - `lakeArgs`: Arguments to pass to lake (e.g., #["build"], #["exe", "cache", "get"])
+    - `env`: Optional environment variables to set
+
+    Security: All lake commands should go through this when `config.useSandbox` is true.
+    - Phase 1 commands (update, exe cache get): use networkMode="network"
+    - Phase 2 commands (build, exe): use networkMode="isolated" -/
+def runLakeSandboxed (dvbPath : FilePath) (projectDir : FilePath)
+    (networkMode : String) (lakeArgs : Array String)
+    (env : Array (String × Option String) := #[]) : IO (Bool × String) := do
+  let sandboxScript := dvbPath / "scripts" / "sandbox-lake.sh"
+  -- sandbox-lake.sh <project-dir> <network-mode> <lake-args...>
+  let args := #[projectDir.toString, networkMode] ++ lakeArgs
+  let result ← IO.Process.output {
+    cmd := sandboxScript.toString
+    args := args
+    env := env
+  }
+  return (result.exitCode == 0, result.stdout ++ result.stderr)
+
+/-- Run a lake command - sandboxed or direct based on useSandbox flag.
+    This is the main entry point for running lake commands.
+
+    SECURITY: When useSandbox=true, lake runs in bubblewrap with:
+    - Network isolation (for "isolated" mode) - prevents data exfiltration during compilation
+    - Filesystem restrictions - only project dir and cache are writable
+    - No access to ~/.ssh, ~/.gnupg, ~/.aws, or other sensitive directories
+    See SECURITY.md for the full threat model.
+
+    When useSandbox=false, lake runs directly. This is UNSAFE for untrusted projects
+    as Lean4 compilation executes arbitrary code (tactics, macros, #eval, etc.). -/
+def runLake (useSandbox : Bool) (dvbPath : FilePath) (projectDir : FilePath)
+    (networkMode : String) (lakeArgs : Array String)
+    (env : Array (String × Option String) := #[]) : IO (Bool × String) := do
+  if useSandbox then
+    runLakeSandboxed dvbPath projectDir networkMode lakeArgs env
+  else
+    -- Direct execution (no sandbox) - UNSAFE for untrusted code
+    runCmd "lake" lakeArgs (some projectDir) 3600 env
+
+/-- Run a lake command with logging - sandboxed or direct based on useSandbox flag.
+    SECURITY: See runLake for security considerations. -/
+def runLakeLogged (step : String) (useSandbox : Bool) (dvbPath : FilePath)
+    (projectDir : FilePath) (networkMode : String) (lakeArgs : Array String)
+    (log : CommandLog := #[]) (ctx : Option LogContext := none)
+    (env : Array (String × Option String) := #[]) : IO (Bool × String × CommandLog) := do
+  if useSandbox then
+    -- Run through sandbox script (secure)
+    let sandboxScript := dvbPath / "scripts" / "sandbox-lake.sh"
+    let args := #[projectDir.toString, networkMode] ++ lakeArgs
+    runCmdLogged step sandboxScript.toString args none log ctx 3600 env
+  else
+    -- Direct execution (no sandbox) - UNSAFE for untrusted code
+    runCmdLogged step "lake" lakeArgs (some projectDir) log ctx 3600 env
+
 /-- Detect the current branch of a git repository -/
 def detectGitBranch (repoDir : FilePath) : IO String := do
   let result ← IO.Process.output {
@@ -530,7 +597,10 @@ def detectGitBranch (repoDir : FilePath) : IO String := do
     -- Fallback to main if detection fails
     return "main"
 
-/-- Clone or update a git repository -/
+/-- Clone or update a git repository
+    SECURITY: git clone/pull fetches from remote URLs but does not execute code.
+    Git hooks in the cloned repo are NOT executed by clone/pull.
+    The security boundary is at `lake build` which compiles (and executes) Lean code. -/
 def cloneRepository (repoUrl : String) (targetDir : FilePath) : IO (Bool × String) := do
   if ← targetDir.pathExists then
     -- Pull latest
@@ -783,6 +853,8 @@ lean_exe «unified-doc» where
   IO.FS.writeFile (docvbDir / "lakefile.lean") lakefileContent
 
   -- Download lake-manifest.json from doc-gen4 to lock transitive dependencies
+  -- SECURITY: curl fetches a static JSON file from GitHub. This is read-only and does not
+  -- execute any code. The URL is hardcoded to the official leanprover/doc-gen4 repo.
   let manifestUrl := s!"https://raw.githubusercontent.com/leanprover/doc-gen4/{docgen4Ref}/lake-manifest.json"
   let (manifestOk, manifestContent) ← runCmd "curl" #["-fsSL", manifestUrl] none 30
   if manifestOk && !manifestContent.isEmpty then
@@ -797,80 +869,6 @@ lean_exe «unified-doc» where
     IO.FS.removeFile oldLakefile
 
   return (!tcCheck.compatible, tcCheck)
-
-/-- Build a project with lake -/
-def buildProject (projectDir : FilePath) (lakeExeCacheGet : Bool := false) : IO (Bool × String) := do
-  -- For projects like mathlib4, fetch the cloud cache first
-  if lakeExeCacheGet then
-    let (cacheOk, cacheLog) ← runCmd "lake" #["exe", "cache", "get"] (some projectDir) 3600
-    if !cacheOk then
-      return (false, s!"lake exe cache get failed:\n{cacheLog}")
-  runCmd "lake" #["build"] (some projectDir) 3600
-
-/-- Run unified-doc to generate documentation -/
-def runUnifiedDoc (docvbDir : FilePath) (modules : Array String)
-    (outputDir : FilePath) (classMode : ClassificationMode := .auto)
-    (disableEquations : Bool := false) (projectToolchain : String := "") : IO (Bool × String) := do
-  -- Update lake dependencies with retry logic to handle lock contention
-  -- Note: Post-update hook failures (e.g., mathlib cache) are treated as warnings, not errors
-  let mut updateOk := false
-  let mut updateLog := ""
-  let maxRetries := 5
-  for attempt in [:maxRetries] do
-    -- Update all dependencies (doc-gen4, Cli, main project)
-    let (ok, log) ← runCmd "lake" #["update"] (some docvbDir) 600
-    if ok then
-      updateOk := true
-      updateLog := log
-      break
-    else if log.contains "could not acquire" && attempt + 1 < maxRetries then
-      -- Lock contention - wait a bit and retry
-      let delayMs := (attempt + 1) * 2000  -- 2s, 4s, 6s, 8s
-      IO.println s!"  Lock contention detected, retrying in {delayMs}ms..."
-      IO.sleep (delayMs.toUInt32)
-      updateLog := log
-    else if log.contains "post-update hooks" || log.contains "failed to fetch cache" then
-      -- Post-update hook failure (e.g., mathlib cache pruning) - treat as warning, not error
-      IO.println s!"  Warning: post-update hooks failed, continuing anyway..."
-      updateOk := true  -- Treat as success - the actual update likely worked
-      updateLog := log
-      break
-    else
-      updateLog := log
-      break
-
-  if !updateOk then
-    return (false, s!"lake update failed:\n{updateLog}")
-
-  -- CRITICAL: Restore the project's toolchain after lake update
-  -- Lake/Elan may have "updated" it to a different version during post-update hooks
-  if !projectToolchain.isEmpty then
-    let toolchainPath := docvbDir / "lean-toolchain"
-    IO.FS.writeFile toolchainPath s!"{projectToolchain}\n"
-
-  -- Build docvb
-  let (buildOk, buildLog) ← runCmd "lake" #["build"] (some docvbDir) 1800
-  if !buildOk then
-    return (false, s!"lake build failed:\n{buildLog}")
-
-  -- Run unified-doc (the executable is "unified-doc", subcommand is "unified")
-  -- Add --auto or --annotated based on classification mode
-  let modeFlag := if classMode == .annotated then "--annotated" else "--auto"
-  let args := #["exe", "unified-doc", "unified", modeFlag,
-                "--output", outputDir.toString] ++ modules
-
-  -- Set DISABLE_EQUATIONS=1 if requested (avoids timeouts for complex projects like mathlib4)
-  let env : Array (String × Option String) := if disableEquations then
-    #[("DISABLE_EQUATIONS", some "1")]
-  else
-    #[]
-
-  if disableEquations then
-    IO.println s!"  (DISABLE_EQUATIONS=1 for faster processing)"
-
-  let (docOk, docLog) ← runCmd "lake" args (some docvbDir) 3600 env
-
-  return (docOk, updateLog ++ "\n" ++ buildLog ++ "\n" ++ docLog)
 
 /-! ## Statistics Parsing -/
 
@@ -1392,6 +1390,8 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
                errorMessage := some errMsg, siteDir := some outputDir }
     IO.println s!"[{name}] [1/6] Using existing repository ({modeName} mode)"
   else if mode == .update && (← repoDir.pathExists) then
+    -- SECURITY: git pull fetches from remote but does not execute code.
+    -- Git hooks are NOT executed. Safe operation.
     IO.println s!"[{name}] [1/6] Updating repository..."
     let (pullOk, pullLog, newLog) ← runCmdLogged "git-pull" "git" #["pull"] (some repoDir) cmdLog (some logCtx)
     cmdLog := newLog
@@ -1400,6 +1400,8 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
       return { name, repo, success := false,
                errorMessage := some "Git pull failed", buildLog := pullLog }
   else
+    -- SECURITY: git clone fetches from remote but does not execute code.
+    -- Git hooks in the cloned repo are NOT executed. Safe operation.
     IO.println s!"[{name}] [1/6] Cloning repository..."
     let (cloneOk, cloneLog, newLog) ← runCmdLogged "git-clone" "git"
       #["clone", "--depth", "1", repo, repoDir.toString] none cmdLog (some logCtx)
@@ -1466,8 +1468,9 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
 
     -- For projects like mathlib4, fetch the cloud cache first
     if lakeExeCacheGet then
-      let (cacheOk, cacheLog, newLog) ← runCmdLogged "lake-exe-cache-get" "lake"
-        #["exe", "cache", "get"] (some projectDir) cmdLog (some logCtx)
+      let (cacheOk, cacheLog, newLog) ← runLakeLogged "lake-exe-cache-get" config.useSandbox
+        config.docVerificationBridgePath projectDir "network" #["exe", "cache", "get"]
+        cmdLog (some logCtx)
       cmdLog := newLog
       if !cacheOk then
         generateErrorPage name "lake exe cache get failed" cacheLog outputDir (some tcCheck)
@@ -1476,7 +1479,9 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
                  errorMessage := some "cache get failed", buildLog := cacheLog,
                  siteDir := some outputDir }
 
-    let (buildOk, buildLog', newLog) ← runCmdLogged "lake-build" "lake" #["build"] (some projectDir) cmdLog (some logCtx)
+    let (buildOk, buildLog', newLog) ← runLakeLogged "lake-build" config.useSandbox
+      config.docVerificationBridgePath projectDir "isolated" #["build"]
+      cmdLog (some logCtx)
     cmdLog := newLog
     buildLog := buildLog'
     if !buildOk then
@@ -1491,8 +1496,9 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
   let docvbDir := projectDir / "docvb"
 
   -- Update lake dependencies
-  let (updateOk, updateLog, newLog) ← runCmdLogged "lake-update" "lake"
-    #["update"] (some docvbDir) cmdLog (some logCtx)
+  let (updateOk, updateLog, newLog) ← runLakeLogged "lake-update" config.useSandbox
+    config.docVerificationBridgePath docvbDir "network" #["update"]
+    cmdLog (some logCtx)
   cmdLog := newLog
 
   if !updateOk then
@@ -1515,8 +1521,9 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
   IO.println s!"[{name}]       Restored toolchain to {tcCheck.projectToolchain}"
 
   -- Build docvb
-  let (docvbBuildOk, docvbBuildLog, newLog) ← runCmdLogged "docvb-build" "lake"
-    #["build"] (some docvbDir) cmdLog (some logCtx)
+  let (docvbBuildOk, docvbBuildLog, newLog) ← runLakeLogged "docvb-build" config.useSandbox
+    config.docVerificationBridgePath docvbDir "isolated" #["build"]
+    cmdLog (some logCtx)
   cmdLog := newLog
   if !docvbBuildOk then
     generateErrorPage name "docvb build failed" docvbBuildLog outputDir (some tcCheck)
@@ -1631,6 +1638,9 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
 
   -- Use streaming output so we see progress in real-time (important for long-running Mathlib4 analysis)
   -- Output goes directly to terminal (inherit mode) - no prefix added
+  -- SECURITY: unified-doc is our own trusted binary built in the sandboxed docvb build step.
+  -- It only reads .olean files and generates HTML/JSON - no code execution.
+  -- LEAN_PATH points to already-compiled artifacts, not source that could be re-compiled.
   let (docOk, docLog, newLog) ← runCmdStreaming "unified-doc" unifiedCmd unifiedCmdArgs (some docvbDir) cmdLog (some logCtx) env
   cmdLog := newLog
 

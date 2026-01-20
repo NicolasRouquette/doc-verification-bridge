@@ -86,7 +86,7 @@ structure UnifiedConfig where
 deriving Repr, Inhabited
 
 /-- Result of the unified pipeline -/
-structure UnifiedResult where
+structure UnifiedResult : Type where
   /-- doc-gen4's analyzer result -/
   analyzerResult : AnalyzerResult
   /-- Module hierarchy -/
@@ -98,7 +98,7 @@ structure UnifiedResult where
   /-- Git file cache for accurate source links -/
   gitCache : GitFileCache
   /-- Processing warnings from doc-gen4 (declarations that couldn't be analyzed) -/
-  processingWarnings : Array ProcessingWarning := #[]
+  processingWarnings : Array StaticHtml.ProcessingWarning := #[]
 
 /-- Get the current git commit hash in a directory -/
 def getGitCommitHash (dir : System.FilePath) : IO (Option String) := do
