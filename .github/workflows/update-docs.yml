@@ -47,6 +47,14 @@ jobs:
           fi
           echo "$HOME/.elan/bin" >> $GITHUB_PATH
       
+      - name: Ensure Git LFS is installed
+        run: |
+          if ! command -v git-lfs &> /dev/null; then
+            echo "::error::Git LFS not found. Please install it on the self-hosted runner: sudo dnf install git-lfs"
+            exit 1
+          fi
+          git lfs install
+      
       - name: Build doc-verification-bridge
         run: lake build experiments
       
@@ -78,6 +86,12 @@ jobs:
           
           git init
           git checkout --orphan pages
+          
+          # Set up Git LFS for large files (classification-cache.jsonl can exceed 100MB)
+          git lfs install
+          git lfs track "*.jsonl"
+          git add .gitattributes
+          
           git add -A
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
