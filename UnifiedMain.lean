@@ -238,8 +238,8 @@ def runUnifiedPipelineWithMode (cfg : UnifiedConfig) (modules : Array Name)
     -- Step 5: Create stub pages for missing dependency modules
     -- doc-gen4 generates links to dependencies (Batteries, Init, Std, etc.) that aren't included
     -- Create in both locations for consistency
-    StaticHtml.createMissingDependencyStubs apiDestDir cfg.projectName
-    StaticHtml.createMissingDependencyStubs (apiTempDir / "doc") cfg.projectName
+    StaticHtml.createMissingDependencyStubs apiDestDir cfg.projectName cfg.externalDocs
+    StaticHtml.createMissingDependencyStubs (apiTempDir / "doc") cfg.projectName cfg.externalDocs
 
     -- Final timing
     let finalTime ← IO.monoMsNow
@@ -288,6 +288,14 @@ def runUnifiedCmd (args : Cli.Parsed) : IO UInt32 := do
       | [k, v] => some (k.trimCompat, v.trimCompat)
       | _ => none) |>.toArray
 
+  -- Parse external docs from CLI (comma-separated Module=URL pairs)
+  -- These map transitive dependency module prefixes to external documentation URLs
+  let externalDocsStr := args.flag? "external-docs" |>.map (·.as! String) |>.getD ""
+  let externalDocs := externalDocsStr.splitOn "," |>.filterMap (fun kv =>
+    match kv.splitOn "=" with
+    | [k, v] => some (k.trimCompat, v.trimCompat)
+    | _ => none)
+
   let cfg : UnifiedConfig := {
     buildDir := args.flag? "output" |>.map (·.as! String) |>.getD ".lake/build/doc"
     repoUrl := args.flag? "repo" |>.map (·.as! String) |>.getD ""
@@ -312,6 +320,7 @@ def runUnifiedCmd (args : Cli.Parsed) : IO UInt32 := do
       |>.map (fun s => s.splitOn "," |>.map (·.trimCompat) |>.filter (·.length > 0) |>.toArray)
       |>.getD #[]
     projectSettings := projectSettings
+    externalDocs := externalDocs
   }
 
   IO.println s!"Classification mode: {repr mode}"
@@ -466,8 +475,9 @@ def unifiedCmd := `[Cli|
     "project-description" : String; "Project description (shown on index page)"
     "project-modules" : String;     "Comma-separated list of top-level modules (shown on index page)"
     "project-settings" : String;    "Comma-separated key=value config settings (shown on index page)"
+    "external-docs" : String;       "Comma-separated Module=URL pairs for external doc redirects"
     auto;                    "Use automatic heuristic-based classification (default)"
-    annotated;               "Only classify declarations with explicit @[api_*] annotations"
+    annotated;               "Only classify declarations with explicit @[api_*] annotations (default)"
 
   ARGS:
     ...modules : String;     "Module names to analyze"

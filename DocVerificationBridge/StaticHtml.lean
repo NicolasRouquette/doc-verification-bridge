@@ -6,6 +6,7 @@ Authors: Nicolas Rouquette
 import Lean
 import DocGen4.Output.ToHtmlFormat
 import DocGen4.Output.Base
+import DocGen4.Process.Analyze
 import DocVerificationBridge.Classify
 import DocVerificationBridge.Report
 import DocVerificationBridge.Compatibility
@@ -63,6 +64,21 @@ structure StaticHtmlConfig where
   projectModules : Array String := #[]
   /-- Optional config settings to display (key-value pairs) -/
   projectSettings : Array (String × String) := #[]
+  /-- External documentation URLs for transitive dependencies (module prefix → base URL).
+      When doc-gen4 generates navbar links to dependencies not included in this project's docs,
+      we create redirect stub pages pointing to these external documentation sites.
+      Configured via [external_docs] section in config.toml. -/
+  externalDocs : List (String × String) := []
+  deriving Repr, Inhabited
+
+/-- Local definition of ProcessingWarning (to avoid dependency on doc-gen4 fork) -/
+structure ProcessingWarning where
+  /-- Name of the declaration that couldn't be fully analyzed -/
+  declName : Name
+  /-- Error message describing the issue -/
+  message : String
+  /-- Optional source position -/
+  position : Option String := none
   deriving Repr, Inhabited
 
 /-! ## HTML Helpers -/
@@ -933,7 +949,8 @@ def generateProjectInfoSection (cfg : StaticHtmlConfig) : Html :=
 
 /-- Generate the main index page. The optional downloadsSection should be pre-computed via IO. -/
 def generateIndexPage (stats : VerificationStats) (cfg : StaticHtmlConfig)
-    (downloadsSection : Option Html := none) : BaseHtmlM Html := do
+    (downloadsSection : Option Html := none)
+    (issuesCount : Nat := 0) : BaseHtmlM Html := do
   let provedPct := if stats.theorems > 0
     then (stats.provedTheorems * 100) / stats.theorems
     else 0
@@ -1098,11 +1115,17 @@ def generateIndexPage (stats : VerificationStats) (cfg : StaticHtmlConfig)
 
     Html.element "section" false #[] #[
       Html.element "h2" true #[] #[Html.text "Quick Links"],
-      Html.element "ul" false #[] #[
+      Html.element "ul" false #[] <| #[
         Html.element "li" false #[] #[Html.element "a" true #[("href", "modules/index.html")] #[Html.text "Browse by Module"]],
         Html.element "li" false #[] #[Html.element "a" true #[("href", "search.html")] #[Html.text "Search Declarations"]],
         Html.element "li" false #[] #[Html.element "a" true #[("href", s!"{cfg.apiBaseUrl}/index.html")] #[Html.text "API Documentation"]]
-      ]
+      ] ++ (if issuesCount > 0 then
+        #[Html.element "li" false #[] #[
+          Html.element "a" true #[("href", "issues.html"), ("class", "warning-link")] #[
+            Html.text s!"⚠️ Processing Issues ({issuesCount})"
+          ]
+        ]]
+      else #[])
     ]
   ]
 
@@ -1250,10 +1273,65 @@ private def wrapModuleHtml (moduleName : String) (markdownContent : String) (cfg
 </body>
 </html>"
 
+/-- Generate the processing issues page showing declarations that couldn't be fully analyzed -/
+def generateProcessingIssuesPage (warnings : Array ProcessingWarning) (cfg : StaticHtmlConfig) : BaseHtmlM Html := do
+  let content := Html.element "div" false #[("class", "container")] #[
+    Html.element "h1" true #[] #[Html.text "Processing Issues"],
+    Html.element "p" true #[] #[
+      Html.text s!"During documentation generation, {warnings.size} declaration(s) couldn't be fully analyzed. ",
+      Html.text "These issues are typically due to complex type class instances or unusual declaration patterns."
+    ],
+
+    if warnings.isEmpty then
+      Html.element "p" true #[("class", "success")] #[Html.text "✅ No processing issues detected."]
+    else
+      Html.element "div" false #[] #[
+        Html.element "table" false #[("class", "stats-table")] #[
+          Html.element "thead" false #[] #[
+            Html.element "tr" false #[] #[
+              Html.element "th" true #[] #[Html.text "Declaration"],
+              Html.element "th" true #[] #[Html.text "Position"],
+              Html.element "th" true #[] #[Html.text "Error Message"]
+            ]
+          ],
+          Html.element "tbody" false #[] (warnings.map fun warning =>
+            Html.element "tr" false #[] #[
+              Html.element "td" true #[("class", "decl-name")] #[
+                Html.element "code" true #[] #[Html.text warning.declName.toString]
+              ],
+              Html.element "td" true #[] #[Html.text (warning.position.getD "-")],
+              Html.element "td" true #[("class", "error-msg")] #[
+                Html.element "pre" true #[] #[Html.text warning.message]
+              ]
+            ]
+          )
+        ],
+        Html.element "section" false #[] #[
+          Html.element "h2" true #[] #[Html.text "What This Means"],
+          Html.element "ul" false #[] #[
+            Html.element "li" false #[] #[Html.text "These declarations still appear in the documentation, but may be missing some metadata."],
+            Html.element "li" false #[] #[Html.text "The most common cause is instance declarations where the target class can't be determined."],
+            Html.element "li" false #[] #[Html.text "This usually indicates a bug in doc-gen4 or an unusual declaration pattern."]
+          ]
+        ],
+        Html.element "section" false #[] #[
+          Html.element "h2" true #[] #[Html.text "Reporting Issues"],
+          Html.element "p" true #[] #[
+            Html.text "If you believe these declarations should be fully analyzed, please ",
+            Html.element "a" true #[("href", "https://github.com/leanprover/doc-gen4/issues")] #[Html.text "report an issue to doc-gen4"],
+            Html.text " with the declaration name and project information."
+          ]
+        ]
+      ]
+  ]
+
+  baseHtml "Processing Issues" content cfg
+
 /-- Generate all static HTML files -/
 def generateStaticSite (cfg : StaticHtmlConfig)
     (entries : NameMap APIMeta)
     (moduleReports : Array (String × String × ModuleStats))
+    (processingWarnings : Array ProcessingWarning := #[])
     : IO Unit := do
   let startTime ← IO.monoMsNow
 
@@ -1279,7 +1357,7 @@ def generateStaticSite (cfg : StaticHtmlConfig)
 
   -- Generate and write index page
   IO.println s!"  Generating index page..."
-  let indexHtml := runBaseHtmlM (generateIndexPage stats cfg downloadsSection) cfg.outputDir
+  let indexHtml := runBaseHtmlM (generateIndexPage stats cfg downloadsSection processingWarnings.size) cfg.outputDir
   IO.FS.writeFile (cfg.outputDir / "index.html") indexHtml.toString
 
   -- Generate search page
@@ -1294,6 +1372,12 @@ def generateStaticSite (cfg : StaticHtmlConfig)
   -- Generate module index
   let moduleIndexHtml := runBaseHtmlM (generateModuleIndexPage moduleReports cfg) cfg.outputDir
   IO.FS.writeFile (cfg.outputDir / "modules" / "index.html") moduleIndexHtml.toString
+
+  -- Generate processing issues page (if there are any warnings)
+  if processingWarnings.size > 0 then
+    IO.println s!"  Generating processing issues page ({processingWarnings.size} issues)..."
+    let issuesHtml := runBaseHtmlM (generateProcessingIssuesPage processingWarnings cfg) cfg.outputDir
+    IO.FS.writeFile (cfg.outputDir / "issues.html") issuesHtml.toString
 
   -- Generate individual module pages (parallel)
   IO.println s!"  Generating {moduleReports.size} module pages ({cfg.workers} workers)..."
@@ -1330,47 +1414,131 @@ def generateStaticSite (cfg : StaticHtmlConfig)
 /-! ## Dependency Stub Generation
 
 doc-gen4 generates links to external dependencies (Batteries, Init, Std, etc.) that aren't
-included in the project's documentation. We create stub pages for these to avoid broken links.
+included in the project's documentation. We create redirect pages that point to the official
+Lean community documentation.
 -/
 
-/-- Common Lean dependencies that doc-gen4 may link to but aren't included in project docs -/
-private def commonDependencies : List String := ["Batteries", "Init", "Std", "Lean", "Lake"]
+/-- Get the external URL for a module, if it's a known dependency -/
+private def getExternalUrl (modulePath : String) (externalDocs : List (String × String)) : Option String := do
+  -- Extract the top-level module name (e.g., "Aesop/Check.html" -> "Aesop")
+  let topLevel := (modulePath.splitOn "/").head?.getD modulePath |>.splitOn "." |>.head?.getD modulePath
+  -- Find the base URL for this dependency
+  let (_, baseUrl) ← externalDocs.find? (fun (prefix_, _) => prefix_ == topLevel)
+  -- Convert path: "Aesop/Check.html" -> "Aesop/Check.html"
+  return s!"{baseUrl}{modulePath}"
 
-/-- CSS for dependency stub pages (separate to avoid string interpolation issues) -/
-private def dependencyStubCss : String :=
-  "body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; " ++
-  "max-width: 600px; margin: 100px auto; padding: 20px; text-align: center; } " ++
-  "h1 { color: #333; } " ++
-  "p { color: #666; line-height: 1.6; } " ++
-  "a { color: #0366d6; } " ++
-  ".back { margin-top: 30px; }"
-
-/-- Generate a stub HTML page for a missing dependency module -/
-private def generateDependencyStub (name : String) (projectName : String) : String :=
+/-- Generate an HTML redirect page to external documentation -/
+private def generateRedirectPage (modulePath : String) (externalUrl : String) (projectName : String) : String :=
+  let moduleName := modulePath.replace "/" "." |>.replace ".html" ""
   "<!DOCTYPE html>\n<html>\n<head>\n" ++
   "  <meta charset=\"UTF-8\">\n" ++
-  s!"  <title>{name} - External Dependency</title>\n" ++
-  s!"  <style>{dependencyStubCss}</style>\n" ++
+  s!"  <meta http-equiv=\"refresh\" content=\"0; url={externalUrl}\">\n" ++
+  s!"  <title>{moduleName} - Redirecting...</title>\n" ++
+  "  <style>body { font-family: system-ui, sans-serif; max-width: 600px; margin: 100px auto; " ++
+  "padding: 20px; text-align: center; } a { color: #0366d6; }</style>\n" ++
   "</head>\n<body>\n" ++
-  s!"  <h1>{name}</h1>\n" ++
-  s!"  <p><strong>{name}</strong> is a dependency of {projectName}, but its documentation is not included in this site.</p>\n" ++
-  "  <p>You can find the official documentation at:</p>\n" ++
-  "  <ul style=\"list-style: none; padding: 0;\">\n" ++
-  s!"    <li><a href=\"https://leanprover-community.github.io/mathlib4_docs/{name}.html\">Mathlib4 Docs</a> (if part of Mathlib)</li>\n" ++
-  s!"    <li><a href=\"https://leanprover-community.github.io/batteries/docs/{name}.html\">Batteries Docs</a> (if part of Batteries)</li>\n" ++
-  "  </ul>\n" ++
-  s!"  <p class=\"back\"><a href=\"index.html\">← Back to {projectName} documentation</a></p>\n" ++
+  s!"  <h1>Redirecting...</h1>\n" ++
+  s!"  <p><strong>{moduleName}</strong> is a dependency of {projectName}.</p>\n" ++
+  s!"  <p>Redirecting to <a href=\"{externalUrl}\">{externalUrl}</a></p>\n" ++
+  s!"  <p>If you are not redirected, <a href=\"{externalUrl}\">click here</a>.</p>\n" ++
   "</body>\n</html>"
 
-/-- Create stub HTML pages for missing dependency modules that doc-gen4 links to -/
-def createMissingDependencyStubs (apiDir : System.FilePath) (projectName : String) : IO Unit := do
-  let mut created := #[]
-  for dep in commonDependencies do
-    let stubPath := apiDir / s!"{dep}.html"
-    if !(← stubPath.pathExists) then
-      IO.FS.writeFile stubPath (generateDependencyStub dep projectName)
-      created := created.push dep
-  if created.size > 0 then
-    IO.println s!"  Created stub pages for missing dependencies: {created.toList}"
+/-- Find substring starting from a position -/
+private def findSubstr (s : String) (needle : String) (startPos : Nat) : Option Nat := Id.run do
+  let sArr := s.toList.toArray
+  let needleArr := needle.toList.toArray
+  if needleArr.size > sArr.size then return none
+  for i in [startPos : sArr.size - needleArr.size + 1] do
+    let mut found := true
+    for j in [0 : needleArr.size] do
+      if sArr[i + j]! != needleArr[j]! then
+        found := false
+        break
+    if found then
+      return some i
+  return none
+
+/-- Extract substring by character indices -/
+private def extractByIndices (s : String) (startIdx : Nat) (endIdx : Nat) : String :=
+  let chars := s.toList
+  String.ofList (chars.drop startIdx |>.take (endIdx - startIdx))
+
+/-- Parse navbar.html and extract all href links (recursive helper) -/
+private partial def parseNavbarLinksAux (content : String) (pos : Nat) (acc : List String) : List String :=
+  if pos >= content.length then
+    acc.reverse
+  else
+    match findSubstr content "href=\"./" pos with
+    | some hrefStart =>
+      let urlStart := hrefStart + 8  -- length of 'href="./'
+      match findSubstr content "\"" urlStart with
+      | some urlEnd =>
+        let url := extractByIndices content urlStart urlEnd
+        -- Only include .html files that look like module paths
+        let newAcc := if url.endsWith ".html" && url != "style.css" && url != "index.html" && !url.startsWith "find" then
+          url :: acc
+        else
+          acc
+        parseNavbarLinksAux content (urlEnd + 1) newAcc
+      | none =>
+        parseNavbarLinksAux content (pos + 1) acc
+    | none =>
+      acc.reverse
+
+/-- Parse navbar.html and extract all href links -/
+private def parseNavbarLinks (navbarContent : String) : List String :=
+  parseNavbarLinksAux navbarContent 0 []
+
+/-- Create redirect pages for missing dependency modules that doc-gen4 links to.
+    Scans navbar.html for all links and creates redirects for any missing files.
+    Uses `externalDocs` to determine redirect URLs (from config.toml [external_docs]). -/
+def createMissingDependencyStubs (apiDir : System.FilePath) (projectName : String)
+    (externalDocs : List (String × String)) : IO Unit := do
+  -- Read navbar.html to find all linked modules
+  let navbarPath := apiDir / "navbar.html"
+  if !(← navbarPath.pathExists) then
+    return
+
+  let navbarContent ← IO.FS.readFile navbarPath
+  let links := parseNavbarLinks navbarContent
+
+  let mut created := 0
+  let mut redirected := 0
+  for link in links do
+    -- Skip if it starts with the project module (e.g., "Fad/...")
+    -- We only want to create stubs for external dependencies
+    let filePath := apiDir / link
+    if !(← filePath.pathExists) then
+      -- Create parent directories if needed
+      if let some parent := filePath.parent then
+        IO.FS.createDirAll parent
+
+      -- Check if we have an external URL for this module
+      if let some externalUrl := getExternalUrl link externalDocs then
+        -- Create a redirect page
+        IO.FS.writeFile filePath (generateRedirectPage link externalUrl projectName)
+        redirected := redirected + 1
+      else
+        -- Create a simple stub page (fallback)
+        let moduleName := link.replace "/" "." |>.replace ".html" ""
+        let stubContent :=
+          "<!DOCTYPE html>\n<html>\n<head>\n" ++
+          s!"  <meta charset=\"UTF-8\"><title>{moduleName}</title>\n" ++
+          "  <style>body { font-family: system-ui, sans-serif; max-width: 600px; margin: 100px auto; " ++
+          "padding: 20px; text-align: center; } a { color: #0366d6; }</style>\n" ++
+          "</head>\n<body>\n" ++
+          s!"  <h1>{moduleName}</h1>\n" ++
+          s!"  <p>This module is a dependency of {projectName} but its documentation is not available locally.</p>\n" ++
+          "  <p>Try searching for it at:</p>\n" ++
+          "  <ul style=\"list-style: none; padding: 0;\">\n" ++
+          s!"    <li><a href=\"https://leanprover-community.github.io/mathlib4_docs/{link}\">Mathlib4 Docs</a></li>\n" ++
+          "  </ul>\n" ++
+          "  <p><a href=\"index.html\">← Back to index</a></p>\n" ++
+          "</body>\n</html>"
+        IO.FS.writeFile filePath stubContent
+        created := created + 1
+
+  if redirected > 0 || created > 0 then
+    IO.println s!"  Created {redirected} redirect pages and {created} stub pages for external dependencies"
 
 end DocVerificationBridge.StaticHtml

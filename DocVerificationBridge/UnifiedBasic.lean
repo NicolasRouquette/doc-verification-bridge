@@ -80,6 +80,9 @@ structure UnifiedConfig where
   projectModules : Array String := #[]
   /-- Additional config settings to display (key-value pairs) -/
   projectSettings : Array (String × String) := #[]
+  /-- External documentation URLs for transitive dependencies (module prefix → base URL).
+      Configured via [external_docs] section in config.toml. -/
+  externalDocs : List (String × String) := []
 deriving Repr, Inhabited
 
 /-- Result of the unified pipeline -/
@@ -94,6 +97,8 @@ structure UnifiedResult where
   verificationEntries : NameMap APIMeta
   /-- Git file cache for accurate source links -/
   gitCache : GitFileCache
+  /-- Processing warnings from doc-gen4 (declarations that couldn't be analyzed) -/
+  processingWarnings : Array ProcessingWarning := #[]
 
 /-- Get the current git commit hash in a directory -/
 def getGitCommitHash (dir : System.FilePath) : IO (Option String) := do
@@ -197,6 +202,7 @@ def loadAndAnalyze (cfg : UnifiedConfig) (modules : Array Name) : IO UnifiedResu
     env
     verificationEntries := allEntries
     gitCache
+    processingWarnings := #[]  -- Not available in upstream doc-gen4
   }
 
 /-- Generate doc-gen4 documentation to a temporary directory.
@@ -282,7 +288,7 @@ def generateStaticHtmlSite (cfg : UnifiedConfig) (result : UnifiedResult) (modul
     projectSettings := cfg.projectSettings
   }
 
-  StaticHtml.generateStaticSite staticCfg result.verificationEntries moduleReports
+  StaticHtml.generateStaticSite staticCfg result.verificationEntries moduleReports result.processingWarnings
 
   return siteDir
 

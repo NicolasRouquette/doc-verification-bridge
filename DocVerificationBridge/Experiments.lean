@@ -97,6 +97,9 @@ structure Config where
   htmlWorkers : Nat := 0
   /-- Global default: Threshold in seconds before warning about slow theorems during proof dep extraction -/
   slowThresholdSecs : Nat := 30
+  /-- External documentation URLs for transitive dependencies (module prefix → base URL).
+      Configured via [external_docs] section in config.toml. -/
+  externalDocs : List (String × String) := []
   deriving Repr, Inhabited
 
 /-- Result of processing a project -/
@@ -144,6 +147,8 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
   let mut proofDepWorkers : Nat := 0
   let mut htmlWorkers : Nat := 0
   let mut slowThresholdSecs : Nat := 30
+  let mut externalDocs : List (String × String) := []
+  let mut inExternalDocs : Bool := false
   let mut projects : Array Project := #[]
   let mut currentProject : Option Project := none
 
@@ -156,8 +161,13 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
       if let some proj := currentProject then
         projects := projects.push proj
       currentProject := some { name := "", repo := "", modules := #[] }
+      inExternalDocs := false
+    else if line.startsWith "[external_docs]" then
+      inExternalDocs := true
+      currentProject := none
     else if line.startsWith "[settings]" then
-      continue
+      inExternalDocs := false
+      currentProject := none
     else if line.contains "=" then
       let parts := line.splitOn "="
       if parts.length >= 2 then
@@ -169,7 +179,10 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
           | [] => rawValue
         let value := valueNoComment.replace "\"" ""
 
-        match currentProject with
+        if inExternalDocs then
+          -- Parse [external_docs] entries: ModulePrefix = "URL"
+          externalDocs := externalDocs ++ [(key, value)]
+        else match currentProject with
         | some proj =>
           let updatedProj := match key with
             | "name" => { proj with name := value }
@@ -228,6 +241,9 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
   if let some proj := currentProject then
     projects := projects.push proj
 
+  -- Use parsed external docs from config.toml [external_docs] section
+  let finalExternalDocs := externalDocs
+
   return {
     docVerificationBridgePath := dvbPath
     reposDir := reposDir
@@ -241,6 +257,7 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
     proofDepWorkers := proofDepWorkers
     htmlWorkers := htmlWorkers
     slowThresholdSecs := slowThresholdSecs
+    externalDocs := finalExternalDocs
   }
 
 /-! ## Utilities -/
@@ -1558,6 +1575,10 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
   -- Add slow threshold flag
   if config.slowThresholdSecs != 30 then
     unifiedArgs := unifiedArgs ++ #["--slow-threshold", s!"{config.slowThresholdSecs}"]
+  -- Add external docs URLs from config.toml [external_docs] section
+  if !config.externalDocs.isEmpty then
+    let extDocsStr := config.externalDocs.map (fun (k, v) => s!"{k}={v}") |> String.intercalate ","
+    unifiedArgs := unifiedArgs ++ #["--external-docs", extDocsStr]
   -- Add classification cache flags for efficiency
   -- Cache uses split format: <basePath>.json (metadata) + <basePath>.jsonl (entries)
   let cachePath := outputDirAbs / "classification-cache"  -- No extension - save/load adds .json/.jsonl
