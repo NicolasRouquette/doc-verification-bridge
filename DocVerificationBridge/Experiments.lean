@@ -1468,6 +1468,24 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
     let lakeExeCacheGet := project.lakeExeCacheGet.getD config.lakeExeCacheGet
     IO.println s!"[{name}] [4/6] Building project{if lakeExeCacheGet then " (with cache)" else ""}..."
 
+    -- CRITICAL: Fetch dependencies before building (network required)
+    -- This must happen before the isolated build step, otherwise Lake will
+    -- try to download dependencies during compilation and fail due to network isolation.
+    let (updateOk, updateLog, newLog) ← runLakeLogged "lake-update-project" config.useSandbox
+      config.docVerificationBridgePath projectDir "network" #["update"]
+      cmdLog (some logCtx)
+    cmdLog := newLog
+    if !updateOk then
+      -- Check if it's a recoverable error (post-update hooks can fail but update succeeded)
+      if updateLog.contains "post-update hooks" || updateLog.contains "failed to fetch cache" then
+        IO.println s!"[{name}]       Warning: post-update hooks failed, continuing anyway..."
+      else
+        generateErrorPage name "lake update failed" updateLog outputDir (some tcCheck)
+        writeProjectState config.sitesDir name .failed
+        return { name, repo, success := false,
+                 errorMessage := some "lake update failed", buildLog := updateLog,
+                 siteDir := some outputDir }
+
     -- For projects like mathlib4, fetch the cloud cache first
     if lakeExeCacheGet then
       let (cacheOk, cacheLog, newLog) ← runLakeLogged "lake-exe-cache-get" config.useSandbox
