@@ -1399,6 +1399,22 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
       writeProjectState config.sitesDir name .failed
       return { name, repo, success := false,
                errorMessage := some "Git pull failed", buildLog := pullLog }
+    -- Validate repo has actual content (guard against corrupted/empty repos)
+    -- For monorepos, check subdirectory; for normal repos, check root
+    let checkDir := match project.subdirectory with
+      | some subdir => repoDir / subdir
+      | none => repoDir
+    let hasLakefile ← (checkDir / "lakefile.lean").pathExists <||> (checkDir / "lakefile.toml").pathExists
+    if !hasLakefile then
+      IO.println s!"[{name}]       Warning: No lakefile found after pull, re-cloning..."
+      removeDir repoDir
+      let (cloneOk, cloneLog, newLog2) ← runCmdLogged "git-clone-recovery" "git"
+        #["clone", "--depth", "1", repo, repoDir.toString] none cmdLog (some logCtx)
+      cmdLog := newLog2
+      if !cloneOk then
+        writeProjectState config.sitesDir name .failed
+        return { name, repo, success := false,
+                 errorMessage := some "Clone recovery failed", buildLog := cloneLog }
   else
     -- SECURITY: git clone fetches from remote but does not execute code.
     -- Git hooks in the cloned repo are NOT executed. Safe operation.
