@@ -309,6 +309,145 @@ def writeProjectState (sitesDir : FilePath) (projectName : String) (state : Proj
     | .failed => "failed"
   IO.FS.writeFile path stateStr
 
+/-! ## Backup Management for Build Resilience -/
+
+/-- Get the backup directory path for a project's last successful build -/
+def backupDirPath (sitesDir : FilePath) (projectName : String) : FilePath :=
+  sitesDir / projectName / ".last-successful"
+
+/-- Get the backup info file path (contains timestamp of last successful build) -/
+def backupInfoPath (sitesDir : FilePath) (projectName : String) : FilePath :=
+  sitesDir / projectName / ".last-successful-info"
+
+/-- Check if a valid backup exists for a project -/
+def hasValidBackup (sitesDir : FilePath) (projectName : String) : IO Bool := do
+  let backupDir := backupDirPath sitesDir projectName
+  let backupIndex := backupDir / "index.html"
+  -- A backup is valid if it has an index.html (meaning the site was generated)
+  backupIndex.pathExists
+
+/-- Read the backup info (timestamp) if it exists -/
+def readBackupInfo (sitesDir : FilePath) (projectName : String) : IO (Option String) := do
+  let infoPath := backupInfoPath sitesDir projectName
+  if ← infoPath.pathExists then
+    some <$> IO.FS.readFile infoPath
+  else
+    pure none
+
+/-- Save a successful build as backup
+    Copies the site directory to .last-successful and records the timestamp -/
+def saveSuccessfulBackup (sitesDir : FilePath) (projectName : String) : IO Unit := do
+  let outputDir := sitesDir / projectName
+  let siteDir := outputDir / "site"
+  let backupDir := backupDirPath sitesDir projectName
+  let infoPath := backupInfoPath sitesDir projectName
+
+  -- Only backup if site directory exists
+  if ← siteDir.pathExists then
+    -- Remove old backup if exists
+    if ← backupDir.pathExists then
+      discard <| IO.Process.output { cmd := "rm", args := #["-rf", backupDir.toString] }
+    -- Copy site to backup
+    discard <| IO.Process.output {
+      cmd := "cp", args := #["-r", siteDir.toString, backupDir.toString]
+    }
+    -- Record timestamp
+    let now ← IO.Process.output { cmd := "date", args := #["-Iseconds"] }
+    IO.FS.writeFile infoPath now.stdout.trimCompat
+    IO.println s!"[{projectName}] Backed up successful build"
+
+/-- Restore docs from backup, adding a warning banner
+    Returns true if backup was successfully restored, false if no backup exists -/
+def restoreFromBackup (sitesDir : FilePath) (projectName : String)
+    (errorMsg : String) (buildLog : String) : IO Bool := do
+  if !(← hasValidBackup sitesDir projectName) then
+    return false
+
+  let backupDir := backupDirPath sitesDir projectName
+  let outputDir := sitesDir / projectName
+  let siteDir := outputDir / "site"
+
+  -- Get backup timestamp
+  let backupTime ← readBackupInfo sitesDir projectName
+  let backupTimeStr := backupTime.getD "unknown"
+
+  -- Remove current (failed) site if exists
+  if ← siteDir.pathExists then
+    discard <| IO.Process.output { cmd := "rm", args := #["-rf", siteDir.toString] }
+
+  -- Copy backup to site directory
+  discard <| IO.Process.output {
+    cmd := "cp", args := #["-r", backupDir.toString, siteDir.toString]
+  }
+
+  -- Generate a warning banner HTML that will be injected into pages
+  let warningBanner := s!"
+<div id='stale-docs-warning' style='
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(90deg, #ff6b6b, #ffa500);
+  color: white;
+  padding: 12px 20px;
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 14px;
+  z-index: 10000;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+'>
+  ⚠️ <strong>Stale Documentation</strong>: These docs are from a previous successful build ({backupTimeStr}).
+  The latest build failed. <a href='../error.html' style='color: white; text-decoration: underline;'>View error details</a>
+</div>
+<script>
+  // Adjust body padding to account for the fixed banner
+  document.body.style.paddingTop = (document.getElementById('stale-docs-warning').offsetHeight + 10) + 'px';
+</script>"
+
+  -- Inject warning banner into the index.html
+  let indexPath := siteDir / "index.html"
+  if ← indexPath.pathExists then
+    let content ← IO.FS.readFile indexPath
+    -- Insert banner after <body> tag
+    let modified := content.replace "<body>" s!"<body>{warningBanner}"
+    IO.FS.writeFile indexPath modified
+
+  -- Create error.html with full error details
+  let errorHtml := s!"<!DOCTYPE html>
+<html>
+<head>
+<meta charset=\"UTF-8\">
+<title>Build Error: {projectName}</title>
+<style>
+body \{ font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 40px; background: #1a1a2e; color: #eee; }
+h1 \{ color: #ff6b6b; }
+h2 \{ color: #fff; margin-top: 30px; }
+.error \{ background: #2d2d44; padding: 20px; border-radius: 8px; border-left: 4px solid #ff6b6b; margin-bottom: 20px; }
+.info \{ background: #2d2d44; padding: 20px; border-radius: 8px; border-left: 4px solid #4ecdc4; margin-bottom: 20px; }
+pre \{ background: #16213e; padding: 15px; border-radius: 4px; overflow-x: auto; font-size: 12px; white-space: pre-wrap; max-height: 500px; overflow-y: auto; }
+a \{ color: #4ecdc4; }
+</style>
+</head>
+<body>
+<h1>❌ Latest Build Failed: {projectName}</h1>
+<div class='info'>
+<p>📚 <strong>Stale docs available:</strong> The <a href='site/'>documentation from {backupTimeStr}</a> is still accessible.</p>
+</div>
+<div class='error'>
+<h2>Error Summary</h2>
+<pre>{errorMsg}</pre>
+</div>
+<h2>Build Log</h2>
+<pre>{buildLog}</pre>
+<p><a href='commands.yaml'>📋 View full command log (YAML)</a></p>
+<p><a href='/'>← Back to Summary</a></p>
+</body>
+</html>"
+  IO.FS.writeFile (outputDir / "error.html") errorHtml
+
+  IO.println s!"[{projectName}] Restored docs from backup ({backupTimeStr})"
+  return true
+
 /-- Remove a directory recursively -/
 def removeDir (path : FilePath) : IO Unit := do
   if ← path.pathExists then
@@ -1002,12 +1141,65 @@ def parseCoverageStats (statsPath : FilePath) : IO ProjectResult := do
   }
 /-! ## HTML Generation -/
 
-/-- Generate an error page for a failed build with detailed diagnostics -/
+/-- Generate an error page for a failed build with detailed diagnostics.
+    If `sitesDir` is provided, attempts to restore from backup first. -/
 def generateErrorPage (projectName : String) (errorMsg : String)
     (buildLog : String) (outputDir : FilePath)
-    (toolchainInfo : Option ToolchainCheck := none) : IO Unit := do
+    (toolchainInfo : Option ToolchainCheck := none)
+    (sitesDir : Option FilePath := none) : IO Unit := do
   IO.FS.createDirAll outputDir
 
+  -- Try to restore from backup if sitesDir is provided
+  let restoredFromBackup ← match sitesDir with
+    | some sd => restoreFromBackup sd projectName errorMsg buildLog
+    | none => pure false
+
+  -- If we restored from backup, the error page is already generated (as error.html)
+  -- We just need to update the index.html to redirect or show both options
+  if restoredFromBackup then
+    let backupTime ← match sitesDir with
+      | some sd => readBackupInfo sd projectName
+      | none => pure none
+    let backupTimeStr := backupTime.getD "unknown"
+
+    -- Generate a landing page that shows both options
+    let css := "body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 40px; background: #1a1a2e; color: #eee; } h1 { color: #ffa500; } h2 { color: #fff; margin-top: 30px; } .warning { background: #2d2d44; padding: 20px; border-radius: 8px; border-left: 4px solid #ffa500; margin-bottom: 20px; } .option { background: #2d2d44; padding: 20px; border-radius: 8px; margin-bottom: 15px; display: flex; align-items: center; gap: 20px; } .option-icon { font-size: 2em; } .option a { color: #4ecdc4; font-size: 1.2em; } .option p { margin: 5px 0 0 0; color: #888; } a { color: #4ecdc4; }"
+
+    let html := s!"<!DOCTYPE html>
+<html>
+<head>
+<meta charset=\"UTF-8\">
+<title>{projectName} - Build Status</title>
+<style>{css}</style>
+</head>
+<body>
+<h1>⚠️ {projectName}: Latest Build Failed</h1>
+<div class='warning'>
+<p>The latest build of this project failed, but documentation from a previous successful build is available.</p>
+</div>
+<h2>Options</h2>
+<div class='option'>
+<span class='option-icon'>📚</span>
+<div>
+<a href='site/'>View Previous Documentation</a>
+<p>From successful build at {backupTimeStr}</p>
+</div>
+</div>
+<div class='option'>
+<span class='option-icon'>❌</span>
+<div>
+<a href='error.html'>View Error Details</a>
+<p>See what went wrong with the latest build</p>
+</div>
+</div>
+<p style='margin-top: 30px;'><a href='/'>← Back to Summary</a></p>
+</body>
+</html>"
+
+    IO.FS.writeFile (outputDir / "index.html") html
+    return
+
+  -- No backup available - generate standard error page
   let toolchainSection := match toolchainInfo with
     | some tc =>
       let statusColor := if tc.compatible then "#4ecdc4" else "#ff6b6b"
@@ -1384,7 +1576,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
       | _ => "reanalyze"
     if !(← repoDir.pathExists) then
       let errMsg := s!"{modeName} mode requires existing repo at {repoDir}"
-      generateErrorPage name errMsg "" outputDir
+      generateErrorPage name errMsg "" outputDir none (some config.sitesDir)
       writeProjectState config.sitesDir name .failed
       return { name, repo, success := false,
                errorMessage := some errMsg, siteDir := some outputDir }
@@ -1438,7 +1630,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
     let errMsg := s!"Project directory not found: {projectDir}" ++
       (if project.subdirectory.isSome then s!" (subdirectory: {project.subdirectory.get!})" else "")
     saveCommandLogCtx cmdLog logCtx
-    generateErrorPage name errMsg "" outputDir
+    generateErrorPage name errMsg "" outputDir none (some config.sitesDir)
     writeProjectState config.sitesDir name .failed
     return { name, repo, success := false,
              errorMessage := some errMsg, siteDir := some outputDir }
@@ -1456,7 +1648,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
     let maxVerStr := s!"v{maxSupportedVersion.1}.{maxSupportedVersion.2.1}.{maxSupportedVersion.2.2}"
     let errMsg := s!"Toolchain incompatibility: {tcCheck.message}\n\nProject uses {tcCheck.projectToolchain}.\nSupported range: {minVerStr} to {maxVerStr}.\n\nTo analyze this project, it must be updated to use a Lean version in the supported range."
     saveCommandLogCtx cmdLog logCtx
-    generateErrorPage name errMsg "" outputDir (some tcCheck)
+    generateErrorPage name errMsg "" outputDir (some tcCheck) (some config.sitesDir)
     writeProjectState config.sitesDir name .failed
     return { name, repo, success := false,
              errorMessage := some s!"Toolchain incompatibility: project uses {tcCheck.projectToolchain}, supported range is {minVerStr} to {maxVerStr}",
@@ -1475,7 +1667,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
     let lakeBuildDir := projectDir / ".lake" / "build"
     if !(← lakeBuildDir.pathExists) then
       let errMsg := s!"{modeName} mode requires existing build at {lakeBuildDir}"
-      generateErrorPage name errMsg "" outputDir (some tcCheck)
+      generateErrorPage name errMsg "" outputDir (some tcCheck) (some config.sitesDir)
       writeProjectState config.sitesDir name .failed
       return { name, repo, success := false,
                errorMessage := some errMsg, siteDir := some outputDir }
@@ -1496,7 +1688,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
       if updateLog.contains "post-update hooks" || updateLog.contains "failed to fetch cache" then
         IO.println s!"[{name}]       Warning: post-update hooks failed, continuing anyway..."
       else
-        generateErrorPage name "lake update failed" updateLog outputDir (some tcCheck)
+        generateErrorPage name "lake update failed" updateLog outputDir (some tcCheck) (some config.sitesDir)
         writeProjectState config.sitesDir name .failed
         return { name, repo, success := false,
                  errorMessage := some "lake update failed", buildLog := updateLog,
@@ -1509,7 +1701,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
         cmdLog (some logCtx)
       cmdLog := newLog
       if !cacheOk then
-        generateErrorPage name "lake exe cache get failed" cacheLog outputDir (some tcCheck)
+        generateErrorPage name "lake exe cache get failed" cacheLog outputDir (some tcCheck) (some config.sitesDir)
         writeProjectState config.sitesDir name .failed
         return { name, repo, success := false,
                  errorMessage := some "cache get failed", buildLog := cacheLog,
@@ -1521,7 +1713,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
     cmdLog := newLog
     buildLog := buildLog'
     if !buildOk then
-      generateErrorPage name "Project build failed" buildLog outputDir (some tcCheck)
+      generateErrorPage name "Project build failed" buildLog outputDir (some tcCheck) (some config.sitesDir)
       writeProjectState config.sitesDir name .failed
       return { name, repo, success := false,
                errorMessage := some "Build failed", buildLog,
@@ -1542,7 +1734,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
     if updateLog.contains "post-update hooks" || updateLog.contains "failed to fetch cache" then
       IO.println s!"[{name}]       Warning: post-update hooks failed, continuing anyway..."
     else
-      generateErrorPage name "lake update failed" updateLog outputDir (some tcCheck)
+      generateErrorPage name "lake update failed" updateLog outputDir (some tcCheck) (some config.sitesDir)
       writeProjectState config.sitesDir name .failed
       return { name, repo, success := false,
                errorMessage := some "lake update failed", buildLog := updateLog,
@@ -1562,7 +1754,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
     cmdLog (some logCtx)
   cmdLog := newLog
   if !docvbBuildOk then
-    generateErrorPage name "docvb build failed" docvbBuildLog outputDir (some tcCheck)
+    generateErrorPage name "docvb build failed" docvbBuildLog outputDir (some tcCheck) (some config.sitesDir)
     writeProjectState config.sitesDir name .failed
     return { name, repo, success := false,
              errorMessage := some "docvb build failed", buildLog := docvbBuildLog,
@@ -1683,7 +1875,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
   -- Log is already saved incrementally by runCmdLogged
 
   if !docOk then
-    generateErrorPage name "Documentation generation failed" (buildLog ++ "\n\n" ++ docLog) outputDir (some tcCheck)
+    generateErrorPage name "Documentation generation failed" (buildLog ++ "\n\n" ++ docLog) outputDir (some tcCheck) (some config.sitesDir)
     writeProjectState config.sitesDir name .failed
     return { name, repo, success := false,
              errorMessage := some "unified-doc failed", buildLog := docLog,
@@ -1694,8 +1886,9 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
   let statsJson := outputDir / "site" / "stats.json"
   let stats ← parseCoverageStats statsJson
 
-  -- Mark as completed
+  -- Mark as completed and save backup for future fallback
   writeProjectState config.sitesDir name .completed
+  saveSuccessfulBackup config.sitesDir name
   IO.println s!"[{name}] [6/6] ✓ Complete!"
 
   return { stats with

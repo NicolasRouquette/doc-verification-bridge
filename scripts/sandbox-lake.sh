@@ -164,8 +164,41 @@ BWRAP_OPTS+=(
   --tmpfs /tmp
 )
 
-# Ensure cache directory exists
-mkdir -p "$HOME/.cache"
+# --- Per-project mathlib cache directory ---
+# When multiple projects run `lake exe cache get` concurrently, they all use
+# ~/.cache/mathlib/curl.cfg for curl configuration. This causes race conditions:
+# - Project A writes curl.cfg with its URLs
+# - Project B overwrites it with different URLs
+# - Downloads get corrupted or deletion fails with "no such file"
+#
+# Solution: Use MATHLIB_CACHE_DIR to give each project its own cache directory.
+# We symlink the .ltar files from the shared cache to avoid re-downloading,
+# but keep curl.cfg and other temp files isolated per-project.
+
+# Extract project name from directory path for unique cache dir
+PROJECT_NAME=$(basename "$PROJECT_DIR")
+PROJECT_CACHE_DIR="$HOME/.cache/mathlib-projects/$PROJECT_NAME"
+SHARED_CACHE="$HOME/.cache/mathlib"
+
+mkdir -p "$PROJECT_CACHE_DIR"
+mkdir -p "$SHARED_CACHE"
+
+# Create symlinks from shared cache to project cache for existing .ltar files
+# This is a one-time setup per project - new downloads go to project dir
+# The .ltar files are content-addressed (hash-named) so safe to share
+if [[ -d "$SHARED_CACHE" ]]; then
+  for ltar in "$SHARED_CACHE"/*.ltar; do
+    [[ -e "$ltar" ]] || continue  # Skip if no .ltar files exist
+    ltar_name=$(basename "$ltar")
+    # Only create symlink if target doesn't exist (avoid overwriting real files)
+    if [[ ! -e "$PROJECT_CACHE_DIR/$ltar_name" ]]; then
+      ln -sf "$ltar" "$PROJECT_CACHE_DIR/$ltar_name" 2>/dev/null || true
+    fi
+  done
+fi
+
+# Set the per-project cache directory - isolates curl.cfg and leantar binaries
+BWRAP_OPTS+=(--setenv MATHLIB_CACHE_DIR "$PROJECT_CACHE_DIR")
 
 # --- Execute ---
 exec bwrap "${BWRAP_OPTS[@]}" -- lake "${LAKE_ARGS[@]}"
