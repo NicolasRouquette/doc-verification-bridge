@@ -55,6 +55,18 @@ jobs:
           fi
           git lfs install
       
+      - name: Pre-install required Lean toolchains
+        run: |
+          # Install doc-verification-bridge's toolchain (needed to build the pipeline itself)
+          if [ -f lean-toolchain ]; then
+            echo "Installing doc-verification-bridge toolchain: $(cat lean-toolchain)"
+            elan toolchain install "$(cat lean-toolchain)" || true
+          fi
+          # Note: Project toolchains are now installed automatically by the experiments
+          # pipeline during Phase 2 (after cloning, before building). This ensures all
+          # toolchains are available even for newly cloned repos.
+          elan show
+      
       - name: Build doc-verification-bridge
         run: lake build experiments
       

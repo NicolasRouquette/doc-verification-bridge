@@ -105,12 +105,11 @@ BWRAP_OPTS=(
   --ro-bind /etc/passwd /etc/passwd
   --ro-bind /etc/group /etc/group
   
-  # Elan/Lean toolchain (writable - Lake may need to install new toolchains)
-  # When a project updates its lean-toolchain file, `lake update` triggers Elan
-  # to download and install the new toolchain version. This requires write access.
-  # SECURITY NOTE: Elan downloads toolchains from GitHub releases (leanprover/lean4),
-  # which are signed/verified. This is a controlled, auditable installation path.
-  --bind "$HOME/.elan" "$HOME/.elan"
+  # Elan/Lean toolchain (read-only for security)
+  # Toolchains are pre-installed by the GitHub Actions workflow before parallel builds start.
+  # This prevents race conditions from concurrent toolchain installations and ensures
+  # untrusted build scripts cannot modify the Lean toolchain.
+  --ro-bind "$HOME/.elan" "$HOME/.elan"
   
   # Process isolation
   --proc /proc

@@ -748,6 +748,148 @@ def cloneRepository (repoUrl : String) (targetDir : FilePath) : IO (Bool × Stri
     -- Clone
     runCmd "git" #["clone", "--depth", "1", repoUrl, targetDir.toString] none
 
+/-! ## Phased Execution Support
+
+To avoid race conditions when parallel builds need to install the same Lean toolchain,
+we split execution into phases:
+1. Clone phase (parallel) - Clone/update all git repositories
+2. Toolchain phase (sequential) - Pre-install all required toolchains via `elan toolchain install`
+3. Build phase (parallel) - Run actual builds with all toolchains already available
+
+This ensures `elan` never tries to install the same toolchain from multiple processes. -/
+
+/-- Result of cloning a project repository -/
+structure CloneResult where
+  projectName : String
+  success : Bool
+  errorMessage : Option String := none
+  repoDir : FilePath
+  projectDir : FilePath  -- May differ from repoDir for monorepos with subdirectory
+  deriving Repr, Inhabited
+
+/-- Clone a single project's repository (Phase 1)
+    Returns the clone result without doing any building. -/
+def cloneProjectRepo (project : Project) (config : Config) (mode : RunMode)
+    : IO CloneResult := do
+  let name := project.name
+  let repo := project.repo
+  let repoDir := config.reposDir / name
+  let projectDir := match project.subdirectory with
+    | some subdir => repoDir / subdir
+    | none => repoDir
+
+  -- Handle mode-specific behavior
+  match mode with
+  | .fresh =>
+    IO.println s!"[{name}] Cloning (fresh)..."
+    removeDir repoDir
+  | .resume =>
+    let currentState ← readProjectState config.sitesDir name
+    match currentState with
+    | .completed =>
+      IO.println s!"[{name}] Already completed, skipping clone"
+      return { projectName := name, success := true, repoDir, projectDir }
+    | .inProgress | .failed =>
+      IO.println s!"[{name}] Incomplete/failed - re-cloning..."
+      removeDir repoDir
+    | .notStarted =>
+      IO.println s!"[{name}] Cloning (not started)..."
+  | .update =>
+    if ← repoDir.pathExists then
+      IO.println s!"[{name}] Updating existing repo..."
+      let (pullOk, _pullLog) ← runCmd "git" #["pull"] (some repoDir)
+      if !pullOk then
+        IO.println s!"[{name}] Pull failed, re-cloning..."
+        removeDir repoDir
+      else
+        -- Verify repo has content
+        let checkDir := match project.subdirectory with
+          | some subdir => repoDir / subdir
+          | none => repoDir
+        let hasLakefile ← (checkDir / "lakefile.lean").pathExists <||> (checkDir / "lakefile.toml").pathExists
+        if hasLakefile then
+          return { projectName := name, success := true, repoDir, projectDir }
+        else
+          IO.println s!"[{name}] No lakefile after pull, re-cloning..."
+          removeDir repoDir
+    else
+      IO.println s!"[{name}] Cloning (update mode, no existing repo)..."
+  | .reanalyze | .reclassify | .docgenOnly | .htmlOnly =>
+    -- These modes require existing repos, just verify
+    if ← repoDir.pathExists then
+      return { projectName := name, success := true, repoDir, projectDir }
+    else
+      return { projectName := name, success := false,
+               errorMessage := some s!"Mode requires existing repo at {repoDir}",
+               repoDir, projectDir }
+
+  -- Clone if we reach here
+  if !(← repoDir.pathExists) then
+    let (cloneOk, cloneLog) ← runCmd "git" #["clone", "--depth", "1", repo, repoDir.toString] none
+    if !cloneOk then
+      return { projectName := name, success := false,
+               errorMessage := some s!"Clone failed: {cloneLog}",
+               repoDir, projectDir }
+
+  -- Verify project directory exists (for monorepos)
+  if !(← projectDir.pathExists) then
+    return { projectName := name, success := false,
+             errorMessage := some s!"Project directory not found: {projectDir}",
+             repoDir, projectDir }
+
+  return { projectName := name, success := true, repoDir, projectDir }
+
+/-- Install a toolchain if not already present (Phase 2)
+    Uses `elan toolchain install` which is safe to run even if already installed.
+    MUST be called sequentially to avoid race conditions. -/
+def ensureToolchainInstalled (toolchain : String) : IO Bool := do
+  -- elan toolchain install is idempotent - safe to call even if already installed
+  let (ok, output) ← runCmd "elan" #["toolchain", "install", toolchain] none 600  -- 10 min timeout
+  if ok then
+    IO.println s!"  ✓ Toolchain {toolchain} ready"
+  else
+    IO.println s!"  ✗ Failed to install toolchain {toolchain}: {output}"
+  return ok
+
+/-- Collect all unique toolchains needed by projects (Phase 2)
+    Returns a deduplicated list of toolchain strings. -/
+def collectRequiredToolchains (cloneResults : Array CloneResult) : IO (Array String) := do
+  let mut toolchains : Array String := #[]
+  for result in cloneResults do
+    if result.success then
+      let toolchainPath := result.projectDir / "lean-toolchain"
+      if ← toolchainPath.pathExists then
+        let content ← IO.FS.readFile toolchainPath
+        let tc := content.trimCompat
+        if !toolchains.contains tc then
+          toolchains := toolchains.push tc
+  return toolchains
+
+/-- Pre-install all required toolchains sequentially (Phase 2)
+    This MUST run before parallel builds to avoid elan race conditions. -/
+def preInstallToolchains (cloneResults : Array CloneResult) : IO Bool := do
+  IO.println "\n══════════════════════════════════════════════════════════════"
+  IO.println "PHASE 2: Pre-installing toolchains (sequential)"
+  IO.println "══════════════════════════════════════════════════════════════"
+
+  let toolchains ← collectRequiredToolchains cloneResults
+  IO.println s!"Found {toolchains.size} unique toolchain(s) to ensure:"
+  for tc in toolchains do
+    IO.println s!"  - {tc}"
+  IO.println ""
+
+  let mut allOk := true
+  for tc in toolchains do
+    let ok ← ensureToolchainInstalled tc
+    if !ok then
+      allOk := false
+
+  if allOk then
+    IO.println s!"\n✓ All {toolchains.size} toolchain(s) ready"
+  else
+    IO.println s!"\n✗ Some toolchain installations failed"
+  return allOk
+
 /-- Detect the main package name from a lakefile -/
 def detectPackageName (projectDir : FilePath) (fallback : String) : IO String := do
   let lakefileToml := projectDir / "lakefile.toml"
@@ -1974,12 +2116,72 @@ def runExperiments (configPath : FilePath) (mode : RunMode := .fresh)
   IO.println s!"Base port: {config.basePort}"
   IO.println ""
 
-  -- Process projects in parallel batches
+  -- PHASE 1: Clone repositories (parallel)
+  -- This phase only does git clone/pull - no code execution, safe to parallelize.
+  IO.println "══════════════════════════════════════════════════════════════"
+  IO.println "PHASE 1: Cloning repositories (parallel)"
+  IO.println "══════════════════════════════════════════════════════════════"
+  IO.println ""
+
+  let mut cloneResults : Array CloneResult := #[]
+  let mut clonePending := projects.toList
+  let mut cloneRunning : Array (Task (Except IO.Error CloneResult)) := #[]
+
+  while !clonePending.isEmpty || !cloneRunning.isEmpty do
+    while cloneRunning.size < config.maxParallelJobs && !clonePending.isEmpty do
+      match clonePending with
+      | project :: rest =>
+        clonePending := rest
+        let task ← IO.asTask (prio := .dedicated) (cloneProjectRepo project config mode)
+        cloneRunning := cloneRunning.push task
+      | [] => break
+
+    IO.sleep 100
+
+    let mut newCloneRunning : Array (Task (Except IO.Error CloneResult)) := #[]
+    for task in cloneRunning do
+      let finished ← IO.hasFinished task
+      if finished then
+        match task.get with
+        | .ok result =>
+          cloneResults := cloneResults.push result
+          let status := if result.success then "✓" else "✗"
+          IO.println s!"[{result.projectName}] {status} Clone done ({cloneResults.size}/{projects.size})"
+        | .error e =>
+          IO.println s!"[clone] Error: {e}"
+      else
+        newCloneRunning := newCloneRunning.push task
+    cloneRunning := newCloneRunning
+
+  -- Check if any clones failed
+  let failedClones := cloneResults.filter (!·.success)
+  if !failedClones.isEmpty then
+    IO.println s!"\n⚠ {failedClones.size} project(s) failed to clone - they will be skipped"
+
+  -- PHASE 2: Pre-install toolchains (sequential)
+  -- This MUST be sequential to avoid elan race conditions when multiple projects
+  -- need the same toolchain installed simultaneously.
+  let toolchainsOk ← preInstallToolchains cloneResults
+  if !toolchainsOk then
+    IO.println "Warning: Some toolchains failed to install, builds may fail"
+
+  -- PHASE 3: Process projects (parallel builds)
+  -- Now that all toolchains are installed, we can safely run parallel builds.
+  -- Elan will find the pre-installed toolchains without needing to download.
+  IO.println "\n══════════════════════════════════════════════════════════════"
+  IO.println "PHASE 3: Building projects (parallel)"
+  IO.println "══════════════════════════════════════════════════════════════"
+  IO.println ""
+
   let mut results : Array ProjectResult := #[]
+
+  -- Filter to only successfully cloned projects
+  let projectsToProcess := projects.filter fun p =>
+    cloneResults.any fun cr => cr.projectName == p.name && cr.success
 
   -- Worker pool: keep up to maxParallelJobs running at all times
   -- As soon as one completes, start another
-  let mut pending := projects.toList  -- Projects not yet started
+  let mut pending := projectsToProcess.toList  -- Projects not yet started
   let mut running : Array (Task (Except IO.Error ProjectResult)) := #[]
 
   while !pending.isEmpty || !running.isEmpty do
@@ -2006,12 +2208,23 @@ def runExperiments (configPath : FilePath) (mode : RunMode := .fresh)
         | .ok result =>
           results := results.push result
           let status := if result.success then "✓" else "✗"
-          IO.println s!"[{result.name}] {status} Complete ({results.size}/{projects.size} done)"
+          IO.println s!"[{result.name}] {status} Complete ({results.size}/{projectsToProcess.size} done)"
         | .error e =>
           IO.println s!"[task] Error: {e}"
       else
         newRunning := newRunning.push task
     running := newRunning
+
+  -- Add failed clone projects as failed results
+  for cloneResult in failedClones do
+    let project := projects.find? (·.name == cloneResult.projectName)
+    if let some p := project then
+      results := results.push {
+        name := p.name
+        repo := p.repo
+        success := false
+        errorMessage := cloneResult.errorMessage
+      }
 
   -- Generate summary page
   let summaryPath := config.sitesDir / "index.html"
