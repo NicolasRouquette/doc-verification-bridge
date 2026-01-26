@@ -1437,7 +1437,7 @@ def generateStatusPage (projectName : String) (repo : String) (outputDir : FileP
   IO.FS.writeFile (outputDir / "index.html") html
 
 /-- Generate the meta-summary page -/
-def generateSummaryPage (results : Array ProjectResult) (outputPath : FilePath) : IO Unit := do
+def generateSummaryPage (results : Array ProjectResult) (outputPath : FilePath) (sitesDir : FilePath) : IO Unit := do
   let successful := results.filter (·.success)
   let unsuccessful := results.filter (!·.success)
   -- Separate incomplete (no error message or "Incomplete") from actual failures
@@ -1508,8 +1508,24 @@ def generateSummaryPage (results : Array ProjectResult) (outputPath : FilePath) 
   let failedSection := if failed.isEmpty then "" else
     s!"<div class='section'><h2>❌ Failed Projects ({failed.size})</h2><ul class='failed-list'>{failedList}</ul></div>"
 
+  -- Build "Previously Successful Projects" section for failed/incomplete projects with backup docs
+  let mut backupList := ""
+  let mut backupCount := 0
+  for r in unsuccessful do
+    if ← hasValidBackup sitesDir r.name then
+      let backupTime ← readBackupInfo sitesDir r.name
+      let timeStr := match backupTime with
+        | some t => s!" (backup from {t})"
+        | none => ""
+      let docsLink := s!"<a href='.backups/{r.name}/index.html' target='_blank'>View Previous Docs</a>"
+      backupList := backupList ++ s!"<li><strong>{r.name}</strong>{timeStr}<br><small><a href='{r.repo}' target='_blank'>{r.repo}</a> | {docsLink}</small></li>\n"
+      backupCount := backupCount + 1
+
+  let backupSection := if backupCount == 0 then "" else
+    s!"<div class='section'><h2>📚 Previously Successful Projects ({backupCount})</h2><p class='backup-note'>These projects failed in the latest run but have documentation from a previous successful build.</p><ul class='backup-list'>{backupList}</ul></div>"
+
   -- CSS without interpolation (no curly braces to escape)
-  let css := "body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 40px; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #eee; min-height: 100vh; } h1 { color: #4ecdc4; margin-bottom: 10px; } .subtitle { color: #888; margin-bottom: 30px; } .summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px; } .card { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; text-align: center; border: 1px solid rgba(255,255,255,0.1); } .card-value { font-size: 2.5em; font-weight: bold; color: #4ecdc4; } .card-label { color: #888; margin-top: 5px; } table { width: 100%; border-collapse: collapse; background: rgba(255,255,255,0.02); border-radius: 12px; overflow: hidden; margin-bottom: 20px; } th { background: rgba(78, 205, 196, 0.2); padding: 15px; text-align: left; cursor: pointer; user-select: none; } th:hover { background: rgba(78, 205, 196, 0.3); } td { padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); } tr:hover { background: rgba(255,255,255,0.05); } .success { color: #4ecdc4; } .failure { color: #ff6b6b; } a { color: #4ecdc4; text-decoration: none; } a:hover { text-decoration: underline; } .section { margin-bottom: 40px; } .section h2 { color: #fff; border-bottom: 2px solid #4ecdc4; padding-bottom: 10px; margin-bottom: 20px; } .section h3 { color: #ccc; margin-top: 25px; margin-bottom: 15px; } .aggregate-row { background: rgba(78, 205, 196, 0.1) !important; font-weight: bold; } .aggregate-row td { border-top: 2px solid #4ecdc4; } .incomplete-list { list-style: none; padding: 0; } .incomplete-list li { background: rgba(136, 136, 136, 0.1); padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #888; } .failed-list { list-style: none; padding: 0; } .failed-list li { background: rgba(255, 107, 107, 0.1); padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #ff6b6b; } .timestamp { color: #666; font-size: 0.9em; } .ontology-summary { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 20px 0; } .ontology-cell { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; text-align: center; } .ontology-cell .label { color: #888; font-size: 0.9em; } .ontology-cell .value { font-size: 1.8em; font-weight: bold; color: #4ecdc4; }"
+  let css := "body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 40px; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: #eee; min-height: 100vh; } h1 { color: #4ecdc4; margin-bottom: 10px; } .subtitle { color: #888; margin-bottom: 30px; } .summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 40px; } .card { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; text-align: center; border: 1px solid rgba(255,255,255,0.1); } .card-value { font-size: 2.5em; font-weight: bold; color: #4ecdc4; } .card-label { color: #888; margin-top: 5px; } table { width: 100%; border-collapse: collapse; background: rgba(255,255,255,0.02); border-radius: 12px; overflow: hidden; margin-bottom: 20px; } th { background: rgba(78, 205, 196, 0.2); padding: 15px; text-align: left; cursor: pointer; user-select: none; } th:hover { background: rgba(78, 205, 196, 0.3); } td { padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.05); } tr:hover { background: rgba(255,255,255,0.05); } .success { color: #4ecdc4; } .failure { color: #ff6b6b; } a { color: #4ecdc4; text-decoration: none; } a:hover { text-decoration: underline; } .section { margin-bottom: 40px; } .section h2 { color: #fff; border-bottom: 2px solid #4ecdc4; padding-bottom: 10px; margin-bottom: 20px; } .section h3 { color: #ccc; margin-top: 25px; margin-bottom: 15px; } .aggregate-row { background: rgba(78, 205, 196, 0.1) !important; font-weight: bold; } .aggregate-row td { border-top: 2px solid #4ecdc4; } .incomplete-list { list-style: none; padding: 0; } .incomplete-list li { background: rgba(136, 136, 136, 0.1); padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #888; } .failed-list { list-style: none; padding: 0; } .failed-list li { background: rgba(255, 107, 107, 0.1); padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #ff6b6b; } .backup-list { list-style: none; padding: 0; } .backup-list li { background: rgba(255, 159, 67, 0.1); padding: 15px; margin-bottom: 10px; border-radius: 8px; border-left: 4px solid #ff9f43; } .backup-note { color: #ff9f43; margin-bottom: 15px; font-style: italic; } .timestamp { color: #666; font-size: 0.9em; } .ontology-summary { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 20px 0; } .ontology-cell { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; text-align: center; } .ontology-cell .label { color: #888; font-size: 0.9em; } .ontology-cell .value { font-size: 1.8em; font-weight: bold; color: #4ecdc4; }"
 
   -- JavaScript for table sorting (kept simple without interpolation)
   let js := "document.querySelectorAll('table th[data-sort]').forEach(function(th, index) { th.addEventListener('click', function() { var table = th.closest('table'); var tbody = table.querySelector('tbody'); var rows = Array.from(tbody.querySelectorAll('tr:not(.aggregate-row)')); var sortType = th.dataset.sort; var isAsc = th.classList.contains('sorted-asc'); table.querySelectorAll('th').forEach(function(h) { h.classList.remove('sorted-asc', 'sorted-desc'); }); rows.sort(function(a, b) { var aVal = a.cells[index].textContent; var bVal = b.cells[index].textContent; if (sortType === 'number') { aVal = parseFloat(aVal) || 0; bVal = parseFloat(bVal) || 0; return isAsc ? bVal - aVal : aVal - bVal; } else { return isAsc ? bVal.localeCompare(aVal) : aVal.localeCompare(bVal); } }); rows.forEach(function(row) { tbody.appendChild(row); }); var aggRow = tbody.querySelector('.aggregate-row'); if (aggRow) tbody.appendChild(aggRow); th.classList.add(isAsc ? 'sorted-desc' : 'sorted-asc'); }); });"
@@ -1608,6 +1624,7 @@ def generateSummaryPage (results : Array ProjectResult) (outputPath : FilePath) 
 </div>
 {incompleteSection}
 {failedSection}
+{backupSection}
 
 <div class='section'>
 <h2>📋 Configuration</h2>
@@ -2241,7 +2258,7 @@ def runExperiments (configPath : FilePath) (mode : RunMode := .fresh)
 
   -- Generate summary page
   let summaryPath := config.sitesDir / "index.html"
-  generateSummaryPage results summaryPath
+  generateSummaryPage results summaryPath config.sitesDir
   IO.println s!"\nSummary page generated: {summaryPath}"
 
   -- Save results as JSON
@@ -2345,7 +2362,7 @@ def refreshSummary (configPath : FilePath) : IO UInt32 := do
 
   -- Generate summary page
   let summaryPath := config.sitesDir / "index.html"
-  generateSummaryPage results summaryPath
+  generateSummaryPage results summaryPath config.sitesDir
   IO.println s!"\nSummary page generated: {summaryPath}"
 
   -- Save results as JSON
