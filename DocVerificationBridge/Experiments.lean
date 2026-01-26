@@ -311,13 +311,15 @@ def writeProjectState (sitesDir : FilePath) (projectName : String) (state : Proj
 
 /-! ## Backup Management for Build Resilience -/
 
-/-- Get the backup directory path for a project's last successful build -/
+/-- Get the backup directory path for a project's last successful build.
+    Stored in `.backups/` at the sites level, outside the project directory,
+    so that `removeDir outputDir` doesn't accidentally delete the backup. -/
 def backupDirPath (sitesDir : FilePath) (projectName : String) : FilePath :=
-  sitesDir / projectName / ".last-successful"
+  sitesDir / ".backups" / projectName
 
 /-- Get the backup info file path (contains timestamp of last successful build) -/
 def backupInfoPath (sitesDir : FilePath) (projectName : String) : FilePath :=
-  sitesDir / projectName / ".last-successful-info"
+  sitesDir / ".backups" / s!"{projectName}.info"
 
 /-- Check if a valid backup exists for a project -/
 def hasValidBackup (sitesDir : FilePath) (projectName : String) : IO Bool := do
@@ -335,7 +337,7 @@ def readBackupInfo (sitesDir : FilePath) (projectName : String) : IO (Option Str
     pure none
 
 /-- Save a successful build as backup
-    Copies the site directory to .last-successful and records the timestamp -/
+    Copies the site directory to .backups/{projectName} and records the timestamp -/
 def saveSuccessfulBackup (sitesDir : FilePath) (projectName : String) : IO Unit := do
   let outputDir := sitesDir / projectName
   let siteDir := outputDir / "site"
@@ -344,6 +346,8 @@ def saveSuccessfulBackup (sitesDir : FilePath) (projectName : String) : IO Unit 
 
   -- Only backup if site directory exists
   if ← siteDir.pathExists then
+    -- Ensure .backups directory exists
+    IO.FS.createDirAll (sitesDir / ".backups")
     -- Remove old backup if exists
     if ← backupDir.pathExists then
       discard <| IO.Process.output { cmd := "rm", args := #["-rf", backupDir.toString] }
@@ -370,6 +374,9 @@ def restoreFromBackup (sitesDir : FilePath) (projectName : String)
   -- Get backup timestamp
   let backupTime ← readBackupInfo sitesDir projectName
   let backupTimeStr := backupTime.getD "unknown"
+
+  -- Ensure output directory exists (may have been deleted by removeDir)
+  IO.FS.createDirAll outputDir
 
   -- Remove current (failed) site if exists
   if ← siteDir.pathExists then
@@ -1637,6 +1644,12 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
   -- Check current state and decide what to do
   let currentState ← readProjectState config.sitesDir name
 
+  -- CRITICAL: Save backup of any existing successful site BEFORE cleanup.
+  -- This ensures we can restore if the new build fails.
+  -- Must happen before any removeDir calls that might delete the site.
+  if currentState == .completed then
+    saveSuccessfulBackup config.sitesDir name
+
   match mode with
   | .fresh =>
     -- Always process from scratch - clean up first
@@ -1661,11 +1674,11 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
   | .update =>
     -- Update git repo (don't delete), regenerate docs
     IO.println s!"[{name}] Update mode - will update repo and regenerate docs"
-    removeDir outputDir  -- Only remove the generated site
+    removeDir outputDir
   | .reanalyze =>
     -- Skip build entirely, only re-run unified-doc (requires existing build)
     IO.println s!"[{name}] Reanalyze mode - skipping build, running unified-doc only"
-    removeDir outputDir  -- Remove generated site to force regeneration
+    removeDir outputDir
   | .reclassify =>
     -- Skip build AND doc-gen4, only re-run classification (requires existing api-temp)
     -- NOTE: Do NOT removeDir here - api-temp must be preserved for source linking!
