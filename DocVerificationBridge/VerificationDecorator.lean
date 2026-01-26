@@ -71,16 +71,26 @@ def badgeCssClass : VerificationBadge → String
     The module name uses underscores to match the StaticHtml file naming convention:
     e.g., Mathlib.Algebra.AddTorsor.Basic → modules/Mathlib_Algebra_AddTorsor_Basic.html
 
-    The depth parameter indicates how many directory levels deep the current API page is.
-    For a module like Mathlib.MeasureTheory.Integral.RieszMarkovKakutani.Basic,
-    the API page is at api/Mathlib/MeasureTheory/Integral/RieszMarkovKakutani/Basic.html
-    which is 6 levels deep (api/ + 5 subdirectories), so we need "../../../../../../modules/..." -/
+    The depth is how many `..` segments we need to reach the site root from an API page.
+    For a module like Mathlib.Algebra.AddConstMap.Basic (4 components),
+    the API page is at api/Mathlib/Algebra/AddConstMap/Basic.html
+    Relative paths resolve from the file's directory (AddConstMap/), so:
+      - .. → Algebra/
+      - ../.. → Mathlib/
+      - ../../.. → api/
+      - ../../../.. → site/  (the root)
+    Thus depth = 4 (equals the number of module components).
+    Then we append "modules/..." to reach site/modules/. -/
 def moduleToVerificationUrl (moduleName : Name) (declName : Name) : String :=
   -- Convert module name to safe filename (using underscores, matching Report.filePathToSafeFilename)
   let safeModuleName := moduleName.toString.replace "." "_"
-  -- Compute depth: number of components in module name + 1 for the api/ directory
-  let depth := moduleName.components.length + 1
-  -- Build relative path: go up 'depth' levels from the API page to reach site root
+  -- Compute depth: number of directory levels from the API page to site root
+  -- The file is at api/<component1>/<component2>/.../<componentN>/<filename>.html
+  -- Relative paths are resolved from the parent directory of the file, which is
+  -- api/<component1>/<component2>/.../<componentN>/
+  -- We need to go up N levels to reach site/ (one for each component)
+  let depth := moduleName.components.length
+  -- Build relative path: go up 'depth' levels from the API page directory to reach site root
   let upPath := String.intercalate "/" (List.replicate depth "..")
   s!"{upPath}/modules/{safeModuleName}.html#{declName}"
 
