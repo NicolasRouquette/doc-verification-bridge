@@ -1,11 +1,11 @@
 -- DocVerificationBridge/Compatibility.lean
--- Cross-version compatibility helpers for Lean 4.24.0 - 4.27.0+
+-- Cross-version compatibility helpers for Lean 4
 
 /-!
 # Cross-version Compatibility
 
 This module provides compatibility helpers that work across the supported
-Lean version range (4.24.0 - 4.27.0+).
+Lean version range.
 
 ## String Slice Changes in Lean 4.27.0
 

@@ -32,17 +32,7 @@ open Lean System Cli DocVerificationBridge DocVerificationBridge.Unified DocVeri
 ## Timing Helpers
 -/
 
-/-- Format milliseconds as human-readable duration -/
-def formatDuration (ms : Nat) : String :=
-  let secs := ms / 1000
-  let mins := secs / 60
-  let hours := mins / 60
-  if hours > 0 then
-    s!"{hours}h {mins % 60}m {secs % 60}s"
-  else if mins > 0 then
-    s!"{mins}m {secs % 60}s"
-  else
-    s!"{secs}.{(ms % 1000) / 100}s"
+-- formatDuration is imported from DocVerificationBridge.Unified
 
 /-- Print a timed step message with delta and cumulative time -/
 def printTimedStep (step : String) (startTime : Nat) (lastStepTime : Nat) : IO Nat := do
@@ -127,18 +117,7 @@ def loadAndAnalyzeWithMode (cfg : UnifiedConfig) (modules : Array Name)
     DocGen4.Process.AnalyzeTask.analyzePrefixModules modules[0]!
   else
     DocGen4.Process.AnalyzeTask.analyzeConcreteModules modules
-  let config := {
-    maxHeartbeats := 100000000,
-    options := ⟨[
-      (`pp.tagAppFns, true),
-      (`pp.funBinderTypes, true),
-      (`debug.skipKernelTC, true),
-      (`Elab.async, false)
-    ]⟩,
-    fileName := default,
-    fileMap := default,
-  }
-  let ((analyzerResult, hierarchy), _) ← Meta.MetaM.toIO (DocGen4.Process.process task) config { env := env } {} {}
+  let ((analyzerResult, hierarchy), _) ← Meta.MetaM.toIO (DocGen4.Process.process task) defaultMetaConfig { env := env } {} {}
 
   -- Use first module name as project identifier for logging
   let projectName := if modules.isEmpty then "unknown" else modules[0]!.toString

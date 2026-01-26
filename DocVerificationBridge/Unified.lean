@@ -50,7 +50,23 @@ def formatDurationMs (ms : Nat) : String :=
   else
     s!"{secs}.{(ms % 1000) / 100}s"
 
+/-- Alias for backwards compatibility -/
+abbrev formatDuration := formatDurationMs
+
 open Lean System IO DocGen4 DocGen4.Output DocGen4.Process
+
+/-- Standard MetaM context configuration for doc-gen4 analysis.
+    Sets options for pretty printing and disables async elaboration. -/
+def defaultMetaConfig : Core.Context := {
+  maxHeartbeats := 100000000,
+  options := Options.empty
+    |>.setBool `pp.tagAppFns true
+    |>.setBool `pp.funBinderTypes true
+    |>.setBool `debug.skipKernelTC true
+    |>.setBool `Elab.async false,
+  fileName := default,
+  fileMap := default,
+}
 
 /-- Configuration for the unified documentation pipeline -/
 structure UnifiedConfig where
@@ -161,18 +177,7 @@ def loadAndAnalyze (cfg : UnifiedConfig) (modules : Array Name) : IO UnifiedResu
     AnalyzeTask.analyzePrefixModules modules[0]!
   else
     AnalyzeTask.analyzeConcreteModules modules
-  let config := {
-    maxHeartbeats := 100000000,
-    options := ⟨[
-      (`pp.tagAppFns, true),
-      (`pp.funBinderTypes, true),
-      (`debug.skipKernelTC, true),
-      (`Elab.async, false)
-    ]⟩,
-    fileName := default,
-    fileMap := default,
-  }
-  let ((analyzerResult, hierarchy), _) ← Meta.MetaM.toIO (process task) config { env := env } {} {}
+  let ((analyzerResult, hierarchy), _) ← Meta.MetaM.toIO (process task) defaultMetaConfig { env := env } {} {}
 
   IO.println s!"  Loaded {analyzerResult.moduleInfo.size} modules"
   (← IO.getStdout).flush

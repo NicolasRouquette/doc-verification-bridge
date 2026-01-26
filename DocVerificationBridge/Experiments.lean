@@ -969,7 +969,7 @@ structure ToolchainCheck where
 def minSupportedVersion : (Nat × Nat × Nat) := (4, 24, 0)
 
 /-- Maximum supported Lean version for doc-verification-bridge -/
-def maxSupportedVersion : (Nat × Nat × Nat) := (4, 27, 0)
+def maxSupportedVersion : (Nat × Nat × Nat) := (4, 28, 0)
 
 /-- Strip RC suffix from version tag (e.g., "v4.25.0-rc2" → "v4.25.0")
     doc-gen4 typically only has release tags, not RC tags -/
