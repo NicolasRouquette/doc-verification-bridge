@@ -1596,6 +1596,10 @@ def generateSummaryPage (results : Array ProjectResult) (outputPath : FilePath) 
 <tr class='aggregate-row'><td><strong>TOTAL</strong></td><td>{totalDefs}</td><td>{totalDefsSorry}</td><td>{totalThms}</td><td>{totalThmsSorry}</td><td>{totalBridging}</td><td>{totalUnclassified}</td></tr>
 </tbody>
 </table>
+</div>
+{backupSection}
+<div class='section'>
+<h2>✅ Successful Projects — Details</h2>
 
 <h3>Four-Category Ontology per Project</h3>
 <table id='ontology-table'>
@@ -1624,7 +1628,6 @@ def generateSummaryPage (results : Array ProjectResult) (outputPath : FilePath) 
 </div>
 {incompleteSection}
 {failedSection}
-{backupSection}
 
 <div class='section'>
 <h2>📋 Configuration</h2>
