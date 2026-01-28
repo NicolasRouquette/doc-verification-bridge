@@ -15,6 +15,19 @@ open Lean System IO
 
 namespace Experiments
 
+/-! ## Supported Lean Version Range
+
+These constants define the range of Lean 4 versions that doc-verification-bridge supports.
+When adding support for new versions, update these values and test with
+`scripts/test-compatibility.sh`.
+-/
+
+/-- Minimum supported Lean version for doc-verification-bridge -/
+def minSupportedVersion : (Nat × Nat × Nat) := (4, 24, 0)
+
+/-- Maximum supported Lean version for doc-verification-bridge -/
+def maxSupportedVersion : (Nat × Nat × Nat) := (4, 28, 0)
+
 /-! ## Configuration Types -/
 
 /-- State of a project's experiment run -/
@@ -971,12 +984,6 @@ structure ToolchainCheck where
   /-- The doc-gen4 version tag to use (matches project toolchain) -/
   docgen4Tag : String := ""
   deriving Repr, Inhabited
-
-/-- Minimum supported Lean version for doc-verification-bridge -/
-def minSupportedVersion : (Nat × Nat × Nat) := (4, 24, 0)
-
-/-- Maximum supported Lean version for doc-verification-bridge -/
-def maxSupportedVersion : (Nat × Nat × Nat) := (4, 28, 0)
 
 /-- Strip RC suffix from version tag (e.g., "v4.25.0-rc2" → "v4.25.0")
     doc-gen4 typically only has release tags, not RC tags -/
@@ -2190,6 +2197,9 @@ def runExperiments (configPath : FilePath) (mode : RunMode := .fresh)
   let failedClones := cloneResults.filter (!·.success)
   if !failedClones.isEmpty then
     IO.println s!"\n⚠ {failedClones.size} project(s) failed to clone - they will be skipped"
+    for fc in failedClones do
+      let errMsg := fc.errorMessage.getD "Unknown error"
+      IO.println s!"  - {fc.projectName}: {errMsg}"
 
   -- PHASE 2: Pre-install toolchains (sequential)
   -- This MUST be sequential to avoid elan race conditions when multiple projects

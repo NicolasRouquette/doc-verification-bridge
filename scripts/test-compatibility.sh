@@ -15,7 +15,9 @@ DVB_DIR="$(dirname "$SCRIPT_DIR")"
 COMPAT_FILE="$DVB_DIR/DocVerificationBridge/Compatibility.lean"
 COMPAT_LEAN_FILE="$DVB_DIR/DocVerificationBridge/CompatibilityLean.lean"
 
-# Supported Lean 4 versions (from Experiments.lean: minSupportedVersion to maxSupportedVersion)
+# Supported Lean 4 versions
+# IMPORTANT: Keep in sync with DocVerificationBridge/Experiments.lean:
+#   minSupportedVersion / maxSupportedVersion (near top of file)
 # Note: We test representative versions, not every patch release
 VERSIONS=(
     "v4.24.0"
