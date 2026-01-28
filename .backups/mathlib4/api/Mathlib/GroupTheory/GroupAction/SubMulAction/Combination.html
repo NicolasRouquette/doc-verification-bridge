@@ -1,0 +1,654 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../../.././style.css"></link><link rel="icon" href="../../../.././favicon.svg"></link><link rel="mask-icon" href="../../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.GroupTheory.GroupAction.SubMulAction.Combination</title><script defer="true" src="../../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../../.././";</script><script>const MODULE_NAME="Mathlib.GroupTheory.GroupAction.SubMulAction.Combination";</script><script type="module" src="../../../.././jump-src.js"></script><script type="module" src="../../../.././search.js"></script><script type="module" src="../../../.././expand-nav.js"></script><script type="module" src="../../../.././how-about.js"></script><script type="module" src="../../../.././instances.js"></script><script type="module" src="../../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">GroupTheory</span>.<span class="name">GroupAction</span>.<span class="name">SubMulAction</span>.<span class="name">Combination</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../../.././Init.html">Init</a></li><li><a href="../../../.././Mathlib/GroupTheory/GroupAction/Basic.html">Mathlib.GroupTheory.GroupAction.Basic</a></li><li><a href="../../../.././Mathlib/GroupTheory/GroupAction/Embedding.html">Mathlib.GroupTheory.GroupAction.Embedding</a></li><li><a href="../../../.././Mathlib/GroupTheory/GroupAction/MultipleTransitivity.html">Mathlib.GroupTheory.GroupAction.MultipleTransitivity</a></li><li><a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction.html">Mathlib.GroupTheory.GroupAction.SubMulAction</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.GroupTheory.GroupAction.SubMulAction.Combination" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#Nat.Combination"><span class="name">Nat</span>.<span class="name">Combination</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.mem_iff"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">mem_iff</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.instSetLikeElemFinset"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">instSetLikeElemFinset</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.coe_coe"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">coe_coe</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.mem_coe_iff"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">mem_coe_iff</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.eq_iff_subset"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">eq_iff_subset</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.exists_mem_notMem"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">exists_mem_notMem</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.subMulAction"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">subMulAction</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.subAddAction"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">subAddAction</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.instMulActionElemFinsetOfDecidableEq"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">instMulActionElemFinsetOfDecidableEq</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.instAddActionElemFinsetOfDecidableEq"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">instAddActionElemFinsetOfDecidableEq</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.coe_smul"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">coe_smul</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.coe_vadd"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">coe_vadd</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.addAction_faithful"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">addAction_faithful</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.faithfulVAdd"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">faithfulVAdd</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.mulAction_faithful"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">mulAction_faithful</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.faithfulSMul"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">faithfulSMul</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.mulActionHom_of_embedding"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">mulActionHom_of_embedding</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.addActionHom_of_embedding"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">addActionHom_of_embedding</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.coe_mulActionHom_of_embedding"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">coe_mulActionHom_of_embedding</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.coe_addActionHom_of_embedding"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">coe_addActionHom_of_embedding</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.mulActionHom_of_embedding_surjective"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">mulActionHom_of_embedding_surjective</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.addActionHom_of_embedding_surjective"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">addActionHom_of_embedding_surjective</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.card"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">card</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.nontrivial"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">nontrivial</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.nontrivial'"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">nontrivial'</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.isPretransitive_of_isMultiplyPretransitive"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">isPretransitive_of_isMultiplyPretransitive</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.isPretransitive_of_isMultiplyPretransitive'"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">isPretransitive_of_isMultiplyPretransitive'</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.isPretransitive"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">isPretransitive</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.compl"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">compl</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.coe_compl"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">coe_compl</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.mem_compl"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">mem_compl</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.compl_compl"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">compl_compl</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.compl_bijective"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">compl_bijective</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.mulActionHom_singleton"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">mulActionHom_singleton</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.addActionHom_singleton"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">addActionHom_singleton</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.mulActionHom_singleton_bijective"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">mulActionHom_singleton_bijective</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.Combination.addActionHom_singleton_bijective"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">addActionHom_singleton_bijective</span></a></div></nav><main>
+<div class="mod_doc"><h1 class="markdown-heading" id="Combinations">Combinations <a class="hover-link" href="#Combinations">#</a></h1><p>Combinations in a type are finite subsets of given cardinality.
+This file provides some API for handling them, especially in the context of a group action.</p><ul>
+<li><p><code><a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Nat.Combination</a> α n</code> is the set of all <code><a href="../../../.././Mathlib/Data/Finset/Defs.html#Finset">Finset</a> α</code> with cardinality <code>n</code>.</p>
+</li>
+<li><p><code><a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.card">Nat.Combination.card</a></code> proves that the <code><a href="../../../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a></code>-cardinality
+of this set is equal to <code>(Nat.<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.card">card</a> α).choose n</code>.</p>
+</li>
+<li><p><code><a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.subMulAction">Nat.Combination.subMulAction</a></code>:
+When a group <code>G</code> acts on <code>α</code>, the <code><a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction.html#SubMulAction">SubMulAction</a></code> of <code>G</code> on <code>n.<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> α</code>.</p>
+</li>
+</ul><p>This induces a <code><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> G (n.<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> α)</code> instance. Then:</p><ul>
+<li><p><code>EmbeddingToCombination.map</code>: the equivariant map from <code><a href="../../../.././Init/Prelude.html#Fin">Fin</a> n ↪ α</code> to <code>n.<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> α</code>.</p>
+</li>
+<li><p><code><a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.isPretransitive_of_isMultiplyPretransitive">Nat.Combination.isPretransitive_of_isMultiplyPretransitive</a></code>
+shows the pretransitivity of that action if the action of <code>G</code> on <code>α</code> is <code>n</code>-pretransitive.</p>
+</li>
+<li><p><code><a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.isPretransitive">Nat.Combination.isPretransitive</a></code> shows that <code><a href="../../../.././Mathlib/Logic/Equiv/Defs.html#Equiv.Perm">Equiv.Perm</a> α</code>
+acts pretransitively on <code>n.<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> α</code>, for all <code>n</code>.</p>
+</li>
+<li><p><code><a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.compl">Nat.Combination.compl</a></code>: Given an equality <code>m + n = <a href="../../../.././Mathlib/Data/Fintype/Card.html#Fintype.card">Fintype.card</a> α</code>,
+the complement of an <code>n</code>-combination, as an <code>m</code>-combination.
+This map is an equivariant map with respect to a group action on <code>α</code>.</p>
+</li>
+<li><p><code>Nat.toCombination_one_equivariant</code>:
+The obvious map from <code>α</code> to <code>1.<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> α</code>, as an equivariant map.</p>
+</li>
+</ul></div><div class="decl" id="Nat.Combination"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L50-L51">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination"><span class="name">Nat</span>.<span class="name">Combination</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">(<a href="../../../.././Mathlib/Data/Finset/Defs.html#Finset">Finset</a> <span class="fn">α</span>)</span></span></div></div><p>The type of combinations of <code>n</code> elements of a type <code>α</code></p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Nat.Combination" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Nat.Combination.mem_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L61-L64">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.mem_iff" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.mem_iff"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">mem_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><a href="../../../.././Mathlib/Data/Finset/Defs.html#Finset">Finset</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">s</span> <a href="../../../.././Init/Prelude.html#Membership.mem">∈</a> <span class="fn"><a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> <span class="fn">α</span> <span class="fn">n</span></span> <a href="../../../.././Init/Core.html#Iff">↔</a> <span class="fn"><span class="fn">s</span>.<a href="../../../.././Mathlib/Data/Finset/Card.html#Finset.card">card</a></span> <a href="../../../.././Init/Prelude.html#Eq">=</a> <span class="fn">n</span></div></div></div></div><div class="decl" id="Nat.Combination.instSetLikeElemFinset"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L66-L66">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.instSetLikeElemFinset" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.instSetLikeElemFinset"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">instSetLikeElemFinset</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Data/SetLike/Basic.html#SetLike">SetLike</a> <span class="fn">(↑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> <span class="fn">α</span> <span class="fn">n</span>)</span>)</span> <span class="fn">α</span></span></div></div><details><summary>Equations</summary><ul class="equations"></ul></details></div></div><div class="decl" id="Nat.Combination.coe_coe"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L68-L70">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.coe_coe" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.coe_coe"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">coe_coe</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn">↑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> <span class="fn">α</span> <span class="fn">n</span>)</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">↑<span class="fn">↑<span class="fn">s</span></span></span> <a href="../../../.././Init/Prelude.html#Eq">=</a> <span class="fn">↑<span class="fn">s</span></span></div></div></div></div><div class="decl" id="Nat.Combination.mem_coe_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L72-L72">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.mem_coe_iff" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.mem_coe_iff"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">mem_coe_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn">↑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> <span class="fn">α</span> <span class="fn">n</span>)</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">a</span> <a href="../../../.././Init/Prelude.html#Membership.mem">∈</a> <span class="fn">↑<span class="fn">s</span></span> <a href="../../../.././Init/Core.html#Iff">↔</a> <span class="fn">a</span> <a href="../../../.././Init/Prelude.html#Membership.mem">∈</a> <span class="fn">s</span></div></div></div></div><div class="decl" id="Nat.Combination.eq_iff_subset"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L74-L75">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.eq_iff_subset" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.eq_iff_subset"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">eq_iff_subset</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s </span><span class="fn">t</span> : <span class="fn">↑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> <span class="fn">α</span> <span class="fn">n</span>)</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">s</span> <a href="../../../.././Init/Prelude.html#Eq">=</a> <span class="fn">t</span> <a href="../../../.././Init/Core.html#Iff">↔</a> <span class="fn">↑<span class="fn">s</span></span> <a href="../../../.././Init/Core.html#HasSubset.Subset">⊆</a> <span class="fn">↑<span class="fn">t</span></span></div></div></div></div><div class="decl" id="Nat.Combination.exists_mem_notMem"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L77-L87">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.exists_mem_notMem" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.exists_mem_notMem"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">exists_mem_notMem</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hn</span> : <span class="fn">1</span> <a href="../../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">n</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hα</span> : <span class="fn">↑<span class="fn">n</span></span> <a href="../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn"><a href="../../../.././Mathlib/SetTheory/Cardinal/Finite.html#ENat.card">ENat.card</a> <span class="fn">α</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a </span><span class="fn">b</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hab</span> : <span class="fn">a</span> <a href="../../../.././Init/Core.html#Ne">≠</a> <span class="fn">b</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">∃ (<span class="fn">s</span> : <span class="fn">↑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> <span class="fn">α</span> <span class="fn">n</span>)</span></span>), <span class="fn">a</span> <a href="../../../.././Init/Prelude.html#Membership.mem">∈</a> <span class="fn">s</span> <a href="../../../.././Init/Prelude.html#And">∧</a> <span class="fn"><span class="fn">b</span> ∉ <span class="fn">s</span></span></span></div></div></div></div><div class="decl" id="Nat.Combination.subMulAction"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L90-L94">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.subMulAction" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.subMulAction"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">subMulAction</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction.html#SubMulAction">SubMulAction</a> <span class="fn">G</span> <span class="fn">(<a href="../../../.././Mathlib/Data/Finset/Defs.html#Finset">Finset</a> <span class="fn">α</span>)</span></span></div></div><p><code><a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Nat.Combination</a> α n</code> as a <code><a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction.html#SubMulAction">SubMulAction</a></code> of <code><a href="../../../.././Mathlib/Data/Finset/Defs.html#Finset">Finset</a> α</code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Nat.Combination.subMulAction" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Nat.Combination.subAddAction"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L91-L91">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.subAddAction" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.subAddAction"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">subAddAction</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#AddAction">AddAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction.html#SubAddAction">SubAddAction</a> <span class="fn">G</span> <span class="fn">(<a href="../../../.././Mathlib/Data/Finset/Defs.html#Finset">Finset</a> <span class="fn">α</span>)</span></span></div></div><p><code><a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Nat.Combination</a> α n</code> as a <code><a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction.html#SubAddAction">SubAddAction</a></code> of <code>Finsetα</code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Nat.Combination.subAddAction" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Nat.Combination.instMulActionElemFinsetOfDecidableEq"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L96-L98">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.instMulActionElemFinsetOfDecidableEq" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.instMulActionElemFinsetOfDecidableEq"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">instMulActionElemFinsetOfDecidableEq</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">↑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> <span class="fn">α</span> <span class="fn">n</span>)</span></span></span></div></div><details><summary>Equations</summary><ul class="equations"></ul></details></div></div><div class="decl" id="Nat.Combination.instAddActionElemFinsetOfDecidableEq"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L96-L96">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.instAddActionElemFinsetOfDecidableEq" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.instAddActionElemFinsetOfDecidableEq"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">instAddActionElemFinsetOfDecidableEq</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#AddAction">AddAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#AddAction">AddAction</a> <span class="fn">G</span> <span class="fn">↑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> <span class="fn">α</span> <span class="fn">n</span>)</span></span></span></div></div><details><summary>Equations</summary><ul class="equations"></ul></details></div></div><div class="decl" id="Nat.Combination.coe_smul"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L102-L105">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.coe_smul" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.coe_smul"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">coe_smul</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn">G</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn">↑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> <span class="fn">α</span> <span class="fn">n</span>)</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">↑(<span class="fn">g</span> <a href="../../../.././Init/Prelude.html#HSMul.hSMul">•</a> <span class="fn">s</span>)</span> <a href="../../../.././Init/Prelude.html#Eq">=</a> <span class="fn">g</span> <a href="../../../.././Init/Prelude.html#HSMul.hSMul">•</a> <span class="fn">↑<span class="fn">s</span></span></div></div></div></div><div class="decl" id="Nat.Combination.coe_vadd"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L102-L102">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.coe_vadd" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.coe_vadd"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">coe_vadd</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#AddAction">AddAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn">G</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn">↑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> <span class="fn">α</span> <span class="fn">n</span>)</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">↑(<span class="fn">g</span> <a href="../../../.././Mathlib/Algebra/Notation/Defs.html#HVAdd.hVAdd">+ᵥ</a> <span class="fn">s</span>)</span> <a href="../../../.././Init/Prelude.html#Eq">=</a> <span class="fn">g</span> <a href="../../../.././Mathlib/Algebra/Notation/Defs.html#HVAdd.hVAdd">+ᵥ</a> <span class="fn">↑<span class="fn">s</span></span></div></div></div></div><div class="decl" id="Nat.Combination.addAction_faithful"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L107-L123">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.addAction_faithful" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.addAction_faithful"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">addAction_faithful</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#AddAction">AddAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hn</span> : <span class="fn">1</span> <a href="../../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">n</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hα</span> : <span class="fn">↑<span class="fn">n</span></span> <a href="../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn"><a href="../../../.././Mathlib/SetTheory/Cardinal/Finite.html#ENat.card">ENat.card</a> <span class="fn">α</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn">G</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Basic.html#AddAction.toPerm">AddAction.toPerm</a> <span class="fn">g</span></span> <a href="../../../.././Init/Prelude.html#Eq">=</a> <span class="fn">1</span> <a href="../../../.././Init/Core.html#Iff">↔</a> <span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Basic.html#AddAction.toPerm">AddAction.toPerm</a> <span class="fn">g</span></span> <a href="../../../.././Init/Prelude.html#Eq">=</a> <span class="fn">1</span></div></div></div></div><div class="decl" id="Nat.Combination.faithfulVAdd"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L125-L135">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.faithfulVAdd" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.faithfulVAdd"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">faithfulVAdd</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#AddAction">AddAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hn</span> : <span class="fn">1</span> <a href="../../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">n</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hα</span> : <span class="fn">↑<span class="fn">n</span></span> <a href="../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn"><a href="../../../.././Mathlib/SetTheory/Cardinal/Finite.html#ENat.card">ENat.card</a> <span class="fn">α</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Faithful.html#FaithfulVAdd">FaithfulVAdd</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Faithful.html#FaithfulVAdd">FaithfulVAdd</a> <span class="fn">G</span> <span class="fn">↑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> <span class="fn">α</span> <span class="fn">n</span>)</span></span></span></div></div><p>If an additive group <code>G</code> acts faithfully on <code>α</code>,
+then it acts faithfully on <code>n.<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> α</code>,
+provided <code>1 ≤ n &lt; <a href="../../../.././Mathlib/SetTheory/Cardinal/Finite.html#ENat.card">ENat.card</a> α</code>.</p></div></div><div class="decl" id="Nat.Combination.mulAction_faithful"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L137-L153">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.mulAction_faithful" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.mulAction_faithful"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">mulAction_faithful</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hn</span> : <span class="fn">1</span> <a href="../../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">n</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hα</span> : <span class="fn">↑<span class="fn">n</span></span> <a href="../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn"><a href="../../../.././Mathlib/SetTheory/Cardinal/Finite.html#ENat.card">ENat.card</a> <span class="fn">α</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn">G</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Basic.html#MulAction.toPerm">MulAction.toPerm</a> <span class="fn">g</span></span> <a href="../../../.././Init/Prelude.html#Eq">=</a> <span class="fn">1</span> <a href="../../../.././Init/Core.html#Iff">↔</a> <span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Basic.html#MulAction.toPerm">MulAction.toPerm</a> <span class="fn">g</span></span> <a href="../../../.././Init/Prelude.html#Eq">=</a> <span class="fn">1</span></div></div></div></div><div class="decl" id="Nat.Combination.faithfulSMul"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L155-L164">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.faithfulSMul" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.faithfulSMul"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">faithfulSMul</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hn</span> : <span class="fn">1</span> <a href="../../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">n</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hα</span> : <span class="fn">↑<span class="fn">n</span></span> <a href="../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn"><a href="../../../.././Mathlib/SetTheory/Cardinal/Finite.html#ENat.card">ENat.card</a> <span class="fn">α</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Faithful.html#FaithfulSMul">FaithfulSMul</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Faithful.html#FaithfulSMul">FaithfulSMul</a> <span class="fn">G</span> <span class="fn">↑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> <span class="fn">α</span> <span class="fn">n</span>)</span></span></span></div></div><p>If a group <code>G</code> acts faithfully on <code>α</code>,
+then it acts faithfull on <code>n.<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> α</code>,
+provided <code>1 ≤ n &lt; <a href="../../../.././Mathlib/SetTheory/Cardinal/Finite.html#ENat.card">ENat.card</a> α</code>.</p></div></div><div class="decl" id="Nat.Combination.mulActionHom_of_embedding"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L171-L181">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.mulActionHom_of_embedding" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.mulActionHom_of_embedding"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">mulActionHom_of_embedding</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type">(<span class="fn"><a href="../../../.././Init/Prelude.html#Fin">Fin</a> <span class="fn">n</span></span> <a href="../../../.././Mathlib/Logic/Embedding/Basic.html#Function.Embedding">↪</a> <span class="fn">α</span>) <a href="../../../.././Mathlib/GroupTheory/GroupAction/Hom.html#MulActionHom">→ₑ[</a><a href="../../../.././Init/Prelude.html#id">id</a><a href="../../../.././Mathlib/GroupTheory/GroupAction/Hom.html#MulActionHom">]</a> <span class="fn">↑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> <span class="fn">α</span> <span class="fn">n</span>)</span></span></div></div><p>The equivariant map from embeddings of <code><a href="../../../.././Init/Prelude.html#Fin">Fin</a> n</code> (aka arrangement) to combinations.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Nat.Combination.mulActionHom_of_embedding" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Nat.Combination.addActionHom_of_embedding"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L172-L173">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.addActionHom_of_embedding" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.addActionHom_of_embedding"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">addActionHom_of_embedding</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#AddAction">AddAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type">(<span class="fn"><a href="../../../.././Init/Prelude.html#Fin">Fin</a> <span class="fn">n</span></span> <a href="../../../.././Mathlib/Logic/Embedding/Basic.html#Function.Embedding">↪</a> <span class="fn">α</span>) <a href="../../../.././Mathlib/GroupTheory/GroupAction/Hom.html#AddActionHom">→ₑ[</a><a href="../../../.././Init/Prelude.html#id">id</a><a href="../../../.././Mathlib/GroupTheory/GroupAction/Hom.html#AddActionHom">]</a> <span class="fn">↑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> <span class="fn">α</span> <span class="fn">n</span>)</span></span></div></div><p>The equivariant map from embeddings of <code><a href="../../../.././Init/Prelude.html#Fin">Fin</a> n</code>
+(aka arrangements) to combinations.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Nat.Combination.addActionHom_of_embedding" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Nat.Combination.coe_mulActionHom_of_embedding"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L183-L186">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.coe_mulActionHom_of_embedding" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.coe_mulActionHom_of_embedding"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">coe_mulActionHom_of_embedding</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><a href="../../../.././Init/Prelude.html#Fin">Fin</a> <span class="fn">n</span></span> <a href="../../../.././Mathlib/Logic/Embedding/Basic.html#Function.Embedding">↪</a> <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">↑<span class="fn">(<span class="fn"><span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.mulActionHom_of_embedding">mulActionHom_of_embedding</a> <span class="fn">G</span> <span class="fn">α</span> <span class="fn">n</span>)</span>.<a href="../../../.././Mathlib/GroupTheory/GroupAction/Hom.html#MulActionHom.toFun">toFun</a></span> <span class="fn">f</span>)</span></span> <a href="../../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../../.././Mathlib/Data/Finset/Image.html#Finset.map">Finset.map</a> <span class="fn">f</span> <a href="../../../.././Mathlib/Data/Fintype/Defs.html#Finset.univ">Finset.univ</a></span></div></div></div></div><div class="decl" id="Nat.Combination.coe_addActionHom_of_embedding"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L183-L183">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.coe_addActionHom_of_embedding" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.coe_addActionHom_of_embedding"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">coe_addActionHom_of_embedding</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#AddAction">AddAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><a href="../../../.././Init/Prelude.html#Fin">Fin</a> <span class="fn">n</span></span> <a href="../../../.././Mathlib/Logic/Embedding/Basic.html#Function.Embedding">↪</a> <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">↑<span class="fn">(<span class="fn"><span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.addActionHom_of_embedding">addActionHom_of_embedding</a> <span class="fn">G</span> <span class="fn">α</span> <span class="fn">n</span>)</span>.<a href="../../../.././Mathlib/GroupTheory/GroupAction/Hom.html#AddActionHom.toFun">toFun</a></span> <span class="fn">f</span>)</span></span> <a href="../../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../../.././Mathlib/Data/Finset/Image.html#Finset.map">Finset.map</a> <span class="fn">f</span> <a href="../../../.././Mathlib/Data/Fintype/Defs.html#Finset.univ">Finset.univ</a></span></div></div></div></div><div class="decl" id="Nat.Combination.mulActionHom_of_embedding_surjective"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L188-L194">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.mulActionHom_of_embedding_surjective" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.mulActionHom_of_embedding_surjective"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">mulActionHom_of_embedding_surjective</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Init/Data/Function.html#Function.Surjective">Function.Surjective</a> <span class="fn">⇑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.mulActionHom_of_embedding">mulActionHom_of_embedding</a> <span class="fn">G</span> <span class="fn">α</span> <span class="fn">n</span>)</span></span></span></div></div></div></div><div class="decl" id="Nat.Combination.addActionHom_of_embedding_surjective"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L188-L188">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.addActionHom_of_embedding_surjective" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.addActionHom_of_embedding_surjective"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">addActionHom_of_embedding_surjective</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#AddAction">AddAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Init/Data/Function.html#Function.Surjective">Function.Surjective</a> <span class="fn">⇑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.addActionHom_of_embedding">addActionHom_of_embedding</a> <span class="fn">G</span> <span class="fn">α</span> <span class="fn">n</span>)</span></span></span></div></div></div></div><div class="decl" id="Nat.Combination.card"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L196-L211">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.card" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.card"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">card</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a> <span class="fn">↑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> <span class="fn">α</span> <span class="fn">n</span>)</span></span></span> <a href="../../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a> <span class="fn">α</span>)</span>.<a href="../../../.././Mathlib/Data/Nat/Choose/Basic.html#Nat.choose">choose</a></span> <span class="fn">n</span></span></div></div></div></div><div class="decl" id="Nat.Combination.nontrivial"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L214-L223">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.nontrivial" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.nontrivial"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">nontrivial</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h1</span> : <span class="fn">0</span> <a href="../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">n</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h2</span> : <span class="fn">↑<span class="fn">n</span></span> <a href="../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn"><a href="../../../.././Mathlib/SetTheory/Cardinal/Finite.html#ENat.card">ENat.card</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Logic/Nontrivial/Defs.html#Nontrivial">Nontrivial</a> <span class="fn">↑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> <span class="fn">α</span> <span class="fn">n</span>)</span></span></span></div></div><p>If <code>0 &lt; n &lt; <a href="../../../.././Mathlib/SetTheory/Cardinal/Finite.html#ENat.card">ENat.card</a> α</code>, then <code>n.<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> α</code> is nontrivial.</p></div></div><div class="decl" id="Nat.Combination.nontrivial'"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L226-L231">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.nontrivial'" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.nontrivial'"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">nontrivial'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h1</span> : <span class="fn">0</span> <a href="../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">n</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h2</span> : <span class="fn">n</span> <a href="../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn"><a href="../../../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Logic/Nontrivial/Defs.html#Nontrivial">Nontrivial</a> <span class="fn">↑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> <span class="fn">α</span> <span class="fn">n</span>)</span></span></span></div></div><p>A variant of <code><a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.nontrivial">Nat.Combination.nontrivial</a></code> that uses <code><a href="../../../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a></code>.</p></div></div><div class="decl" id="Nat.Combination.isPretransitive_of_isMultiplyPretransitive"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L237-L240">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.isPretransitive_of_isMultiplyPretransitive" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.isPretransitive_of_isMultiplyPretransitive"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">isPretransitive_of_isMultiplyPretransitive</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../../.././Mathlib/GroupTheory/GroupAction/MultipleTransitivity.html#MulAction.IsMultiplyPretransitive">MulAction.IsMultiplyPretransitive</a> <span class="fn">G</span> <span class="fn">α</span> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Pretransitive.html#MulAction.IsPretransitive">MulAction.IsPretransitive</a> <span class="fn">G</span> <span class="fn">↑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> <span class="fn">α</span> <span class="fn">n</span>)</span></span></span></div></div></div></div><div class="decl" id="Nat.Combination.isPretransitive_of_isMultiplyPretransitive'"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L237-L237">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.isPretransitive_of_isMultiplyPretransitive'" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.isPretransitive_of_isMultiplyPretransitive'"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">isPretransitive_of_isMultiplyPretransitive'</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#AddAction">AddAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../../.././Mathlib/GroupTheory/GroupAction/MultipleTransitivity.html#AddAction.IsMultiplyPretransitive">AddAction.IsMultiplyPretransitive</a> <span class="fn">G</span> <span class="fn">α</span> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Pretransitive.html#AddAction.IsPretransitive">AddAction.IsPretransitive</a> <span class="fn">G</span> <span class="fn">↑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> <span class="fn">α</span> <span class="fn">n</span>)</span></span></span></div></div></div></div><div class="decl" id="Nat.Combination.isPretransitive"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L242-L244">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.isPretransitive" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.isPretransitive"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">isPretransitive</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Pretransitive.html#MulAction.IsPretransitive">MulAction.IsPretransitive</a> <span class="fn">(<a href="../../../.././Mathlib/Logic/Equiv/Defs.html#Equiv.Perm">Equiv.Perm</a> <span class="fn">α</span>)</span> <span class="fn">↑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> <span class="fn">α</span> <span class="fn">n</span>)</span></span></span></div></div></div></div><div class="decl" id="Nat.Combination.compl"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L253-L259">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.compl" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.compl"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">compl</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hm</span> : <span class="fn">m</span> <a href="../../../.././Init/Prelude.html#HAdd.hAdd">+</a> <span class="fn">n</span> <a href="../../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../../.././Mathlib/Data/Fintype/Card.html#Fintype.card">Fintype.card</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">↑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> <span class="fn">α</span> <span class="fn">n</span>)</span></span> <a href="../../../.././Mathlib/GroupTheory/GroupAction/Hom.html#MulActionHom">→ₑ[</a><a href="../../../.././Init/Prelude.html#id">id</a><a href="../../../.././Mathlib/GroupTheory/GroupAction/Hom.html#MulActionHom">]</a> <span class="fn">↑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> <span class="fn">α</span> <span class="fn">m</span>)</span></span></div></div><p>The complement of a combination, as an equivariant map.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Nat.Combination.compl" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Nat.Combination.coe_compl"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L262-L264">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.coe_compl" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.coe_compl"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">coe_compl</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">hm</span> : <span class="fn">m</span> <a href="../../../.././Init/Prelude.html#HAdd.hAdd">+</a> <span class="fn">n</span> <a href="../../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../../.././Mathlib/Data/Fintype/Card.html#Fintype.card">Fintype.card</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn">↑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> <span class="fn">α</span> <span class="fn">n</span>)</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">↑<span class="fn">(<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.compl">compl</a> <span class="fn">G</span> <span class="fn">α</span> <span class="fn">hm</span>)</span> <span class="fn">s</span>)</span></span> <a href="../../../.././Init/Prelude.html#Eq">=</a> <span class="fn">(↑<span class="fn">s</span>)</span><a href="../../../.././Mathlib/Order/Notation.html#Compl.compl">ᶜ</a></div></div></div></div><div class="decl" id="Nat.Combination.mem_compl"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L267-L269">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.mem_compl" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.mem_compl"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">mem_compl</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">hm</span> : <span class="fn">m</span> <a href="../../../.././Init/Prelude.html#HAdd.hAdd">+</a> <span class="fn">n</span> <a href="../../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../../.././Mathlib/Data/Fintype/Card.html#Fintype.card">Fintype.card</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn">↑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> <span class="fn">α</span> <span class="fn">n</span>)</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">a</span> <a href="../../../.././Init/Prelude.html#Membership.mem">∈</a> <span class="fn"><span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.compl">compl</a> <span class="fn">G</span> <span class="fn">α</span> <span class="fn">hm</span>)</span> <span class="fn">s</span></span> <a href="../../../.././Init/Core.html#Iff">↔</a> <span class="fn"><span class="fn">a</span> ∉ <span class="fn">s</span></span></div></div></div></div><div class="decl" id="Nat.Combination.compl_compl"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L271-L275">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.compl_compl" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.compl_compl"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">compl_compl</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hm</span> : <span class="fn">m</span> <a href="../../../.././Init/Prelude.html#HAdd.hAdd">+</a> <span class="fn">n</span> <a href="../../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../../.././Mathlib/Data/Fintype/Card.html#Fintype.card">Fintype.card</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.compl">compl</a> <span class="fn">G</span> <span class="fn">α</span> <span class="fn">⋯</span>)</span>.<a href="../../../.././Mathlib/GroupTheory/GroupAction/Hom.html#MulActionHom.comp">comp</a></span> <span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.compl">compl</a> <span class="fn">G</span> <span class="fn">α</span> <span class="fn">hm</span>)</span></span> <a href="../../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../../.././Mathlib/GroupTheory/GroupAction/Hom.html#MulActionHom.id">MulActionHom.id</a> <span class="fn">G</span></span></div></div></div></div><div class="decl" id="Nat.Combination.compl_bijective"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L277-L280">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.compl_bijective" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.compl_bijective"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">compl_bijective</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hm</span> : <span class="fn">m</span> <a href="../../../.././Init/Prelude.html#HAdd.hAdd">+</a> <span class="fn">n</span> <a href="../../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../../.././Mathlib/Data/Fintype/Card.html#Fintype.card">Fintype.card</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Logic/Function/Defs.html#Function.Bijective">Function.Bijective</a> <span class="fn">⇑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.compl">compl</a> <span class="fn">G</span> <span class="fn">α</span> <span class="fn">hm</span>)</span></span></span></div></div></div></div><div class="decl" id="Nat.Combination.mulActionHom_singleton"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L284-L289">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.mulActionHom_singleton" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.mulActionHom_singleton"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">mulActionHom_singleton</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">α</span> <a href="../../../.././Mathlib/GroupTheory/GroupAction/Hom.html#MulActionHom">→ₑ[</a><a href="../../../.././Init/Prelude.html#id">id</a><a href="../../../.././Mathlib/GroupTheory/GroupAction/Hom.html#MulActionHom">]</a> <span class="fn">↑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> <span class="fn">α</span> <span class="fn">1</span>)</span></span></div></div><p>The obvious map from a type to its 1-combinations, as an equivariant map.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Nat.Combination.mulActionHom_singleton" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Nat.Combination.addActionHom_singleton"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L285-L285">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.addActionHom_singleton" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.addActionHom_singleton"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">addActionHom_singleton</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#AddAction">AddAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">α</span> <a href="../../../.././Mathlib/GroupTheory/GroupAction/Hom.html#AddActionHom">→ₑ[</a><a href="../../../.././Init/Prelude.html#id">id</a><a href="../../../.././Mathlib/GroupTheory/GroupAction/Hom.html#AddActionHom">]</a> <span class="fn">↑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination">Combination</a> <span class="fn">α</span> <span class="fn">1</span>)</span></span></div></div><p>The obvious map from a type to its 1-combinations, as an equivariant map.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Nat.Combination.addActionHom_singleton" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Nat.Combination.mulActionHom_singleton_bijective"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L291-L296">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.mulActionHom_singleton_bijective" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.mulActionHom_singleton_bijective"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">mulActionHom_singleton_bijective</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Logic/Function/Defs.html#Function.Bijective">Function.Bijective</a> <span class="fn">⇑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.mulActionHom_singleton">mulActionHom_singleton</a> <span class="fn">G</span> <span class="fn">α</span>)</span></span></span></div></div></div></div><div class="decl" id="Nat.Combination.addActionHom_singleton_bijective"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/087469e24922b85cb737497c74556c7dacc01f22/Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.lean#L291-L291">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_GroupTheory_GroupAction_SubMulAction_Combination.html#Nat.Combination.addActionHom_singleton_bijective" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.addActionHom_singleton_bijective"><span class="name">Nat</span>.<span class="name">Combination</span>.<span class="name">addActionHom_singleton_bijective</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#AddAction">AddAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Logic/Function/Defs.html#Function.Bijective">Function.Bijective</a> <span class="fn">⇑<span class="fn">(<a href="../../../.././Mathlib/GroupTheory/GroupAction/SubMulAction/Combination.html#Nat.Combination.addActionHom_singleton">addActionHom_singleton</a> <span class="fn">G</span> <span class="fn">α</span>)</span></span></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>
