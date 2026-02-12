@@ -617,9 +617,38 @@ def runCmd (cmd : String) (args : Array String) (cwd : Option FilePath := none)
   }
   return (result.exitCode == 0, result.stdout ++ result.stderr)
 
+/-- Read all bytes from a handle, printing each line to a stream in real-time
+    and accumulating the full output. Returns the captured output as a string. -/
+private def teeStream (input : IO.FS.Handle) (echoTo : IO.FS.Stream) : IO String := do
+  let mut buf := ""
+  let mut chunk := ""
+  repeat do
+    -- Read in small chunks for responsive streaming
+    let bytes ← input.read 4096
+    if bytes.isEmpty then
+      -- Flush any remaining partial line
+      if !chunk.isEmpty then
+        echoTo.putStr chunk
+        echoTo.flush
+        buf := buf ++ chunk
+      break
+    let text := String.fromUTF8! bytes
+    chunk := chunk ++ text
+    -- Echo complete lines immediately, buffer partial lines
+    let lines := chunk.splitOn "\n"
+    -- All but the last element are complete lines
+    for i in [:lines.length - 1] do
+      let line := lines[i]!
+      echoTo.putStr (line ++ "\n")
+      buf := buf ++ line ++ "\n"
+    -- Keep the last (possibly incomplete) line in the chunk buffer
+    chunk := lines[lines.length - 1]!
+    echoTo.flush
+  return buf
+
 /-- Run a shell command with STREAMING output (shows progress in real-time).
     Use this for long-running commands like unified-doc on large projects.
-    Output is printed to console AND captured for logging. -/
+    Output is printed to console in real-time AND captured for error reporting. -/
 def runCmdStreaming (step : String) (cmd : String) (args : Array String)
     (cwd : Option FilePath := none) (log : CommandLog := #[])
     (ctx : Option LogContext := none)
@@ -648,25 +677,35 @@ def runCmdStreaming (step : String) (cmd : String) (args : Array String)
   -- Record start time
   let startTime ← IO.monoMsNow
 
-  -- Use inherited stdout/stderr so output goes directly to the terminal in real-time
-  -- This avoids buffering issues with piped I/O and Lean's task scheduler
-  -- We sacrifice capturing output but get reliable streaming
+  -- Use piped stdout/stderr so we can both display AND capture output.
+  -- Each stream is read in a dedicated task that tees to the console in real-time.
   let child ← IO.Process.spawn {
     cmd := cmd
     args := args
     cwd := cwd
     env := env
-    stdout := .inherit
-    stderr := .inherit
+    stdout := .piped
+    stderr := .piped
   }
 
-  -- Wait for process to exit
+  -- Tee stdout and stderr in parallel dedicated tasks
+  let stdoutHandle := child.stdout
+  let stderrHandle := child.stderr
+  let consolOut ← IO.getStdout
+  let consolErr ← IO.getStderr
+  let stdoutTask ← IO.asTask (prio := .dedicated) (teeStream stdoutHandle consolOut)
+  let stderrTask ← IO.asTask (prio := .dedicated) (teeStream stderrHandle consolErr)
+
+  -- Wait for process to exit and collect captured output
   let exitCode ← child.wait
+  let stdoutResult ← IO.ofExcept stdoutTask.get
+  let stderrResult ← IO.ofExcept stderrTask.get
+  let capturedOutput := stdoutResult ++ stderrResult
 
   let endTime ← IO.monoMsNow
   let durationMs := endTime - startTime
 
-  -- Update entry with result (note: we don't capture output with inherit mode)
+  -- Update entry with result
   let completedEntry : CommandLogEntry := {
     runningEntry with
     status := if exitCode == 0 then .success else .failed
@@ -681,7 +720,7 @@ def runCmdStreaming (step : String) (cmd : String) (args : Array String)
   if let some c := ctx then
     saveCommandLogCtx finalLog c
 
-  return (exitCode == 0, "", finalLog)
+  return (exitCode == 0, capturedOutput, finalLog)
 
 /-! ## Sandboxed Lake Commands -/
 
@@ -974,6 +1013,147 @@ def versionGe (a b : Nat × Nat × Nat) : Bool :=
   else if aMin > bMin then true
   else if aMin < bMin then false
   else aPat >= bPat
+
+/-! ## .olean Version Validation
+
+Pre-flight check to detect version-mismatched .olean files in LEAN_PATH before
+running unified-doc. This catches cache contamination from `lake exe cache get`
+fetching artifacts compiled with a different Lean toolchain.
+-/
+
+/-- Read the Lean version string from an .olean file header.
+    The olean format starts with "olean\x02\x01" followed by the version string
+    (null-terminated). Returns `none` if the file can't be read. -/
+def readOleanVersion (path : FilePath) : IO (Option String) := do
+  try
+    let handle ← IO.FS.Handle.mk path .read
+    let header ← handle.read 64
+    if header.size < 10 then return none
+    -- Skip the "olean\x02\x01" magic bytes (7 bytes), then read until null
+    let mut version := ""
+    for i in [7:header.size] do
+      let byte := header.get! i
+      if byte == 0 then break
+      version := version.push (Char.ofNat byte.toNat)
+    if version.isEmpty then return none
+    return some version
+  catch _ =>
+    return none
+
+/-- Result of validating .olean files in LEAN_PATH -/
+structure OleanValidation where
+  /-- Whether all sampled .olean files match the expected version -/
+  valid : Bool
+  /-- Total number of .olean files sampled -/
+  sampled : Nat
+  /-- Number of mismatched files found -/
+  mismatched : Nat
+  /-- Details of mismatches: (file path, found version, expected version) -/
+  mismatchDetails : Array (String × String × String)
+  /-- Human-readable summary message -/
+  message : String
+  deriving Repr, Inhabited
+
+/-- Validate that .olean files in LEAN_PATH match the expected toolchain version.
+    Samples up to `maxPerDir` .olean files from each LEAN_PATH directory.
+    Returns validation result with details of any mismatches.
+
+    This catches a common failure mode: `lake exe cache get` downloading artifacts
+    compiled with a newer/older Lean version, causing "incompatible header" errors
+    when unified-doc tries to load the environment. -/
+def validateOleanVersions (leanPath : String) (expectedToolchain : String)
+    (maxPerDir : Nat := 5) : IO OleanValidation := do
+  -- Extract the bare version from the toolchain string
+  -- e.g., "leanprover/lean4:v4.27.0" → "4.27.0"
+  let expectedVersion := match expectedToolchain.splitOn ":v" with
+    | [_, ver] => ver.trimCompat
+    | _ => match expectedToolchain.splitOn ":" with
+      | [_, ver] => ver.trimCompat
+      | _ => expectedToolchain.trimCompat
+  -- Strip any trailing characters after the version (e.g., "-rc1")
+  -- We only compare the base version since the olean header includes the full version
+  -- but we want to catch major mismatches (4.27.0 vs 4.28.0-rc1)
+
+  let dirs := leanPath.splitOn ":"
+  let mut sampled : Nat := 0
+  let mut mismatched : Nat := 0
+  let mut details : Array (String × String × String) := #[]
+
+  for dir in dirs do
+    let dirPath : FilePath := dir
+    if !(← dirPath.pathExists) then continue
+    -- Find .olean files in this directory (non-recursive first level, then one level deep)
+    let mut oleanFiles : Array FilePath := #[]
+    let findResult ← IO.Process.output {
+      cmd := "find"
+      args := #[dir, "-name", "*.olean", "-maxdepth", "3"]
+    }
+    if findResult.exitCode == 0 then
+      let files := findResult.stdout.splitOn "\n"
+        |>.filter (·.endsWith ".olean")
+      oleanFiles := files.toArray.map (⟨·⟩)
+
+    -- Sample up to maxPerDir files from this directory
+    let toCheck := oleanFiles.toList.take maxPerDir |>.toArray
+    for oleanFile in toCheck do
+      sampled := sampled + 1
+      if let some version ← readOleanVersion oleanFile then
+        -- Check if the version matches. We compare the major.minor.patch part.
+        -- e.g., "4.27.0" should match "4.27.0", but "4.28.0-rc1" should NOT match "4.27.0"
+        let versionBase := version.splitOn "-" |>.getD 0 version
+        let expectedBase := expectedVersion.splitOn "-" |>.getD 0 expectedVersion
+        if versionBase != expectedBase then
+          mismatched := mismatched + 1
+          details := details.push (oleanFile.toString, version, expectedVersion)
+
+  let valid := mismatched == 0
+  let message := if valid then
+    s!"✓ Validated {sampled} .olean files — all match toolchain {expectedVersion}"
+  else
+    let fileList := details[:Nat.min details.size 5].toArray
+      |>.map (fun (f, got, expected) => s!"  {f}: found {got}, expected {expected}")
+      |>.toList |> String.intercalate "\n"
+    s!"✗ Found {mismatched}/{sampled} .olean files with version mismatch:\n{fileList}" ++
+      (if details.size > 5 then s!"\n  ... and {details.size - 5} more" else "")
+
+  return { valid, sampled, mismatched, mismatchDetails := details, message }
+
+/-- Remove .olean files (and companion .ilean/.trace/.hash files) that don't match
+    the expected toolchain version. Returns the number of files removed. -/
+def removeContaminatedOleans (leanPath : String) (expectedToolchain : String) : IO Nat := do
+  let expectedVersion := match expectedToolchain.splitOn ":v" with
+    | [_, ver] => ver.trimCompat
+    | _ => match expectedToolchain.splitOn ":" with
+      | [_, ver] => ver.trimCompat
+      | _ => expectedToolchain.trimCompat
+  let expectedBase := expectedVersion.splitOn "-" |>.getD 0 expectedVersion
+
+  let dirs := leanPath.splitOn ":"
+  let mut removed : Nat := 0
+
+  for dir in dirs do
+    let dirPath : FilePath := dir
+    if !(← dirPath.pathExists) then continue
+    let findResult ← IO.Process.output {
+      cmd := "find"
+      args := #[dir, "-name", "*.olean"]
+    }
+    if findResult.exitCode != 0 then continue
+    let files := findResult.stdout.splitOn "\n" |>.filter (·.endsWith ".olean")
+    for file in files do
+      let filePath : FilePath := file
+      if let some version ← readOleanVersion filePath then
+        let versionBase := version.splitOn "-" |>.getD 0 version
+        if versionBase != expectedBase then
+          -- Remove the .olean and its companion files
+          let base := (file.toList.take (file.length - 6) |> String.ofList)  -- remove ".olean"
+          for ext in [".olean", ".ilean", ".olean.hash", ".trace"] do
+            let companion : FilePath := base ++ ext
+            if ← companion.pathExists then
+              IO.FS.removeFile companion
+          removed := removed + 1
+
+  return removed
 
 /-- Result of checking toolchain compatibility -/
 structure ToolchainCheck where
@@ -2033,6 +2213,19 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
       if leanSrcPathResult.exitCode == 0 then
         let leanSrcPath := leanSrcPathResult.stdout.trimCompat
         env := env.push ("LEAN_SRC_PATH", some leanSrcPath)
+
+      -- Pre-flight: Validate .olean files in LEAN_PATH match the project's toolchain
+      IO.println s!"[{name}]       Validating .olean cache consistency..."
+      let validation ← validateOleanVersions leanPath tcCheck.projectToolchain
+      if !validation.valid then
+        IO.println s!"[{name}]       ⚠ {validation.message}"
+        IO.println s!"[{name}]       Auto-removing {validation.mismatched} contaminated .olean files..."
+        let removedCount ← removeContaminatedOleans leanPath tcCheck.projectToolchain
+        IO.println s!"[{name}]       Removed {removedCount} contaminated .olean files and companions"
+        IO.println s!"[{name}]       Note: A rebuild may be needed to regenerate removed files"
+      else
+        IO.println s!"[{name}]       {validation.message}"
+
       -- Run binary directly with LEAN_PATH set - no buffering intermediaries
       -- Use relative path since we set cwd to docvbDir
       IO.println s!"[{name}]       Running: {unifiedBinRelative} (from {docvbDir})"
