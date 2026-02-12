@@ -2222,7 +2222,18 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
         IO.println s!"[{name}]       Auto-removing {validation.mismatched} contaminated .olean files..."
         let removedCount ← removeContaminatedOleans leanPath tcCheck.projectToolchain
         IO.println s!"[{name}]       Removed {removedCount} contaminated .olean files and companions"
-        IO.println s!"[{name}]       Note: A rebuild may be needed to regenerate removed files"
+        -- Rebuild the main project to regenerate removed files
+        IO.println s!"[{name}]       Rebuilding project to regenerate removed files..."
+        let (rebuildOk, rebuildLog, newLog) ← runLakeLogged "lake-rebuild-after-cleanup" config.useSandbox
+          config.docVerificationBridgePath projectDir "isolated" #["build"]
+          cmdLog (some logCtx)
+        cmdLog := newLog
+        buildLog := buildLog ++ "\n" ++ rebuildLog
+        if !rebuildOk then
+          IO.println s!"[{name}]       ✗ Rebuild failed - documentation generation will likely fail"
+          -- Don't return early - let unified-doc fail with a clear error message
+        else
+          IO.println s!"[{name}]       ✓ Rebuild completed successfully"
       else
         IO.println s!"[{name}]       {validation.message}"
 
