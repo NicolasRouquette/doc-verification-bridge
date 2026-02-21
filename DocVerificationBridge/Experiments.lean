@@ -26,7 +26,7 @@ When adding support for new versions, update these values and test with
 def minSupportedVersion : (Nat × Nat × Nat) := (4, 24, 0)
 
 /-- Maximum supported Lean version for doc-verification-bridge -/
-def maxSupportedVersion : (Nat × Nat × Nat) := (4, 28, 0)
+def maxSupportedVersion : (Nat × Nat × Nat) := (4, 29, 0)
 
 /-! ## Configuration Types -/
 
