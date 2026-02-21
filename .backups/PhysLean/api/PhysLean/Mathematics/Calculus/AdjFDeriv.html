@@ -1,0 +1,997 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../.././style.css"></link><link rel="icon" href="../../.././favicon.svg"></link><link rel="mask-icon" href="../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../.././/declarations/declaration-data.bmp" as="image"></link><title>PhysLean.Mathematics.Calculus.AdjFDeriv</title><script defer="true" src="../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../.././";</script><script>const MODULE_NAME="PhysLean.Mathematics.Calculus.AdjFDeriv";</script><script type="module" src="../../.././jump-src.js"></script><script type="module" src="../../.././search.js"></script><script type="module" src="../../.././expand-nav.js"></script><script type="module" src="../../.././how-about.js"></script><script type="module" src="../../.././instances.js"></script><script type="module" src="../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">PhysLean</span>.<span class="name">Mathematics</span>.<span class="name">Calculus</span>.<span class="name">AdjFDeriv</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/HEPLean/PhysLean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../.././Init.html">Init</a></li><li><a href="../../.././PhysLean/Mathematics/FDerivCurry.html">PhysLean.Mathematics.FDerivCurry</a></li><li><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Adjoint.html">PhysLean.Mathematics.InnerProductSpace.Adjoint</a></li><li><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Calculus.html">PhysLean.Mathematics.InnerProductSpace.Calculus</a></li><li><a href="../../.././Mathlib/Analysis/Calculus/Gradient/Basic.html">Mathlib.Analysis.Calculus.Gradient.Basic</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-PhysLean.Mathematics.Calculus.AdjFDeriv" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#adjFDeriv"><span class="name">adjFDeriv</span></a></div><div class="nav_link"><a class="break_within" href="#HasAdjFDerivAt"><span class="name">HasAdjFDerivAt</span></a></div><div class="nav_link"><a class="break_within" href="#HasAdjFDerivAt.adjFDeriv"><span class="name">HasAdjFDerivAt</span>.<span class="name">adjFDeriv</span></a></div><div class="nav_link"><a class="break_within" href="#DifferentiableAt.hasAdjFDerivAt"><span class="name">DifferentiableAt</span>.<span class="name">hasAdjFDerivAt</span></a></div><div class="nav_link"><a class="break_within" href="#ContinuousLinearMap.adjoint.isBoundedBilinearMap_real"><span class="name">ContinuousLinearMap</span>.<span class="name">adjoint</span>.<span class="name">isBoundedBilinearMap_real</span></a></div><div class="nav_link"><a class="break_within" href="#HasAdjFDerivAt.contDiffAt_deriv"><span class="name">HasAdjFDerivAt</span>.<span class="name">contDiffAt_deriv</span></a></div><div class="nav_link"><a class="break_within" href="#gradient_eq_adjFDeriv"><span class="name">gradient_eq_adjFDeriv</span></a></div><div class="nav_link"><a class="break_within" href="#hasAdjFDerivAt_id"><span class="name">hasAdjFDerivAt_id</span></a></div><div class="nav_link"><a class="break_within" href="#adjFDeriv_id"><span class="name">adjFDeriv_id</span></a></div><div class="nav_link"><a class="break_within" href="#adjFDeriv_id'"><span class="name">adjFDeriv_id'</span></a></div><div class="nav_link"><a class="break_within" href="#hasAdjFDerivAt_const"><span class="name">hasAdjFDerivAt_const</span></a></div><div class="nav_link"><a class="break_within" href="#adjFDeriv_const"><span class="name">adjFDeriv_const</span></a></div><div class="nav_link"><a class="break_within" href="#HasAdjFDerivAt.comp"><span class="name">HasAdjFDerivAt</span>.<span class="name">comp</span></a></div><div class="nav_link"><a class="break_within" href="#adjFDeriv_comp"><span class="name">adjFDeriv_comp</span></a></div><div class="nav_link"><a class="break_within" href="#HasAdjFDerivAt.prodMk"><span class="name">HasAdjFDerivAt</span>.<span class="name">prodMk</span></a></div><div class="nav_link"><a class="break_within" href="#HasAjdFDerivAt.fst"><span class="name">HasAjdFDerivAt</span>.<span class="name">fst</span></a></div><div class="nav_link"><a class="break_within" href="#adjFDeriv_fst"><span class="name">adjFDeriv_fst</span></a></div><div class="nav_link"><a class="break_within" href="#adjFDeriv_prod_fst"><span class="name">adjFDeriv_prod_fst</span></a></div><div class="nav_link"><a class="break_within" href="#HasAjdFDerivAt.snd"><span class="name">HasAjdFDerivAt</span>.<span class="name">snd</span></a></div><div class="nav_link"><a class="break_within" href="#adjFDeriv_snd"><span class="name">adjFDeriv_snd</span></a></div><div class="nav_link"><a class="break_within" href="#adjFDeriv_prod_snd"><span class="name">adjFDeriv_prod_snd</span></a></div><div class="nav_link"><a class="break_within" href="#hasAdjFDerivAt_uncurry"><span class="name">hasAdjFDerivAt_uncurry</span></a></div><div class="nav_link"><a class="break_within" href="#adjFDeriv_uncurry"><span class="name">adjFDeriv_uncurry</span></a></div><div class="nav_link"><a class="break_within" href="#HasAdjFDerivAt.neg"><span class="name">HasAdjFDerivAt</span>.<span class="name">neg</span></a></div><div class="nav_link"><a class="break_within" href="#adjFDeriv_neg"><span class="name">adjFDeriv_neg</span></a></div><div class="nav_link"><a class="break_within" href="#HasAjdFDerivAt.add"><span class="name">HasAjdFDerivAt</span>.<span class="name">add</span></a></div><div class="nav_link"><a class="break_within" href="#adjFDeriv_add"><span class="name">adjFDeriv_add</span></a></div><div class="nav_link"><a class="break_within" href="#HasAdjFDerivAt.sub"><span class="name">HasAdjFDerivAt</span>.<span class="name">sub</span></a></div><div class="nav_link"><a class="break_within" href="#adjFDeriv_sub"><span class="name">adjFDeriv_sub</span></a></div><div class="nav_link"><a class="break_within" href="#HasAdjFDerivAt.smul"><span class="name">HasAdjFDerivAt</span>.<span class="name">smul</span></a></div><div class="nav_link"><a class="break_within" href="#adjFDeriv_smul"><span class="name">adjFDeriv_smul</span></a></div><div class="nav_link"><a class="break_within" href="#HasAdjFDerivAt.inner"><span class="name">HasAdjFDerivAt</span>.<span class="name">inner</span></a></div><div class="nav_link"><a class="break_within" href="#adjFDeriv_inner"><span class="name">adjFDeriv_inner</span></a></div></nav><main>
+<div class="mod_doc"><h1 class="markdown-heading" id="Adjoint-Fréchet-derivative">Adjoint Fréchet derivative <a class="hover-link" href="#Adjoint-Fréchet-derivative">#</a></h1><p><code><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> 𝕜 f x = (fderiv 𝕜 f x).<a href="../../.././PhysLean/Mathematics/InnerProductSpace/Adjoint.html#adjoint">adjoint</a></code></p><p>The main purpose of defining <code><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a></code> is to compute <code><a href="../../.././Mathlib/Analysis/Calculus/Gradient/Basic.html#gradient">gradient</a> f x = <a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> 𝕜 f x 1</code>.
+The advantage of working with <code><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a></code> is that we can formulate composition theorem.</p><p>The reason why we do not want to compute <code><a href="../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#fderiv">fderiv</a></code> and then <code><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Adjoint.html#adjoint">adjoint</a></code> is that to compute <code><a href="../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#fderiv">fderiv</a> 𝕜 f</code>
+or <code><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Adjoint.html#adjoint">adjoint</a> f</code> we decompose <code>f = f₁ ∘ ... ∘ fₙ</code> and then apply composition theorem. The problem is
+that this decomposition has to be done differently for <code><a href="../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#fderiv">fderiv</a></code> and <code><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Adjoint.html#adjoint">adjoint</a></code>. The problem is
+that when working with <code><a href="../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#fderiv">fderiv</a></code> the natural product type is <code>X × Y</code> but when working with <code><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Adjoint.html#adjoint">adjoint</a></code>
+the natural product is <code><a href="../../.././Mathlib/Analysis/Normed/Lp/WithLp.html#WithLp">WithLp</a> 2 (X × Y)</code>.
+For example:</p></div><div class="decl" id="adjFDeriv"><div class="def"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L37-L45">source</a></div><div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv"><span class="name">adjFDeriv</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">E</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">dy</span> : <span class="fn">F</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">E</span></div></div><p>Adjoint Fréchet derivative</p><p><code><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> 𝕜 f x = (fderiv 𝕜 f x).<a href="../../.././PhysLean/Mathematics/InnerProductSpace/Adjoint.html#adjoint">adjoint</a></code></p><p>The main purpose of this function is to compute <code><a href="../../.././Mathlib/Analysis/Calculus/Gradient/Basic.html#gradient">gradient</a> f x = <a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> 𝕜 f x 1</code>. We provide
+easy to use API to compute <code><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a></code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-adjFDeriv" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="HasAdjFDerivAt"><div class="structure"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L48-L60">source</a></div><div class="decl_header"><span class="decl_kind">structure</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt"><span class="name">HasAdjFDerivAt</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f'</span> : <span class="fn"><span class="fn">F</span> → <span class="fn">E</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">E</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../.././foundational_types.html">Prop</a></div></div><p>Function <code>f</code> has adjoint Fréchet derivative <code>f'</code> at <code>x</code></p><p><code>f' = <a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> 𝕜 f x = (fderiv 𝕜 f x).<a href="../../.././PhysLean/Mathematics/InnerProductSpace/Adjoint.html#adjoint">adjoint</a></code></p><p>The main purpose is to compute <code><a href="../../.././Mathlib/Analysis/Calculus/Gradient/Basic.html#gradient">gradient</a> f x = f' 1 = <a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> 𝕜 f x 1</code>.</p><p>This structure is analogous to <code><a href="../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#HasFDerivAt">HasFDerivAt</a></code> and it is often easier to use as theorems for
+<code>HasAdjFDeriv</code> do not require differentiability assumptions unlike theorems for <code><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a></code>.</p><ul class="structure_fields" id="HasAdjFDerivAt.mk"><li id="HasAdjFDerivAt.differentiableAt" class="structure_field"><div class="structure_field_info">differentiableAt : <span class="fn"><a href="../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#DifferentiableAt">DifferentiableAt</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">x</span></span></div></li><li id="HasAdjFDerivAt.hasAdjoint_fderiv" class="structure_field"><div class="structure_field_info">hasAdjoint_fderiv : <span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Adjoint.html#HasAdjoint">HasAdjoint</a> <span class="fn">𝕜</span> <span class="fn">(⇑<span class="fn">(<a href="../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#fderiv">fderiv</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">x</span>)</span>)</span> <span class="fn">f'</span></span></div></li></ul><details id="instances-for-list-HasAdjFDerivAt" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="HasAdjFDerivAt.adjFDeriv"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L62-L65">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt.adjFDeriv"><span class="name">HasAdjFDerivAt</span>.<span class="name">adjFDeriv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f'</span> : <span class="fn"><span class="fn">F</span> → <span class="fn">E</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">f'</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">x</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">f'</span></div></div></div></div><div class="decl" id="DifferentiableAt.hasAdjFDerivAt"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L68-L76">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#DifferentiableAt.hasAdjFDerivAt"><span class="name">DifferentiableAt</span>.<span class="name">hasAdjFDerivAt</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#DifferentiableAt">DifferentiableAt</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">(<a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">x</span>)</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="ContinuousLinearMap.adjoint.isBoundedBilinearMap_real"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L84-L100">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#ContinuousLinearMap.adjoint.isBoundedBilinearMap_real"><span class="name">ContinuousLinearMap</span>.<span class="name">adjoint</span>.<span class="name">isBoundedBilinearMap_real</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">X</span> : <a href="../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/InnerProductSpace/Defs.html#InnerProductSpace">InnerProductSpace</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Y</span> : <a href="../../.././foundational_types.html">Type</a> u_7}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">Y</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/InnerProductSpace/Defs.html#InnerProductSpace">InnerProductSpace</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">Y</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">Y</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Operator/BoundedLinearMaps.html#IsBoundedBilinearMap">IsBoundedBilinearMap</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">fun (<span class="fn">fy</span> : (<span class="fn">X</span> <a href="../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">→L[</a><a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a><a href="../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">]</a> <span class="fn">Y</span>) <a href="../../.././Init/Prelude.html#Prod">×</a> <span class="fn">Y</span>) =&gt; <span class="fn"><span class="fn">(<a href="../../.././Mathlib/Analysis/InnerProductSpace/Adjoint.html#ContinuousLinearMap.adjoint">adjoint</a> <span class="fn"><span class="fn">fy</span>.1</span>)</span> <span class="fn"><span class="fn">fy</span>.2</span></span></span></span></div></div></div></div><div class="decl" id="HasAdjFDerivAt.contDiffAt_deriv"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L105-L123">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt.contDiffAt_deriv"><span class="name">HasAdjFDerivAt</span>.<span class="name">contDiffAt_deriv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <span class="fn"><a href="../../.././Mathlib/Order/TypeTags.html#WithTop">WithTop</a> <a href="../../.././Mathlib/Data/ENat/Defs.html#ENat">ℕ∞</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_7}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_8}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn"><span class="fn">F</span> → <span class="fn">G</span></span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f'</span> : <span class="fn"><span class="fn">E</span> → <span class="fn"><span class="fn">F</span> → <span class="fn"><span class="fn">G</span> → <span class="fn">F</span></span></span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn">∀ (<span class="fn">x</span> : <span class="fn">E</span>) (<span class="fn">y</span> : <span class="fn">F</span>), <span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">(<span class="fn">f</span> <span class="fn">x</span>)</span> <span class="fn">(<span class="fn">f'</span> <span class="fn">x</span> <span class="fn">y</span>)</span> <span class="fn">y</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hf'</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Calculus/ContDiff/Defs.html#ContDiff">ContDiff</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> (<span class="fn">n</span> <a href="../../.././Init/Prelude.html#HAdd.hAdd">+</a> <span class="fn">1</span>) <a href="../../.././Mathlib/Logic/Function/Basic.html#Function.HasUncurry.uncurry">↿</a><span class="fn">f</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Analysis/Calculus/ContDiff/Defs.html#ContDiff">ContDiff</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">n</span> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">E</span> <a href="../../.././Init/Prelude.html#Prod">×</a> <span class="fn">F</span> <a href="../../.././Init/Prelude.html#Prod">×</a> <span class="fn">G</span>) =&gt; <span class="fn"><span class="fn">f'</span> <span class="fn"><span class="fn">x</span>.1</span> <span class="fn"><span class="fn"><span class="fn">x</span>.2</span>.1</span> <span class="fn"><span class="fn"><span class="fn">x</span>.2</span>.2</span></span></span></span></div></div></div></div><div class="decl" id="gradient_eq_adjFDeriv"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L125-L130">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#gradient_eq_adjFDeriv"><span class="name">gradient_eq_adjFDeriv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <a href="../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">U</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/InnerProductSpace/Defs.html#InnerProductSpace">InnerProductSpace</a> <span class="fn">𝕜</span> <span class="fn">U</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">U</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">U</span> → <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">U</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#DifferentiableAt">DifferentiableAt</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Analysis/Calculus/Gradient/Basic.html#gradient">gradient</a> <span class="fn">f</span> <span class="fn">x</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">x</span> <span class="fn">1</span></span></div></div></div></div><div class="decl" id="hasAdjFDerivAt_id"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L134-L137">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#hasAdjFDerivAt_id"><span class="name">hasAdjFDerivAt_id</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">E</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <span class="fn">𝕜</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <span class="fn">x</span>)</span> <span class="fn">(fun (<span class="fn">dx</span> : <span class="fn">E</span>) =&gt; <span class="fn">dx</span>)</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="adjFDeriv_id"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L139-L141">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv_id"><span class="name">adjFDeriv_id</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">(<a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <span class="fn">x</span></span>)</span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">fun (<span class="fn">x</span> <span class="fn">dx</span> : <span class="fn">E</span>) =&gt; <span class="fn">dx</span></span></div></div></div></div><div class="decl" id="adjFDeriv_id'"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L143-L144">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv_id'"><span class="name">adjFDeriv_id'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> <a href="../../.././Init/Prelude.html#id">id</a></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">fun (<span class="fn">x</span> <span class="fn">dx</span> : <span class="fn">E</span>) =&gt; <span class="fn">dx</span></span></div></div></div></div><div class="decl" id="hasAdjFDerivAt_const"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L146-L150">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#hasAdjFDerivAt_const"><span class="name">hasAdjFDerivAt_const</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">E</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">y</span> : <span class="fn">F</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <span class="fn">𝕜</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <span class="fn">y</span>)</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">F</span>) =&gt; <span class="fn">0</span>)</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="adjFDeriv_const"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L152-L154">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv_const"><span class="name">adjFDeriv_const</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">y</span> : <span class="fn">F</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">(<a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <span class="fn">y</span></span>)</span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">E</span>) (<span class="fn">x_1</span> : <span class="fn">F</span>) =&gt; <span class="fn">0</span></span></div></div></div></div><div class="decl" id="HasAdjFDerivAt.comp"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L156-L163">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt.comp"><span class="name">HasAdjFDerivAt</span>.<span class="name">comp</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">F</span> → <span class="fn">G</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f'</span> : <span class="fn"><span class="fn">G</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g'</span> : <span class="fn"><span class="fn">F</span> → <span class="fn">E</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">f'</span> <span class="fn">(<span class="fn">g</span> <span class="fn">x</span>)</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <span class="fn">𝕜</span> <span class="fn">g</span> <span class="fn">g'</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <span class="fn">𝕜</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <span class="fn"><span class="fn">f</span> <span class="fn">(<span class="fn">g</span> <span class="fn">x</span>)</span></span>)</span> <span class="fn">(fun (<span class="fn">dz</span> : <span class="fn">G</span>) =&gt; <span class="fn"><span class="fn">g'</span> <span class="fn">(<span class="fn">f'</span> <span class="fn">dz</span>)</span></span>)</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="adjFDeriv_comp"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L165-L172">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv_comp"><span class="name">adjFDeriv_comp</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">F</span> → <span class="fn">G</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#DifferentiableAt">DifferentiableAt</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">(<span class="fn">g</span> <span class="fn">x</span>)</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#DifferentiableAt">DifferentiableAt</a> <span class="fn">𝕜</span> <span class="fn">g</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <span class="fn"><span class="fn">f</span> <span class="fn">(<span class="fn">g</span> <span class="fn">x</span>)</span></span>)</span> <span class="fn">x</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">fun (<span class="fn">dy</span> : <span class="fn">G</span>) =&gt; <span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> <span class="fn">g</span> <span class="fn">x</span> <span class="fn">(<a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">(<span class="fn">g</span> <span class="fn">x</span>)</span> <span class="fn">dy</span>)</span></span></span></div></div></div></div><div class="decl" id="HasAdjFDerivAt.prodMk"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L174-L182">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt.prodMk"><span class="name">HasAdjFDerivAt</span>.<span class="name">prodMk</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">G</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f'</span> : <span class="fn"><span class="fn">F</span> → <span class="fn">E</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g'</span> : <span class="fn"><span class="fn">G</span> → <span class="fn">E</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">f'</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <span class="fn">𝕜</span> <span class="fn">g</span> <span class="fn">g'</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <span class="fn">𝕜</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <a href="../../.././Init/Prelude.html#Prod.mk">(</a><span class="fn"><span class="fn">f</span> <span class="fn">x</span></span><a href="../../.././Init/Prelude.html#Prod.mk">,</a> <span class="fn"><span class="fn">g</span> <span class="fn">x</span></span><a href="../../.././Init/Prelude.html#Prod.mk">)</a>)</span> <span class="fn">(fun (<span class="fn">dyz</span> : <span class="fn">F</span> <a href="../../.././Init/Prelude.html#Prod">×</a> <span class="fn">G</span>) =&gt; <span class="fn"><span class="fn">f'</span> <span class="fn"><span class="fn">dyz</span>.1</span></span> <a href="../../.././Init/Prelude.html#HAdd.hAdd">+</a> <span class="fn"><span class="fn">g'</span> <span class="fn"><span class="fn">dyz</span>.2</span></span>)</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="HasAjdFDerivAt.fst"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L184-L189">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAjdFDerivAt.fst"><span class="name">HasAjdFDerivAt</span>.<span class="name">fst</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span> <a href="../../.././Init/Prelude.html#Prod">×</a> <span class="fn">G</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f'</span> : <span class="fn"><span class="fn">F</span> <a href="../../.././Init/Prelude.html#Prod">×</a> <span class="fn">G</span> → <span class="fn">E</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">f'</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <span class="fn">𝕜</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <span class="fn"><span class="fn">(<span class="fn">f</span> <span class="fn">x</span>)</span>.1</span>)</span> <span class="fn">(fun (<span class="fn">dy</span> : <span class="fn">F</span>) =&gt; <span class="fn"><span class="fn">f'</span> <a href="../../.././Init/Prelude.html#Prod.mk">(</a><span class="fn">dy</span><a href="../../.././Init/Prelude.html#Prod.mk">,</a> <span class="fn">0</span><a href="../../.././Init/Prelude.html#Prod.mk">)</a></span>)</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="adjFDeriv_fst"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L191-L195">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv_fst"><span class="name">adjFDeriv_fst</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span> <a href="../../.././Init/Prelude.html#Prod">×</a> <span class="fn">G</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#DifferentiableAt">DifferentiableAt</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <span class="fn"><span class="fn">(<span class="fn">f</span> <span class="fn">x</span>)</span>.1</span>)</span> <span class="fn">x</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">fun (<span class="fn">dy</span> : <span class="fn">F</span>) =&gt; <span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">x</span> <a href="../../.././Init/Prelude.html#Prod.mk">(</a><span class="fn">dy</span><a href="../../.././Init/Prelude.html#Prod.mk">,</a> <span class="fn">0</span><a href="../../.././Init/Prelude.html#Prod.mk">)</a></span></span></div></div></div></div><div class="decl" id="adjFDeriv_prod_fst"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L197-L204">source</a></div><div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv_prod_fst"><span class="name">adjFDeriv_prod_fst</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">F</span> <a href="../../.././Init/Prelude.html#Prod">×</a> <span class="fn">E</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> <a href="../../.././Init/Prelude.html#Prod.fst">Prod.fst</a> <span class="fn">x</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">fun (<span class="fn">a</span> : <span class="fn">F</span>) =&gt; <a href="../../.././Init/Prelude.html#Prod.mk">(</a><span class="fn">a</span><a href="../../.././Init/Prelude.html#Prod.mk">,</a> <span class="fn">0</span><a href="../../.././Init/Prelude.html#Prod.mk">)</a></span></div></div></div></div><div class="decl" id="HasAjdFDerivAt.snd"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L206-L211">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAjdFDerivAt.snd"><span class="name">HasAjdFDerivAt</span>.<span class="name">snd</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span> <a href="../../.././Init/Prelude.html#Prod">×</a> <span class="fn">G</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f'</span> : <span class="fn"><span class="fn">F</span> <a href="../../.././Init/Prelude.html#Prod">×</a> <span class="fn">G</span> → <span class="fn">E</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">f'</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <span class="fn">𝕜</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <span class="fn"><span class="fn">(<span class="fn">f</span> <span class="fn">x</span>)</span>.2</span>)</span> <span class="fn">(fun (<span class="fn">dz</span> : <span class="fn">G</span>) =&gt; <span class="fn"><span class="fn">f'</span> <a href="../../.././Init/Prelude.html#Prod.mk">(</a><span class="fn">0</span><a href="../../.././Init/Prelude.html#Prod.mk">,</a> <span class="fn">dz</span><a href="../../.././Init/Prelude.html#Prod.mk">)</a></span>)</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="adjFDeriv_snd"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L213-L217">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv_snd"><span class="name">adjFDeriv_snd</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span> <a href="../../.././Init/Prelude.html#Prod">×</a> <span class="fn">G</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#DifferentiableAt">DifferentiableAt</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <span class="fn"><span class="fn">(<span class="fn">f</span> <span class="fn">x</span>)</span>.2</span>)</span> <span class="fn">x</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">fun (<span class="fn">dy</span> : <span class="fn">G</span>) =&gt; <span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">x</span> <a href="../../.././Init/Prelude.html#Prod.mk">(</a><span class="fn">0</span><a href="../../.././Init/Prelude.html#Prod.mk">,</a> <span class="fn">dy</span><a href="../../.././Init/Prelude.html#Prod.mk">)</a></span></span></div></div></div></div><div class="decl" id="adjFDeriv_prod_snd"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L219-L226">source</a></div><div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv_prod_snd"><span class="name">adjFDeriv_prod_snd</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">F</span> <a href="../../.././Init/Prelude.html#Prod">×</a> <span class="fn">E</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> <a href="../../.././Init/Prelude.html#Prod.snd">Prod.snd</a> <span class="fn">x</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">fun (<span class="fn">a</span> : <span class="fn">E</span>) =&gt; <a href="../../.././Init/Prelude.html#Prod.mk">(</a><span class="fn">0</span><a href="../../.././Init/Prelude.html#Prod.mk">,</a> <span class="fn">a</span><a href="../../.././Init/Prelude.html#Prod.mk">)</a></span></div></div></div></div><div class="decl" id="hasAdjFDerivAt_uncurry"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L228-L242">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#hasAdjFDerivAt_uncurry"><span class="name">hasAdjFDerivAt_uncurry</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn"><span class="fn">F</span> → <span class="fn">G</span></span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">xy</span> : <span class="fn">E</span> <a href="../../.././Init/Prelude.html#Prod">×</a> <span class="fn">F</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">fx'</span> : <span class="fn"><span class="fn">G</span> → <span class="fn">E</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">fy'</span> : <span class="fn"><span class="fn">G</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#DifferentiableAt">DifferentiableAt</a> <span class="fn">𝕜</span> (<a href="../../.././Mathlib/Logic/Function/Basic.html#Function.HasUncurry.uncurry">↿</a><span class="fn">f</span>) <span class="fn">xy</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hfx</span> : <span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <span class="fn">𝕜</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <span class="fn"><span class="fn">f</span> <span class="fn">x</span> <span class="fn"><span class="fn">xy</span>.2</span></span>)</span> <span class="fn">fx'</span> <span class="fn"><span class="fn">xy</span>.1</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hfy</span> : <span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <span class="fn">𝕜</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">F</span>) =&gt; <span class="fn"><span class="fn">f</span> <span class="fn"><span class="fn">xy</span>.1</span> <span class="fn">x</span></span>)</span> <span class="fn">fy'</span> <span class="fn"><span class="fn">xy</span>.2</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <span class="fn">𝕜</span> (<a href="../../.././Mathlib/Logic/Function/Basic.html#Function.HasUncurry.uncurry">↿</a><span class="fn">f</span>) <span class="fn">(fun (<span class="fn">dz</span> : <span class="fn">G</span>) =&gt; <a href="../../.././Init/Prelude.html#Prod.mk">(</a><span class="fn"><span class="fn">fx'</span> <span class="fn">dz</span></span><a href="../../.././Init/Prelude.html#Prod.mk">,</a> <span class="fn"><span class="fn">fy'</span> <span class="fn">dz</span></span><a href="../../.././Init/Prelude.html#Prod.mk">)</a>)</span> <span class="fn">xy</span></span></div></div></div></div><div class="decl" id="adjFDeriv_uncurry"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L244-L252">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv_uncurry"><span class="name">adjFDeriv_uncurry</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn"><span class="fn">F</span> → <span class="fn">G</span></span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">xy</span> : <span class="fn">E</span> <a href="../../.././Init/Prelude.html#Prod">×</a> <span class="fn">F</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hfx</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#DifferentiableAt">DifferentiableAt</a> <span class="fn">𝕜</span> (<a href="../../.././Mathlib/Logic/Function/Basic.html#Function.HasUncurry.uncurry">↿</a><span class="fn">f</span>) <span class="fn">xy</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> (<a href="../../.././Mathlib/Logic/Function/Basic.html#Function.HasUncurry.uncurry">↿</a><span class="fn">f</span>) <span class="fn">xy</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">fun (<span class="fn">dz</span> : <span class="fn">G</span>) =&gt;
+  <a href="../../.././Init/Prelude.html#Prod.mk">(</a><span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <span class="fn"><span class="fn">f</span> <span class="fn">x</span> <span class="fn"><span class="fn">xy</span>.2</span></span>)</span> <span class="fn"><span class="fn">xy</span>.1</span> <span class="fn">dz</span></span><a href="../../.././Init/Prelude.html#Prod.mk">,</a> <span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">F</span>) =&gt; <span class="fn"><span class="fn">f</span> <span class="fn"><span class="fn">xy</span>.1</span> <span class="fn">x</span></span>)</span> <span class="fn"><span class="fn">xy</span>.2</span> <span class="fn">dz</span></span><a href="../../.././Init/Prelude.html#Prod.mk">)</a></span></div></div></div></div><div class="decl" id="HasAdjFDerivAt.neg"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L254-L257">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt.neg"><span class="name">HasAdjFDerivAt</span>.<span class="name">neg</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f'</span> : <span class="fn"><span class="fn">F</span> → <span class="fn">E</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">f'</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <span class="fn">𝕜</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <a href="../../.././Init/Prelude.html#Neg.neg">-</a><span class="fn"><span class="fn">f</span> <span class="fn">x</span></span>)</span> <span class="fn">(fun (<span class="fn">dy</span> : <span class="fn">F</span>) =&gt; <a href="../../.././Init/Prelude.html#Neg.neg">-</a><span class="fn"><span class="fn">f'</span> <span class="fn">dy</span></span>)</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="adjFDeriv_neg"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L259-L263">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv_neg"><span class="name">adjFDeriv_neg</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#DifferentiableAt">DifferentiableAt</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <a href="../../.././Init/Prelude.html#Neg.neg">-</a><span class="fn"><span class="fn">f</span> <span class="fn">x</span></span>)</span> <span class="fn">x</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">fun (<span class="fn">dy</span> : <span class="fn">F</span>) =&gt; <a href="../../.././Init/Prelude.html#Neg.neg">-</a><span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">x</span> <span class="fn">dy</span></span></span></div></div></div></div><div class="decl" id="HasAjdFDerivAt.add"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L265-L271">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAjdFDerivAt.add"><span class="name">HasAjdFDerivAt</span>.<span class="name">add</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f </span><span class="fn">g</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f' </span><span class="fn">g'</span> : <span class="fn"><span class="fn">F</span> → <span class="fn">E</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">f'</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <span class="fn">𝕜</span> <span class="fn">g</span> <span class="fn">g'</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <span class="fn">𝕜</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <span class="fn"><span class="fn">f</span> <span class="fn">x</span></span> <a href="../../.././Init/Prelude.html#HAdd.hAdd">+</a> <span class="fn"><span class="fn">g</span> <span class="fn">x</span></span>)</span> <span class="fn">(fun (<span class="fn">dy</span> : <span class="fn">F</span>) =&gt; <span class="fn"><span class="fn">f'</span> <span class="fn">dy</span></span> <a href="../../.././Init/Prelude.html#HAdd.hAdd">+</a> <span class="fn"><span class="fn">g'</span> <span class="fn">dy</span></span>)</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="adjFDeriv_add"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L273-L280">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv_add"><span class="name">adjFDeriv_add</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f </span><span class="fn">g</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#DifferentiableAt">DifferentiableAt</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#DifferentiableAt">DifferentiableAt</a> <span class="fn">𝕜</span> <span class="fn">g</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <span class="fn"><span class="fn">f</span> <span class="fn">x</span></span> <a href="../../.././Init/Prelude.html#HAdd.hAdd">+</a> <span class="fn"><span class="fn">g</span> <span class="fn">x</span></span>)</span> <span class="fn">x</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">fun (<span class="fn">dy</span> : <span class="fn">F</span>) =&gt; <span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">x</span> <span class="fn">dy</span></span> <a href="../../.././Init/Prelude.html#HAdd.hAdd">+</a> <span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> <span class="fn">g</span> <span class="fn">x</span> <span class="fn">dy</span></span></span></div></div></div></div><div class="decl" id="HasAdjFDerivAt.sub"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L282-L289">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt.sub"><span class="name">HasAdjFDerivAt</span>.<span class="name">sub</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f </span><span class="fn">g</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f' </span><span class="fn">g'</span> : <span class="fn"><span class="fn">F</span> → <span class="fn">E</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">f'</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <span class="fn">𝕜</span> <span class="fn">g</span> <span class="fn">g'</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <span class="fn">𝕜</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <span class="fn"><span class="fn">f</span> <span class="fn">x</span></span> <a href="../../.././Init/Prelude.html#HSub.hSub">-</a> <span class="fn"><span class="fn">g</span> <span class="fn">x</span></span>)</span> <span class="fn">(fun (<span class="fn">dy</span> : <span class="fn">F</span>) =&gt; <span class="fn"><span class="fn">f'</span> <span class="fn">dy</span></span> <a href="../../.././Init/Prelude.html#HSub.hSub">-</a> <span class="fn"><span class="fn">g'</span> <span class="fn">dy</span></span>)</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="adjFDeriv_sub"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L291-L297">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv_sub"><span class="name">adjFDeriv_sub</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f </span><span class="fn">g</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#DifferentiableAt">DifferentiableAt</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#DifferentiableAt">DifferentiableAt</a> <span class="fn">𝕜</span> <span class="fn">g</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <span class="fn"><span class="fn">f</span> <span class="fn">x</span></span> <a href="../../.././Init/Prelude.html#HSub.hSub">-</a> <span class="fn"><span class="fn">g</span> <span class="fn">x</span></span>)</span> <span class="fn">x</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">fun (<span class="fn">dy</span> : <span class="fn">F</span>) =&gt; <span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">x</span> <span class="fn">dy</span></span> <a href="../../.././Init/Prelude.html#HSub.hSub">-</a> <span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> <span class="fn">g</span> <span class="fn">x</span> <span class="fn">dy</span></span></span></div></div></div></div><div class="decl" id="HasAdjFDerivAt.smul"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L300-L309">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt.smul"><span class="name">HasAdjFDerivAt</span>.<span class="name">smul</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">E</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f'</span> : <span class="fn"><span class="fn">F</span> → <span class="fn">E</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g'</span> : <span class="fn"><span class="fn">𝕜</span> → <span class="fn">E</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">f'</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <span class="fn">𝕜</span> <span class="fn">g</span> <span class="fn">g'</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <span class="fn">𝕜</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <span class="fn"><span class="fn">g</span> <span class="fn">x</span></span> <a href="../../.././Init/Prelude.html#HSMul.hSMul">•</a> <span class="fn"><span class="fn">f</span> <span class="fn">x</span></span>)</span>
+  <span class="fn">(fun (<span class="fn">dy</span> : <span class="fn">F</span>) =&gt; <span class="fn"><span class="fn">(<a href="../../.././Mathlib/Algebra/Star/Basic.html#starRingEnd">starRingEnd</a> <span class="fn">𝕜</span>)</span> <span class="fn">(<span class="fn">g</span> <span class="fn">x</span>)</span></span> <a href="../../.././Init/Prelude.html#HSMul.hSMul">•</a> <span class="fn"><span class="fn">f'</span> <span class="fn">dy</span></span> <a href="../../.././Init/Prelude.html#HAdd.hAdd">+</a> <span class="fn"><span class="fn">g'</span> <span class="fn">(<span class="fn">(<a href="../../.././Mathlib/Algebra/Star/Basic.html#starRingEnd">starRingEnd</a> <span class="fn">𝕜</span>)</span> <span class="fn">(<a href="../../.././Mathlib/Analysis/InnerProductSpace/Defs.html#Inner.inner">Inner.inner</a> <span class="fn">𝕜</span> <span class="fn">dy</span> <span class="fn">(<span class="fn">f</span> <span class="fn">x</span>)</span>)</span>)</span></span>)</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="adjFDeriv_smul"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L312-L320">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv_smul"><span class="name">adjFDeriv_smul</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/RCLike/Basic.html#RCLike">RCLike</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#DifferentiableAt">DifferentiableAt</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#DifferentiableAt">DifferentiableAt</a> <span class="fn">𝕜</span> <span class="fn">g</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <span class="fn"><span class="fn">g</span> <span class="fn">x</span></span> <a href="../../.././Init/Prelude.html#HSMul.hSMul">•</a> <span class="fn"><span class="fn">f</span> <span class="fn">x</span></span>)</span> <span class="fn">x</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">fun (<span class="fn">dy</span> : <span class="fn">F</span>) =&gt;
+  <span class="fn"><span class="fn">(<a href="../../.././Mathlib/Algebra/Star/Basic.html#starRingEnd">starRingEnd</a> <span class="fn">𝕜</span>)</span> <span class="fn">(<span class="fn">g</span> <span class="fn">x</span>)</span></span> <a href="../../.././Init/Prelude.html#HSMul.hSMul">•</a> <span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">x</span> <span class="fn">dy</span></span> <a href="../../.././Init/Prelude.html#HAdd.hAdd">+</a> <span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <span class="fn">𝕜</span> <span class="fn">g</span> <span class="fn">x</span> <span class="fn">(<span class="fn">(<a href="../../.././Mathlib/Algebra/Star/Basic.html#starRingEnd">starRingEnd</a> <span class="fn">𝕜</span>)</span> <span class="fn">(<a href="../../.././Mathlib/Analysis/InnerProductSpace/Defs.html#Inner.inner">inner</a> <span class="fn">𝕜</span> <span class="fn">dy</span> <span class="fn">(<span class="fn">f</span> <span class="fn">x</span>)</span>)</span>)</span></span></span></div></div></div></div><div class="decl" id="HasAdjFDerivAt.inner"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L323-L340">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt.inner"><span class="name">HasAdjFDerivAt</span>.<span class="name">inner</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">E</span> <a href="../../.././Init/Prelude.html#Prod">×</a> <span class="fn">E</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#HasAdjFDerivAt">HasAdjFDerivAt</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">E</span> <a href="../../.././Init/Prelude.html#Prod">×</a> <span class="fn">E</span>) =&gt; <span class="fn"><a href="../../.././Mathlib/Analysis/InnerProductSpace/Defs.html#Inner.inner">Inner.inner</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn"><span class="fn">x</span>.1</span> <span class="fn"><span class="fn">x</span>.2</span></span>)</span> <span class="fn">(fun (<span class="fn">y</span> : <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a>) =&gt; <span class="fn">y</span> <a href="../../.././Init/Prelude.html#HSMul.hSMul">•</a> <a href="../../.././Init/Prelude.html#Prod.mk">(</a><span class="fn"><span class="fn">x</span>.2</span><a href="../../.././Init/Prelude.html#Prod.mk">,</a> <span class="fn"><span class="fn">x</span>.1</span><a href="../../.././Init/Prelude.html#Prod.mk">)</a>)</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="adjFDeriv_inner"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L342-L347">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv_inner"><span class="name">adjFDeriv_inner</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">E</span> <a href="../../.././Init/Prelude.html#Prod">×</a> <span class="fn">E</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/Calculus/AdjFDeriv.html#adjFDeriv">adjFDeriv</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">E</span> <a href="../../.././Init/Prelude.html#Prod">×</a> <span class="fn">E</span>) =&gt; <span class="fn"><a href="../../.././Mathlib/Analysis/InnerProductSpace/Defs.html#Inner.inner">inner</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn"><span class="fn">x</span>.1</span> <span class="fn"><span class="fn">x</span>.2</span></span>)</span> <span class="fn">x</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">fun (<span class="fn">y</span> : <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a>) =&gt; <span class="fn">y</span> <a href="../../.././Init/Prelude.html#HSMul.hSMul">•</a> <a href="../../.././Init/Prelude.html#Prod.mk">(</a><span class="fn"><span class="fn">x</span>.2</span><a href="../../.././Init/Prelude.html#Prod.mk">,</a> <span class="fn"><span class="fn">x</span>.1</span><a href="../../.././Init/Prelude.html#Prod.mk">)</a></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

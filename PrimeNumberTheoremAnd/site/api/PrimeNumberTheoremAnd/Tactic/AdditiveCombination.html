@@ -1,0 +1,127 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../.././style.css"></link><link rel="icon" href="../.././favicon.svg"></link><link rel="mask-icon" href="../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../.././/declarations/declaration-data.bmp" as="image"></link><title>PrimeNumberTheoremAnd.Tactic.AdditiveCombination</title><script defer="true" src="../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../.././";</script><script>const MODULE_NAME="PrimeNumberTheoremAnd.Tactic.AdditiveCombination";</script><script type="module" src="../.././jump-src.js"></script><script type="module" src="../.././search.js"></script><script type="module" src="../.././expand-nav.js"></script><script type="module" src="../.././how-about.js"></script><script type="module" src="../.././instances.js"></script><script type="module" src="../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">PrimeNumberTheoremAnd</span>.<span class="name">Tactic</span>.<span class="name">AdditiveCombination</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/AlexKontorovich/PrimeNumberTheoremAnd/blob/8f55113c6e5c85bbbcc0cfbfe42b3f20423e15e3/PrimeNumberTheoremAnd/Tactic/AdditiveCombination.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../.././Init.html">Init</a></li><li><a href="../.././Mathlib/Tactic/Abel.html">Mathlib.Tactic.Abel</a></li><li><a href="../.././Mathlib/Tactic/LinearCombination'.html">Mathlib.Tactic.LinearCombination'</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-PrimeNumberTheoremAnd.Tactic.AdditiveCombination" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#Mathlib.Tactic.LinearCombination'.pf_smul_c"><span class="name">Mathlib</span>.<span class="name">Tactic</span>.<span class="name">LinearCombination'</span>.<span class="name">pf_smul_c</span></a></div><div class="nav_link"><a class="break_within" href="#Mathlib.Tactic.LinearCombination'.c_smul_pf"><span class="name">Mathlib</span>.<span class="name">Tactic</span>.<span class="name">LinearCombination'</span>.<span class="name">c_smul_pf</span></a></div><div class="nav_link"><a class="break_within" href="#Mathlib.Tactic.LinearCombination'.smul_pf"><span class="name">Mathlib</span>.<span class="name">Tactic</span>.<span class="name">LinearCombination'</span>.<span class="name">smul_pf</span></a></div><div class="nav_link"><a class="break_within" href="#Mathlib.Tactic.LinearCombination'.expandAdditiveCombo"><span class="name">Mathlib</span>.<span class="name">Tactic</span>.<span class="name">LinearCombination'</span>.<span class="name">expandAdditiveCombo</span></a></div><div class="nav_link"><a class="break_within" href="#Mathlib.Tactic.LinearCombination'.elabAdditiveCombination"><span class="name">Mathlib</span>.<span class="name">Tactic</span>.<span class="name">LinearCombination'</span>.<span class="name">elabAdditiveCombination</span></a></div><div class="nav_link"><a class="break_within" href="#Mathlib.Tactic.LinearCombination'.AdditiveCombination"><span class="name">Mathlib</span>.<span class="name">Tactic</span>.<span class="name">LinearCombination'</span>.<span class="name">AdditiveCombination</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="additive-combination-Tactic" class="markdown-heading">additive_combination Tactic <a class="hover-link" href="#additive-combination-Tactic">#</a></h1><p>In this file, the <code>additive_combination</code> tactic is created.  This tactic, which
+works over <code><a href="../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a></code>s, attempts to simplify the target by creating a additive combination
+of a list of equalities and subtracting it from the target.  This file also includes a
+definition for <code>additive_combination_config</code>.  A <code>additive_combination_config</code>
+object can be passed into the tactic, allowing the user to specify a
+normalization tactic.</p><h2 id="Implementation-Notes" class="markdown-heading">Implementation Notes <a class="hover-link" href="#Implementation-Notes">#</a></h2><p>This tactic works by creating a weighted sum of the given equations with the
+given coefficients.  Then, it subtracts the right side of the weighted sum
+from the left side so that the right side equals 0, and it does the same with
+the target.  Afterwards, it sets the goal to be the equality between the
+lefthand side of the new goal and the lefthand side of the new weighted sum.
+Lastly, calls a normalization tactic on this target.</p><h2 id="References" class="markdown-heading">References <a class="hover-link" href="#References">#</a></h2><ul><li><a href="https://leanprover.zulipchat.com/#narrow/stream/239415-metaprogramming-.2F.20tactics/topic/Linear.20algebra.20tactic/near/213928196">https://leanprover.zulipchat.com/#narrow/stream/239415-metaprogramming-.2F.20tactics/topic/Linear.20algebra.20tactic/near/213928196</a></li></ul></div><div class="decl" id="Mathlib.Tactic.LinearCombination'.pf_smul_c"><div class="theorem"><div class="gh_link"><a href="https://github.com/AlexKontorovich/PrimeNumberTheoremAnd/blob/8f55113c6e5c85bbbcc0cfbfe42b3f20423e15e3/PrimeNumberTheoremAnd/Tactic/AdditiveCombination.lean#L40-L40">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././PrimeNumberTheoremAnd/Tactic/AdditiveCombination.html#Mathlib.Tactic.LinearCombination'.pf_smul_c"><span class="name">Mathlib</span>.<span class="name">Tactic</span>.<span class="name">LinearCombination'</span>.<span class="name">pf_smul_c</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#SMul">SMul</a> <span class="fn">α</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a </span><span class="fn">b</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn">a</span> <a href="../.././Init/Prelude.html#Eq">=</a> <span class="fn">b</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <span class="fn">β</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">a</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <span class="fn">c</span> <a href="../.././Init/Prelude.html#Eq">=</a> <span class="fn">b</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <span class="fn">c</span></div></div></div></div><div class="decl" id="Mathlib.Tactic.LinearCombination'.c_smul_pf"><div class="theorem"><div class="gh_link"><a href="https://github.com/AlexKontorovich/PrimeNumberTheoremAnd/blob/8f55113c6e5c85bbbcc0cfbfe42b3f20423e15e3/PrimeNumberTheoremAnd/Tactic/AdditiveCombination.lean#L41-L41">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././PrimeNumberTheoremAnd/Tactic/AdditiveCombination.html#Mathlib.Tactic.LinearCombination'.c_smul_pf"><span class="name">Mathlib</span>.<span class="name">Tactic</span>.<span class="name">LinearCombination'</span>.<span class="name">c_smul_pf</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#SMul">SMul</a> <span class="fn">α</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">b </span><span class="fn">c</span> : <span class="fn">β</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn">b</span> <a href="../.././Init/Prelude.html#Eq">=</a> <span class="fn">c</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">a</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <span class="fn">b</span> <a href="../.././Init/Prelude.html#Eq">=</a> <span class="fn">a</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <span class="fn">c</span></div></div></div></div><div class="decl" id="Mathlib.Tactic.LinearCombination'.smul_pf"><div class="theorem"><div class="gh_link"><a href="https://github.com/AlexKontorovich/PrimeNumberTheoremAnd/blob/8f55113c6e5c85bbbcc0cfbfe42b3f20423e15e3/PrimeNumberTheoremAnd/Tactic/AdditiveCombination.lean#L42-L43">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././PrimeNumberTheoremAnd/Tactic/AdditiveCombination.html#Mathlib.Tactic.LinearCombination'.smul_pf"><span class="name">Mathlib</span>.<span class="name">Tactic</span>.<span class="name">LinearCombination'</span>.<span class="name">smul_pf</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#SMul">SMul</a> <span class="fn">α</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a₁ </span><span class="fn">b₁</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p₁</span> : <span class="fn">a₁</span> <a href="../.././Init/Prelude.html#Eq">=</a> <span class="fn">b₁</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a₂ </span><span class="fn">b₂</span> : <span class="fn">β</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p₂</span> : <span class="fn">a₂</span> <a href="../.././Init/Prelude.html#Eq">=</a> <span class="fn">b₂</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">a₁</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <span class="fn">a₂</span> <a href="../.././Init/Prelude.html#Eq">=</a> <span class="fn">b₁</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <span class="fn">b₂</span></div></div></div></div><div class="decl" id="Mathlib.Tactic.LinearCombination'.expandAdditiveCombo"><div class="opaque"><div class="gh_link"><a href="https://github.com/AlexKontorovich/PrimeNumberTheoremAnd/blob/8f55113c6e5c85bbbcc0cfbfe42b3f20423e15e3/PrimeNumberTheoremAnd/Tactic/AdditiveCombination.lean#L45-L91">source</a></div><div class="verification_link">
+<a href="../../../modules/PrimeNumberTheoremAnd_Tactic_AdditiveCombination.html#Mathlib.Tactic.LinearCombination'.expandAdditiveCombo" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">partial def</span>
+<span class="decl_name"><a class="break_within" href="../.././PrimeNumberTheoremAnd/Tactic/AdditiveCombination.html#Mathlib.Tactic.LinearCombination'.expandAdditiveCombo"><span class="name">Mathlib</span>.<span class="name">Tactic</span>.<span class="name">LinearCombination'</span>.<span class="name">expandAdditiveCombo</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">ty</span> : <a href="../.././Lean/Expr.html#Lean.Expr">Lean.Expr</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">stx</span> : <a href="../.././Init/Meta/Defs.html#Lean.Syntax.Term">Lean.Term</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Lean/Elab/Term/TermElabM.html#Lean.Elab.Term.TermElabM">Lean.Elab.TermElabM</a> <a href="../.././Mathlib/Tactic/LinearCombination'.html#Mathlib.Tactic.LinearCombination'.Expanded">Expanded</a></span></div></div><p>Performs macro expansion of a additive combination expression,
+using <code>+</code>/<code>-</code>/<code>*</code>/<code>/</code> on equations and values.</p><ul><li><code>.proof p</code> means that <code>p</code> is a syntax corresponding to a proof of an equation.
+For example, if <code>h : a = b</code> then <code><a href="../.././PrimeNumberTheoremAnd/Tactic/AdditiveCombination.html#Mathlib.Tactic.LinearCombination'.expandAdditiveCombo">expandAdditiveCombo</a> (2 • h)</code> returns <code>.proof (c_add_pf 2 h)</code>
+which is a proof of <code>2 • a = 2 • b</code>.</li><li><code>.const c</code> means that the input expression is not an equation but a value.</li></ul></div></div><div class="decl" id="Mathlib.Tactic.LinearCombination'.elabAdditiveCombination"><div class="def"><div class="gh_link"><a href="https://github.com/AlexKontorovich/PrimeNumberTheoremAnd/blob/8f55113c6e5c85bbbcc0cfbfe42b3f20423e15e3/PrimeNumberTheoremAnd/Tactic/AdditiveCombination.lean#L93-L117">source</a></div><div class="verification_link">
+<a href="../../../modules/PrimeNumberTheoremAnd_Tactic_AdditiveCombination.html#Mathlib.Tactic.LinearCombination'.elabAdditiveCombination" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././PrimeNumberTheoremAnd/Tactic/AdditiveCombination.html#Mathlib.Tactic.LinearCombination'.elabAdditiveCombination"><span class="name">Mathlib</span>.<span class="name">Tactic</span>.<span class="name">LinearCombination'</span>.<span class="name">elabAdditiveCombination</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">tk</span> : <a href="../.././Init/Prelude.html#Lean.Syntax">Lean.Syntax</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">norm?</span> : <span class="fn"><a href="../.././Init/Prelude.html#Option">Option</a> <a href="../.././Init/Meta/Defs.html#Lean.Syntax.Tactic">Lean.Syntax.Tactic</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">exp?</span> : <span class="fn"><a href="../.././Init/Prelude.html#Option">Option</a> <a href="../.././Init/Meta/Defs.html#Lean.Syntax.NumLit">Lean.NumLit</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">input</span> : <span class="fn"><a href="../.././Init/Prelude.html#Option">Option</a> <a href="../.././Init/Meta/Defs.html#Lean.Syntax.Term">Lean.Term</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">twoGoals</span> : <a href="../.././Init/Prelude.html#Bool">Bool</a> := <a href="../.././Init/Prelude.html#Bool.false">false</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Lean/Elab/Tactic/Basic.html#Lean.Elab.Tactic.TacticM">Lean.Elab.Tactic.TacticM</a> <a href="../.././Init/Prelude.html#Unit">Unit</a></span></div></div><p>Implementation of <code>additive_combination</code> and <code>additive_combination2</code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Mathlib.Tactic.LinearCombination'.elabAdditiveCombination" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Mathlib.Tactic.LinearCombination'.AdditiveCombination"><div class="def"><div class="gh_link"><a href="https://github.com/AlexKontorovich/PrimeNumberTheoremAnd/blob/8f55113c6e5c85bbbcc0cfbfe42b3f20423e15e3/PrimeNumberTheoremAnd/Tactic/AdditiveCombination.lean#L120-L180">source</a></div><div class="verification_link">
+<a href="../../../modules/PrimeNumberTheoremAnd_Tactic_AdditiveCombination.html#Mathlib.Tactic.LinearCombination'.AdditiveCombination" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././PrimeNumberTheoremAnd/Tactic/AdditiveCombination.html#Mathlib.Tactic.LinearCombination'.AdditiveCombination"><span class="name">Mathlib</span>.<span class="name">Tactic</span>.<span class="name">LinearCombination'</span>.<span class="name">AdditiveCombination</span></a></span><span class="decl_args"> :</span><div class="decl_type"><a href="../.././Init/Prelude.html#Lean.ParserDescr">Lean.ParserDescr</a></div></div><p><code>additive_combination</code> attempts to simplify the target by creating a additive combination
+of a list of equalities and subtracting it from the target.
+The tactic will create a additive
+combination by adding the equalities together from left to right, so the order
+of the input hypotheses does matter.  If the <code><a href="../.././Mathlib/Algebra/GCDMonoid/Basic.html#normalize">normalize</a></code> field of the
+configuration is set to false, then the tactic will simply set the user up to
+prove their target using the additive combination instead of normalizing the subtraction.</p><p>Note: The left and right sides of all the equalities should have the same
+type, and the coefficients should also have this type.  There must be
+instances of <code><a href="../.././Init/Prelude.html#Mul">Mul</a></code> and <code><a href="../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a></code> for this type.</p><ul><li>The input <code><a href="../.././PrimeNumberTheoremAnd/Fourier.html#e">e</a></code> in <code>additive_combination <a href="../.././PrimeNumberTheoremAnd/Fourier.html#e">e</a></code> is a additive combination of proofs of equalities,
+given as a sum/difference of coefficients multiplied by expressions.
+The coefficients may be arbitrary expressions.
+The expressions can be arbitrary proof terms proving equalities.
+Most commonly they are hypothesis names <code>h1, h2, ...</code>.</li><li><code>additive_combination (norm := tac) <a href="../.././PrimeNumberTheoremAnd/Fourier.html#e">e</a></code> runs the &quot;normalization tactic&quot; <code>tac</code>
+on the subgoal(s) after constructing the additive combination.<ul><li>The default normalization tactic is <code>abel</code>, which closes the goal or fails.</li><li>To avoid normalization entirely, use <code>skip</code> as the normalization tactic.</li></ul></li><li><code>additive_combination (exp := n) <a href="../.././PrimeNumberTheoremAnd/Fourier.html#e">e</a></code> will take the goal to the <code>n</code>th power before subtracting the
+combination <code><a href="../.././PrimeNumberTheoremAnd/Fourier.html#e">e</a></code>. In other words, if the goal is <code>t1 = t2</code>, <code>additive_combination (exp := n) <a href="../.././PrimeNumberTheoremAnd/Fourier.html#e">e</a></code>
+will change the goal to <code>(t1 - t2)^n = 0</code> before proceeding as above.
+This feature is not supported for <code>additive_combination2</code>.</li></ul><p>Example Usage:</p><pre><code>example (x y : ℤ) (h1 : x*y + 2*x = 1) (h2 : x = y) : x*y = -2*y + 1 := by
+  additive_combination 1*h1 - 2*h2
+
+example (x y : ℤ) (h1 : x*y + 2*x = 1) (h2 : x = y) : x*y = -2*y + 1 := by
+  additive_combination h1 - 2*h2
+
+example (x y : ℤ) (h1 : x*y + 2*x = 1) (h2 : x = y) : x*y = -2*y + 1 := by
+  additive_combination (norm := ring_nf) -2*h2
+  /- Goal: x * y + x * 2 - 1 = 0 -/
+
+example (x y z : ℝ) (ha : x + 2*y - z = 4) (hb : 2*x + y + z = -2)
+    (hc : x + 2*y + z = 2) :
+    -3*x - 3*y - 4*z = 2 := by
+  additive_combination ha - hb - 2*hc
+
+example (x y : ℚ) (h1 : x + y = 3) (h2 : 3*x = 7) :
+    x*x*y + y*x*y + 6*x = 3*x*y + 14 := by
+  additive_combination x*y*h1 + 2*h2
+
+example (x y : ℤ) (h1 : x = -3) (h2 : y = 10) : 2*x = -6 := by
+  additive_combination (norm := skip) 2*h1
+  simp
+
+axiom qc : ℚ
+axiom hqc : qc = 2*qc
+
+example (a b : ℚ) (h : ∀ p q : ℚ, p = q) : 3*a + qc = 3*b + 2*qc := by
+  additive_combination 3 * h a b + hqc
+</code></pre><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Mathlib.Tactic.LinearCombination'.AdditiveCombination" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div></main>
+<nav class="nav"><iframe src="../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>
