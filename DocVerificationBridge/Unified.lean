@@ -177,7 +177,8 @@ def loadAndAnalyze (cfg : UnifiedConfig) (modules : Array Name) : IO UnifiedResu
     AnalyzeTask.analyzePrefixModules modules[0]!
   else
     AnalyzeTask.analyzeConcreteModules modules
-  let ((analyzerResult, hierarchy), _) ← Meta.MetaM.toIO (process task) defaultMetaConfig { env := env } {} {}
+  let (analyzerResult, _) ← Meta.MetaM.toIO (process task) defaultMetaConfig { env := env } {} {}
+  let hierarchy := Hierarchy.fromArray analyzerResult.moduleNames
 
   IO.println s!"  Loaded {analyzerResult.moduleInfo.size} modules"
   (← IO.getStdout).flush
@@ -282,7 +283,6 @@ def generateDocGen4ToTemp (cfg : UnifiedConfig) (result : UnifiedResult) : IO Sy
 
   -- Use compatibility shim with custom linker and decorator
   discard <| htmlOutputResultsCompat baseConfig result.analyzerResult sourceUrl? customLinker? (some verificationDecorator)
-  DocGen4.htmlOutputIndex baseConfig
 
   -- Inject verification badge CSS into doc-gen4's stylesheet
   let stylePath := apiTempDir / "doc" / "style.css"

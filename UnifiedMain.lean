@@ -117,7 +117,8 @@ def loadAndAnalyzeWithMode (cfg : UnifiedConfig) (modules : Array Name)
     DocGen4.Process.AnalyzeTask.analyzePrefixModules modules[0]!
   else
     DocGen4.Process.AnalyzeTask.analyzeConcreteModules modules
-  let ((analyzerResult, hierarchy), _) ← Meta.MetaM.toIO (DocGen4.Process.process task) defaultMetaConfig { env := env } {} {}
+  let (analyzerResult, _) ← Meta.MetaM.toIO (DocGen4.Process.process task) defaultMetaConfig { env := env } {} {}
+  let hierarchy := DocGen4.Hierarchy.fromArray analyzerResult.moduleNames
 
   -- Use first module name as project identifier for logging
   let projectName := if modules.isEmpty then "unknown" else modules[0]!.toString
@@ -329,11 +330,13 @@ def runDocGen4Cmd (args : Cli.Parsed) : IO UInt32 := do
 
   let moduleNames := modules.map String.toName
   let task := DocGen4.Process.AnalyzeTask.analyzeConcreteModules moduleNames
-  let (result, hierarchy) ← DocGen4.load task
+  let result ← DocGen4.load task
+  let hierarchy := DocGen4.Hierarchy.fromArray result.moduleNames
 
   IO.println s!"doc-gen4: Generating HTML..."
   (← IO.getStdout).flush
-  DocGen4.htmlOutput buildDir result hierarchy sourceUrl
+  let baseConfig ← DocGen4.getSimpleBaseContext buildDir hierarchy
+  discard <| DocVerificationBridge.htmlOutputResultsCompat baseConfig result sourceUrl
 
   IO.println s!"✅ Documentation generated at {buildDir}/doc/"
   (← IO.getStdout).flush
