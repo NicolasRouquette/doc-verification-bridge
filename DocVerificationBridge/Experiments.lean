@@ -906,6 +906,10 @@ def ensureToolchainInstalled (toolchain : String) : IO Bool := do
   let (ok, output) ← runCmd "elan" #["toolchain", "install", toolchain] none 600  -- 10 min timeout
   if ok then
     IO.println s!"  ✓ Toolchain {toolchain} ready"
+  else if (output.splitOn "already installed" |>.length) > 1 then
+    -- elan returns non-zero when toolchain is already installed — treat as success
+    IO.println s!"  ✓ Toolchain {toolchain} ready (already installed)"
+    return true
   else
     IO.println s!"  ✗ Failed to install toolchain {toolchain}: {output}"
   return ok
@@ -1079,9 +1083,16 @@ def validateOleanVersions (leanPath : String) (expectedToolchain : String)
   let mut mismatched : Nat := 0
   let mut details : Array (String × String × String) := #[]
 
+  -- Resolve the elan toolchains directory to skip system files
+  let home := (← IO.Process.output { cmd := "sh", args := #["-c", "echo $HOME"] }).stdout.trimCompat
+  let elanDir := home ++ "/.elan/toolchains"
+
   for dir in dirs do
     let dirPath : FilePath := dir
     if !(← dirPath.pathExists) then continue
+    -- Skip system toolchain directories — their olean versions may not match
+    -- the toolchain name (e.g., v4.29.0-rc2 ships oleans stamped 4.30.0-rc2)
+    if dir.startsWith elanDir then continue
     -- Find .olean files in this directory (non-recursive first level, then one level deep)
     let mut oleanFiles : Array FilePath := #[]
     let findResult ← IO.Process.output {
@@ -1119,7 +1130,9 @@ def validateOleanVersions (leanPath : String) (expectedToolchain : String)
   return { valid, sampled, mismatched, mismatchDetails := details, message }
 
 /-- Remove .olean files (and companion .ilean/.trace/.hash files) that don't match
-    the expected toolchain version. Returns the number of files removed. -/
+    the expected toolchain version. Returns the number of files removed.
+    IMPORTANT: Never modifies files under `~/.elan/toolchains/` — only project
+    `.lake` directories are cleaned. -/
 def removeContaminatedOleans (leanPath : String) (expectedToolchain : String) : IO Nat := do
   let expectedVersion := match expectedToolchain.splitOn ":v" with
     | [_, ver] => ver.trimCompat
@@ -1131,9 +1144,15 @@ def removeContaminatedOleans (leanPath : String) (expectedToolchain : String) : 
   let dirs := leanPath.splitOn ":"
   let mut removed : Nat := 0
 
+  -- Resolve the elan toolchains directory to skip system files
+  let home := (← IO.Process.output { cmd := "sh", args := #["-c", "echo $HOME"] }).stdout.trimCompat
+  let elanDir := home ++ "/.elan/toolchains"
+
   for dir in dirs do
     let dirPath : FilePath := dir
     if !(← dirPath.pathExists) then continue
+    -- Never touch files inside the system toolchain directory
+    if dir.startsWith elanDir then continue
     let findResult ← IO.Process.output {
       cmd := "find"
       args := #[dir, "-name", "*.olean"]

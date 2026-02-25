@@ -20,7 +20,7 @@ lean_exe «experiments» where
 
 -- Dependencies
 require «doc-gen4» from git
-  "https://github.com/NicolasRouquette/doc-gen4" @ "fix/lean-4.29.0-rc2"
+  "https://github.com/leanprover/doc-gen4" @ "main"
 
 require Cli from git
   "https://github.com/leanprover/lean4-cli" @ "main"
