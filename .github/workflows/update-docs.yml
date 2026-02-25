@@ -93,6 +93,11 @@ jobs:
           
           cd experiments/sites
           
+          # Clean up build artifacts from doc-gen4's DB pipeline
+          # The api-temp/ directories contain intermediate SQLite databases
+          # (mathlib4's is ~571 MB) that are not needed in the deployed site
+          find . -type d -name "api-temp" -exec rm -rf {} + 2>/dev/null || true
+          
           # Clean up any existing git state from previous runs
           rm -rf .git
           
@@ -102,6 +107,7 @@ jobs:
           # Set up Git LFS for large files (classification-cache.jsonl can exceed 100MB)
           git lfs install
           git lfs track "*.jsonl"
+          git lfs track "*.sqlite"
           git add .gitattributes
           
           git add -A
