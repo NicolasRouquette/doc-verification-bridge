@@ -1,0 +1,47 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="./style.css"></link><link rel="icon" href="./favicon.svg"></link><link rel="mask-icon" href="./favicon.svg" color="#000000"></link><link rel="prefetch" href=".//declarations/declaration-data.bmp" as="image"></link><title>Tactics</title><script defer="true" src="./mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="./";</script><script type="module" src="./jump-src.js"></script><script type="module" src="./search.js"></script><script type="module" src="./expand-nav.js"></script><script type="module" src="./how-about.js"></script><script type="module" src="./instances.js"></script><script type="module" src="./importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Tactics</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='./search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p><a href="#Mathlib.Tactic.LinearCombination'.AdditiveCombination">additive_combination</a></p></nav><main>
+<p>The tactic language is a special-purpose programming language for constructing proofs, indicated using the keyword <code>by</code>.</p><div id="Mathlib.Tactic.LinearCombination'.AdditiveCombination"><h2>additive_combination</h2><p><p><code>additive_combination</code> attempts to simplify the target by creating a additive combination
+of a list of equalities and subtracting it from the target.
+The tactic will create a additive
+combination by adding the equalities together from left to right, so the order
+of the input hypotheses does matter.  If the <code><a href="./Mathlib/Algebra/GCDMonoid/Basic.html#normalize">normalize</a></code> field of the
+configuration is set to false, then the tactic will simply set the user up to
+prove their target using the additive combination instead of normalizing the subtraction.</p><p>Note: The left and right sides of all the equalities should have the same
+type, and the coefficients should also have this type.  There must be
+instances of <code><a href="./Init/Prelude.html#Mul">Mul</a></code> and <code><a href="./Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a></code> for this type.</p><ul><li>The input <code><a href="./PrimeNumberTheoremAnd/Fourier.html#e">e</a></code> in <code>additive_combination <a href="./PrimeNumberTheoremAnd/Fourier.html#e">e</a></code> is a additive combination of proofs of equalities,
+given as a sum/difference of coefficients multiplied by expressions.
+The coefficients may be arbitrary expressions.
+The expressions can be arbitrary proof terms proving equalities.
+Most commonly they are hypothesis names <code>h1, h2, ...</code>.</li><li><code>additive_combination (norm := tac) <a href="./PrimeNumberTheoremAnd/Fourier.html#e">e</a></code> runs the &quot;normalization tactic&quot; <code>tac</code>
+on the subgoal(s) after constructing the additive combination.<ul><li>The default normalization tactic is <code>abel</code>, which closes the goal or fails.</li><li>To avoid normalization entirely, use <code>skip</code> as the normalization tactic.</li></ul></li><li><code>additive_combination (exp := n) <a href="./PrimeNumberTheoremAnd/Fourier.html#e">e</a></code> will take the goal to the <code>n</code>th power before subtracting the
+combination <code><a href="./PrimeNumberTheoremAnd/Fourier.html#e">e</a></code>. In other words, if the goal is <code>t1 = t2</code>, <code>additive_combination (exp := n) <a href="./PrimeNumberTheoremAnd/Fourier.html#e">e</a></code>
+will change the goal to <code>(t1 - t2)^n = 0</code> before proceeding as above.
+This feature is not supported for <code>additive_combination2</code>.</li></ul><p>Example Usage:</p><pre><code>example (x y : ℤ) (h1 : x*y + 2*x = 1) (h2 : x = y) : x*y = -2*y + 1 := by
+  additive_combination 1*h1 - 2*h2
+
+example (x y : ℤ) (h1 : x*y + 2*x = 1) (h2 : x = y) : x*y = -2*y + 1 := by
+  additive_combination h1 - 2*h2
+
+example (x y : ℤ) (h1 : x*y + 2*x = 1) (h2 : x = y) : x*y = -2*y + 1 := by
+  additive_combination (norm := ring_nf) -2*h2
+  /- Goal: x * y + x * 2 - 1 = 0 -/
+
+example (x y z : ℝ) (ha : x + 2*y - z = 4) (hb : 2*x + y + z = -2)
+    (hc : x + 2*y + z = 2) :
+    -3*x - 3*y - 4*z = 2 := by
+  additive_combination ha - hb - 2*hc
+
+example (x y : ℚ) (h1 : x + y = 3) (h2 : 3*x = 7) :
+    x*x*y + y*x*y + 6*x = 3*x*y + 14 := by
+  additive_combination x*y*h1 + 2*h2
+
+example (x y : ℤ) (h1 : x = -3) (h2 : y = 10) : 2*x = -6 := by
+  additive_combination (norm := skip) 2*h1
+  simp
+
+axiom qc : ℚ
+axiom hqc : qc = 2*qc
+
+example (a b : ℚ) (h : ∀ p q : ℚ, p = q) : 3*a + qc = 3*b + 2*qc := by
+  additive_combination 3 * h a b + hqc
+</code></pre></p><dl><dt>Tags:</dt><dd></dd><dt>Defined in module:</dt><dd><a href="./PrimeNumberTheoremAnd/Tactic/AdditiveCombination.html#Mathlib.Tactic.LinearCombination'.AdditiveCombination">PrimeNumberTheoremAnd.Tactic.AdditiveCombination</a></dd></dl></div></main>
+<nav class="nav"><iframe src="./navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

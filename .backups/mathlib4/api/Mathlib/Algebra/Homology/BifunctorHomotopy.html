@@ -1,0 +1,732 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../.././style.css"></link><link rel="icon" href="../../.././favicon.svg"></link><link rel="mask-icon" href="../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.Algebra.Homology.BifunctorHomotopy</title><script defer="true" src="../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../.././";</script><script>const MODULE_NAME="Mathlib.Algebra.Homology.BifunctorHomotopy";</script><script type="module" src="../../.././jump-src.js"></script><script type="module" src="../../.././search.js"></script><script type="module" src="../../.././expand-nav.js"></script><script type="module" src="../../.././how-about.js"></script><script type="module" src="../../.././instances.js"></script><script type="module" src="../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">Algebra</span>.<span class="name">Homology</span>.<span class="name">BifunctorHomotopy</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Homology/BifunctorHomotopy.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../.././Init.html">Init</a></li><li><a href="../../.././Mathlib/Algebra/Homology/BifunctorFlip.html">Mathlib.Algebra.Homology.BifunctorFlip</a></li><li><a href="../../.././Mathlib/Algebra/Homology/Homotopy.html">Mathlib.Algebra.Homology.Homotopy</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.Algebra.Homology.BifunctorHomotopy" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#HomologicalComplex.mapBifunctorMapHomotopy.hom₁"><span class="name">HomologicalComplex</span>.<span class="name">mapBifunctorMapHomotopy</span>.<span class="name">hom₁</span></a></div><div class="nav_link"><a class="break_within" href="#HomologicalComplex.mapBifunctorMapHomotopy.ιMapBifunctor_hom₁"><span class="name">HomologicalComplex</span>.<span class="name">mapBifunctorMapHomotopy</span>.<span class="name">ιMapBifunctor_hom₁</span></a></div><div class="nav_link"><a class="break_within" href="#HomologicalComplex.mapBifunctorMapHomotopy.ιMapBifunctor_hom₁_assoc"><span class="name">HomologicalComplex</span>.<span class="name">mapBifunctorMapHomotopy</span>.<span class="name">ιMapBifunctor_hom₁_assoc</span></a></div><div class="nav_link"><a class="break_within" href="#HomologicalComplex.mapBifunctorMapHomotopy.hom₂"><span class="name">HomologicalComplex</span>.<span class="name">mapBifunctorMapHomotopy</span>.<span class="name">hom₂</span></a></div><div class="nav_link"><a class="break_within" href="#HomologicalComplex.mapBifunctorMapHomotopy.ιMapBifunctor_hom₂"><span class="name">HomologicalComplex</span>.<span class="name">mapBifunctorMapHomotopy</span>.<span class="name">ιMapBifunctor_hom₂</span></a></div><div class="nav_link"><a class="break_within" href="#HomologicalComplex.mapBifunctorMapHomotopy.ιMapBifunctor_hom₂_assoc"><span class="name">HomologicalComplex</span>.<span class="name">mapBifunctorMapHomotopy</span>.<span class="name">ιMapBifunctor_hom₂_assoc</span></a></div><div class="nav_link"><a class="break_within" href="#HomologicalComplex.mapBifunctorMapHomotopy.zero₁"><span class="name">HomologicalComplex</span>.<span class="name">mapBifunctorMapHomotopy</span>.<span class="name">zero₁</span></a></div><div class="nav_link"><a class="break_within" href="#HomologicalComplex.mapBifunctorMapHomotopy.comm₁_aux"><span class="name">HomologicalComplex</span>.<span class="name">mapBifunctorMapHomotopy</span>.<span class="name">comm₁_aux</span></a></div><div class="nav_link"><a class="break_within" href="#HomologicalComplex.mapBifunctorMapHomotopy.comm₁"><span class="name">HomologicalComplex</span>.<span class="name">mapBifunctorMapHomotopy</span>.<span class="name">comm₁</span></a></div><div class="nav_link"><a class="break_within" href="#HomologicalComplex.mapBifunctorMapHomotopy₁"><span class="name">HomologicalComplex</span>.<span class="name">mapBifunctorMapHomotopy₁</span></a></div><div class="nav_link"><a class="break_within" href="#HomologicalComplex.mapBifunctorMapHomotopy₂"><span class="name">HomologicalComplex</span>.<span class="name">mapBifunctorMapHomotopy₂</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="The-action-of-a-bifunctor-on-homological-complexes-factors-through-homotopies" class="markdown-heading">The action of a bifunctor on homological complexes factors through homotopies <a class="hover-link" href="#The-action-of-a-bifunctor-on-homological-complexes-factors-through-homotopies">#</a></h1><p>Given a <code><a href="../../.././Mathlib/Algebra/Homology/ComplexShapeSigns.html#TotalComplexShape">TotalComplexShape</a> c₁ c₂ c</code>, a functor <code>F : C₁ ⥤ C₂ ⥤ D</code>,
+we show in this file that up to homotopy the morphism
+<code>mapBifunctorMap f₁ f₂ F c</code> only depends on the homotopy classes of
+the morphism <code>f₁</code> in <code><a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex">HomologicalComplex</a> C c₁</code> and of
+the morphism <code>f₂</code> in <code><a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex">HomologicalComplex</a> C c₂</code>.</p></div><div class="decl" id="HomologicalComplex.mapBifunctorMapHomotopy.hom₁"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Homology/BifunctorHomotopy.lean#L44-L50">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Homology_BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy.hom₁" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Homology/BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy.hom₁"><span class="name">HomologicalComplex</span>.<span class="name">mapBifunctorMapHomotopy</span>.<span class="name">hom₁</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">C₁</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">C₂</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">D</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">I₁</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">I₂</span> : <a href="../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">J</span> : <a href="../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_1, u_1}</a> <span class="fn">C₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_2, u_2}</a> <span class="fn">C₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_3, u_3}</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">C₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">C₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">c₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">I₁</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">c₂</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">I₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K₁ </span><span class="fn">L₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex">HomologicalComplex</a> <span class="fn">C₁</span> <span class="fn">c₁</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f₁ </span><span class="fn">f₁'</span> : <span class="fn">K₁</span> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn">L₁</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/Homotopy.html#Homotopy">Homotopy</a> <span class="fn">f₁</span> <span class="fn">f₁'</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K₂ </span><span class="fn">L₂</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex">HomologicalComplex</a> <span class="fn">C₂</span> <span class="fn">c₂</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f₂</span> : <span class="fn">K₂</span> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn">L₂</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor">CategoryTheory.Functor</a> <span class="fn">C₁</span> <span class="fn">(<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor">CategoryTheory.Functor</a> <span class="fn">C₂</span> <span class="fn">D</span>)</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Preadditive/AdditiveFunctor.html#CategoryTheory.Functor.Additive">Additive</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">∀ (<span class="fn">X₁</span> : <span class="fn">C₁</span>), <span class="fn"><span class="fn">(<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">X₁</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/Preadditive/AdditiveFunctor.html#CategoryTheory.Functor.Additive">Additive</a></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">J</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">J</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShapeSigns.html#TotalComplexShape">TotalComplexShape</a> <span class="fn">c₁</span> <span class="fn">c₂</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn"><span class="fn">K₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.HasMapBifunctor">HasMapBifunctor</a></span> <span class="fn">K₂</span> <span class="fn">F</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn"><span class="fn">L₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.HasMapBifunctor">HasMapBifunctor</a></span> <span class="fn">L₂</span> <span class="fn">F</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">j </span><span class="fn">j'</span> : <span class="fn">J</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">K₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.mapBifunctor">mapBifunctor</a></span> <span class="fn">K₂</span> <span class="fn">F</span> <span class="fn">c</span>)</span>.<a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex.X">X</a></span> <span class="fn">j</span></span> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">L₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.mapBifunctor">mapBifunctor</a></span> <span class="fn">L₂</span> <span class="fn">F</span> <span class="fn">c</span>)</span>.<a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex.X">X</a></span> <span class="fn">j'</span></span></div></div><p>Auxiliary definition for <code><a href="../../.././Mathlib/Algebra/Homology/BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy₁">mapBifunctorMapHomotopy₁</a></code>.</p><details id="instances-for-list-HomologicalComplex.mapBifunctorMapHomotopy.hom₁" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="HomologicalComplex.mapBifunctorMapHomotopy.ιMapBifunctor_hom₁"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Homology/BifunctorHomotopy.lean#L52-L59">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Homology_BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy.ιMapBifunctor_hom₁" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Homology/BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy.ιMapBifunctor_hom₁"><span class="name">HomologicalComplex</span>.<span class="name">mapBifunctorMapHomotopy</span>.<span class="name">ιMapBifunctor_hom₁</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">C₁</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">C₂</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">D</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">I₁</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">I₂</span> : <a href="../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">J</span> : <a href="../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_1, u_1}</a> <span class="fn">C₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_2, u_2}</a> <span class="fn">C₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_3, u_3}</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">C₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">C₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">c₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">I₁</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">c₂</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">I₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K₁ </span><span class="fn">L₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex">HomologicalComplex</a> <span class="fn">C₁</span> <span class="fn">c₁</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f₁ </span><span class="fn">f₁'</span> : <span class="fn">K₁</span> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn">L₁</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/Homotopy.html#Homotopy">Homotopy</a> <span class="fn">f₁</span> <span class="fn">f₁'</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K₂ </span><span class="fn">L₂</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex">HomologicalComplex</a> <span class="fn">C₂</span> <span class="fn">c₂</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f₂</span> : <span class="fn">K₂</span> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn">L₂</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor">CategoryTheory.Functor</a> <span class="fn">C₁</span> <span class="fn">(<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor">CategoryTheory.Functor</a> <span class="fn">C₂</span> <span class="fn">D</span>)</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Preadditive/AdditiveFunctor.html#CategoryTheory.Functor.Additive">Additive</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">∀ (<span class="fn">X₁</span> : <span class="fn">C₁</span>), <span class="fn"><span class="fn">(<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">X₁</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/Preadditive/AdditiveFunctor.html#CategoryTheory.Functor.Additive">Additive</a></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">J</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">J</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShapeSigns.html#TotalComplexShape">TotalComplexShape</a> <span class="fn">c₁</span> <span class="fn">c₂</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn"><span class="fn">K₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.HasMapBifunctor">HasMapBifunctor</a></span> <span class="fn">K₂</span> <span class="fn">F</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn"><span class="fn">L₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.HasMapBifunctor">HasMapBifunctor</a></span> <span class="fn">L₂</span> <span class="fn">F</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">i₁ </span><span class="fn">i₁'</span> : <span class="fn">I₁</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">i₂</span> : <span class="fn">I₂</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">j </span><span class="fn">j'</span> : <span class="fn">J</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn"><span class="fn"><span class="fn">c₁</span>.<a href="../../.././Mathlib/Algebra/Homology/ComplexShapeSigns.html#ComplexShape.π">π</a></span> <span class="fn">c₂</span> <span class="fn">c</span> <span class="fn"><span class="fn">(</span><span class="fn">i₁'</span><span class="fn">,</span> <span class="fn">i₂</span><span class="fn">)</span></span></span> <span class="fn">=</span> <span class="fn">j</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h'</span> : <span class="fn"><span class="fn"><span class="fn"><span class="fn">c₁</span>.<a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape.prev">prev</a></span> <span class="fn">i₁'</span></span> <span class="fn">=</span> <span class="fn">i₁</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a> <span class="fn">(<span class="fn"><span class="fn">K₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.ιMapBifunctor">ιMapBifunctor</a></span> <span class="fn">K₂</span> <span class="fn">F</span> <span class="fn">c</span> <span class="fn">i₁'</span> <span class="fn">i₂</span> <span class="fn">j</span> <span class="fn">h</span>)</span> <span class="fn">(<a href="../../.././Mathlib/Algebra/Homology/BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy.hom₁">hom₁</a> <span class="fn">h₁</span> <span class="fn">f₂</span> <span class="fn">F</span> <span class="fn">c</span> <span class="fn">j</span> <span class="fn">j'</span>)</span></span> <span class="fn">=</span>   <span class="fn"><span class="fn"><span class="fn"><span class="fn">c₁</span>.<a href="../../.././Mathlib/Algebra/Homology/ComplexShapeSigns.html#ComplexShape.ε₁">ε₁</a></span> <span class="fn">c₂</span> <span class="fn">c</span> <span class="fn"><span class="fn">(</span><span class="fn">i₁</span><span class="fn">,</span> <span class="fn">i₂</span><span class="fn">)</span></span></span> <span class="fn">•</span>     <span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a> <span class="fn">(<span class="fn"><span class="fn">(<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.map">map</a></span> <span class="fn">(<span class="fn"><span class="fn">h₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Homotopy.html#Homotopy.hom">hom</a></span> <span class="fn">i₁'</span> <span class="fn">i₁</span>)</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/NatTrans.html#CategoryTheory.NatTrans.app">app</a></span> <span class="fn">(<span class="fn"><span class="fn">K₂</span>.<a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex.X">X</a></span> <span class="fn">i₂</span>)</span>)</span>
+      <span class="fn">(<a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a> <span class="fn">(<span class="fn"><span class="fn">(<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">(<span class="fn"><span class="fn">L₁</span>.<a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex.X">X</a></span> <span class="fn">i₁</span>)</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.map">map</a></span> <span class="fn">(<span class="fn"><span class="fn">f₂</span>.<a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex.Hom.f">f</a></span> <span class="fn">i₂</span>)</span>)</span> <span class="fn">(<span class="fn"><span class="fn">L₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.ιMapBifunctorOrZero">ιMapBifunctorOrZero</a></span> <span class="fn">L₂</span> <span class="fn">F</span> <span class="fn">c</span> <span class="fn">i₁</span> <span class="fn">i₂</span> <span class="fn">j'</span>)</span>)</span></span></span></span></div></div></div></div><div class="decl" id="HomologicalComplex.mapBifunctorMapHomotopy.ιMapBifunctor_hom₁_assoc"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Homology/BifunctorHomotopy.lean#L52-L52">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Homology_BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy.ιMapBifunctor_hom₁_assoc" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Homology/BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy.ιMapBifunctor_hom₁_assoc"><span class="name">HomologicalComplex</span>.<span class="name">mapBifunctorMapHomotopy</span>.<span class="name">ιMapBifunctor_hom₁_assoc</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">C₁</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">C₂</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">D</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">I₁</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">I₂</span> : <a href="../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">J</span> : <a href="../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_1, u_1}</a> <span class="fn">C₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_2, u_2}</a> <span class="fn">C₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_3, u_3}</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">C₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">C₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">c₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">I₁</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">c₂</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">I₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K₁ </span><span class="fn">L₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex">HomologicalComplex</a> <span class="fn">C₁</span> <span class="fn">c₁</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f₁ </span><span class="fn">f₁'</span> : <span class="fn">K₁</span> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn">L₁</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/Homotopy.html#Homotopy">Homotopy</a> <span class="fn">f₁</span> <span class="fn">f₁'</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K₂ </span><span class="fn">L₂</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex">HomologicalComplex</a> <span class="fn">C₂</span> <span class="fn">c₂</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f₂</span> : <span class="fn">K₂</span> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn">L₂</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor">CategoryTheory.Functor</a> <span class="fn">C₁</span> <span class="fn">(<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor">CategoryTheory.Functor</a> <span class="fn">C₂</span> <span class="fn">D</span>)</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Preadditive/AdditiveFunctor.html#CategoryTheory.Functor.Additive">Additive</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">∀ (<span class="fn">X₁</span> : <span class="fn">C₁</span>), <span class="fn"><span class="fn">(<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">X₁</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/Preadditive/AdditiveFunctor.html#CategoryTheory.Functor.Additive">Additive</a></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">J</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">J</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShapeSigns.html#TotalComplexShape">TotalComplexShape</a> <span class="fn">c₁</span> <span class="fn">c₂</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn"><span class="fn">K₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.HasMapBifunctor">HasMapBifunctor</a></span> <span class="fn">K₂</span> <span class="fn">F</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn"><span class="fn">L₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.HasMapBifunctor">HasMapBifunctor</a></span> <span class="fn">L₂</span> <span class="fn">F</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">i₁ </span><span class="fn">i₁'</span> : <span class="fn">I₁</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">i₂</span> : <span class="fn">I₂</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">j </span><span class="fn">j'</span> : <span class="fn">J</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn"><span class="fn"><span class="fn">c₁</span>.<a href="../../.././Mathlib/Algebra/Homology/ComplexShapeSigns.html#ComplexShape.π">π</a></span> <span class="fn">c₂</span> <span class="fn">c</span> <span class="fn"><span class="fn">(</span><span class="fn">i₁'</span><span class="fn">,</span> <span class="fn">i₂</span><span class="fn">)</span></span></span> <span class="fn">=</span> <span class="fn">j</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h'</span> : <span class="fn"><span class="fn"><span class="fn"><span class="fn">c₁</span>.<a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape.prev">prev</a></span> <span class="fn">i₁'</span></span> <span class="fn">=</span> <span class="fn">i₁</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Z</span> : <span class="fn">D</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h✝</span> : <span class="fn"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">L₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.mapBifunctor">mapBifunctor</a></span> <span class="fn">L₂</span> <span class="fn">F</span> <span class="fn">c</span>)</span>.<a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex.X">X</a></span> <span class="fn">j'</span></span> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn">Z</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a> <span class="fn">(<span class="fn"><span class="fn">K₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.ιMapBifunctor">ιMapBifunctor</a></span> <span class="fn">K₂</span> <span class="fn">F</span> <span class="fn">c</span> <span class="fn">i₁'</span> <span class="fn">i₂</span> <span class="fn">j</span> <span class="fn">h</span>)</span>
+    <span class="fn">(<a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/Homology/BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy.hom₁">hom₁</a> <span class="fn">h₁</span> <span class="fn">f₂</span> <span class="fn">F</span> <span class="fn">c</span> <span class="fn">j</span> <span class="fn">j'</span>)</span> <span class="fn">h✝</span>)</span></span> <span class="fn">=</span>   <span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a>
+    <span class="fn">(<span class="fn"><span class="fn"><span class="fn">c₁</span>.<a href="../../.././Mathlib/Algebra/Homology/ComplexShapeSigns.html#ComplexShape.ε₁">ε₁</a></span> <span class="fn">c₂</span> <span class="fn">c</span> <span class="fn"><span class="fn">(</span><span class="fn">i₁</span><span class="fn">,</span> <span class="fn">i₂</span><span class="fn">)</span></span></span> <span class="fn">•</span>       <span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a> <span class="fn">(<span class="fn"><span class="fn">(<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.map">map</a></span> <span class="fn">(<span class="fn"><span class="fn">h₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Homotopy.html#Homotopy.hom">hom</a></span> <span class="fn">i₁'</span> <span class="fn">i₁</span>)</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/NatTrans.html#CategoryTheory.NatTrans.app">app</a></span> <span class="fn">(<span class="fn"><span class="fn">K₂</span>.<a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex.X">X</a></span> <span class="fn">i₂</span>)</span>)</span>
+        <span class="fn">(<a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a> <span class="fn">(<span class="fn"><span class="fn">(<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">(<span class="fn"><span class="fn">L₁</span>.<a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex.X">X</a></span> <span class="fn">i₁</span>)</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.map">map</a></span> <span class="fn">(<span class="fn"><span class="fn">f₂</span>.<a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex.Hom.f">f</a></span> <span class="fn">i₂</span>)</span>)</span> <span class="fn">(<span class="fn"><span class="fn">L₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.ιMapBifunctorOrZero">ιMapBifunctorOrZero</a></span> <span class="fn">L₂</span> <span class="fn">F</span> <span class="fn">c</span> <span class="fn">i₁</span> <span class="fn">i₂</span> <span class="fn">j'</span>)</span>)</span></span>)</span>
+    <span class="fn">h✝</span></span></span></div></div></div></div><div class="decl" id="HomologicalComplex.mapBifunctorMapHomotopy.hom₂"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Homology/BifunctorHomotopy.lean#L62-L69">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Homology_BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy.hom₂" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Homology/BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy.hom₂"><span class="name">HomologicalComplex</span>.<span class="name">mapBifunctorMapHomotopy</span>.<span class="name">hom₂</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">C₁</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">C₂</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">D</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">I₁</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">I₂</span> : <a href="../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">J</span> : <a href="../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_1, u_1}</a> <span class="fn">C₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_2, u_2}</a> <span class="fn">C₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_3, u_3}</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">C₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">C₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">c₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">I₁</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">c₂</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">I₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K₁ </span><span class="fn">L₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex">HomologicalComplex</a> <span class="fn">C₁</span> <span class="fn">c₁</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f₁</span> : <span class="fn">K₁</span> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn">L₁</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K₂ </span><span class="fn">L₂</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex">HomologicalComplex</a> <span class="fn">C₂</span> <span class="fn">c₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f₂ </span><span class="fn">f₂'</span> : <span class="fn">K₂</span> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn">L₂</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h₂</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/Homotopy.html#Homotopy">Homotopy</a> <span class="fn">f₂</span> <span class="fn">f₂'</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor">CategoryTheory.Functor</a> <span class="fn">C₁</span> <span class="fn">(<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor">CategoryTheory.Functor</a> <span class="fn">C₂</span> <span class="fn">D</span>)</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Preadditive/AdditiveFunctor.html#CategoryTheory.Functor.Additive">Additive</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">∀ (<span class="fn">X₁</span> : <span class="fn">C₁</span>), <span class="fn"><span class="fn">(<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">X₁</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/Preadditive/AdditiveFunctor.html#CategoryTheory.Functor.Additive">Additive</a></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">J</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">J</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShapeSigns.html#TotalComplexShape">TotalComplexShape</a> <span class="fn">c₁</span> <span class="fn">c₂</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn"><span class="fn">K₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.HasMapBifunctor">HasMapBifunctor</a></span> <span class="fn">K₂</span> <span class="fn">F</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn"><span class="fn">L₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.HasMapBifunctor">HasMapBifunctor</a></span> <span class="fn">L₂</span> <span class="fn">F</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">j </span><span class="fn">j'</span> : <span class="fn">J</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">K₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.mapBifunctor">mapBifunctor</a></span> <span class="fn">K₂</span> <span class="fn">F</span> <span class="fn">c</span>)</span>.<a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex.X">X</a></span> <span class="fn">j</span></span> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">L₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.mapBifunctor">mapBifunctor</a></span> <span class="fn">L₂</span> <span class="fn">F</span> <span class="fn">c</span>)</span>.<a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex.X">X</a></span> <span class="fn">j'</span></span></div></div><p>Auxiliary definition for <code><a href="../../.././Mathlib/Algebra/Homology/BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy₂">mapBifunctorMapHomotopy₂</a></code>.</p><details id="instances-for-list-HomologicalComplex.mapBifunctorMapHomotopy.hom₂" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="HomologicalComplex.mapBifunctorMapHomotopy.ιMapBifunctor_hom₂"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Homology/BifunctorHomotopy.lean#L72-L80">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Homology_BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy.ιMapBifunctor_hom₂" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Homology/BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy.ιMapBifunctor_hom₂"><span class="name">HomologicalComplex</span>.<span class="name">mapBifunctorMapHomotopy</span>.<span class="name">ιMapBifunctor_hom₂</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">C₁</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">C₂</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">D</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">I₁</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">I₂</span> : <a href="../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">J</span> : <a href="../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_1, u_1}</a> <span class="fn">C₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_2, u_2}</a> <span class="fn">C₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_3, u_3}</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">C₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">C₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">c₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">I₁</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">c₂</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">I₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K₁ </span><span class="fn">L₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex">HomologicalComplex</a> <span class="fn">C₁</span> <span class="fn">c₁</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f₁</span> : <span class="fn">K₁</span> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn">L₁</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K₂ </span><span class="fn">L₂</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex">HomologicalComplex</a> <span class="fn">C₂</span> <span class="fn">c₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f₂ </span><span class="fn">f₂'</span> : <span class="fn">K₂</span> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn">L₂</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h₂</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/Homotopy.html#Homotopy">Homotopy</a> <span class="fn">f₂</span> <span class="fn">f₂'</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor">CategoryTheory.Functor</a> <span class="fn">C₁</span> <span class="fn">(<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor">CategoryTheory.Functor</a> <span class="fn">C₂</span> <span class="fn">D</span>)</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Preadditive/AdditiveFunctor.html#CategoryTheory.Functor.Additive">Additive</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">∀ (<span class="fn">X₁</span> : <span class="fn">C₁</span>), <span class="fn"><span class="fn">(<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">X₁</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/Preadditive/AdditiveFunctor.html#CategoryTheory.Functor.Additive">Additive</a></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">J</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">J</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShapeSigns.html#TotalComplexShape">TotalComplexShape</a> <span class="fn">c₁</span> <span class="fn">c₂</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn"><span class="fn">K₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.HasMapBifunctor">HasMapBifunctor</a></span> <span class="fn">K₂</span> <span class="fn">F</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn"><span class="fn">L₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.HasMapBifunctor">HasMapBifunctor</a></span> <span class="fn">L₂</span> <span class="fn">F</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">i₁</span> : <span class="fn">I₁</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">i₂ </span><span class="fn">i₂'</span> : <span class="fn">I₂</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">j </span><span class="fn">j'</span> : <span class="fn">J</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn"><span class="fn"><span class="fn">c₁</span>.<a href="../../.././Mathlib/Algebra/Homology/ComplexShapeSigns.html#ComplexShape.π">π</a></span> <span class="fn">c₂</span> <span class="fn">c</span> <span class="fn"><span class="fn">(</span><span class="fn">i₁</span><span class="fn">,</span> <span class="fn">i₂'</span><span class="fn">)</span></span></span> <span class="fn">=</span> <span class="fn">j</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h'</span> : <span class="fn"><span class="fn"><span class="fn"><span class="fn">c₂</span>.<a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape.prev">prev</a></span> <span class="fn">i₂'</span></span> <span class="fn">=</span> <span class="fn">i₂</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a> <span class="fn">(<span class="fn"><span class="fn">K₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.ιMapBifunctor">ιMapBifunctor</a></span> <span class="fn">K₂</span> <span class="fn">F</span> <span class="fn">c</span> <span class="fn">i₁</span> <span class="fn">i₂'</span> <span class="fn">j</span> <span class="fn">h</span>)</span> <span class="fn">(<a href="../../.././Mathlib/Algebra/Homology/BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy.hom₂">hom₂</a> <span class="fn">f₁</span> <span class="fn">h₂</span> <span class="fn">F</span> <span class="fn">c</span> <span class="fn">j</span> <span class="fn">j'</span>)</span></span> <span class="fn">=</span>   <span class="fn"><span class="fn"><span class="fn"><span class="fn">c₁</span>.<a href="../../.././Mathlib/Algebra/Homology/ComplexShapeSigns.html#ComplexShape.ε₂">ε₂</a></span> <span class="fn">c₂</span> <span class="fn">c</span> <span class="fn"><span class="fn">(</span><span class="fn">i₁</span><span class="fn">,</span> <span class="fn">i₂</span><span class="fn">)</span></span></span> <span class="fn">•</span>     <span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a> <span class="fn">(<span class="fn"><span class="fn">(<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.map">map</a></span> <span class="fn">(<span class="fn"><span class="fn">f₁</span>.<a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex.Hom.f">f</a></span> <span class="fn">i₁</span>)</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/NatTrans.html#CategoryTheory.NatTrans.app">app</a></span> <span class="fn">(<span class="fn"><span class="fn">K₂</span>.<a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex.X">X</a></span> <span class="fn">i₂'</span>)</span>)</span>
+      <span class="fn">(<a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a> <span class="fn">(<span class="fn"><span class="fn">(<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">(<span class="fn"><span class="fn">L₁</span>.<a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex.X">X</a></span> <span class="fn">i₁</span>)</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.map">map</a></span> <span class="fn">(<span class="fn"><span class="fn">h₂</span>.<a href="../../.././Mathlib/Algebra/Homology/Homotopy.html#Homotopy.hom">hom</a></span> <span class="fn">i₂'</span> <span class="fn">i₂</span>)</span>)</span>
+        <span class="fn">(<span class="fn"><span class="fn">L₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.ιMapBifunctorOrZero">ιMapBifunctorOrZero</a></span> <span class="fn">L₂</span> <span class="fn">F</span> <span class="fn">c</span> <span class="fn">i₁</span> <span class="fn">i₂</span> <span class="fn">j'</span>)</span>)</span></span></span></span></div></div></div></div><div class="decl" id="HomologicalComplex.mapBifunctorMapHomotopy.ιMapBifunctor_hom₂_assoc"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Homology/BifunctorHomotopy.lean#L72-L72">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Homology_BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy.ιMapBifunctor_hom₂_assoc" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Homology/BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy.ιMapBifunctor_hom₂_assoc"><span class="name">HomologicalComplex</span>.<span class="name">mapBifunctorMapHomotopy</span>.<span class="name">ιMapBifunctor_hom₂_assoc</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">C₁</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">C₂</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">D</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">I₁</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">I₂</span> : <a href="../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">J</span> : <a href="../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_1, u_1}</a> <span class="fn">C₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_2, u_2}</a> <span class="fn">C₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_3, u_3}</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">C₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">C₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">c₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">I₁</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">c₂</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">I₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K₁ </span><span class="fn">L₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex">HomologicalComplex</a> <span class="fn">C₁</span> <span class="fn">c₁</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f₁</span> : <span class="fn">K₁</span> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn">L₁</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K₂ </span><span class="fn">L₂</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex">HomologicalComplex</a> <span class="fn">C₂</span> <span class="fn">c₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f₂ </span><span class="fn">f₂'</span> : <span class="fn">K₂</span> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn">L₂</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h₂</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/Homotopy.html#Homotopy">Homotopy</a> <span class="fn">f₂</span> <span class="fn">f₂'</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor">CategoryTheory.Functor</a> <span class="fn">C₁</span> <span class="fn">(<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor">CategoryTheory.Functor</a> <span class="fn">C₂</span> <span class="fn">D</span>)</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Preadditive/AdditiveFunctor.html#CategoryTheory.Functor.Additive">Additive</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">∀ (<span class="fn">X₁</span> : <span class="fn">C₁</span>), <span class="fn"><span class="fn">(<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">X₁</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/Preadditive/AdditiveFunctor.html#CategoryTheory.Functor.Additive">Additive</a></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">J</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">J</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShapeSigns.html#TotalComplexShape">TotalComplexShape</a> <span class="fn">c₁</span> <span class="fn">c₂</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn"><span class="fn">K₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.HasMapBifunctor">HasMapBifunctor</a></span> <span class="fn">K₂</span> <span class="fn">F</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn"><span class="fn">L₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.HasMapBifunctor">HasMapBifunctor</a></span> <span class="fn">L₂</span> <span class="fn">F</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">i₁</span> : <span class="fn">I₁</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">i₂ </span><span class="fn">i₂'</span> : <span class="fn">I₂</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">j </span><span class="fn">j'</span> : <span class="fn">J</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn"><span class="fn"><span class="fn">c₁</span>.<a href="../../.././Mathlib/Algebra/Homology/ComplexShapeSigns.html#ComplexShape.π">π</a></span> <span class="fn">c₂</span> <span class="fn">c</span> <span class="fn"><span class="fn">(</span><span class="fn">i₁</span><span class="fn">,</span> <span class="fn">i₂'</span><span class="fn">)</span></span></span> <span class="fn">=</span> <span class="fn">j</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h'</span> : <span class="fn"><span class="fn"><span class="fn"><span class="fn">c₂</span>.<a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape.prev">prev</a></span> <span class="fn">i₂'</span></span> <span class="fn">=</span> <span class="fn">i₂</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Z</span> : <span class="fn">D</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h✝</span> : <span class="fn"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">L₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.mapBifunctor">mapBifunctor</a></span> <span class="fn">L₂</span> <span class="fn">F</span> <span class="fn">c</span>)</span>.<a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex.X">X</a></span> <span class="fn">j'</span></span> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn">Z</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a> <span class="fn">(<span class="fn"><span class="fn">K₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.ιMapBifunctor">ιMapBifunctor</a></span> <span class="fn">K₂</span> <span class="fn">F</span> <span class="fn">c</span> <span class="fn">i₁</span> <span class="fn">i₂'</span> <span class="fn">j</span> <span class="fn">h</span>)</span>
+    <span class="fn">(<a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/Homology/BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy.hom₂">hom₂</a> <span class="fn">f₁</span> <span class="fn">h₂</span> <span class="fn">F</span> <span class="fn">c</span> <span class="fn">j</span> <span class="fn">j'</span>)</span> <span class="fn">h✝</span>)</span></span> <span class="fn">=</span>   <span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a>
+    <span class="fn">(<span class="fn"><span class="fn"><span class="fn">c₁</span>.<a href="../../.././Mathlib/Algebra/Homology/ComplexShapeSigns.html#ComplexShape.ε₂">ε₂</a></span> <span class="fn">c₂</span> <span class="fn">c</span> <span class="fn"><span class="fn">(</span><span class="fn">i₁</span><span class="fn">,</span> <span class="fn">i₂</span><span class="fn">)</span></span></span> <span class="fn">•</span>       <span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a> <span class="fn">(<span class="fn"><span class="fn">(<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.map">map</a></span> <span class="fn">(<span class="fn"><span class="fn">f₁</span>.<a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex.Hom.f">f</a></span> <span class="fn">i₁</span>)</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/NatTrans.html#CategoryTheory.NatTrans.app">app</a></span> <span class="fn">(<span class="fn"><span class="fn">K₂</span>.<a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex.X">X</a></span> <span class="fn">i₂'</span>)</span>)</span>
+        <span class="fn">(<a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a> <span class="fn">(<span class="fn"><span class="fn">(<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">(<span class="fn"><span class="fn">L₁</span>.<a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex.X">X</a></span> <span class="fn">i₁</span>)</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.map">map</a></span> <span class="fn">(<span class="fn"><span class="fn">h₂</span>.<a href="../../.././Mathlib/Algebra/Homology/Homotopy.html#Homotopy.hom">hom</a></span> <span class="fn">i₂'</span> <span class="fn">i₂</span>)</span>)</span>
+          <span class="fn">(<span class="fn"><span class="fn">L₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.ιMapBifunctorOrZero">ιMapBifunctorOrZero</a></span> <span class="fn">L₂</span> <span class="fn">F</span> <span class="fn">c</span> <span class="fn">i₁</span> <span class="fn">i₂</span> <span class="fn">j'</span>)</span>)</span></span>)</span>
+    <span class="fn">h✝</span></span></span></div></div></div></div><div class="decl" id="HomologicalComplex.mapBifunctorMapHomotopy.zero₁"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Homology/BifunctorHomotopy.lean#L82-L94">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Homology_BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy.zero₁" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Homology/BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy.zero₁"><span class="name">HomologicalComplex</span>.<span class="name">mapBifunctorMapHomotopy</span>.<span class="name">zero₁</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">C₁</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">C₂</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">D</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">I₁</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">I₂</span> : <a href="../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">J</span> : <a href="../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_1, u_1}</a> <span class="fn">C₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_2, u_2}</a> <span class="fn">C₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_3, u_3}</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">C₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">C₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">c₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">I₁</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">c₂</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">I₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K₁ </span><span class="fn">L₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex">HomologicalComplex</a> <span class="fn">C₁</span> <span class="fn">c₁</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f₁ </span><span class="fn">f₁'</span> : <span class="fn">K₁</span> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn">L₁</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/Homotopy.html#Homotopy">Homotopy</a> <span class="fn">f₁</span> <span class="fn">f₁'</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K₂ </span><span class="fn">L₂</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex">HomologicalComplex</a> <span class="fn">C₂</span> <span class="fn">c₂</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f₂</span> : <span class="fn">K₂</span> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn">L₂</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor">CategoryTheory.Functor</a> <span class="fn">C₁</span> <span class="fn">(<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor">CategoryTheory.Functor</a> <span class="fn">C₂</span> <span class="fn">D</span>)</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Preadditive/AdditiveFunctor.html#CategoryTheory.Functor.Additive">Additive</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">∀ (<span class="fn">X₁</span> : <span class="fn">C₁</span>), <span class="fn"><span class="fn">(<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">X₁</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/Preadditive/AdditiveFunctor.html#CategoryTheory.Functor.Additive">Additive</a></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">J</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">J</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShapeSigns.html#TotalComplexShape">TotalComplexShape</a> <span class="fn">c₁</span> <span class="fn">c₂</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn"><span class="fn">K₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.HasMapBifunctor">HasMapBifunctor</a></span> <span class="fn">K₂</span> <span class="fn">F</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn"><span class="fn">L₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.HasMapBifunctor">HasMapBifunctor</a></span> <span class="fn">L₂</span> <span class="fn">F</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">j </span><span class="fn">j'</span> : <span class="fn">J</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">¬</span><span class="fn"><span class="fn"><span class="fn">c</span>.<a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape.Rel">Rel</a></span> <span class="fn">j'</span> <span class="fn">j</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Algebra/Homology/BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy.hom₁">hom₁</a> <span class="fn">h₁</span> <span class="fn">f₂</span> <span class="fn">F</span> <span class="fn">c</span> <span class="fn">j</span> <span class="fn">j'</span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div></div></div><div class="decl" id="HomologicalComplex.mapBifunctorMapHomotopy.comm₁_aux"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Homology/BifunctorHomotopy.lean#L96-L114">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Homology_BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy.comm₁_aux" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Homology/BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy.comm₁_aux"><span class="name">HomologicalComplex</span>.<span class="name">mapBifunctorMapHomotopy</span>.<span class="name">comm₁_aux</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">C₁</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">C₂</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">D</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">I₁</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">I₂</span> : <a href="../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">J</span> : <a href="../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_1, u_1}</a> <span class="fn">C₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_2, u_2}</a> <span class="fn">C₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_3, u_3}</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">C₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">C₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">c₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">I₁</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">c₂</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">I₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K₁ </span><span class="fn">L₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex">HomologicalComplex</a> <span class="fn">C₁</span> <span class="fn">c₁</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f₁ </span><span class="fn">f₁'</span> : <span class="fn">K₁</span> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn">L₁</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/Homotopy.html#Homotopy">Homotopy</a> <span class="fn">f₁</span> <span class="fn">f₁'</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K₂ </span><span class="fn">L₂</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex">HomologicalComplex</a> <span class="fn">C₂</span> <span class="fn">c₂</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f₂</span> : <span class="fn">K₂</span> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn">L₂</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor">CategoryTheory.Functor</a> <span class="fn">C₁</span> <span class="fn">(<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor">CategoryTheory.Functor</a> <span class="fn">C₂</span> <span class="fn">D</span>)</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Preadditive/AdditiveFunctor.html#CategoryTheory.Functor.Additive">Additive</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">∀ (<span class="fn">X₁</span> : <span class="fn">C₁</span>), <span class="fn"><span class="fn">(<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">X₁</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/Preadditive/AdditiveFunctor.html#CategoryTheory.Functor.Additive">Additive</a></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">J</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">J</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShapeSigns.html#TotalComplexShape">TotalComplexShape</a> <span class="fn">c₁</span> <span class="fn">c₂</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn"><span class="fn">K₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.HasMapBifunctor">HasMapBifunctor</a></span> <span class="fn">K₂</span> <span class="fn">F</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn"><span class="fn">L₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.HasMapBifunctor">HasMapBifunctor</a></span> <span class="fn">L₂</span> <span class="fn">F</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">i₁ </span><span class="fn">i₁'</span> : <span class="fn">I₁</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hi₁</span> : <span class="fn"><span class="fn"><span class="fn">c₁</span>.<a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape.Rel">Rel</a></span> <span class="fn">i₁</span> <span class="fn">i₁'</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">i₂ </span><span class="fn">i₂'</span> : <span class="fn">I₂</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hi₂</span> : <span class="fn"><span class="fn"><span class="fn">c₂</span>.<a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape.Rel">Rel</a></span> <span class="fn">i₂</span> <span class="fn">i₂'</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">j</span> : <span class="fn">J</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hj</span> : <span class="fn"><span class="fn"><span class="fn"><span class="fn">c₁</span>.<a href="../../.././Mathlib/Algebra/Homology/ComplexShapeSigns.html#ComplexShape.π">π</a></span> <span class="fn">c₂</span> <span class="fn">c</span> <span class="fn"><span class="fn">(</span><span class="fn">i₁'</span><span class="fn">,</span> <span class="fn">i₂</span><span class="fn">)</span></span></span> <span class="fn">=</span> <span class="fn">j</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn"><span class="fn">c₁</span>.<a href="../../.././Mathlib/Algebra/Homology/ComplexShapeSigns.html#ComplexShape.ε₁">ε₁</a></span> <span class="fn">c₂</span> <span class="fn">c</span> <span class="fn"><span class="fn">(</span><span class="fn">i₁</span><span class="fn">,</span> <span class="fn">i₂</span><span class="fn">)</span></span></span> <span class="fn">•</span>     <span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a> <span class="fn">(<span class="fn"><span class="fn">(<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.map">map</a></span> <span class="fn">(<span class="fn"><span class="fn">h₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Homotopy.html#Homotopy.hom">hom</a></span> <span class="fn">i₁'</span> <span class="fn">i₁</span>)</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/NatTrans.html#CategoryTheory.NatTrans.app">app</a></span> <span class="fn">(<span class="fn"><span class="fn">K₂</span>.<a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex.X">X</a></span> <span class="fn">i₂</span>)</span>)</span>
+      <span class="fn">(<a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a> <span class="fn">(<span class="fn"><span class="fn">(<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">(<span class="fn"><span class="fn">L₁</span>.<a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex.X">X</a></span> <span class="fn">i₁</span>)</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.map">map</a></span> <span class="fn">(<span class="fn"><span class="fn">f₂</span>.<a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex.Hom.f">f</a></span> <span class="fn">i₂</span>)</span>)</span>
+        <span class="fn">(<span class="fn"><span class="fn">(<span class="fn"><span class="fn">(<span class="fn"><span class="fn">(<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#CategoryTheory.Functor.mapBifunctorHomologicalComplex">mapBifunctorHomologicalComplex</a></span> <span class="fn">c₁</span> <span class="fn">c₂</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">L₁</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">L₂</span>)</span>.<a href="../../.././Mathlib/Algebra/Homology/TotalComplex.html#HomologicalComplex₂.d₂">d₂</a></span> <span class="fn">c</span> <span class="fn">i₁</span> <span class="fn">i₂</span> <span class="fn">j</span>)</span>)</span></span></span> <span class="fn">=</span>   <a href="../../.././Mathlib/Algebra/Order/AddGroupWithTop.html#Neg.neg">-</a><span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a>
+      <span class="fn">(<span class="fn"><span class="fn">(<span class="fn"><span class="fn">(<span class="fn"><span class="fn">(<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#CategoryTheory.Functor.mapBifunctorHomologicalComplex">mapBifunctorHomologicalComplex</a></span> <span class="fn">c₁</span> <span class="fn">c₂</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">K₁</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">K₂</span>)</span>.<a href="../../.././Mathlib/Algebra/Homology/TotalComplex.html#HomologicalComplex₂.d₂">d₂</a></span> <span class="fn">c</span> <span class="fn">i₁'</span> <span class="fn">i₂</span> <span class="fn">(<span class="fn"><span class="fn">c</span>.<a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape.next">next</a></span> <span class="fn">j</span>)</span>)</span> <span class="fn">(<a href="../../.././Mathlib/Algebra/Homology/BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy.hom₁">hom₁</a> <span class="fn">h₁</span> <span class="fn">f₂</span> <span class="fn">F</span> <span class="fn">c</span> <span class="fn">(<span class="fn"><span class="fn">c</span>.<a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape.next">next</a></span> <span class="fn">j</span>)</span> <span class="fn">j</span>)</span></span></span></div></div></div></div><div class="decl" id="HomologicalComplex.mapBifunctorMapHomotopy.comm₁"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Homology/BifunctorHomotopy.lean#L116-L170">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Homology_BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy.comm₁" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Homology/BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy.comm₁"><span class="name">HomologicalComplex</span>.<span class="name">mapBifunctorMapHomotopy</span>.<span class="name">comm₁</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">C₁</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">C₂</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">D</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">I₁</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">I₂</span> : <a href="../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">J</span> : <a href="../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_1, u_1}</a> <span class="fn">C₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_2, u_2}</a> <span class="fn">C₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_3, u_3}</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">C₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">C₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">c₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">I₁</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">c₂</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">I₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K₁ </span><span class="fn">L₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex">HomologicalComplex</a> <span class="fn">C₁</span> <span class="fn">c₁</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f₁ </span><span class="fn">f₁'</span> : <span class="fn">K₁</span> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn">L₁</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/Homotopy.html#Homotopy">Homotopy</a> <span class="fn">f₁</span> <span class="fn">f₁'</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K₂ </span><span class="fn">L₂</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex">HomologicalComplex</a> <span class="fn">C₂</span> <span class="fn">c₂</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f₂</span> : <span class="fn">K₂</span> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn">L₂</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor">CategoryTheory.Functor</a> <span class="fn">C₁</span> <span class="fn">(<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor">CategoryTheory.Functor</a> <span class="fn">C₂</span> <span class="fn">D</span>)</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Preadditive/AdditiveFunctor.html#CategoryTheory.Functor.Additive">Additive</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">∀ (<span class="fn">X₁</span> : <span class="fn">C₁</span>), <span class="fn"><span class="fn">(<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">X₁</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/Preadditive/AdditiveFunctor.html#CategoryTheory.Functor.Additive">Additive</a></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">J</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">J</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShapeSigns.html#TotalComplexShape">TotalComplexShape</a> <span class="fn">c₁</span> <span class="fn">c₂</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn"><span class="fn">K₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.HasMapBifunctor">HasMapBifunctor</a></span> <span class="fn">K₂</span> <span class="fn">F</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn"><span class="fn">L₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.HasMapBifunctor">HasMapBifunctor</a></span> <span class="fn">L₂</span> <span class="fn">F</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">j</span> : <span class="fn">J</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.mapBifunctorMap">mapBifunctorMap</a> <span class="fn">f₁</span> <span class="fn">f₂</span> <span class="fn">F</span> <span class="fn">c</span>)</span>.<a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex.Hom.f">f</a></span> <span class="fn">j</span></span> <span class="fn">=</span>   <span class="fn"><span class="fn"><span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a> <span class="fn">(<span class="fn"><span class="fn">(<span class="fn"><span class="fn">K₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.mapBifunctor">mapBifunctor</a></span> <span class="fn">K₂</span> <span class="fn">F</span> <span class="fn">c</span>)</span>.<a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex.d">d</a></span> <span class="fn">j</span> <span class="fn">(<span class="fn"><span class="fn">c</span>.<a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape.next">next</a></span> <span class="fn">j</span>)</span>)</span> <span class="fn">(<a href="../../.././Mathlib/Algebra/Homology/BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy.hom₁">hom₁</a> <span class="fn">h₁</span> <span class="fn">f₂</span> <span class="fn">F</span> <span class="fn">c</span> <span class="fn">(<span class="fn"><span class="fn">c</span>.<a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape.next">next</a></span> <span class="fn">j</span>)</span> <span class="fn">j</span>)</span></span> <span class="fn">+</span>       <span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/Homology/BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy.hom₁">hom₁</a> <span class="fn">h₁</span> <span class="fn">f₂</span> <span class="fn">F</span> <span class="fn">c</span> <span class="fn">j</span> <span class="fn">(<span class="fn"><span class="fn">c</span>.<a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape.prev">prev</a></span> <span class="fn">j</span>)</span>)</span> <span class="fn">(<span class="fn"><span class="fn">(<span class="fn"><span class="fn">L₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.mapBifunctor">mapBifunctor</a></span> <span class="fn">L₂</span> <span class="fn">F</span> <span class="fn">c</span>)</span>.<a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex.d">d</a></span> <span class="fn">(<span class="fn"><span class="fn">c</span>.<a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape.prev">prev</a></span> <span class="fn">j</span>)</span> <span class="fn">j</span>)</span></span></span> <span class="fn">+</span>     <span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.mapBifunctorMap">mapBifunctorMap</a> <span class="fn">f₁'</span> <span class="fn">f₂</span> <span class="fn">F</span> <span class="fn">c</span>)</span>.<a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex.Hom.f">f</a></span> <span class="fn">j</span></span></span></span></div></div></div></div><div class="decl" id="HomologicalComplex.mapBifunctorMapHomotopy₁"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Homology/BifunctorHomotopy.lean#L175-L181">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Homology_BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy₁" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Homology/BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy₁"><span class="name">HomologicalComplex</span>.<span class="name">mapBifunctorMapHomotopy₁</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">C₁</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">C₂</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">D</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">I₁</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">I₂</span> : <a href="../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">J</span> : <a href="../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_1, u_1}</a> <span class="fn">C₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_2, u_2}</a> <span class="fn">C₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_3, u_3}</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">C₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">C₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">c₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">I₁</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">c₂</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">I₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K₁ </span><span class="fn">L₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex">HomologicalComplex</a> <span class="fn">C₁</span> <span class="fn">c₁</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f₁ </span><span class="fn">f₁'</span> : <span class="fn">K₁</span> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn">L₁</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/Homotopy.html#Homotopy">Homotopy</a> <span class="fn">f₁</span> <span class="fn">f₁'</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K₂ </span><span class="fn">L₂</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex">HomologicalComplex</a> <span class="fn">C₂</span> <span class="fn">c₂</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f₂</span> : <span class="fn">K₂</span> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn">L₂</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor">CategoryTheory.Functor</a> <span class="fn">C₁</span> <span class="fn">(<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor">CategoryTheory.Functor</a> <span class="fn">C₂</span> <span class="fn">D</span>)</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Preadditive/AdditiveFunctor.html#CategoryTheory.Functor.Additive">Additive</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">∀ (<span class="fn">X₁</span> : <span class="fn">C₁</span>), <span class="fn"><span class="fn">(<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">X₁</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/Preadditive/AdditiveFunctor.html#CategoryTheory.Functor.Additive">Additive</a></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">J</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">J</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShapeSigns.html#TotalComplexShape">TotalComplexShape</a> <span class="fn">c₁</span> <span class="fn">c₂</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn"><span class="fn">K₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.HasMapBifunctor">HasMapBifunctor</a></span> <span class="fn">K₂</span> <span class="fn">F</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn"><span class="fn">L₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.HasMapBifunctor">HasMapBifunctor</a></span> <span class="fn">L₂</span> <span class="fn">F</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Homology/Homotopy.html#Homotopy">Homotopy</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.mapBifunctorMap">mapBifunctorMap</a> <span class="fn">f₁</span> <span class="fn">f₂</span> <span class="fn">F</span> <span class="fn">c</span>)</span> <span class="fn">(<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.mapBifunctorMap">mapBifunctorMap</a> <span class="fn">f₁'</span> <span class="fn">f₂</span> <span class="fn">F</span> <span class="fn">c</span>)</span></span></div></div><p>The homotopy between <code>mapBifunctorMap f₁ f₂ F c</code> and <code>mapBifunctorMap f₁' f₂ F c</code> that
+is induced by a homotopy between <code>f₁</code> and <code>f₁'</code>.</p><details id="instances-for-list-HomologicalComplex.mapBifunctorMapHomotopy₁" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="HomologicalComplex.mapBifunctorMapHomotopy₂"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Homology/BifunctorHomotopy.lean#L185-L224">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Homology_BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy₂" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Homology/BifunctorHomotopy.html#HomologicalComplex.mapBifunctorMapHomotopy₂"><span class="name">HomologicalComplex</span>.<span class="name">mapBifunctorMapHomotopy₂</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">C₁</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">C₂</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">D</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">I₁</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">I₂</span> : <a href="../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">J</span> : <a href="../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_1, u_1}</a> <span class="fn">C₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_2, u_2}</a> <span class="fn">C₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.Category">CategoryTheory.Category.{v_3, u_3}</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">C₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">C₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/CategoryTheory/Preadditive/Basic.html#CategoryTheory.Preadditive">CategoryTheory.Preadditive</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">c₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">I₁</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">c₂</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">I₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K₁ </span><span class="fn">L₁</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex">HomologicalComplex</a> <span class="fn">C₁</span> <span class="fn">c₁</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f₁</span> : <span class="fn">K₁</span> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn">L₁</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K₂ </span><span class="fn">L₂</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/HomologicalComplex.html#HomologicalComplex">HomologicalComplex</a> <span class="fn">C₂</span> <span class="fn">c₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f₂ </span><span class="fn">f₂'</span> : <span class="fn">K₂</span> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn">L₂</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h₂</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/Homotopy.html#Homotopy">Homotopy</a> <span class="fn">f₂</span> <span class="fn">f₂'</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor">CategoryTheory.Functor</a> <span class="fn">C₁</span> <span class="fn">(<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor">CategoryTheory.Functor</a> <span class="fn">C₂</span> <span class="fn">D</span>)</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Preadditive/AdditiveFunctor.html#CategoryTheory.Functor.Additive">Additive</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">∀ (<span class="fn">X₁</span> : <span class="fn">C₁</span>), <span class="fn"><span class="fn">(<span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">X₁</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/Preadditive/AdditiveFunctor.html#CategoryTheory.Functor.Additive">Additive</a></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShape.html#ComplexShape">ComplexShape</a> <span class="fn">J</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">J</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ComplexShapeSigns.html#TotalComplexShape">TotalComplexShape</a> <span class="fn">c₁</span> <span class="fn">c₂</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn"><span class="fn">K₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.HasMapBifunctor">HasMapBifunctor</a></span> <span class="fn">K₂</span> <span class="fn">F</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn"><span class="fn">L₁</span>.<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.HasMapBifunctor">HasMapBifunctor</a></span> <span class="fn">L₂</span> <span class="fn">F</span> <span class="fn">c</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Homology/Homotopy.html#Homotopy">Homotopy</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.mapBifunctorMap">mapBifunctorMap</a> <span class="fn">f₁</span> <span class="fn">f₂</span> <span class="fn">F</span> <span class="fn">c</span>)</span> <span class="fn">(<a href="../../.././Mathlib/Algebra/Homology/Bifunctor.html#HomologicalComplex.mapBifunctorMap">mapBifunctorMap</a> <span class="fn">f₁</span> <span class="fn">f₂'</span> <span class="fn">F</span> <span class="fn">c</span>)</span></span></div></div><p>The homotopy between <code>mapBifunctorMap f₁ f₂ F c</code> and <code>mapBifunctorMap f₁ f₂' F c</code> that
+is induced by a homotopy between <code>f₂</code> and <code>f₂'</code>.</p><details id="instances-for-list-HomologicalComplex.mapBifunctorMapHomotopy₂" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div></main>
+<nav class="nav"><iframe src="../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

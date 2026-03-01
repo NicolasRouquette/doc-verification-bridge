@@ -1,0 +1,654 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../.././style.css"></link><link rel="icon" href="../../.././favicon.svg"></link><link rel="mask-icon" href="../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.Data.List.Defs</title><script defer="true" src="../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../.././";</script><script>const MODULE_NAME="Mathlib.Data.List.Defs";</script><script type="module" src="../../.././jump-src.js"></script><script type="module" src="../../.././search.js"></script><script type="module" src="../../.././expand-nav.js"></script><script type="module" src="../../.././how-about.js"></script><script type="module" src="../../.././instances.js"></script><script type="module" src="../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">Data</span>.<span class="name">List</span>.<span class="name">Defs</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../.././Init.html">Init</a></li><li><a href="../../.././Batteries/Logic.html">Batteries.Logic</a></li><li><a href="../../.././Mathlib/Control/Functor.html">Mathlib.Control.Functor</a></li><li><a href="../../.././Mathlib/Data/SProd.html">Mathlib.Data.SProd</a></li><li><a href="../../.././Mathlib/Util/CompileInductive.html">Mathlib.Util.CompileInductive</a></li><li><a href="../../.././Batteries/Data/List/Basic.html">Batteries.Data.List.Basic</a></li><li><a href="../../.././Batteries/Tactic/Lint/Basic.html">Batteries.Tactic.Lint.Basic</a></li><li><a href="../../.././Mathlib/Data/Nat/Notation.html">Mathlib.Data.Nat.Notation</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.Data.List.Defs" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#List.instSDiffOfDecidableEq_mathlib"><span class="name">List</span>.<span class="name">instSDiffOfDecidableEq_mathlib</span></a></div><div class="nav_link"><a class="break_within" href="#List.getI"><span class="name">List</span>.<span class="name">getI</span></a></div><div class="nav_link"><a class="break_within" href="#List.headI"><span class="name">List</span>.<span class="name">headI</span></a></div><div class="nav_link"><a class="break_within" href="#List.headI_nil"><span class="name">List</span>.<span class="name">headI_nil</span></a></div><div class="nav_link"><a class="break_within" href="#List.headI_cons"><span class="name">List</span>.<span class="name">headI_cons</span></a></div><div class="nav_link"><a class="break_within" href="#List.getLastI"><span class="name">List</span>.<span class="name">getLastI</span></a></div><div class="nav_link"><a class="break_within" href="#List.takeI"><span class="name">List</span>.<span class="name">takeI</span></a></div><div class="nav_link"><a class="break_within" href="#List.findM"><span class="name">List</span>.<span class="name">findM</span></a></div><div class="nav_link"><a class="break_within" href="#List.findM?'"><span class="name">List</span>.<span class="name">findM?'</span></a></div><div class="nav_link"><a class="break_within" href="#List.orM"><span class="name">List</span>.<span class="name">orM</span></a></div><div class="nav_link"><a class="break_within" href="#List.andM"><span class="name">List</span>.<span class="name">andM</span></a></div><div class="nav_link"><a class="break_within" href="#List.foldlIdxM"><span class="name">List</span>.<span class="name">foldlIdxM</span></a></div><div class="nav_link"><a class="break_within" href="#List.foldrIdxM"><span class="name">List</span>.<span class="name">foldrIdxM</span></a></div><div class="nav_link"><a class="break_within" href="#List.mapIdxMAux'"><span class="name">List</span>.<span class="name">mapIdxMAux'</span></a></div><div class="nav_link"><a class="break_within" href="#List.mapIdxM'"><span class="name">List</span>.<span class="name">mapIdxM'</span></a></div><div class="nav_link"><a class="break_within" href="#List.Forall"><span class="name">List</span>.<span class="name">Forall</span></a></div><div class="nav_link"><a class="break_within" href="#List.permutationsAux2"><span class="name">List</span>.<span class="name">permutationsAux2</span></a></div><div class="nav_link"><a class="break_within" href="#List.permutationsAux.rec"><span class="name">List</span>.<span class="name">permutationsAux</span>.<span class="name">rec</span></a></div><div class="nav_link"><a class="break_within" href="#List.permutationsAux"><span class="name">List</span>.<span class="name">permutationsAux</span></a></div><div class="nav_link"><a class="break_within" href="#List.permutations"><span class="name">List</span>.<span class="name">permutations</span></a></div><div class="nav_link"><a class="break_within" href="#List.permutations'Aux"><span class="name">List</span>.<span class="name">permutations'Aux</span></a></div><div class="nav_link"><a class="break_within" href="#List.permutations'"><span class="name">List</span>.<span class="name">permutations'</span></a></div><div class="nav_link"><a class="break_within" href="#List.extractp"><span class="name">List</span>.<span class="name">extractp</span></a></div><div class="nav_link"><a class="break_within" href="#List.instSProd"><span class="name">List</span>.<span class="name">instSProd</span></a></div><div class="nav_link"><a class="break_within" href="#List.dedup"><span class="name">List</span>.<span class="name">dedup</span></a></div><div class="nav_link"><a class="break_within" href="#List.destutter'"><span class="name">List</span>.<span class="name">destutter'</span></a></div><div class="nav_link"><a class="break_within" href="#List.destutter"><span class="name">List</span>.<span class="name">destutter</span></a></div><div class="nav_link"><a class="break_within" href="#List.chooseX"><span class="name">List</span>.<span class="name">chooseX</span></a></div><div class="nav_link"><a class="break_within" href="#List.choose"><span class="name">List</span>.<span class="name">choose</span></a></div><div class="nav_link"><a class="break_within" href="#List.mapDiagM'"><span class="name">List</span>.<span class="name">mapDiagM'</span></a></div><div class="nav_link"><a class="break_within" href="#List.map₂Left'"><span class="name">List</span>.<span class="name">map₂Left'</span></a></div><div class="nav_link"><a class="break_within" href="#List.map₂Right'"><span class="name">List</span>.<span class="name">map₂Right'</span></a></div><div class="nav_link"><a class="break_within" href="#List.map₂Left"><span class="name">List</span>.<span class="name">map₂Left</span></a></div><div class="nav_link"><a class="break_within" href="#List.map₂Right"><span class="name">List</span>.<span class="name">map₂Right</span></a></div><div class="nav_link"><a class="break_within" href="#List.mapAsyncChunked"><span class="name">List</span>.<span class="name">mapAsyncChunked</span></a></div><div class="nav_link"><a class="break_within" href="#List.zipWith3"><span class="name">List</span>.<span class="name">zipWith3</span></a></div><div class="nav_link"><a class="break_within" href="#List.zipWith4"><span class="name">List</span>.<span class="name">zipWith4</span></a></div><div class="nav_link"><a class="break_within" href="#List.zipWith5"><span class="name">List</span>.<span class="name">zipWith5</span></a></div><div class="nav_link"><a class="break_within" href="#List.replaceIf"><span class="name">List</span>.<span class="name">replaceIf</span></a></div><div class="nav_link"><a class="break_within" href="#List.iterate"><span class="name">List</span>.<span class="name">iterate</span></a></div><div class="nav_link"><a class="break_within" href="#List.iterateTR"><span class="name">List</span>.<span class="name">iterateTR</span></a></div><div class="nav_link"><a class="break_within" href="#List.iterateTR.loop"><span class="name">List</span>.<span class="name">iterateTR</span>.<span class="name">loop</span></a></div><div class="nav_link"><a class="break_within" href="#List.iterateTR_loop_eq"><span class="name">List</span>.<span class="name">iterateTR_loop_eq</span></a></div><div class="nav_link"><a class="break_within" href="#List.iterate_eq_iterateTR"><span class="name">List</span>.<span class="name">iterate_eq_iterateTR</span></a></div><div class="nav_link"><a class="break_within" href="#List.mapAccumr"><span class="name">List</span>.<span class="name">mapAccumr</span></a></div><div class="nav_link"><a class="break_within" href="#List.length_mapAccumr"><span class="name">List</span>.<span class="name">length_mapAccumr</span></a></div><div class="nav_link"><a class="break_within" href="#List.mapAccumr₂"><span class="name">List</span>.<span class="name">mapAccumr₂</span></a></div><div class="nav_link"><a class="break_within" href="#List.length_mapAccumr₂"><span class="name">List</span>.<span class="name">length_mapAccumr₂</span></a></div></nav><main>
+<div class="mod_doc"><h2 id="Definitions-on-lists" class="markdown-heading">Definitions on lists <a class="hover-link" href="#Definitions-on-lists">#</a></h2><p>This file contains various definitions on lists. It does not contain
+proofs about these definitions, those are contained in other files in <code>Data.List</code></p></div><div class="decl" id="List.instSDiffOfDecidableEq_mathlib"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L33-L34">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.instSDiffOfDecidableEq_mathlib" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.instSDiffOfDecidableEq_mathlib"><span class="name">List</span>.<span class="name">instSDiffOfDecidableEq_mathlib</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">SDiff</span> <span class="fn">(<span class="fn">List</span> <span class="fn">α</span>)</span></span></div></div></div></div><div class="decl" id="List.getI"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L36-L39">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.getI" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.getI"><span class="name">List</span>.<span class="name">getI</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Inhabited</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">α</span></div></div><p>&quot;Inhabited&quot; <code>get</code> function: returns <code>default</code> instead of <code>none</code> in the case
+that the index is out of bounds.</p><details id="instances-for-list-List.getI" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.headI"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L41-L44">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.headI" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.headI"><span class="name">List</span>.<span class="name">headI</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Inhabited</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn">α</span></span></div></div><p>The head of a list, or the default element of the type is the list is <code>nil</code>.</p><details id="instances-for-list-List.headI" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.headI_nil"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L46-L46">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.headI_nil" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.headI_nil"><span class="name">List</span>.<span class="name">headI_nil</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Inhabited</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">[</span><span class="fn">]</span></span>.<a href="../../.././Mathlib/Data/List/Defs.html#List.headI">headI</a></span> <span class="fn">=</span> <a href="../../.././Mathlib/Logic/Unique.html#Inhabited.default">default</a></span></div></div></div></div><div class="decl" id="List.headI_cons"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L47-L47">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.headI_cons" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.headI_cons"><span class="name">List</span>.<span class="name">headI_cons</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Inhabited</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">h</span> : <span class="fn">α</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">t</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">h</span> <span class="fn">::</span> <span class="fn">t</span>)</span>.<a href="../../.././Mathlib/Data/List/Defs.html#List.headI">headI</a></span> <span class="fn">=</span> <span class="fn">h</span></span></div></div></div></div><div class="decl" id="List.getLastI"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L49-L54">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.getLastI" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.getLastI"><span class="name">List</span>.<span class="name">getLastI</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Inhabited</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn">α</span></span></div></div><p>The last element of a list, with the default if list empty</p><details id="instances-for-list-List.getLastI" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.takeI"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L56-L59">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.takeI" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.takeI"><span class="name">List</span>.<span class="name">takeI</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Inhabited</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span></div></div><p>&quot;Inhabited&quot; <code>take</code> function: Take <code>n</code> elements from a list <code>l</code>. If <code>l</code> has less than <code>n</code>
+elements, append <code>n - length l</code> elements <code>default</code>.</p><details id="instances-for-list-List.takeI" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.findM"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L61-L64">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.findM" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.findM"><span class="name">List</span>.<span class="name">findM</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u → <a href="../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Alternative</span> <span class="fn">m</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">tac</span> : <span class="fn"><span class="fn">α</span> → <span class="fn"><span class="fn">m</span> <span class="fn">PUnit.{u + 1}</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn">m</span> <span class="fn">α</span></span></span></div></div><p><code><a href="../../.././Mathlib/Data/List/Defs.html#List.findM">findM</a> tac l</code> returns the first element of <code>l</code> on which <code>tac</code> succeeds, and
+fails otherwise.</p><details id="instances-for-list-List.findM" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.findM?'"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L66-L76">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.findM?'" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.findM?'"><span class="name">List</span>.<span class="name">findM?'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u → <a href="../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Monad</span> <span class="fn">m</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <span class="fn"><span class="fn">m</span> <span class="fn">(<span class="fn">ULift.{u, 0}</span> <span class="fn">Bool</span>)</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn">m</span> <span class="fn">(<span class="fn">Option</span> <span class="fn">α</span>)</span></span></span></div></div><p><code>findM? p l</code> returns the first element <code>a</code> of <code>l</code> for which <code>p a</code> returns
+true. <code>findM?</code> short-circuits, so <code>p</code> is not necessarily run on every <code>a</code> in
+<code>l</code>. This is a monadic version of <code>List.find</code>.</p><details id="instances-for-list-List.findM?'" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.orM"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L82-L86">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.orM" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.orM"><span class="name">List</span>.<span class="name">orM</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> → <a href="../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Monad</span> <span class="fn">m</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">(<span class="fn">m</span> <span class="fn">Bool</span>)</span></span> → <span class="fn"><span class="fn">m</span> <span class="fn">Bool</span></span></span></div></div><p><code><a href="../../.././Mathlib/Data/List/Defs.html#List.orM">orM</a> xs</code> runs the actions in <code>xs</code>, returning true if any of them returns
+true. <code><a href="../../.././Mathlib/Data/List/Defs.html#List.orM">orM</a></code> short-circuits, so if an action returns true, later actions are
+not run.</p><details id="instances-for-list-List.orM" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.andM"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L88-L92">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.andM" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.andM"><span class="name">List</span>.<span class="name">andM</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> → <a href="../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Monad</span> <span class="fn">m</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">(<span class="fn">m</span> <span class="fn">Bool</span>)</span></span> → <span class="fn"><span class="fn">m</span> <span class="fn">Bool</span></span></span></div></div><p><code><a href="../../.././Mathlib/Data/List/Defs.html#List.andM">andM</a> xs</code> runs the actions in <code>xs</code>, returning true if all of them return
+true. <code><a href="../../.././Mathlib/Data/List/Defs.html#List.andM">andM</a></code> short-circuits, so if an action returns false, later actions are
+not run.</p><details id="instances-for-list-List.andM" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.foldlIdxM"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L100-L106">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.foldlIdxM" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.foldlIdxM"><span class="name">List</span>.<span class="name">foldlIdxM</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> v → <a href="../../.././foundational_types.html">Type</a> w</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Monad</span> <span class="fn">m</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_7}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">ℕ</span> → <span class="fn"><span class="fn">β</span> → <span class="fn"><span class="fn">α</span> → <span class="fn"><span class="fn">m</span> <span class="fn">β</span></span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">b</span> : <span class="fn">β</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">as</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">m</span> <span class="fn">β</span></span></div></div><p>Monadic variant of <code>foldlIdx</code>.</p><details id="instances-for-list-List.foldlIdxM" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.foldrIdxM"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L108-L114">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.foldrIdxM" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.foldrIdxM"><span class="name">List</span>.<span class="name">foldrIdxM</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> v → <a href="../../.././foundational_types.html">Type</a> w</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Monad</span> <span class="fn">m</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_7}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">ℕ</span> → <span class="fn"><span class="fn">α</span> → <span class="fn"><span class="fn">β</span> → <span class="fn"><span class="fn">m</span> <span class="fn">β</span></span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">b</span> : <span class="fn">β</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">as</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">m</span> <span class="fn">β</span></span></div></div><p>Monadic variant of <code>foldrIdx</code>.</p><details id="instances-for-list-List.foldrIdxM" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.mapIdxMAux'"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L124-L127">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.mapIdxMAux'" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.mapIdxMAux'"><span class="name">List</span>.<span class="name">mapIdxMAux'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> v → <a href="../../.././foundational_types.html">Type</a> w</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Monad</span> <span class="fn">m</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_7}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">ℕ</span> → <span class="fn"><span class="fn">α</span> → <span class="fn"><span class="fn">m</span> <span class="fn">PUnit.{v + 1}</span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">ℕ</span> → <span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn">m</span> <span class="fn">PUnit.{v + 1}</span></span></span></span></div></div><p>Auxiliary definition for <code><a href="../../.././Mathlib/Data/List/Defs.html#List.mapIdxM'">mapIdxM'</a></code>.</p><details id="instances-for-list-List.mapIdxMAux'" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.mapIdxM'"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L129-L132">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.mapIdxM'" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.mapIdxM'"><span class="name">List</span>.<span class="name">mapIdxM'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> v → <a href="../../.././foundational_types.html">Type</a> w</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Monad</span> <span class="fn">m</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_7}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">ℕ</span> → <span class="fn"><span class="fn">α</span> → <span class="fn"><span class="fn">m</span> <span class="fn">PUnit.{v + 1}</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">as</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">m</span> <span class="fn">PUnit.{v + 1}</span></span></div></div><p>A variant of <code>mapIdxM</code> specialised to applicative actions which
+return <code>Unit</code>.</p><details id="instances-for-list-List.mapIdxM'" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.Forall"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L136-L142">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.Forall" class="verification-badge math-definition" title="Mathematical definition (Prop-valued)">🔹 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.Forall"><span class="name">List</span>.<span class="name">Forall</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../../.././foundational_types.html">Prop</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <a href="../../.././foundational_types.html">Prop</a></span></div></div><p><code>l.<a href="../../.././Mathlib/Data/List/Defs.html#List.Forall">Forall</a> p</code> is equivalent to <code>∀ a ∈ l, p a</code>, but unfolds directly to a conjunction, i.e.
+<code><a href="../../.././Mathlib/Data/List/Defs.html#List.Forall">List.Forall</a> p [0, 1, 2] = p 0 ∧ p 1 ∧ p 2</code>.</p><details id="instances-for-list-List.Forall" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.permutationsAux2"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L146-L159">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.permutationsAux2" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.permutationsAux2"><span class="name">List</span>.<span class="name">permutationsAux2</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">t</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">ts</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">r</span> : <span class="fn"><span class="fn">List</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn">(<span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn">β</span>)</span> → <span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> <span class="fn">×</span> <span class="fn"><span class="fn">List</span> <span class="fn">β</span></span></span></span></span></div></div><p>An auxiliary function for defining <code><a href="../../.././Mathlib/Data/List/Defs.html#List.permutations">permutations</a></code>. <code><a href="../../.././Mathlib/Data/List/Defs.html#List.permutationsAux2">permutationsAux2</a> t ts r ys f</code> is equal to
+<code>(ys ++ ts, (insert_left ys t ts).map f ++ r)</code>, where <code>insert_left ys t ts</code> (not explicitly
+defined) is the list of lists of the form <code>insert_nth n t (ys ++ ts)</code> for <code>0 ≤ n &lt; length ys</code>.</p><pre><code>permutations_aux2 10 [4, 5, 6] [] [1, 2, 3] id =
+  ([1, 2, 3, 4, 5, 6],
+   [[10, 1, 2, 3, 4, 5, 6],
+    [1, 10, 2, 3, 4, 5, 6],
+    [1, 2, 10, 3, 4, 5, 6]]) 
+</code></pre><details id="instances-for-list-List.permutationsAux2" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.permutationsAux.rec"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L161-L170">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.permutationsAux.rec" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[irreducible]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.permutationsAux.rec"><span class="name">List</span>.<span class="name">permutationsAux</span>.<span class="name">rec</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">C</span> : <span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <a href="../../.././foundational_types.html">Sort</a> v</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">H0</span> : <span class="fn">(<span class="fn">is</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>) → <span class="fn"><span class="fn">C</span> <span class="fn"><span class="fn">[</span><span class="fn">]</span></span> <span class="fn">is</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">H1</span> : <span class="fn">(<span class="fn">t</span> : <span class="fn">α</span>) → <span class="fn">(<span class="fn">ts </span><span class="fn">is</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>) → <span class="fn"><span class="fn"><span class="fn">C</span> <span class="fn">ts</span> <span class="fn">(<span class="fn">t</span> <span class="fn">::</span> <span class="fn">is</span>)</span></span> → <span class="fn"><span class="fn"><span class="fn">C</span> <span class="fn">is</span> <span class="fn"><span class="fn">[</span><span class="fn">]</span></span></span> → <span class="fn"><span class="fn">C</span> <span class="fn">(<span class="fn">t</span> <span class="fn">::</span> <span class="fn">ts</span>)</span> <span class="fn">is</span></span></span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">l₁ </span><span class="fn">l₂</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">C</span> <span class="fn">l₁</span> <span class="fn">l₂</span></span></div></div><p>A recursor for pairs of lists. To have <code>C l₁ l₂</code> for all <code>l₁</code>, <code>l₂</code>, it suffices to have it for
+<code>l₂ = []</code> and to be able to pour the elements of <code>l₁</code> into <code>l₂</code>.</p><details id="instances-for-list-List.permutationsAux.rec" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.permutationsAux"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L172-L176">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.permutationsAux" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.permutationsAux"><span class="name">List</span>.<span class="name">permutationsAux</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn">List</span> <span class="fn">(<span class="fn">List</span> <span class="fn">α</span>)</span></span></span></div></div><p>An auxiliary function for defining <code><a href="../../.././Mathlib/Data/List/Defs.html#List.permutations">permutations</a></code>. <code><a href="../../.././Mathlib/Data/List/Defs.html#List.permutationsAux">permutationsAux</a> ts is</code> is the set of all
+permutations of <code>is ++ ts</code> that do not fix <code>ts</code>.</p><details id="instances-for-list-List.permutationsAux" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.permutations"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L178-L184">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.permutations" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.permutations"><span class="name">List</span>.<span class="name">permutations</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">List</span> <span class="fn">(<span class="fn">List</span> <span class="fn">α</span>)</span></span></div></div><p>List of all permutations of <code>l</code>.</p><p>permutations [1, 2, 3] =
+[[1, 2, 3], [2, 1, 3], [3, 2, 1],
+[2, 3, 1], [3, 1, 2], [1, 3, 2]]</p><details id="instances-for-list-List.permutations" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.permutations'Aux"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L186-L200">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.permutations'Aux" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.permutations'Aux"><span class="name">List</span>.<span class="name">permutations'Aux</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">t</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn">List</span> <span class="fn">(<span class="fn">List</span> <span class="fn">α</span>)</span></span></span></div></div><p><code><a href="../../.././Mathlib/Data/List/Defs.html#List.permutations'Aux">permutations'Aux</a> t ts</code> inserts <code>t</code> into every position in <code>ts</code>, including the last.
+This function is intended for use in specifications, so it is simpler than <code><a href="../../.././Mathlib/Data/List/Defs.html#List.permutationsAux2">permutationsAux2</a></code>,
+which plays roughly the same role in <code><a href="../../.././Mathlib/Data/List/Defs.html#List.permutations">permutations</a></code>.</p><p>Note that <code>(permutationsAux2 t [] [] ts id).2</code> is similar to this function, but skips the last
+position:</p><pre><code><a href="../../.././Mathlib/Data/List/Defs.html#List.permutations'Aux">permutations'Aux</a> 10 [1, 2, 3] =
+  [[10, 1, 2, 3], [1, 10, 2, 3], [1, 2, 10, 3], [1, 2, 3, 10]]
+(permutationsAux2 10 [] [] [1, 2, 3] id).2 =
+  [[10, 1, 2, 3], [1, 10, 2, 3], [1, 2, 10, 3]] 
+</code></pre><details id="instances-for-list-List.permutations'Aux" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.permutations'"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L202-L212">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.permutations'" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.permutations'"><span class="name">List</span>.<span class="name">permutations'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn">List</span> <span class="fn">(<span class="fn">List</span> <span class="fn">α</span>)</span></span></span></div></div><p>List of all permutations of <code>l</code>. This version of <code><a href="../../.././Mathlib/Data/List/Defs.html#List.permutations">permutations</a></code> is less efficient but has
+simpler definitional equations. The permutations are in a different order,
+but are equal up to permutation, as shown by <code><a href="../../.././Mathlib/Data/List/Permutation.html#List.permutations_perm_permutations'">List.permutations_perm_permutations'</a></code>.</p><pre><code> <a href="../../.././Mathlib/Data/List/Defs.html#List.permutations">permutations</a> [1, 2, 3] =
+   [[1, 2, 3], [2, 1, 3], [2, 3, 1],
+    [1, 3, 2], [3, 1, 2], [3, 2, 1]] 
+</code></pre><details id="instances-for-list-List.permutations'" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.extractp"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L216-L224">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.extractp" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.extractp"><span class="name">List</span>.<span class="name">extractp</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../../.././foundational_types.html">Prop</a></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidablePred</span> <span class="fn">p</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn"><span class="fn">Option</span> <span class="fn">α</span></span> <span class="fn">×</span> <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span></span></span></div></div><p><code><a href="../../.././Mathlib/Data/List/Defs.html#List.extractp">extractp</a> p l</code> returns a pair of an element <code>a</code> of <code>l</code> satisfying the predicate
+<code>p</code>, and <code>l</code>, with <code>a</code> removed. If there is no such element <code>a</code> it returns <code>(none, l)</code>.</p><details id="instances-for-list-List.extractp" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.instSProd"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L226-L228">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.instSProd" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.instSProd"><span class="name">List</span>.<span class="name">instSProd</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Data/SProd.html#SProd">SProd</a> <span class="fn">(<span class="fn">List</span> <span class="fn">α</span>)</span> <span class="fn">(<span class="fn">List</span> <span class="fn">β</span>)</span> <span class="fn">(<span class="fn">List</span> <span class="fn">(<span class="fn">α</span> <span class="fn">×</span> <span class="fn">β</span>)</span>)</span></span></div></div><p>Notation for calculating the product of a <code>List</code></p></div></div><div class="decl" id="List.dedup"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L230-L235">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.dedup" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.dedup"><span class="name">List</span>.<span class="name">dedup</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span></span></div></div><p><code><a href="../../.././Mathlib/Data/List/Defs.html#List.dedup">dedup</a> l</code> removes duplicates from <code>l</code> (taking only the last occurrence).
+Defined as <code>pwFilter (≠)</code>.</p><p>dedup [1, 0, 2, 2, 1] = [0, 2, 1]</p><details id="instances-for-list-List.dedup" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.destutter'"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L237-L242">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.destutter'" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.destutter'"><span class="name">List</span>.<span class="name">destutter'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">α</span> → <a href="../../.././foundational_types.html">Prop</a></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableRel</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">α</span> → <span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span></span></span></div></div><p>Greedily create a sublist of <code>a :: l</code> such that, for every two adjacent elements <code>a, b</code>,
+<code>R a b</code> holds. Mostly used with ≠; for example, <code><a href="../../.././Mathlib/Data/List/Defs.html#List.destutter'">destutter'</a> (≠) 1 [2, 2, 1, 1] = [1, 2, 1]</code>,
+<code><a href="../../.././Mathlib/Data/List/Defs.html#List.destutter'">destutter'</a> (≠) 1, [2, 3, 3] = [1, 2, 3]</code>, <code><a href="../../.././Mathlib/Data/List/Defs.html#List.destutter'">destutter'</a> (&lt;) 1 [2, 5, 2, 3, 4, 9] = [1, 2, 5, 9]</code>.</p><details id="instances-for-list-List.destutter'" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.destutter"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L246-L251">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.destutter" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.destutter"><span class="name">List</span>.<span class="name">destutter</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">α</span> → <a href="../../.././foundational_types.html">Prop</a></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableRel</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span></span></div></div><p>Greedily create a sublist of <code>l</code> such that, for every two adjacent elements <code>a, b ∈ l</code>,
+<code>R a b</code> holds. Mostly used with ≠; for example, <code><a href="../../.././Mathlib/Data/List/Defs.html#List.destutter">destutter</a> (≠) [1, 2, 2, 1, 1] = [1, 2, 1]</code>,
+<code><a href="../../.././Mathlib/Data/List/Defs.html#List.destutter">destutter</a> (≠) [1, 2, 3, 3] = [1, 2, 3]</code>, <code><a href="../../.././Mathlib/Data/List/Defs.html#List.destutter">destutter</a> (&lt;) [1, 2, 5, 2, 3, 4, 9] = [1, 2, 5, 9]</code>.</p><details id="instances-for-list-List.destutter" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.chooseX"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L257-L269">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.chooseX" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.chooseX"><span class="name">List</span>.<span class="name">chooseX</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../../.././foundational_types.html">Prop</a></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidablePred</span> <span class="fn">p</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(∃ <span class="fn">a</span> ∈ <span class="fn">l</span>, <span class="fn"><span class="fn">p</span> <span class="fn">a</span></span>)</span> → <span class="fn"><span class="fn">{</span> <span class="fn">a</span> <span class="fn">:</span> <span class="fn">α</span> <span class="fn">//</span> <span class="fn"><span class="fn"><span class="fn">a</span> <span class="fn">∈</span> <span class="fn">l</span></span> <span class="fn">∧</span> <span class="fn"><span class="fn">p</span> <span class="fn">a</span></span></span> <span class="fn">}</span></span></span></div></div><p>Given a decidable predicate <code>p</code> and a proof of existence of <code>a ∈ l</code> such that <code>p a</code>,
+choose the first element with this property. This version returns both <code>a</code> and proofs
+of <code>a ∈ l</code> and <code>p a</code>.</p><details id="instances-for-list-List.chooseX" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.choose"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L271-L275">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.choose" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.choose"><span class="name">List</span>.<span class="name">choose</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../../.././foundational_types.html">Prop</a></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidablePred</span> <span class="fn">p</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hp</span> : <span class="fn">∃ <span class="fn">a</span> ∈ <span class="fn">l</span>, <span class="fn"><span class="fn">p</span> <span class="fn">a</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">α</span></div></div><p>Given a decidable predicate <code>p</code> and a proof of existence of <code>a ∈ l</code> such that <code>p a</code>,
+choose the first element with this property. This version returns <code>a : α</code>, and properties
+are given by <code>choose_mem</code> and <code>choose_property</code>.</p><details id="instances-for-list-List.choose" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.mapDiagM'"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L279-L291">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.mapDiagM'" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.mapDiagM'"><span class="name">List</span>.<span class="name">mapDiagM'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> → <a href="../../.././foundational_types.html">Type</a> u_7</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Monad</span> <span class="fn">m</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_8}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">α</span> → <span class="fn"><span class="fn">m</span> <span class="fn">Unit</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn">m</span> <span class="fn">Unit</span></span></span></div></div><p><code><a href="../../.././Mathlib/Data/List/Defs.html#List.mapDiagM'">mapDiagM'</a> f l</code> calls <code>f</code> on all elements in the upper triangular part of <code>l × l</code>.
+That is, for each <code>e ∈ l</code>, it will run <code>f e e</code> and then <code>f e e'</code>
+for each <code>e'</code> that appears after <code>e</code> in <code>l</code>.</p><p>Example: suppose <code>l = [1, 2, 3]</code>. <code><a href="../../.././Mathlib/Data/List/Defs.html#List.mapDiagM'">mapDiagM'</a> f l</code> will evaluate, in this order,
+<code>f 1 1</code>, <code>f 1 2</code>, <code>f 1 3</code>, <code>f 2 2</code>, <code>f 2 3</code>, <code>f 3 3</code>.</p><details id="instances-for-list-List.mapDiagM'" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.map₂Left'"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L296-L313">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.map₂Left'" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.map₂Left'"><span class="name">List</span>.<span class="name">map₂Left'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn"><span class="fn"><span class="fn">Option</span> <span class="fn">β</span></span> → <span class="fn">γ</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">β</span></span> → <span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">γ</span></span> <span class="fn">×</span> <span class="fn"><span class="fn">List</span> <span class="fn">β</span></span></span></span></span></div></div><p>Left-biased version of <code>List.map₂</code>. <code><a href="../../.././Mathlib/Data/List/Defs.html#List.map₂Left'">map₂Left'</a> f as bs</code> applies <code>f</code> to each
+pair of elements <code>aᵢ ∈ as</code> and <code>bᵢ ∈ bs</code>. If <code>bs</code> is shorter than <code>as</code>, <code>f</code> is
+applied to <code>none</code> for the remaining <code>aᵢ</code>. Returns the results of the <code>f</code>
+applications and the remaining <code>bs</code>.</p><pre><code><a href="../../.././Mathlib/Data/List/Defs.html#List.map₂Left'">map₂Left'</a> prod.mk [1, 2] ['a'] = ([(1, some 'a'), (2, none)], [])
+
+<a href="../../.././Mathlib/Data/List/Defs.html#List.map₂Left'">map₂Left'</a> prod.mk [1] ['a', 'b'] = ([(1, some 'a')], ['b'])
+</code></pre><details id="instances-for-list-List.map₂Left'" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.map₂Right'"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L315-L327">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.map₂Right'" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.map₂Right'"><span class="name">List</span>.<span class="name">map₂Right'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn"><span class="fn">Option</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn">β</span> → <span class="fn">γ</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">as</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">bs</span> : <span class="fn"><span class="fn">List</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">γ</span></span> <span class="fn">×</span> <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span></span></div></div><p>Right-biased version of <code>List.map₂</code>. <code><a href="../../.././Mathlib/Data/List/Defs.html#List.map₂Right'">map₂Right'</a> f as bs</code> applies <code>f</code> to each
+pair of elements <code>aᵢ ∈ as</code> and <code>bᵢ ∈ bs</code>. If <code>as</code> is shorter than <code>bs</code>, <code>f</code> is
+applied to <code>none</code> for the remaining <code>bᵢ</code>. Returns the results of the <code>f</code>
+applications and the remaining <code>as</code>.</p><pre><code><a href="../../.././Mathlib/Data/List/Defs.html#List.map₂Right'">map₂Right'</a> prod.mk [1] ['a', 'b'] = ([(some 1, 'a'), (none, 'b')], [])
+
+<a href="../../.././Mathlib/Data/List/Defs.html#List.map₂Right'">map₂Right'</a> prod.mk [1, 2] ['a'] = ([(some 1, 'a')], [2])
+</code></pre><details id="instances-for-list-List.map₂Right'" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.map₂Left"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L330-L346">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.map₂Left" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.map₂Left"><span class="name">List</span>.<span class="name">map₂Left</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn"><span class="fn"><span class="fn">Option</span> <span class="fn">β</span></span> → <span class="fn">γ</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">β</span></span> → <span class="fn"><span class="fn">List</span> <span class="fn">γ</span></span></span></span></div></div><p>Left-biased version of <code>List.map₂</code>. <code><a href="../../.././Mathlib/Data/List/Defs.html#List.map₂Left">map₂Left</a> f as bs</code> applies <code>f</code> to each pair
+<code>aᵢ ∈ as</code> and <code>bᵢ ∈ bs</code>. If <code>bs</code> is shorter than <code>as</code>, <code>f</code> is applied to <code>none</code>
+for the remaining <code>aᵢ</code>.</p><pre><code><a href="../../.././Mathlib/Data/List/Defs.html#List.map₂Left">map₂Left</a> Prod.mk [1, 2] ['a'] = [(1, some 'a'), (2, none)]
+
+<a href="../../.././Mathlib/Data/List/Defs.html#List.map₂Left">map₂Left</a> Prod.mk [1] ['a', 'b'] = [(1, some 'a')]
+
+<a href="../../.././Mathlib/Data/List/Defs.html#List.map₂Left">map₂Left</a> f as bs = (map₂Left' f as bs).fst
+</code></pre><details id="instances-for-list-List.map₂Left" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.map₂Right"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L348-L361">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.map₂Right" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.map₂Right"><span class="name">List</span>.<span class="name">map₂Right</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn"><span class="fn">Option</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn">β</span> → <span class="fn">γ</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">as</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">bs</span> : <span class="fn"><span class="fn">List</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">List</span> <span class="fn">γ</span></span></div></div><p>Right-biased version of <code>List.map₂</code>. <code><a href="../../.././Mathlib/Data/List/Defs.html#List.map₂Right">map₂Right</a> f as bs</code> applies <code>f</code> to each
+pair <code>aᵢ ∈ as</code> and <code>bᵢ ∈ bs</code>. If <code>as</code> is shorter than <code>bs</code>, <code>f</code> is applied to
+<code>none</code> for the remaining <code>bᵢ</code>.</p><pre><code><a href="../../.././Mathlib/Data/List/Defs.html#List.map₂Right">map₂Right</a> Prod.mk [1, 2] ['a'] = [(some 1, 'a')]
+
+<a href="../../.././Mathlib/Data/List/Defs.html#List.map₂Right">map₂Right</a> Prod.mk [1] ['a', 'b'] = [(some 1, 'a'), (none, 'b')]
+
+<a href="../../.././Mathlib/Data/List/Defs.html#List.map₂Right">map₂Right</a> f as bs = (map₂Right' f as bs).fst
+</code></pre><details id="instances-for-list-List.map₂Right" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.mapAsyncChunked"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L364-L367">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.mapAsyncChunked" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.mapAsyncChunked"><span class="name">List</span>.<span class="name">mapAsyncChunked</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_7}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_8}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">β</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">xs</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">chunk_size</span> : <span class="fn">ℕ</span> := <span class="fn">1024</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">List</span> <span class="fn">β</span></span></div></div><p>Asynchronous version of <code>List.map</code>.</p><details id="instances-for-list-List.mapAsyncChunked" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="mod_doc"><p>We add some n-ary versions of <code>List.zipWith</code> for functions with more than two arguments.
+These can also be written in terms of <code>List.zip</code> or <code>List.zipWith</code>.
+For example, <code><a href="../../.././Mathlib/Data/List/Defs.html#List.zipWith3">zipWith3</a> f xs ys zs</code> could also be written as
+<code>zipWith id (zipWith f xs ys) zs</code>
+or as
+<code>(zip xs &lt;| zip ys zs).map &lt;| fun ⟨x, y, z⟩ ↦ f x y z</code>.</p></div><div class="decl" id="List.zipWith3"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L379-L382">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.zipWith3" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.zipWith3"><span class="name">List</span>.<span class="name">zipWith3</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">δ</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn"><span class="fn">β</span> → <span class="fn"><span class="fn">γ</span> → <span class="fn">δ</span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">β</span></span> → <span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">γ</span></span> → <span class="fn"><span class="fn">List</span> <span class="fn">δ</span></span></span></span></span></div></div><p>Ternary version of <code>List.zipWith</code>.</p><details id="instances-for-list-List.zipWith3" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.zipWith4"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L384-L387">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.zipWith4" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.zipWith4"><span class="name">List</span>.<span class="name">zipWith4</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">δ</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ε</span> : <a href="../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn"><span class="fn">β</span> → <span class="fn"><span class="fn">γ</span> → <span class="fn"><span class="fn">δ</span> → <span class="fn">ε</span></span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">β</span></span> → <span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">γ</span></span> → <span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">δ</span></span> → <span class="fn"><span class="fn">List</span> <span class="fn">ε</span></span></span></span></span></span></div></div><p>Quaternary version of <code>list.zipWith</code>.</p><details id="instances-for-list-List.zipWith4" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.zipWith5"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L389-L392">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.zipWith5" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.zipWith5"><span class="name">List</span>.<span class="name">zipWith5</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">δ</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ε</span> : <a href="../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ζ</span> : <a href="../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn"><span class="fn">β</span> → <span class="fn"><span class="fn">γ</span> → <span class="fn"><span class="fn">δ</span> → <span class="fn"><span class="fn">ε</span> → <span class="fn">ζ</span></span></span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">β</span></span> → <span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">γ</span></span> → <span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">δ</span></span> → <span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">ε</span></span> → <span class="fn"><span class="fn">List</span> <span class="fn">ζ</span></span></span></span></span></span></span></div></div><p>Quinary version of <code>list.zipWith</code>.</p><details id="instances-for-list-List.zipWith5" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.replaceIf"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L394-L401">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.replaceIf" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.replaceIf"><span class="name">List</span>.<span class="name">replaceIf</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">Bool</span></span> → <span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span></span></span></span></div></div><p>Given a starting list <code>old</code>, a list of Booleans and a replacement list <code>new</code>,
+read the items in <code>old</code> in succession and either replace them with the next element of <code>new</code> or
+not, according as to whether the corresponding Boolean is <code>true</code> or <code>false</code>.</p><details id="instances-for-list-List.replaceIf" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.iterate"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L403-L407">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.iterate" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.iterate"><span class="name">List</span>.<span class="name">iterate</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span></div></div><p><code><a href="../../.././Mathlib/Data/List/Defs.html#List.iterate">iterate</a> f a n</code> is <code>[a, f a, ..., f^[n - 1] a]</code>.</p><details id="instances-for-list-List.iterate" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.iterateTR"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L409-L419">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.iterateTR" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[inline]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.iterateTR"><span class="name">List</span>.<span class="name">iterateTR</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span></div></div><p>Tail-recursive version of <code><a href="../../.././Mathlib/Data/List/Defs.html#List.iterate">List.iterate</a></code>.</p><details id="instances-for-list-List.iterateTR" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.iterateTR.loop"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L416-L419">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.iterateTR.loop" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[specialize #[]]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.iterateTR.loop"><span class="name">List</span>.<span class="name">iterateTR</span>.<span class="name">loop</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span></div></div><p><code><a href="../../.././Mathlib/Data/List/Defs.html#List.iterateTR.loop">iterateTR.loop</a> f a n l := <a href="../../.././Mathlib/Data/List/Defs.html#List.iterate">iterate</a> f a n ++ reverse l</code>.</p><details id="instances-for-list-List.iterateTR.loop" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.iterateTR_loop_eq"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L421-L423">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.iterateTR_loop_eq" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.iterateTR_loop_eq"><span class="name">List</span>.<span class="name">iterateTR_loop_eq</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Data/List/Defs.html#List.iterateTR.loop">iterateTR.loop</a> <span class="fn">f</span> <span class="fn">a</span> <span class="fn">n</span> <span class="fn">l</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">l</span>.<span class="fn">reverse</span></span> <span class="fn">++</span> <span class="fn"><a href="../../.././Mathlib/Data/List/Defs.html#List.iterate">iterate</a> <span class="fn">f</span> <span class="fn">a</span> <span class="fn">n</span></span></span></span></div></div></div></div><div class="decl" id="List.iterate_eq_iterateTR"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L425-L428">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.iterate_eq_iterateTR" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[csimp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.iterate_eq_iterateTR"><span class="name">List</span>.<span class="name">iterate_eq_iterateTR</span></a></span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">@<a href="../../.././Mathlib/Data/List/Defs.html#List.iterate">iterate</a> <span class="fn">=</span> @<a href="../../.././Mathlib/Data/List/Defs.html#List.iterateTR">iterateTR</a></span></div></div></div></div><div class="decl" id="List.mapAccumr"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L432-L438">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.mapAccumr" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.mapAccumr"><span class="name">List</span>.<span class="name">mapAccumr</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn"><span class="fn">γ</span> → <span class="fn"><span class="fn">γ</span> <span class="fn">×</span> <span class="fn">β</span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn">γ</span> → <span class="fn"><span class="fn">γ</span> <span class="fn">×</span> <span class="fn"><span class="fn">List</span> <span class="fn">β</span></span></span></span></span></div></div><p>Runs a function over a list returning the intermediate results and a final result.</p><details id="instances-for-list-List.mapAccumr" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.length_mapAccumr"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L440-L445">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.length_mapAccumr" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.length_mapAccumr"><span class="name">List</span>.<span class="name">length_mapAccumr</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn"><span class="fn">γ</span> → <span class="fn"><span class="fn">γ</span> <span class="fn">×</span> <span class="fn">β</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">s</span> : <span class="fn">γ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/Data/List/Defs.html#List.mapAccumr">mapAccumr</a> <span class="fn">f</span> <span class="fn">x</span> <span class="fn">s</span>)</span>.2</span>.<span class="fn">length</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">x</span>.<span class="fn">length</span></span></span></div></div><p>Length of the list obtained by <code><a href="../../.././Mathlib/Data/List/Defs.html#List.mapAccumr">mapAccumr</a></code>.</p></div></div><div class="decl" id="List.mapAccumr₂"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L447-L454">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.mapAccumr₂" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.mapAccumr₂"><span class="name">List</span>.<span class="name">mapAccumr₂</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">δ</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn"><span class="fn">β</span> → <span class="fn"><span class="fn">γ</span> → <span class="fn"><span class="fn">γ</span> <span class="fn">×</span> <span class="fn">δ</span></span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">β</span></span> → <span class="fn"><span class="fn">γ</span> → <span class="fn"><span class="fn">γ</span> <span class="fn">×</span> <span class="fn"><span class="fn">List</span> <span class="fn">δ</span></span></span></span></span></span></div></div><p>Runs a function over two lists returning the intermediate results and a final result.</p><details id="instances-for-list-List.mapAccumr₂" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="List.length_mapAccumr₂"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/List/Defs.lean#L456-L467">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_List_Defs.html#List.length_mapAccumr₂" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/List/Defs.html#List.length_mapAccumr₂"><span class="name">List</span>.<span class="name">length_mapAccumr₂</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">δ</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn"><span class="fn">β</span> → <span class="fn"><span class="fn">γ</span> → <span class="fn"><span class="fn">γ</span> <span class="fn">×</span> <span class="fn">δ</span></span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">y</span> : <span class="fn"><span class="fn">List</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <span class="fn">γ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/Data/List/Defs.html#List.mapAccumr₂">mapAccumr₂</a> <span class="fn">f</span> <span class="fn">x</span> <span class="fn">y</span> <span class="fn">c</span>)</span>.2</span>.<span class="fn">length</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Algebra/Order/AddGroupWithTop.html#Min.min">min</a> <span class="fn"><span class="fn">x</span>.<span class="fn">length</span></span> <span class="fn"><span class="fn">y</span>.<span class="fn">length</span></span></span></span></div></div><p>Length of a list obtained using <code><a href="../../.././Mathlib/Data/List/Defs.html#List.mapAccumr₂">mapAccumr₂</a></code>.</p></div></div></main>
+<nav class="nav"><iframe src="../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

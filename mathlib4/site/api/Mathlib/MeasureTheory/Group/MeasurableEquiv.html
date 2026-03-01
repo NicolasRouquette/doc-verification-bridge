@@ -1,0 +1,1037 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../.././style.css"></link><link rel="icon" href="../../.././favicon.svg"></link><link rel="mask-icon" href="../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.MeasureTheory.Group.MeasurableEquiv</title><script defer="true" src="../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../.././";</script><script>const MODULE_NAME="Mathlib.MeasureTheory.Group.MeasurableEquiv";</script><script type="module" src="../../.././jump-src.js"></script><script type="module" src="../../.././search.js"></script><script type="module" src="../../.././expand-nav.js"></script><script type="module" src="../../.././how-about.js"></script><script type="module" src="../../.././instances.js"></script><script type="module" src="../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">MeasureTheory</span>.<span class="name">Group</span>.<span class="name">MeasurableEquiv</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../.././Init.html">Init</a></li><li><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html">Mathlib.MeasureTheory.Group.Arithmetic</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.MeasureTheory.Group.MeasurableEquiv" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.smul"><span class="name">MeasurableEquiv</span>.<span class="name">smul</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.vadd"><span class="name">MeasurableEquiv</span>.<span class="name">vadd</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.vadd_toEquiv"><span class="name">MeasurableEquiv</span>.<span class="name">vadd_toEquiv</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.vadd_apply"><span class="name">MeasurableEquiv</span>.<span class="name">vadd_apply</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.smul_toEquiv"><span class="name">MeasurableEquiv</span>.<span class="name">smul_toEquiv</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.smul_apply"><span class="name">MeasurableEquiv</span>.<span class="name">smul_apply</span></a></div><div class="nav_link"><a class="break_within" href="#measurableEmbedding_const_smul"><span class="name">measurableEmbedding_const_smul</span></a></div><div class="nav_link"><a class="break_within" href="#measurableEmbedding_const_vadd"><span class="name">measurableEmbedding_const_vadd</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.symm_smul"><span class="name">MeasurableEquiv</span>.<span class="name">symm_smul</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.symm_vadd"><span class="name">MeasurableEquiv</span>.<span class="name">symm_vadd</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.smul₀"><span class="name">MeasurableEquiv</span>.<span class="name">smul₀</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.coe_smul₀"><span class="name">MeasurableEquiv</span>.<span class="name">coe_smul₀</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.symm_smul₀"><span class="name">MeasurableEquiv</span>.<span class="name">symm_smul₀</span></a></div><div class="nav_link"><a class="break_within" href="#measurableEmbedding_const_smul₀"><span class="name">measurableEmbedding_const_smul₀</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.mulLeft"><span class="name">MeasurableEquiv</span>.<span class="name">mulLeft</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.addLeft"><span class="name">MeasurableEquiv</span>.<span class="name">addLeft</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.coe_mulLeft"><span class="name">MeasurableEquiv</span>.<span class="name">coe_mulLeft</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.coe_addLeft"><span class="name">MeasurableEquiv</span>.<span class="name">coe_addLeft</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.symm_mulLeft"><span class="name">MeasurableEquiv</span>.<span class="name">symm_mulLeft</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.symm_addLeft"><span class="name">MeasurableEquiv</span>.<span class="name">symm_addLeft</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.toEquiv_mulLeft"><span class="name">MeasurableEquiv</span>.<span class="name">toEquiv_mulLeft</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.toEquiv_addLeft"><span class="name">MeasurableEquiv</span>.<span class="name">toEquiv_addLeft</span></a></div><div class="nav_link"><a class="break_within" href="#measurableEmbedding_mulLeft"><span class="name">measurableEmbedding_mulLeft</span></a></div><div class="nav_link"><a class="break_within" href="#measurableEmbedding_addLeft"><span class="name">measurableEmbedding_addLeft</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.mulRight"><span class="name">MeasurableEquiv</span>.<span class="name">mulRight</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.addRight"><span class="name">MeasurableEquiv</span>.<span class="name">addRight</span></a></div><div class="nav_link"><a class="break_within" href="#measurableEmbedding_mulRight"><span class="name">measurableEmbedding_mulRight</span></a></div><div class="nav_link"><a class="break_within" href="#measurableEmbedding_addRight"><span class="name">measurableEmbedding_addRight</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.coe_mulRight"><span class="name">MeasurableEquiv</span>.<span class="name">coe_mulRight</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.coe_addRight"><span class="name">MeasurableEquiv</span>.<span class="name">coe_addRight</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.symm_mulRight"><span class="name">MeasurableEquiv</span>.<span class="name">symm_mulRight</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.symm_addRight"><span class="name">MeasurableEquiv</span>.<span class="name">symm_addRight</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.toEquiv_mulRight"><span class="name">MeasurableEquiv</span>.<span class="name">toEquiv_mulRight</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.toEquiv_addRight"><span class="name">MeasurableEquiv</span>.<span class="name">toEquiv_addRight</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.mulLeft₀"><span class="name">MeasurableEquiv</span>.<span class="name">mulLeft₀</span></a></div><div class="nav_link"><a class="break_within" href="#measurableEmbedding_mulLeft₀"><span class="name">measurableEmbedding_mulLeft₀</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.coe_mulLeft₀"><span class="name">MeasurableEquiv</span>.<span class="name">coe_mulLeft₀</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.symm_mulLeft₀"><span class="name">MeasurableEquiv</span>.<span class="name">symm_mulLeft₀</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.toEquiv_mulLeft₀"><span class="name">MeasurableEquiv</span>.<span class="name">toEquiv_mulLeft₀</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.mulRight₀"><span class="name">MeasurableEquiv</span>.<span class="name">mulRight₀</span></a></div><div class="nav_link"><a class="break_within" href="#measurableEmbedding_mulRight₀"><span class="name">measurableEmbedding_mulRight₀</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.coe_mulRight₀"><span class="name">MeasurableEquiv</span>.<span class="name">coe_mulRight₀</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.symm_mulRight₀"><span class="name">MeasurableEquiv</span>.<span class="name">symm_mulRight₀</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.toEquiv_mulRight₀"><span class="name">MeasurableEquiv</span>.<span class="name">toEquiv_mulRight₀</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.inv"><span class="name">MeasurableEquiv</span>.<span class="name">inv</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.neg"><span class="name">MeasurableEquiv</span>.<span class="name">neg</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.inv_toEquiv"><span class="name">MeasurableEquiv</span>.<span class="name">inv_toEquiv</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.neg_toEquiv"><span class="name">MeasurableEquiv</span>.<span class="name">neg_toEquiv</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.inv_apply"><span class="name">MeasurableEquiv</span>.<span class="name">inv_apply</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.neg_apply"><span class="name">MeasurableEquiv</span>.<span class="name">neg_apply</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.symm_inv"><span class="name">MeasurableEquiv</span>.<span class="name">symm_inv</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.symm_neg"><span class="name">MeasurableEquiv</span>.<span class="name">symm_neg</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.divRight"><span class="name">MeasurableEquiv</span>.<span class="name">divRight</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.subRight"><span class="name">MeasurableEquiv</span>.<span class="name">subRight</span></a></div><div class="nav_link"><a class="break_within" href="#measurableEmbedding_divRight"><span class="name">measurableEmbedding_divRight</span></a></div><div class="nav_link"><a class="break_within" href="#measurableEmbedding_subRight"><span class="name">measurableEmbedding_subRight</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.divLeft"><span class="name">MeasurableEquiv</span>.<span class="name">divLeft</span></a></div><div class="nav_link"><a class="break_within" href="#MeasurableEquiv.subLeft"><span class="name">MeasurableEquiv</span>.<span class="name">subLeft</span></a></div><div class="nav_link"><a class="break_within" href="#measurableEmbedding_divLeft"><span class="name">measurableEmbedding_divLeft</span></a></div><div class="nav_link"><a class="break_within" href="#measurableEmbedding_subLeft"><span class="name">measurableEmbedding_subLeft</span></a></div><div class="nav_link"><a class="break_within" href="#MeasureTheory.Measure.instDistribMulActionDomMulAct"><span class="name">MeasureTheory</span>.<span class="name">Measure</span>.<span class="name">instDistribMulActionDomMulAct</span></a></div><div class="nav_link"><a class="break_within" href="#MeasureTheory.Measure.domSMul_apply"><span class="name">MeasureTheory</span>.<span class="name">Measure</span>.<span class="name">domSMul_apply</span></a></div><div class="nav_link"><a class="break_within" href="#MeasureTheory.Measure.instSMulCommClassNNRealDomMulAct"><span class="name">MeasureTheory</span>.<span class="name">Measure</span>.<span class="name">instSMulCommClassNNRealDomMulAct</span></a></div><div class="nav_link"><a class="break_within" href="#MeasureTheory.Measure.instSMulCommClassDomMulActNNReal"><span class="name">MeasureTheory</span>.<span class="name">Measure</span>.<span class="name">instSMulCommClassDomMulActNNReal</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Scalar-multiplication-and-vector-addition-as-measurable-equivalences" class="markdown-heading">(Scalar) multiplication and (vector) addition as measurable equivalences <a class="hover-link" href="#Scalar-multiplication-and-vector-addition-as-measurable-equivalences">#</a></h1><p>In this file we define the following measurable equivalences:</p><ul><li><code><a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.smul">MeasurableEquiv.smul</a></code>: if a group <code>G</code> acts on <code>α</code> by measurable maps, then each element <code>c : G</code>
+defines a measurable automorphism of <code>α</code>;</li><li><code><a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.vadd">MeasurableEquiv.vadd</a></code>: additive version of <code><a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.smul">MeasurableEquiv.smul</a></code>;</li><li><code><a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.smul₀">MeasurableEquiv.smul₀</a></code>: if a group with zero <code>G</code> acts on <code>α</code> by measurable maps, then each
+nonzero element <code>c : G</code> defines a measurable automorphism of <code>α</code>;</li><li><code><a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.mulLeft">MeasurableEquiv.mulLeft</a></code>: if <code>G</code> is a group with measurable multiplication, then left
+multiplication by <code>g : G</code> is a measurable automorphism of <code>G</code>;</li><li><code><a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.addLeft">MeasurableEquiv.addLeft</a></code>: additive version of <code><a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.mulLeft">MeasurableEquiv.mulLeft</a></code>;</li><li><code><a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.mulRight">MeasurableEquiv.mulRight</a></code>: if <code>G</code> is a group with measurable multiplication, then right
+multiplication by <code>g : G</code> is a measurable automorphism of <code>G</code>;</li><li><code><a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.addRight">MeasurableEquiv.addRight</a></code>: additive version of <code><a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.mulRight">MeasurableEquiv.mulRight</a></code>;</li><li><code><a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.mulLeft₀">MeasurableEquiv.mulLeft₀</a></code>, <code><a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.mulRight₀">MeasurableEquiv.mulRight₀</a></code>: versions of
+<code><a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.mulLeft">MeasurableEquiv.mulLeft</a></code> and <code><a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.mulRight">MeasurableEquiv.mulRight</a></code> for groups with zero;</li><li><code><a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.inv">MeasurableEquiv.inv</a></code>: <code><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#Inv.inv">Inv.inv</a></code> as a measurable automorphism
+of a group (or a group with zero);</li><li><code><a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.neg">MeasurableEquiv.neg</a></code>: negation as a measurable automorphism of an additive group.</li></ul><p>We also deduce that the corresponding maps are measurable embeddings.</p><h2 id="Tags" class="markdown-heading">Tags <a class="hover-link" href="#Tags">#</a></h2><p>measurable, equivalence, group action</p></div><div class="decl" id="MeasurableEquiv.smul"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L48-L56">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.smul" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.smul"><span class="name">MeasurableEquiv</span>.<span class="name">smul</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableConstSMul">MeasurableConstSMul</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">α</span> <a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv">≃ᵐ</a> <span class="fn">α</span></div></div><p>If a group <code>G</code> acts on <code>α</code> by measurable maps, then each element <code>c : G</code> defines a measurable
+automorphism of <code>α</code>.</p><details id="instances-for-list-MeasurableEquiv.smul" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="MeasurableEquiv.vadd"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L50-L52">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.vadd" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.vadd"><span class="name">MeasurableEquiv</span>.<span class="name">vadd</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Defs.html#AddAction">AddAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableConstVAdd">MeasurableConstVAdd</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">α</span> <a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv">≃ᵐ</a> <span class="fn">α</span></div></div><p>If an additive group <code>G</code> acts on <code>α</code> by measurable maps, then each element <code>c : G</code>
+defines a measurable automorphism of <code>α</code>.</p><details id="instances-for-list-MeasurableEquiv.vadd" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="MeasurableEquiv.vadd_toEquiv"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L50-L50">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.vadd_toEquiv" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.vadd_toEquiv"><span class="name">MeasurableEquiv</span>.<span class="name">vadd_toEquiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Defs.html#AddAction">AddAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableConstVAdd">MeasurableConstVAdd</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.vadd">vadd</a> <span class="fn">c</span>)</span>.<a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv.toEquiv">toEquiv</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Basic.html#AddAction.toPerm">AddAction.toPerm</a> <span class="fn">c</span></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.vadd_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L50-L50">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.vadd_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.vadd_apply"><span class="name">MeasurableEquiv</span>.<span class="name">vadd_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Defs.html#AddAction">AddAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableConstVAdd">MeasurableConstVAdd</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">⇑<span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.vadd">vadd</a> <span class="fn">c</span>)</span></span> <span class="fn">=</span> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">α</span>) =&gt; <span class="fn">c</span> <a href="../../.././Mathlib/Algebra/Notation/Defs.html#HVAdd.hVAdd">+ᵥ</a> <span class="fn">x</span></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.smul_toEquiv"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L50-L50">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.smul_toEquiv" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.smul_toEquiv"><span class="name">MeasurableEquiv</span>.<span class="name">smul_toEquiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableConstSMul">MeasurableConstSMul</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.smul">smul</a> <span class="fn">c</span>)</span>.<a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv.toEquiv">toEquiv</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Basic.html#MulAction.toPerm">MulAction.toPerm</a> <span class="fn">c</span></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.smul_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L50-L50">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.smul_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.smul_apply"><span class="name">MeasurableEquiv</span>.<span class="name">smul_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableConstSMul">MeasurableConstSMul</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">⇑<span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.smul">smul</a> <span class="fn">c</span>)</span></span> <span class="fn">=</span> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">α</span>) =&gt; <span class="fn"><span class="fn">c</span> <span class="fn">•</span> <span class="fn">x</span></span></span></span></div></div></div></div><div class="decl" id="measurableEmbedding_const_smul"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L58-L60">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#measurableEmbedding_const_smul" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#measurableEmbedding_const_smul"><span class="name">measurableEmbedding_const_smul</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableConstSMul">MeasurableConstSMul</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEmbedding">MeasurableEmbedding</a> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">α</span>) =&gt; <span class="fn"><span class="fn">c</span> <span class="fn">•</span> <span class="fn">x</span></span></span></span></div></div></div></div><div class="decl" id="measurableEmbedding_const_vadd"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L58-L58">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#measurableEmbedding_const_vadd" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#measurableEmbedding_const_vadd"><span class="name">measurableEmbedding_const_vadd</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Defs.html#AddAction">AddAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableConstVAdd">MeasurableConstVAdd</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEmbedding">MeasurableEmbedding</a> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">α</span>) =&gt; <span class="fn">c</span> <a href="../../.././Mathlib/Algebra/Notation/Defs.html#HVAdd.hVAdd">+ᵥ</a> <span class="fn">x</span></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.symm_smul"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L62-L64">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.symm_smul" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.symm_smul"><span class="name">MeasurableEquiv</span>.<span class="name">symm_smul</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableConstSMul">MeasurableConstSMul</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.smul">smul</a> <span class="fn">c</span>)</span>.<a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv.symm">symm</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.smul">smul</a> <span class="fn">c</span><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#Inv.inv">⁻¹</a></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.symm_vadd"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L62-L62">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.symm_vadd" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.symm_vadd"><span class="name">MeasurableEquiv</span>.<span class="name">symm_vadd</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Defs.html#AddAction">AddAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableConstVAdd">MeasurableConstVAdd</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.vadd">vadd</a> <span class="fn">c</span>)</span>.<a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv.symm">symm</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.vadd">vadd</a> (<a href="../../.././Mathlib/Algebra/Order/AddGroupWithTop.html#Neg.neg">-</a><span class="fn">c</span>)</span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.smul₀"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L66-L69">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.smul₀" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.smul₀"><span class="name">MeasurableEquiv</span>.<span class="name">smul₀</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G₀</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#GroupWithZero">GroupWithZero</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G₀</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableConstSMul">MeasurableConstSMul</a> <span class="fn">G₀</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <span class="fn">G₀</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hc</span> : <span class="fn"><span class="fn">c</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">α</span> <a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv">≃ᵐ</a> <span class="fn">α</span></div></div><p>If a group with zero <code>G₀</code> acts on <code>α</code> by measurable maps, then each nonzero element <code>c : G₀</code>
+defines a measurable automorphism of <code>α</code></p><details id="instances-for-list-MeasurableEquiv.smul₀" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="MeasurableEquiv.coe_smul₀"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L71-L71">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.coe_smul₀" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.coe_smul₀"><span class="name">MeasurableEquiv</span>.<span class="name">coe_smul₀</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G₀</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#GroupWithZero">GroupWithZero</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G₀</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableConstSMul">MeasurableConstSMul</a> <span class="fn">G₀</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">c</span> : <span class="fn">G₀</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hc</span> : <span class="fn"><span class="fn">c</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">⇑<span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.smul₀">smul₀</a> <span class="fn">c</span> <span class="fn">hc</span>)</span></span> <span class="fn">=</span> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">α</span>) =&gt; <span class="fn"><span class="fn">c</span> <span class="fn">•</span> <span class="fn">x</span></span></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.symm_smul₀"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L73-L76">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.symm_smul₀" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.symm_smul₀"><span class="name">MeasurableEquiv</span>.<span class="name">symm_smul₀</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G₀</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#GroupWithZero">GroupWithZero</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G₀</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableConstSMul">MeasurableConstSMul</a> <span class="fn">G₀</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">c</span> : <span class="fn">G₀</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hc</span> : <span class="fn"><span class="fn">c</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.smul₀">smul₀</a> <span class="fn">c</span> <span class="fn">hc</span>)</span>.<a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv.symm">symm</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.smul₀">smul₀</a> <span class="fn">c</span><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#Inv.inv">⁻¹</a> <span class="fn">⋯</span></span></span></div></div></div></div><div class="decl" id="measurableEmbedding_const_smul₀"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L78-L80">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#measurableEmbedding_const_smul₀" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#measurableEmbedding_const_smul₀"><span class="name">measurableEmbedding_const_smul₀</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G₀</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#GroupWithZero">GroupWithZero</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G₀</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableConstSMul">MeasurableConstSMul</a> <span class="fn">G₀</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">c</span> : <span class="fn">G₀</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hc</span> : <span class="fn"><span class="fn">c</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEmbedding">MeasurableEmbedding</a> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">α</span>) =&gt; <span class="fn"><span class="fn">c</span> <span class="fn">•</span> <span class="fn">x</span></span></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.mulLeft"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L88-L94">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.mulLeft" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.mulLeft"><span class="name">MeasurableEquiv</span>.<span class="name">mulLeft</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableMul">MeasurableMul</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">G</span> <a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv">≃ᵐ</a> <span class="fn">G</span></div></div><p>If <code>G</code> is a group with measurable multiplication, then left multiplication by <code>g : G</code> is a
+measurable automorphism of <code>G</code>.</p><details id="instances-for-list-MeasurableEquiv.mulLeft" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="MeasurableEquiv.addLeft"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L90-L92">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.addLeft" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.addLeft"><span class="name">MeasurableEquiv</span>.<span class="name">addLeft</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableAdd">MeasurableAdd</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">G</span> <a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv">≃ᵐ</a> <span class="fn">G</span></div></div><p>If <code>G</code> is an additive group with measurable addition, then addition of <code>g : G</code>
+on the left is a measurable automorphism of <code>G</code>.</p><details id="instances-for-list-MeasurableEquiv.addLeft" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="MeasurableEquiv.coe_mulLeft"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L96-L98">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.coe_mulLeft" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.coe_mulLeft"><span class="name">MeasurableEquiv</span>.<span class="name">coe_mulLeft</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableMul">MeasurableMul</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">⇑<span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.mulLeft">mulLeft</a> <span class="fn">g</span>)</span></span> <span class="fn">=</span> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">G</span>) =&gt; <span class="fn"><span class="fn">g</span> <span class="fn">*</span> <span class="fn">x</span></span></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.coe_addLeft"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L96-L96">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.coe_addLeft" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.coe_addLeft"><span class="name">MeasurableEquiv</span>.<span class="name">coe_addLeft</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableAdd">MeasurableAdd</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">⇑<span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.addLeft">addLeft</a> <span class="fn">g</span>)</span></span> <span class="fn">=</span> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">G</span>) =&gt; <span class="fn"><span class="fn">g</span> <span class="fn">+</span> <span class="fn">x</span></span></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.symm_mulLeft"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L100-L102">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.symm_mulLeft" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.symm_mulLeft"><span class="name">MeasurableEquiv</span>.<span class="name">symm_mulLeft</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableMul">MeasurableMul</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.mulLeft">mulLeft</a> <span class="fn">g</span>)</span>.<a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv.symm">symm</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.mulLeft">mulLeft</a> <span class="fn">g</span><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#Inv.inv">⁻¹</a></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.symm_addLeft"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L100-L100">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.symm_addLeft" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.symm_addLeft"><span class="name">MeasurableEquiv</span>.<span class="name">symm_addLeft</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableAdd">MeasurableAdd</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.addLeft">addLeft</a> <span class="fn">g</span>)</span>.<a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv.symm">symm</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.addLeft">addLeft</a> (<a href="../../.././Mathlib/Algebra/Order/AddGroupWithTop.html#Neg.neg">-</a><span class="fn">g</span>)</span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.toEquiv_mulLeft"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L104-L106">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.toEquiv_mulLeft" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.toEquiv_mulLeft"><span class="name">MeasurableEquiv</span>.<span class="name">toEquiv_mulLeft</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableMul">MeasurableMul</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.mulLeft">mulLeft</a> <span class="fn">g</span>)</span>.<a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv.toEquiv">toEquiv</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Units/Equiv.html#Equiv.mulLeft">Equiv.mulLeft</a> <span class="fn">g</span></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.toEquiv_addLeft"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L104-L104">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.toEquiv_addLeft" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.toEquiv_addLeft"><span class="name">MeasurableEquiv</span>.<span class="name">toEquiv_addLeft</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableAdd">MeasurableAdd</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.addLeft">addLeft</a> <span class="fn">g</span>)</span>.<a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv.toEquiv">toEquiv</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Units/Equiv.html#Equiv.addLeft">Equiv.addLeft</a> <span class="fn">g</span></span></span></div></div></div></div><div class="decl" id="measurableEmbedding_mulLeft"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L108-L110">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#measurableEmbedding_mulLeft" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#measurableEmbedding_mulLeft"><span class="name">measurableEmbedding_mulLeft</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableMul">MeasurableMul</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEmbedding">MeasurableEmbedding</a> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">G</span>) =&gt; <span class="fn"><span class="fn">g</span> <span class="fn">*</span> <span class="fn">x</span></span></span></span></div></div></div></div><div class="decl" id="measurableEmbedding_addLeft"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L108-L108">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#measurableEmbedding_addLeft" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#measurableEmbedding_addLeft"><span class="name">measurableEmbedding_addLeft</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableAdd">MeasurableAdd</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEmbedding">MeasurableEmbedding</a> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">G</span>) =&gt; <span class="fn"><span class="fn">g</span> <span class="fn">+</span> <span class="fn">x</span></span></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.mulRight"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L112-L118">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.mulRight" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.mulRight"><span class="name">MeasurableEquiv</span>.<span class="name">mulRight</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableMul">MeasurableMul</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">G</span> <a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv">≃ᵐ</a> <span class="fn">G</span></div></div><p>If <code>G</code> is a group with measurable multiplication, then right multiplication by <code>g : G</code> is a
+measurable automorphism of <code>G</code>.</p><details id="instances-for-list-MeasurableEquiv.mulRight" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="MeasurableEquiv.addRight"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L114-L116">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.addRight" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.addRight"><span class="name">MeasurableEquiv</span>.<span class="name">addRight</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableAdd">MeasurableAdd</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">G</span> <a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv">≃ᵐ</a> <span class="fn">G</span></div></div><p>If <code>G</code> is an additive group with measurable addition, then addition of <code>g : G</code>
+on the right is a measurable automorphism of <code>G</code>.</p><details id="instances-for-list-MeasurableEquiv.addRight" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="measurableEmbedding_mulRight"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L120-L122">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#measurableEmbedding_mulRight" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#measurableEmbedding_mulRight"><span class="name">measurableEmbedding_mulRight</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableMul">MeasurableMul</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEmbedding">MeasurableEmbedding</a> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">G</span>) =&gt; <span class="fn"><span class="fn">x</span> <span class="fn">*</span> <span class="fn">g</span></span></span></span></div></div></div></div><div class="decl" id="measurableEmbedding_addRight"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L120-L120">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#measurableEmbedding_addRight" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#measurableEmbedding_addRight"><span class="name">measurableEmbedding_addRight</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableAdd">MeasurableAdd</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEmbedding">MeasurableEmbedding</a> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">G</span>) =&gt; <span class="fn"><span class="fn">x</span> <span class="fn">+</span> <span class="fn">g</span></span></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.coe_mulRight"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L124-L126">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.coe_mulRight" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.coe_mulRight"><span class="name">MeasurableEquiv</span>.<span class="name">coe_mulRight</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableMul">MeasurableMul</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">⇑<span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.mulRight">mulRight</a> <span class="fn">g</span>)</span></span> <span class="fn">=</span> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">G</span>) =&gt; <span class="fn"><span class="fn">x</span> <span class="fn">*</span> <span class="fn">g</span></span></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.coe_addRight"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L124-L124">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.coe_addRight" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.coe_addRight"><span class="name">MeasurableEquiv</span>.<span class="name">coe_addRight</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableAdd">MeasurableAdd</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">⇑<span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.addRight">addRight</a> <span class="fn">g</span>)</span></span> <span class="fn">=</span> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">G</span>) =&gt; <span class="fn"><span class="fn">x</span> <span class="fn">+</span> <span class="fn">g</span></span></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.symm_mulRight"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L128-L130">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.symm_mulRight" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.symm_mulRight"><span class="name">MeasurableEquiv</span>.<span class="name">symm_mulRight</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableMul">MeasurableMul</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.mulRight">mulRight</a> <span class="fn">g</span>)</span>.<a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv.symm">symm</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.mulRight">mulRight</a> <span class="fn">g</span><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#Inv.inv">⁻¹</a></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.symm_addRight"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L128-L128">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.symm_addRight" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.symm_addRight"><span class="name">MeasurableEquiv</span>.<span class="name">symm_addRight</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableAdd">MeasurableAdd</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.addRight">addRight</a> <span class="fn">g</span>)</span>.<a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv.symm">symm</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.addRight">addRight</a> (<a href="../../.././Mathlib/Algebra/Order/AddGroupWithTop.html#Neg.neg">-</a><span class="fn">g</span>)</span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.toEquiv_mulRight"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L132-L134">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.toEquiv_mulRight" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.toEquiv_mulRight"><span class="name">MeasurableEquiv</span>.<span class="name">toEquiv_mulRight</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableMul">MeasurableMul</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.mulRight">mulRight</a> <span class="fn">g</span>)</span>.<a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv.toEquiv">toEquiv</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Units/Equiv.html#Equiv.mulRight">Equiv.mulRight</a> <span class="fn">g</span></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.toEquiv_addRight"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L132-L132">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.toEquiv_addRight" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.toEquiv_addRight"><span class="name">MeasurableEquiv</span>.<span class="name">toEquiv_addRight</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableAdd">MeasurableAdd</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.addRight">addRight</a> <span class="fn">g</span>)</span>.<a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv.toEquiv">toEquiv</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Units/Equiv.html#Equiv.addRight">Equiv.addRight</a> <span class="fn">g</span></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.mulLeft₀"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L136-L139">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.mulLeft₀" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.mulLeft₀"><span class="name">MeasurableEquiv</span>.<span class="name">mulLeft₀</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G₀</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#GroupWithZero">GroupWithZero</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableMul">MeasurableMul</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G₀</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><span class="fn">g</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">G₀</span> <a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv">≃ᵐ</a> <span class="fn">G₀</span></div></div><p>If <code>G₀</code> is a group with zero with measurable multiplication, then left multiplication by a
+nonzero element <code>g : G₀</code> is a measurable automorphism of <code>G₀</code>.</p><details id="instances-for-list-MeasurableEquiv.mulLeft₀" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="measurableEmbedding_mulLeft₀"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L141-L143">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#measurableEmbedding_mulLeft₀" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#measurableEmbedding_mulLeft₀"><span class="name">measurableEmbedding_mulLeft₀</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G₀</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#GroupWithZero">GroupWithZero</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableMul">MeasurableMul</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn">G₀</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><span class="fn">g</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEmbedding">MeasurableEmbedding</a> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">G₀</span>) =&gt; <span class="fn"><span class="fn">g</span> <span class="fn">*</span> <span class="fn">x</span></span></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.coe_mulLeft₀"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L145-L145">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.coe_mulLeft₀" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.coe_mulLeft₀"><span class="name">MeasurableEquiv</span>.<span class="name">coe_mulLeft₀</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G₀</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#GroupWithZero">GroupWithZero</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableMul">MeasurableMul</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn">G₀</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><span class="fn">g</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">⇑<span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.mulLeft₀">mulLeft₀</a> <span class="fn">g</span> <span class="fn">hg</span>)</span></span> <span class="fn">=</span> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">G₀</span>) =&gt; <span class="fn"><span class="fn">g</span> <span class="fn">*</span> <span class="fn">x</span></span></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.symm_mulLeft₀"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L147-L150">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.symm_mulLeft₀" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.symm_mulLeft₀"><span class="name">MeasurableEquiv</span>.<span class="name">symm_mulLeft₀</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G₀</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#GroupWithZero">GroupWithZero</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableMul">MeasurableMul</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn">G₀</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><span class="fn">g</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.mulLeft₀">mulLeft₀</a> <span class="fn">g</span> <span class="fn">hg</span>)</span>.<a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv.symm">symm</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.mulLeft₀">mulLeft₀</a> <span class="fn">g</span><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#Inv.inv">⁻¹</a> <span class="fn">⋯</span></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.toEquiv_mulLeft₀"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L152-L154">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.toEquiv_mulLeft₀" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.toEquiv_mulLeft₀"><span class="name">MeasurableEquiv</span>.<span class="name">toEquiv_mulLeft₀</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G₀</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#GroupWithZero">GroupWithZero</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableMul">MeasurableMul</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn">G₀</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><span class="fn">g</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.mulLeft₀">mulLeft₀</a> <span class="fn">g</span> <span class="fn">hg</span>)</span>.<a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv.toEquiv">toEquiv</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Units/Equiv.html#Equiv.mulLeft₀">Equiv.mulLeft₀</a> <span class="fn">g</span> <span class="fn">hg</span></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.mulRight₀"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L156-L159">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.mulRight₀" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.mulRight₀"><span class="name">MeasurableEquiv</span>.<span class="name">mulRight₀</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G₀</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#GroupWithZero">GroupWithZero</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableMul">MeasurableMul</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G₀</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><span class="fn">g</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">G₀</span> <a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv">≃ᵐ</a> <span class="fn">G₀</span></div></div><p>If <code>G₀</code> is a group with zero with measurable multiplication, then right multiplication by a
+nonzero element <code>g : G₀</code> is a measurable automorphism of <code>G₀</code>.</p><details id="instances-for-list-MeasurableEquiv.mulRight₀" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="measurableEmbedding_mulRight₀"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L161-L163">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#measurableEmbedding_mulRight₀" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#measurableEmbedding_mulRight₀"><span class="name">measurableEmbedding_mulRight₀</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G₀</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#GroupWithZero">GroupWithZero</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableMul">MeasurableMul</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn">G₀</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><span class="fn">g</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEmbedding">MeasurableEmbedding</a> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">G₀</span>) =&gt; <span class="fn"><span class="fn">x</span> <span class="fn">*</span> <span class="fn">g</span></span></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.coe_mulRight₀"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L165-L167">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.coe_mulRight₀" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.coe_mulRight₀"><span class="name">MeasurableEquiv</span>.<span class="name">coe_mulRight₀</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G₀</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#GroupWithZero">GroupWithZero</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableMul">MeasurableMul</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn">G₀</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><span class="fn">g</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">⇑<span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.mulRight₀">mulRight₀</a> <span class="fn">g</span> <span class="fn">hg</span>)</span></span> <span class="fn">=</span> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">G₀</span>) =&gt; <span class="fn"><span class="fn">x</span> <span class="fn">*</span> <span class="fn">g</span></span></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.symm_mulRight₀"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L169-L172">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.symm_mulRight₀" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.symm_mulRight₀"><span class="name">MeasurableEquiv</span>.<span class="name">symm_mulRight₀</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G₀</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#GroupWithZero">GroupWithZero</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableMul">MeasurableMul</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn">G₀</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><span class="fn">g</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.mulRight₀">mulRight₀</a> <span class="fn">g</span> <span class="fn">hg</span>)</span>.<a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv.symm">symm</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.mulRight₀">mulRight₀</a> <span class="fn">g</span><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#Inv.inv">⁻¹</a> <span class="fn">⋯</span></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.toEquiv_mulRight₀"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L174-L176">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.toEquiv_mulRight₀" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.toEquiv_mulRight₀"><span class="name">MeasurableEquiv</span>.<span class="name">toEquiv_mulRight₀</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G₀</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#GroupWithZero">GroupWithZero</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableMul">MeasurableMul</a> <span class="fn">G₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn">G₀</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><span class="fn">g</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.mulRight₀">mulRight₀</a> <span class="fn">g</span> <span class="fn">hg</span>)</span>.<a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv.toEquiv">toEquiv</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Units/Equiv.html#Equiv.mulRight₀">Equiv.mulRight₀</a> <span class="fn">g</span> <span class="fn">hg</span></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.inv"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L180-L184">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.inv" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.inv"><span class="name">MeasurableEquiv</span>.<span class="name">inv</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_4)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#InvolutiveInv">InvolutiveInv</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableInv">MeasurableInv</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">G</span> <a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv">≃ᵐ</a> <span class="fn">G</span></div></div><p>Inversion as a measurable automorphism of a group or group with zero.</p><details id="instances-for-list-MeasurableEquiv.inv" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="MeasurableEquiv.neg"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L181-L182">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.neg" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.neg"><span class="name">MeasurableEquiv</span>.<span class="name">neg</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_4)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#InvolutiveNeg">InvolutiveNeg</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableNeg">MeasurableNeg</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">G</span> <a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv">≃ᵐ</a> <span class="fn">G</span></div></div><p>Negation as a measurable automorphism of an additive group.</p><details id="instances-for-list-MeasurableEquiv.neg" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="MeasurableEquiv.inv_toEquiv"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L181-L181">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.inv_toEquiv" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.inv_toEquiv"><span class="name">MeasurableEquiv</span>.<span class="name">inv_toEquiv</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_4)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#InvolutiveInv">InvolutiveInv</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableInv">MeasurableInv</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.inv">inv</a> <span class="fn">G</span>)</span>.<a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv.toEquiv">toEquiv</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Equiv/Basic.html#Equiv.inv">Equiv.inv</a> <span class="fn">G</span></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.neg_toEquiv"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L181-L181">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.neg_toEquiv" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.neg_toEquiv"><span class="name">MeasurableEquiv</span>.<span class="name">neg_toEquiv</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_4)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#InvolutiveNeg">InvolutiveNeg</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableNeg">MeasurableNeg</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.neg">neg</a> <span class="fn">G</span>)</span>.<a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv.toEquiv">toEquiv</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Equiv/Basic.html#Equiv.neg">Equiv.neg</a> <span class="fn">G</span></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.inv_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L181-L181">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.inv_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.inv_apply"><span class="name">MeasurableEquiv</span>.<span class="name">inv_apply</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_4)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#InvolutiveInv">InvolutiveInv</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableInv">MeasurableInv</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">⇑<span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.inv">inv</a> <span class="fn">G</span>)</span></span> <span class="fn">=</span> <a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#Inv.inv">Inv.inv</a></span></div></div></div></div><div class="decl" id="MeasurableEquiv.neg_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L181-L181">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.neg_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.neg_apply"><span class="name">MeasurableEquiv</span>.<span class="name">neg_apply</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_4)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#InvolutiveNeg">InvolutiveNeg</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableNeg">MeasurableNeg</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">⇑<span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.neg">neg</a> <span class="fn">G</span>)</span></span> <span class="fn">=</span> <a href="../../.././Mathlib/Algebra/Order/AddGroupWithTop.html#Neg.neg">Neg.neg</a></span></div></div></div></div><div class="decl" id="MeasurableEquiv.symm_inv"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L186-L189">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.symm_inv" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.symm_inv"><span class="name">MeasurableEquiv</span>.<span class="name">symm_inv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#InvolutiveInv">InvolutiveInv</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableInv">MeasurableInv</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.inv">inv</a> <span class="fn">G</span>)</span>.<a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv.symm">symm</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.inv">inv</a> <span class="fn">G</span></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.symm_neg"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L186-L186">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.symm_neg" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.symm_neg"><span class="name">MeasurableEquiv</span>.<span class="name">symm_neg</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#InvolutiveNeg">InvolutiveNeg</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableNeg">MeasurableNeg</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.neg">neg</a> <span class="fn">G</span>)</span>.<a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv.symm">symm</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.neg">neg</a> <span class="fn">G</span></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.divRight"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L191-L196">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.divRight" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.divRight"><span class="name">MeasurableEquiv</span>.<span class="name">divRight</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableMul">MeasurableMul</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">G</span> <a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv">≃ᵐ</a> <span class="fn">G</span></div></div><p><code>equiv.<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.divRight">divRight</a></code> as a <code><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv">MeasurableEquiv</a></code>.</p><details id="instances-for-list-MeasurableEquiv.divRight" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="MeasurableEquiv.subRight"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L192-L192">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.subRight" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.subRight"><span class="name">MeasurableEquiv</span>.<span class="name">subRight</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableAdd">MeasurableAdd</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">G</span> <a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv">≃ᵐ</a> <span class="fn">G</span></div></div><p><code>equiv.<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.subRight">subRight</a></code> as a <code><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv">MeasurableEquiv</a></code></p><details id="instances-for-list-MeasurableEquiv.subRight" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="measurableEmbedding_divRight"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L198-L201">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#measurableEmbedding_divRight" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#measurableEmbedding_divRight"><span class="name">measurableEmbedding_divRight</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableMul">MeasurableMul</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEmbedding">MeasurableEmbedding</a> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">G</span>) =&gt; <span class="fn"><span class="fn">x</span> <span class="fn">/</span> <span class="fn">g</span></span></span></span></div></div></div></div><div class="decl" id="measurableEmbedding_subRight"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L198-L198">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#measurableEmbedding_subRight" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#measurableEmbedding_subRight"><span class="name">measurableEmbedding_subRight</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableAdd">MeasurableAdd</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEmbedding">MeasurableEmbedding</a> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">G</span>) =&gt; <span class="fn"><span class="fn">x</span> <span class="fn">-</span> <span class="fn">g</span></span></span></span></div></div></div></div><div class="decl" id="MeasurableEquiv.divLeft"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L203-L208">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.divLeft" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.divLeft"><span class="name">MeasurableEquiv</span>.<span class="name">divLeft</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableMul">MeasurableMul</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableInv">MeasurableInv</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">G</span> <a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv">≃ᵐ</a> <span class="fn">G</span></div></div><p><code>equiv.<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.divLeft">divLeft</a></code> as a <code><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv">MeasurableEquiv</a></code></p><details id="instances-for-list-MeasurableEquiv.divLeft" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="MeasurableEquiv.subLeft"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L204-L204">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasurableEquiv.subLeft" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.subLeft"><span class="name">MeasurableEquiv</span>.<span class="name">subLeft</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableAdd">MeasurableAdd</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableNeg">MeasurableNeg</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">G</span> <a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv">≃ᵐ</a> <span class="fn">G</span></div></div><p><code>equiv.<a href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasurableEquiv.subLeft">subLeft</a></code> as a <code><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEquiv">MeasurableEquiv</a></code></p><details id="instances-for-list-MeasurableEquiv.subLeft" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="measurableEmbedding_divLeft"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L210-L213">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#measurableEmbedding_divLeft" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#measurableEmbedding_divLeft"><span class="name">measurableEmbedding_divLeft</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableMul">MeasurableMul</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableInv">MeasurableInv</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEmbedding">MeasurableEmbedding</a> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">G</span>) =&gt; <span class="fn"><span class="fn">g</span> <span class="fn">/</span> <span class="fn">x</span></span></span></span></div></div></div></div><div class="decl" id="measurableEmbedding_subLeft"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L210-L210">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#measurableEmbedding_subLeft" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#measurableEmbedding_subLeft"><span class="name">measurableEmbedding_subLeft</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableAdd">MeasurableAdd</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableNeg">MeasurableNeg</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Embedding.html#MeasurableEmbedding">MeasurableEmbedding</a> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">G</span>) =&gt; <span class="fn"><span class="fn">g</span> <span class="fn">-</span> <span class="fn">x</span></span></span></span></div></div></div></div><div class="decl" id="MeasureTheory.Measure.instDistribMulActionDomMulAct"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L221-L231">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasureTheory.Measure.instDistribMulActionDomMulAct" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">noncomputable instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasureTheory.Measure.instDistribMulActionDomMulAct"><span class="name">MeasureTheory</span>.<span class="name">Measure</span>.<span class="name">instDistribMulActionDomMulAct</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableConstSMul">MeasurableConstSMul</a> <span class="fn">G</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Action/Defs.html#DistribMulAction">DistribMulAction</a> <span class="fn">G</span><a href="../../.././Mathlib/GroupTheory/GroupAction/DomAct/Basic.html#DomMulAct">ᵈᵐᵃ</a> <span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Measure/MeasureSpaceDef.html#MeasureTheory.Measure">Measure</a> <span class="fn">A</span>)</span></span></div></div></div></div><div class="decl" id="MeasureTheory.Measure.domSMul_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L233-L237">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasureTheory.Measure.domSMul_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasureTheory.Measure.domSMul_apply"><span class="name">MeasureTheory</span>.<span class="name">Measure</span>.<span class="name">domSMul_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableConstSMul">MeasurableConstSMul</a> <span class="fn">G</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">μ</span> : <span class="fn"><a href="../../.././Mathlib/MeasureTheory/Measure/MeasureSpaceDef.html#MeasureTheory.Measure">Measure</a> <span class="fn">A</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span><a href="../../.././Mathlib/GroupTheory/GroupAction/DomAct/Basic.html#DomMulAct">ᵈᵐᵃ</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">s</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">A</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">g</span> <span class="fn">•</span> <span class="fn">μ</span>)</span> <span class="fn">s</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">μ</span> <span class="fn">(<span class="fn"><span class="fn"><a href="../../.././Mathlib/GroupTheory/GroupAction/DomAct/Basic.html#DomMulAct.mk">DomMulAct.mk</a>.<a href="../../.././Mathlib/Logic/Equiv/Defs.html#Equiv.symm">symm</a></span> <span class="fn">g</span></span> <span class="fn">•</span> <span class="fn">s</span>)</span></span></span></div></div></div></div><div class="decl" id="MeasureTheory.Measure.instSMulCommClassNNRealDomMulAct"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L239-L240">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasureTheory.Measure.instSMulCommClassNNRealDomMulAct" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasureTheory.Measure.instSMulCommClassNNRealDomMulAct"><span class="name">MeasureTheory</span>.<span class="name">Measure</span>.<span class="name">instSMulCommClassNNRealDomMulAct</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableConstSMul">MeasurableConstSMul</a> <span class="fn">G</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Defs.html#SMulCommClass">SMulCommClass</a> <a href="../../.././Mathlib/Data/NNReal/Defs.html#NNReal">NNReal</a> <span class="fn">G</span><a href="../../.././Mathlib/GroupTheory/GroupAction/DomAct/Basic.html#DomMulAct">ᵈᵐᵃ</a> <span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Measure/MeasureSpaceDef.html#MeasureTheory.Measure">Measure</a> <span class="fn">A</span>)</span></span></div></div></div></div><div class="decl" id="MeasureTheory.Measure.instSMulCommClassDomMulActNNReal"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/MeasureTheory/Group/MeasurableEquiv.lean#L242-L242">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_MeasureTheory_Group_MeasurableEquiv.html#MeasureTheory.Measure.instSMulCommClassDomMulActNNReal" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/MeasureTheory/Group/MeasurableEquiv.html#MeasureTheory.Measure.instSMulCommClassDomMulActNNReal"><span class="name">MeasureTheory</span>.<span class="name">Measure</span>.<span class="name">instSMulCommClassDomMulActNNReal</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Group/Arithmetic.html#MeasurableConstSMul">MeasurableConstSMul</a> <span class="fn">G</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Defs.html#SMulCommClass">SMulCommClass</a> <span class="fn">G</span><a href="../../.././Mathlib/GroupTheory/GroupAction/DomAct/Basic.html#DomMulAct">ᵈᵐᵃ</a> <a href="../../.././Mathlib/Data/NNReal/Defs.html#NNReal">NNReal</a> <span class="fn">(<a href="../../.././Mathlib/MeasureTheory/Measure/MeasureSpaceDef.html#MeasureTheory.Measure">Measure</a> <span class="fn">A</span>)</span></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

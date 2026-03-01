@@ -1,0 +1,403 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../.././style.css"></link><link rel="icon" href="../../.././favicon.svg"></link><link rel="mask-icon" href="../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.Data.Set.MulAntidiagonal</title><script defer="true" src="../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../.././";</script><script>const MODULE_NAME="Mathlib.Data.Set.MulAntidiagonal";</script><script type="module" src="../../.././jump-src.js"></script><script type="module" src="../../.././search.js"></script><script type="module" src="../../.././expand-nav.js"></script><script type="module" src="../../.././how-about.js"></script><script type="module" src="../../.././instances.js"></script><script type="module" src="../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">Data</span>.<span class="name">Set</span>.<span class="name">MulAntidiagonal</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Set/MulAntidiagonal.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../.././Init.html">Init</a></li><li><a href="../../.././Mathlib/Order/WellFoundedSet.html">Mathlib.Order.WellFoundedSet</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.Data.Set.MulAntidiagonal" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#Set.mulAntidiagonal"><span class="name">Set</span>.<span class="name">mulAntidiagonal</span></a></div><div class="nav_link"><a class="break_within" href="#Set.addAntidiagonal"><span class="name">Set</span>.<span class="name">addAntidiagonal</span></a></div><div class="nav_link"><a class="break_within" href="#Set.mem_mulAntidiagonal"><span class="name">Set</span>.<span class="name">mem_mulAntidiagonal</span></a></div><div class="nav_link"><a class="break_within" href="#Set.mem_addAntidiagonal"><span class="name">Set</span>.<span class="name">mem_addAntidiagonal</span></a></div><div class="nav_link"><a class="break_within" href="#Set.mulAntidiagonal_mono_left"><span class="name">Set</span>.<span class="name">mulAntidiagonal_mono_left</span></a></div><div class="nav_link"><a class="break_within" href="#Set.addAntidiagonal_mono_left"><span class="name">Set</span>.<span class="name">addAntidiagonal_mono_left</span></a></div><div class="nav_link"><a class="break_within" href="#Set.mulAntidiagonal_mono_right"><span class="name">Set</span>.<span class="name">mulAntidiagonal_mono_right</span></a></div><div class="nav_link"><a class="break_within" href="#Set.addAntidiagonal_mono_right"><span class="name">Set</span>.<span class="name">addAntidiagonal_mono_right</span></a></div><div class="nav_link"><a class="break_within" href="#Set.swap_mem_mulAntidiagonal"><span class="name">Set</span>.<span class="name">swap_mem_mulAntidiagonal</span></a></div><div class="nav_link"><a class="break_within" href="#Set.swap_mem_addAntidiagonal"><span class="name">Set</span>.<span class="name">swap_mem_addAntidiagonal</span></a></div><div class="nav_link"><a class="break_within" href="#Set.swap_mem_mulAntidiagonal_aux"><span class="name">Set</span>.<span class="name">swap_mem_mulAntidiagonal_aux</span></a></div><div class="nav_link"><a class="break_within" href="#Set.swap_mem_addAntidiagonal_aux"><span class="name">Set</span>.<span class="name">swap_mem_addAntidiagonal_aux</span></a></div><div class="nav_link"><a class="break_within" href="#Set.MulAntidiagonal.fst_eq_fst_iff_snd_eq_snd"><span class="name">Set</span>.<span class="name">MulAntidiagonal</span>.<span class="name">fst_eq_fst_iff_snd_eq_snd</span></a></div><div class="nav_link"><a class="break_within" href="#Set.AddAntidiagonal.fst_eq_fst_iff_snd_eq_snd"><span class="name">Set</span>.<span class="name">AddAntidiagonal</span>.<span class="name">fst_eq_fst_iff_snd_eq_snd</span></a></div><div class="nav_link"><a class="break_within" href="#Set.MulAntidiagonal.eq_of_fst_eq_fst"><span class="name">Set</span>.<span class="name">MulAntidiagonal</span>.<span class="name">eq_of_fst_eq_fst</span></a></div><div class="nav_link"><a class="break_within" href="#Set.AddAntidiagonal.eq_of_fst_eq_fst"><span class="name">Set</span>.<span class="name">AddAntidiagonal</span>.<span class="name">eq_of_fst_eq_fst</span></a></div><div class="nav_link"><a class="break_within" href="#Set.MulAntidiagonal.eq_of_snd_eq_snd"><span class="name">Set</span>.<span class="name">MulAntidiagonal</span>.<span class="name">eq_of_snd_eq_snd</span></a></div><div class="nav_link"><a class="break_within" href="#Set.AddAntidiagonal.eq_of_snd_eq_snd"><span class="name">Set</span>.<span class="name">AddAntidiagonal</span>.<span class="name">eq_of_snd_eq_snd</span></a></div><div class="nav_link"><a class="break_within" href="#Set.MulAntidiagonal.eq_of_fst_le_fst_of_snd_le_snd"><span class="name">Set</span>.<span class="name">MulAntidiagonal</span>.<span class="name">eq_of_fst_le_fst_of_snd_le_snd</span></a></div><div class="nav_link"><a class="break_within" href="#Set.AddAntidiagonal.eq_of_fst_le_fst_of_snd_le_snd"><span class="name">Set</span>.<span class="name">AddAntidiagonal</span>.<span class="name">eq_of_fst_le_fst_of_snd_le_snd</span></a></div><div class="nav_link"><a class="break_within" href="#Set.MulAntidiagonal.finite_of_isPWO"><span class="name">Set</span>.<span class="name">MulAntidiagonal</span>.<span class="name">finite_of_isPWO</span></a></div><div class="nav_link"><a class="break_within" href="#Set.AddAntidiagonal.finite_of_isPWO"><span class="name">Set</span>.<span class="name">AddAntidiagonal</span>.<span class="name">finite_of_isPWO</span></a></div><div class="nav_link"><a class="break_within" href="#Set.MulAntidiagonal.finite_of_isWF"><span class="name">Set</span>.<span class="name">MulAntidiagonal</span>.<span class="name">finite_of_isWF</span></a></div><div class="nav_link"><a class="break_within" href="#Set.AddAntidiagonal.finite_of_isWF"><span class="name">Set</span>.<span class="name">AddAntidiagonal</span>.<span class="name">finite_of_isWF</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Multiplication-antidiagonal" class="markdown-heading">Multiplication antidiagonal <a class="hover-link" href="#Multiplication-antidiagonal">#</a></h1></div><div class="decl" id="Set.mulAntidiagonal"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Set/MulAntidiagonal.lean#L23-L29">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Set_MulAntidiagonal.html#Set.mulAntidiagonal" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.mulAntidiagonal"><span class="name">Set</span>.<span class="name">mulAntidiagonal</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">(<span class="fn">α</span> <span class="fn">×</span> <span class="fn">α</span>)</span></span></div></div><p><code><a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.mulAntidiagonal">Set.mulAntidiagonal</a> s t a</code> is the set of all pairs of an element in <code>s</code> and an element in <code>t</code>
+that multiply to <code>a</code>.</p><details id="instances-for-list-Set.mulAntidiagonal" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Set.addAntidiagonal"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Set/MulAntidiagonal.lean#L25-L27">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Set_MulAntidiagonal.html#Set.addAntidiagonal" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.addAntidiagonal"><span class="name">Set</span>.<span class="name">addAntidiagonal</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Add</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">(<span class="fn">α</span> <span class="fn">×</span> <span class="fn">α</span>)</span></span></div></div><p><code><a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.addAntidiagonal">Set.addAntidiagonal</a> s t a</code> is the set of all pairs of an element in <code>s</code> and an
+element in <code>t</code> that add to <code>a</code>.</p><details id="instances-for-list-Set.addAntidiagonal" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Set.mem_mulAntidiagonal"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Set/MulAntidiagonal.lean#L31-L33">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Set_MulAntidiagonal.html#Set.mem_mulAntidiagonal" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.mem_mulAntidiagonal"><span class="name">Set</span>.<span class="name">mem_mulAntidiagonal</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn"><span class="fn">α</span> <span class="fn">×</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">x</span> <span class="fn">∈</span> <span class="fn"><span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.mulAntidiagonal">mulAntidiagonal</a></span> <span class="fn">t</span> <span class="fn">a</span></span></span> <span class="fn">↔</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">x</span>.1</span> <span class="fn">∈</span> <span class="fn">s</span></span> <span class="fn">∧</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">x</span>.2</span> <span class="fn">∈</span> <span class="fn">t</span></span> <span class="fn">∧</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">x</span>.1</span> <span class="fn">*</span> <span class="fn"><span class="fn">x</span>.2</span></span> <span class="fn">=</span> <span class="fn">a</span></span></span></span></span></div></div></div></div><div class="decl" id="Set.mem_addAntidiagonal"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Set/MulAntidiagonal.lean#L31-L31">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Set_MulAntidiagonal.html#Set.mem_addAntidiagonal" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.mem_addAntidiagonal"><span class="name">Set</span>.<span class="name">mem_addAntidiagonal</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Add</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn"><span class="fn">α</span> <span class="fn">×</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">x</span> <span class="fn">∈</span> <span class="fn"><span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.addAntidiagonal">addAntidiagonal</a></span> <span class="fn">t</span> <span class="fn">a</span></span></span> <span class="fn">↔</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">x</span>.1</span> <span class="fn">∈</span> <span class="fn">s</span></span> <span class="fn">∧</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">x</span>.2</span> <span class="fn">∈</span> <span class="fn">t</span></span> <span class="fn">∧</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">x</span>.1</span> <span class="fn">+</span> <span class="fn"><span class="fn">x</span>.2</span></span> <span class="fn">=</span> <span class="fn">a</span></span></span></span></span></div></div></div></div><div class="decl" id="Set.mulAntidiagonal_mono_left"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Set/MulAntidiagonal.lean#L35-L37">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Set_MulAntidiagonal.html#Set.mulAntidiagonal_mono_left" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.mulAntidiagonal_mono_left"><span class="name">Set</span>.<span class="name">mulAntidiagonal_mono_left</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s₁ </span><span class="fn">s₂ </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">s₁</span> <span class="fn">⊆</span> <span class="fn">s₂</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">s₁</span>.<a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.mulAntidiagonal">mulAntidiagonal</a></span> <span class="fn">t</span> <span class="fn">a</span></span> <span class="fn">⊆</span> <span class="fn"><span class="fn"><span class="fn">s₂</span>.<a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.mulAntidiagonal">mulAntidiagonal</a></span> <span class="fn">t</span> <span class="fn">a</span></span></span></div></div></div></div><div class="decl" id="Set.addAntidiagonal_mono_left"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Set/MulAntidiagonal.lean#L35-L35">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Set_MulAntidiagonal.html#Set.addAntidiagonal_mono_left" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.addAntidiagonal_mono_left"><span class="name">Set</span>.<span class="name">addAntidiagonal_mono_left</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Add</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s₁ </span><span class="fn">s₂ </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">s₁</span> <span class="fn">⊆</span> <span class="fn">s₂</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">s₁</span>.<a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.addAntidiagonal">addAntidiagonal</a></span> <span class="fn">t</span> <span class="fn">a</span></span> <span class="fn">⊆</span> <span class="fn"><span class="fn"><span class="fn">s₂</span>.<a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.addAntidiagonal">addAntidiagonal</a></span> <span class="fn">t</span> <span class="fn">a</span></span></span></div></div></div></div><div class="decl" id="Set.mulAntidiagonal_mono_right"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Set/MulAntidiagonal.lean#L39-L41">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Set_MulAntidiagonal.html#Set.mulAntidiagonal_mono_right" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.mulAntidiagonal_mono_right"><span class="name">Set</span>.<span class="name">mulAntidiagonal_mono_right</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s </span><span class="fn">t₁ </span><span class="fn">t₂</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">t₁</span> <span class="fn">⊆</span> <span class="fn">t₂</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.mulAntidiagonal">mulAntidiagonal</a></span> <span class="fn">t₁</span> <span class="fn">a</span></span> <span class="fn">⊆</span> <span class="fn"><span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.mulAntidiagonal">mulAntidiagonal</a></span> <span class="fn">t₂</span> <span class="fn">a</span></span></span></div></div></div></div><div class="decl" id="Set.addAntidiagonal_mono_right"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Set/MulAntidiagonal.lean#L39-L39">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Set_MulAntidiagonal.html#Set.addAntidiagonal_mono_right" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.addAntidiagonal_mono_right"><span class="name">Set</span>.<span class="name">addAntidiagonal_mono_right</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Add</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s </span><span class="fn">t₁ </span><span class="fn">t₂</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">t₁</span> <span class="fn">⊆</span> <span class="fn">t₂</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.addAntidiagonal">addAntidiagonal</a></span> <span class="fn">t₁</span> <span class="fn">a</span></span> <span class="fn">⊆</span> <span class="fn"><span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.addAntidiagonal">addAntidiagonal</a></span> <span class="fn">t₂</span> <span class="fn">a</span></span></span></div></div></div></div><div class="decl" id="Set.swap_mem_mulAntidiagonal"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Set/MulAntidiagonal.lean#L46-L49">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Set_MulAntidiagonal.html#Set.swap_mem_mulAntidiagonal" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.swap_mem_mulAntidiagonal"><span class="name">Set</span>.<span class="name">swap_mem_mulAntidiagonal</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#CommMagma">CommMagma</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn"><span class="fn">α</span> <span class="fn">×</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">x</span>.<span class="fn">swap</span></span> <span class="fn">∈</span> <span class="fn"><span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.mulAntidiagonal">mulAntidiagonal</a></span> <span class="fn">t</span> <span class="fn">a</span></span></span> <span class="fn">↔</span> <span class="fn"><span class="fn">x</span> <span class="fn">∈</span> <span class="fn"><span class="fn"><span class="fn">t</span>.<a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.mulAntidiagonal">mulAntidiagonal</a></span> <span class="fn">s</span> <span class="fn">a</span></span></span></span></div></div></div></div><div class="decl" id="Set.swap_mem_addAntidiagonal"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Set/MulAntidiagonal.lean#L46-L46">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Set_MulAntidiagonal.html#Set.swap_mem_addAntidiagonal" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.swap_mem_addAntidiagonal"><span class="name">Set</span>.<span class="name">swap_mem_addAntidiagonal</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMagma">AddCommMagma</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn"><span class="fn">α</span> <span class="fn">×</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">x</span>.<span class="fn">swap</span></span> <span class="fn">∈</span> <span class="fn"><span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.addAntidiagonal">addAntidiagonal</a></span> <span class="fn">t</span> <span class="fn">a</span></span></span> <span class="fn">↔</span> <span class="fn"><span class="fn">x</span> <span class="fn">∈</span> <span class="fn"><span class="fn"><span class="fn">t</span>.<a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.addAntidiagonal">addAntidiagonal</a></span> <span class="fn">s</span> <span class="fn">a</span></span></span></span></div></div></div></div><div class="decl" id="Set.swap_mem_mulAntidiagonal_aux"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Set/MulAntidiagonal.lean#L51-L55">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Set_MulAntidiagonal.html#Set.swap_mem_mulAntidiagonal_aux" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.swap_mem_mulAntidiagonal_aux"><span class="name">Set</span>.<span class="name">swap_mem_mulAntidiagonal_aux</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#CommMagma">CommMagma</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn"><span class="fn">α</span> <span class="fn">×</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn"><span class="fn">x</span>.2</span> <span class="fn">∈</span> <span class="fn">s</span></span> <span class="fn">∧</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">x</span>.1</span> <span class="fn">∈</span> <span class="fn">t</span></span> <span class="fn">∧</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">x</span>.2</span> <span class="fn">*</span> <span class="fn"><span class="fn">x</span>.1</span></span> <span class="fn">=</span> <span class="fn">a</span></span></span></span> <span class="fn">↔</span> <span class="fn"><span class="fn">x</span> <span class="fn">∈</span> <span class="fn"><span class="fn"><span class="fn">t</span>.<a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.mulAntidiagonal">mulAntidiagonal</a></span> <span class="fn">s</span> <span class="fn">a</span></span></span></span></div></div></div></div><div class="decl" id="Set.swap_mem_addAntidiagonal_aux"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Set/MulAntidiagonal.lean#L51-L51">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Set_MulAntidiagonal.html#Set.swap_mem_addAntidiagonal_aux" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.swap_mem_addAntidiagonal_aux"><span class="name">Set</span>.<span class="name">swap_mem_addAntidiagonal_aux</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMagma">AddCommMagma</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn"><span class="fn">α</span> <span class="fn">×</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn"><span class="fn">x</span>.2</span> <span class="fn">∈</span> <span class="fn">s</span></span> <span class="fn">∧</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">x</span>.1</span> <span class="fn">∈</span> <span class="fn">t</span></span> <span class="fn">∧</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">x</span>.2</span> <span class="fn">+</span> <span class="fn"><span class="fn">x</span>.1</span></span> <span class="fn">=</span> <span class="fn">a</span></span></span></span> <span class="fn">↔</span> <span class="fn"><span class="fn">x</span> <span class="fn">∈</span> <span class="fn"><span class="fn"><span class="fn">t</span>.<a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.addAntidiagonal">addAntidiagonal</a></span> <span class="fn">s</span> <span class="fn">a</span></span></span></span></div></div></div></div><div class="decl" id="Set.MulAntidiagonal.fst_eq_fst_iff_snd_eq_snd"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Set/MulAntidiagonal.lean#L66-L77">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Set_MulAntidiagonal.html#Set.MulAntidiagonal.fst_eq_fst_iff_snd_eq_snd" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.MulAntidiagonal.fst_eq_fst_iff_snd_eq_snd"><span class="name">Set</span>.<span class="name">MulAntidiagonal</span>.<span class="name">fst_eq_fst_iff_snd_eq_snd</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#CommMonoid">CommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCancelMul">IsCancelMul</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x </span><span class="fn">y</span> : <span class="fn">↑<span class="fn">(<span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.mulAntidiagonal">mulAntidiagonal</a></span> <span class="fn">t</span> <span class="fn">a</span>)</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(↑<span class="fn">x</span>)</span>.1</span> <span class="fn">=</span> <span class="fn"><span class="fn">(↑<span class="fn">y</span>)</span>.1</span></span> <span class="fn">↔</span> <span class="fn"><span class="fn"><span class="fn">(↑<span class="fn">x</span>)</span>.2</span> <span class="fn">=</span> <span class="fn"><span class="fn">(↑<span class="fn">y</span>)</span>.2</span></span></span></div></div></div></div><div class="decl" id="Set.AddAntidiagonal.fst_eq_fst_iff_snd_eq_snd"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Set/MulAntidiagonal.lean#L66-L66">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Set_MulAntidiagonal.html#Set.AddAntidiagonal.fst_eq_fst_iff_snd_eq_snd" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.AddAntidiagonal.fst_eq_fst_iff_snd_eq_snd"><span class="name">Set</span>.<span class="name">AddAntidiagonal</span>.<span class="name">fst_eq_fst_iff_snd_eq_snd</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCancelAdd">IsCancelAdd</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x </span><span class="fn">y</span> : <span class="fn">↑<span class="fn">(<span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.addAntidiagonal">addAntidiagonal</a></span> <span class="fn">t</span> <span class="fn">a</span>)</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(↑<span class="fn">x</span>)</span>.1</span> <span class="fn">=</span> <span class="fn"><span class="fn">(↑<span class="fn">y</span>)</span>.1</span></span> <span class="fn">↔</span> <span class="fn"><span class="fn"><span class="fn">(↑<span class="fn">x</span>)</span>.2</span> <span class="fn">=</span> <span class="fn"><span class="fn">(↑<span class="fn">y</span>)</span>.2</span></span></span></div></div></div></div><div class="decl" id="Set.MulAntidiagonal.eq_of_fst_eq_fst"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Set/MulAntidiagonal.lean#L79-L81">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.MulAntidiagonal.eq_of_fst_eq_fst"><span class="name">Set</span>.<span class="name">MulAntidiagonal</span>.<span class="name">eq_of_fst_eq_fst</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#CommMonoid">CommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCancelMul">IsCancelMul</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x </span><span class="fn">y</span> : <span class="fn">↑<span class="fn">(<span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.mulAntidiagonal">mulAntidiagonal</a></span> <span class="fn">t</span> <span class="fn">a</span>)</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn"><span class="fn">(↑<span class="fn">x</span>)</span>.1</span> <span class="fn">=</span> <span class="fn"><span class="fn">(↑<span class="fn">y</span>)</span>.1</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">x</span> <span class="fn">=</span> <span class="fn">y</span></span></div></div></div></div><div class="decl" id="Set.AddAntidiagonal.eq_of_fst_eq_fst"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Set/MulAntidiagonal.lean#L79-L79">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.AddAntidiagonal.eq_of_fst_eq_fst"><span class="name">Set</span>.<span class="name">AddAntidiagonal</span>.<span class="name">eq_of_fst_eq_fst</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCancelAdd">IsCancelAdd</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x </span><span class="fn">y</span> : <span class="fn">↑<span class="fn">(<span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.addAntidiagonal">addAntidiagonal</a></span> <span class="fn">t</span> <span class="fn">a</span>)</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn"><span class="fn">(↑<span class="fn">x</span>)</span>.1</span> <span class="fn">=</span> <span class="fn"><span class="fn">(↑<span class="fn">y</span>)</span>.1</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">x</span> <span class="fn">=</span> <span class="fn">y</span></span></div></div></div></div><div class="decl" id="Set.MulAntidiagonal.eq_of_snd_eq_snd"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Set/MulAntidiagonal.lean#L83-L85">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.MulAntidiagonal.eq_of_snd_eq_snd"><span class="name">Set</span>.<span class="name">MulAntidiagonal</span>.<span class="name">eq_of_snd_eq_snd</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#CommMonoid">CommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCancelMul">IsCancelMul</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x </span><span class="fn">y</span> : <span class="fn">↑<span class="fn">(<span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.mulAntidiagonal">mulAntidiagonal</a></span> <span class="fn">t</span> <span class="fn">a</span>)</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn"><span class="fn">(↑<span class="fn">x</span>)</span>.2</span> <span class="fn">=</span> <span class="fn"><span class="fn">(↑<span class="fn">y</span>)</span>.2</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">x</span> <span class="fn">=</span> <span class="fn">y</span></span></div></div></div></div><div class="decl" id="Set.AddAntidiagonal.eq_of_snd_eq_snd"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Set/MulAntidiagonal.lean#L83-L83">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.AddAntidiagonal.eq_of_snd_eq_snd"><span class="name">Set</span>.<span class="name">AddAntidiagonal</span>.<span class="name">eq_of_snd_eq_snd</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCancelAdd">IsCancelAdd</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x </span><span class="fn">y</span> : <span class="fn">↑<span class="fn">(<span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.addAntidiagonal">addAntidiagonal</a></span> <span class="fn">t</span> <span class="fn">a</span>)</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn"><span class="fn">(↑<span class="fn">x</span>)</span>.2</span> <span class="fn">=</span> <span class="fn"><span class="fn">(↑<span class="fn">y</span>)</span>.2</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">x</span> <span class="fn">=</span> <span class="fn">y</span></span></div></div></div></div><div class="decl" id="Set.MulAntidiagonal.eq_of_fst_le_fst_of_snd_le_snd"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Set/MulAntidiagonal.lean#L94-L100">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.MulAntidiagonal.eq_of_fst_le_fst_of_snd_le_snd"><span class="name">Set</span>.<span class="name">MulAntidiagonal</span>.<span class="name">eq_of_fst_le_fst_of_snd_le_snd</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#CommMonoid">CommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCancelMul">IsCancelMul</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Unbundled/Defs.html#MulLeftMono">MulLeftMono</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Unbundled/Defs.html#MulRightStrictMono">MulRightStrictMono</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x </span><span class="fn">y</span> : <span class="fn">↑<span class="fn">(<span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.mulAntidiagonal">mulAntidiagonal</a></span> <span class="fn">t</span> <span class="fn">a</span>)</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h₁</span> : <span class="fn"><span class="fn">(↑<span class="fn">x</span>)</span>.1</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn">(↑<span class="fn">y</span>)</span>.1</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h₂</span> : <span class="fn"><span class="fn">(↑<span class="fn">x</span>)</span>.2</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn">(↑<span class="fn">y</span>)</span>.2</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">x</span> <span class="fn">=</span> <span class="fn">y</span></span></div></div></div></div><div class="decl" id="Set.AddAntidiagonal.eq_of_fst_le_fst_of_snd_le_snd"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Set/MulAntidiagonal.lean#L94-L94">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.AddAntidiagonal.eq_of_fst_le_fst_of_snd_le_snd"><span class="name">Set</span>.<span class="name">AddAntidiagonal</span>.<span class="name">eq_of_fst_le_fst_of_snd_le_snd</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCancelAdd">IsCancelAdd</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Unbundled/Defs.html#AddLeftMono">AddLeftMono</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Unbundled/Defs.html#AddRightStrictMono">AddRightStrictMono</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x </span><span class="fn">y</span> : <span class="fn">↑<span class="fn">(<span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.addAntidiagonal">addAntidiagonal</a></span> <span class="fn">t</span> <span class="fn">a</span>)</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h₁</span> : <span class="fn"><span class="fn">(↑<span class="fn">x</span>)</span>.1</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn">(↑<span class="fn">y</span>)</span>.1</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h₂</span> : <span class="fn"><span class="fn">(↑<span class="fn">x</span>)</span>.2</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn">(↑<span class="fn">y</span>)</span>.2</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">x</span> <span class="fn">=</span> <span class="fn">y</span></span></div></div></div></div><div class="decl" id="Set.MulAntidiagonal.finite_of_isPWO"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Set/MulAntidiagonal.lean#L104-L115">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Set_MulAntidiagonal.html#Set.MulAntidiagonal.finite_of_isPWO" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.MulAntidiagonal.finite_of_isPWO"><span class="name">Set</span>.<span class="name">MulAntidiagonal</span>.<span class="name">finite_of_isPWO</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#CommMonoid">CommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCancelMul">IsCancelMul</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Unbundled/Defs.html#MulLeftMono">MulLeftMono</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Unbundled/Defs.html#MulRightStrictMono">MulRightStrictMono</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hs</span> : <span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Order/WellFoundedSet.html#Set.IsPWO">IsPWO</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">ht</span> : <span class="fn"><span class="fn">t</span>.<a href="../../.././Mathlib/Order/WellFoundedSet.html#Set.IsPWO">IsPWO</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.mulAntidiagonal">mulAntidiagonal</a></span> <span class="fn">t</span> <span class="fn">a</span>)</span>.<a href="../../.././Mathlib/Data/Finite/Defs.html#Set.Finite">Finite</a></span></div></div></div></div><div class="decl" id="Set.AddAntidiagonal.finite_of_isPWO"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Set/MulAntidiagonal.lean#L104-L104">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Set_MulAntidiagonal.html#Set.AddAntidiagonal.finite_of_isPWO" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.AddAntidiagonal.finite_of_isPWO"><span class="name">Set</span>.<span class="name">AddAntidiagonal</span>.<span class="name">finite_of_isPWO</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCancelAdd">IsCancelAdd</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Unbundled/Defs.html#AddLeftMono">AddLeftMono</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Unbundled/Defs.html#AddRightStrictMono">AddRightStrictMono</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hs</span> : <span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Order/WellFoundedSet.html#Set.IsPWO">IsPWO</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">ht</span> : <span class="fn"><span class="fn">t</span>.<a href="../../.././Mathlib/Order/WellFoundedSet.html#Set.IsPWO">IsPWO</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.addAntidiagonal">addAntidiagonal</a></span> <span class="fn">t</span> <span class="fn">a</span>)</span>.<a href="../../.././Mathlib/Data/Finite/Defs.html#Set.Finite">Finite</a></span></div></div></div></div><div class="decl" id="Set.MulAntidiagonal.finite_of_isWF"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Set/MulAntidiagonal.lean#L121-L124">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Set_MulAntidiagonal.html#Set.MulAntidiagonal.finite_of_isWF" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.MulAntidiagonal.finite_of_isWF"><span class="name">Set</span>.<span class="name">MulAntidiagonal</span>.<span class="name">finite_of_isWF</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#CancelCommMonoid">CancelCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/LinearOrder.html#LinearOrder">LinearOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Unbundled/Defs.html#MulLeftMono">MulLeftMono</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Unbundled/Defs.html#MulRightStrictMono">MulRightStrictMono</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hs</span> : <span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Order/WellFoundedSet.html#Set.IsWF">IsWF</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">ht</span> : <span class="fn"><span class="fn">t</span>.<a href="../../.././Mathlib/Order/WellFoundedSet.html#Set.IsWF">IsWF</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.mulAntidiagonal">mulAntidiagonal</a></span> <span class="fn">t</span> <span class="fn">a</span>)</span>.<a href="../../.././Mathlib/Data/Finite/Defs.html#Set.Finite">Finite</a></span></div></div></div></div><div class="decl" id="Set.AddAntidiagonal.finite_of_isWF"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Set/MulAntidiagonal.lean#L121-L121">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Set_MulAntidiagonal.html#Set.AddAntidiagonal.finite_of_isWF" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.AddAntidiagonal.finite_of_isWF"><span class="name">Set</span>.<span class="name">AddAntidiagonal</span>.<span class="name">finite_of_isWF</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCancelCommMonoid">AddCancelCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/LinearOrder.html#LinearOrder">LinearOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Unbundled/Defs.html#AddLeftMono">AddLeftMono</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Unbundled/Defs.html#AddRightStrictMono">AddRightStrictMono</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hs</span> : <span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Order/WellFoundedSet.html#Set.IsWF">IsWF</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">ht</span> : <span class="fn"><span class="fn">t</span>.<a href="../../.././Mathlib/Order/WellFoundedSet.html#Set.IsWF">IsWF</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Set/MulAntidiagonal.html#Set.addAntidiagonal">addAntidiagonal</a></span> <span class="fn">t</span> <span class="fn">a</span>)</span>.<a href="../../.././Mathlib/Data/Finite/Defs.html#Set.Finite">Finite</a></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

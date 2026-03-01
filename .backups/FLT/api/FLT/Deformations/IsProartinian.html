@@ -1,0 +1,160 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../.././style.css"></link><link rel="icon" href="../.././favicon.svg"></link><link rel="mask-icon" href="../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../.././/declarations/declaration-data.bmp" as="image"></link><title>FLT.Deformations.IsProartinian</title><script defer="true" src="../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../.././";</script><script>const MODULE_NAME="FLT.Deformations.IsProartinian";</script><script type="module" src="../.././jump-src.js"></script><script type="module" src="../.././search.js"></script><script type="module" src="../.././expand-nav.js"></script><script type="module" src="../.././how-about.js"></script><script type="module" src="../.././instances.js"></script><script type="module" src="../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">FLT</span>.<span class="name">Deformations</span>.<span class="name">IsProartinian</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Deformations/IsProartinian.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../.././Init.html">Init</a></li><li><a href="../.././FLT/Deformations/Lemmas.html">FLT.Deformations.Lemmas</a></li><li><a href="../.././FLT/Patching/Utils/AdicTopology.html">FLT.Patching.Utils.AdicTopology</a></li><li><a href="../.././Mathlib/Topology/UniformSpace/DiscreteUniformity.html">Mathlib.Topology.UniformSpace.DiscreteUniformity</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-FLT.Deformations.IsProartinian" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#IsProartinian"><span class="name">IsProartinian</span></a></div><div class="nav_link"><a class="break_within" href="#isProartinian_iff_isArtinianRing"><span class="name">isProartinian_iff_isArtinianRing</span></a></div><div class="nav_link"><a class="break_within" href="#instIsProartinianOfDiscreteTopologyOfIsArtinianRing"><span class="name">instIsProartinianOfDiscreteTopologyOfIsArtinianRing</span></a></div><div class="nav_link"><a class="break_within" href="#instIsProartinianOfIsAdicTopologyOfIsNoetherianRingOfCompactSpace"><span class="name">instIsProartinianOfIsAdicTopologyOfIsNoetherianRingOfCompactSpace</span></a></div><div class="nav_link"><a class="break_within" href="#isOpen_maximalIdeal_of_isProartinian"><span class="name">isOpen_maximalIdeal_of_isProartinian</span></a></div><div class="nav_link"><a class="break_within" href="#exists_maximalIdeal_pow_le_of_isProartinian"><span class="name">exists_maximalIdeal_pow_le_of_isProartinian</span></a></div><div class="nav_link"><a class="break_within" href="#isContinuous_of_isProartinian_of_isLocalHom"><span class="name">isContinuous_of_isProartinian_of_isLocalHom</span></a></div><div class="nav_link"><a class="break_within" href="#isLocalHom_of_isContinuous_of_isProartinian"><span class="name">isLocalHom_of_isContinuous_of_isProartinian</span></a></div></nav><main>
+<div class="decl" id="IsProartinian"><div class="class"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Deformations/IsProartinian.lean#L9-L15">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Deformations_IsProartinian.html#IsProartinian" class="verification-badge comp-datatype" title="Computational datatype">🔶 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">class</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Deformations/IsProartinian.html#IsProartinian"><span class="name">IsProartinian</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_extends">extends</span> <span class="fn"><a href="../.././Mathlib/Topology/Algebra/LinearTopology.html#IsLinearTopology">IsLinearTopology</a> <span class="fn">R</span> <span class="fn">R</span></span>, <span class="fn"><a href="../.././Mathlib/Topology/Separation/Basic.html#T0Space">T0Space</a> <span class="fn">R</span></span>, <span class="fn"><a href="../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace">CompleteSpace</a> <span class="fn">R</span></span><span class="decl_args"> :</span><div class="decl_type"><a href="../.././foundational_types.html">Prop</a></div></div><p>A topological ring is proartinian if it is linearly topologized, complete hausdorff,
+and all its discrete quotients are artinian.</p><p>This is also called the category of &quot;pseudo-compact&quot; rings in section 0 of Exp VII_B of SGA3.</p><ul class="structure_fields" id="IsProartinian.mk"><li class="structure_field inherited_field"><div class="structure_field_info"><a href="../.././Mathlib/Topology/Algebra/LinearTopology.html#IsLinearTopology.hasBasis_submodule'">hasBasis_submodule'</a> : <span class="fn"><span class="fn"><span class="fn">(<a href="../.././Mathlib/Topology/Defs/Filter.html#nhds">nhds</a> <span class="fn">0</span>)</span>.<a href="../.././Mathlib/Order/Filter/Bases/Basic.html#Filter.HasBasis">HasBasis</a></span> <span class="fn">(fun (<span class="fn">N</span> : <span class="fn"><a href="../.././Mathlib/Algebra/Module/Submodule/Defs.html#Submodule">Submodule</a> <span class="fn">R</span> <span class="fn">R</span></span>) =&gt; <span class="fn">↑<span class="fn">N</span></span> <a href="../.././Init/Prelude.html#Membership.mem">∈</a> <span class="fn"><a href="../.././Mathlib/Topology/Defs/Filter.html#nhds">nhds</a> <span class="fn">0</span></span>)</span> <span class="fn">fun (<span class="fn">N</span> : <span class="fn"><a href="../.././Mathlib/Algebra/Module/Submodule/Defs.html#Submodule">Submodule</a> <span class="fn">R</span> <span class="fn">R</span></span>) =&gt; <span class="fn">↑<span class="fn">N</span></span></span></span></div></li><li class="structure_field inherited_field"><div class="structure_field_info"><a href="../.././Mathlib/Topology/Separation/Basic.html#T0Space.t0">t0</a><span class="impl_arg"><span class="decl_args">
+<span class="fn">⦃<span class="fn">x </span><span class="fn">y</span> : <span class="fn">R</span>⦄</span></span>
+</span> : <span class="fn"><span class="fn"><a href="../.././Mathlib/Topology/Defs/Filter.html#Inseparable">Inseparable</a> <span class="fn">x</span> <span class="fn">y</span></span> → <span class="fn">x</span> <a href="../.././Init/Prelude.html#Eq">=</a> <span class="fn">y</span></span></div></li><li class="structure_field inherited_field"><div class="structure_field_info"><a href="../.././Mathlib/Topology/UniformSpace/Cauchy.html#CompleteSpace.complete">complete</a><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><a href="../.././Mathlib/Order/Filter/Defs.html#Filter">Filter</a> <span class="fn">R</span></span>}</span></span>
+</span> : <span class="fn"><span class="fn"><a href="../.././Mathlib/Topology/UniformSpace/Cauchy.html#Cauchy">Cauchy</a> <span class="fn">f</span></span> → <span class="fn">∃ (<span class="fn">x</span> : <span class="fn">R</span>), <span class="fn">f</span> <a href="../.././Init/Prelude.html#LE.le">≤</a> <span class="fn"><a href="../.././Mathlib/Topology/Defs/Filter.html#nhds">nhds</a> <span class="fn">x</span></span></span></span></div></li><li id="IsProartinian.isArtinianRing_quotient" class="structure_field"><div class="structure_field_info">isArtinianRing_quotient<span class="decl_args">
+<span class="fn">(<span class="fn">I</span> : <span class="fn"><a href="../.././Mathlib/RingTheory/Ideal/Defs.html#Ideal">Ideal</a> <span class="fn">R</span></span>)</span></span>
+ : <span class="fn"><span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#IsOpen">IsOpen</a> <span class="fn">↑<span class="fn">I</span></span></span> → <span class="fn"><a href="../.././Mathlib/RingTheory/Artinian/Module.html#IsArtinianRing">IsArtinianRing</a> (<span class="fn">R</span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn">I</span>)</span></span></div></li></ul><details class="instances"><summary>Instances</summary><ul id="instances-list-IsProartinian" class="instances-list"></ul></details></div></div><div class="decl" id="isProartinian_iff_isArtinianRing"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Deformations/IsProartinian.lean#L20-L25">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Deformations_IsProartinian.html#isProartinian_iff_isArtinianRing" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Deformations/IsProartinian.html#isProartinian_iff_isArtinianRing"><span class="name">isProartinian_iff_isArtinianRing</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Order.html#DiscreteTopology">DiscreteTopology</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././FLT/Deformations/IsProartinian.html#IsProartinian">IsProartinian</a> <span class="fn">R</span></span> <a href="../.././Init/Core.html#Iff">↔</a> <span class="fn"><a href="../.././Mathlib/RingTheory/Artinian/Module.html#IsArtinianRing">IsArtinianRing</a> <span class="fn">R</span></span></div></div></div></div><div class="decl" id="instIsProartinianOfDiscreteTopologyOfIsArtinianRing"><div class="instance"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Deformations/IsProartinian.lean#L27-L28">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Deformations_IsProartinian.html#instIsProartinianOfDiscreteTopologyOfIsArtinianRing" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Deformations/IsProartinian.html#instIsProartinianOfDiscreteTopologyOfIsArtinianRing"><span class="name">instIsProartinianOfDiscreteTopologyOfIsArtinianRing</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Order.html#DiscreteTopology">DiscreteTopology</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/RingTheory/Artinian/Module.html#IsArtinianRing">IsArtinianRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././FLT/Deformations/IsProartinian.html#IsProartinian">IsProartinian</a> <span class="fn">R</span></span></div></div></div></div><div class="decl" id="instIsProartinianOfIsAdicTopologyOfIsNoetherianRingOfCompactSpace"><div class="instance"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Deformations/IsProartinian.lean#L30-L34">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Deformations_IsProartinian.html#instIsProartinianOfIsAdicTopologyOfIsNoetherianRingOfCompactSpace" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Deformations/IsProartinian.html#instIsProartinianOfIsAdicTopologyOfIsNoetherianRingOfCompactSpace"><span class="name">instIsProartinianOfIsAdicTopologyOfIsNoetherianRingOfCompactSpace</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/RingTheory/LocalRing/Defs.html#IsLocalRing">IsLocalRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././FLT/Patching/Utils/AdicTopology.html#IsLocalRing.IsAdicTopology">IsLocalRing.IsAdicTopology</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/RingTheory/Noetherian/Defs.html#IsNoetherianRing">IsNoetherianRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Filter.html#CompactSpace">CompactSpace</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././FLT/Deformations/IsProartinian.html#IsProartinian">IsProartinian</a> <span class="fn">R</span></span></div></div></div></div><div class="decl" id="isOpen_maximalIdeal_of_isProartinian"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Deformations/IsProartinian.lean#L42-L45">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Deformations/IsProartinian.html#isOpen_maximalIdeal_of_isProartinian"><span class="name">isOpen_maximalIdeal_of_isProartinian</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/RingTheory/LocalRing/Defs.html#IsLocalRing">IsLocalRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././FLT/Deformations/IsProartinian.html#IsProartinian">IsProartinian</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#IsOpen">IsOpen</a> <span class="fn">↑<span class="fn">(<a href="../.././Mathlib/RingTheory/LocalRing/MaximalIdeal/Defs.html#IsLocalRing.maximalIdeal">IsLocalRing.maximalIdeal</a> <span class="fn">R</span>)</span></span></span></div></div></div></div><div class="decl" id="exists_maximalIdeal_pow_le_of_isProartinian"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Deformations/IsProartinian.lean#L47-L60">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Deformations/IsProartinian.html#exists_maximalIdeal_pow_le_of_isProartinian"><span class="name">exists_maximalIdeal_pow_le_of_isProartinian</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/RingTheory/LocalRing/Defs.html#IsLocalRing">IsLocalRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././FLT/Deformations/IsProartinian.html#IsProartinian">IsProartinian</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">I</span> : <span class="fn"><a href="../.././Mathlib/RingTheory/Ideal/Defs.html#Ideal">Ideal</a> <span class="fn">R</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hI</span> : <span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#IsOpen">IsOpen</a> <span class="fn">↑<span class="fn">I</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">∃ (<span class="fn">n</span> : <a href="../.././Init/Prelude.html#Nat">ℕ</a>), <span class="fn"><a href="../.././Mathlib/RingTheory/LocalRing/MaximalIdeal/Defs.html#IsLocalRing.maximalIdeal">IsLocalRing.maximalIdeal</a> <span class="fn">R</span></span> <a href="../.././Init/Prelude.html#HPow.hPow">^</a> <span class="fn">n</span> <a href="../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">I</span></span></div></div></div></div><div class="decl" id="isContinuous_of_isProartinian_of_isLocalHom"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Deformations/IsProartinian.lean#L62-L73">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Deformations/IsProartinian.html#isContinuous_of_isProartinian_of_isLocalHom"><span class="name">isContinuous_of_isProartinian_of_isLocalHom</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/RingTheory/LocalRing/Defs.html#IsLocalRing">IsLocalRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/RingTheory/LocalRing/Defs.html#IsLocalRing">IsLocalRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././FLT/Patching/Utils/AdicTopology.html#IsLocalRing.IsAdicTopology">IsLocalRing.IsAdicTopology</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">R</span> <a href="../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">S</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././FLT/Deformations/IsProartinian.html#IsProartinian">IsProartinian</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Units/Hom.html#IsLocalHom">IsLocalHom</a> <span class="fn">f</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#Continuous">Continuous</a> <span class="fn">⇑<span class="fn">f</span></span></span></div></div></div></div><div class="decl" id="isLocalHom_of_isContinuous_of_isProartinian"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Deformations/IsProartinian.lean#L75-L82">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Deformations/IsProartinian.html#isLocalHom_of_isContinuous_of_isProartinian"><span class="name">isLocalHom_of_isContinuous_of_isProartinian</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/RingTheory/LocalRing/Defs.html#IsLocalRing">IsLocalRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/RingTheory/LocalRing/Defs.html#IsLocalRing">IsLocalRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././FLT/Deformations/IsProartinian.html#IsProartinian">IsProartinian</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">R</span> <a href="../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">S</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././FLT/Deformations/IsProartinian.html#IsProartinian">IsProartinian</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#Continuous">Continuous</a> <span class="fn">⇑<span class="fn">f</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Algebra/Group/Units/Hom.html#IsLocalHom">IsLocalHom</a> <span class="fn">f</span></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

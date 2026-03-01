@@ -1,0 +1,823 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../.././style.css"></link><link rel="icon" href="../../.././favicon.svg"></link><link rel="mask-icon" href="../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.NumberTheory.ArithmeticFunction.Defs</title><script defer="true" src="../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../.././";</script><script>const MODULE_NAME="Mathlib.NumberTheory.ArithmeticFunction.Defs";</script><script type="module" src="../../.././jump-src.js"></script><script type="module" src="../../.././search.js"></script><script type="module" src="../../.././expand-nav.js"></script><script type="module" src="../../.././how-about.js"></script><script type="module" src="../../.././instances.js"></script><script type="module" src="../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">NumberTheory</span>.<span class="name">ArithmeticFunction</span>.<span class="name">Defs</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../.././Init.html">Init</a></li><li><a href="../../.././Mathlib/Tactic/ArithMult.html">Mathlib.Tactic.ArithMult</a></li><li><a href="../../.././Mathlib/Algebra/Module/BigOperators.html">Mathlib.Algebra.Module.BigOperators</a></li><li><a href="../../.././Mathlib/Data/Nat/Squarefree.html">Mathlib.Data.Nat.Squarefree</a></li><li><a href="../../.././Mathlib/Data/Nat/Factorization/Induction.html">Mathlib.Data.Nat.Factorization.Induction</a></li><li><a href="../../.././Mathlib/Data/Nat/GCD/BigOperators.html">Mathlib.Data.Nat.GCD.BigOperators</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.NumberTheory.ArithmeticFunction.Defs" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction"><span class="name">ArithmeticFunction</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.zero"><span class="name">ArithmeticFunction</span>.<span class="name">zero</span></a></div><div class="nav_link"><a class="break_within" href="#instInhabitedArithmeticFunction"><span class="name">instInhabitedArithmeticFunction</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.instFunLikeNat"><span class="name">ArithmeticFunction</span>.<span class="name">instFunLikeNat</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.toFun_eq"><span class="name">ArithmeticFunction</span>.<span class="name">toFun_eq</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.coe_mk"><span class="name">ArithmeticFunction</span>.<span class="name">coe_mk</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.map_zero"><span class="name">ArithmeticFunction</span>.<span class="name">map_zero</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.coe_inj"><span class="name">ArithmeticFunction</span>.<span class="name">coe_inj</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.zero_apply"><span class="name">ArithmeticFunction</span>.<span class="name">zero_apply</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.ext"><span class="name">ArithmeticFunction</span>.<span class="name">ext</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.ext_iff"><span class="name">ArithmeticFunction</span>.<span class="name">ext_iff</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.one"><span class="name">ArithmeticFunction</span>.<span class="name">one</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.one_apply"><span class="name">ArithmeticFunction</span>.<span class="name">one_apply</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.one_one"><span class="name">ArithmeticFunction</span>.<span class="name">one_one</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.one_apply_ne"><span class="name">ArithmeticFunction</span>.<span class="name">one_apply_ne</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.natToArithmeticFunction"><span class="name">ArithmeticFunction</span>.<span class="name">natToArithmeticFunction</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.natCoe"><span class="name">ArithmeticFunction</span>.<span class="name">natCoe</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.natCoe_nat"><span class="name">ArithmeticFunction</span>.<span class="name">natCoe_nat</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.natCoe_apply"><span class="name">ArithmeticFunction</span>.<span class="name">natCoe_apply</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.ofInt"><span class="name">ArithmeticFunction</span>.<span class="name">ofInt</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.intCoe"><span class="name">ArithmeticFunction</span>.<span class="name">intCoe</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.intCoe_int"><span class="name">ArithmeticFunction</span>.<span class="name">intCoe_int</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.intCoe_apply"><span class="name">ArithmeticFunction</span>.<span class="name">intCoe_apply</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.coe_coe"><span class="name">ArithmeticFunction</span>.<span class="name">coe_coe</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.natCoe_one"><span class="name">ArithmeticFunction</span>.<span class="name">natCoe_one</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.intCoe_one"><span class="name">ArithmeticFunction</span>.<span class="name">intCoe_one</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.add"><span class="name">ArithmeticFunction</span>.<span class="name">add</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.add_apply"><span class="name">ArithmeticFunction</span>.<span class="name">add_apply</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.instAddMonoid"><span class="name">ArithmeticFunction</span>.<span class="name">instAddMonoid</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.instAddMonoidWithOne"><span class="name">ArithmeticFunction</span>.<span class="name">instAddMonoidWithOne</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.instAddCommMonoid"><span class="name">ArithmeticFunction</span>.<span class="name">instAddCommMonoid</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.instNeg"><span class="name">ArithmeticFunction</span>.<span class="name">instNeg</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.neg_apply"><span class="name">ArithmeticFunction</span>.<span class="name">neg_apply</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.instAddGroup"><span class="name">ArithmeticFunction</span>.<span class="name">instAddGroup</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.instAddCommGroup"><span class="name">ArithmeticFunction</span>.<span class="name">instAddCommGroup</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.instSMul"><span class="name">ArithmeticFunction</span>.<span class="name">instSMul</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.smul_apply"><span class="name">ArithmeticFunction</span>.<span class="name">smul_apply</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.instMul"><span class="name">ArithmeticFunction</span>.<span class="name">instMul</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.mul_apply"><span class="name">ArithmeticFunction</span>.<span class="name">mul_apply</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.mul_apply_one"><span class="name">ArithmeticFunction</span>.<span class="name">mul_apply_one</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.natCoe_mul"><span class="name">ArithmeticFunction</span>.<span class="name">natCoe_mul</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.intCoe_mul"><span class="name">ArithmeticFunction</span>.<span class="name">intCoe_mul</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.mul_smul'"><span class="name">ArithmeticFunction</span>.<span class="name">mul_smul'</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.one_smul'"><span class="name">ArithmeticFunction</span>.<span class="name">one_smul'</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.instMonoid"><span class="name">ArithmeticFunction</span>.<span class="name">instMonoid</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.instSemiring"><span class="name">ArithmeticFunction</span>.<span class="name">instSemiring</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.instCommSemiring"><span class="name">ArithmeticFunction</span>.<span class="name">instCommSemiring</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.instCommRing"><span class="name">ArithmeticFunction</span>.<span class="name">instCommRing</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.instModule"><span class="name">ArithmeticFunction</span>.<span class="name">instModule</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.IsMultiplicative"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.IsMultiplicative.map_one"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">map_one</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.IsMultiplicative.map_mul_of_coprime"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">map_mul_of_coprime</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.IsMultiplicative.map_prod"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">map_prod</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.IsMultiplicative.map_prod_of_prime"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">map_prod_of_prime</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.IsMultiplicative.map_prod_of_subset_primeFactors"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">map_prod_of_subset_primeFactors</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.IsMultiplicative.prod_primeFactors"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">prod_primeFactors</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.IsMultiplicative.map_div_of_coprime"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">map_div_of_coprime</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.IsMultiplicative.natCast"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">natCast</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.IsMultiplicative.intCast"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">intCast</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.IsMultiplicative.mul"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">mul</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.IsMultiplicative.multiplicative_factorization"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">multiplicative_factorization</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.IsMultiplicative.iff_ne_zero"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">iff_ne_zero</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.IsMultiplicative.eq_iff_eq_on_prime_powers"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">eq_iff_eq_on_prime_powers</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.IsMultiplicative.lcm_apply_mul_gcd_apply"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">lcm_apply_mul_gcd_apply</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.IsMultiplicative.map_gcd"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">map_gcd</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.IsMultiplicative.map_lcm"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">map_lcm</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.IsMultiplicative.eq_zero_of_squarefree_of_dvd_eq_zero"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">eq_zero_of_squarefree_of_dvd_eq_zero</span></a></div><div class="nav_link"><a class="break_within" href="#ArithmeticFunction.isMultiplicative_one"><span class="name">ArithmeticFunction</span>.<span class="name">isMultiplicative_one</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Arithmetic-Functions-and-Dirichlet-Convolution" class="markdown-heading">Arithmetic Functions and Dirichlet Convolution <a class="hover-link" href="#Arithmetic-Functions-and-Dirichlet-Convolution">#</a></h1><p>This file defines arithmetic functions, which are functions from <code>ℕ</code> to a specified type that map 0
+to 0. In the literature, they are often instead defined as functions from <code>ℕ+</code>. These arithmetic
+functions are endowed with a multiplication, given by Dirichlet convolution, and pointwise addition,
+to form the Dirichlet ring.</p><h2 id="Main-Definitions" class="markdown-heading">Main Definitions <a class="hover-link" href="#Main-Definitions">#</a></h2><ul><li><code><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> R</code> consists of functions <code>f : ℕ → R</code> such that <code>f 0 = 0</code>.</li><li>An arithmetic function <code>f</code> <code><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative">IsMultiplicative</a></code> when <code>x.Coprime y → f (x * y) = f x * f y</code>.</li><li>Multiplication and power instances on <code><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> R</code>, are defined using Dirichlet
+convolution.</li></ul><p>Further examples of arithmetic functions, such as the Möbius function <code>μ</code>, are available in
+other files in the <code><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction.html">Mathlib.NumberTheory.ArithmeticFunction</a></code> directory.</p><h2 id="Tags" class="markdown-heading">Tags <a class="hover-link" href="#Tags">#</a></h2><p>arithmetic functions, dirichlet convolution, divisors</p></div><div class="decl" id="ArithmeticFunction"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L45-L49">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction"><span class="name">ArithmeticFunction</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><a href="../../.././foundational_types.html">Type</a> u_1</div></div><p>An arithmetic function is a function from <code>ℕ</code> that maps 0 to 0. In the literature, they are
+often instead defined as functions from <code>ℕ+</code>. Multiplication on <code>ArithmeticFunctions</code> is by
+Dirichlet convolution.</p><details id="instances-for-list-ArithmeticFunction" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="ArithmeticFunction.zero"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L51-L52">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.zero" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.zero"><span class="name">ArithmeticFunction</span>.<span class="name">zero</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Zero</span> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span>)</span></span></div></div></div></div><div class="decl" id="instInhabitedArithmeticFunction"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L54-L54">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#instInhabitedArithmeticFunction" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#instInhabitedArithmeticFunction"><span class="name">instInhabitedArithmeticFunction</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Inhabited</span> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span>)</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.instFunLikeNat"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L64-L65">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.instFunLikeNat" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.instFunLikeNat"><span class="name">ArithmeticFunction</span>.<span class="name">instFunLikeNat</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Data/FunLike/Basic.html#FunLike">FunLike</a> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span>)</span> <span class="fn">ℕ</span> <span class="fn">R</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.toFun_eq"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L67-L68">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.toFun_eq" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.toFun_eq"><span class="name">ArithmeticFunction</span>.<span class="name">toFun_eq</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/Algebra/Group/Hom/Defs.html#ZeroHom.toFun">toFun</a></span> <span class="fn">=</span> <span class="fn">⇑<span class="fn">f</span></span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.coe_mk"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L70-L72">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.coe_mk" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.coe_mk"><span class="name">ArithmeticFunction</span>.<span class="name">coe_mk</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">ℕ</span> → <span class="fn">R</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">0</span></span> <span class="fn">=</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">⇑<a href="../../.././Mathlib/Algebra/Group/Hom/Defs.html#ZeroHom.mk">{</a> <span class="fn">toFun</span> := <span class="fn">f</span>, <span class="fn">map_zero'</span> := <span class="fn">hf</span> <a href="../../.././Mathlib/Algebra/Group/Hom/Defs.html#ZeroHom.mk">}</a></span> <span class="fn">=</span> <span class="fn">f</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.map_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L74-L76">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.map_zero" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.map_zero"><span class="name">ArithmeticFunction</span>.<span class="name">map_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">0</span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.coe_inj"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L78-L79">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.coe_inj" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.coe_inj"><span class="name">ArithmeticFunction</span>.<span class="name">coe_inj</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f </span><span class="fn">g</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">⇑<span class="fn">f</span></span> <span class="fn">=</span> <span class="fn">⇑<span class="fn">g</span></span></span> <span class="fn">↔</span> <span class="fn"><span class="fn">f</span> <span class="fn">=</span> <span class="fn">g</span></span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.zero_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L81-L83">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.zero_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.zero_apply"><span class="name">ArithmeticFunction</span>.<span class="name">zero_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">0</span> <span class="fn">x</span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.ext"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L85-L87">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.ext"><span class="name">ArithmeticFunction</span>.<span class="name">ext</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">⦃<span class="fn">f </span><span class="fn">g</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span>⦄</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn">∀ (<span class="fn">x</span> : <span class="fn">ℕ</span>), <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">x</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">g</span> <span class="fn">x</span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">f</span> <span class="fn">=</span> <span class="fn">g</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.ext_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L85-L85">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.ext_iff" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.ext_iff"><span class="name">ArithmeticFunction</span>.<span class="name">ext_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f </span><span class="fn">g</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">=</span> <span class="fn">g</span></span> <span class="fn">↔</span> <span class="fn">∀ (<span class="fn">x</span> : <span class="fn">ℕ</span>), <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">x</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">g</span> <span class="fn">x</span></span></span></span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.one"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L93-L94">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.one" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.one"><span class="name">ArithmeticFunction</span>.<span class="name">one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">One</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">One</span> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span>)</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.one_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L96-L97">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.one_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.one_apply"><span class="name">ArithmeticFunction</span>.<span class="name">one_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">One</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">1</span> <span class="fn">x</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">if</span> <span class="fn"><span class="fn">x</span> <span class="fn">=</span> <span class="fn">1</span></span> <span class="fn">then</span> <span class="fn">1</span> <span class="fn">else</span> <span class="fn">0</span></span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.one_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L99-L101">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.one_one" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.one_one"><span class="name">ArithmeticFunction</span>.<span class="name">one_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">One</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">1</span> <span class="fn">1</span></span> <span class="fn">=</span> <span class="fn">1</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.one_apply_ne"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L103-L105">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.one_apply_ne" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.one_apply_ne"><span class="name">ArithmeticFunction</span>.<span class="name">one_apply_ne</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">One</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">x</span> <span class="fn">≠</span> <span class="fn">1</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">1</span> <span class="fn">x</span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.natToArithmeticFunction"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L111-L116">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.natToArithmeticFunction" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.natToArithmeticFunction"><span class="name">ArithmeticFunction</span>.<span class="name">natToArithmeticFunction</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Nat/Cast/Defs.html#AddMonoidWithOne">AddMonoidWithOne</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">ℕ</span></span> → <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span></span></div></div><p>Coerce an arithmetic function with values in <code>ℕ</code> to one with values in <code>R</code>. We cannot inline
+this in <code><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.natCoe">natCoe</a></code> because it gets unfolded too much.</p><details id="instances-for-list-ArithmeticFunction.natToArithmeticFunction" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="ArithmeticFunction.natCoe"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L118-L119">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.natCoe" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.natCoe"><span class="name">ArithmeticFunction</span>.<span class="name">natCoe</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Nat/Cast/Defs.html#AddMonoidWithOne">AddMonoidWithOne</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Coe</span> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">ℕ</span>)</span> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span>)</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.natCoe_nat"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L121-L123">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.natCoe_nat" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.natCoe_nat"><span class="name">ArithmeticFunction</span>.<span class="name">natCoe_nat</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">ℕ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">↑<span class="fn">f</span></span> <span class="fn">=</span> <span class="fn">f</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.natCoe_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L125-L128">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.natCoe_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.natCoe_apply"><span class="name">ArithmeticFunction</span>.<span class="name">natCoe_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Nat/Cast/Defs.html#AddMonoidWithOne">AddMonoidWithOne</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">ℕ</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">↑<span class="fn">f</span></span> <span class="fn">x</span></span> <span class="fn">=</span> <span class="fn">↑<span class="fn">(<span class="fn">f</span> <span class="fn">x</span>)</span></span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.ofInt"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L130-L135">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.ofInt" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.ofInt"><span class="name">ArithmeticFunction</span>.<span class="name">ofInt</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Int/Cast/Defs.html#AddGroupWithOne">AddGroupWithOne</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">ℤ</span></span> → <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span></span></div></div><p>Coerce an arithmetic function with values in <code>ℤ</code> to one with values in <code>R</code>. We cannot inline
+this in <code><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.intCoe">intCoe</a></code> because it gets unfolded too much.</p><details id="instances-for-list-ArithmeticFunction.ofInt" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="ArithmeticFunction.intCoe"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L137-L138">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.intCoe" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.intCoe"><span class="name">ArithmeticFunction</span>.<span class="name">intCoe</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Int/Cast/Defs.html#AddGroupWithOne">AddGroupWithOne</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Coe</span> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">ℤ</span>)</span> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span>)</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.intCoe_int"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L140-L142">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.intCoe_int" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.intCoe_int"><span class="name">ArithmeticFunction</span>.<span class="name">intCoe_int</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">ℤ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">↑<span class="fn">f</span></span> <span class="fn">=</span> <span class="fn">f</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.intCoe_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L144-L146">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.intCoe_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.intCoe_apply"><span class="name">ArithmeticFunction</span>.<span class="name">intCoe_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Int/Cast/Defs.html#AddGroupWithOne">AddGroupWithOne</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">ℤ</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">↑<span class="fn">f</span></span> <span class="fn">x</span></span> <span class="fn">=</span> <span class="fn">↑<span class="fn">(<span class="fn">f</span> <span class="fn">x</span>)</span></span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.coe_coe"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L148-L152">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.coe_coe" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.coe_coe"><span class="name">ArithmeticFunction</span>.<span class="name">coe_coe</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Int/Cast/Defs.html#AddGroupWithOne">AddGroupWithOne</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">ℕ</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">↑<span class="fn">↑<span class="fn">f</span></span></span> <span class="fn">=</span> <span class="fn">↑<span class="fn">f</span></span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.natCoe_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L154-L158">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.natCoe_one" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.natCoe_one"><span class="name">ArithmeticFunction</span>.<span class="name">natCoe_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Nat/Cast/Defs.html#AddMonoidWithOne">AddMonoidWithOne</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">↑<span class="fn">1</span></span> <span class="fn">=</span> <span class="fn">1</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.intCoe_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L160-L164">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.intCoe_one" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.intCoe_one"><span class="name">ArithmeticFunction</span>.<span class="name">intCoe_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Int/Cast/Defs.html#AddGroupWithOne">AddGroupWithOne</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">↑<span class="fn">1</span></span> <span class="fn">=</span> <span class="fn">1</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.add"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L170-L171">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.add" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.add"><span class="name">ArithmeticFunction</span>.<span class="name">add</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddMonoid">AddMonoid</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Add</span> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span>)</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.add_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L173-L175">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.add_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.add_apply"><span class="name">ArithmeticFunction</span>.<span class="name">add_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddMonoid">AddMonoid</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f </span><span class="fn">g</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">f</span> <span class="fn">+</span> <span class="fn">g</span>)</span> <span class="fn">n</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">n</span></span> <span class="fn">+</span> <span class="fn"><span class="fn">g</span> <span class="fn">n</span></span></span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.instAddMonoid"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L177-L183">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.instAddMonoid" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.instAddMonoid"><span class="name">ArithmeticFunction</span>.<span class="name">instAddMonoid</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddMonoid">AddMonoid</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddMonoid">AddMonoid</a> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span>)</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.instAddMonoidWithOne"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L187-L192">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.instAddMonoidWithOne" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.instAddMonoidWithOne"><span class="name">ArithmeticFunction</span>.<span class="name">instAddMonoidWithOne</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Nat/Cast/Defs.html#AddMonoidWithOne">AddMonoidWithOne</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Data/Nat/Cast/Defs.html#AddMonoidWithOne">AddMonoidWithOne</a> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span>)</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.instAddCommMonoid"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L194-L195">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.instAddCommMonoid" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.instAddCommMonoid"><span class="name">ArithmeticFunction</span>.<span class="name">instAddCommMonoid</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span>)</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.instNeg"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L197-L198">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.instNeg" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.instNeg"><span class="name">ArithmeticFunction</span>.<span class="name">instNeg</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#NegZeroClass">NegZeroClass</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Neg</span> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span>)</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.neg_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L200-L202">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.neg_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.neg_apply"><span class="name">ArithmeticFunction</span>.<span class="name">neg_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#NegZeroClass">NegZeroClass</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/Algebra/Order/AddGroupWithTop.html#Neg.neg">-</a><span class="fn">f</span>) <span class="fn">n</span></span> <span class="fn">=</span> <a href="../../.././Mathlib/Algebra/Order/AddGroupWithTop.html#Neg.neg">-</a><span class="fn"><span class="fn">f</span> <span class="fn">n</span></span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.instAddGroup"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L204-L207">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.instAddGroup" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.instAddGroup"><span class="name">ArithmeticFunction</span>.<span class="name">instAddGroup</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddGroup">AddGroup</a> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span>)</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.instAddCommGroup"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L209-L211">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.instAddCommGroup" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.instAddCommGroup"><span class="name">ArithmeticFunction</span>.<span class="name">instAddCommGroup</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span>)</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.instSMul"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L217-L220">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.instSMul" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.instSMul"><span class="name">ArithmeticFunction</span>.<span class="name">instSMul</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">SMul</span> <span class="fn">R</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">SMul</span> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span>)</span> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">M</span>)</span></span></div></div><p>The Dirichlet convolution of two arithmetic functions <code>f</code> and <code>g</code> is another arithmetic function
+such that <code>(f * g) n</code> is the sum of <code>f x * g y</code> over all <code>(x,y)</code> such that <code>x * y = n</code>.</p></div></div><div class="decl" id="ArithmeticFunction.smul_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L222-L225">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.smul_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.smul_apply"><span class="name">ArithmeticFunction</span>.<span class="name">smul_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">SMul</span> <span class="fn">R</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">M</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">f</span> <span class="fn">•</span> <span class="fn">g</span>)</span> <span class="fn">n</span></span> <span class="fn">=</span> <span class="fn">∑ <span class="fn">x</span> ∈ <span class="fn"><span class="fn">n</span>.<a href="../../.././Mathlib/NumberTheory/Divisors.html#Nat.divisorsAntidiagonal">divisorsAntidiagonal</a></span>, <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn"><span class="fn">x</span>.1</span></span> <span class="fn">•</span> <span class="fn"><span class="fn">g</span> <span class="fn"><span class="fn">x</span>.2</span></span></span></span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.instMul"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L229-L232">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.instMul" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.instMul"><span class="name">ArithmeticFunction</span>.<span class="name">instMul</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Mul</span> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span>)</span></span></div></div><p>The Dirichlet convolution of two arithmetic functions <code>f</code> and <code>g</code> is another arithmetic function
+such that <code>(f * g) n</code> is the sum of <code>f x * g y</code> over all <code>(x,y)</code> such that <code>x * y = n</code>.</p></div></div><div class="decl" id="ArithmeticFunction.mul_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L234-L237">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.mul_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.mul_apply"><span class="name">ArithmeticFunction</span>.<span class="name">mul_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f </span><span class="fn">g</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">f</span> <span class="fn">*</span> <span class="fn">g</span>)</span> <span class="fn">n</span></span> <span class="fn">=</span> <span class="fn">∑ <span class="fn">x</span> ∈ <span class="fn"><span class="fn">n</span>.<a href="../../.././Mathlib/NumberTheory/Divisors.html#Nat.divisorsAntidiagonal">divisorsAntidiagonal</a></span>, <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn"><span class="fn">x</span>.1</span></span> <span class="fn">*</span> <span class="fn"><span class="fn">g</span> <span class="fn"><span class="fn">x</span>.2</span></span></span></span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.mul_apply_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L239-L239">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.mul_apply_one" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.mul_apply_one"><span class="name">ArithmeticFunction</span>.<span class="name">mul_apply_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f </span><span class="fn">g</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">f</span> <span class="fn">*</span> <span class="fn">g</span>)</span> <span class="fn">1</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">1</span></span> <span class="fn">*</span> <span class="fn"><span class="fn">g</span> <span class="fn">1</span></span></span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.natCoe_mul"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L241-L245">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.natCoe_mul" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.natCoe_mul"><span class="name">ArithmeticFunction</span>.<span class="name">natCoe_mul</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f </span><span class="fn">g</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">ℕ</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">↑<span class="fn">(<span class="fn">f</span> <span class="fn">*</span> <span class="fn">g</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">↑<span class="fn">f</span></span> <span class="fn">*</span> <span class="fn">↑<span class="fn">g</span></span></span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.intCoe_mul"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L247-L251">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.intCoe_mul" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.intCoe_mul"><span class="name">ArithmeticFunction</span>.<span class="name">intCoe_mul</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f </span><span class="fn">g</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">ℤ</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">↑<span class="fn">(<span class="fn">f</span> <span class="fn">*</span> <span class="fn">g</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">↑<span class="fn">f</span></span> <span class="fn">*</span> <span class="fn">↑<span class="fn">g</span></span></span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.mul_smul'"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L257-L262">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.mul_smul'" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.mul_smul'"><span class="name">ArithmeticFunction</span>.<span class="name">mul_smul'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f </span><span class="fn">g</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">M</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">f</span> <span class="fn">*</span> <span class="fn">g</span>)</span> <span class="fn">•</span> <span class="fn">h</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">f</span> <span class="fn">•</span> <span class="fn"><span class="fn">g</span> <span class="fn">•</span> <span class="fn">h</span></span></span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.one_smul'"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L264-L274">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.one_smul'" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.one_smul'"><span class="name">ArithmeticFunction</span>.<span class="name">one_smul'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">b</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">M</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">1</span> <span class="fn">•</span> <span class="fn">b</span></span> <span class="fn">=</span> <span class="fn">b</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.instMonoid"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L282-L297">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.instMonoid" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.instMonoid"><span class="name">ArithmeticFunction</span>.<span class="name">instMonoid</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span>)</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.instSemiring"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L299-L314">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.instSemiring" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.instSemiring"><span class="name">ArithmeticFunction</span>.<span class="name">instSemiring</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span>)</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.instCommSemiring"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L318-L323">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.instCommSemiring" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.instCommSemiring"><span class="name">ArithmeticFunction</span>.<span class="name">instCommSemiring</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommSemiring">CommSemiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommSemiring">CommSemiring</a> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span>)</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.instCommRing"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L325-L329">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.instCommRing" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.instCommRing"><span class="name">ArithmeticFunction</span>.<span class="name">instCommRing</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span>)</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.instModule"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L331-L346">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.instModule" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.instModule"><span class="name">ArithmeticFunction</span>.<span class="name">instModule</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span>)</span> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">M</span>)</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.IsMultiplicative"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L349-L351">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.IsMultiplicative" class="verification-badge math-definition" title="Mathematical definition (Prop-valued)">🔹 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#MonoidWithZero">MonoidWithZero</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../.././foundational_types.html">Prop</a></div></div><p>Multiplicative functions</p><details id="instances-for-list-ArithmeticFunction.IsMultiplicative" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="ArithmeticFunction.IsMultiplicative.map_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L359-L361">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.IsMultiplicative.map_one" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative.map_one"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">map_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#MonoidWithZero">MonoidWithZero</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative">IsMultiplicative</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">1</span></span> <span class="fn">=</span> <span class="fn">1</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.IsMultiplicative.map_mul_of_coprime"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L363-L366">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.IsMultiplicative.map_mul_of_coprime" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative.map_mul_of_coprime"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">map_mul_of_coprime</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#MonoidWithZero">MonoidWithZero</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative">IsMultiplicative</a></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m </span><span class="fn">n</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn"><span class="fn"><span class="fn">m</span>.<span class="fn">gcd</span></span> <span class="fn">n</span></span> <span class="fn">=</span> <span class="fn">1</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">(<span class="fn">m</span> <span class="fn">*</span> <span class="fn">n</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">m</span></span> <span class="fn">*</span> <span class="fn"><span class="fn">f</span> <span class="fn">n</span></span></span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.IsMultiplicative.map_prod"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L371-L380">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.IsMultiplicative.map_prod" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative.map_prod"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">map_prod</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#CommMonoidWithZero">CommMonoidWithZero</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">ℕ</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative">IsMultiplicative</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">s</span> : <span class="fn"><a href="../../.././Mathlib/Data/Finset/Defs.html#Finset">Finset</a> <span class="fn">ι</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hs</span> : <span class="fn"><span class="fn"><span class="fn">(↑<span class="fn">s</span>)</span>.<a href="../../.././Mathlib/Logic/Pairwise.html#Set.Pairwise">Pairwise</a></span> <span class="fn">(<a href="../../.././Mathlib/Logic/Function/Defs.html#Function.onFun">Function.onFun</a> <span class="fn">Nat.Coprime</span> <span class="fn">g</span>)</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">(∏ <span class="fn">i</span> ∈ <span class="fn">s</span>, <span class="fn"><span class="fn">g</span> <span class="fn">i</span></span>)</span></span> <span class="fn">=</span> <span class="fn">∏ <span class="fn">i</span> ∈ <span class="fn">s</span>, <span class="fn"><span class="fn">f</span> <span class="fn">(<span class="fn">g</span> <span class="fn">i</span>)</span></span></span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.IsMultiplicative.map_prod_of_prime"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L382-L386">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.IsMultiplicative.map_prod_of_prime" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative.map_prod_of_prime"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">map_prod_of_prime</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#CommMonoidWithZero">CommMonoidWithZero</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h_mult</span> : <span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative">IsMultiplicative</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Data/Finset/Defs.html#Finset">Finset</a> <span class="fn">ℕ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">ht</span> : <span class="fn">∀ <span class="fn">p</span> ∈ <span class="fn">t</span>, <span class="fn"><a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">(∏ <span class="fn">a</span> ∈ <span class="fn">t</span>, <span class="fn">a</span>)</span></span> <span class="fn">=</span> <span class="fn">∏ <span class="fn">a</span> ∈ <span class="fn">t</span>, <span class="fn"><span class="fn">f</span> <span class="fn">a</span></span></span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.IsMultiplicative.map_prod_of_subset_primeFactors"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L388-L392">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.IsMultiplicative.map_prod_of_subset_primeFactors" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative.map_prod_of_subset_primeFactors"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">map_prod_of_subset_primeFactors</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#CommMonoidWithZero">CommMonoidWithZero</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h_mult</span> : <span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative">IsMultiplicative</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Data/Finset/Defs.html#Finset">Finset</a> <span class="fn">ℕ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">ht</span> : <span class="fn"><span class="fn">t</span> <span class="fn">⊆</span> <span class="fn"><span class="fn">l</span>.<a href="../../.././Mathlib/Data/Nat/PrimeFin.html#Nat.primeFactors">primeFactors</a></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">(∏ <span class="fn">a</span> ∈ <span class="fn">t</span>, <span class="fn">a</span>)</span></span> <span class="fn">=</span> <span class="fn">∏ <span class="fn">a</span> ∈ <span class="fn">t</span>, <span class="fn"><span class="fn">f</span> <span class="fn">a</span></span></span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.IsMultiplicative.prod_primeFactors"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L394-L398">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.IsMultiplicative.prod_primeFactors" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative.prod_primeFactors"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">prod_primeFactors</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#CommMonoidWithZero">CommMonoidWithZero</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h_mult</span> : <span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative">IsMultiplicative</a></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">l</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hl</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Squarefree/Basic.html#Squarefree">Squarefree</a> <span class="fn">l</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">∏ <span class="fn">a</span> ∈ <span class="fn"><span class="fn">l</span>.<a href="../../.././Mathlib/Data/Nat/PrimeFin.html#Nat.primeFactors">primeFactors</a></span>, <span class="fn"><span class="fn">f</span> <span class="fn">a</span></span></span> <span class="fn">=</span> <span class="fn"><span class="fn">f</span> <span class="fn">l</span></span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.IsMultiplicative.map_div_of_coprime"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L400-L404">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.IsMultiplicative.map_div_of_coprime" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative.map_div_of_coprime"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">map_div_of_coprime</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#GroupWithZero">GroupWithZero</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative">IsMultiplicative</a></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">l </span><span class="fn">d</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hdl</span> : <span class="fn"><span class="fn">d</span> <span class="fn">∣</span> <span class="fn">l</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hl</span> : <span class="fn"><span class="fn"><span class="fn">(<span class="fn">l</span> <span class="fn">/</span> <span class="fn">d</span>)</span>.<span class="fn">Coprime</span></span> <span class="fn">d</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hd</span> : <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">d</span></span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">(<span class="fn">l</span> <span class="fn">/</span> <span class="fn">d</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">l</span></span> <span class="fn">/</span> <span class="fn"><span class="fn">f</span> <span class="fn">d</span></span></span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.IsMultiplicative.natCast"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L406-L409">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.IsMultiplicative.natCast" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative.natCast"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">natCast</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">ℕ</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative">IsMultiplicative</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(↑<span class="fn">f</span>)</span>.<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative">IsMultiplicative</a></span></div></div></div></div><div class="decl" id="ArithmeticFunction.IsMultiplicative.intCast"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L411-L414">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.IsMultiplicative.intCast" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative.intCast"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">intCast</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">ℤ</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative">IsMultiplicative</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(↑<span class="fn">f</span>)</span>.<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative">IsMultiplicative</a></span></div></div></div></div><div class="decl" id="ArithmeticFunction.IsMultiplicative.mul"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L416-L471">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.IsMultiplicative.mul" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative.mul"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">mul</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommSemiring">CommSemiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f </span><span class="fn">g</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative">IsMultiplicative</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><span class="fn">g</span>.<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative">IsMultiplicative</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<span class="fn">f</span> <span class="fn">*</span> <span class="fn">g</span>)</span>.<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative">IsMultiplicative</a></span></div></div></div></div><div class="decl" id="ArithmeticFunction.IsMultiplicative.multiplicative_factorization"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L473-L478">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.IsMultiplicative.multiplicative_factorization" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative.multiplicative_factorization"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">multiplicative_factorization</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#CommMonoidWithZero">CommMonoidWithZero</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative">IsMultiplicative</a></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hn</span> : <span class="fn"><span class="fn">n</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">n</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">n</span>.<a href="../../.././Mathlib/Data/Nat/Factorization/Defs.html#Nat.factorization">factorization</a></span>.<a href="../../.././Mathlib/Algebra/BigOperators/Finsupp/Basic.html#Finsupp.prod">prod</a></span> <span class="fn">fun (<span class="fn">p</span> <span class="fn">k</span> : <span class="fn">ℕ</span>) =&gt; <span class="fn"><span class="fn">f</span> <span class="fn">(<span class="fn">p</span> <span class="fn">^</span> <span class="fn">k</span>)</span></span></span></span></span></div></div><p>For any multiplicative function <code>f</code> and any <code>n &gt; 0</code>,
+we can evaluate <code>f n</code> by evaluating <code>f</code> at <code>p ^ k</code> over the factorization of <code>n</code></p></div></div><div class="decl" id="ArithmeticFunction.IsMultiplicative.iff_ne_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L480-L489">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.IsMultiplicative.iff_ne_zero" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative.iff_ne_zero"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">iff_ne_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#MonoidWithZero">MonoidWithZero</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative">IsMultiplicative</a></span> <span class="fn">↔</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">1</span></span> <span class="fn">=</span> <span class="fn">1</span></span> <span class="fn">∧</span> <span class="fn">∀ {<span class="fn">m </span><span class="fn">n</span> : <span class="fn">ℕ</span>}, <span class="fn"><span class="fn"><span class="fn">m</span> <span class="fn">≠</span> <span class="fn">0</span></span> → <span class="fn"><span class="fn"><span class="fn">n</span> <span class="fn">≠</span> <span class="fn">0</span></span> → <span class="fn"><span class="fn"><span class="fn"><span class="fn">m</span>.<span class="fn">Coprime</span></span> <span class="fn">n</span></span> → <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">(<span class="fn">m</span> <span class="fn">*</span> <span class="fn">n</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">m</span></span> <span class="fn">*</span> <span class="fn"><span class="fn">f</span> <span class="fn">n</span></span></span></span></span></span></span></span></span></span></div></div><p>A recapitulation of the definition of multiplicative that is simpler for proofs</p></div></div><div class="decl" id="ArithmeticFunction.IsMultiplicative.eq_iff_eq_on_prime_powers"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L491-L502">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.IsMultiplicative.eq_iff_eq_on_prime_powers" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative.eq_iff_eq_on_prime_powers"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">eq_iff_eq_on_prime_powers</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#CommMonoidWithZero">CommMonoidWithZero</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative">IsMultiplicative</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><span class="fn">g</span>.<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative">IsMultiplicative</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">=</span> <span class="fn">g</span></span> <span class="fn">↔</span> <span class="fn">∀ (<span class="fn">p </span><span class="fn">i</span> : <span class="fn">ℕ</span>), <span class="fn"><span class="fn"><a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span></span> → <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">(<span class="fn">p</span> <span class="fn">^</span> <span class="fn">i</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">g</span> <span class="fn">(<span class="fn">p</span> <span class="fn">^</span> <span class="fn">i</span>)</span></span></span></span></span></span></div></div><p>Two multiplicative functions <code>f</code> and <code>g</code> are equal if and only if
+they agree on prime powers</p></div></div><div class="decl" id="ArithmeticFunction.IsMultiplicative.lcm_apply_mul_gcd_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L504-L529">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.IsMultiplicative.lcm_apply_mul_gcd_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative.lcm_apply_mul_gcd_apply"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">lcm_apply_mul_gcd_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#CommMonoidWithZero">CommMonoidWithZero</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative">IsMultiplicative</a></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x </span><span class="fn">y</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">(<span class="fn"><span class="fn">x</span>.<span class="fn">lcm</span></span> <span class="fn">y</span>)</span></span> <span class="fn">*</span> <span class="fn"><span class="fn">f</span> <span class="fn">(<span class="fn"><span class="fn">x</span>.<span class="fn">gcd</span></span> <span class="fn">y</span>)</span></span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">x</span></span> <span class="fn">*</span> <span class="fn"><span class="fn">f</span> <span class="fn">y</span></span></span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.IsMultiplicative.map_gcd"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L531-L534">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.IsMultiplicative.map_gcd" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative.map_gcd"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">map_gcd</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#CommGroupWithZero">CommGroupWithZero</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative">IsMultiplicative</a></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x </span><span class="fn">y</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf_lcm</span> : <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">(<span class="fn"><span class="fn">x</span>.<span class="fn">lcm</span></span> <span class="fn">y</span>)</span></span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">(<span class="fn"><span class="fn">x</span>.<span class="fn">gcd</span></span> <span class="fn">y</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">x</span></span> <span class="fn">*</span> <span class="fn"><span class="fn">f</span> <span class="fn">y</span></span></span> <span class="fn">/</span> <span class="fn"><span class="fn">f</span> <span class="fn">(<span class="fn"><span class="fn">x</span>.<span class="fn">lcm</span></span> <span class="fn">y</span>)</span></span></span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.IsMultiplicative.map_lcm"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L536-L539">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.IsMultiplicative.map_lcm" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative.map_lcm"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">map_lcm</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#CommGroupWithZero">CommGroupWithZero</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative">IsMultiplicative</a></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x </span><span class="fn">y</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf_gcd</span> : <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">(<span class="fn"><span class="fn">x</span>.<span class="fn">gcd</span></span> <span class="fn">y</span>)</span></span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">(<span class="fn"><span class="fn">x</span>.<span class="fn">lcm</span></span> <span class="fn">y</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">x</span></span> <span class="fn">*</span> <span class="fn"><span class="fn">f</span> <span class="fn">y</span></span></span> <span class="fn">/</span> <span class="fn"><span class="fn">f</span> <span class="fn">(<span class="fn"><span class="fn">x</span>.<span class="fn">gcd</span></span> <span class="fn">y</span>)</span></span></span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.IsMultiplicative.eq_zero_of_squarefree_of_dvd_eq_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L541-L546">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative.eq_zero_of_squarefree_of_dvd_eq_zero"><span class="name">ArithmeticFunction</span>.<span class="name">IsMultiplicative</span>.<span class="name">eq_zero_of_squarefree_of_dvd_eq_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#MonoidWithZero">MonoidWithZero</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction">ArithmeticFunction</a> <span class="fn">R</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative">IsMultiplicative</a></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m </span><span class="fn">n</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hn</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Squarefree/Basic.html#Squarefree">Squarefree</a> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hmn</span> : <span class="fn"><span class="fn">m</span> <span class="fn">∣</span> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_zero</span> : <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">m</span></span> <span class="fn">=</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">n</span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div></div></div><div class="decl" id="ArithmeticFunction.isMultiplicative_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/ArithmeticFunction/Defs.lean#L550-L554">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_ArithmeticFunction_Defs.html#ArithmeticFunction.isMultiplicative_one" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.isMultiplicative_one"><span class="name">ArithmeticFunction</span>.<span class="name">isMultiplicative_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Defs.html#MonoidWithZero">MonoidWithZero</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/NumberTheory/ArithmeticFunction/Defs.html#ArithmeticFunction.IsMultiplicative">IsMultiplicative</a> <span class="fn">1</span></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

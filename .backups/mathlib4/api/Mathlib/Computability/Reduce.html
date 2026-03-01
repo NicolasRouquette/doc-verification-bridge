@@ -1,0 +1,1066 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../.././style.css"></link><link rel="icon" href="../.././favicon.svg"></link><link rel="mask-icon" href="../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.Computability.Reduce</title><script defer="true" src="../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../.././";</script><script>const MODULE_NAME="Mathlib.Computability.Reduce";</script><script type="module" src="../.././jump-src.js"></script><script type="module" src="../.././search.js"></script><script type="module" src="../.././expand-nav.js"></script><script type="module" src="../.././how-about.js"></script><script type="module" src="../.././instances.js"></script><script type="module" src="../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">Computability</span>.<span class="name">Reduce</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../.././Init.html">Init</a></li><li><a href="../.././Mathlib/Computability/Halting.html">Mathlib.Computability.Halting</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.Computability.Reduce" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#ManyOneReducible"><span class="name">ManyOneReducible</span></a></div><div class="nav_link"><a class="break_within" href="#«term_≤₀_»"><span class="name">«term_≤₀_»</span></a></div><div class="nav_link"><a class="break_within" href="#ManyOneReducible.mk"><span class="name">ManyOneReducible</span>.<span class="name">mk</span></a></div><div class="nav_link"><a class="break_within" href="#manyOneReducible_refl"><span class="name">manyOneReducible_refl</span></a></div><div class="nav_link"><a class="break_within" href="#ManyOneReducible.trans"><span class="name">ManyOneReducible</span>.<span class="name">trans</span></a></div><div class="nav_link"><a class="break_within" href="#reflexive_manyOneReducible"><span class="name">reflexive_manyOneReducible</span></a></div><div class="nav_link"><a class="break_within" href="#transitive_manyOneReducible"><span class="name">transitive_manyOneReducible</span></a></div><div class="nav_link"><a class="break_within" href="#OneOneReducible"><span class="name">OneOneReducible</span></a></div><div class="nav_link"><a class="break_within" href="#«term_≤₁_»"><span class="name">«term_≤₁_»</span></a></div><div class="nav_link"><a class="break_within" href="#OneOneReducible.mk"><span class="name">OneOneReducible</span>.<span class="name">mk</span></a></div><div class="nav_link"><a class="break_within" href="#oneOneReducible_refl"><span class="name">oneOneReducible_refl</span></a></div><div class="nav_link"><a class="break_within" href="#OneOneReducible.trans"><span class="name">OneOneReducible</span>.<span class="name">trans</span></a></div><div class="nav_link"><a class="break_within" href="#OneOneReducible.to_many_one"><span class="name">OneOneReducible</span>.<span class="name">to_many_one</span></a></div><div class="nav_link"><a class="break_within" href="#OneOneReducible.of_equiv"><span class="name">OneOneReducible</span>.<span class="name">of_equiv</span></a></div><div class="nav_link"><a class="break_within" href="#OneOneReducible.of_equiv_symm"><span class="name">OneOneReducible</span>.<span class="name">of_equiv_symm</span></a></div><div class="nav_link"><a class="break_within" href="#reflexive_oneOneReducible"><span class="name">reflexive_oneOneReducible</span></a></div><div class="nav_link"><a class="break_within" href="#transitive_oneOneReducible"><span class="name">transitive_oneOneReducible</span></a></div><div class="nav_link"><a class="break_within" href="#ComputablePred.computable_of_manyOneReducible"><span class="name">ComputablePred</span>.<span class="name">computable_of_manyOneReducible</span></a></div><div class="nav_link"><a class="break_within" href="#ComputablePred.computable_of_oneOneReducible"><span class="name">ComputablePred</span>.<span class="name">computable_of_oneOneReducible</span></a></div><div class="nav_link"><a class="break_within" href="#ManyOneEquiv"><span class="name">ManyOneEquiv</span></a></div><div class="nav_link"><a class="break_within" href="#OneOneEquiv"><span class="name">OneOneEquiv</span></a></div><div class="nav_link"><a class="break_within" href="#manyOneEquiv_refl"><span class="name">manyOneEquiv_refl</span></a></div><div class="nav_link"><a class="break_within" href="#ManyOneEquiv.symm"><span class="name">ManyOneEquiv</span>.<span class="name">symm</span></a></div><div class="nav_link"><a class="break_within" href="#ManyOneEquiv.trans"><span class="name">ManyOneEquiv</span>.<span class="name">trans</span></a></div><div class="nav_link"><a class="break_within" href="#equivalence_of_manyOneEquiv"><span class="name">equivalence_of_manyOneEquiv</span></a></div><div class="nav_link"><a class="break_within" href="#oneOneEquiv_refl"><span class="name">oneOneEquiv_refl</span></a></div><div class="nav_link"><a class="break_within" href="#OneOneEquiv.symm"><span class="name">OneOneEquiv</span>.<span class="name">symm</span></a></div><div class="nav_link"><a class="break_within" href="#OneOneEquiv.trans"><span class="name">OneOneEquiv</span>.<span class="name">trans</span></a></div><div class="nav_link"><a class="break_within" href="#equivalence_of_oneOneEquiv"><span class="name">equivalence_of_oneOneEquiv</span></a></div><div class="nav_link"><a class="break_within" href="#OneOneEquiv.to_many_one"><span class="name">OneOneEquiv</span>.<span class="name">to_many_one</span></a></div><div class="nav_link"><a class="break_within" href="#Equiv.Computable"><span class="name">Equiv</span>.<span class="name">Computable</span></a></div><div class="nav_link"><a class="break_within" href="#Equiv.Computable.symm"><span class="name">Equiv</span>.<span class="name">Computable</span>.<span class="name">symm</span></a></div><div class="nav_link"><a class="break_within" href="#Equiv.Computable.trans"><span class="name">Equiv</span>.<span class="name">Computable</span>.<span class="name">trans</span></a></div><div class="nav_link"><a class="break_within" href="#Computable.eqv"><span class="name">Computable</span>.<span class="name">eqv</span></a></div><div class="nav_link"><a class="break_within" href="#Computable.equiv₂"><span class="name">Computable</span>.<span class="name">equiv₂</span></a></div><div class="nav_link"><a class="break_within" href="#OneOneEquiv.of_equiv"><span class="name">OneOneEquiv</span>.<span class="name">of_equiv</span></a></div><div class="nav_link"><a class="break_within" href="#ManyOneEquiv.of_equiv"><span class="name">ManyOneEquiv</span>.<span class="name">of_equiv</span></a></div><div class="nav_link"><a class="break_within" href="#ManyOneEquiv.le_congr_left"><span class="name">ManyOneEquiv</span>.<span class="name">le_congr_left</span></a></div><div class="nav_link"><a class="break_within" href="#ManyOneEquiv.le_congr_right"><span class="name">ManyOneEquiv</span>.<span class="name">le_congr_right</span></a></div><div class="nav_link"><a class="break_within" href="#OneOneEquiv.le_congr_left"><span class="name">OneOneEquiv</span>.<span class="name">le_congr_left</span></a></div><div class="nav_link"><a class="break_within" href="#OneOneEquiv.le_congr_right"><span class="name">OneOneEquiv</span>.<span class="name">le_congr_right</span></a></div><div class="nav_link"><a class="break_within" href="#ManyOneEquiv.congr_left"><span class="name">ManyOneEquiv</span>.<span class="name">congr_left</span></a></div><div class="nav_link"><a class="break_within" href="#ManyOneEquiv.congr_right"><span class="name">ManyOneEquiv</span>.<span class="name">congr_right</span></a></div><div class="nav_link"><a class="break_within" href="#OneOneEquiv.congr_left"><span class="name">OneOneEquiv</span>.<span class="name">congr_left</span></a></div><div class="nav_link"><a class="break_within" href="#OneOneEquiv.congr_right"><span class="name">OneOneEquiv</span>.<span class="name">congr_right</span></a></div><div class="nav_link"><a class="break_within" href="#ULower.down_computable"><span class="name">ULower</span>.<span class="name">down_computable</span></a></div><div class="nav_link"><a class="break_within" href="#manyOneEquiv_up"><span class="name">manyOneEquiv_up</span></a></div><div class="nav_link"><a class="break_within" href="#OneOneReducible.disjoin_left"><span class="name">OneOneReducible</span>.<span class="name">disjoin_left</span></a></div><div class="nav_link"><a class="break_within" href="#OneOneReducible.disjoin_right"><span class="name">OneOneReducible</span>.<span class="name">disjoin_right</span></a></div><div class="nav_link"><a class="break_within" href="#disjoin_manyOneReducible"><span class="name">disjoin_manyOneReducible</span></a></div><div class="nav_link"><a class="break_within" href="#disjoin_le"><span class="name">disjoin_le</span></a></div><div class="nav_link"><a class="break_within" href="#toNat"><span class="name">toNat</span></a></div><div class="nav_link"><a class="break_within" href="#toNat_manyOneReducible"><span class="name">toNat_manyOneReducible</span></a></div><div class="nav_link"><a class="break_within" href="#manyOneReducible_toNat"><span class="name">manyOneReducible_toNat</span></a></div><div class="nav_link"><a class="break_within" href="#manyOneReducible_toNat_toNat"><span class="name">manyOneReducible_toNat_toNat</span></a></div><div class="nav_link"><a class="break_within" href="#toNat_manyOneEquiv"><span class="name">toNat_manyOneEquiv</span></a></div><div class="nav_link"><a class="break_within" href="#manyOneEquiv_toNat"><span class="name">manyOneEquiv_toNat</span></a></div><div class="nav_link"><a class="break_within" href="#ManyOneDegree"><span class="name">ManyOneDegree</span></a></div><div class="nav_link"><a class="break_within" href="#ManyOneDegree.of"><span class="name">ManyOneDegree</span>.<span class="name">of</span></a></div><div class="nav_link"><a class="break_within" href="#ManyOneDegree.ind_on"><span class="name">ManyOneDegree</span>.<span class="name">ind_on</span></a></div><div class="nav_link"><a class="break_within" href="#ManyOneDegree.liftOn"><span class="name">ManyOneDegree</span>.<span class="name">liftOn</span></a></div><div class="nav_link"><a class="break_within" href="#ManyOneDegree.liftOn_eq"><span class="name">ManyOneDegree</span>.<span class="name">liftOn_eq</span></a></div><div class="nav_link"><a class="break_within" href="#ManyOneDegree.liftOn₂"><span class="name">ManyOneDegree</span>.<span class="name">liftOn₂</span></a></div><div class="nav_link"><a class="break_within" href="#ManyOneDegree.liftOn₂_eq"><span class="name">ManyOneDegree</span>.<span class="name">liftOn₂_eq</span></a></div><div class="nav_link"><a class="break_within" href="#ManyOneDegree.of_eq_of"><span class="name">ManyOneDegree</span>.<span class="name">of_eq_of</span></a></div><div class="nav_link"><a class="break_within" href="#ManyOneDegree.instInhabited"><span class="name">ManyOneDegree</span>.<span class="name">instInhabited</span></a></div><div class="nav_link"><a class="break_within" href="#ManyOneDegree.instLE"><span class="name">ManyOneDegree</span>.<span class="name">instLE</span></a></div><div class="nav_link"><a class="break_within" href="#ManyOneDegree.of_le_of"><span class="name">ManyOneDegree</span>.<span class="name">of_le_of</span></a></div><div class="nav_link"><a class="break_within" href="#ManyOneDegree.instPartialOrder"><span class="name">ManyOneDegree</span>.<span class="name">instPartialOrder</span></a></div><div class="nav_link"><a class="break_within" href="#ManyOneDegree.instAdd"><span class="name">ManyOneDegree</span>.<span class="name">instAdd</span></a></div><div class="nav_link"><a class="break_within" href="#ManyOneDegree.add_of"><span class="name">ManyOneDegree</span>.<span class="name">add_of</span></a></div><div class="nav_link"><a class="break_within" href="#ManyOneDegree.add_le"><span class="name">ManyOneDegree</span>.<span class="name">add_le</span></a></div><div class="nav_link"><a class="break_within" href="#ManyOneDegree.le_add_left"><span class="name">ManyOneDegree</span>.<span class="name">le_add_left</span></a></div><div class="nav_link"><a class="break_within" href="#ManyOneDegree.le_add_right"><span class="name">ManyOneDegree</span>.<span class="name">le_add_right</span></a></div><div class="nav_link"><a class="break_within" href="#ManyOneDegree.instSemilatticeSup"><span class="name">ManyOneDegree</span>.<span class="name">instSemilatticeSup</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Strong-reducibility-and-degrees" class="markdown-heading">Strong reducibility and degrees. <a class="hover-link" href="#Strong-reducibility-and-degrees">#</a></h1><p>This file defines the notions of computable many-one reduction and one-one
+reduction between sets, and shows that the corresponding degrees form a
+semilattice.</p><h2 id="Notation" class="markdown-heading">Notation <a class="hover-link" href="#Notation">#</a></h2><p>This file uses the local notation <code>⊕'</code> for <code>Sum.elim</code> to denote the disjoint union of two degrees.</p><h2 id="References" class="markdown-heading">References <a class="hover-link" href="#References">#</a></h2><ul><li>[Robert Soare, <em>Recursively enumerable sets and degrees</em>][soare1987]</li></ul><h2 id="Tags" class="markdown-heading">Tags <a class="hover-link" href="#Tags">#</a></h2><p>computability, reducibility, reduction</p></div><div class="decl" id="ManyOneReducible"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L37-L42">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#ManyOneReducible" class="verification-badge math-definition" title="Mathematical definition (Prop-valued)">🔹 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneReducible"><span class="name">ManyOneReducible</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../.././foundational_types.html">Prop</a></div></div><p><code>p</code> is many-one reducible to <code>q</code> if there is a computable function translating questions about <code>p</code>
+to questions about <code>q</code>.</p><details id="instances-for-list-ManyOneReducible" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="«term_≤₀_»"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L44-L45">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#«term_≤₀_»" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#«term_≤₀_»"><span class="name">«term_≤₀_»</span></a></span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">Lean.TrailingParserDescr</span></div></div><p><code>p</code> is many-one reducible to <code>q</code> if there is a computable function translating questions about <code>p</code>
+to questions about <code>q</code>.</p><details id="instances-for-list-«term_≤₀_»" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="ManyOneReducible.mk"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L47-L49">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#ManyOneReducible.mk" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneReducible.mk"><span class="name">ManyOneReducible</span>.<span class="name">mk</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">β</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../.././Mathlib/Computability/Partrec.html#Computable">Computable</a> <span class="fn">f</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">(fun (<span class="fn">a</span> : <span class="fn">α</span>) =&gt; <span class="fn"><span class="fn">q</span> <span class="fn">(<span class="fn">f</span> <span class="fn">a</span>)</span></span>)</span> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneReducible">≤₀</a> <span class="fn">q</span></div></div></div></div><div class="decl" id="manyOneReducible_refl"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L51-L53">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#manyOneReducible_refl" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#manyOneReducible_refl"><span class="name">manyOneReducible_refl</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">p</span> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneReducible">≤₀</a> <span class="fn">p</span></div></div></div></div><div class="decl" id="ManyOneReducible.trans"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L55-L60">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneReducible.trans"><span class="name">ManyOneReducible</span>.<span class="name">trans</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">γ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">r</span> : <span class="fn"><span class="fn">γ</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">p</span> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneReducible">≤₀</a> <span class="fn">q</span> → <span class="fn"><span class="fn">q</span> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneReducible">≤₀</a> <span class="fn">r</span> → <span class="fn">p</span> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneReducible">≤₀</a> <span class="fn">r</span></span></span></div></div></div></div><div class="decl" id="reflexive_manyOneReducible"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L62-L63">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#reflexive_manyOneReducible" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#reflexive_manyOneReducible"><span class="name">reflexive_manyOneReducible</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Order/Defs/Unbundled.html#Reflexive">Reflexive</a> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneReducible">ManyOneReducible</a></span></div></div></div></div><div class="decl" id="transitive_manyOneReducible"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L65-L66">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#transitive_manyOneReducible" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#transitive_manyOneReducible"><span class="name">transitive_manyOneReducible</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Order/Defs/Unbundled.html#Transitive">Transitive</a> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneReducible">ManyOneReducible</a></span></div></div></div></div><div class="decl" id="OneOneReducible"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L68-L73">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#OneOneReducible" class="verification-badge math-definition" title="Mathematical definition (Prop-valued)">🔹 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#OneOneReducible"><span class="name">OneOneReducible</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../.././foundational_types.html">Prop</a></div></div><p><code>p</code> is one-one reducible to <code>q</code> if there is an injective computable function translating questions
+about <code>p</code> to questions about <code>q</code>.</p><details id="instances-for-list-OneOneReducible" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="«term_≤₁_»"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L75-L76">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#«term_≤₁_»" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#«term_≤₁_»"><span class="name">«term_≤₁_»</span></a></span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">Lean.TrailingParserDescr</span></div></div><p><code>p</code> is one-one reducible to <code>q</code> if there is an injective computable function translating questions
+about <code>p</code> to questions about <code>q</code>.</p><details id="instances-for-list-«term_≤₁_»" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="OneOneReducible.mk"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L78-L80">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#OneOneReducible.mk" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#OneOneReducible.mk"><span class="name">OneOneReducible</span>.<span class="name">mk</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">β</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../.././Mathlib/Computability/Partrec.html#Computable">Computable</a> <span class="fn">f</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn"><span class="fn">Function.Injective</span> <span class="fn">f</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">(fun (<span class="fn">a</span> : <span class="fn">α</span>) =&gt; <span class="fn"><span class="fn">q</span> <span class="fn">(<span class="fn">f</span> <span class="fn">a</span>)</span></span>)</span> <a href="../.././Mathlib/Computability/Reduce.html#OneOneReducible">≤₁</a> <span class="fn">q</span></div></div></div></div><div class="decl" id="oneOneReducible_refl"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L82-L84">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#oneOneReducible_refl" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#oneOneReducible_refl"><span class="name">oneOneReducible_refl</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">p</span> <a href="../.././Mathlib/Computability/Reduce.html#OneOneReducible">≤₁</a> <span class="fn">p</span></div></div></div></div><div class="decl" id="OneOneReducible.trans"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L86-L91">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#OneOneReducible.trans"><span class="name">OneOneReducible</span>.<span class="name">trans</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">γ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">r</span> : <span class="fn"><span class="fn">γ</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">p</span> <a href="../.././Mathlib/Computability/Reduce.html#OneOneReducible">≤₁</a> <span class="fn">q</span> → <span class="fn"><span class="fn">q</span> <a href="../.././Mathlib/Computability/Reduce.html#OneOneReducible">≤₁</a> <span class="fn">r</span> → <span class="fn">p</span> <a href="../.././Mathlib/Computability/Reduce.html#OneOneReducible">≤₁</a> <span class="fn">r</span></span></span></div></div></div></div><div class="decl" id="OneOneReducible.to_many_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L93-L95">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#OneOneReducible.to_many_one" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#OneOneReducible.to_many_one"><span class="name">OneOneReducible</span>.<span class="name">to_many_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">p</span> <a href="../.././Mathlib/Computability/Reduce.html#OneOneReducible">≤₁</a> <span class="fn">q</span> → <span class="fn">p</span> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneReducible">≤₀</a> <span class="fn">q</span></span></div></div></div></div><div class="decl" id="OneOneReducible.of_equiv"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L97-L99">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#OneOneReducible.of_equiv" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#OneOneReducible.of_equiv"><span class="name">OneOneReducible</span>.<span class="name">of_equiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">e</span> : <span class="fn">α</span> <a href="../.././Mathlib/Logic/Equiv/Defs.html#Equiv">≃</a> <span class="fn">β</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../.././Mathlib/Computability/Partrec.html#Computable">Computable</a> <span class="fn">⇑<span class="fn">e</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">(<span class="fn">q</span> <span class="fn">∘</span> <span class="fn">⇑<span class="fn">e</span></span>)</span> <a href="../.././Mathlib/Computability/Reduce.html#OneOneReducible">≤₁</a> <span class="fn">q</span></div></div></div></div><div class="decl" id="OneOneReducible.of_equiv_symm"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L101-L103">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#OneOneReducible.of_equiv_symm" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#OneOneReducible.of_equiv_symm"><span class="name">OneOneReducible</span>.<span class="name">of_equiv_symm</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">e</span> : <span class="fn">α</span> <a href="../.././Mathlib/Logic/Equiv/Defs.html#Equiv">≃</a> <span class="fn">β</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../.././Mathlib/Computability/Partrec.html#Computable">Computable</a> <span class="fn">⇑<span class="fn"><span class="fn">e</span>.<a href="../.././Mathlib/Logic/Equiv/Defs.html#Equiv.symm">symm</a></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">q</span> <a href="../.././Mathlib/Computability/Reduce.html#OneOneReducible">≤₁</a> <span class="fn">(<span class="fn">q</span> <span class="fn">∘</span> <span class="fn">⇑<span class="fn">e</span></span>)</span></div></div></div></div><div class="decl" id="reflexive_oneOneReducible"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L105-L106">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#reflexive_oneOneReducible" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#reflexive_oneOneReducible"><span class="name">reflexive_oneOneReducible</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Order/Defs/Unbundled.html#Reflexive">Reflexive</a> <a href="../.././Mathlib/Computability/Reduce.html#OneOneReducible">OneOneReducible</a></span></div></div></div></div><div class="decl" id="transitive_oneOneReducible"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L108-L109">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#transitive_oneOneReducible" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#transitive_oneOneReducible"><span class="name">transitive_oneOneReducible</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Order/Defs/Unbundled.html#Transitive">Transitive</a> <a href="../.././Mathlib/Computability/Reduce.html#OneOneReducible">OneOneReducible</a></span></div></div></div></div><div class="decl" id="ComputablePred.computable_of_manyOneReducible"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L117-L122">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ComputablePred.computable_of_manyOneReducible"><span class="name">ComputablePred</span>.<span class="name">computable_of_manyOneReducible</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h₁</span> : <span class="fn">p</span> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneReducible">≤₀</a> <span class="fn">q</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h₂</span> : <span class="fn"><a href="../.././Mathlib/Computability/Halting.html#ComputablePred">ComputablePred</a> <span class="fn">q</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Computability/Halting.html#ComputablePred">ComputablePred</a> <span class="fn">p</span></span></div></div></div></div><div class="decl" id="ComputablePred.computable_of_oneOneReducible"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L124-L126">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ComputablePred.computable_of_oneOneReducible"><span class="name">ComputablePred</span>.<span class="name">computable_of_oneOneReducible</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn">p</span> <a href="../.././Mathlib/Computability/Reduce.html#OneOneReducible">≤₁</a> <span class="fn">q</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Computability/Halting.html#ComputablePred">ComputablePred</a> <span class="fn">q</span></span> → <span class="fn"><a href="../.././Mathlib/Computability/Halting.html#ComputablePred">ComputablePred</a> <span class="fn">p</span></span></span></div></div></div></div><div class="decl" id="ManyOneEquiv"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L130-L132">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#ManyOneEquiv" class="verification-badge math-definition" title="Mathematical definition (Prop-valued)">🔹 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv"><span class="name">ManyOneEquiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../.././foundational_types.html">Prop</a></div></div><p><code>p</code> and <code>q</code> are many-one equivalent if each one is many-one reducible to the other.</p><details id="instances-for-list-ManyOneEquiv" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="OneOneEquiv"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L134-L136">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#OneOneEquiv" class="verification-badge math-definition" title="Mathematical definition (Prop-valued)">🔹 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#OneOneEquiv"><span class="name">OneOneEquiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../.././foundational_types.html">Prop</a></div></div><p><code>p</code> and <code>q</code> are one-one equivalent if each one is one-one reducible to the other.</p><details id="instances-for-list-OneOneEquiv" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="manyOneEquiv_refl"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L138-L140">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#manyOneEquiv_refl" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#manyOneEquiv_refl"><span class="name">manyOneEquiv_refl</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv">ManyOneEquiv</a> <span class="fn">p</span> <span class="fn">p</span></span></div></div></div></div><div class="decl" id="ManyOneEquiv.symm"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L142-L145">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv.symm"><span class="name">ManyOneEquiv</span>.<span class="name">symm</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv">ManyOneEquiv</a> <span class="fn">p</span> <span class="fn">q</span></span> → <span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv">ManyOneEquiv</a> <span class="fn">q</span> <span class="fn">p</span></span></span></div></div></div></div><div class="decl" id="ManyOneEquiv.trans"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L147-L150">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv.trans"><span class="name">ManyOneEquiv</span>.<span class="name">trans</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">γ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">r</span> : <span class="fn"><span class="fn">γ</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv">ManyOneEquiv</a> <span class="fn">p</span> <span class="fn">q</span></span> → <span class="fn"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv">ManyOneEquiv</a> <span class="fn">q</span> <span class="fn">r</span></span> → <span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv">ManyOneEquiv</a> <span class="fn">p</span> <span class="fn">r</span></span></span></span></div></div></div></div><div class="decl" id="equivalence_of_manyOneEquiv"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L152-L153">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#equivalence_of_manyOneEquiv" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#equivalence_of_manyOneEquiv"><span class="name">equivalence_of_manyOneEquiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Equivalence</span> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv">ManyOneEquiv</a></span></div></div></div></div><div class="decl" id="oneOneEquiv_refl"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L155-L157">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#oneOneEquiv_refl" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#oneOneEquiv_refl"><span class="name">oneOneEquiv_refl</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#OneOneEquiv">OneOneEquiv</a> <span class="fn">p</span> <span class="fn">p</span></span></div></div></div></div><div class="decl" id="OneOneEquiv.symm"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L159-L162">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#OneOneEquiv.symm"><span class="name">OneOneEquiv</span>.<span class="name">symm</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#OneOneEquiv">OneOneEquiv</a> <span class="fn">p</span> <span class="fn">q</span></span> → <span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#OneOneEquiv">OneOneEquiv</a> <span class="fn">q</span> <span class="fn">p</span></span></span></div></div></div></div><div class="decl" id="OneOneEquiv.trans"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L164-L167">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#OneOneEquiv.trans"><span class="name">OneOneEquiv</span>.<span class="name">trans</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">γ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">r</span> : <span class="fn"><span class="fn">γ</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#OneOneEquiv">OneOneEquiv</a> <span class="fn">p</span> <span class="fn">q</span></span> → <span class="fn"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#OneOneEquiv">OneOneEquiv</a> <span class="fn">q</span> <span class="fn">r</span></span> → <span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#OneOneEquiv">OneOneEquiv</a> <span class="fn">p</span> <span class="fn">r</span></span></span></span></div></div></div></div><div class="decl" id="equivalence_of_oneOneEquiv"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L169-L170">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#equivalence_of_oneOneEquiv" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#equivalence_of_oneOneEquiv"><span class="name">equivalence_of_oneOneEquiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Equivalence</span> <a href="../.././Mathlib/Computability/Reduce.html#OneOneEquiv">OneOneEquiv</a></span></div></div></div></div><div class="decl" id="OneOneEquiv.to_many_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L172-L174">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#OneOneEquiv.to_many_one" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#OneOneEquiv.to_many_one"><span class="name">OneOneEquiv</span>.<span class="name">to_many_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#OneOneEquiv">OneOneEquiv</a> <span class="fn">p</span> <span class="fn">q</span></span> → <span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv">ManyOneEquiv</a> <span class="fn">p</span> <span class="fn">q</span></span></span></div></div></div></div><div class="decl" id="Equiv.Computable"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L176-L178">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#Equiv.Computable" class="verification-badge math-definition" title="Mathematical definition (Prop-valued)">🔹 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#Equiv.Computable"><span class="name">Equiv</span>.<span class="name">Computable</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">e</span> : <span class="fn">α</span> <a href="../.././Mathlib/Logic/Equiv/Defs.html#Equiv">≃</a> <span class="fn">β</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../.././foundational_types.html">Prop</a></div></div><p>a computable bijection</p><details id="instances-for-list-Equiv.Computable" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Equiv.Computable.symm"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L180-L182">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#Equiv.Computable.symm" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#Equiv.Computable.symm"><span class="name">Equiv</span>.<span class="name">Computable</span>.<span class="name">symm</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">e</span> : <span class="fn">α</span> <a href="../.././Mathlib/Logic/Equiv/Defs.html#Equiv">≃</a> <span class="fn">β</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">e</span>.<a href="../.././Mathlib/Computability/Reduce.html#Equiv.Computable">Computable</a></span> → <span class="fn"><span class="fn"><span class="fn">e</span>.<a href="../.././Mathlib/Logic/Equiv/Defs.html#Equiv.symm">symm</a></span>.<a href="../.././Mathlib/Computability/Reduce.html#Equiv.Computable">Computable</a></span></span></div></div></div></div><div class="decl" id="Equiv.Computable.trans"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L184-L186">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#Equiv.Computable.trans" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#Equiv.Computable.trans"><span class="name">Equiv</span>.<span class="name">Computable</span>.<span class="name">trans</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">γ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">e₁</span> : <span class="fn">α</span> <a href="../.././Mathlib/Logic/Equiv/Defs.html#Equiv">≃</a> <span class="fn">β</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">e₂</span> : <span class="fn">β</span> <a href="../.././Mathlib/Logic/Equiv/Defs.html#Equiv">≃</a> <span class="fn">γ</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">e₁</span>.<a href="../.././Mathlib/Computability/Reduce.html#Equiv.Computable">Computable</a></span> → <span class="fn"><span class="fn"><span class="fn">e₂</span>.<a href="../.././Mathlib/Computability/Reduce.html#Equiv.Computable">Computable</a></span> → <span class="fn"><span class="fn">(<span class="fn"><span class="fn">e₁</span>.<a href="../.././Mathlib/Logic/Equiv/Defs.html#Equiv.trans">trans</a></span> <span class="fn">e₂</span>)</span>.<a href="../.././Mathlib/Computability/Reduce.html#Equiv.Computable">Computable</a></span></span></span></div></div></div></div><div class="decl" id="Computable.eqv"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L188-L189">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#Computable.eqv" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#Computable.eqv"><span class="name">Computable</span>.<span class="name">eqv</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Logic/Denumerable.html#Denumerable">Denumerable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<a href="../.././Mathlib/Logic/Denumerable.html#Denumerable.eqv">Denumerable.eqv</a> <span class="fn">α</span>)</span>.<a href="../.././Mathlib/Computability/Reduce.html#Equiv.Computable">Computable</a></span></div></div></div></div><div class="decl" id="Computable.equiv₂"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L191-L193">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#Computable.equiv₂" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#Computable.equiv₂"><span class="name">Computable</span>.<span class="name">equiv₂</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Logic/Denumerable.html#Denumerable">Denumerable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Logic/Denumerable.html#Denumerable">Denumerable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<a href="../.././Mathlib/Logic/Denumerable.html#Denumerable.equiv₂">Denumerable.equiv₂</a> <span class="fn">α</span> <span class="fn">β</span>)</span>.<a href="../.././Mathlib/Computability/Reduce.html#Equiv.Computable">Computable</a></span></div></div></div></div><div class="decl" id="OneOneEquiv.of_equiv"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L195-L197">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#OneOneEquiv.of_equiv" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#OneOneEquiv.of_equiv"><span class="name">OneOneEquiv</span>.<span class="name">of_equiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">e</span> : <span class="fn">α</span> <a href="../.././Mathlib/Logic/Equiv/Defs.html#Equiv">≃</a> <span class="fn">β</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">e</span>.<a href="../.././Mathlib/Computability/Reduce.html#Equiv.Computable">Computable</a></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#OneOneEquiv">OneOneEquiv</a> <span class="fn">(<span class="fn">p</span> <span class="fn">∘</span> <span class="fn">⇑<span class="fn">e</span></span>)</span> <span class="fn">p</span></span></div></div></div></div><div class="decl" id="ManyOneEquiv.of_equiv"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L199-L201">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#ManyOneEquiv.of_equiv" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv.of_equiv"><span class="name">ManyOneEquiv</span>.<span class="name">of_equiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">e</span> : <span class="fn">α</span> <a href="../.././Mathlib/Logic/Equiv/Defs.html#Equiv">≃</a> <span class="fn">β</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">e</span>.<a href="../.././Mathlib/Computability/Reduce.html#Equiv.Computable">Computable</a></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv">ManyOneEquiv</a> <span class="fn">(<span class="fn">p</span> <span class="fn">∘</span> <span class="fn">⇑<span class="fn">e</span></span>)</span> <span class="fn">p</span></span></div></div></div></div><div class="decl" id="ManyOneEquiv.le_congr_left"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L203-L205">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#ManyOneEquiv.le_congr_left" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv.le_congr_left"><span class="name">ManyOneEquiv</span>.<span class="name">le_congr_left</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">γ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">r</span> : <span class="fn"><span class="fn">γ</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv">ManyOneEquiv</a> <span class="fn">p</span> <span class="fn">q</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">p</span> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneReducible">≤₀</a> <span class="fn">r</span> <span class="fn">↔</span> <span class="fn">q</span> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneReducible">≤₀</a> <span class="fn">r</span></span></div></div></div></div><div class="decl" id="ManyOneEquiv.le_congr_right"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L207-L209">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#ManyOneEquiv.le_congr_right" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv.le_congr_right"><span class="name">ManyOneEquiv</span>.<span class="name">le_congr_right</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">γ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">r</span> : <span class="fn"><span class="fn">γ</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv">ManyOneEquiv</a> <span class="fn">q</span> <span class="fn">r</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">p</span> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneReducible">≤₀</a> <span class="fn">q</span> <span class="fn">↔</span> <span class="fn">p</span> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneReducible">≤₀</a> <span class="fn">r</span></span></div></div></div></div><div class="decl" id="OneOneEquiv.le_congr_left"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L211-L213">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#OneOneEquiv.le_congr_left" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#OneOneEquiv.le_congr_left"><span class="name">OneOneEquiv</span>.<span class="name">le_congr_left</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">γ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">r</span> : <span class="fn"><span class="fn">γ</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#OneOneEquiv">OneOneEquiv</a> <span class="fn">p</span> <span class="fn">q</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">p</span> <a href="../.././Mathlib/Computability/Reduce.html#OneOneReducible">≤₁</a> <span class="fn">r</span> <span class="fn">↔</span> <span class="fn">q</span> <a href="../.././Mathlib/Computability/Reduce.html#OneOneReducible">≤₁</a> <span class="fn">r</span></span></div></div></div></div><div class="decl" id="OneOneEquiv.le_congr_right"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L215-L217">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#OneOneEquiv.le_congr_right" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#OneOneEquiv.le_congr_right"><span class="name">OneOneEquiv</span>.<span class="name">le_congr_right</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">γ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">r</span> : <span class="fn"><span class="fn">γ</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#OneOneEquiv">OneOneEquiv</a> <span class="fn">q</span> <span class="fn">r</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">p</span> <a href="../.././Mathlib/Computability/Reduce.html#OneOneReducible">≤₁</a> <span class="fn">q</span> <span class="fn">↔</span> <span class="fn">p</span> <a href="../.././Mathlib/Computability/Reduce.html#OneOneReducible">≤₁</a> <span class="fn">r</span></span></div></div></div></div><div class="decl" id="ManyOneEquiv.congr_left"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L219-L222">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv.congr_left"><span class="name">ManyOneEquiv</span>.<span class="name">congr_left</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">γ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">r</span> : <span class="fn"><span class="fn">γ</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv">ManyOneEquiv</a> <span class="fn">p</span> <span class="fn">q</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv">ManyOneEquiv</a> <span class="fn">p</span> <span class="fn">r</span></span> <span class="fn">↔</span> <span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv">ManyOneEquiv</a> <span class="fn">q</span> <span class="fn">r</span></span></span></div></div></div></div><div class="decl" id="ManyOneEquiv.congr_right"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L224-L227">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv.congr_right"><span class="name">ManyOneEquiv</span>.<span class="name">congr_right</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">γ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">r</span> : <span class="fn"><span class="fn">γ</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv">ManyOneEquiv</a> <span class="fn">q</span> <span class="fn">r</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv">ManyOneEquiv</a> <span class="fn">p</span> <span class="fn">q</span></span> <span class="fn">↔</span> <span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv">ManyOneEquiv</a> <span class="fn">p</span> <span class="fn">r</span></span></span></div></div></div></div><div class="decl" id="OneOneEquiv.congr_left"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L229-L232">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#OneOneEquiv.congr_left"><span class="name">OneOneEquiv</span>.<span class="name">congr_left</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">γ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">r</span> : <span class="fn"><span class="fn">γ</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#OneOneEquiv">OneOneEquiv</a> <span class="fn">p</span> <span class="fn">q</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#OneOneEquiv">OneOneEquiv</a> <span class="fn">p</span> <span class="fn">r</span></span> <span class="fn">↔</span> <span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#OneOneEquiv">OneOneEquiv</a> <span class="fn">q</span> <span class="fn">r</span></span></span></div></div></div></div><div class="decl" id="OneOneEquiv.congr_right"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L234-L237">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#OneOneEquiv.congr_right"><span class="name">OneOneEquiv</span>.<span class="name">congr_right</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">γ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">r</span> : <span class="fn"><span class="fn">γ</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#OneOneEquiv">OneOneEquiv</a> <span class="fn">q</span> <span class="fn">r</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#OneOneEquiv">OneOneEquiv</a> <span class="fn">p</span> <span class="fn">q</span></span> <span class="fn">↔</span> <span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#OneOneEquiv">OneOneEquiv</a> <span class="fn">p</span> <span class="fn">r</span></span></span></div></div></div></div><div class="decl" id="ULower.down_computable"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L239-L241">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#ULower.down_computable" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ULower.down_computable"><span class="name">ULower</span>.<span class="name">down_computable</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<a href="../.././Mathlib/Logic/Encodable/Basic.html#ULower.equiv">equiv</a> <span class="fn">α</span>)</span>.<a href="../.././Mathlib/Computability/Reduce.html#Equiv.Computable">Computable</a></span></div></div></div></div><div class="decl" id="manyOneEquiv_up"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L243-L244">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#manyOneEquiv_up" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#manyOneEquiv_up"><span class="name">manyOneEquiv_up</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv">ManyOneEquiv</a> <span class="fn">(<span class="fn">p</span> <span class="fn">∘</span> <a href="../.././Mathlib/Logic/Encodable/Basic.html#ULower.up">ULower.up</a>)</span> <span class="fn">p</span></span></div></div></div></div><div class="decl" id="OneOneReducible.disjoin_left"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L250-L252">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#OneOneReducible.disjoin_left" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#OneOneReducible.disjoin_left"><span class="name">OneOneReducible</span>.<span class="name">disjoin_left</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">p</span> <a href="../.././Mathlib/Computability/Reduce.html#OneOneReducible">≤₁</a> <span class="fn"><span class="fn">Sum.elim</span> <span class="fn">p</span> <span class="fn">q</span></span></div></div></div></div><div class="decl" id="OneOneReducible.disjoin_right"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L254-L256">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#OneOneReducible.disjoin_right" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#OneOneReducible.disjoin_right"><span class="name">OneOneReducible</span>.<span class="name">disjoin_right</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">q</span> <a href="../.././Mathlib/Computability/Reduce.html#OneOneReducible">≤₁</a> <span class="fn"><span class="fn">Sum.elim</span> <span class="fn">p</span> <span class="fn">q</span></span></div></div></div></div><div class="decl" id="disjoin_manyOneReducible"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L258-L263">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#disjoin_manyOneReducible" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#disjoin_manyOneReducible"><span class="name">disjoin_manyOneReducible</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">γ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">r</span> : <span class="fn"><span class="fn">γ</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">p</span> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneReducible">≤₀</a> <span class="fn">r</span> → <span class="fn"><span class="fn">q</span> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneReducible">≤₀</a> <span class="fn">r</span> → <span class="fn"><span class="fn">Sum.elim</span> <span class="fn">p</span> <span class="fn">q</span></span> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneReducible">≤₀</a> <span class="fn">r</span></span></span></div></div></div></div><div class="decl" id="disjoin_le"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L265-L270">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#disjoin_le" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#disjoin_le"><span class="name">disjoin_le</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">γ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">r</span> : <span class="fn"><span class="fn">γ</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">Sum.elim</span> <span class="fn">p</span> <span class="fn">q</span></span> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneReducible">≤₀</a> <span class="fn">r</span> <span class="fn">↔</span> <span class="fn"><span class="fn">p</span> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneReducible">≤₀</a> <span class="fn">r</span> <span class="fn">∧</span> <span class="fn">q</span> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneReducible">≤₀</a> <span class="fn">r</span></span></span></div></div></div></div><div class="decl" id="toNat"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L274-L277">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#toNat" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#toNat"><span class="name">toNat</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Inhabited</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">ℕ</span></span></div></div><p>Computable and injective mapping of predicates to sets of natural numbers.</p><details id="instances-for-list-toNat" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="toNat_manyOneReducible"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L279-L282">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#toNat_manyOneReducible" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#toNat_manyOneReducible"><span class="name">toNat_manyOneReducible</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Inhabited</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#toNat">toNat</a> <span class="fn">p</span></span> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneReducible">≤₀</a> <span class="fn">p</span></div></div></div></div><div class="decl" id="manyOneReducible_toNat"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L284-L286">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#manyOneReducible_toNat" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#manyOneReducible_toNat"><span class="name">manyOneReducible_toNat</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Inhabited</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">p</span> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneReducible">≤₀</a> <span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#toNat">toNat</a> <span class="fn">p</span></span></div></div></div></div><div class="decl" id="manyOneReducible_toNat_toNat"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L288-L291">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#manyOneReducible_toNat_toNat" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#manyOneReducible_toNat_toNat"><span class="name">manyOneReducible_toNat_toNat</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Inhabited</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Inhabited</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">q</span> : <span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">β</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#toNat">toNat</a> <span class="fn">p</span></span> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneReducible">≤₀</a> <span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#toNat">toNat</a> <span class="fn">q</span></span> <span class="fn">↔</span> <span class="fn">p</span> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneReducible">≤₀</a> <span class="fn">q</span></span></div></div></div></div><div class="decl" id="toNat_manyOneEquiv"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L293-L294">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#toNat_manyOneEquiv" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#toNat_manyOneEquiv"><span class="name">toNat_manyOneEquiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Inhabited</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv">ManyOneEquiv</a> <span class="fn">(<a href="../.././Mathlib/Computability/Reduce.html#toNat">toNat</a> <span class="fn">p</span>)</span> <span class="fn">p</span></span></div></div></div></div><div class="decl" id="manyOneEquiv_toNat"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L296-L298">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#manyOneEquiv_toNat" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#manyOneEquiv_toNat"><span class="name">manyOneEquiv_toNat</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Inhabited</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Inhabited</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">q</span> : <span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv">ManyOneEquiv</a> <span class="fn">(<a href="../.././Mathlib/Computability/Reduce.html#toNat">toNat</a> <span class="fn">p</span>)</span> <span class="fn">(<a href="../.././Mathlib/Computability/Reduce.html#toNat">toNat</a> <span class="fn">q</span>)</span></span> <span class="fn">↔</span> <span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv">ManyOneEquiv</a> <span class="fn">p</span> <span class="fn">q</span></span></span></div></div></div></div><div class="decl" id="ManyOneDegree"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L300-L302">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#ManyOneDegree" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree"><span class="name">ManyOneDegree</span></a></span><span class="decl_args"> :</span><div class="decl_type"><a href="../.././foundational_types.html">Type</a></div></div><p>A many-one degree is an equivalence class of sets up to many-one equivalence.</p><details id="instances-for-list-ManyOneDegree" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="ManyOneDegree.of"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L306-L308">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#ManyOneDegree.of" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.of"><span class="name">ManyOneDegree</span>.<span class="name">of</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Inhabited</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree">ManyOneDegree</a></div></div><p>The many-one degree of a set on a primcodable type.</p><details id="instances-for-list-ManyOneDegree.of" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="ManyOneDegree.ind_on"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L310-L313">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.ind_on"><span class="name">ManyOneDegree</span>.<span class="name">ind_on</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">C</span> : <span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree">ManyOneDegree</a> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">d</span> : <a href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree">ManyOneDegree</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn">∀ (<span class="fn">p</span> : <span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">ℕ</span></span>), <span class="fn"><span class="fn">C</span> <span class="fn">(<a href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.of">of</a> <span class="fn">p</span>)</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">C</span> <span class="fn">d</span></span></div></div></div></div><div class="decl" id="ManyOneDegree.liftOn"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L315-L318">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#ManyOneDegree.liftOn" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[reducible, inline]</div>
+<div class="decl_header"><span class="decl_kind">abbrev</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.liftOn"><span class="name">ManyOneDegree</span>.<span class="name">liftOn</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">φ</span> : <a href="../.././foundational_types.html">Sort</a> u_1}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">d</span> : <a href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree">ManyOneDegree</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">ℕ</span></span> → <span class="fn">φ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn">∀ (<span class="fn">p </span><span class="fn">q</span> : <span class="fn"><span class="fn">ℕ</span> → <a href="../.././foundational_types.html">Prop</a></span>), <span class="fn"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv">ManyOneEquiv</a> <span class="fn">p</span> <span class="fn">q</span></span> → <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">p</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">f</span> <span class="fn">q</span></span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">φ</span></div></div><p>Lifts a function on sets of natural numbers to many-one degrees.</p><details id="instances-for-list-ManyOneDegree.liftOn" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="ManyOneDegree.liftOn_eq"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L320-L323">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#ManyOneDegree.liftOn_eq" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.liftOn_eq"><span class="name">ManyOneDegree</span>.<span class="name">liftOn_eq</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">φ</span> : <a href="../.././foundational_types.html">Sort</a> u_1}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">ℕ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">ℕ</span></span> → <span class="fn">φ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn">∀ (<span class="fn">p </span><span class="fn">q</span> : <span class="fn"><span class="fn">ℕ</span> → <a href="../.././foundational_types.html">Prop</a></span>), <span class="fn"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv">ManyOneEquiv</a> <span class="fn">p</span> <span class="fn">q</span></span> → <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">p</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">f</span> <span class="fn">q</span></span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<a href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.of">of</a> <span class="fn">p</span>)</span>.<a href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.liftOn">liftOn</a></span> <span class="fn">f</span> <span class="fn">h</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">f</span> <span class="fn">p</span></span></span></div></div></div></div><div class="decl" id="ManyOneDegree.liftOn₂"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L325-L335">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#ManyOneDegree.liftOn₂" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[reducible]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.liftOn₂"><span class="name">ManyOneDegree</span>.<span class="name">liftOn₂</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">φ</span> : <a href="../.././foundational_types.html">Sort</a> u_1}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">d₁ </span><span class="fn">d₂</span> : <a href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree">ManyOneDegree</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">ℕ</span></span> → <span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">ℕ</span></span> → <span class="fn">φ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn">∀ (<span class="fn">p₁ </span><span class="fn">p₂ </span><span class="fn">q₁ </span><span class="fn">q₂</span> : <span class="fn"><span class="fn">ℕ</span> → <a href="../.././foundational_types.html">Prop</a></span>), <span class="fn"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv">ManyOneEquiv</a> <span class="fn">p₁</span> <span class="fn">p₂</span></span> → <span class="fn"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv">ManyOneEquiv</a> <span class="fn">q₁</span> <span class="fn">q₂</span></span> → <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">p₁</span> <span class="fn">q₁</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">f</span> <span class="fn">p₂</span> <span class="fn">q₂</span></span></span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">φ</span></div></div><p>Lifts a binary function on sets of natural numbers to many-one degrees.</p><details id="instances-for-list-ManyOneDegree.liftOn₂" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="ManyOneDegree.liftOn₂_eq"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L337-L341">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#ManyOneDegree.liftOn₂_eq" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.liftOn₂_eq"><span class="name">ManyOneDegree</span>.<span class="name">liftOn₂_eq</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">φ</span> : <a href="../.././foundational_types.html">Sort</a> u_1}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p </span><span class="fn">q</span> : <span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">ℕ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">ℕ</span></span> → <span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">ℕ</span></span> → <span class="fn">φ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn">∀ (<span class="fn">p₁ </span><span class="fn">p₂ </span><span class="fn">q₁ </span><span class="fn">q₂</span> : <span class="fn"><span class="fn">ℕ</span> → <a href="../.././foundational_types.html">Prop</a></span>), <span class="fn"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv">ManyOneEquiv</a> <span class="fn">p₁</span> <span class="fn">p₂</span></span> → <span class="fn"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv">ManyOneEquiv</a> <span class="fn">q₁</span> <span class="fn">q₂</span></span> → <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">p₁</span> <span class="fn">q₁</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">f</span> <span class="fn">p₂</span> <span class="fn">q₂</span></span></span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<a href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.of">of</a> <span class="fn">p</span>)</span>.<a href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.liftOn₂">liftOn₂</a></span> <span class="fn">(<a href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.of">of</a> <span class="fn">q</span>)</span> <span class="fn">f</span> <span class="fn">h</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">f</span> <span class="fn">p</span> <span class="fn">q</span></span></span></div></div></div></div><div class="decl" id="ManyOneDegree.of_eq_of"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L344-L347">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#ManyOneDegree.of_eq_of" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.of_eq_of"><span class="name">ManyOneDegree</span>.<span class="name">of_eq_of</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Inhabited</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Inhabited</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.of">of</a> <span class="fn">p</span></span> <span class="fn">=</span> <span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.of">of</a> <span class="fn">q</span></span></span> <span class="fn">↔</span> <span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneEquiv">ManyOneEquiv</a> <span class="fn">p</span> <span class="fn">q</span></span></span></div></div></div></div><div class="decl" id="ManyOneDegree.instInhabited"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L349-L350">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#ManyOneDegree.instInhabited" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.instInhabited"><span class="name">ManyOneDegree</span>.<span class="name">instInhabited</span></a></span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Inhabited</span> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree">ManyOneDegree</a></span></div></div></div></div><div class="decl" id="ManyOneDegree.instLE"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L352-L358">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#ManyOneDegree.instLE" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.instLE"><span class="name">ManyOneDegree</span>.<span class="name">instLE</span></a></span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">LE</span> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree">ManyOneDegree</a></span></div></div><p>For many-one degrees <code>d₁</code> and <code>d₂</code>, <code>d₁ ≤ d₂</code> if the sets in <code>d₁</code> are many-one reducible to the
+sets in <code>d₂</code>.</p></div></div><div class="decl" id="ManyOneDegree.of_le_of"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L360-L362">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#ManyOneDegree.of_le_of" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.of_le_of"><span class="name">ManyOneDegree</span>.<span class="name">of_le_of</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Inhabited</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Inhabited</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">q</span> : <span class="fn"><span class="fn">β</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.of">of</a> <span class="fn">p</span></span> <a href="../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.of">of</a> <span class="fn">q</span></span> <span class="fn">↔</span> <span class="fn">p</span> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneReducible">≤₀</a> <span class="fn">q</span></span></div></div></div></div><div class="decl" id="ManyOneDegree.instPartialOrder"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L384-L387">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#ManyOneDegree.instPartialOrder" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.instPartialOrder"><span class="name">ManyOneDegree</span>.<span class="name">instPartialOrder</span></a></span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree">ManyOneDegree</a></span></div></div></div></div><div class="decl" id="ManyOneDegree.instAdd"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L389-L400">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#ManyOneDegree.instAdd" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.instAdd"><span class="name">ManyOneDegree</span>.<span class="name">instAdd</span></a></span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Add</span> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree">ManyOneDegree</a></span></div></div><p>The join of two degrees, induced by the disjoint union of two underlying sets.</p></div></div><div class="decl" id="ManyOneDegree.add_of"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L402-L410">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#ManyOneDegree.add_of" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.add_of"><span class="name">ManyOneDegree</span>.<span class="name">add_of</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Inhabited</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Computability/Primrec/Basic.html#Primcodable">Primcodable</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Inhabited</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">q</span> : <span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.of">of</a> <span class="fn">(<span class="fn">Sum.elim</span> <span class="fn">p</span> <span class="fn">q</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.of">of</a> <span class="fn">p</span></span> <span class="fn">+</span> <span class="fn"><a href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.of">of</a> <span class="fn">q</span></span></span></span></div></div></div></div><div class="decl" id="ManyOneDegree.add_le"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L412-L417">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#ManyOneDegree.add_le" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.add_le"><span class="name">ManyOneDegree</span>.<span class="name">add_le</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">d₁ </span><span class="fn">d₂ </span><span class="fn">d₃</span> : <a href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree">ManyOneDegree</a>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">d₁</span> <span class="fn">+</span> <span class="fn">d₂</span></span> <a href="../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn">d₃</span> <span class="fn">↔</span> <span class="fn"><span class="fn">d₁</span> <a href="../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn">d₃</span> <span class="fn">∧</span> <span class="fn">d₂</span> <a href="../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn">d₃</span></span></span></div></div></div></div><div class="decl" id="ManyOneDegree.le_add_left"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L419-L421">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#ManyOneDegree.le_add_left" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.le_add_left"><span class="name">ManyOneDegree</span>.<span class="name">le_add_left</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">d₁ </span><span class="fn">d₂</span> : <a href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree">ManyOneDegree</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">d₁</span> <a href="../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn">d₁</span> <span class="fn">+</span> <span class="fn">d₂</span></span></div></div></div></div><div class="decl" id="ManyOneDegree.le_add_right"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L423-L425">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#ManyOneDegree.le_add_right" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.le_add_right"><span class="name">ManyOneDegree</span>.<span class="name">le_add_right</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">d₁ </span><span class="fn">d₂</span> : <a href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree">ManyOneDegree</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">d₂</span> <a href="../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn">d₁</span> <span class="fn">+</span> <span class="fn">d₂</span></span></div></div></div></div><div class="decl" id="ManyOneDegree.instSemilatticeSup"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Computability/Reduce.lean#L427-L432">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Computability_Reduce.html#ManyOneDegree.instSemilatticeSup" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree.instSemilatticeSup"><span class="name">ManyOneDegree</span>.<span class="name">instSemilatticeSup</span></a></span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Order/Lattice.html#SemilatticeSup">SemilatticeSup</a> <a href="../.././Mathlib/Computability/Reduce.html#ManyOneDegree">ManyOneDegree</a></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

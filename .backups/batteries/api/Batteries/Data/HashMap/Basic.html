@@ -1,0 +1,575 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../.././style.css"></link><link rel="icon" href="../../.././favicon.svg"></link><link rel="mask-icon" href="../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../.././/declarations/declaration-data.bmp" as="image"></link><title>Batteries.Data.HashMap.Basic</title><script defer="true" src="../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../.././";</script><script>const MODULE_NAME="Batteries.Data.HashMap.Basic";</script><script type="module" src="../../.././jump-src.js"></script><script type="module" src="../../.././search.js"></script><script type="module" src="../../.././expand-nav.js"></script><script type="module" src="../../.././how-about.js"></script><script type="module" src="../../.././instances.js"></script><script type="module" src="../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Batteries</span>.<span class="name">Data</span>.<span class="name">HashMap</span>.<span class="name">Basic</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../.././Init.html">Init</a></li><li><a href="../../.././Batteries/Lean/HashMap.html">Batteries.Lean.HashMap</a></li><li><a href="../../.././Batteries/Tactic/Alias.html">Batteries.Tactic.Alias</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Batteries.Data.HashMap.Basic" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#Std.HashMap.findEntry?"><span class="name">Std</span>.<span class="name">HashMap</span>.<span class="name">findEntry?</span></a></div><div class="nav_link"><a class="break_within" href="#Std.HashMap.ofListWith"><span class="name">Std</span>.<span class="name">HashMap</span>.<span class="name">ofListWith</span></a></div><div class="nav_link"><a class="break_within" href="#Batteries.HashMap.LawfulHashable"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">LawfulHashable</span></a></div><div class="nav_link"><a class="break_within" href="#Batteries.HashMap"><span class="name">Batteries</span>.<span class="name">HashMap</span></a></div><div class="nav_link"><a class="break_within" href="#Batteries.mkHashMap"><span class="name">Batteries</span>.<span class="name">mkHashMap</span></a></div><div class="nav_link"><a class="break_within" href="#Batteries.HashMap.instInhabited"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">instInhabited</span></a></div><div class="nav_link"><a class="break_within" href="#Batteries.HashMap.instEmptyCollection"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">instEmptyCollection</span></a></div><div class="nav_link"><a class="break_within" href="#Batteries.HashMap.empty"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">empty</span></a></div><div class="nav_link"><a class="break_within" href="#Batteries.HashMap.size"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">size</span></a></div><div class="nav_link"><a class="break_within" href="#Batteries.HashMap.isEmpty"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">isEmpty</span></a></div><div class="nav_link"><a class="break_within" href="#Batteries.HashMap.insert"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">insert</span></a></div><div class="nav_link"><a class="break_within" href="#Batteries.HashMap.insert'"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">insert'</span></a></div><div class="nav_link"><a class="break_within" href="#Batteries.HashMap.erase"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">erase</span></a></div><div class="nav_link"><a class="break_within" href="#Batteries.HashMap.modify"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">modify</span></a></div><div class="nav_link"><a class="break_within" href="#Batteries.HashMap.find?"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">find?</span></a></div><div class="nav_link"><a class="break_within" href="#Batteries.HashMap.findD"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">findD</span></a></div><div class="nav_link"><a class="break_within" href="#Batteries.HashMap.find!"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">find!</span></a></div><div class="nav_link"><a class="break_within" href="#Batteries.HashMap.instGetElemOptionTrue"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">instGetElemOptionTrue</span></a></div><div class="nav_link"><a class="break_within" href="#Batteries.HashMap.findEntry?"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">findEntry?</span></a></div><div class="nav_link"><a class="break_within" href="#Batteries.HashMap.contains"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">contains</span></a></div><div class="nav_link"><a class="break_within" href="#Batteries.HashMap.foldM"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">foldM</span></a></div><div class="nav_link"><a class="break_within" href="#Batteries.HashMap.fold"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">fold</span></a></div><div class="nav_link"><a class="break_within" href="#Batteries.HashMap.mergeWithM"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">mergeWithM</span></a></div><div class="nav_link"><a class="break_within" href="#Batteries.HashMap.mergeWith"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">mergeWith</span></a></div><div class="nav_link"><a class="break_within" href="#Batteries.HashMap.forM"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">forM</span></a></div><div class="nav_link"><a class="break_within" href="#Batteries.HashMap.toList"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">toList</span></a></div><div class="nav_link"><a class="break_within" href="#Batteries.HashMap.toArray"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">toArray</span></a></div><div class="nav_link"><a class="break_within" href="#Batteries.HashMap.numBuckets"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">numBuckets</span></a></div><div class="nav_link"><a class="break_within" href="#Batteries.HashMap.ofList"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">ofList</span></a></div><div class="nav_link"><a class="break_within" href="#Batteries.HashMap.ofListWith"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">ofListWith</span></a></div></nav><main>
+<div class="decl" id="Std.HashMap.findEntry?"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L17-L30">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Std.HashMap.findEntry?" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[inline]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Std.HashMap.findEntry?"><span class="name">Std</span>.<span class="name">HashMap</span>.<span class="name">findEntry?</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">m</span> : <span class="fn"><span class="fn">HashMap</span> <span class="fn">α</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">k</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Option</span> <span class="fn">(<span class="fn">α</span> <span class="fn">×</span> <span class="fn">β</span>)</span></span></div></div><p>Given a key <code>a</code>, returns a key-value pair in the map whose key compares equal to <code>a</code>.
+Note that the returned key may not be identical to the input, if <code>==</code> ignores some part
+of the value.</p><pre><code>def hashMap := <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.ofList">ofList</a> [(&quot;one&quot;, 1), (&quot;two&quot;, 2)]
+hashMap.<a href="../../.././Batteries/Data/HashMap/Basic.html#Std.HashMap.findEntry?">findEntry?</a> &quot;one&quot; = some (&quot;one&quot;, 1)
+hashMap.<a href="../../.././Batteries/Data/HashMap/Basic.html#Std.HashMap.findEntry?">findEntry?</a> &quot;three&quot; = none
+</code></pre><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><span class="fn"><span class="fn">m</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Std.HashMap.findEntry?">findEntry?</a></span> <span class="fn">k</span></span> <span class="fn">=</span> <span class="fn">if h : <span class="fn"><span class="fn">k</span> <span class="fn">∈</span> <span class="fn">m</span></span> then <span class="fn"><span class="fn">some</span> <span class="fn"><span class="fn">(</span><span class="fn"><span class="fn"><span class="fn">m</span>.<span class="fn">getKey</span></span> <span class="fn">k</span> <span class="fn">h</span></span><span class="fn">,</span> <span class="fn"><span class="fn"><span class="fn">m</span>.<span class="fn">get</span></span> <span class="fn">k</span> <span class="fn">h</span></span><span class="fn">)</span></span></span> else <span class="fn">none</span></span></span></li></ul></details><details id="instances-for-list-Std.HashMap.findEntry?" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Std.HashMap.ofListWith"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L32-L42">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Std.HashMap.ofListWith" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Std.HashMap.ofListWith"><span class="name">Std</span>.<span class="name">HashMap</span>.<span class="name">ofListWith</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <span class="fn"><span class="fn">List</span> <span class="fn">(<span class="fn">α</span> <span class="fn">×</span> <span class="fn">β</span>)</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">β</span> → <span class="fn">β</span> → <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">HashMap</span> <span class="fn">α</span> <span class="fn">β</span></span></div></div><p>Variant of <code><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.ofList">ofList</a></code> which accepts a function that combines values of duplicated keys.</p><pre><code><a href="../../.././Batteries/Data/HashMap/Basic.html#Std.HashMap.ofListWith">ofListWith</a> [(&quot;one&quot;, 1), (&quot;one&quot;, 2)] (fun v₁ v₂ =&gt; v₁ + v₂) = {&quot;one&quot; =&gt; 3}
+</code></pre><details><summary>Equations</summary><ul class="equations"><li class="equation">One or more equations did not get rendered due to their size.</li></ul></details><details id="instances-for-list-Std.HashMap.ofListWith" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Batteries.HashMap.LawfulHashable"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L48-L49">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Batteries.HashMap.LawfulHashable" class="verification-badge math-definition" title="Mathematical definition (Prop-valued)">🔹 coverage</a>
+</div>
+<div class="attributes">@[reducible, deprecated LawfulHashable (since := &quot;2025-05-31&quot;)]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.LawfulHashable"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">LawfulHashable</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><a href="../../.././foundational_types.html">Prop</a></div></div><p><strong>Alias</strong> of <code><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.LawfulHashable">LawfulHashable</a></code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.LawfulHashable">Batteries.HashMap.LawfulHashable</a> <span class="fn">=</span> <span class="fn">LawfulHashable</span></span></li></ul></details><details id="instances-for-list-Batteries.HashMap.LawfulHashable" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Batteries.HashMap"><div class="structure"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L51-L61">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Batteries.HashMap" class="verification-badge comp-datatype" title="Computational datatype">🔶 coverage</a>
+</div>
+<div class="attributes">@[deprecated Std.HashMap (since := &quot;2025-04-09&quot;)]</div>
+<div class="decl_header"><span class="decl_kind">structure</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap"><span class="name">Batteries</span>.<span class="name">HashMap</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> v)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><a href="../../.././foundational_types.html">Type</a> (max u v)</div></div><p><code><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> α β</code> is a key-value map which stores elements in an array using a hash function
+to find the values. This allows it to have very good performance for lookups
+(average <code>O(1)</code> for a perfectly random hash function), but it is not a persistent data structure,
+meaning that one should take care to use the map linearly when performing updates.
+Copies are <code>O(n)</code>.</p><ul class="structure_fields" id="Batteries.HashMap.mk"><li id="Batteries.HashMap.inner" class="structure_field"><div class="structure_field_info">inner : <span class="fn"><span class="fn">Std.HashMap</span> <span class="fn">α</span> <span class="fn">β</span></span></div><div class="structure_field_doc"><p>The inner <code>Std.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a></code> powering the <code><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">Batteries.HashMap</a></code>.</p></div></li></ul><details id="instances-for-list-Batteries.HashMap" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Batteries.mkHashMap"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L65-L67">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Batteries.mkHashMap" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[inline]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.mkHashMap"><span class="name">Batteries</span>.<span class="name">mkHashMap</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">capacity</span> : <span class="fn">Nat</span> := <span class="fn">0</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span></div></div><p>Make a new hash map with the specified capacity.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.mkHashMap">Batteries.mkHashMap</a> <span class="fn">capacity</span></span> <span class="fn">=</span>   <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.mk">{</a> <span class="fn">inner</span> := <span class="fn"><span class="fn">{</span> <span class="fn">inner</span> := <span class="fn"><span class="fn">{</span> <span class="fn">inner</span> := <span class="fn"><span class="fn">Std.DHashMap.Raw.emptyWithCapacity</span> <span class="fn">capacity</span></span>, <span class="fn">wf</span> := <span class="fn">⋯</span> <span class="fn">}</span></span> <span class="fn">}</span></span> <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.mk">}</a></span></li></ul></details><details id="instances-for-list-Batteries.mkHashMap" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Batteries.HashMap.instInhabited"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L69-L70">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Batteries.HashMap.instInhabited" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.instInhabited"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">instInhabited</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Inhabited</span> <span class="fn">(<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span>)</span></span></div></div><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.instInhabited">Batteries.HashMap.instInhabited</a> <span class="fn">=</span> <span class="fn"><span class="fn">{</span> <span class="fn">default</span> := <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.mkHashMap">Batteries.mkHashMap</a> <span class="fn">}</span></span></span></li></ul></details></div></div><div class="decl" id="Batteries.HashMap.instEmptyCollection"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L72-L72">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Batteries.HashMap.instEmptyCollection" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.instEmptyCollection"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">instEmptyCollection</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">EmptyCollection</span> <span class="fn">(<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span>)</span></span></div></div><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.instEmptyCollection">Batteries.HashMap.instEmptyCollection</a> <span class="fn">=</span> <span class="fn"><span class="fn">{</span> <span class="fn">emptyCollection</span> := <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.mkHashMap">Batteries.mkHashMap</a> <span class="fn">}</span></span></span></li></ul></details></div></div><div class="decl" id="Batteries.HashMap.empty"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L74-L80">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Batteries.HashMap.empty" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[inline]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.empty"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">empty</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span></div></div><p>Make a new empty hash map.</p><pre><code>(empty : <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">Batteries.HashMap</a> Int Int).<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.toList">toList</a> = []
+</code></pre><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.empty">Batteries.HashMap.empty</a> <span class="fn">=</span> <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.mkHashMap">Batteries.mkHashMap</a></span></li></ul></details><details id="instances-for-list-Batteries.HashMap.empty" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Batteries.HashMap.size"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L84-L90">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Batteries.HashMap.size" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[inline]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.size"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">size</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝</span> : <span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝¹</span> : <span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">self</span> : <span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">Nat</span></div></div><p>The number of elements in the hash map.</p><pre><code>(ofList [(&quot;one&quot;, 1), (&quot;two&quot;, 2)]).<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.size">size</a> = 2
+</code></pre><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.size">size</a></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.inner">inner</a></span>.<span class="fn">size</span></span></span></li></ul></details><details id="instances-for-list-Batteries.HashMap.size" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Batteries.HashMap.isEmpty"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L92-L99">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Batteries.HashMap.isEmpty" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[inline]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.isEmpty"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">isEmpty</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝</span> : <span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝¹</span> : <span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">self</span> : <span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">Bool</span></div></div><p>Is the map empty?</p><pre><code>(empty : <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">Batteries.HashMap</a> Int Int).<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.isEmpty">isEmpty</a> = true
+(ofList [(&quot;one&quot;, 1), (&quot;two&quot;, 2)]).<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.isEmpty">isEmpty</a> = false
+</code></pre><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.isEmpty">isEmpty</a></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.inner">inner</a></span>.<span class="fn">isEmpty</span></span></span></li></ul></details><details id="instances-for-list-Batteries.HashMap.isEmpty" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Batteries.HashMap.insert"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L101-L111">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Batteries.HashMap.insert" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[inline]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.insert"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">insert</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝</span> : <span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝¹</span> : <span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">self</span> : <span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">b</span> : <span class="fn">β</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span></div></div><p>Inserts key-value pair <code>a, b</code> into the map.
+If an element equal to <code>a</code> is already in the map, it is replaced by <code>b</code>.</p><pre><code>def hashMap := <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.ofList">ofList</a> [(&quot;one&quot;, 1), (&quot;two&quot;, 2)]
+hashMap.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.insert">insert</a> &quot;three&quot; 3 = {&quot;one&quot; =&gt; 1, &quot;two&quot; =&gt; 2, &quot;three&quot; =&gt; 3}
+hashMap.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.insert">insert</a> &quot;two&quot; 0 = {&quot;one&quot; =&gt; 1, &quot;two&quot; =&gt; 0}
+</code></pre><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.insert">insert</a></span> <span class="fn">a</span> <span class="fn">b</span></span> <span class="fn">=</span> <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.mk">{</a> <span class="fn">inner</span> := <span class="fn"><span class="fn"><span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.inner">inner</a></span>.<span class="fn">insert</span></span> <span class="fn">a</span> <span class="fn">b</span></span> <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.mk">}</a></span></li></ul></details><details id="instances-for-list-Batteries.HashMap.insert" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Batteries.HashMap.insert'"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L113-L124">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Batteries.HashMap.insert'" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[inline]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.insert'"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">insert'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝</span> : <span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝¹</span> : <span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">m</span> : <span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">b</span> : <span class="fn">β</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span> <span class="fn">×</span> <span class="fn">Bool</span></span></div></div><p>Similar to <code><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.insert">insert</a></code>, but also returns a boolean flag indicating whether an existing entry has been
+replaced with <code>a =&gt; b</code>.</p><pre><code>def hashMap := <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.ofList">ofList</a> [(&quot;one&quot;, 1), (&quot;two&quot;, 2)]
+hashMap.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.insert'">insert'</a> &quot;three&quot; 3 = ({&quot;one&quot; =&gt; 1, &quot;two&quot; =&gt; 2, &quot;three&quot; =&gt; 3}, false)
+hashMap.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.insert'">insert'</a> &quot;two&quot; 0 = ({&quot;one&quot; =&gt; 1, &quot;two&quot; =&gt; 0}, true)
+</code></pre><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><span class="fn"><span class="fn">m</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.insert'">insert'</a></span> <span class="fn">a</span> <span class="fn">b</span></span> <span class="fn">=</span>   <span class="fn">match <span class="fn"><span class="fn"><span class="fn"><span class="fn">m</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.inner">inner</a></span>.<span class="fn">containsThenInsert</span></span> <span class="fn">a</span> <span class="fn">b</span></span> with
+  | <span class="fn"><span class="fn">(</span><span class="fn">contains</span><span class="fn">,</span> <span class="fn">insert</span><span class="fn">)</span></span> =&gt; <span class="fn"><span class="fn">(</span><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.mk">{</a> <span class="fn">inner</span> := <span class="fn">insert</span> <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.mk">}</a><span class="fn">,</span> <span class="fn">contains</span><span class="fn">)</span></span></span></span></li></ul></details><details id="instances-for-list-Batteries.HashMap.insert'" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Batteries.HashMap.erase"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L126-L134">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Batteries.HashMap.erase" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[inline]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.erase"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">erase</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝</span> : <span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝¹</span> : <span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">self</span> : <span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span></div></div><p>Removes key <code>a</code> from the map. If it does not exist in the map, the map is returned unchanged.</p><pre><code>def hashMap := <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.ofList">ofList</a> [(&quot;one&quot;, 1), (&quot;two&quot;, 2)]
+hashMap.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.erase">erase</a> &quot;one&quot; = {&quot;two&quot; =&gt; 2}
+hashMap.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.erase">erase</a> &quot;three&quot; = {&quot;one&quot; =&gt; 1, &quot;two&quot; =&gt; 2}
+</code></pre><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.erase">erase</a></span> <span class="fn">a</span></span> <span class="fn">=</span> <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.mk">{</a> <span class="fn">inner</span> := <span class="fn"><span class="fn"><span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.inner">inner</a></span>.<span class="fn">erase</span></span> <span class="fn">a</span></span> <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.mk">}</a></span></li></ul></details><details id="instances-for-list-Batteries.HashMap.erase" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Batteries.HashMap.modify"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L136-L145">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Batteries.HashMap.modify" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[inline]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.modify"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">modify</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝</span> : <span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝¹</span> : <span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">self</span> : <span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn"><span class="fn">β</span> → <span class="fn">β</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span></div></div><p>Performs an in-place edit of the value, ensuring that the value is used linearly.
+The function <code>f</code> is passed the original key of the entry, along with the value in the map.</p><pre><code>(ofList [(&quot;one&quot;, 1), (&quot;two&quot;, 2)]).<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.modify">modify</a> &quot;one&quot; (fun _ v =&gt; v + 1) = {&quot;one&quot; =&gt; 2, &quot;two&quot; =&gt; 2}
+(ofList [(&quot;one&quot;, 1), (&quot;two&quot;, 2)]).<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.modify">modify</a> &quot;three&quot; (fun _ v =&gt; v + 1) = {&quot;one&quot; =&gt; 1, &quot;two&quot; =&gt; 2}
+</code></pre><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.modify">modify</a></span> <span class="fn">a</span> <span class="fn">f</span></span> <span class="fn">=</span> <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.mk">{</a> <span class="fn">inner</span> := <span class="fn"><span class="fn"><span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.inner">inner</a></span>.<span class="fn">modify</span></span> <span class="fn">a</span> <span class="fn">(<span class="fn">f</span> <span class="fn">a</span>)</span></span> <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.mk">}</a></span></li></ul></details><details id="instances-for-list-Batteries.HashMap.modify" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Batteries.HashMap.find?"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L147-L155">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Batteries.HashMap.find?" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[inline]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.find?"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">find?</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝</span> : <span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝¹</span> : <span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">self</span> : <span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Option</span> <span class="fn">β</span></span></div></div><p>Looks up an element in the map with key <code>a</code>.</p><pre><code>def hashMap := <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.ofList">ofList</a> [(&quot;one&quot;, 1), (&quot;two&quot;, 2)]
+hashMap.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.find?">find?</a> &quot;one&quot; = some 1
+hashMap.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.find?">find?</a> &quot;three&quot; = none
+</code></pre><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.find?">find?</a></span> <span class="fn">a</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.inner">inner</a></span><span class="fn">[</span><span class="fn">a</span><span class="fn">]</span><span class="fn">?</span></span></span></li></ul></details><details id="instances-for-list-Batteries.HashMap.find?" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Batteries.HashMap.findD"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L157-L165">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Batteries.HashMap.findD" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[inline]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.findD"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">findD</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝</span> : <span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝¹</span> : <span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">self</span> : <span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">b₀</span> : <span class="fn">β</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">β</span></div></div><p>Looks up an element in the map with key <code>a</code>. Returns <code>b₀</code> if the element is not found.</p><pre><code>def hashMap := <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.ofList">ofList</a> [(&quot;one&quot;, 1), (&quot;two&quot;, 2)]
+hashMap.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.findD">findD</a> &quot;one&quot; 0 = 1
+hashMap.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.findD">findD</a> &quot;three&quot; 0 = 0
+</code></pre><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.findD">findD</a></span> <span class="fn">a</span> <span class="fn">b₀</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.inner">inner</a></span>.<span class="fn">getD</span></span> <span class="fn">a</span> <span class="fn">b₀</span></span></span></li></ul></details><details id="instances-for-list-Batteries.HashMap.findD" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Batteries.HashMap.find!"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L167-L176">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Batteries.HashMap.find!" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[inline]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.find!"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">find!</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝</span> : <span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝¹</span> : <span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Inhabited</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">self</span> : <span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">β</span></div></div><p>Looks up an element in the map with key <code>a</code>. Panics if the element is not found.</p><pre><code>def hashMap := <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.ofList">ofList</a> [(&quot;one&quot;, 1), (&quot;two&quot;, 2)]
+hashMap.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.find!">find!</a> &quot;one&quot; = 1
+hashMap.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.find!">find!</a> &quot;three&quot; =&gt; panic!
+</code></pre><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.find!">find!</a></span> <span class="fn">a</span></span> <span class="fn">=</span>   <span class="fn"><span class="fn"><span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.inner">inner</a></span>.<span class="fn">getD</span></span> <span class="fn">a</span>
+    <span class="fn">(<span class="fn">panicWithPosWithDecl</span> <span class="fn">&quot;Batteries.Data.HashMap.Basic&quot;</span> <span class="fn">&quot;Batteries.HashMap.find!&quot;</span> <span class="fn">176</span> <span class="fn">21</span> <span class="fn">&quot;key is not in the map&quot;</span>)</span></span></span></li></ul></details><details id="instances-for-list-Batteries.HashMap.find!" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Batteries.HashMap.instGetElemOptionTrue"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L178-L179">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Batteries.HashMap.instGetElemOptionTrue" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.instGetElemOptionTrue"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">instGetElemOptionTrue</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝</span> : <span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝¹</span> : <span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">GetElem</span> <span class="fn">(<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span>)</span> <span class="fn">α</span> <span class="fn">(<span class="fn">Option</span> <span class="fn">β</span>)</span> <span class="fn">fun (<span class="fn">x</span> : <span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span>) (<span class="fn">x_1</span> : <span class="fn">α</span>) =&gt; <span class="fn">True</span></span></span></div></div><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.instGetElemOptionTrue">Batteries.HashMap.instGetElemOptionTrue</a> <span class="fn">=</span>   <span class="fn"><span class="fn">{</span> <span class="fn">getElem</span> := <span class="fn">fun (<span class="fn">m</span> : <span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">Batteries.HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span>) (<span class="fn">k</span> : <span class="fn">α</span>) (<span class="fn">x</span> : <span class="fn">True</span>) =&gt; <span class="fn"><span class="fn"><span class="fn">m</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.inner">inner</a></span><span class="fn">[</span><span class="fn">k</span><span class="fn">]</span><span class="fn">?</span></span></span> <span class="fn">}</span></span></span></li></ul></details></div></div><div class="decl" id="Batteries.HashMap.findEntry?"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L181-L194">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Batteries.HashMap.findEntry?" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[inline]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.findEntry?"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">findEntry?</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">m</span> : <span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">k</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Option</span> <span class="fn">(<span class="fn">α</span> <span class="fn">×</span> <span class="fn">β</span>)</span></span></div></div><p>Given a key <code>a</code>, returns a key-value pair in the map whose key compares equal to <code>a</code>.
+Note that the returned key may not be identical to the input, if <code>==</code> ignores some part
+of the value.</p><pre><code>def hashMap := <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.ofList">ofList</a> [(&quot;one&quot;, 1), (&quot;two&quot;, 2)]
+hashMap.<a href="../../.././Batteries/Data/HashMap/Basic.html#Std.HashMap.findEntry?">findEntry?</a> &quot;one&quot; = some (&quot;one&quot;, 1)
+hashMap.<a href="../../.././Batteries/Data/HashMap/Basic.html#Std.HashMap.findEntry?">findEntry?</a> &quot;three&quot; = none
+</code></pre><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><span class="fn"><span class="fn">m</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.findEntry?">findEntry?</a></span> <span class="fn">k</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">m</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.inner">inner</a></span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Std.HashMap.findEntry?">findEntry?</a></span> <span class="fn">k</span></span></span></li></ul></details><details id="instances-for-list-Batteries.HashMap.findEntry?" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Batteries.HashMap.contains"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L196-L204">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Batteries.HashMap.contains" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[inline]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.contains"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">contains</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝</span> : <span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝¹</span> : <span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">self</span> : <span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">Bool</span></div></div><p>Returns true if the element <code>a</code> is in the map.</p><pre><code>def hashMap := <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.ofList">ofList</a> [(&quot;one&quot;, 1), (&quot;two&quot;, 2)]
+hashMap.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.contains">contains</a> &quot;one&quot; = true
+hashMap.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.contains">contains</a> &quot;three&quot; = false
+</code></pre><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.contains">contains</a></span> <span class="fn">a</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.inner">inner</a></span>.<span class="fn">contains</span></span> <span class="fn">a</span></span></span></li></ul></details><details id="instances-for-list-Batteries.HashMap.contains" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Batteries.HashMap.foldM"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L206-L218">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Batteries.HashMap.foldM" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[inline]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.foldM"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">foldM</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝</span> : <span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝¹</span> : <span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u_2 → <a href="../../.././foundational_types.html">Type</a> u_3</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">δ</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Monad</span> <span class="fn">m</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">δ</span> → <span class="fn"><span class="fn">α</span> → <span class="fn"><span class="fn">β</span> → <span class="fn"><span class="fn">m</span> <span class="fn">δ</span></span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">init</span> : <span class="fn">δ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">self</span> : <span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">m</span> <span class="fn">δ</span></span></div></div><p>Folds a monadic function over the elements in the map (in arbitrary order).</p><pre><code>def sumEven (sum: Nat) (k : String) (v : Nat) : Except String Nat :=
+  if v % 2 == 0 then pure (sum + v) else throw s!&quot;value {v} at key {k} is not even&quot;
+
+<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.foldM">foldM</a> sumEven 0 (ofList [(&quot;one&quot;, 1), (&quot;three&quot;, 3)]) =
+  Except.error &quot;value 3 at key three is not even&quot;
+<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.foldM">foldM</a> sumEven 0 (ofList [(&quot;two&quot;, 2), (&quot;four&quot;, 4)]) = Except.ok 6
+</code></pre><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.foldM">Batteries.HashMap.foldM</a> <span class="fn">f</span> <span class="fn">init</span> <span class="fn">self</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">Std.HashMap.foldM</span> <span class="fn">f</span> <span class="fn">init</span> <span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.inner">inner</a></span></span></span></li></ul></details><details id="instances-for-list-Batteries.HashMap.foldM" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Batteries.HashMap.fold"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L220-L227">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Batteries.HashMap.fold" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[inline]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.fold"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">fold</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝</span> : <span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝¹</span> : <span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">δ</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">δ</span> → <span class="fn"><span class="fn">α</span> → <span class="fn"><span class="fn">β</span> → <span class="fn">δ</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">init</span> : <span class="fn">δ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">self</span> : <span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">δ</span></div></div><p>Folds a function over the elements in the map (in arbitrary order).</p><pre><code><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.fold">fold</a> (fun sum _ v =&gt; sum + v) 0 (ofList [(&quot;one&quot;, 1), (&quot;two&quot;, 2)]) = 3
+</code></pre><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.fold">Batteries.HashMap.fold</a> <span class="fn">f</span> <span class="fn">init</span> <span class="fn">self</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">Std.HashMap.fold</span> <span class="fn">f</span> <span class="fn">init</span> <span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.inner">inner</a></span></span></span></li></ul></details><details id="instances-for-list-Batteries.HashMap.fold" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Batteries.HashMap.mergeWithM"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L229-L245">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Batteries.HashMap.mergeWithM" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[specialize #[]]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.mergeWithM"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">mergeWithM</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝</span> : <span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝¹</span> : <span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> (max u_2 u_1) → <a href="../../.././foundational_types.html">Type</a> u_3</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> (max u_2 u_1)}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Monad</span> <span class="fn">m</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn"><span class="fn">β</span> → <span class="fn">β</span> → <span class="fn"><span class="fn">m</span> <span class="fn">β</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">self </span><span class="fn">other</span> : <span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">m</span> <span class="fn">(<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span>)</span></span></div></div><p>Combines two hashmaps using a monadic function <code>f</code> to combine two values at a key.</p><pre><code>def map1 := <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.ofList">ofList</a> [(&quot;one&quot;, 1), (&quot;two&quot;, 2)]
+def map2 := <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.ofList">ofList</a> [(&quot;two&quot;, 2), (&quot;three&quot;, 3)]
+def map3 := <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.ofList">ofList</a> [(&quot;two&quot;, 3), (&quot;three&quot;, 3)]
+def mergeIfNoConflict? (_ : String) (v₁ v₂ : Nat) : Option Nat :=
+  if v₁ != v₂ then none else some v₁
+
+
+<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.mergeWithM">mergeWithM</a> mergeIfNoConflict? map1 map2 = some {&quot;one&quot; =&gt; 1, &quot;two&quot; =&gt; 2, &quot;three&quot; =&gt; 3}
+<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.mergeWithM">mergeWithM</a> mergeIfNoConflict? map1 map3 = none
+</code></pre><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.mergeWithM">Batteries.HashMap.mergeWithM</a> <span class="fn">f</span> <span class="fn">self</span> <span class="fn">other</span></span> <span class="fn">=</span> <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.mk">Batteries.HashMap.mk</a> <a href="../../.././Batteries/Control/AlternativeMonad.html#Functor.map">&lt;$&gt;</a> <span class="fn"><a href="../../.././Batteries/Lean/HashMap.html#Std.HashMap.mergeWithM">Std.HashMap.mergeWithM</a> <span class="fn">f</span> <span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.inner">inner</a></span> <span class="fn"><span class="fn">other</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.inner">inner</a></span></span></span></li></ul></details><details id="instances-for-list-Batteries.HashMap.mergeWithM" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Batteries.HashMap.mergeWith"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L247-L256">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Batteries.HashMap.mergeWith" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[inline]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.mergeWith"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">mergeWith</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝</span> : <span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝¹</span> : <span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn"><span class="fn">β</span> → <span class="fn">β</span> → <span class="fn">β</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">self </span><span class="fn">other</span> : <span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span></div></div><p>Combines two hashmaps using function <code>f</code> to combine two values at a key.</p><pre><code><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.mergeWith">mergeWith</a> (fun _ v₁ v₂ =&gt; v₁ + v₂ )
+  (ofList [(&quot;one&quot;, 1), (&quot;two&quot;, 2)]) (ofList [(&quot;two&quot;, 2), (&quot;three&quot;, 3)]) =
+    {&quot;one&quot; =&gt; 1, &quot;two&quot; =&gt; 4, &quot;three&quot; =&gt; 3}
+</code></pre><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.mergeWith">Batteries.HashMap.mergeWith</a> <span class="fn">f</span> <span class="fn">self</span> <span class="fn">other</span></span> <span class="fn">=</span> <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.mk">{</a> <span class="fn">inner</span> := <span class="fn"><a href="../../.././Batteries/Lean/HashMap.html#Std.HashMap.mergeWith">Std.HashMap.mergeWith</a> <span class="fn">f</span> <span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.inner">inner</a></span> <span class="fn"><span class="fn">other</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.inner">inner</a></span></span> <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.mk">}</a></span></li></ul></details><details id="instances-for-list-Batteries.HashMap.mergeWith" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Batteries.HashMap.forM"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L258-L269">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Batteries.HashMap.forM" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[inline]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.forM"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">forM</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝</span> : <span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝¹</span> : <span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u_2 → <a href="../../.././foundational_types.html">Type</a> u_3</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Monad</span> <span class="fn">m</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn"><span class="fn">β</span> → <span class="fn"><span class="fn">m</span> <span class="fn">PUnit</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">self</span> : <span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">m</span> <span class="fn">PUnit</span></span></div></div><p>Runs a monadic function over the elements in the map (in arbitrary order).</p><pre><code>def checkEven (k : String) (v : Nat) : Except String Unit :=
+  if v % 2 == 0 then pure () else throw s!&quot;value {v} at key {k} is not even&quot;
+
+<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.forM">forM</a> checkEven (ofList [(&quot;one&quot;, 1), (&quot;three&quot;, 3)]) = Except.error &quot;value 3 at key three is not even&quot;
+<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.forM">forM</a> checkEven (ofList [(&quot;two&quot;, 2), (&quot;four&quot;, 4)]) = Except.ok ()
+</code></pre><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.forM">Batteries.HashMap.forM</a> <span class="fn">f</span> <span class="fn">self</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">Std.HashMap.forM</span> <span class="fn">f</span> <span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.inner">inner</a></span></span></span></li></ul></details><details id="instances-for-list-Batteries.HashMap.forM" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Batteries.HashMap.toList"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L271-L278">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Batteries.HashMap.toList" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.toList"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">toList</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝</span> : <span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝¹</span> : <span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">self</span> : <span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">List</span> <span class="fn">(<span class="fn">α</span> <span class="fn">×</span> <span class="fn">β</span>)</span></span></div></div><p>Converts the map into a list of key-value pairs.</p><pre><code>open List
+(ofList [(&quot;one&quot;, 1), (&quot;two&quot;, 2)]).<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.toList">toList</a> ~ [(&quot;one&quot;, 1), (&quot;two&quot;, 2)]
+</code></pre><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.toList">toList</a></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.inner">inner</a></span>.<span class="fn">toList</span></span></span></li></ul></details><details id="instances-for-list-Batteries.HashMap.toList" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Batteries.HashMap.toArray"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L280-L287">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Batteries.HashMap.toArray" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.toArray"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">toArray</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝</span> : <span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝¹</span> : <span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">self</span> : <span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Array</span> <span class="fn">(<span class="fn">α</span> <span class="fn">×</span> <span class="fn">β</span>)</span></span></div></div><p>Converts the map into an array of key-value pairs.</p><pre><code>open List
+(ofList [(&quot;one&quot;, 1), (&quot;two&quot;, 2)]).toArray.data ~ #[(&quot;one&quot;, 1), (&quot;two&quot;, 2)].data
+</code></pre><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.toArray">toArray</a></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.inner">inner</a></span>.<span class="fn">toArray</span></span></span></li></ul></details><details id="instances-for-list-Batteries.HashMap.toArray" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Batteries.HashMap.numBuckets"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L289-L290">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Batteries.HashMap.numBuckets" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.numBuckets"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">numBuckets</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝</span> : <span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x✝¹</span> : <span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">self</span> : <span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">Nat</span></div></div><p>The number of buckets in the hash map.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.numBuckets">numBuckets</a></span> <span class="fn">=</span> <span class="fn"><span class="fn">Std.HashMap.Internal.numBuckets</span> <span class="fn"><span class="fn">self</span>.<a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.inner">inner</a></span></span></span></li></ul></details><details id="instances-for-list-Batteries.HashMap.numBuckets" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Batteries.HashMap.ofList"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L292-L300">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Batteries.HashMap.ofList" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.ofList"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">ofList</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <span class="fn"><span class="fn">List</span> <span class="fn">(<span class="fn">α</span> <span class="fn">×</span> <span class="fn">β</span>)</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span></div></div><p>Builds a <code><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a></code> from a list of key-value pairs.
+Values of duplicated keys are replaced by their respective last occurrences.</p><pre><code><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.ofList">ofList</a> [(&quot;one&quot;, 1), (&quot;one&quot;, 2)] = {&quot;one&quot; =&gt; 2}
+</code></pre><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.ofList">Batteries.HashMap.ofList</a> <span class="fn">l</span></span> <span class="fn">=</span> <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.mk">{</a> <span class="fn">inner</span> := <span class="fn"><span class="fn">Std.HashMap.ofList</span> <span class="fn">l</span></span> <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.mk">}</a></span></li></ul></details><details id="instances-for-list-Batteries.HashMap.ofList" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Batteries.HashMap.ofListWith"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/batteries/blob/a181a0e6bde0c90f6ce235bbc1f8c62506a268ae/Batteries/Data/HashMap/Basic.lean#L302-L309">source</a></div><div class="verification_link">
+<a href="../../../../modules/Batteries_Data_HashMap_Basic.html#Batteries.HashMap.ofListWith" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.ofListWith"><span class="name">Batteries</span>.<span class="name">HashMap</span>.<span class="name">ofListWith</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">BEq</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Hashable</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <span class="fn"><span class="fn">List</span> <span class="fn">(<span class="fn">α</span> <span class="fn">×</span> <span class="fn">β</span>)</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">β</span> → <span class="fn">β</span> → <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap">HashMap</a> <span class="fn">α</span> <span class="fn">β</span></span></div></div><p>Variant of <code><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.ofList">ofList</a></code> which accepts a function that combines values of duplicated keys.</p><pre><code><a href="../../.././Batteries/Data/HashMap/Basic.html#Std.HashMap.ofListWith">ofListWith</a> [(&quot;one&quot;, 1), (&quot;one&quot;, 2)] (fun v₁ v₂ =&gt; v₁ + v₂) = {&quot;one&quot; =&gt; 3}
+</code></pre><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.ofListWith">Batteries.HashMap.ofListWith</a> <span class="fn">l</span> <span class="fn">f</span></span> <span class="fn">=</span> <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.mk">{</a> <span class="fn">inner</span> := <span class="fn"><a href="../../.././Batteries/Data/HashMap/Basic.html#Std.HashMap.ofListWith">Std.HashMap.ofListWith</a> <span class="fn">l</span> <span class="fn">f</span></span> <a href="../../.././Batteries/Data/HashMap/Basic.html#Batteries.HashMap.mk">}</a></span></li></ul></details><details id="instances-for-list-Batteries.HashMap.ofListWith" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div></main>
+<nav class="nav"><iframe src="../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

@@ -1,0 +1,555 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../../../.././style.css"></link><link rel="icon" href="../../../../.././favicon.svg"></link><link rel="mask-icon" href="../../../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../../../.././/declarations/declaration-data.bmp" as="image"></link><title>FLT.Mathlib.Topology.Algebra.Module.Equiv</title><script defer="true" src="../../../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../../../.././";</script><script>const MODULE_NAME="FLT.Mathlib.Topology.Algebra.Module.Equiv";</script><script type="module" src="../../../../.././jump-src.js"></script><script type="module" src="../../../../.././search.js"></script><script type="module" src="../../../../.././expand-nav.js"></script><script type="module" src="../../../../.././how-about.js"></script><script type="module" src="../../../../.././instances.js"></script><script type="module" src="../../../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">FLT</span>.<span class="name">Mathlib</span>.<span class="name">Topology</span>.<span class="name">Algebra</span>.<span class="name">Module</span>.<span class="name">Equiv</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Topology/Algebra/Module/Equiv.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../../../.././Init.html">Init</a></li><li><a href="../../../../.././FLT/Mathlib/LinearAlgebra/Determinant.html">FLT.Mathlib.LinearAlgebra.Determinant</a></li><li><a href="../../../../.././FLT/Mathlib/LinearAlgebra/Pi.html">FLT.Mathlib.LinearAlgebra.Pi</a></li><li><a href="../../../../.././Mathlib/LinearAlgebra/Basis/Defs.html">Mathlib.LinearAlgebra.Basis.Defs</a></li><li><a href="../../../../.././Mathlib/LinearAlgebra/Matrix/Defs.html">Mathlib.LinearAlgebra.Matrix.Defs</a></li><li><a href="../../../../.././Mathlib/LinearAlgebra/Matrix/ToLin.html">Mathlib.LinearAlgebra.Matrix.ToLin</a></li><li><a href="../../../../.././Mathlib/Topology/Algebra/ContinuousMonoidHom.html">Mathlib.Topology.Algebra.ContinuousMonoidHom</a></li><li><a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html">Mathlib.Topology.Algebra.Module.Equiv</a></li><li><a href="../../../../.././Mathlib/Topology/Algebra/Module/ModuleTopology.html">Mathlib.Topology.Algebra.Module.ModuleTopology</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-FLT.Mathlib.Topology.Algebra.Module.Equiv" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#ContinuousLinearEquiv.toContinuousAddEquiv"><span class="name">ContinuousLinearEquiv</span>.<span class="name">toContinuousAddEquiv</span></a></div><div class="nav_link"><a class="break_within" href="#ContinuousLinearEquiv.restrictScalars"><span class="name">ContinuousLinearEquiv</span>.<span class="name">restrictScalars</span></a></div><div class="nav_link"><a class="break_within" href="#ContinuousLinearEquiv.restrictScalars_apply"><span class="name">ContinuousLinearEquiv</span>.<span class="name">restrictScalars_apply</span></a></div><div class="nav_link"><a class="break_within" href="#ContinuousLinearEquiv.restrictScalars_symm_apply"><span class="name">ContinuousLinearEquiv</span>.<span class="name">restrictScalars_symm_apply</span></a></div><div class="nav_link"><a class="break_within" href="#ContinuousLinearEquiv.piScalarPiCongrFiberwise"><span class="name">ContinuousLinearEquiv</span>.<span class="name">piScalarPiCongrFiberwise</span></a></div><div class="nav_link"><a class="break_within" href="#ContinuousLinearEquiv.piScalarPiComm"><span class="name">ContinuousLinearEquiv</span>.<span class="name">piScalarPiComm</span></a></div><div class="nav_link"><a class="break_within" href="#ContinuousLinearEquiv.toContinuousAddEquiv_trans"><span class="name">ContinuousLinearEquiv</span>.<span class="name">toContinuousAddEquiv_trans</span></a></div><div class="nav_link"><a class="break_within" href="#ContinuousLinearEquiv.toMatrix_isUnit_det"><span class="name">ContinuousLinearEquiv</span>.<span class="name">toMatrix_isUnit_det</span></a></div><div class="nav_link"><a class="break_within" href="#ContinuousLinearEquiv.toMatrix_isUnit"><span class="name">ContinuousLinearEquiv</span>.<span class="name">toMatrix_isUnit</span></a></div><div class="nav_link"><a class="break_within" href="#ContinuousLinearEquiv.toMatrix_det_ne_zero"><span class="name">ContinuousLinearEquiv</span>.<span class="name">toMatrix_det_ne_zero</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.toContinuousLinearEquiv"><span class="name">Matrix</span>.<span class="name">toContinuousLinearEquiv</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.toContinousLinearEquiv_apply"><span class="name">Matrix</span>.<span class="name">toContinousLinearEquiv_apply</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.toContinuousLinearEquiv_toLin_coe"><span class="name">Matrix</span>.<span class="name">toContinuousLinearEquiv_toLin_coe</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.toContinuousLinearEquiv_toLinearEquiv"><span class="name">Matrix</span>.<span class="name">toContinuousLinearEquiv_toLinearEquiv</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.toContinousLinearEquiv_toMatrix"><span class="name">Matrix</span>.<span class="name">toContinousLinearEquiv_toMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.toContinousLinearEquiv_mul"><span class="name">Matrix</span>.<span class="name">toContinousLinearEquiv_mul</span></a></div><div class="nav_link"><a class="break_within" href="#ContinuousLinearEquiv.toMatrix_toContinousLinearEquiv"><span class="name">ContinuousLinearEquiv</span>.<span class="name">toMatrix_toContinousLinearEquiv</span></a></div></nav><main>
+<div class="decl" id="ContinuousLinearEquiv.toContinuousAddEquiv"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Topology/Algebra/Module/Equiv.lean#L10-L18">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/FLT_Mathlib_Topology_Algebra_Module_Equiv.html#ContinuousLinearEquiv.toContinuousAddEquiv" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.toContinuousAddEquiv"><span class="name">ContinuousLinearEquiv</span>.<span class="name">toContinuousAddEquiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R₁</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R₂</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">R₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">R₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">σ₁₂</span> : <span class="fn">R₁</span> <a href="../../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">R₂</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">σ₂₁</span> : <span class="fn">R₂</span> <a href="../../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">R₁</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/CompTypeclasses.html#RingHomInvPair">RingHomInvPair</a> <span class="fn">σ₁₂</span> <span class="fn">σ₂₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/CompTypeclasses.html#RingHomInvPair">RingHomInvPair</a> <span class="fn">σ₂₁</span> <span class="fn">σ₁₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M₁</span> : <a href="../../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M₂</span> : <a href="../../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">M₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">M₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">M₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">M₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R₁</span> <span class="fn">M₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R₂</span> <span class="fn">M₂</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">e</span> : <span class="fn">M₁</span> <a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">≃SL[</a><span class="fn">σ₁₂</span><a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">]</a> <span class="fn">M₂</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">M₁</span> <a href="../../../../.././Mathlib/Topology/Algebra/ContinuousMonoidHom.html#ContinuousAddEquiv">≃ₜ+</a> <span class="fn">M₂</span></div></div><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-ContinuousLinearEquiv.toContinuousAddEquiv" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="ContinuousLinearEquiv.restrictScalars"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Topology/Algebra/Module/Equiv.lean#L20-L29">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/FLT_Mathlib_Topology_Algebra_Module_Equiv.html#ContinuousLinearEquiv.restrictScalars" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.restrictScalars"><span class="name">ContinuousLinearEquiv</span>.<span class="name">restrictScalars</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <a href="../../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M₂</span> : <a href="../../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">M₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">M₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">S</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">S</span> <span class="fn">M₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap.CompatibleSMul">LinearMap.CompatibleSMul</a> <span class="fn">M</span> <span class="fn">M₂</span> <span class="fn">R</span> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">M₂</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">M</span> <a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">≃L[</a><span class="fn">S</span><a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">]</a> <span class="fn">M₂</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">M</span> <a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">≃L[</a><span class="fn">R</span><a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">]</a> <span class="fn">M₂</span></div></div><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-ContinuousLinearEquiv.restrictScalars" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="ContinuousLinearEquiv.restrictScalars_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Topology/Algebra/Module/Equiv.lean#L20-L20">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/FLT_Mathlib_Topology_Algebra_Module_Equiv.html#ContinuousLinearEquiv.restrictScalars_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.restrictScalars_apply"><span class="name">ContinuousLinearEquiv</span>.<span class="name">restrictScalars_apply</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <a href="../../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M₂</span> : <a href="../../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">M₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">M₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">S</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">S</span> <span class="fn">M₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap.CompatibleSMul">LinearMap.CompatibleSMul</a> <span class="fn">M</span> <span class="fn">M₂</span> <span class="fn">R</span> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">M₂</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">M</span> <a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">≃L[</a><span class="fn">S</span><a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">]</a> <span class="fn">M₂</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">M</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<a href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.restrictScalars">restrictScalars</a> <span class="fn">R</span> <span class="fn">f</span>)</span> <span class="fn">a</span></span> <a href="../../../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn">f</span> <span class="fn">a</span></span></div></div></div></div><div class="decl" id="ContinuousLinearEquiv.restrictScalars_symm_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Topology/Algebra/Module/Equiv.lean#L20-L20">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/FLT_Mathlib_Topology_Algebra_Module_Equiv.html#ContinuousLinearEquiv.restrictScalars_symm_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.restrictScalars_symm_apply"><span class="name">ContinuousLinearEquiv</span>.<span class="name">restrictScalars_symm_apply</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <a href="../../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M₂</span> : <a href="../../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">M₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">M₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">S</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">S</span> <span class="fn">M₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap.CompatibleSMul">LinearMap.CompatibleSMul</a> <span class="fn">M</span> <span class="fn">M₂</span> <span class="fn">R</span> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">M₂</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">M</span> <a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">≃L[</a><span class="fn">S</span><a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">]</a> <span class="fn">M₂</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">M₂</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.restrictScalars">restrictScalars</a> <span class="fn">R</span> <span class="fn">f</span>)</span>.<a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.symm">symm</a></span> <span class="fn">a</span></span> <a href="../../../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn"><span class="fn">f</span>.<a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.symm">symm</a></span> <span class="fn">a</span></span></div></div></div></div><div class="decl" id="ContinuousLinearEquiv.piScalarPiCongrFiberwise"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Topology/Algebra/Module/Equiv.lean#L31-L48">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/FLT_Mathlib_Topology_Algebra_Module_Equiv.html#ContinuousLinearEquiv.piScalarPiCongrFiberwise" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.piScalarPiCongrFiberwise"><span class="name">ContinuousLinearEquiv</span>.<span class="name">piScalarPiCongrFiberwise</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <span class="fn"><span class="fn">β</span> → <a href="../../../../.././foundational_types.html">Type</a> u_3</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ₁</span> : <span class="fn"><span class="fn">α</span> → <a href="../../../../.././foundational_types.html">Type</a> u_4</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ₂</span> : <span class="fn"><span class="fn">β</span> → <a href="../../../../.././foundational_types.html">Type</a> u_5</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">β</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>) → <span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">(<span class="fn">γ₁</span> <span class="fn">a</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">b</span> : <span class="fn">β</span>) → <span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">(<span class="fn">γ₂</span> <span class="fn">b</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">b</span> : <span class="fn">β</span>) → <span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">(<span class="fn">R</span> <span class="fn">b</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>) → <span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">(<span class="fn">γ₁</span> <span class="fn">a</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">b</span> : <span class="fn">β</span>) → <span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">(<span class="fn">γ₂</span> <span class="fn">b</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">b</span> : <span class="fn">β</span>) → <span class="fn">(<span class="fn">a</span> : <a href="../../../../.././Init/Prelude.html#Subtype">{</a> <span class="fn">a</span> <a href="../../../../.././Init/Prelude.html#Subtype">:</a> <span class="fn">α</span> <a href="../../../../.././Init/Prelude.html#Subtype">//</a> <span class="fn"><span class="fn">f</span> <span class="fn">a</span></span> <a href="../../../../.././Init/Prelude.html#Eq">=</a> <span class="fn">b</span> <a href="../../../../.././Init/Prelude.html#Subtype">}</a>) → <span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">(<span class="fn">R</span> <span class="fn">b</span>)</span> <span class="fn">(<span class="fn">γ₁</span> <span class="fn">↑<span class="fn">a</span></span>)</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">b</span> : <span class="fn">β</span>) → <span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">(<span class="fn">R</span> <span class="fn">b</span>)</span> <span class="fn">(<span class="fn">γ₂</span> <span class="fn">b</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">((<span class="fn">b</span> : <span class="fn">β</span>) → <span class="fn"><span class="fn">R</span> <span class="fn">b</span></span>)</span> <span class="fn">((<span class="fn">a</span> : <span class="fn">α</span>) → <span class="fn"><span class="fn">γ₁</span> <span class="fn">a</span></span>)</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././FLT/Mathlib/LinearAlgebra/Pi.html#Pi.FiberwiseSMul">Pi.FiberwiseSMul</a> <span class="fn">f</span> <span class="fn">R</span> <span class="fn">γ₁</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">e</span> : <span class="fn">(<span class="fn">b</span> : <span class="fn">β</span>) → <span class="fn">((<span class="fn">σ</span> : <a href="../../../../.././Init/Prelude.html#Subtype">{</a> <span class="fn">a</span> <a href="../../../../.././Init/Prelude.html#Subtype">:</a> <span class="fn">α</span> <a href="../../../../.././Init/Prelude.html#Subtype">//</a> <span class="fn"><span class="fn">f</span> <span class="fn">a</span></span> <a href="../../../../.././Init/Prelude.html#Eq">=</a> <span class="fn">b</span> <a href="../../../../.././Init/Prelude.html#Subtype">}</a>) → <span class="fn"><span class="fn">γ₁</span> <span class="fn">↑<span class="fn">σ</span></span></span>)</span> <a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">≃L[</a><span class="fn"><span class="fn">R</span> <span class="fn">b</span></span><a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">]</a> <span class="fn"><span class="fn">γ₂</span> <span class="fn">b</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">((<span class="fn">a</span> : <span class="fn">α</span>) → <span class="fn"><span class="fn">γ₁</span> <span class="fn">a</span></span>)</span> <a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">≃L[</a><span class="fn">(<span class="fn">b</span> : <span class="fn">β</span>) → <span class="fn"><span class="fn">R</span> <span class="fn">b</span></span></span><a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">]</a> <span class="fn">(<span class="fn">b</span> : <span class="fn">β</span>) → <span class="fn"><span class="fn">γ₂</span> <span class="fn">b</span></span></span></div></div><p>Let <code>f : α → β</code> be a function on index types. A family of <code>R b</code>-linear homeomorphisms, indexed
+by <code>b : β</code>, between the product over the fiber of <code>b</code> under <code>f</code> given as
+<code>∀ (σ : { a : α // f a = b }) → γ₁ σ.1) ≃ₗ[R b] γ₂ b</code> lifts to an equivalence over the products
+<code>∀ a, γ₁ a ≃ₗ[∀ b, R b] ∀ b, γ₂ b</code> with product scalars <code>∀ b, R b</code>, provided that <code>∀ b, R b</code> acts on
+<code>∀ a, γ₁ a</code> fiberwise. This is <code><a href="../../../../.././Mathlib/Logic/Equiv/Basic.html#Equiv.piCongrFiberwise">Equiv.piCongrFiberwise</a></code> as a <code><a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">ContinuousLinearEquiv</a></code> with product
+scalars.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-ContinuousLinearEquiv.piScalarPiCongrFiberwise" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="ContinuousLinearEquiv.piScalarPiComm"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Topology/Algebra/Module/Equiv.lean#L50-L57">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/FLT_Mathlib_Topology_Algebra_Module_Equiv.html#ContinuousLinearEquiv.piScalarPiComm" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.piScalarPiComm"><span class="name">ContinuousLinearEquiv</span>.<span class="name">piScalarPiComm</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <span class="fn"><span class="fn">α</span> → <a href="../../../../.././foundational_types.html">Type</a> u_3</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">φ</span> : <span class="fn"><span class="fn">α</span> → <span class="fn"><span class="fn">β</span> → <a href="../../../../.././foundational_types.html">Type</a> u_4</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>) → <span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">(<span class="fn">R</span> <span class="fn">a</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>) → <span class="fn">(<span class="fn">b</span> : <span class="fn">β</span>) → <span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">(<span class="fn">φ</span> <span class="fn">a</span> <span class="fn">b</span>)</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>) → <span class="fn">(<span class="fn">b</span> : <span class="fn">β</span>) → <span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">(<span class="fn">R</span> <span class="fn">a</span>)</span> <span class="fn">(<span class="fn">φ</span> <span class="fn">a</span> <span class="fn">b</span>)</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>) → <span class="fn">(<span class="fn">b</span> : <span class="fn">β</span>) → <span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">(<span class="fn">φ</span> <span class="fn">a</span> <span class="fn">b</span>)</span></span></span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">((<span class="fn">a</span> : <span class="fn">α</span>) → <span class="fn">(<span class="fn">b</span> : <span class="fn">β</span>) → <span class="fn"><span class="fn">φ</span> <span class="fn">a</span> <span class="fn">b</span></span></span>)</span> <a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">≃L[</a><span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>) → <span class="fn"><span class="fn">R</span> <span class="fn">a</span></span></span><a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">]</a> <span class="fn">(<span class="fn">b</span> : <span class="fn">β</span>) → <span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>) → <span class="fn"><span class="fn">φ</span> <span class="fn">a</span> <span class="fn">b</span></span></span></span></div></div><p>Given <code>φ : α → β → Type*</code> and <code>R : α → Type*</code> such that <code>φ a b</code> is an <code>R a</code> module for all
+<code>a b</code>, this is the continuous linear equivalence between <code>∀ a b, φ a b</code> and <code>∀ b a, φ a b</code> with
+product scalars. This is <code><a href="../../../../.././Mathlib/Logic/Equiv/Basic.html#Equiv.piComm">Equiv.piComm</a></code> as a product-scalar <code><a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">ContinuousLinearEquiv</a></code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-ContinuousLinearEquiv.piScalarPiComm" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="ContinuousLinearEquiv.toContinuousAddEquiv_trans"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Topology/Algebra/Module/Equiv.lean#L59-L63">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/FLT_Mathlib_Topology_Algebra_Module_Equiv.html#ContinuousLinearEquiv.toContinuousAddEquiv_trans" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.toContinuousAddEquiv_trans"><span class="name">ContinuousLinearEquiv</span>.<span class="name">toContinuousAddEquiv_trans</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">e </span><span class="fn">f</span> : <span class="fn">E</span> <a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">≃L[</a><span class="fn">R</span><a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">]</a> <span class="fn">E</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">e</span>.<a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.trans">trans</a></span> <span class="fn">f</span>)</span>.<a href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.toContinuousAddEquiv">toContinuousAddEquiv</a></span> <a href="../../../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn"><span class="fn"><span class="fn">e</span>.<a href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.toContinuousAddEquiv">toContinuousAddEquiv</a></span>.<a href="../../../../.././Mathlib/Topology/Algebra/ContinuousMonoidHom.html#ContinuousAddEquiv.trans">trans</a></span> <span class="fn"><span class="fn">f</span>.<a href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.toContinuousAddEquiv">toContinuousAddEquiv</a></span></span></div></div></div></div><div class="decl" id="ContinuousLinearEquiv.toMatrix_isUnit_det"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Topology/Algebra/Module/Equiv.lean#L65-L69">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.toMatrix_isUnit_det"><span class="name">ContinuousLinearEquiv</span>.<span class="name">toMatrix_isUnit_det</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">F</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">b</span> : <span class="fn"><a href="../../../../.././Mathlib/LinearAlgebra/Basis/Defs.html#Module.Basis">Module.Basis</a> <span class="fn">ι</span> <span class="fn">F</span> <span class="fn">V</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">ρ</span> : <span class="fn">V</span> <a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">≃L[</a><span class="fn">F</span><a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">]</a> <span class="fn">V</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Units/Defs.html#IsUnit">IsUnit</a> <span class="fn"><span class="fn">(<span class="fn">(<a href="../../../../.././Mathlib/LinearAlgebra/Matrix/ToLin.html#LinearMap.toMatrix">LinearMap.toMatrix</a> <span class="fn">b</span> <span class="fn">b</span>)</span> <span class="fn">↑<span class="fn"><span class="fn">ρ</span>.<a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.toLinearEquiv">toLinearEquiv</a></span></span>)</span>.<a href="../../../../.././Mathlib/LinearAlgebra/Matrix/Determinant/Basic.html#Matrix.det">det</a></span></span></div></div></div></div><div class="decl" id="ContinuousLinearEquiv.toMatrix_isUnit"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Topology/Algebra/Module/Equiv.lean#L71-L77">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.toMatrix_isUnit"><span class="name">ContinuousLinearEquiv</span>.<span class="name">toMatrix_isUnit</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">F</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">b</span> : <span class="fn"><a href="../../../../.././Mathlib/LinearAlgebra/Basis/Defs.html#Module.Basis">Module.Basis</a> <span class="fn">ι</span> <span class="fn">F</span> <span class="fn">V</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">ρ</span> : <span class="fn">V</span> <a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">≃L[</a><span class="fn">F</span><a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">]</a> <span class="fn">V</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Units/Defs.html#IsUnit">IsUnit</a> <span class="fn">(<span class="fn">(<a href="../../../../.././Mathlib/LinearAlgebra/Matrix/ToLin.html#LinearMap.toMatrix">LinearMap.toMatrix</a> <span class="fn">b</span> <span class="fn">b</span>)</span> <span class="fn">↑<span class="fn"><span class="fn">ρ</span>.<a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.toLinearEquiv">toLinearEquiv</a></span></span>)</span></span></div></div></div></div><div class="decl" id="ContinuousLinearEquiv.toMatrix_det_ne_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Topology/Algebra/Module/Equiv.lean#L79-L84">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.toMatrix_det_ne_zero"><span class="name">ContinuousLinearEquiv</span>.<span class="name">toMatrix_det_ne_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Logic/Nontrivial/Defs.html#Nontrivial">Nontrivial</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">F</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">b</span> : <span class="fn"><a href="../../../../.././Mathlib/LinearAlgebra/Basis/Defs.html#Module.Basis">Module.Basis</a> <span class="fn">ι</span> <span class="fn">F</span> <span class="fn">V</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">ρ</span> : <span class="fn">V</span> <a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">≃L[</a><span class="fn">F</span><a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">]</a> <span class="fn">V</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<span class="fn">(<a href="../../../../.././Mathlib/LinearAlgebra/Matrix/ToLin.html#LinearMap.toMatrix">LinearMap.toMatrix</a> <span class="fn">b</span> <span class="fn">b</span>)</span> <span class="fn">↑<span class="fn"><span class="fn">ρ</span>.<a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.toLinearEquiv">toLinearEquiv</a></span></span>)</span>.<a href="../../../../.././Mathlib/LinearAlgebra/Matrix/Determinant/Basic.html#Matrix.det">det</a></span> <a href="../../../../.././Init/Core.html#Ne">≠</a> <span class="fn">0</span></div></div></div></div><div class="decl" id="Matrix.toContinuousLinearEquiv"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Topology/Algebra/Module/Equiv.lean#L95-L105">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/FLT_Mathlib_Topology_Algebra_Module_Equiv.html#Matrix.toContinuousLinearEquiv" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#Matrix.toContinuousLinearEquiv"><span class="name">Matrix</span>.<span class="name">toContinuousLinearEquiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">F</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Algebra/Module/ModuleTopology.html#IsModuleTopology">IsModuleTopology</a> <span class="fn">F</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Algebra/Monoid/Defs.html#ContinuousAdd">ContinuousAdd</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><a href="../../../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">ι</span> <span class="fn">ι</span> <span class="fn">F</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">b</span> : <span class="fn"><a href="../../../../.././Mathlib/LinearAlgebra/Basis/Defs.html#Module.Basis">Module.Basis</a> <span class="fn">ι</span> <span class="fn">F</span> <span class="fn">V</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Units/Defs.html#IsUnit">IsUnit</a> <span class="fn"><span class="fn">M</span>.<a href="../../../../.././Mathlib/LinearAlgebra/Matrix/Determinant/Basic.html#Matrix.det">det</a></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">V</span> <a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">≃L[</a><span class="fn">F</span><a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">]</a> <span class="fn">V</span></div></div><p>Given <code>M : <a href="../../../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> ι ι F</code>, <code>b : <a href="../../../../.././Mathlib/LinearAlgebra/Basis/Defs.html#Module.Basis">Module.Basis</a> ι F V</code> and <code>h : M.det ≠ 0</code>,
+this is the continuous linear equivalence arising from
+<code><a href="../../../../.././Mathlib/LinearAlgebra/Matrix/ToLinearEquiv.html#Matrix.toLinearEquiv">Matrix.toLinearEquiv</a> b M (Ne.isUnit h)</code></p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Matrix.toContinuousLinearEquiv" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Matrix.toContinousLinearEquiv_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Topology/Algebra/Module/Equiv.lean#L107-L110">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/FLT_Mathlib_Topology_Algebra_Module_Equiv.html#Matrix.toContinousLinearEquiv_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#Matrix.toContinousLinearEquiv_apply"><span class="name">Matrix</span>.<span class="name">toContinousLinearEquiv_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">F</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Algebra/Module/ModuleTopology.html#IsModuleTopology">IsModuleTopology</a> <span class="fn">F</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Algebra/Monoid/Defs.html#ContinuousAdd">ContinuousAdd</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><a href="../../../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">ι</span> <span class="fn">ι</span> <span class="fn">F</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">b</span> : <span class="fn"><a href="../../../../.././Mathlib/LinearAlgebra/Basis/Defs.html#Module.Basis">Module.Basis</a> <span class="fn">ι</span> <span class="fn">F</span> <span class="fn">V</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Units/Defs.html#IsUnit">IsUnit</a> <span class="fn"><span class="fn">M</span>.<a href="../../../../.././Mathlib/LinearAlgebra/Matrix/Determinant/Basic.html#Matrix.det">det</a></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">V</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">M</span>.<a href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#Matrix.toContinuousLinearEquiv">toContinuousLinearEquiv</a></span> <span class="fn">b</span> <span class="fn">h</span>)</span> <span class="fn">x</span></span> <a href="../../../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn">(<span class="fn">(<a href="../../../../.././Mathlib/LinearAlgebra/Matrix/ToLin.html#Matrix.toLin">toLin</a> <span class="fn">b</span> <span class="fn">b</span>)</span> <span class="fn">M</span>)</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="Matrix.toContinuousLinearEquiv_toLin_coe"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Topology/Algebra/Module/Equiv.lean#L112-L115">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/FLT_Mathlib_Topology_Algebra_Module_Equiv.html#Matrix.toContinuousLinearEquiv_toLin_coe" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#Matrix.toContinuousLinearEquiv_toLin_coe"><span class="name">Matrix</span>.<span class="name">toContinuousLinearEquiv_toLin_coe</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">F</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Algebra/Module/ModuleTopology.html#IsModuleTopology">IsModuleTopology</a> <span class="fn">F</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Algebra/Monoid/Defs.html#ContinuousAdd">ContinuousAdd</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><a href="../../../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">ι</span> <span class="fn">ι</span> <span class="fn">F</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">b</span> : <span class="fn"><a href="../../../../.././Mathlib/LinearAlgebra/Basis/Defs.html#Module.Basis">Module.Basis</a> <span class="fn">ι</span> <span class="fn">F</span> <span class="fn">V</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Units/Defs.html#IsUnit">IsUnit</a> <span class="fn"><span class="fn">M</span>.<a href="../../../../.././Mathlib/LinearAlgebra/Matrix/Determinant/Basic.html#Matrix.det">det</a></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">⇑<span class="fn">(<span class="fn"><span class="fn">M</span>.<a href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#Matrix.toContinuousLinearEquiv">toContinuousLinearEquiv</a></span> <span class="fn">b</span> <span class="fn">h</span>)</span></span> <a href="../../../../.././Init/Prelude.html#Eq">=</a> <span class="fn">⇑<span class="fn">(<span class="fn">(<a href="../../../../.././Mathlib/LinearAlgebra/Matrix/ToLin.html#Matrix.toLin">toLin</a> <span class="fn">b</span> <span class="fn">b</span>)</span> <span class="fn">M</span>)</span></span></div></div></div></div><div class="decl" id="Matrix.toContinuousLinearEquiv_toLinearEquiv"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Topology/Algebra/Module/Equiv.lean#L117-L120">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/FLT_Mathlib_Topology_Algebra_Module_Equiv.html#Matrix.toContinuousLinearEquiv_toLinearEquiv" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#Matrix.toContinuousLinearEquiv_toLinearEquiv"><span class="name">Matrix</span>.<span class="name">toContinuousLinearEquiv_toLinearEquiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">F</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Algebra/Module/ModuleTopology.html#IsModuleTopology">IsModuleTopology</a> <span class="fn">F</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Algebra/Monoid/Defs.html#ContinuousAdd">ContinuousAdd</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">b</span> : <span class="fn"><a href="../../../../.././Mathlib/LinearAlgebra/Basis/Defs.html#Module.Basis">Module.Basis</a> <span class="fn">ι</span> <span class="fn">F</span> <span class="fn">V</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><a href="../../../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">ι</span> <span class="fn">ι</span> <span class="fn">F</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Units/Defs.html#IsUnit">IsUnit</a> <span class="fn"><span class="fn">M</span>.<a href="../../../../.././Mathlib/LinearAlgebra/Matrix/Determinant/Basic.html#Matrix.det">det</a></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">M</span>.<a href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#Matrix.toContinuousLinearEquiv">toContinuousLinearEquiv</a></span> <span class="fn">b</span> <span class="fn">h</span>)</span>.<a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.toLinearEquiv">toLinearEquiv</a></span> <a href="../../../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../../../.././Mathlib/LinearAlgebra/Matrix/ToLinearEquiv.html#Matrix.toLinearEquiv">toLinearEquiv</a> <span class="fn">b</span> <span class="fn">M</span> <span class="fn">h</span></span></div></div></div></div><div class="decl" id="Matrix.toContinousLinearEquiv_toMatrix"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Topology/Algebra/Module/Equiv.lean#L122-L125">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/FLT_Mathlib_Topology_Algebra_Module_Equiv.html#Matrix.toContinousLinearEquiv_toMatrix" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#Matrix.toContinousLinearEquiv_toMatrix"><span class="name">Matrix</span>.<span class="name">toContinousLinearEquiv_toMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">F</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Algebra/Module/ModuleTopology.html#IsModuleTopology">IsModuleTopology</a> <span class="fn">F</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Algebra/Monoid/Defs.html#ContinuousAdd">ContinuousAdd</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">b</span> : <span class="fn"><a href="../../../../.././Mathlib/LinearAlgebra/Basis/Defs.html#Module.Basis">Module.Basis</a> <span class="fn">ι</span> <span class="fn">F</span> <span class="fn">V</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><a href="../../../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">ι</span> <span class="fn">ι</span> <span class="fn">F</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Units/Defs.html#IsUnit">IsUnit</a> <span class="fn"><span class="fn">M</span>.<a href="../../../../.././Mathlib/LinearAlgebra/Matrix/Determinant/Basic.html#Matrix.det">det</a></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<a href="../../../../.././Mathlib/LinearAlgebra/Matrix/ToLin.html#LinearMap.toMatrix">LinearMap.toMatrix</a> <span class="fn">b</span> <span class="fn">b</span>)</span> <span class="fn">↑<span class="fn"><span class="fn">(<span class="fn"><span class="fn">M</span>.<a href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#Matrix.toContinuousLinearEquiv">toContinuousLinearEquiv</a></span> <span class="fn">b</span> <span class="fn">h</span>)</span>.<a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.toLinearEquiv">toLinearEquiv</a></span></span></span> <a href="../../../../.././Init/Prelude.html#Eq">=</a> <span class="fn">M</span></div></div></div></div><div class="decl" id="Matrix.toContinousLinearEquiv_mul"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Topology/Algebra/Module/Equiv.lean#L127-L134">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/FLT_Mathlib_Topology_Algebra_Module_Equiv.html#Matrix.toContinousLinearEquiv_mul" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#Matrix.toContinousLinearEquiv_mul"><span class="name">Matrix</span>.<span class="name">toContinousLinearEquiv_mul</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">F</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Algebra/Module/ModuleTopology.html#IsModuleTopology">IsModuleTopology</a> <span class="fn">F</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Algebra/Monoid/Defs.html#ContinuousAdd">ContinuousAdd</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">b</span> : <span class="fn"><a href="../../../../.././Mathlib/LinearAlgebra/Basis/Defs.html#Module.Basis">Module.Basis</a> <span class="fn">ι</span> <span class="fn">F</span> <span class="fn">V</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><a href="../../../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">ι</span> <span class="fn">ι</span> <span class="fn">F</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hA</span> : <span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Units/Defs.html#IsUnit">IsUnit</a> <span class="fn"><span class="fn">A</span>.<a href="../../../../.././Mathlib/LinearAlgebra/Matrix/Determinant/Basic.html#Matrix.det">det</a></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">B</span> : <span class="fn"><a href="../../../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">ι</span> <span class="fn">ι</span> <span class="fn">F</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hB</span> : <span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Units/Defs.html#IsUnit">IsUnit</a> <span class="fn"><span class="fn">B</span>.<a href="../../../../.././Mathlib/LinearAlgebra/Matrix/Determinant/Basic.html#Matrix.det">det</a></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">have <span class="fn">hAB</span> := <span class="fn">⋯</span>;
+<span class="fn"><span class="fn">(<span class="fn">A</span> <a href="../../../../.././Init/Prelude.html#HMul.hMul">*</a> <span class="fn">B</span>).<a href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#Matrix.toContinuousLinearEquiv">toContinuousLinearEquiv</a></span> <span class="fn">b</span> <span class="fn">hAB</span></span> <a href="../../../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">B</span>.<a href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#Matrix.toContinuousLinearEquiv">toContinuousLinearEquiv</a></span> <span class="fn">b</span> <span class="fn">hB</span>)</span>.<a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.trans">trans</a></span> <span class="fn">(<span class="fn"><span class="fn">A</span>.<a href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#Matrix.toContinuousLinearEquiv">toContinuousLinearEquiv</a></span> <span class="fn">b</span> <span class="fn">hA</span>)</span></span></span></div></div></div></div><div class="decl" id="ContinuousLinearEquiv.toMatrix_toContinousLinearEquiv"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Topology/Algebra/Module/Equiv.lean#L138-L143">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/FLT_Mathlib_Topology_Algebra_Module_Equiv.html#ContinuousLinearEquiv.toMatrix_toContinousLinearEquiv" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.toMatrix_toContinousLinearEquiv"><span class="name">ContinuousLinearEquiv</span>.<span class="name">toMatrix_toContinousLinearEquiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">F</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Algebra/Module/ModuleTopology.html#IsModuleTopology">IsModuleTopology</a> <span class="fn">F</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Topology/Algebra/Monoid/Defs.html#ContinuousAdd">ContinuousAdd</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">b</span> : <span class="fn"><a href="../../../../.././Mathlib/LinearAlgebra/Basis/Defs.html#Module.Basis">Module.Basis</a> <span class="fn">ι</span> <span class="fn">F</span> <span class="fn">V</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">ρ</span> : <span class="fn">V</span> <a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">≃L[</a><span class="fn">F</span><a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">]</a> <span class="fn">V</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">(<a href="../../../../.././Mathlib/LinearAlgebra/Matrix/ToLin.html#LinearMap.toMatrix">LinearMap.toMatrix</a> <span class="fn">b</span> <span class="fn">b</span>)</span> <span class="fn">↑<span class="fn"><span class="fn">ρ</span>.<a href="../../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.toLinearEquiv">toLinearEquiv</a></span></span>)</span>.<a href="../../../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#Matrix.toContinuousLinearEquiv">toContinuousLinearEquiv</a></span> <span class="fn">b</span> <span class="fn">⋯</span></span> <a href="../../../../.././Init/Prelude.html#Eq">=</a> <span class="fn">ρ</span></div></div></div></div></main>
+<nav class="nav"><iframe src="../../../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

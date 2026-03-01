@@ -1,0 +1,79 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../.././style.css"></link><link rel="icon" href="../../.././favicon.svg"></link><link rel="mask-icon" href="../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.Tactic.CategoryTheory.CheckCompositions</title><script defer="true" src="../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../.././";</script><script>const MODULE_NAME="Mathlib.Tactic.CategoryTheory.CheckCompositions";</script><script type="module" src="../../.././jump-src.js"></script><script type="module" src="../../.././search.js"></script><script type="module" src="../../.././expand-nav.js"></script><script type="module" src="../../.././how-about.js"></script><script type="module" src="../../.././instances.js"></script><script type="module" src="../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">Tactic</span>.<span class="name">CategoryTheory</span>.<span class="name">CheckCompositions</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Tactic/CategoryTheory/CheckCompositions.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../.././Aesop.html">Aesop</a></li><li><a href="../../.././Init.html">Init</a></li><li><a href="../../.././Mathlib/Tactic/ToDual.html">Mathlib.Tactic.ToDual</a></li><li><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html">Mathlib.CategoryTheory.Category.Basic</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.Tactic.CategoryTheory.CheckCompositions" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#Mathlib.Tactic.CheckCompositions.forEachComposition"><span class="name">Mathlib</span>.<span class="name">Tactic</span>.<span class="name">CheckCompositions</span>.<span class="name">forEachComposition</span></a></div><div class="nav_link"><a class="break_within" href="#Mathlib.Tactic.CheckCompositions.checkComposition"><span class="name">Mathlib</span>.<span class="name">Tactic</span>.<span class="name">CheckCompositions</span>.<span class="name">checkComposition</span></a></div><div class="nav_link"><a class="break_within" href="#Mathlib.Tactic.CheckCompositions.checkCompositions"><span class="name">Mathlib</span>.<span class="name">Tactic</span>.<span class="name">CheckCompositions</span>.<span class="name">checkCompositions</span></a></div><div class="nav_link"><a class="break_within" href="#Mathlib.Tactic.CheckCompositions.checkCompositionsTac"><span class="name">Mathlib</span>.<span class="name">Tactic</span>.<span class="name">CheckCompositions</span>.<span class="name">checkCompositionsTac</span></a></div><div class="nav_link"><a class="break_within" href="#Mathlib.Tactic.CheckCompositions.tacticCheck_compositions"><span class="name">Mathlib</span>.<span class="name">Tactic</span>.<span class="name">CheckCompositions</span>.<span class="name">tacticCheck_compositions</span></a></div></nav><main>
+<div class="mod_doc"><p>The <code>check_compositions</code> tactic,
+which checks the typing of categorical compositions in the goal,
+reporting discrepancies at &quot;instances and reducible&quot; transparency.</p><p>Reports from this tactic do not necessarily indicate a problem,
+although typically <code>simp</code> should reduce rather than increase the reported discrepancies.</p><p><code>check_compositions</code> may be useful in diagnosing uses of <code>erw</code> in the category theory library.</p></div><div class="decl" id="Mathlib.Tactic.CheckCompositions.forEachComposition"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Tactic/CategoryTheory/CheckCompositions.lean#L31-L33">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Tactic_CategoryTheory_CheckCompositions.html#Mathlib.Tactic.CheckCompositions.forEachComposition" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Tactic/CategoryTheory/CheckCompositions.html#Mathlib.Tactic.CheckCompositions.forEachComposition"><span class="name">Mathlib</span>.<span class="name">Tactic</span>.<span class="name">CheckCompositions</span>.<span class="name">forEachComposition</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">e</span> : <span class="fn">Lean.Expr</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">Lean.Expr</span> → <span class="fn"><span class="fn">Lean.MetaM</span> <span class="fn">Unit</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Lean.MetaM</span> <span class="fn">Unit</span></span></div></div><p>Find appearances of <code>CategoryStruct.comp C inst X Y Z f g</code>, and apply <code>f</code> to each.</p><details id="instances-for-list-Mathlib.Tactic.CheckCompositions.forEachComposition" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Mathlib.Tactic.CheckCompositions.checkComposition"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Tactic/CategoryTheory/CheckCompositions.lean#L35-L58">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Tactic_CategoryTheory_CheckCompositions.html#Mathlib.Tactic.CheckCompositions.checkComposition" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Tactic/CategoryTheory/CheckCompositions.html#Mathlib.Tactic.CheckCompositions.checkComposition"><span class="name">Mathlib</span>.<span class="name">Tactic</span>.<span class="name">CheckCompositions</span>.<span class="name">checkComposition</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">e</span> : <span class="fn">Lean.Expr</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Lean.MetaM</span> <span class="fn">Unit</span></span></div></div><p>Given a composition <code>CategoryStruct.comp _ _ X Y Z f g</code>,
+infer the types of <code>f</code> and <code>g</code> and check whether their sources and targets agree,
+at &quot;instances and reducible&quot; transparency, with <code>X</code>, <code>Y</code>, and <code>Z</code>,
+reporting any discrepancies.</p><details id="instances-for-list-Mathlib.Tactic.CheckCompositions.checkComposition" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Mathlib.Tactic.CheckCompositions.checkCompositions"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Tactic/CategoryTheory/CheckCompositions.lean#L60-L62">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Tactic_CategoryTheory_CheckCompositions.html#Mathlib.Tactic.CheckCompositions.checkCompositions" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Tactic/CategoryTheory/CheckCompositions.html#Mathlib.Tactic.CheckCompositions.checkCompositions"><span class="name">Mathlib</span>.<span class="name">Tactic</span>.<span class="name">CheckCompositions</span>.<span class="name">checkCompositions</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">e</span> : <span class="fn">Lean.Expr</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Lean.MetaM</span> <span class="fn">Unit</span></span></div></div><p>Check the typing of categorical compositions in an expression.</p><details id="instances-for-list-Mathlib.Tactic.CheckCompositions.checkCompositions" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Mathlib.Tactic.CheckCompositions.checkCompositionsTac"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Tactic/CategoryTheory/CheckCompositions.lean#L64-L67">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Tactic_CategoryTheory_CheckCompositions.html#Mathlib.Tactic.CheckCompositions.checkCompositionsTac" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Tactic/CategoryTheory/CheckCompositions.html#Mathlib.Tactic.CheckCompositions.checkCompositionsTac"><span class="name">Mathlib</span>.<span class="name">Tactic</span>.<span class="name">CheckCompositions</span>.<span class="name">checkCompositionsTac</span></a></span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Lean.Elab.Tactic.TacticM</span> <span class="fn">Unit</span></span></div></div><p>Check the typing of categorical compositions in the goal.</p><details id="instances-for-list-Mathlib.Tactic.CheckCompositions.checkCompositionsTac" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Mathlib.Tactic.CheckCompositions.tacticCheck_compositions"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Tactic/CategoryTheory/CheckCompositions.lean#L69-L118">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Tactic_CategoryTheory_CheckCompositions.html#Mathlib.Tactic.CheckCompositions.tacticCheck_compositions" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Tactic/CategoryTheory/CheckCompositions.html#Mathlib.Tactic.CheckCompositions.tacticCheck_compositions"><span class="name">Mathlib</span>.<span class="name">Tactic</span>.<span class="name">CheckCompositions</span>.<span class="name">tacticCheck_compositions</span></a></span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">Lean.ParserDescr</span></div></div><p>For each composition <code>f ≫ g</code> in the goal,
+which internally is represented as <code>CategoryStruct.comp C inst X Y Z f g</code>,
+infer the types of <code>f</code> and <code>g</code> and check whether their sources and targets agree
+with <code>X</code>, <code>Y</code>, and <code>Z</code> at &quot;instances and reducible&quot; transparency,
+reporting any discrepancies.</p><p>An example:</p><pre><code>example (j : J) :
+    colimit.ι ((F ⋙ G) ⋙ H) j ≫ (preservesColimitIso (G ⋙ H) F).inv =
+      H.map (G.map (colimit.ι F j)) := by
+
+  -- We know which <a href="../../.././Mathlib/Tactic/Lemma.html#lemma">lemma</a> we want to use, and it's even a simp lemma, but `rw`
+  -- won't let us apply it
+  fail_if_success rw [ι_preservesColimitIso_inv]
+  fail_if_success rw [ι_preservesColimitIso_inv (G ⋙ H)]
+  fail_if_success simp only [ι_preservesColimitIso_inv]
+
+  -- This would work:
+  -- erw [ι_preservesColimitIso_inv (G ⋙ H)]
+
+  -- `check_compositions` checks if the two morphisms we're composing are
+  -- composed by abusing defeq, and indeed it tells us that we are abusing
+  -- definitional associativity of composition of functors here: it prints
+  -- the following.
+
+  -- info: In composition
+  --   colimit.ι ((F ⋙ G) ⋙ H) j ≫ (preservesColimitIso (G ⋙ H) F).inv
+  -- the source of
+  --   (preservesColimitIso (G ⋙ H) F).inv
+  -- is
+  --   colimit (F ⋙ G ⋙ H)
+  -- but should be
+  --   colimit ((F ⋙ G) ⋙ H)
+
+  check_compositions
+
+  -- In this case, we can &quot;fix&quot; this by reassociating in the goal, but
+  -- usually at this point the right thing to do is to back off and
+  -- check how we ended up with a bad goal in the first place.
+  dsimp only [Functor.assoc]
+
+  -- This would work now, but it is not needed, because simp works as well
+  -- rw [ι_preservesColimitIso_inv]
+
+  simp
+</code></pre><details id="instances-for-list-Mathlib.Tactic.CheckCompositions.tacticCheck_compositions" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div></main>
+<nav class="nav"><iframe src="../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

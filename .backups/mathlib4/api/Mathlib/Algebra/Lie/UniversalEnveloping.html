@@ -1,0 +1,327 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../.././style.css"></link><link rel="icon" href="../../.././favicon.svg"></link><link rel="mask-icon" href="../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.Algebra.Lie.UniversalEnveloping</title><script defer="true" src="../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../.././";</script><script>const MODULE_NAME="Mathlib.Algebra.Lie.UniversalEnveloping";</script><script type="module" src="../../.././jump-src.js"></script><script type="module" src="../../.././search.js"></script><script type="module" src="../../.././expand-nav.js"></script><script type="module" src="../../.././how-about.js"></script><script type="module" src="../../.././instances.js"></script><script type="module" src="../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">Algebra</span>.<span class="name">Lie</span>.<span class="name">UniversalEnveloping</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Lie/UniversalEnveloping.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../.././Init.html">Init</a></li><li><a href="../../.././Mathlib/Algebra/RingQuot.html">Mathlib.Algebra.RingQuot</a></li><li><a href="../../.././Mathlib/Algebra/Lie/OfAssociative.html">Mathlib.Algebra.Lie.OfAssociative</a></li><li><a href="../../.././Mathlib/LinearAlgebra/TensorAlgebra/Basic.html">Mathlib.LinearAlgebra.TensorAlgebra.Basic</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.Algebra.Lie.UniversalEnveloping" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#UniversalEnvelopingAlgebra.Rel"><span class="name">UniversalEnvelopingAlgebra</span>.<span class="name">Rel</span></a></div><div class="nav_link"><a class="break_within" href="#UniversalEnvelopingAlgebra"><span class="name">UniversalEnvelopingAlgebra</span></a></div><div class="nav_link"><a class="break_within" href="#instInhabitedUniversalEnvelopingAlgebra"><span class="name">instInhabitedUniversalEnvelopingAlgebra</span></a></div><div class="nav_link"><a class="break_within" href="#instRingUniversalEnvelopingAlgebra"><span class="name">instRingUniversalEnvelopingAlgebra</span></a></div><div class="nav_link"><a class="break_within" href="#instAlgebraUniversalEnvelopingAlgebra"><span class="name">instAlgebraUniversalEnvelopingAlgebra</span></a></div><div class="nav_link"><a class="break_within" href="#UniversalEnvelopingAlgebra.mkAlgHom"><span class="name">UniversalEnvelopingAlgebra</span>.<span class="name">mkAlgHom</span></a></div><div class="nav_link"><a class="break_within" href="#UniversalEnvelopingAlgebra.ι"><span class="name">UniversalEnvelopingAlgebra</span>.<span class="name">ι</span></a></div><div class="nav_link"><a class="break_within" href="#UniversalEnvelopingAlgebra.ι_apply"><span class="name">UniversalEnvelopingAlgebra</span>.<span class="name">ι_apply</span></a></div><div class="nav_link"><a class="break_within" href="#UniversalEnvelopingAlgebra.lift"><span class="name">UniversalEnvelopingAlgebra</span>.<span class="name">lift</span></a></div><div class="nav_link"><a class="break_within" href="#UniversalEnvelopingAlgebra.lift_symm_apply"><span class="name">UniversalEnvelopingAlgebra</span>.<span class="name">lift_symm_apply</span></a></div><div class="nav_link"><a class="break_within" href="#UniversalEnvelopingAlgebra.ι_comp_lift"><span class="name">UniversalEnvelopingAlgebra</span>.<span class="name">ι_comp_lift</span></a></div><div class="nav_link"><a class="break_within" href="#UniversalEnvelopingAlgebra.lift_ι_apply"><span class="name">UniversalEnvelopingAlgebra</span>.<span class="name">lift_ι_apply</span></a></div><div class="nav_link"><a class="break_within" href="#UniversalEnvelopingAlgebra.lift_ι_apply'"><span class="name">UniversalEnvelopingAlgebra</span>.<span class="name">lift_ι_apply'</span></a></div><div class="nav_link"><a class="break_within" href="#UniversalEnvelopingAlgebra.lift_unique"><span class="name">UniversalEnvelopingAlgebra</span>.<span class="name">lift_unique</span></a></div><div class="nav_link"><a class="break_within" href="#UniversalEnvelopingAlgebra.hom_ext"><span class="name">UniversalEnvelopingAlgebra</span>.<span class="name">hom_ext</span></a></div><div class="nav_link"><a class="break_within" href="#UniversalEnvelopingAlgebra.hom_ext_iff"><span class="name">UniversalEnvelopingAlgebra</span>.<span class="name">hom_ext_iff</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Universal-enveloping-algebra" class="markdown-heading">Universal enveloping algebra <a class="hover-link" href="#Universal-enveloping-algebra">#</a></h1><p>Given a commutative ring <code>R</code> and a Lie algebra <code>L</code> over <code>R</code>, we construct the universal
+enveloping algebra of <code>L</code>, together with its universal property.</p><h2 id="Main-definitions" class="markdown-heading">Main definitions <a class="hover-link" href="#Main-definitions">#</a></h2><ul><li><code><a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra">UniversalEnvelopingAlgebra</a></code>: the universal enveloping algebra, endowed with an
+<code>R</code>-algebra structure.</li><li><code><a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.ι">UniversalEnvelopingAlgebra.ι</a></code>: the Lie algebra morphism from <code>L</code> to its universal
+enveloping algebra.</li><li><code><a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.lift">UniversalEnvelopingAlgebra.lift</a></code>: given an associative algebra <code>A</code>, together with a Lie
+algebra morphism <code>f : L →ₗ⁅R⁆ A</code>, <code><a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.lift">lift</a> R L f : <a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra">UniversalEnvelopingAlgebra</a> R L →ₐ[R] A</code> is the
+unique morphism of algebras through which <code>f</code> factors.</li><li><code><a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.ι_comp_lift">UniversalEnvelopingAlgebra.ι_comp_lift</a></code>: states that the lift of a morphism is indeed part
+of a factorisation.</li><li><code><a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.lift_unique">UniversalEnvelopingAlgebra.lift_unique</a></code>: states that lifts of morphisms are indeed unique.</li><li><code><a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.hom_ext">UniversalEnvelopingAlgebra.hom_ext</a></code>: a restatement of <code><a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.lift_unique">lift_unique</a></code> as an extensionality
+lemma.</li></ul><h2 id="Tags" class="markdown-heading">Tags <a class="hover-link" href="#Tags">#</a></h2><p>lie algebra, universal enveloping algebra, tensor algebra</p></div><div class="decl" id="UniversalEnvelopingAlgebra.Rel"><div class="inductive"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Lie/UniversalEnveloping.lean#L50-L56">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Lie_UniversalEnveloping.html#UniversalEnvelopingAlgebra.Rel" class="verification-badge comp-datatype" title="Computational datatype">🔶 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">inductive</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.Rel"><span class="name">UniversalEnvelopingAlgebra</span>.<span class="name">Rel</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u₁)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u₂)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieRing">LieRing</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieAlgebra">LieAlgebra</a> <span class="fn">R</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/LinearAlgebra/TensorAlgebra/Basic.html#TensorAlgebra">TensorAlgebra</a> <span class="fn">R</span> <span class="fn">L</span></span> → <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/TensorAlgebra/Basic.html#TensorAlgebra">TensorAlgebra</a> <span class="fn">R</span> <span class="fn">L</span></span> → <a href="../../.././foundational_types.html">Prop</a></span></div></div><p>The quotient by the ideal generated by this relation is the universal enveloping algebra.</p><p>Note that we have avoided using the more natural expression:
+| lie_compat (x y : L) : rel (ιₜ ⁅x, y⁆) ⁅ιₜ x, ιₜ y⁆
+so that our construction needs only the semiring structure of the tensor algebra.</p><ul class="constructors"><li class="constructor" id="UniversalEnvelopingAlgebra.Rel.lie_compat">lie_compat<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u₁}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u₂}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieRing">LieRing</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieAlgebra">LieAlgebra</a> <span class="fn">R</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x </span><span class="fn">y</span> : <span class="fn">L</span>)</span></span>
+ : <span class="fn"><a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.Rel">Rel</a> <span class="fn">R</span> <span class="fn">L</span> <span class="fn">(<span class="fn"><span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/TensorAlgebra/Basic.html#TensorAlgebra.ι">TensorAlgebra.ι</a> <span class="fn">R</span>)</span> <a href="../../.././Mathlib/Data/Bracket.html#Bracket.bracket">⁅</a><span class="fn">x</span><a href="../../.././Mathlib/Data/Bracket.html#Bracket.bracket">,</a> <span class="fn">y</span><a href="../../.././Mathlib/Data/Bracket.html#Bracket.bracket">⁆</a></span> <span class="fn">+</span> <span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/TensorAlgebra/Basic.html#TensorAlgebra.ι">TensorAlgebra.ι</a> <span class="fn">R</span>)</span> <span class="fn">y</span></span> <span class="fn">*</span> <span class="fn"><span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/TensorAlgebra/Basic.html#TensorAlgebra.ι">TensorAlgebra.ι</a> <span class="fn">R</span>)</span> <span class="fn">x</span></span></span>)</span>
+  <span class="fn">(<span class="fn"><span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/TensorAlgebra/Basic.html#TensorAlgebra.ι">TensorAlgebra.ι</a> <span class="fn">R</span>)</span> <span class="fn">x</span></span> <span class="fn">*</span> <span class="fn"><span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/TensorAlgebra/Basic.html#TensorAlgebra.ι">TensorAlgebra.ι</a> <span class="fn">R</span>)</span> <span class="fn">y</span></span>)</span></span></li></ul><details id="instances-for-list-UniversalEnvelopingAlgebra.Rel" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="UniversalEnvelopingAlgebra"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Lie/UniversalEnveloping.lean#L60-L63">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Lie_UniversalEnveloping.html#UniversalEnvelopingAlgebra" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra"><span class="name">UniversalEnvelopingAlgebra</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u₁)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u₂)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieRing">LieRing</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieAlgebra">LieAlgebra</a> <span class="fn">R</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><a href="../../.././foundational_types.html">Type</a> (max u₁ u₂)</div></div><p>The universal enveloping algebra of a Lie algebra.</p><details id="instances-for-list-UniversalEnvelopingAlgebra" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="instInhabitedUniversalEnvelopingAlgebra"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Lie/UniversalEnveloping.lean#L63-L63">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Lie_UniversalEnveloping.html#instInhabitedUniversalEnvelopingAlgebra" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#instInhabitedUniversalEnvelopingAlgebra"><span class="name">instInhabitedUniversalEnvelopingAlgebra</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieRing">LieRing</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieAlgebra">LieAlgebra</a> <span class="fn">R</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Inhabited</span> <span class="fn">(<a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra">UniversalEnvelopingAlgebra</a> <span class="fn">R</span> <span class="fn">L</span>)</span></span></div></div></div></div><div class="decl" id="instRingUniversalEnvelopingAlgebra"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Lie/UniversalEnveloping.lean#L63-L63">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Lie_UniversalEnveloping.html#instRingUniversalEnvelopingAlgebra" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#instRingUniversalEnvelopingAlgebra"><span class="name">instRingUniversalEnvelopingAlgebra</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieRing">LieRing</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieAlgebra">LieAlgebra</a> <span class="fn">R</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra">UniversalEnvelopingAlgebra</a> <span class="fn">R</span> <span class="fn">L</span>)</span></span></div></div></div></div><div class="decl" id="instAlgebraUniversalEnvelopingAlgebra"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Lie/UniversalEnveloping.lean#L63-L63">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Lie_UniversalEnveloping.html#instAlgebraUniversalEnvelopingAlgebra" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#instAlgebraUniversalEnvelopingAlgebra"><span class="name">instAlgebraUniversalEnvelopingAlgebra</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieRing">LieRing</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieAlgebra">LieAlgebra</a> <span class="fn">R</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">R</span> <span class="fn">(<a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra">UniversalEnvelopingAlgebra</a> <span class="fn">R</span> <span class="fn">L</span>)</span></span></div></div></div></div><div class="decl" id="UniversalEnvelopingAlgebra.mkAlgHom"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Lie/UniversalEnveloping.lean#L67-L70">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Lie_UniversalEnveloping.html#UniversalEnvelopingAlgebra.mkAlgHom" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.mkAlgHom"><span class="name">UniversalEnvelopingAlgebra</span>.<span class="name">mkAlgHom</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u₁)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u₂)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieRing">LieRing</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieAlgebra">LieAlgebra</a> <span class="fn">R</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/LinearAlgebra/TensorAlgebra/Basic.html#TensorAlgebra">TensorAlgebra</a> <span class="fn">R</span> <span class="fn">L</span></span> <a href="../../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">→ₐ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">]</a> <span class="fn"><a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra">UniversalEnvelopingAlgebra</a> <span class="fn">R</span> <span class="fn">L</span></span></div></div><p>The quotient map from the tensor algebra to the universal enveloping algebra as a morphism of
+associative algebras.</p><details id="instances-for-list-UniversalEnvelopingAlgebra.mkAlgHom" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="UniversalEnvelopingAlgebra.ι"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Lie/UniversalEnveloping.lean#L74-L81">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Lie_UniversalEnveloping.html#UniversalEnvelopingAlgebra.ι" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.ι"><span class="name">UniversalEnvelopingAlgebra</span>.<span class="name">ι</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u₁)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u₂}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieRing">LieRing</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieAlgebra">LieAlgebra</a> <span class="fn">R</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">L</span> <a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieHom">→ₗ⁅</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieHom">⁆</a> <span class="fn"><a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra">UniversalEnvelopingAlgebra</a> <span class="fn">R</span> <span class="fn">L</span></span></div></div><p>The natural Lie algebra morphism from a Lie algebra to its universal enveloping algebra.</p><details id="instances-for-list-UniversalEnvelopingAlgebra.ι" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="UniversalEnvelopingAlgebra.ι_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Lie/UniversalEnveloping.lean#L75-L75">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Lie_UniversalEnveloping.html#UniversalEnvelopingAlgebra.ι_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.ι_apply"><span class="name">UniversalEnvelopingAlgebra</span>.<span class="name">ι_apply</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u₁)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u₂}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieRing">LieRing</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieAlgebra">LieAlgebra</a> <span class="fn">R</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">a✝</span> : <span class="fn">L</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.ι">ι</a> <span class="fn">R</span>)</span> <span class="fn">a✝</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">(<a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.mkAlgHom">mkAlgHom</a> <span class="fn">R</span> <span class="fn">L</span>)</span> <span class="fn">(<span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/TensorAlgebra/Basic.html#TensorAlgebra.ι">TensorAlgebra.ι</a> <span class="fn">R</span>)</span> <span class="fn">a✝</span>)</span></span></span></div></div></div></div><div class="decl" id="UniversalEnvelopingAlgebra.lift"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Lie/UniversalEnveloping.lean#L86-L116">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Lie_UniversalEnveloping.html#UniversalEnvelopingAlgebra.lift" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.lift"><span class="name">UniversalEnvelopingAlgebra</span>.<span class="name">lift</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u₁)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u₂}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieRing">LieRing</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieAlgebra">LieAlgebra</a> <span class="fn">R</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a> u₃}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">R</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type">(<span class="fn">L</span> <a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieHom">→ₗ⁅</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieHom">⁆</a> <span class="fn">A</span>) <a href="../../.././Mathlib/Logic/Equiv/Defs.html#Equiv">≃</a> (<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra">UniversalEnvelopingAlgebra</a> <span class="fn">R</span> <span class="fn">L</span></span> <a href="../../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">→ₐ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">]</a> <span class="fn">A</span>)</div></div><p>The universal property of the universal enveloping algebra: Lie algebra morphisms into
+associative algebras lift to associative algebra morphisms from the universal enveloping algebra.</p><details id="instances-for-list-UniversalEnvelopingAlgebra.lift" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="UniversalEnvelopingAlgebra.lift_symm_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Lie/UniversalEnveloping.lean#L118-L121">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Lie_UniversalEnveloping.html#UniversalEnvelopingAlgebra.lift_symm_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.lift_symm_apply"><span class="name">UniversalEnvelopingAlgebra</span>.<span class="name">lift_symm_apply</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u₁)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u₂}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieRing">LieRing</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieAlgebra">LieAlgebra</a> <span class="fn">R</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a> u₃}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">R</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra">UniversalEnvelopingAlgebra</a> <span class="fn">R</span> <span class="fn">L</span></span> <a href="../../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">→ₐ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">]</a> <span class="fn">A</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.lift">lift</a> <span class="fn">R</span>)</span>.<a href="../../.././Mathlib/Logic/Equiv/Defs.html#Equiv.symm">symm</a></span> <span class="fn">F</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">F</span>.<a href="../../.././Mathlib/Algebra/Lie/OfAssociative.html#AlgHom.toLieHom">toLieHom</a></span>.<a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieHom.comp">comp</a></span> <span class="fn">(<a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.ι">ι</a> <span class="fn">R</span>)</span></span></span></div></div></div></div><div class="decl" id="UniversalEnvelopingAlgebra.ι_comp_lift"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Lie/UniversalEnveloping.lean#L123-L125">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Lie_UniversalEnveloping.html#UniversalEnvelopingAlgebra.ι_comp_lift" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.ι_comp_lift"><span class="name">UniversalEnvelopingAlgebra</span>.<span class="name">ι_comp_lift</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u₁)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u₂}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieRing">LieRing</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieAlgebra">LieAlgebra</a> <span class="fn">R</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a> u₃}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">R</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">L</span> <a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieHom">→ₗ⁅</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieHom">⁆</a> <span class="fn">A</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">⇑<span class="fn">(<span class="fn">(<a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.lift">lift</a> <span class="fn">R</span>)</span> <span class="fn">f</span>)</span></span> <span class="fn">∘</span> <span class="fn">⇑<span class="fn">(<a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.ι">ι</a> <span class="fn">R</span>)</span></span></span> <span class="fn">=</span> <span class="fn">⇑<span class="fn">f</span></span></span></div></div></div></div><div class="decl" id="UniversalEnvelopingAlgebra.lift_ι_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Lie/UniversalEnveloping.lean#L128-L129">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Lie_UniversalEnveloping.html#UniversalEnvelopingAlgebra.lift_ι_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.lift_ι_apply"><span class="name">UniversalEnvelopingAlgebra</span>.<span class="name">lift_ι_apply</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u₁)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u₂}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieRing">LieRing</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieAlgebra">LieAlgebra</a> <span class="fn">R</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a> u₃}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">R</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">L</span> <a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieHom">→ₗ⁅</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieHom">⁆</a> <span class="fn">A</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">L</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">(<a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.lift">lift</a> <span class="fn">R</span>)</span> <span class="fn">f</span>)</span> <span class="fn">(<span class="fn">(<a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.ι">ι</a> <span class="fn">R</span>)</span> <span class="fn">x</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">f</span> <span class="fn">x</span></span></span></div></div></div></div><div class="decl" id="UniversalEnvelopingAlgebra.lift_ι_apply'"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Lie/UniversalEnveloping.lean#L131-L134">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Lie_UniversalEnveloping.html#UniversalEnvelopingAlgebra.lift_ι_apply'" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.lift_ι_apply'"><span class="name">UniversalEnvelopingAlgebra</span>.<span class="name">lift_ι_apply'</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u₁)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u₂}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieRing">LieRing</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieAlgebra">LieAlgebra</a> <span class="fn">R</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a> u₃}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">R</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">L</span> <a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieHom">→ₗ⁅</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieHom">⁆</a> <span class="fn">A</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">L</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">(<a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.lift">lift</a> <span class="fn">R</span>)</span> <span class="fn">f</span>)</span> <span class="fn">(<span class="fn">(<a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.mkAlgHom">mkAlgHom</a> <span class="fn">R</span> <span class="fn">L</span>)</span> <span class="fn">(<span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/TensorAlgebra/Basic.html#TensorAlgebra.ι">TensorAlgebra.ι</a> <span class="fn">R</span>)</span> <span class="fn">x</span>)</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">f</span> <span class="fn">x</span></span></span></div></div></div></div><div class="decl" id="UniversalEnvelopingAlgebra.lift_unique"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Lie/UniversalEnveloping.lean#L136-L138">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Lie_UniversalEnveloping.html#UniversalEnvelopingAlgebra.lift_unique" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.lift_unique"><span class="name">UniversalEnvelopingAlgebra</span>.<span class="name">lift_unique</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u₁)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u₂}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieRing">LieRing</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieAlgebra">LieAlgebra</a> <span class="fn">R</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a> u₃}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">R</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">L</span> <a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieHom">→ₗ⁅</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieHom">⁆</a> <span class="fn">A</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra">UniversalEnvelopingAlgebra</a> <span class="fn">R</span> <span class="fn">L</span></span> <a href="../../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">→ₐ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">]</a> <span class="fn">A</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">⇑<span class="fn">g</span></span> <span class="fn">∘</span> <span class="fn">⇑<span class="fn">(<a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.ι">ι</a> <span class="fn">R</span>)</span></span></span> <span class="fn">=</span> <span class="fn">⇑<span class="fn">f</span></span></span> <span class="fn">↔</span> <span class="fn"><span class="fn">g</span> <span class="fn">=</span> <span class="fn"><span class="fn">(<a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.lift">lift</a> <span class="fn">R</span>)</span> <span class="fn">f</span></span></span></span></div></div></div></div><div class="decl" id="UniversalEnvelopingAlgebra.hom_ext"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Lie/UniversalEnveloping.lean#L140-L148">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.hom_ext"><span class="name">UniversalEnvelopingAlgebra</span>.<span class="name">hom_ext</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u₁)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u₂}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieRing">LieRing</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieAlgebra">LieAlgebra</a> <span class="fn">R</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a> u₃}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">R</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g₁ </span><span class="fn">g₂</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra">UniversalEnvelopingAlgebra</a> <span class="fn">R</span> <span class="fn">L</span></span> <a href="../../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">→ₐ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">]</a> <span class="fn">A</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn"><span class="fn"><span class="fn"><span class="fn">g₁</span>.<a href="../../.././Mathlib/Algebra/Lie/OfAssociative.html#AlgHom.toLieHom">toLieHom</a></span>.<a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieHom.comp">comp</a></span> <span class="fn">(<a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.ι">ι</a> <span class="fn">R</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">g₂</span>.<a href="../../.././Mathlib/Algebra/Lie/OfAssociative.html#AlgHom.toLieHom">toLieHom</a></span>.<a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieHom.comp">comp</a></span> <span class="fn">(<a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.ι">ι</a> <span class="fn">R</span>)</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">g₁</span> <span class="fn">=</span> <span class="fn">g₂</span></span></div></div><p>See note [partially-applied ext lemmas].</p></div></div><div class="decl" id="UniversalEnvelopingAlgebra.hom_ext_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Lie/UniversalEnveloping.lean#L141-L141">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Lie_UniversalEnveloping.html#UniversalEnvelopingAlgebra.hom_ext_iff" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.hom_ext_iff"><span class="name">UniversalEnvelopingAlgebra</span>.<span class="name">hom_ext_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u₁}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u₂}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieRing">LieRing</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieAlgebra">LieAlgebra</a> <span class="fn">R</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a> u₃}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">R</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g₁ </span><span class="fn">g₂</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra">UniversalEnvelopingAlgebra</a> <span class="fn">R</span> <span class="fn">L</span></span> <a href="../../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">→ₐ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">]</a> <span class="fn">A</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">g₁</span> <span class="fn">=</span> <span class="fn">g₂</span></span> <span class="fn">↔</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn"><span class="fn">g₁</span>.<a href="../../.././Mathlib/Algebra/Lie/OfAssociative.html#AlgHom.toLieHom">toLieHom</a></span>.<a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieHom.comp">comp</a></span> <span class="fn">(<a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.ι">ι</a> <span class="fn">R</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">g₂</span>.<a href="../../.././Mathlib/Algebra/Lie/OfAssociative.html#AlgHom.toLieHom">toLieHom</a></span>.<a href="../../.././Mathlib/Algebra/Lie/Basic.html#LieHom.comp">comp</a></span> <span class="fn">(<a href="../../.././Mathlib/Algebra/Lie/UniversalEnveloping.html#UniversalEnvelopingAlgebra.ι">ι</a> <span class="fn">R</span>)</span></span></span></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

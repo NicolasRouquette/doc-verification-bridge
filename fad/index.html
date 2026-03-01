@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Build Failed: fad</title>
+<style>body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 40px; background: #1a1a2e; color: #eee; } h1 { color: #ff6b6b; } h2 { color: #fff; margin-top: 30px; } .error { background: #2d2d44; padding: 20px; border-radius: 8px; border-left: 4px solid #ff6b6b; margin-bottom: 20px; } .toolchain-info { background: #2d2d44; padding: 20px; border-radius: 8px; border-left: 4px solid #ffa500; margin-bottom: 20px; } .info-table { width: 100%; border-collapse: collapse; margin: 10px 0; } .info-table td { padding: 8px; border-bottom: 1px solid rgba(255,255,255,0.1); } .info-table td:first-child { color: #888; width: 250px; } .message { margin-top: 15px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 4px; } pre { background: #16213e; padding: 15px; border-radius: 4px; overflow-x: auto; font-size: 12px; white-space: pre-wrap; max-height: 500px; overflow-y: auto; } a { color: #4ecdc4; } .commands-link { margin-top: 10px; display: block; }</style>
+</head>
+<body>
+<h1>❌ Build Failed: fad</h1>
+<div class='error'>
+<h2>Error Summary</h2>
+<pre>Project build failed</pre>
+</div>
+<div class='toolchain-info'>
+<h2>Toolchain Information</h2>
+<table class='info-table'>
+<tr><td>Project Toolchain</td><td>leanprover/lean4:v4.29.0-rc2</td></tr>
+<tr><td>doc-verification-bridge Toolchain</td><td>leanprover/lean4:v4.29.0-rc2</td></tr>
+<tr><td>Status</td><td style='color: #4ecdc4'>✓ Compatible</td></tr>
+</table>
+<p class='message'>✓ Project uses leanprover/lean4:v4.29.0-rc2 (supported range: v4.24.0 - v4.29.0)</p>
+</div>
+<p class='commands-link'>📋 <a href='commands.yaml'>View command log (YAML)</a></p>
+<h2>Full Build Log</h2>
+<pre>⚠ [2/370] Replayed Fad.Chapter1
+warning: Fad/Chapter1.lean:277:8: declaration uses `sorry`
+✖ [731/749] Building Fad.«Chapter1-Ex» (1.1s)
+trace: .> LEAN_PATH=/home/nfr/actions-runner/_work/doc-verification-bridge/doc-verification-bridge/experiments/repos/fad/.lake/packages/Cli/.lake/build/lib/lean:/home/nfr/actions-runner/_work/doc-verification-bridge/doc-verification-bridge/experiments/repos/fad/.lake/packages/batteries/.lake/build/lib/lean:/home/nfr/actions-runner/_work/doc-verification-bridge/doc-verification-bridge/experiments/repos/fad/.lake/packages/Qq/.lake/build/lib/lean:/home/nfr/actions-runner/_work/doc-verification-bridge/doc-verification-bridge/experiments/repos/fad/.lake/packages/aesop/.lake/build/lib/lean:/home/nfr/actions-runner/_work/doc-verification-bridge/doc-verification-bridge/experiments/repos/fad/.lake/packages/proofwidgets/.lake/build/lib/lean:/home/nfr/actions-runner/_work/doc-verification-bridge/doc-verification-bridge/experiments/repos/fad/.lake/packages/importGraph/.lake/build/lib/lean:/home/nfr/actions-runner/_work/doc-verification-bridge/doc-verification-bridge/experiments/repos/fad/.lake/packages/LeanSearchClient/.lake/build/lib/lean:/home/nfr/actions-runner/_work/doc-verification-bridge/doc-verification-bridge/experiments/repos/fad/.lake/packages/plausible/.lake/build/lib/lean:/home/nfr/actions-runner/_work/doc-verification-bridge/doc-verification-bridge/experiments/repos/fad/.lake/packages/mathlib/.lake/build/lib/lean:/home/nfr/actions-runner/_work/doc-verification-bridge/doc-verification-bridge/experiments/repos/fad/.lake/build/lib/lean /home/nfr/.elan/toolchains/leanprover--lean4---v4.29.0-rc2/bin/lean /home/nfr/actions-runner/_work/doc-verification-bridge/doc-verification-bridge/experiments/repos/fad/Fad/Chapter1-Ex.lean -o /home/nfr/actions-runner/_work/doc-verification-bridge/doc-verification-bridge/experiments/repos/fad/.lake/build/lib/lean/Fad/Chapter1-Ex.olean -i /home/nfr/actions-runner/_work/doc-verification-bridge/doc-verification-bridge/experiments/repos/fad/.lake/build/lib/lean/Fad/Chapter1-Ex.ilean -c /home/nfr/actions-runner/_work/doc-verification-bridge/doc-verification-bridge/experiments/repos/fad/.lake/build/ir/Fad/Chapter1-Ex.c --setup /home/nfr/actions-runner/_work/doc-verification-bridge/doc-verification-bridge/experiments/repos/fad/.lake/build/ir/Fad/Chapter1-Ex.setup.json --json
+error: Fad/Chapter1-Ex.lean:253:17: unsolved goals
+case h.cons
+α β : Type
+f : α → β → β
+e : β
+y : α
+ys : List α
+ih : List.map (List.foldr f e) (tails ys) = List.scanr f e ys
+⊢ f y (List.foldr (fun a x => (f a x.fst, x.fst :: x.snd)) (e, []) ys).fst ::
+      (List.scanrM (fun x1 x2 => pure (f x1 x2)) e ys).run =
+    (List.scanrM (fun x1 x2 => pure (f x1 x2)) e (y :: ys)).run
+error: Lean exited with code 1
+Some required targets logged failures:
+- Fad.«Chapter1-Ex»
+error: build failed
+</pre>
+<p><a href='/'>← Back to Summary</a></p>
+</body>
+</html>

@@ -1,0 +1,686 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../.././style.css"></link><link rel="icon" href="../../.././favicon.svg"></link><link rel="mask-icon" href="../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../.././/declarations/declaration-data.bmp" as="image"></link><title>FLT.Mathlib.Algebra.IsDirectLimit</title><script defer="true" src="../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../.././";</script><script>const MODULE_NAME="FLT.Mathlib.Algebra.IsDirectLimit";</script><script type="module" src="../../.././jump-src.js"></script><script type="module" src="../../.././search.js"></script><script type="module" src="../../.././expand-nav.js"></script><script type="module" src="../../.././how-about.js"></script><script type="module" src="../../.././instances.js"></script><script type="module" src="../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">FLT</span>.<span class="name">Mathlib</span>.<span class="name">Algebra</span>.<span class="name">IsDirectLimit</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/IsDirectLimit.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../.././Init.html">Init</a></li><li><a href="../../.././Mathlib/Algebra/Colimit/Module.html">Mathlib.Algebra.Colimit.Module</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-FLT.Mathlib.Algebra.IsDirectLimit" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#IsDirectLimit"><span class="name">IsDirectLimit</span></a></div><div class="nav_link"><a class="break_within" href="#isDirectLimit_iff"><span class="name">isDirectLimit_iff</span></a></div><div class="nav_link"><a class="break_within" href="#IsDirectLimit.compatibility'"><span class="name">IsDirectLimit</span>.<span class="name">compatibility'</span></a></div><div class="nav_link"><a class="break_within" href="#IsDirectLimit.is_injective"><span class="name">IsDirectLimit</span>.<span class="name">is_injective</span></a></div><div class="nav_link"><a class="break_within" href="#IsDirectLimit.is_surjective"><span class="name">IsDirectLimit</span>.<span class="name">is_surjective</span></a></div><div class="nav_link"><a class="break_within" href="#IsDirectLimit.preimage_index"><span class="name">IsDirectLimit</span>.<span class="name">preimage_index</span></a></div><div class="nav_link"><a class="break_within" href="#IsDirectLimit.preimage"><span class="name">IsDirectLimit</span>.<span class="name">preimage</span></a></div><div class="nav_link"><a class="break_within" href="#IsDirectLimit.image_preimage"><span class="name">IsDirectLimit</span>.<span class="name">image_preimage</span></a></div><div class="nav_link"><a class="break_within" href="#IsDirectLimit.lift"><span class="name">IsDirectLimit</span>.<span class="name">lift</span></a></div><div class="nav_link"><a class="break_within" href="#IsDirectLimit.lift_of"><span class="name">IsDirectLimit</span>.<span class="name">lift_of</span></a></div><div class="nav_link"><a class="break_within" href="#IsDirectLimit.Equiv"><span class="name">IsDirectLimit</span>.<span class="name">Equiv</span></a></div><div class="nav_link"><a class="break_within" href="#IsDirectLimit.Equiv_apply"><span class="name">IsDirectLimit</span>.<span class="name">Equiv_apply</span></a></div><div class="nav_link"><a class="break_within" href="#IsDirectLimit.linearEquiv_symm_apply"><span class="name">IsDirectLimit</span>.<span class="name">linearEquiv_symm_apply</span></a></div><div class="nav_link"><a class="break_within" href="#IsDirectLimit.Module.instDirectLimitCoeLinearMapIdOfOfNonempty"><span class="name">IsDirectLimit</span>.<span class="name">Module</span>.<span class="name">instDirectLimitCoeLinearMapIdOfOfNonempty</span></a></div><div class="nav_link"><a class="break_within" href="#IsDirectLimit.Module.compatibility_module"><span class="name">IsDirectLimit</span>.<span class="name">Module</span>.<span class="name">compatibility_module</span></a></div><div class="nav_link"><a class="break_within" href="#IsDirectLimit.Module.lift"><span class="name">IsDirectLimit</span>.<span class="name">Module</span>.<span class="name">lift</span></a></div><div class="nav_link"><a class="break_within" href="#IsDirectLimit.Module.lift_of"><span class="name">IsDirectLimit</span>.<span class="name">Module</span>.<span class="name">lift_of</span></a></div><div class="nav_link"><a class="break_within" href="#IsDirectLimit.Module.lift_unique"><span class="name">IsDirectLimit</span>.<span class="name">Module</span>.<span class="name">lift_unique</span></a></div><div class="nav_link"><a class="break_within" href="#IsDirectLimit.Module.linearEquiv"><span class="name">IsDirectLimit</span>.<span class="name">Module</span>.<span class="name">linearEquiv</span></a></div><div class="nav_link"><a class="break_within" href="#IsDirectLimit.Module.linearEquiv_apply"><span class="name">IsDirectLimit</span>.<span class="name">Module</span>.<span class="name">linearEquiv_apply</span></a></div><div class="nav_link"><a class="break_within" href="#IsDirectLimit.Module.linearEquiv_symm_apply"><span class="name">IsDirectLimit</span>.<span class="name">Module</span>.<span class="name">linearEquiv_symm_apply</span></a></div></nav><main>
+<div class="decl" id="IsDirectLimit"><div class="class"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/IsDirectLimit.lean#L12-L25">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_Mathlib_Algebra_IsDirectLimit.html#IsDirectLimit" class="verification-badge comp-datatype" title="Computational datatype">🔶 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">class</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit"><span class="name">IsDirectLimit</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../.././foundational_types.html">Type</a> u_2</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">j</span> → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn"><span class="fn">M</span> <span class="fn">j</span></span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn">P</span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/DirectedInverseSystem.html#DirectedSystem">DirectedSystem</a> <span class="fn">M</span> <span class="fn">f</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><a href="../../.././foundational_types.html">Prop</a></div></div><p><code><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit">IsDirectLimit</a> f g</code> states that <code>P</code> is the direct limit of the system <code>(M i, f i j hij)</code>.
+It requires:</p><ul>
+<li><code><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.surj">surj</a></code>: says every element of <code>P</code> comes from some <code>M i</code> via the canonical map <code>g i</code>.</li>
+<li><code><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.inj">inj</a></code>: says that if two elements of (possibly different) modules <code>M i</code> and <code>M j</code> map
+to the same element of <code>P</code>, then they become equal after being mapped into a common
+later module <code>M k</code>.</li>
+<li><code><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.compatibility">compatibility</a></code>: ensures that the maps <code>g i</code> and <code>f i j hij</code> are compatible with one another.</li>
+</ul><ul class="structure_fields" id="IsDirectLimit.mk"><li id="IsDirectLimit.surj" class="structure_field"><div class="structure_field_info">surj<span class="decl_args">
+<span class="fn">(<span class="fn">m</span> : <span class="fn">P</span>)</span></span>
+ : <span class="fn">∃ (<span class="fn">i</span> : <span class="fn">ι</span>) (<span class="fn">mi</span> : <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span>), <span class="fn"><span class="fn">g</span> <span class="fn">i</span> <span class="fn">mi</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">m</span></span></div></li><li id="IsDirectLimit.inj" class="structure_field"><div class="structure_field_info">inj<span class="decl_args">
+<span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">mi</span> : <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">mj</span> : <span class="fn"><span class="fn">M</span> <span class="fn">j</span></span>)</span></span>
+ : <span class="fn"><span class="fn"><span class="fn">g</span> <span class="fn">i</span> <span class="fn">mi</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn">g</span> <span class="fn">j</span> <span class="fn">mj</span></span> → <span class="fn">∃ (<span class="fn">k</span> : <span class="fn">ι</span>) (<span class="fn">hik</span> : <span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">k</span>) (<span class="fn">hjk</span> : <span class="fn">j</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">k</span>), <span class="fn"><span class="fn">f</span> <span class="fn">i</span> <span class="fn">k</span> <span class="fn">hik</span> <span class="fn">mi</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn">f</span> <span class="fn">j</span> <span class="fn">k</span> <span class="fn">hjk</span> <span class="fn">mj</span></span></span></span></div></li><li id="IsDirectLimit.compatibility" class="structure_field"><div class="structure_field_info">compatibility<span class="decl_args">
+<span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hij</span> : <span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">j</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span>)</span></span>
+ : <span class="fn"><span class="fn">g</span> <span class="fn">j</span> <span class="fn">(<span class="fn">f</span> <span class="fn">i</span> <span class="fn">j</span> <span class="fn">hij</span> <span class="fn">x</span>)</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn">g</span> <span class="fn">i</span> <span class="fn">x</span></span></div></li></ul><details class="instances"><summary>Instances</summary><ul id="instances-list-IsDirectLimit" class="instances-list"></ul></details></div></div><div class="decl" id="isDirectLimit_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/IsDirectLimit.lean#L21-L21">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_Mathlib_Algebra_IsDirectLimit.html#isDirectLimit_iff" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#isDirectLimit_iff"><span class="name">isDirectLimit_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../.././foundational_types.html">Type</a> u_2</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">j</span> → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn"><span class="fn">M</span> <span class="fn">j</span></span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn">P</span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/DirectedInverseSystem.html#DirectedSystem">DirectedSystem</a> <span class="fn">M</span> <span class="fn">f</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit">IsDirectLimit</a> <span class="fn">f</span> <span class="fn">g</span></span> <a href="../../.././Init/Core.html#Iff">↔</a>   <span class="fn">(∀ (<span class="fn">m</span> : <span class="fn">P</span>), <span class="fn">∃ (<span class="fn">i</span> : <span class="fn">ι</span>) (<span class="fn">mi</span> : <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span>), <span class="fn"><span class="fn">g</span> <span class="fn">i</span> <span class="fn">mi</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">m</span></span>)</span> <a href="../../.././Init/Prelude.html#And">∧</a>     <span class="fn">(∀ (<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>) (<span class="fn">mi</span> : <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span>) (<span class="fn">mj</span> : <span class="fn"><span class="fn">M</span> <span class="fn">j</span></span>),
+        <span class="fn"><span class="fn"><span class="fn">g</span> <span class="fn">i</span> <span class="fn">mi</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn">g</span> <span class="fn">j</span> <span class="fn">mj</span></span> → <span class="fn">∃ (<span class="fn">k</span> : <span class="fn">ι</span>) (<span class="fn">hik</span> : <span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">k</span>) (<span class="fn">hjk</span> : <span class="fn">j</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">k</span>), <span class="fn"><span class="fn">f</span> <span class="fn">i</span> <span class="fn">k</span> <span class="fn">hik</span> <span class="fn">mi</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn">f</span> <span class="fn">j</span> <span class="fn">k</span> <span class="fn">hjk</span> <span class="fn">mj</span></span></span></span>)</span> <a href="../../.././Init/Prelude.html#And">∧</a>       <span class="fn">∀ (<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>) (<span class="fn">hij</span> : <span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">j</span>) (<span class="fn">x</span> : <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span>), <span class="fn"><span class="fn">g</span> <span class="fn">j</span> <span class="fn">(<span class="fn">f</span> <span class="fn">i</span> <span class="fn">j</span> <span class="fn">hij</span> <span class="fn">x</span>)</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn">g</span> <span class="fn">i</span> <span class="fn">x</span></span></span></div></div></div></div><div class="decl" id="IsDirectLimit.compatibility'"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/IsDirectLimit.lean#L31-L32">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.compatibility'"><span class="name">IsDirectLimit</span>.<span class="name">compatibility'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../.././foundational_types.html">Type</a> u_2</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">j</span> → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn"><span class="fn">M</span> <span class="fn">j</span></span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn">P</span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/DirectedInverseSystem.html#DirectedSystem">DirectedSystem</a> <span class="fn">M</span> <span class="fn">f</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit">IsDirectLimit</a> <span class="fn">f</span> <span class="fn">g</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">hij</span> : <span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">j</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">g</span> <span class="fn">j</span> <span class="fn">(<span class="fn">f</span> <span class="fn">i</span> <span class="fn">j</span> <span class="fn">hij</span> <span class="fn">x</span>)</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn">g</span> <span class="fn">i</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="IsDirectLimit.is_injective"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/IsDirectLimit.lean#L34-L36">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.is_injective"><span class="name">IsDirectLimit</span>.<span class="name">is_injective</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../.././foundational_types.html">Type</a> u_2</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">j</span> → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn"><span class="fn">M</span> <span class="fn">j</span></span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn">P</span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/DirectedInverseSystem.html#DirectedSystem">DirectedSystem</a> <span class="fn">M</span> <span class="fn">f</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit">IsDirectLimit</a> <span class="fn">f</span> <span class="fn">g</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">mi</span> : <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">mj</span> : <span class="fn"><span class="fn">M</span> <span class="fn">j</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">g</span> <span class="fn">i</span> <span class="fn">mi</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn">g</span> <span class="fn">j</span> <span class="fn">mj</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">∃ (<span class="fn">k</span> : <span class="fn">ι</span>) (<span class="fn">hik</span> : <span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">k</span>) (<span class="fn">hjk</span> : <span class="fn">j</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">k</span>), <span class="fn"><span class="fn">f</span> <span class="fn">i</span> <span class="fn">k</span> <span class="fn">hik</span> <span class="fn">mi</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn">f</span> <span class="fn">j</span> <span class="fn">k</span> <span class="fn">hjk</span> <span class="fn">mj</span></span></span></div></div></div></div><div class="decl" id="IsDirectLimit.is_surjective"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/IsDirectLimit.lean#L39-L40">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.is_surjective"><span class="name">IsDirectLimit</span>.<span class="name">is_surjective</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../.././foundational_types.html">Type</a> u_2</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">j</span> → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn"><span class="fn">M</span> <span class="fn">j</span></span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn">P</span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/DirectedInverseSystem.html#DirectedSystem">DirectedSystem</a> <span class="fn">M</span> <span class="fn">f</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit">IsDirectLimit</a> <span class="fn">f</span> <span class="fn">g</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">m</span> : <span class="fn">P</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">∃ (<span class="fn">i</span> : <span class="fn">ι</span>) (<span class="fn">mi</span> : <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span>), <span class="fn"><span class="fn">g</span> <span class="fn">i</span> <span class="fn">mi</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">m</span></span></div></div></div></div><div class="decl" id="IsDirectLimit.preimage_index"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/IsDirectLimit.lean#L42-L46">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_Mathlib_Algebra_IsDirectLimit.html#IsDirectLimit.preimage_index" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.preimage_index"><span class="name">IsDirectLimit</span>.<span class="name">preimage_index</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../.././foundational_types.html">Type</a> u_2</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">j</span> → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn"><span class="fn">M</span> <span class="fn">j</span></span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn">P</span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/DirectedInverseSystem.html#DirectedSystem">DirectedSystem</a> <span class="fn">M</span> <span class="fn">f</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit">IsDirectLimit</a> <span class="fn">f</span> <span class="fn">g</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn">P</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">ι</span></div></div><p>Given an element <code>p : P</code> in the direct limit, <code><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.preimage_index">preimage_index</a> f g p</code> returns an index in <code>ι</code> such
+that <code>p</code> is in the image of the map <code>g (preimage_index f g p) : M (preimage_index f g p) →ₗ[R] P</code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-IsDirectLimit.preimage_index" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="IsDirectLimit.preimage"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/IsDirectLimit.lean#L48-L53">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_Mathlib_Algebra_IsDirectLimit.html#IsDirectLimit.preimage" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.preimage"><span class="name">IsDirectLimit</span>.<span class="name">preimage</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../.././foundational_types.html">Type</a> u_2</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">j</span> → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn"><span class="fn">M</span> <span class="fn">j</span></span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn">P</span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/DirectedInverseSystem.html#DirectedSystem">DirectedSystem</a> <span class="fn">M</span> <span class="fn">f</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit">IsDirectLimit</a> <span class="fn">f</span> <span class="fn">g</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn">P</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">M</span> <span class="fn">(<a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.preimage_index">preimage_index</a> <span class="fn">f</span> <span class="fn">g</span> <span class="fn">p</span>)</span></span></div></div><p>Given an element <code>p : P</code> in the direct limit, <code><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.preimage">preimage</a> f g p</code> returns an element of
+<code>M (preimage_index f g p)</code> that maps to <code>p</code> under <code>g (preimage_index f g p)</code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-IsDirectLimit.preimage" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="IsDirectLimit.image_preimage"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/IsDirectLimit.lean#L55-L57">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_Mathlib_Algebra_IsDirectLimit.html#IsDirectLimit.image_preimage" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.image_preimage"><span class="name">IsDirectLimit</span>.<span class="name">image_preimage</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../.././foundational_types.html">Type</a> u_2</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">j</span> → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn"><span class="fn">M</span> <span class="fn">j</span></span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn">P</span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/DirectedInverseSystem.html#DirectedSystem">DirectedSystem</a> <span class="fn">M</span> <span class="fn">f</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit">IsDirectLimit</a> <span class="fn">f</span> <span class="fn">g</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn">P</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">g</span> <span class="fn">(<a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.preimage_index">preimage_index</a> <span class="fn">f</span> <span class="fn">g</span> <span class="fn">p</span>)</span> <span class="fn">(<a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.preimage">preimage</a> <span class="fn">f</span> <span class="fn">g</span> <span class="fn">p</span>)</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">p</span></div></div></div></div><div class="decl" id="IsDirectLimit.lift"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/IsDirectLimit.lean#L61-L66">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_Mathlib_Algebra_IsDirectLimit.html#IsDirectLimit.lift" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.lift"><span class="name">IsDirectLimit</span>.<span class="name">lift</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../.././foundational_types.html">Type</a> u_2</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">j</span> → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn"><span class="fn">M</span> <span class="fn">j</span></span></span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/DirectedInverseSystem.html#DirectedSystem">DirectedSystem</a> <span class="fn">M</span> <span class="fn">f</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P₁</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P₂</span> : <a href="../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g₁</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn">P₁</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g₂</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn">P₂</span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit">IsDirectLimit</a> <span class="fn">f</span> <span class="fn">g₁</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn">P₁</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">P₂</span></div></div><p>Construct a map <code>P₁ → P₂</code> from a direct limit by sending each element to its preimage
+in some component <code>M i</code> and applying <code>g₂ i</code>. Used to define morphisms out of direct limits.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-IsDirectLimit.lift" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="IsDirectLimit.lift_of"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/IsDirectLimit.lean#L68-L73">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_Mathlib_Algebra_IsDirectLimit.html#IsDirectLimit.lift_of" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.lift_of"><span class="name">IsDirectLimit</span>.<span class="name">lift_of</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../.././foundational_types.html">Type</a> u_2</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">j</span> → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn"><span class="fn">M</span> <span class="fn">j</span></span></span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/DirectedInverseSystem.html#DirectedSystem">DirectedSystem</a> <span class="fn">M</span> <span class="fn">f</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P₁</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P₂</span> : <a href="../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g₁</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn">P₁</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g₂</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn">P₂</span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit">IsDirectLimit</a> <span class="fn">f</span> <span class="fn">g₁</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">Hg</span> : <span class="fn">∀ (<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>) (<span class="fn">hij</span> : <span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">j</span>) (<span class="fn">x</span> : <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span>), <span class="fn"><span class="fn">g₂</span> <span class="fn">j</span> <span class="fn">(<span class="fn">f</span> <span class="fn">i</span> <span class="fn">j</span> <span class="fn">hij</span> <span class="fn">x</span>)</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn">g₂</span> <span class="fn">i</span> <span class="fn">x</span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">i</span> : <span class="fn">ι</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.lift">lift</a> <span class="fn">f</span> <span class="fn">g₁</span> <span class="fn">g₂</span> <span class="fn">(<span class="fn">g₁</span> <span class="fn">i</span> <span class="fn">x</span>)</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn">g₂</span> <span class="fn">i</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="IsDirectLimit.Equiv"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/IsDirectLimit.lean#L75-L87">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_Mathlib_Algebra_IsDirectLimit.html#IsDirectLimit.Equiv" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.Equiv"><span class="name">IsDirectLimit</span>.<span class="name">Equiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../.././foundational_types.html">Type</a> u_2</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">j</span> → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn"><span class="fn">M</span> <span class="fn">j</span></span></span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/DirectedInverseSystem.html#DirectedSystem">DirectedSystem</a> <span class="fn">M</span> <span class="fn">f</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P₁</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P₂</span> : <a href="../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g₁</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn">P₁</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g₂</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn">P₂</span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">h₁</span> : <span class="fn"><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit">IsDirectLimit</a> <span class="fn">f</span> <span class="fn">g₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">h₂</span> : <span class="fn"><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit">IsDirectLimit</a> <span class="fn">f</span> <span class="fn">g₂</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">P₁</span> <a href="../../.././Mathlib/Logic/Equiv/Defs.html#Equiv">≃</a> <span class="fn">P₂</span></div></div><p>Any two direct limits of the same directed system are isomorphic.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-IsDirectLimit.Equiv" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="IsDirectLimit.Equiv_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/IsDirectLimit.lean#L89-L92">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_Mathlib_Algebra_IsDirectLimit.html#IsDirectLimit.Equiv_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.Equiv_apply"><span class="name">IsDirectLimit</span>.<span class="name">Equiv_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../.././foundational_types.html">Type</a> u_2</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">j</span> → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn"><span class="fn">M</span> <span class="fn">j</span></span></span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/DirectedInverseSystem.html#DirectedSystem">DirectedSystem</a> <span class="fn">M</span> <span class="fn">f</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P₁</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P₂</span> : <a href="../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g₁</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn">P₁</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g₂</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn">P₂</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit">IsDirectLimit</a> <span class="fn">f</span> <span class="fn">g₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit">IsDirectLimit</a> <span class="fn">f</span> <span class="fn">g₂</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.Equiv">Equiv</a> <span class="fn">f</span> <span class="fn">g₁</span> <span class="fn">g₂</span>)</span> <span class="fn">(<span class="fn">g₁</span> <span class="fn">i</span> <span class="fn">x</span>)</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn">g₂</span> <span class="fn">i</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="IsDirectLimit.linearEquiv_symm_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/IsDirectLimit.lean#L94-L97">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_Mathlib_Algebra_IsDirectLimit.html#IsDirectLimit.linearEquiv_symm_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.linearEquiv_symm_apply"><span class="name">IsDirectLimit</span>.<span class="name">linearEquiv_symm_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../.././foundational_types.html">Type</a> u_2</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">j</span> → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn"><span class="fn">M</span> <span class="fn">j</span></span></span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/DirectedInverseSystem.html#DirectedSystem">DirectedSystem</a> <span class="fn">M</span> <span class="fn">f</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P₁</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P₂</span> : <a href="../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g₁</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn">P₁</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g₂</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> → <span class="fn">P₂</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit">IsDirectLimit</a> <span class="fn">f</span> <span class="fn">g₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit">IsDirectLimit</a> <span class="fn">f</span> <span class="fn">g₂</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.Equiv">Equiv</a> <span class="fn">f</span> <span class="fn">g₁</span> <span class="fn">g₂</span>)</span>.<a href="../../.././Mathlib/Logic/Equiv/Defs.html#Equiv.symm">symm</a></span> <span class="fn">(<span class="fn">g₂</span> <span class="fn">i</span> <span class="fn">x</span>)</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn">g₁</span> <span class="fn">i</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="IsDirectLimit.Module.instDirectLimitCoeLinearMapIdOfOfNonempty"><div class="instance"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/IsDirectLimit.lean#L105-L112">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_Mathlib_Algebra_IsDirectLimit.html#IsDirectLimit.Module.instDirectLimitCoeLinearMapIdOfOfNonempty" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.Module.instDirectLimitCoeLinearMapIdOfOfNonempty"><span class="name">IsDirectLimit</span>.<span class="name">Module</span>.<span class="name">instDirectLimitCoeLinearMapIdOfOfNonempty</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../.././foundational_types.html">Type</a> u_2</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">j</span> → <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn"><span class="fn">M</span> <span class="fn">j</span></span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/DirectedInverseSystem.html#DirectedSystem">DirectedSystem</a> <span class="fn">M</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">ι</span>) (<span class="fn">x3</span> : <span class="fn">x1</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">x2</span>) =&gt; <span class="fn">⇑<span class="fn">(<span class="fn">f</span> <span class="fn">x1</span> <span class="fn">x2</span> <span class="fn">x3</span>)</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Directed.html#IsDirected">IsDirected</a> <span class="fn">ι</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">ι</span>) =&gt; <span class="fn">x1</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">x2</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Init/Prelude.html#Nonempty">Nonempty</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit">IsDirectLimit</a> <span class="fn">(fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">ι</span>) (<span class="fn">x3</span> : <span class="fn">x1</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">x2</span>) =&gt; <span class="fn">⇑<span class="fn">(<span class="fn">f</span> <span class="fn">x1</span> <span class="fn">x2</span> <span class="fn">x3</span>)</span></span>)</span> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">ι</span>) =&gt; <span class="fn">⇑<span class="fn">(<a href="../../.././Mathlib/Algebra/Colimit/Module.html#Module.DirectLimit.of">Module.DirectLimit.of</a> <span class="fn">R</span> <span class="fn">ι</span> <span class="fn">M</span> <span class="fn">f</span> <span class="fn">x</span>)</span></span></span></span></div></div></div></div><div class="decl" id="IsDirectLimit.Module.compatibility_module"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/IsDirectLimit.lean#L118-L119">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.Module.compatibility_module"><span class="name">IsDirectLimit</span>.<span class="name">Module</span>.<span class="name">compatibility_module</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../.././foundational_types.html">Type</a> u_2</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P₁</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">j</span> → <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn"><span class="fn">M</span> <span class="fn">j</span></span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/DirectedInverseSystem.html#DirectedSystem">DirectedSystem</a> <span class="fn">M</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">ι</span>) (<span class="fn">x3</span> : <span class="fn">x1</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">x2</span>) =&gt; <span class="fn">⇑<span class="fn">(<span class="fn">f</span> <span class="fn">x1</span> <span class="fn">x2</span> <span class="fn">x3</span>)</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">P₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">P₁</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g₁</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn">P₁</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">h₁</span> : <span class="fn"><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit">IsDirectLimit</a> <span class="fn">(fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">ι</span>) (<span class="fn">x3</span> : <span class="fn">x1</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">x2</span>) =&gt; <span class="fn">⇑<span class="fn">(<span class="fn">f</span> <span class="fn">x1</span> <span class="fn">x2</span> <span class="fn">x3</span>)</span></span>)</span> <span class="fn">fun (<span class="fn">x1</span> : <span class="fn">ι</span>) (<span class="fn">x2</span> : <span class="fn"><span class="fn">M</span> <span class="fn">x1</span></span>) =&gt; <span class="fn"><span class="fn">(<span class="fn">g₁</span> <span class="fn">x1</span>)</span> <span class="fn">x2</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">hij</span> : <span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">j</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<span class="fn">g₁</span> <span class="fn">j</span>)</span> <span class="fn">(<span class="fn">(<span class="fn">f</span> <span class="fn">i</span> <span class="fn">j</span> <span class="fn">hij</span>)</span> <span class="fn">x</span>)</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn">(<span class="fn">g₁</span> <span class="fn">i</span>)</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="IsDirectLimit.Module.lift"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/IsDirectLimit.lean#L121-L149">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_Mathlib_Algebra_IsDirectLimit.html#IsDirectLimit.Module.lift" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.Module.lift"><span class="name">IsDirectLimit</span>.<span class="name">Module</span>.<span class="name">lift</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../.././foundational_types.html">Type</a> u_2</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P₁</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P₂</span> : <a href="../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">j</span> → <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn"><span class="fn">M</span> <span class="fn">j</span></span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/DirectedInverseSystem.html#DirectedSystem">DirectedSystem</a> <span class="fn">M</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">ι</span>) (<span class="fn">x3</span> : <span class="fn">x1</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">x2</span>) =&gt; <span class="fn">⇑<span class="fn">(<span class="fn">f</span> <span class="fn">x1</span> <span class="fn">x2</span> <span class="fn">x3</span>)</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Directed.html#IsDirected">IsDirected</a> <span class="fn">ι</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">ι</span>) =&gt; <span class="fn">x1</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">x2</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">P₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">P₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">P₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">P₂</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g₁</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn">P₁</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g₂</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn">P₂</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">h₁</span> : <span class="fn"><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit">IsDirectLimit</a> <span class="fn">(fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">ι</span>) (<span class="fn">x3</span> : <span class="fn">x1</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">x2</span>) =&gt; <span class="fn">⇑<span class="fn">(<span class="fn">f</span> <span class="fn">x1</span> <span class="fn">x2</span> <span class="fn">x3</span>)</span></span>)</span> <span class="fn">fun (<span class="fn">x1</span> : <span class="fn">ι</span>) (<span class="fn">x2</span> : <span class="fn"><span class="fn">M</span> <span class="fn">x1</span></span>) =&gt; <span class="fn"><span class="fn">(<span class="fn">g₁</span> <span class="fn">x1</span>)</span> <span class="fn">x2</span></span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">Hg</span> : <span class="fn">∀ (<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>) (<span class="fn">hij</span> : <span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">j</span>) (<span class="fn">x</span> : <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span>), <span class="fn"><span class="fn">(<span class="fn">g₂</span> <span class="fn">j</span>)</span> <span class="fn">(<span class="fn">(<span class="fn">f</span> <span class="fn">i</span> <span class="fn">j</span> <span class="fn">hij</span>)</span> <span class="fn">x</span>)</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn">(<span class="fn">g₂</span> <span class="fn">i</span>)</span> <span class="fn">x</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">P₁</span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn">P₂</span></div></div><p>The universal property of the direct limit: define a linear map from the direct limit
+by giving a compatible family of linear maps from the components.
+Each element of the limit is sent according to its representative in some component.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-IsDirectLimit.Module.lift" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="IsDirectLimit.Module.lift_of"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/IsDirectLimit.lean#L151-L155">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_Mathlib_Algebra_IsDirectLimit.html#IsDirectLimit.Module.lift_of" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.Module.lift_of"><span class="name">IsDirectLimit</span>.<span class="name">Module</span>.<span class="name">lift_of</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../.././foundational_types.html">Type</a> u_2</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P₁</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P₂</span> : <a href="../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">j</span> → <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn"><span class="fn">M</span> <span class="fn">j</span></span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/DirectedInverseSystem.html#DirectedSystem">DirectedSystem</a> <span class="fn">M</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">ι</span>) (<span class="fn">x3</span> : <span class="fn">x1</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">x2</span>) =&gt; <span class="fn">⇑<span class="fn">(<span class="fn">f</span> <span class="fn">x1</span> <span class="fn">x2</span> <span class="fn">x3</span>)</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Directed.html#IsDirected">IsDirected</a> <span class="fn">ι</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">ι</span>) =&gt; <span class="fn">x1</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">x2</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">P₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">P₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">P₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">P₂</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g₁</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn">P₁</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g₂</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn">P₂</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">h₁</span> : <span class="fn"><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit">IsDirectLimit</a> <span class="fn">(fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">ι</span>) (<span class="fn">x3</span> : <span class="fn">x1</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">x2</span>) =&gt; <span class="fn">⇑<span class="fn">(<span class="fn">f</span> <span class="fn">x1</span> <span class="fn">x2</span> <span class="fn">x3</span>)</span></span>)</span> <span class="fn">fun (<span class="fn">x1</span> : <span class="fn">ι</span>) (<span class="fn">x2</span> : <span class="fn"><span class="fn">M</span> <span class="fn">x1</span></span>) =&gt; <span class="fn"><span class="fn">(<span class="fn">g₁</span> <span class="fn">x1</span>)</span> <span class="fn">x2</span></span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">Hg</span> : <span class="fn">∀ (<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>) (<span class="fn">hij</span> : <span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">j</span>) (<span class="fn">x</span> : <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span>), <span class="fn"><span class="fn">(<span class="fn">g₂</span> <span class="fn">j</span>)</span> <span class="fn">(<span class="fn">(<span class="fn">f</span> <span class="fn">i</span> <span class="fn">j</span> <span class="fn">hij</span>)</span> <span class="fn">x</span>)</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn">(<span class="fn">g₂</span> <span class="fn">i</span>)</span> <span class="fn">x</span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">i</span> : <span class="fn">ι</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.Module.lift">lift</a> <span class="fn">f</span> <span class="fn">g₁</span> <span class="fn">g₂</span> <span class="fn">Hg</span>)</span> <span class="fn">(<span class="fn">(<span class="fn">g₁</span> <span class="fn">i</span>)</span> <span class="fn">x</span>)</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn">(<span class="fn">g₂</span> <span class="fn">i</span>)</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="IsDirectLimit.Module.lift_unique"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/IsDirectLimit.lean#L157-L163">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_Mathlib_Algebra_IsDirectLimit.html#IsDirectLimit.Module.lift_unique" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.Module.lift_unique"><span class="name">IsDirectLimit</span>.<span class="name">Module</span>.<span class="name">lift_unique</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../.././foundational_types.html">Type</a> u_2</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P₁</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P₂</span> : <a href="../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">j</span> → <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn"><span class="fn">M</span> <span class="fn">j</span></span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/DirectedInverseSystem.html#DirectedSystem">DirectedSystem</a> <span class="fn">M</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">ι</span>) (<span class="fn">x3</span> : <span class="fn">x1</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">x2</span>) =&gt; <span class="fn">⇑<span class="fn">(<span class="fn">f</span> <span class="fn">x1</span> <span class="fn">x2</span> <span class="fn">x3</span>)</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Directed.html#IsDirected">IsDirected</a> <span class="fn">ι</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">ι</span>) =&gt; <span class="fn">x1</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">x2</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">P₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">P₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">P₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">P₂</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g₁</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn">P₁</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">h₁</span> : <span class="fn"><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit">IsDirectLimit</a> <span class="fn">(fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">ι</span>) (<span class="fn">x3</span> : <span class="fn">x1</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">x2</span>) =&gt; <span class="fn">⇑<span class="fn">(<span class="fn">f</span> <span class="fn">x1</span> <span class="fn">x2</span> <span class="fn">x3</span>)</span></span>)</span> <span class="fn">fun (<span class="fn">x1</span> : <span class="fn">ι</span>) (<span class="fn">x2</span> : <span class="fn"><span class="fn">M</span> <span class="fn">x1</span></span>) =&gt; <span class="fn"><span class="fn">(<span class="fn">g₁</span> <span class="fn">x1</span>)</span> <span class="fn">x2</span></span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn">P₁</span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn">P₂</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">P₁</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">F</span> <span class="fn">x</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn">(<a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.Module.lift">lift</a> <span class="fn">f</span> <span class="fn">g₁</span> <span class="fn">(fun (<span class="fn">i</span> : <span class="fn">ι</span>) =&gt; <span class="fn"><span class="fn">F</span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap.comp">∘ₗ</a> <span class="fn"><span class="fn">g₁</span> <span class="fn">i</span></span></span>)</span> <span class="fn">⋯</span>)</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="IsDirectLimit.Module.linearEquiv"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/IsDirectLimit.lean#L167-L171">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_Mathlib_Algebra_IsDirectLimit.html#IsDirectLimit.Module.linearEquiv" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.Module.linearEquiv"><span class="name">IsDirectLimit</span>.<span class="name">Module</span>.<span class="name">linearEquiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../.././foundational_types.html">Type</a> u_2</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P₁</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P₂</span> : <a href="../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">j</span> → <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn"><span class="fn">M</span> <span class="fn">j</span></span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/DirectedInverseSystem.html#DirectedSystem">DirectedSystem</a> <span class="fn">M</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">ι</span>) (<span class="fn">x3</span> : <span class="fn">x1</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">x2</span>) =&gt; <span class="fn">⇑<span class="fn">(<span class="fn">f</span> <span class="fn">x1</span> <span class="fn">x2</span> <span class="fn">x3</span>)</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Directed.html#IsDirected">IsDirected</a> <span class="fn">ι</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">ι</span>) =&gt; <span class="fn">x1</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">x2</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">P₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">P₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">P₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">P₂</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g₁</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn">P₁</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g₂</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn">P₂</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">h₁</span> : <span class="fn"><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit">IsDirectLimit</a> <span class="fn">(fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">ι</span>) (<span class="fn">x3</span> : <span class="fn">x1</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">x2</span>) =&gt; <span class="fn">⇑<span class="fn">(<span class="fn">f</span> <span class="fn">x1</span> <span class="fn">x2</span> <span class="fn">x3</span>)</span></span>)</span> <span class="fn">fun (<span class="fn">x1</span> : <span class="fn">ι</span>) (<span class="fn">x2</span> : <span class="fn"><span class="fn">M</span> <span class="fn">x1</span></span>) =&gt; <span class="fn"><span class="fn">(<span class="fn">g₁</span> <span class="fn">x1</span>)</span> <span class="fn">x2</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">h₂</span> : <span class="fn"><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit">IsDirectLimit</a> <span class="fn">(fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">ι</span>) (<span class="fn">x3</span> : <span class="fn">x1</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">x2</span>) =&gt; <span class="fn">⇑<span class="fn">(<span class="fn">f</span> <span class="fn">x1</span> <span class="fn">x2</span> <span class="fn">x3</span>)</span></span>)</span> <span class="fn">fun (<span class="fn">x1</span> : <span class="fn">ι</span>) (<span class="fn">x2</span> : <span class="fn"><span class="fn">M</span> <span class="fn">x1</span></span>) =&gt; <span class="fn"><span class="fn">(<span class="fn">g₂</span> <span class="fn">x1</span>)</span> <span class="fn">x2</span></span></span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">P₁</span> <a href="../../.././Mathlib/Algebra/Module/Equiv/Defs.html#LinearEquiv">≃ₗ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Module/Equiv/Defs.html#LinearEquiv">]</a> <span class="fn">P₂</span></div></div><p>Any two direct limits of the same directed system are isomorphic.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-IsDirectLimit.Module.linearEquiv" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="IsDirectLimit.Module.linearEquiv_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/IsDirectLimit.lean#L173-L176">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_Mathlib_Algebra_IsDirectLimit.html#IsDirectLimit.Module.linearEquiv_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.Module.linearEquiv_apply"><span class="name">IsDirectLimit</span>.<span class="name">Module</span>.<span class="name">linearEquiv_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../.././foundational_types.html">Type</a> u_2</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P₁</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P₂</span> : <a href="../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">j</span> → <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn"><span class="fn">M</span> <span class="fn">j</span></span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/DirectedInverseSystem.html#DirectedSystem">DirectedSystem</a> <span class="fn">M</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">ι</span>) (<span class="fn">x3</span> : <span class="fn">x1</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">x2</span>) =&gt; <span class="fn">⇑<span class="fn">(<span class="fn">f</span> <span class="fn">x1</span> <span class="fn">x2</span> <span class="fn">x3</span>)</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Directed.html#IsDirected">IsDirected</a> <span class="fn">ι</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">ι</span>) =&gt; <span class="fn">x1</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">x2</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">P₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">P₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">P₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">P₂</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g₁</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn">P₁</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g₂</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn">P₂</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">h₁</span> : <span class="fn"><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit">IsDirectLimit</a> <span class="fn">(fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">ι</span>) (<span class="fn">x3</span> : <span class="fn">x1</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">x2</span>) =&gt; <span class="fn">⇑<span class="fn">(<span class="fn">f</span> <span class="fn">x1</span> <span class="fn">x2</span> <span class="fn">x3</span>)</span></span>)</span> <span class="fn">fun (<span class="fn">x1</span> : <span class="fn">ι</span>) (<span class="fn">x2</span> : <span class="fn"><span class="fn">M</span> <span class="fn">x1</span></span>) =&gt; <span class="fn"><span class="fn">(<span class="fn">g₁</span> <span class="fn">x1</span>)</span> <span class="fn">x2</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">h₂</span> : <span class="fn"><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit">IsDirectLimit</a> <span class="fn">(fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">ι</span>) (<span class="fn">x3</span> : <span class="fn">x1</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">x2</span>) =&gt; <span class="fn">⇑<span class="fn">(<span class="fn">f</span> <span class="fn">x1</span> <span class="fn">x2</span> <span class="fn">x3</span>)</span></span>)</span> <span class="fn">fun (<span class="fn">x1</span> : <span class="fn">ι</span>) (<span class="fn">x2</span> : <span class="fn"><span class="fn">M</span> <span class="fn">x1</span></span>) =&gt; <span class="fn"><span class="fn">(<span class="fn">g₂</span> <span class="fn">x1</span>)</span> <span class="fn">x2</span></span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.Module.linearEquiv">linearEquiv</a> <span class="fn">f</span> <span class="fn">g₁</span> <span class="fn">g₂</span>)</span> <span class="fn">(<span class="fn">(<span class="fn">g₁</span> <span class="fn">i</span>)</span> <span class="fn">x</span>)</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn">(<span class="fn">g₂</span> <span class="fn">i</span>)</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="IsDirectLimit.Module.linearEquiv_symm_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/IsDirectLimit.lean#L178-L181">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_Mathlib_Algebra_IsDirectLimit.html#IsDirectLimit.Module.linearEquiv_symm_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.Module.linearEquiv_symm_apply"><span class="name">IsDirectLimit</span>.<span class="name">Module</span>.<span class="name">linearEquiv_symm_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../.././foundational_types.html">Type</a> u_2</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P₁</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P₂</span> : <a href="../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">i</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">j</span> → <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn"><span class="fn">M</span> <span class="fn">j</span></span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/DirectedInverseSystem.html#DirectedSystem">DirectedSystem</a> <span class="fn">M</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">ι</span>) (<span class="fn">x3</span> : <span class="fn">x1</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">x2</span>) =&gt; <span class="fn">⇑<span class="fn">(<span class="fn">f</span> <span class="fn">x1</span> <span class="fn">x2</span> <span class="fn">x3</span>)</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Directed.html#IsDirected">IsDirected</a> <span class="fn">ι</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">ι</span>) =&gt; <span class="fn">x1</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">x2</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">P₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">P₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">P₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">P₂</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g₁</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn">P₁</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g₂</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn">P₂</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">h₁</span> : <span class="fn"><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit">IsDirectLimit</a> <span class="fn">(fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">ι</span>) (<span class="fn">x3</span> : <span class="fn">x1</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">x2</span>) =&gt; <span class="fn">⇑<span class="fn">(<span class="fn">f</span> <span class="fn">x1</span> <span class="fn">x2</span> <span class="fn">x3</span>)</span></span>)</span> <span class="fn">fun (<span class="fn">x1</span> : <span class="fn">ι</span>) (<span class="fn">x2</span> : <span class="fn"><span class="fn">M</span> <span class="fn">x1</span></span>) =&gt; <span class="fn"><span class="fn">(<span class="fn">g₁</span> <span class="fn">x1</span>)</span> <span class="fn">x2</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">h₂</span> : <span class="fn"><a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit">IsDirectLimit</a> <span class="fn">(fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">ι</span>) (<span class="fn">x3</span> : <span class="fn">x1</span> <a href="../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">x2</span>) =&gt; <span class="fn">⇑<span class="fn">(<span class="fn">f</span> <span class="fn">x1</span> <span class="fn">x2</span> <span class="fn">x3</span>)</span></span>)</span> <span class="fn">fun (<span class="fn">x1</span> : <span class="fn">ι</span>) (<span class="fn">x2</span> : <span class="fn"><span class="fn">M</span> <span class="fn">x1</span></span>) =&gt; <span class="fn"><span class="fn">(<span class="fn">g₂</span> <span class="fn">x1</span>)</span> <span class="fn">x2</span></span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././FLT/Mathlib/Algebra/IsDirectLimit.html#IsDirectLimit.Module.linearEquiv">linearEquiv</a> <span class="fn">f</span> <span class="fn">g₁</span> <span class="fn">g₂</span>)</span>.<a href="../../.././Mathlib/Algebra/Module/Equiv/Defs.html#LinearEquiv.symm">symm</a></span> <span class="fn">(<span class="fn">(<span class="fn">g₂</span> <span class="fn">i</span>)</span> <span class="fn">x</span>)</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn">(<span class="fn">g₁</span> <span class="fn">i</span>)</span> <span class="fn">x</span></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

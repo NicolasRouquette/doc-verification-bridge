@@ -1,0 +1,462 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../../.././style.css"></link><link rel="icon" href="../../../.././favicon.svg"></link><link rel="mask-icon" href="../../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.Algebra.Module.Presentation.DirectSum</title><script defer="true" src="../../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../../.././";</script><script>const MODULE_NAME="Mathlib.Algebra.Module.Presentation.DirectSum";</script><script type="module" src="../../../.././jump-src.js"></script><script type="module" src="../../../.././search.js"></script><script type="module" src="../../../.././expand-nav.js"></script><script type="module" src="../../../.././how-about.js"></script><script type="module" src="../../../.././instances.js"></script><script type="module" src="../../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">Algebra</span>.<span class="name">Module</span>.<span class="name">Presentation</span>.<span class="name">DirectSum</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Module/Presentation/DirectSum.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../../.././Init.html">Init</a></li><li><a href="../../../.././Mathlib/Algebra/DirectSum/Module.html">Mathlib.Algebra.DirectSum.Module</a></li><li><a href="../../../.././Mathlib/Data/Finsupp/ToDFinsupp.html">Mathlib.Data.Finsupp.ToDFinsupp</a></li><li><a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html">Mathlib.Algebra.Module.Presentation.Basic</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.Algebra.Module.Presentation.DirectSum" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#Module.Relations.directSum"><span class="name">Module</span>.<span class="name">Relations</span>.<span class="name">directSum</span></a></div><div class="nav_link"><a class="break_within" href="#Module.Relations.directSum_relation"><span class="name">Module</span>.<span class="name">Relations</span>.<span class="name">directSum_relation</span></a></div><div class="nav_link"><a class="break_within" href="#Module.Relations.directSum_G"><span class="name">Module</span>.<span class="name">Relations</span>.<span class="name">directSum_G</span></a></div><div class="nav_link"><a class="break_within" href="#Module.Relations.directSum_R"><span class="name">Module</span>.<span class="name">Relations</span>.<span class="name">directSum_R</span></a></div><div class="nav_link"><a class="break_within" href="#Module.Relations.Solution.directSumEquiv"><span class="name">Module</span>.<span class="name">Relations</span>.<span class="name">Solution</span>.<span class="name">directSumEquiv</span></a></div><div class="nav_link"><a class="break_within" href="#Module.Relations.Solution.directSumEquiv_symm_apply_var"><span class="name">Module</span>.<span class="name">Relations</span>.<span class="name">Solution</span>.<span class="name">directSumEquiv_symm_apply_var</span></a></div><div class="nav_link"><a class="break_within" href="#Module.Relations.Solution.directSumEquiv_apply_var"><span class="name">Module</span>.<span class="name">Relations</span>.<span class="name">Solution</span>.<span class="name">directSumEquiv_apply_var</span></a></div><div class="nav_link"><a class="break_within" href="#Module.Relations.Solution.directSum"><span class="name">Module</span>.<span class="name">Relations</span>.<span class="name">Solution</span>.<span class="name">directSum</span></a></div><div class="nav_link"><a class="break_within" href="#Module.Relations.Solution.directSum_var"><span class="name">Module</span>.<span class="name">Relations</span>.<span class="name">Solution</span>.<span class="name">directSum_var</span></a></div><div class="nav_link"><a class="break_within" href="#Module.Relations.Solution.IsPresentation.directSum.isRepresentationCore"><span class="name">Module</span>.<span class="name">Relations</span>.<span class="name">Solution</span>.<span class="name">IsPresentation</span>.<span class="name">directSum</span>.<span class="name">isRepresentationCore</span></a></div><div class="nav_link"><a class="break_within" href="#Module.Relations.Solution.IsPresentation.directSum"><span class="name">Module</span>.<span class="name">Relations</span>.<span class="name">Solution</span>.<span class="name">IsPresentation</span>.<span class="name">directSum</span></a></div><div class="nav_link"><a class="break_within" href="#Module.Presentation.directSum"><span class="name">Module</span>.<span class="name">Presentation</span>.<span class="name">directSum</span></a></div><div class="nav_link"><a class="break_within" href="#Module.Presentation.directSum_R"><span class="name">Module</span>.<span class="name">Presentation</span>.<span class="name">directSum_R</span></a></div><div class="nav_link"><a class="break_within" href="#Module.Presentation.directSum_G"><span class="name">Module</span>.<span class="name">Presentation</span>.<span class="name">directSum_G</span></a></div><div class="nav_link"><a class="break_within" href="#Module.Presentation.directSum_relation"><span class="name">Module</span>.<span class="name">Presentation</span>.<span class="name">directSum_relation</span></a></div><div class="nav_link"><a class="break_within" href="#Module.Presentation.directSum_var"><span class="name">Module</span>.<span class="name">Presentation</span>.<span class="name">directSum_var</span></a></div><div class="nav_link"><a class="break_within" href="#Module.Presentation.finsupp"><span class="name">Module</span>.<span class="name">Presentation</span>.<span class="name">finsupp</span></a></div><div class="nav_link"><a class="break_within" href="#Module.Presentation.finsupp_relation"><span class="name">Module</span>.<span class="name">Presentation</span>.<span class="name">finsupp_relation</span></a></div><div class="nav_link"><a class="break_within" href="#Module.Presentation.finsupp_G"><span class="name">Module</span>.<span class="name">Presentation</span>.<span class="name">finsupp_G</span></a></div><div class="nav_link"><a class="break_within" href="#Module.Presentation.finsupp_R"><span class="name">Module</span>.<span class="name">Presentation</span>.<span class="name">finsupp_R</span></a></div><div class="nav_link"><a class="break_within" href="#Module.Presentation.finsupp_var"><span class="name">Module</span>.<span class="name">Presentation</span>.<span class="name">finsupp_var</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Presentation-of-a-direct-sum" class="markdown-heading">Presentation of a direct sum <a class="hover-link" href="#Presentation-of-a-direct-sum">#</a></h1><p>If <code>M : ι → Type _</code> is a family of <code>A</code>-modules, then the data of a presentation
+of each <code>M i</code>, we obtain a presentation of the module <code>⨁ i, M i</code>.
+In particular, from a presentation of an <code>A</code>-module <code>M</code>, we get
+a presentation of <code>ι →₀ M</code>.</p></div><div class="decl" id="Module.Relations.directSum"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Module/Presentation/DirectSum.lean#L36-L44">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Algebra_Module_Presentation_DirectSum.html#Module.Relations.directSum" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Relations.directSum"><span class="name">Module</span>.<span class="name">Relations</span>.<span class="name">directSum</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../.././foundational_types.html">Type</a> w}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">relations</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations">Relations</a> <span class="fn">A</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations">Relations</a> <span class="fn">A</span></span></div></div><p>The direct sum operations on <code>Relations A</code>. Given a family
+<code>relations : ι → Relations A</code>, the type of generators and relations
+in <code><a href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Relations.directSum">directSum</a> relations</code> are the corresponding <code>Sigma</code> types.</p><details id="instances-for-list-Module.Relations.directSum" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Module.Relations.directSum_relation"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Module/Presentation/DirectSum.lean#L39-L39">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Algebra_Module_Presentation_DirectSum.html#Module.Relations.directSum_relation" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Relations.directSum_relation"><span class="name">Module</span>.<span class="name">Relations</span>.<span class="name">directSum_relation</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../.././foundational_types.html">Type</a> w}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">relations</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations">Relations</a> <span class="fn">A</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x✝</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) × <span class="fn"><span class="fn">(<span class="fn">relations</span> <span class="fn">i</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.R">R</a></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Relations.directSum">directSum</a> <span class="fn">relations</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.relation">relation</a></span> <span class="fn">x✝</span></span> <span class="fn">=</span>   <span class="fn">match <span class="fn">x✝</span> with
+  | <span class="fn"><span class="fn">⟨</span><span class="fn">i</span>, <span class="fn">r</span><span class="fn">⟩</span></span> =&gt; <span class="fn"><a href="../../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.embDomain">Finsupp.embDomain</a> <span class="fn">(<a href="../../../.././Mathlib/Logic/Embedding/Basic.html#Function.Embedding.sigmaMk">Function.Embedding.sigmaMk</a> <span class="fn">i</span>)</span> <span class="fn">(<span class="fn"><span class="fn">(<span class="fn">relations</span> <span class="fn">i</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.relation">relation</a></span> <span class="fn">r</span>)</span></span></span></span></div></div></div></div><div class="decl" id="Module.Relations.directSum_G"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Module/Presentation/DirectSum.lean#L39-L39">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Algebra_Module_Presentation_DirectSum.html#Module.Relations.directSum_G" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Relations.directSum_G"><span class="name">Module</span>.<span class="name">Relations</span>.<span class="name">directSum_G</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../.././foundational_types.html">Type</a> w}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">relations</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations">Relations</a> <span class="fn">A</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Relations.directSum">directSum</a> <span class="fn">relations</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.G">G</a></span> <span class="fn">=</span> <span class="fn">((<span class="fn">i</span> : <span class="fn">ι</span>) × <span class="fn"><span class="fn">(<span class="fn">relations</span> <span class="fn">i</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.G">G</a></span>)</span></span></div></div></div></div><div class="decl" id="Module.Relations.directSum_R"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Module/Presentation/DirectSum.lean#L39-L39">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Algebra_Module_Presentation_DirectSum.html#Module.Relations.directSum_R" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Relations.directSum_R"><span class="name">Module</span>.<span class="name">Relations</span>.<span class="name">directSum_R</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../.././foundational_types.html">Type</a> w}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">relations</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations">Relations</a> <span class="fn">A</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Relations.directSum">directSum</a> <span class="fn">relations</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.R">R</a></span> <span class="fn">=</span> <span class="fn">((<span class="fn">i</span> : <span class="fn">ι</span>) × <span class="fn"><span class="fn">(<span class="fn">relations</span> <span class="fn">i</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.R">R</a></span>)</span></span></div></div></div></div><div class="decl" id="Module.Relations.Solution.directSumEquiv"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Module/Presentation/DirectSum.lean#L51-L69">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Algebra_Module_Presentation_DirectSum.html#Module.Relations.Solution.directSumEquiv" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Relations.Solution.directSumEquiv"><span class="name">Module</span>.<span class="name">Relations</span>.<span class="name">Solution</span>.<span class="name">directSumEquiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../.././foundational_types.html">Type</a> w}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">relations</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations">Relations</a> <span class="fn">A</span></span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">N</span> : <a href="../../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">N</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">A</span> <span class="fn">N</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Relations.directSum">Relations.directSum</a> <span class="fn">relations</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.Solution">Solution</a></span> <span class="fn">N</span></span> <a href="../../../.././Mathlib/Logic/Equiv/Defs.html#Equiv">≃</a> <span class="fn">((<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn"><span class="fn">(<span class="fn">relations</span> <span class="fn">i</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.Solution">Solution</a></span> <span class="fn">N</span></span>)</span></div></div><p>Given an <code>A</code>-module <code>N</code> and a family <code>relations : ι → Relations A</code>,
+the data of a solution of <code><a href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Relations.directSum">Relations.directSum</a> relations</code> in <code>N</code>
+is equivalent to the data of a family of solutions of <code>relations i</code> in <code>N</code>
+for all <code>i</code>.</p><details id="instances-for-list-Module.Relations.Solution.directSumEquiv" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Module.Relations.Solution.directSumEquiv_symm_apply_var"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Module/Presentation/DirectSum.lean#L55-L55">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Algebra_Module_Presentation_DirectSum.html#Module.Relations.Solution.directSumEquiv_symm_apply_var" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Relations.Solution.directSumEquiv_symm_apply_var"><span class="name">Module</span>.<span class="name">Relations</span>.<span class="name">Solution</span>.<span class="name">directSumEquiv_symm_apply_var</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../.././foundational_types.html">Type</a> w}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">relations</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations">Relations</a> <span class="fn">A</span></span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">N</span> : <a href="../../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">N</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">A</span> <span class="fn">N</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">t</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn"><span class="fn">(<span class="fn">relations</span> <span class="fn">i</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.Solution">Solution</a></span> <span class="fn">N</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x✝</span> : <span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Relations.directSum">Relations.directSum</a> <span class="fn">relations</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.G">G</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Relations.Solution.directSumEquiv">directSumEquiv</a>.<a href="../../../.././Mathlib/Logic/Equiv/Defs.html#Equiv.symm">symm</a></span> <span class="fn">t</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.Solution.var">var</a></span> <span class="fn">x✝</span></span> <span class="fn">=</span>   <span class="fn">match <span class="fn">x✝</span> with
+  | <span class="fn"><span class="fn">⟨</span><span class="fn">i</span>, <span class="fn">g</span><span class="fn">⟩</span></span> =&gt; <span class="fn"><span class="fn"><span class="fn">(<span class="fn">t</span> <span class="fn">i</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.Solution.var">var</a></span> <span class="fn">g</span></span></span></span></div></div></div></div><div class="decl" id="Module.Relations.Solution.directSumEquiv_apply_var"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Module/Presentation/DirectSum.lean#L55-L55">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Algebra_Module_Presentation_DirectSum.html#Module.Relations.Solution.directSumEquiv_apply_var" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Relations.Solution.directSumEquiv_apply_var"><span class="name">Module</span>.<span class="name">Relations</span>.<span class="name">Solution</span>.<span class="name">directSumEquiv_apply_var</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../.././foundational_types.html">Type</a> w}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">relations</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations">Relations</a> <span class="fn">A</span></span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">N</span> : <a href="../../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">N</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">A</span> <span class="fn">N</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">s</span> : <span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Relations.directSum">Relations.directSum</a> <span class="fn">relations</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.Solution">Solution</a></span> <span class="fn">N</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn"><span class="fn">(<span class="fn">relations</span> <span class="fn">i</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.G">G</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Relations.Solution.directSumEquiv">directSumEquiv</a> <span class="fn">s</span> <span class="fn">i</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.Solution.var">var</a></span> <span class="fn">g</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">s</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.Solution.var">var</a></span> <span class="fn"><span class="fn">⟨</span><span class="fn">i</span>, <span class="fn">g</span><span class="fn">⟩</span></span></span></span></div></div></div></div><div class="decl" id="Module.Relations.Solution.directSum"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Module/Presentation/DirectSum.lean#L72-L76">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Algebra_Module_Presentation_DirectSum.html#Module.Relations.Solution.directSum" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Relations.Solution.directSum"><span class="name">Module</span>.<span class="name">Relations</span>.<span class="name">Solution</span>.<span class="name">directSum</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../.././foundational_types.html">Type</a> w}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">relations</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations">Relations</a> <span class="fn">A</span></span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">A</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">solution</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn"><span class="fn">(<span class="fn">relations</span> <span class="fn">i</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.Solution">Solution</a></span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Relations.directSum">Relations.directSum</a> <span class="fn">relations</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.Solution">Solution</a></span> <span class="fn">(<a href="../../../.././Mathlib/Algebra/DirectSum/Basic.html#DirectSum">DirectSum</a> <span class="fn">ι</span> <span class="fn">fun (<span class="fn">i</span> : <span class="fn">ι</span>) =&gt; <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span></span>)</span></span></div></div><p>Given <code>solution : ∀ (i : ι), (relations i).Solution (M i)</code>, this is the
+canonical solution of <code><a href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Relations.directSum">Relations.directSum</a> relations</code> in <code>⨁ i, M i</code>.</p><details id="instances-for-list-Module.Relations.Solution.directSum" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Module.Relations.Solution.directSum_var"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Module/Presentation/DirectSum.lean#L79-L82">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Algebra_Module_Presentation_DirectSum.html#Module.Relations.Solution.directSum_var" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Relations.Solution.directSum_var"><span class="name">Module</span>.<span class="name">Relations</span>.<span class="name">Solution</span>.<span class="name">directSum_var</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../.././foundational_types.html">Type</a> w}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">relations</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations">Relations</a> <span class="fn">A</span></span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">A</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">solution</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn"><span class="fn">(<span class="fn">relations</span> <span class="fn">i</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.Solution">Solution</a></span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn"><span class="fn">(<span class="fn">relations</span> <span class="fn">i</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.G">G</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Relations.Solution.directSum">directSum</a> <span class="fn">solution</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.Solution.var">var</a></span> <span class="fn"><span class="fn">⟨</span><span class="fn">i</span>, <span class="fn">g</span><span class="fn">⟩</span></span></span> <span class="fn">=</span> <span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Algebra/DirectSum/Module.html#DirectSum.lof">DirectSum.lof</a> <span class="fn">A</span> <span class="fn">ι</span> <span class="fn">M</span> <span class="fn">i</span>)</span> <span class="fn">(<span class="fn"><span class="fn">(<span class="fn">solution</span> <span class="fn">i</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.Solution.var">var</a></span> <span class="fn">g</span>)</span></span></span></div></div></div></div><div class="decl" id="Module.Relations.Solution.IsPresentation.directSum.isRepresentationCore"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Module/Presentation/DirectSum.lean#L90-L99">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Algebra_Module_Presentation_DirectSum.html#Module.Relations.Solution.IsPresentation.directSum.isRepresentationCore" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Relations.Solution.IsPresentation.directSum.isRepresentationCore"><span class="name">Module</span>.<span class="name">Relations</span>.<span class="name">Solution</span>.<span class="name">IsPresentation</span>.<span class="name">directSum</span>.<span class="name">isRepresentationCore</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../.././foundational_types.html">Type</a> w}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">relations</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations">Relations</a> <span class="fn">A</span></span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">A</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">solution</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn"><span class="fn">(<span class="fn">relations</span> <span class="fn">i</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.Solution">Solution</a></span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">ι</span>), <span class="fn"><span class="fn">(<span class="fn">solution</span> <span class="fn">i</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.Solution.IsPresentation">IsPresentation</a></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Relations.Solution.directSum">Solution.directSum</a> <span class="fn">solution</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.Solution.IsPresentationCore">IsPresentationCore</a></span></div></div><p>The direct sum admits a presentation by generators and relations.</p><details id="instances-for-list-Module.Relations.Solution.IsPresentation.directSum.isRepresentationCore" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Module.Relations.Solution.IsPresentation.directSum"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Module/Presentation/DirectSum.lean#L103-L104">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Algebra_Module_Presentation_DirectSum.html#Module.Relations.Solution.IsPresentation.directSum" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Relations.Solution.IsPresentation.directSum"><span class="name">Module</span>.<span class="name">Relations</span>.<span class="name">Solution</span>.<span class="name">IsPresentation</span>.<span class="name">directSum</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../.././foundational_types.html">Type</a> w}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">relations</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations">Relations</a> <span class="fn">A</span></span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">A</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">solution</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><span class="fn"><span class="fn">(<span class="fn">relations</span> <span class="fn">i</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.Solution">Solution</a></span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">ι</span>), <span class="fn"><span class="fn">(<span class="fn">solution</span> <span class="fn">i</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.Solution.IsPresentation">IsPresentation</a></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Relations.Solution.directSum">Solution.directSum</a> <span class="fn">solution</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.Solution.IsPresentation">IsPresentation</a></span></div></div></div></div><div class="decl" id="Module.Presentation.directSum"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Module/Presentation/DirectSum.lean#L115-L121">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Algebra_Module_Presentation_DirectSum.html#Module.Presentation.directSum" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Presentation.directSum"><span class="name">Module</span>.<span class="name">Presentation</span>.<span class="name">directSum</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../.././foundational_types.html">Type</a> w}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">A</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">pres</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Presentation">Presentation</a> <span class="fn">A</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Presentation">Presentation</a> <span class="fn">A</span> <span class="fn">(<a href="../../../.././Mathlib/Algebra/DirectSum/Basic.html#DirectSum">DirectSum</a> <span class="fn">ι</span> <span class="fn">fun (<span class="fn">i</span> : <span class="fn">ι</span>) =&gt; <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span></span>)</span></span></div></div><p>The obvious presentation of the module <code>⨁ i, M i</code> that is obtained from
+the data of presentations of the module <code>M i</code> for each <code>i</code>.</p><details id="instances-for-list-Module.Presentation.directSum" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Module.Presentation.directSum_R"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Module/Presentation/DirectSum.lean#L117-L117">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Algebra_Module_Presentation_DirectSum.html#Module.Presentation.directSum_R" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Presentation.directSum_R"><span class="name">Module</span>.<span class="name">Presentation</span>.<span class="name">directSum_R</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../.././foundational_types.html">Type</a> w}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">A</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">pres</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Presentation">Presentation</a> <span class="fn">A</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Presentation.directSum">directSum</a> <span class="fn">pres</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.R">R</a></span> <span class="fn">=</span> <span class="fn">((<span class="fn">i</span> : <span class="fn">ι</span>) × <span class="fn"><span class="fn">(<span class="fn">pres</span> <span class="fn">i</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.R">R</a></span>)</span></span></div></div></div></div><div class="decl" id="Module.Presentation.directSum_G"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Module/Presentation/DirectSum.lean#L117-L117">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Algebra_Module_Presentation_DirectSum.html#Module.Presentation.directSum_G" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Presentation.directSum_G"><span class="name">Module</span>.<span class="name">Presentation</span>.<span class="name">directSum_G</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../.././foundational_types.html">Type</a> w}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">A</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">pres</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Presentation">Presentation</a> <span class="fn">A</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Presentation.directSum">directSum</a> <span class="fn">pres</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.G">G</a></span> <span class="fn">=</span> <span class="fn">((<span class="fn">i</span> : <span class="fn">ι</span>) × <span class="fn"><span class="fn">(<span class="fn">pres</span> <span class="fn">i</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.G">G</a></span>)</span></span></div></div></div></div><div class="decl" id="Module.Presentation.directSum_relation"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Module/Presentation/DirectSum.lean#L117-L117">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Algebra_Module_Presentation_DirectSum.html#Module.Presentation.directSum_relation" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Presentation.directSum_relation"><span class="name">Module</span>.<span class="name">Presentation</span>.<span class="name">directSum_relation</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../.././foundational_types.html">Type</a> w}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">A</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">pres</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Presentation">Presentation</a> <span class="fn">A</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x✝</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) × <span class="fn"><span class="fn">(<span class="fn">(fun (<span class="fn">i</span> : <span class="fn">ι</span>) =&gt; <span class="fn"><span class="fn">(<span class="fn">pres</span> <span class="fn">i</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Presentation.toRelations">toRelations</a></span>)</span> <span class="fn">i</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.R">R</a></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Presentation.directSum">directSum</a> <span class="fn">pres</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.relation">relation</a></span> <span class="fn">x✝</span></span> <span class="fn">=</span> <span class="fn"><a href="../../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.embDomain">Finsupp.embDomain</a> <span class="fn">(<a href="../../../.././Mathlib/Logic/Embedding/Basic.html#Function.Embedding.sigmaMk">Function.Embedding.sigmaMk</a> <span class="fn"><span class="fn">x✝</span>.<span class="fn">fst</span></span>)</span> <span class="fn">(<span class="fn"><span class="fn">(<span class="fn">pres</span> <span class="fn"><span class="fn">x✝</span>.<span class="fn">fst</span></span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.relation">relation</a></span> <span class="fn"><span class="fn">x✝</span>.<span class="fn">snd</span></span>)</span></span></span></div></div></div></div><div class="decl" id="Module.Presentation.directSum_var"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Module/Presentation/DirectSum.lean#L124-L126">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Algebra_Module_Presentation_DirectSum.html#Module.Presentation.directSum_var" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Presentation.directSum_var"><span class="name">Module</span>.<span class="name">Presentation</span>.<span class="name">directSum_var</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../.././foundational_types.html">Type</a> w}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">A</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">pres</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Presentation">Presentation</a> <span class="fn">A</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn"><span class="fn">(<span class="fn">pres</span> <span class="fn">i</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.G">G</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Presentation.directSum">directSum</a> <span class="fn">pres</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.Solution.var">var</a></span> <span class="fn"><span class="fn">⟨</span><span class="fn">i</span>, <span class="fn">g</span><span class="fn">⟩</span></span></span> <span class="fn">=</span> <span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Algebra/DirectSum/Module.html#DirectSum.lof">DirectSum.lof</a> <span class="fn">A</span> <span class="fn">ι</span> <span class="fn">M</span> <span class="fn">i</span>)</span> <span class="fn">(<span class="fn"><span class="fn">(<span class="fn">pres</span> <span class="fn">i</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.Solution.var">var</a></span> <span class="fn">g</span>)</span></span></span></div></div></div></div><div class="decl" id="Module.Presentation.finsupp"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Module/Presentation/DirectSum.lean#L134-L138">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Algebra_Module_Presentation_DirectSum.html#Module.Presentation.finsupp" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Presentation.finsupp"><span class="name">Module</span>.<span class="name">Presentation</span>.<span class="name">finsupp</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">N</span> : <a href="../../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">N</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">A</span> <span class="fn">N</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">pres</span> : <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Presentation">Presentation</a> <span class="fn">A</span> <span class="fn">N</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">ι</span> : <a href="../../../.././foundational_types.html">Type</a> w)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">N</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Presentation">Presentation</a> <span class="fn">A</span> (<span class="fn">ι</span> <a href="../../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">N</span>)</span></div></div><p>The obvious presentation of the module <code>ι →₀ N</code> that is deduced from a presentation
+of the module <code>N</code>.</p><details id="instances-for-list-Module.Presentation.finsupp" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Module.Presentation.finsupp_relation"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Module/Presentation/DirectSum.lean#L136-L136">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Algebra_Module_Presentation_DirectSum.html#Module.Presentation.finsupp_relation" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Presentation.finsupp_relation"><span class="name">Module</span>.<span class="name">Presentation</span>.<span class="name">finsupp_relation</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">N</span> : <a href="../../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">N</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">A</span> <span class="fn">N</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">pres</span> : <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Presentation">Presentation</a> <span class="fn">A</span> <span class="fn">N</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">ι</span> : <a href="../../../.././foundational_types.html">Type</a> w)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">N</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x✝</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) × <span class="fn"><span class="fn">(<span class="fn">(fun (<span class="fn">i</span> : <span class="fn">ι</span>) =&gt; <span class="fn"><span class="fn">(<span class="fn">(fun (<span class="fn">x</span> : <span class="fn">ι</span>) =&gt; <span class="fn">pres</span>)</span> <span class="fn">i</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Presentation.toRelations">toRelations</a></span>)</span> <span class="fn">i</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.R">R</a></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">pres</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Presentation.finsupp">finsupp</a></span> <span class="fn">ι</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.relation">relation</a></span> <span class="fn">x✝</span></span> <span class="fn">=</span> <span class="fn"><a href="../../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.embDomain">Finsupp.embDomain</a> <span class="fn">(<a href="../../../.././Mathlib/Logic/Embedding/Basic.html#Function.Embedding.sigmaMk">Function.Embedding.sigmaMk</a> <span class="fn"><span class="fn">x✝</span>.<span class="fn">fst</span></span>)</span> <span class="fn">(<span class="fn"><span class="fn">pres</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.relation">relation</a></span> <span class="fn"><span class="fn">x✝</span>.<span class="fn">snd</span></span>)</span></span></span></div></div></div></div><div class="decl" id="Module.Presentation.finsupp_G"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Module/Presentation/DirectSum.lean#L136-L136">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Algebra_Module_Presentation_DirectSum.html#Module.Presentation.finsupp_G" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Presentation.finsupp_G"><span class="name">Module</span>.<span class="name">Presentation</span>.<span class="name">finsupp_G</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">N</span> : <a href="../../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">N</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">A</span> <span class="fn">N</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">pres</span> : <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Presentation">Presentation</a> <span class="fn">A</span> <span class="fn">N</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">ι</span> : <a href="../../../.././foundational_types.html">Type</a> w)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">N</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">pres</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Presentation.finsupp">finsupp</a></span> <span class="fn">ι</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.G">G</a></span> <span class="fn">=</span> <span class="fn">((<span class="fn">i</span> : <span class="fn">ι</span>) × <span class="fn"><span class="fn">pres</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.G">G</a></span>)</span></span></div></div></div></div><div class="decl" id="Module.Presentation.finsupp_R"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Module/Presentation/DirectSum.lean#L136-L136">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Algebra_Module_Presentation_DirectSum.html#Module.Presentation.finsupp_R" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Presentation.finsupp_R"><span class="name">Module</span>.<span class="name">Presentation</span>.<span class="name">finsupp_R</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">N</span> : <a href="../../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">N</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">A</span> <span class="fn">N</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">pres</span> : <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Presentation">Presentation</a> <span class="fn">A</span> <span class="fn">N</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">ι</span> : <a href="../../../.././foundational_types.html">Type</a> w)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">N</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">pres</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Presentation.finsupp">finsupp</a></span> <span class="fn">ι</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.R">R</a></span> <span class="fn">=</span> <span class="fn">((<span class="fn">i</span> : <span class="fn">ι</span>) × <span class="fn"><span class="fn">pres</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.R">R</a></span>)</span></span></div></div></div></div><div class="decl" id="Module.Presentation.finsupp_var"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Module/Presentation/DirectSum.lean#L140-L146">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Algebra_Module_Presentation_DirectSum.html#Module.Presentation.finsupp_var" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Presentation.finsupp_var"><span class="name">Module</span>.<span class="name">Presentation</span>.<span class="name">finsupp_var</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">N</span> : <a href="../../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">N</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">A</span> <span class="fn">N</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">pres</span> : <span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Presentation">Presentation</a> <span class="fn">A</span> <span class="fn">N</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">ι</span> : <a href="../../../.././foundational_types.html">Type</a> w)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">N</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn"><span class="fn">pres</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.G">G</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">pres</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/DirectSum.html#Module.Presentation.finsupp">finsupp</a></span> <span class="fn">ι</span>)</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.Solution.var">var</a></span> <span class="fn"><span class="fn">⟨</span><span class="fn">i</span>, <span class="fn">g</span><span class="fn">⟩</span></span></span> <span class="fn">=</span> <a href="../../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">fun₀</a> <a href="../../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">|</a> <span class="fn">i</span> <a href="../../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">=&gt;</a> <span class="fn"><span class="fn"><span class="fn">pres</span>.<a href="../../../.././Mathlib/Algebra/Module/Presentation/Basic.html#Module.Relations.Solution.var">var</a></span> <span class="fn">g</span></span></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

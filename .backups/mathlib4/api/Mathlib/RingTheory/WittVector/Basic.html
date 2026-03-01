@@ -1,0 +1,586 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../.././style.css"></link><link rel="icon" href="../../.././favicon.svg"></link><link rel="mask-icon" href="../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.RingTheory.WittVector.Basic</title><script defer="true" src="../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../.././";</script><script>const MODULE_NAME="Mathlib.RingTheory.WittVector.Basic";</script><script type="module" src="../../.././jump-src.js"></script><script type="module" src="../../.././search.js"></script><script type="module" src="../../.././expand-nav.js"></script><script type="module" src="../../.././how-about.js"></script><script type="module" src="../../.././instances.js"></script><script type="module" src="../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">RingTheory</span>.<span class="name">WittVector</span>.<span class="name">Basic</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../.././Init.html">Init</a></li><li><a href="../../.././Mathlib/Algebra/MvPolynomial/Counit.html">Mathlib.Algebra.MvPolynomial.Counit</a></li><li><a href="../../.././Mathlib/Algebra/MvPolynomial/Invertible.html">Mathlib.Algebra.MvPolynomial.Invertible</a></li><li><a href="../../.././Mathlib/RingTheory/WittVector/Defs.html">Mathlib.RingTheory.WittVector.Defs</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.RingTheory.WittVector.Basic" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#WittVector.mapFun"><span class="name">WittVector</span>.<span class="name">mapFun</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.mapFun.injective"><span class="name">WittVector</span>.<span class="name">mapFun</span>.<span class="name">injective</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.mapFun.surjective"><span class="name">WittVector</span>.<span class="name">mapFun</span>.<span class="name">surjective</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.mapFun.tacticMap_fun_tac"><span class="name">WittVector</span>.<span class="name">mapFun</span>.<span class="name">tacticMap_fun_tac</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.mapFun.zero"><span class="name">WittVector</span>.<span class="name">mapFun</span>.<span class="name">zero</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.mapFun.one"><span class="name">WittVector</span>.<span class="name">mapFun</span>.<span class="name">one</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.mapFun.add"><span class="name">WittVector</span>.<span class="name">mapFun</span>.<span class="name">add</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.mapFun.sub"><span class="name">WittVector</span>.<span class="name">mapFun</span>.<span class="name">sub</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.mapFun.mul"><span class="name">WittVector</span>.<span class="name">mapFun</span>.<span class="name">mul</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.mapFun.neg"><span class="name">WittVector</span>.<span class="name">mapFun</span>.<span class="name">neg</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.mapFun.nsmul"><span class="name">WittVector</span>.<span class="name">mapFun</span>.<span class="name">nsmul</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.mapFun.zsmul"><span class="name">WittVector</span>.<span class="name">mapFun</span>.<span class="name">zsmul</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.mapFun.pow"><span class="name">WittVector</span>.<span class="name">mapFun</span>.<span class="name">pow</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.mapFun.natCast"><span class="name">WittVector</span>.<span class="name">mapFun</span>.<span class="name">natCast</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.mapFun.intCast"><span class="name">WittVector</span>.<span class="name">mapFun</span>.<span class="name">intCast</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.«tacticGhost_fun_tac_,_»"><span class="name">WittVector</span>.<span class="name">«tacticGhost_fun_tac_,_»</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.matrix_vecEmpty_coeff"><span class="name">WittVector</span>.<span class="name">matrix_vecEmpty_coeff</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.instCommRing"><span class="name">WittVector</span>.<span class="name">instCommRing</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.map"><span class="name">WittVector</span>.<span class="name">map</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.map_injective"><span class="name">WittVector</span>.<span class="name">map_injective</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.map_surjective"><span class="name">WittVector</span>.<span class="name">map_surjective</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.map_coeff"><span class="name">WittVector</span>.<span class="name">map_coeff</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.map_id"><span class="name">WittVector</span>.<span class="name">map_id</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.map_eq_zero_iff"><span class="name">WittVector</span>.<span class="name">map_eq_zero_iff</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.ghostMap"><span class="name">WittVector</span>.<span class="name">ghostMap</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.ghostComponent"><span class="name">WittVector</span>.<span class="name">ghostComponent</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.ghostComponent_apply"><span class="name">WittVector</span>.<span class="name">ghostComponent_apply</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.pow_dvd_ghostComponent_of_dvd_coeff"><span class="name">WittVector</span>.<span class="name">pow_dvd_ghostComponent_of_dvd_coeff</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.ghostMap_apply"><span class="name">WittVector</span>.<span class="name">ghostMap_apply</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.ghostEquiv"><span class="name">WittVector</span>.<span class="name">ghostEquiv</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.ghostEquiv_coe"><span class="name">WittVector</span>.<span class="name">ghostEquiv_coe</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.ghostMap.bijective_of_invertible"><span class="name">WittVector</span>.<span class="name">ghostMap</span>.<span class="name">bijective_of_invertible</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.constantCoeff"><span class="name">WittVector</span>.<span class="name">constantCoeff</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.constantCoeff_apply"><span class="name">WittVector</span>.<span class="name">constantCoeff_apply</span></a></div><div class="nav_link"><a class="break_within" href="#WittVector.instNontrivial"><span class="name">WittVector</span>.<span class="name">instNontrivial</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Witt-vectors" class="markdown-heading">Witt vectors <a class="hover-link" href="#Witt-vectors">#</a></h1><p>This file verifies that the ring operations on <code><a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector">WittVector</a> p R</code>
+satisfy the axioms of a commutative ring.</p><h2 id="Main-definitions" class="markdown-heading">Main definitions <a class="hover-link" href="#Main-definitions">#</a></h2><ul><li><code><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.map">WittVector.map</a></code>: lifts a ring homomorphism <code>R →+* S</code> to a ring homomorphism <code>𝕎 R →+* 𝕎 S</code>.</li><li><code><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.ghostComponent">WittVector.ghostComponent</a> n x</code>: evaluates the <code>n</code>th Witt polynomial
+on the first <code>n</code> coefficients of <code>x</code>, producing a value in <code>R</code>.
+This is a ring homomorphism.</li><li><code><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.ghostMap">WittVector.ghostMap</a></code>: a ring homomorphism <code>𝕎 R →+* (ℕ → R)</code>, obtained by packaging
+all the ghost components together.
+If <code>p</code> is invertible in <code>R</code>, then the ghost map is an equivalence,
+which we use to define the ring operations on <code>𝕎 R</code>.</li><li><code>WittVector.<a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a></code>: the ring structure induced by the ghost components.</li></ul><h2 id="Notation" class="markdown-heading">Notation <a class="hover-link" href="#Notation">#</a></h2><p>We use notation <code>𝕎 R</code>, entered <code>\bbW</code>, for the Witt vectors over <code>R</code>.</p><h2 id="Implementation-details" class="markdown-heading">Implementation details <a class="hover-link" href="#Implementation-details">#</a></h2><p>As we prove that the ghost components respect the ring operations, we face a number of repetitive
+proofs. To avoid duplicating code we factor these proofs into a custom tactic, only slightly more
+powerful than a tactic macro. This tactic is not particularly useful outside of its applications
+in this file.</p><h2 id="References" class="markdown-heading">References <a class="hover-link" href="#References">#</a></h2><ul><li><p>[Hazewinkel, <em>Witt Vectors</em>][Haze09]</p></li><li><p>[Commelin and Lewis, <em>Formalizing the Ring of Witt Vectors</em>][CL21]</p></li></ul></div><div class="decl" id="WittVector.mapFun"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L67-L69">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.mapFun" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun"><span class="name">WittVector</span>.<span class="name">mapFun</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector">WittVector</a> <span class="fn">p</span> <span class="fn">α</span></span> → <span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector">WittVector</a> <span class="fn">p</span> <span class="fn">β</span></span></span></div></div><p><code>f : α → β</code> induces a map from <code>𝕎 α</code> to <code>𝕎 β</code> by applying <code>f</code> componentwise.
+If <code>f</code> is a ring homomorphism, then so is <code>f</code>, see <code><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.map">WittVector.map</a> f</code>.</p><details id="instances-for-list-WittVector.mapFun" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="WittVector.mapFun.injective"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L73-L74">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.mapFun.injective" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun.injective"><span class="name">WittVector</span>.<span class="name">mapFun</span>.<span class="name">injective</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">β</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><span class="fn">Function.Injective</span> <span class="fn">f</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Function.Injective</span> <span class="fn">(<a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun">mapFun</a> <span class="fn">f</span>)</span></span></div></div></div></div><div class="decl" id="WittVector.mapFun.surjective"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L76-L78">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.mapFun.surjective" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun.surjective"><span class="name">WittVector</span>.<span class="name">mapFun</span>.<span class="name">surjective</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">β</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><span class="fn">Function.Surjective</span> <span class="fn">f</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Function.Surjective</span> <span class="fn">(<a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun">mapFun</a> <span class="fn">f</span>)</span></span></div></div></div></div><div class="decl" id="WittVector.mapFun.tacticMap_fun_tac"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L81-L91">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.mapFun.tacticMap_fun_tac" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun.tacticMap_fun_tac"><span class="name">WittVector</span>.<span class="name">mapFun</span>.<span class="name">tacticMap_fun_tac</span></a></span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">Lean.ParserDescr</span></div></div><p>Auxiliary tactic for showing that <code><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun">mapFun</a></code> respects the ring operations.</p><details id="instances-for-list-WittVector.mapFun.tacticMap_fun_tac" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="WittVector.mapFun.zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L99-L99">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.mapFun.zero" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun.zero"><span class="name">WittVector</span>.<span class="name">mapFun</span>.<span class="name">zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">R</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">S</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun">mapFun</a> <span class="fn">(⇑<span class="fn">f</span>)</span> <span class="fn">0</span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div></div></div><div class="decl" id="WittVector.mapFun.one"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L101-L101">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.mapFun.one" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun.one"><span class="name">WittVector</span>.<span class="name">mapFun</span>.<span class="name">one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">R</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">S</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun">mapFun</a> <span class="fn">(⇑<span class="fn">f</span>)</span> <span class="fn">1</span></span> <span class="fn">=</span> <span class="fn">1</span></span></div></div></div></div><div class="decl" id="WittVector.mapFun.add"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L103-L103">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.mapFun.add" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun.add"><span class="name">WittVector</span>.<span class="name">mapFun</span>.<span class="name">add</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">R</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">S</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x </span><span class="fn">y</span> : <span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector">WittVector</a> <span class="fn">p</span> <span class="fn">R</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun">mapFun</a> <span class="fn">(⇑<span class="fn">f</span>)</span> <span class="fn">(<span class="fn">x</span> <span class="fn">+</span> <span class="fn">y</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun">mapFun</a> <span class="fn">(⇑<span class="fn">f</span>)</span> <span class="fn">x</span></span> <span class="fn">+</span> <span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun">mapFun</a> <span class="fn">(⇑<span class="fn">f</span>)</span> <span class="fn">y</span></span></span></span></div></div></div></div><div class="decl" id="WittVector.mapFun.sub"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L105-L105">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.mapFun.sub" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun.sub"><span class="name">WittVector</span>.<span class="name">mapFun</span>.<span class="name">sub</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">R</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">S</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x </span><span class="fn">y</span> : <span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector">WittVector</a> <span class="fn">p</span> <span class="fn">R</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun">mapFun</a> <span class="fn">(⇑<span class="fn">f</span>)</span> <span class="fn">(<span class="fn">x</span> <span class="fn">-</span> <span class="fn">y</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun">mapFun</a> <span class="fn">(⇑<span class="fn">f</span>)</span> <span class="fn">x</span></span> <span class="fn">-</span> <span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun">mapFun</a> <span class="fn">(⇑<span class="fn">f</span>)</span> <span class="fn">y</span></span></span></span></div></div></div></div><div class="decl" id="WittVector.mapFun.mul"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L107-L107">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.mapFun.mul" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun.mul"><span class="name">WittVector</span>.<span class="name">mapFun</span>.<span class="name">mul</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">R</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">S</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x </span><span class="fn">y</span> : <span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector">WittVector</a> <span class="fn">p</span> <span class="fn">R</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun">mapFun</a> <span class="fn">(⇑<span class="fn">f</span>)</span> <span class="fn">(<span class="fn">x</span> <span class="fn">*</span> <span class="fn">y</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun">mapFun</a> <span class="fn">(⇑<span class="fn">f</span>)</span> <span class="fn">x</span></span> <span class="fn">*</span> <span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun">mapFun</a> <span class="fn">(⇑<span class="fn">f</span>)</span> <span class="fn">y</span></span></span></span></div></div></div></div><div class="decl" id="WittVector.mapFun.neg"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L109-L109">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.mapFun.neg" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun.neg"><span class="name">WittVector</span>.<span class="name">mapFun</span>.<span class="name">neg</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">R</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">S</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector">WittVector</a> <span class="fn">p</span> <span class="fn">R</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun">mapFun</a> <span class="fn">(⇑<span class="fn">f</span>)</span> (<a href="../../.././Mathlib/Algebra/Order/AddGroupWithTop.html#Neg.neg">-</a><span class="fn">x</span>)</span> <span class="fn">=</span> <a href="../../.././Mathlib/Algebra/Order/AddGroupWithTop.html#Neg.neg">-</a><span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun">mapFun</a> <span class="fn">(⇑<span class="fn">f</span>)</span> <span class="fn">x</span></span></span></div></div></div></div><div class="decl" id="WittVector.mapFun.nsmul"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L111-L111">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.mapFun.nsmul" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun.nsmul"><span class="name">WittVector</span>.<span class="name">mapFun</span>.<span class="name">nsmul</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">R</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">S</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector">WittVector</a> <span class="fn">p</span> <span class="fn">R</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun">mapFun</a> <span class="fn">(⇑<span class="fn">f</span>)</span> <span class="fn">(<span class="fn">n</span> <span class="fn">•</span> <span class="fn">x</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">n</span> <span class="fn">•</span> <span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun">mapFun</a> <span class="fn">(⇑<span class="fn">f</span>)</span> <span class="fn">x</span></span></span></span></div></div></div></div><div class="decl" id="WittVector.mapFun.zsmul"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L113-L113">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.mapFun.zsmul" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun.zsmul"><span class="name">WittVector</span>.<span class="name">mapFun</span>.<span class="name">zsmul</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">R</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">S</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">z</span> : <span class="fn">ℤ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector">WittVector</a> <span class="fn">p</span> <span class="fn">R</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun">mapFun</a> <span class="fn">(⇑<span class="fn">f</span>)</span> <span class="fn">(<span class="fn">z</span> <span class="fn">•</span> <span class="fn">x</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">z</span> <span class="fn">•</span> <span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun">mapFun</a> <span class="fn">(⇑<span class="fn">f</span>)</span> <span class="fn">x</span></span></span></span></div></div></div></div><div class="decl" id="WittVector.mapFun.pow"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L115-L115">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.mapFun.pow" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun.pow"><span class="name">WittVector</span>.<span class="name">mapFun</span>.<span class="name">pow</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">R</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">S</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector">WittVector</a> <span class="fn">p</span> <span class="fn">R</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun">mapFun</a> <span class="fn">(⇑<span class="fn">f</span>)</span> <span class="fn">(<span class="fn">x</span> <span class="fn">^</span> <span class="fn">n</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun">mapFun</a> <span class="fn">(⇑<span class="fn">f</span>)</span> <span class="fn">x</span></span> <span class="fn">^</span> <span class="fn">n</span></span></span></div></div></div></div><div class="decl" id="WittVector.mapFun.natCast"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L117-L119">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.mapFun.natCast" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun.natCast"><span class="name">WittVector</span>.<span class="name">mapFun</span>.<span class="name">natCast</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">R</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">S</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun">mapFun</a> <span class="fn">⇑<span class="fn">f</span></span> <span class="fn">↑<span class="fn">n</span></span></span> <span class="fn">=</span> <span class="fn">↑<span class="fn">n</span></span></span></div></div></div></div><div class="decl" id="WittVector.mapFun.intCast"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L121-L123">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.mapFun.intCast" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun.intCast"><span class="name">WittVector</span>.<span class="name">mapFun</span>.<span class="name">intCast</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">R</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">S</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℤ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.mapFun">mapFun</a> <span class="fn">⇑<span class="fn">f</span></span> <span class="fn">↑<span class="fn">n</span></span></span> <span class="fn">=</span> <span class="fn">↑<span class="fn">n</span></span></span></div></div></div></div><div class="decl" id="WittVector.«tacticGhost_fun_tac_,_»"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L142-L152">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.«tacticGhost_fun_tac_,_»" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.«tacticGhost_fun_tac_,_»"><span class="name">WittVector</span>.<span class="name">«tacticGhost_fun_tac_,_»</span></a></span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">Lean.ParserDescr</span></div></div><p>An auxiliary tactic for proving that <code>ghostFun</code> respects the ring operations.</p><details id="instances-for-list-WittVector.«tacticGhost_fun_tac_,_»" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="WittVector.matrix_vecEmpty_coeff"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L160-L163">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.matrix_vecEmpty_coeff" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.matrix_vecEmpty_coeff"><span class="name">WittVector</span>.<span class="name">matrix_vecEmpty_coeff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn"><span class="fn">Fin</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">j</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/Data/Fin/VecNotation.html#Matrix.vecEmpty">![</a><a href="../../.././Mathlib/Data/Fin/VecNotation.html#Matrix.vecEmpty">]</a> <span class="fn">i</span>)</span>.<a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector.coeff">coeff</a></span> <span class="fn">j</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Data/Fin/VecNotation.html#Matrix.vecEmpty">![</a><a href="../../.././Mathlib/Data/Fin/VecNotation.html#Matrix.vecEmpty">]</a> <span class="fn">i</span> <span class="fn">j</span></span></span></div></div></div></div><div class="decl" id="WittVector.instCommRing"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L245-L249">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.instCommRing" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">noncomputable instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.instCommRing"><span class="name">WittVector</span>.<span class="name">instCommRing</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">(<a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector">WittVector</a> <span class="fn">p</span> <span class="fn">R</span>)</span></span></div></div><p>The commutative ring structure on <code>𝕎 R</code>.</p></div></div><div class="decl" id="WittVector.map"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L253-L260">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.map" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.map"><span class="name">WittVector</span>.<span class="name">map</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">R</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">S</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector">WittVector</a> <span class="fn">p</span> <span class="fn">R</span></span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector">WittVector</a> <span class="fn">p</span> <span class="fn">S</span></span></div></div><p><code><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.map">WittVector.map</a> f</code> is the ring homomorphism <code>𝕎 R →+* 𝕎 S</code> naturally induced
+by a ring homomorphism <code>f : R →+* S</code>. It acts coefficientwise.</p><details id="instances-for-list-WittVector.map" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="WittVector.map_injective"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L262-L263">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.map_injective" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.map_injective"><span class="name">WittVector</span>.<span class="name">map_injective</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">R</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">S</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><span class="fn">Function.Injective</span> <span class="fn">⇑<span class="fn">f</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Function.Injective</span> <span class="fn">⇑<span class="fn">(<a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.map">map</a> <span class="fn">f</span>)</span></span></span></div></div></div></div><div class="decl" id="WittVector.map_surjective"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L265-L266">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.map_surjective" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.map_surjective"><span class="name">WittVector</span>.<span class="name">map_surjective</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">R</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">S</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><span class="fn">Function.Surjective</span> <span class="fn">⇑<span class="fn">f</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Function.Surjective</span> <span class="fn">⇑<span class="fn">(<a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.map">map</a> <span class="fn">f</span>)</span></span></span></div></div></div></div><div class="decl" id="WittVector.map_coeff"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L268-L270">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.map_coeff" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.map_coeff"><span class="name">WittVector</span>.<span class="name">map_coeff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">R</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">S</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector">WittVector</a> <span class="fn">p</span> <span class="fn">R</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">(<a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.map">map</a> <span class="fn">f</span>)</span> <span class="fn">x</span>)</span>.<a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector.coeff">coeff</a></span> <span class="fn">n</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">f</span> <span class="fn">(<span class="fn"><span class="fn">x</span>.<a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector.coeff">coeff</a></span> <span class="fn">n</span>)</span></span></span></div></div></div></div><div class="decl" id="WittVector.map_id"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L273-L275">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.map_id" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.map_id"><span class="name">WittVector</span>.<span class="name">map_id</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.map">map</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom.id">RingHom.id</a> <span class="fn">R</span>)</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom.id">RingHom.id</a> <span class="fn">(<a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector">WittVector</a> <span class="fn">p</span> <span class="fn">R</span>)</span></span></span></div></div></div></div><div class="decl" id="WittVector.map_eq_zero_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L277-L283">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.map_eq_zero_iff" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.map_eq_zero_iff"><span class="name">WittVector</span>.<span class="name">map_eq_zero_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">R</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">S</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector">WittVector</a> <span class="fn">p</span> <span class="fn">R</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.map">map</a> <span class="fn">f</span>)</span> <span class="fn">x</span></span> <span class="fn">=</span> <span class="fn">0</span></span> <span class="fn">↔</span> <span class="fn">∀ (<span class="fn">n</span> : <span class="fn">ℕ</span>), <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">(<span class="fn"><span class="fn">x</span>.<a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector.coeff">coeff</a></span> <span class="fn">n</span>)</span></span> <span class="fn">=</span> <span class="fn">0</span></span></span></span></div></div></div></div><div class="decl" id="WittVector.ghostMap"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L287-L294">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.ghostMap" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.ghostMap"><span class="name">WittVector</span>.<span class="name">ghostMap</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector">WittVector</a> <span class="fn">p</span> <span class="fn">R</span></span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn"><span class="fn">ℕ</span> → <span class="fn">R</span></span></div></div><p><code><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.ghostMap">WittVector.ghostMap</a></code> is a ring homomorphism that maps each Witt vector
+to the sequence of its ghost components.</p><details id="instances-for-list-WittVector.ghostMap" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="WittVector.ghostComponent"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L296-L299">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.ghostComponent" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.ghostComponent"><span class="name">WittVector</span>.<span class="name">ghostComponent</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector">WittVector</a> <span class="fn">p</span> <span class="fn">R</span></span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">R</span></div></div><p>Evaluates the <code>n</code>th Witt polynomial on the first <code>n</code> coefficients of <code>x</code>,
+producing a value in <code>R</code>.</p><details id="instances-for-list-WittVector.ghostComponent" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="WittVector.ghostComponent_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L301-L302">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.ghostComponent_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.ghostComponent_apply"><span class="name">WittVector</span>.<span class="name">ghostComponent_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector">WittVector</a> <span class="fn">p</span> <span class="fn">R</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.ghostComponent">ghostComponent</a> <span class="fn">n</span>)</span> <span class="fn">x</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">(<a href="../../.././Mathlib/Algebra/MvPolynomial/Eval.html#MvPolynomial.aeval">MvPolynomial.aeval</a> <span class="fn"><span class="fn">x</span>.<a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector.coeff">coeff</a></span>)</span> <span class="fn">(<a href="../../.././Mathlib/RingTheory/WittVector/WittPolynomial.html#wittPolynomial">wittPolynomial</a> <span class="fn">p</span> <span class="fn">ℤ</span> <span class="fn">n</span>)</span></span></span></div></div></div></div><div class="decl" id="WittVector.pow_dvd_ghostComponent_of_dvd_coeff"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L305-L318">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.pow_dvd_ghostComponent_of_dvd_coeff" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.pow_dvd_ghostComponent_of_dvd_coeff"><span class="name">WittVector</span>.<span class="name">pow_dvd_ghostComponent_of_dvd_coeff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector">WittVector</a> <span class="fn">p</span> <span class="fn">R</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hx</span> : <span class="fn">∀ <span class="fn">i</span> ≤ <span class="fn">n</span>, <span class="fn"><span class="fn">↑<span class="fn">p</span></span> <span class="fn">∣</span> <span class="fn"><span class="fn"><span class="fn">x</span>.<a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector.coeff">coeff</a></span> <span class="fn">i</span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">↑<span class="fn">p</span></span> <span class="fn">^</span> <span class="fn">(<span class="fn">n</span> <span class="fn">+</span> <span class="fn">1</span>)</span></span> <span class="fn">∣</span> <span class="fn"><span class="fn">(<a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.ghostComponent">ghostComponent</a> <span class="fn">n</span>)</span> <span class="fn">x</span></span></span></div></div></div></div><div class="decl" id="WittVector.ghostMap_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L320-L322">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.ghostMap_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.ghostMap_apply"><span class="name">WittVector</span>.<span class="name">ghostMap_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector">WittVector</a> <span class="fn">p</span> <span class="fn">R</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.ghostMap">ghostMap</a> <span class="fn">x</span> <span class="fn">n</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">(<a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.ghostComponent">ghostComponent</a> <span class="fn">n</span>)</span> <span class="fn">x</span></span></span></div></div></div></div><div class="decl" id="WittVector.ghostEquiv"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L331-L333">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.ghostEquiv" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.ghostEquiv"><span class="name">WittVector</span>.<span class="name">ghostEquiv</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Invertible/Defs.html#Invertible">Invertible</a> <span class="fn">↑<span class="fn">p</span></span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector">WittVector</a> <span class="fn">p</span> <span class="fn">R</span></span> <a href="../../.././Mathlib/Algebra/Ring/Equiv.html#RingEquiv">≃+*</a> <span class="fn">(<span class="fn">ℕ</span> → <span class="fn">R</span>)</span></div></div><p><code><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.ghostMap">WittVector.ghostMap</a></code> is a ring isomorphism when <code>p</code> is invertible in <code>R</code>.</p><details id="instances-for-list-WittVector.ghostEquiv" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="WittVector.ghostEquiv_coe"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L335-L337">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.ghostEquiv_coe" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.ghostEquiv_coe"><span class="name">WittVector</span>.<span class="name">ghostEquiv_coe</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Invertible/Defs.html#Invertible">Invertible</a> <span class="fn">↑<span class="fn">p</span></span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">↑<span class="fn">(<a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.ghostEquiv">ghostEquiv</a> <span class="fn">p</span> <span class="fn">R</span>)</span></span> <span class="fn">=</span> <a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.ghostMap">ghostMap</a></span></div></div></div></div><div class="decl" id="WittVector.ghostMap.bijective_of_invertible"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L339-L340">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.ghostMap.bijective_of_invertible" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.ghostMap.bijective_of_invertible"><span class="name">WittVector</span>.<span class="name">ghostMap</span>.<span class="name">bijective_of_invertible</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Invertible/Defs.html#Invertible">Invertible</a> <span class="fn">↑<span class="fn">p</span></span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Logic/Function/Defs.html#Function.Bijective">Function.Bijective</a> <span class="fn">⇑<a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.ghostMap">ghostMap</a></span></span></div></div></div></div><div class="decl" id="WittVector.constantCoeff"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L344-L351">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.constantCoeff" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.constantCoeff"><span class="name">WittVector</span>.<span class="name">constantCoeff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector">WittVector</a> <span class="fn">p</span> <span class="fn">R</span></span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">R</span></div></div><p><code><a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector.coeff">WittVector.coeff</a> x 0</code> as a <code><a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">RingHom</a></code></p><details id="instances-for-list-WittVector.constantCoeff" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="WittVector.constantCoeff_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L345-L345">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.constantCoeff_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.constantCoeff_apply"><span class="name">WittVector</span>.<span class="name">constantCoeff_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector">WittVector</a> <span class="fn">p</span> <span class="fn">R</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.constantCoeff">constantCoeff</a> <span class="fn">x</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">x</span>.<a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector.coeff">coeff</a></span> <span class="fn">0</span></span></span></div></div></div></div><div class="decl" id="WittVector.instNontrivial"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/RingTheory/WittVector/Basic.lean#L353-L354">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_RingTheory_WittVector_Basic.html#WittVector.instNontrivial" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/RingTheory/WittVector/Basic.html#WittVector.instNontrivial"><span class="name">WittVector</span>.<span class="name">instNontrivial</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Logic/Nontrivial/Defs.html#Nontrivial">Nontrivial</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Logic/Nontrivial/Defs.html#Nontrivial">Nontrivial</a> <span class="fn">(<a href="../../.././Mathlib/RingTheory/WittVector/Defs.html#WittVector">WittVector</a> <span class="fn">p</span> <span class="fn">R</span>)</span></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

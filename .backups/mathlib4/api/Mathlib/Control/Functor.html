@@ -1,0 +1,551 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../.././style.css"></link><link rel="icon" href="../.././favicon.svg"></link><link rel="mask-icon" href="../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.Control.Functor</title><script defer="true" src="../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../.././";</script><script>const MODULE_NAME="Mathlib.Control.Functor";</script><script type="module" src="../.././jump-src.js"></script><script type="module" src="../.././search.js"></script><script type="module" src="../.././expand-nav.js"></script><script type="module" src="../.././how-about.js"></script><script type="module" src="../.././instances.js"></script><script type="module" src="../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">Control</span>.<span class="name">Functor</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../.././Init.html">Init</a></li><li><a href="../.././Mathlib/Tactic/TypeStar.html">Mathlib.Tactic.TypeStar</a></li><li><a href="../.././Mathlib/Data/Set/Defs.html">Mathlib.Data.Set.Defs</a></li><li><a href="../.././Mathlib/Tactic/Attr/Register.html">Mathlib.Tactic.Attr.Register</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.Control.Functor" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#Functor.map_id"><span class="name">Functor</span>.<span class="name">map_id</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.map_comp_map"><span class="name">Functor</span>.<span class="name">map_comp_map</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.ext"><span class="name">Functor</span>.<span class="name">ext</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Const"><span class="name">Functor</span>.<span class="name">Const</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Const.mk"><span class="name">Functor</span>.<span class="name">Const</span>.<span class="name">mk</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Const.mk'"><span class="name">Functor</span>.<span class="name">Const</span>.<span class="name">mk'</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Const.run"><span class="name">Functor</span>.<span class="name">Const</span>.<span class="name">run</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Const.ext"><span class="name">Functor</span>.<span class="name">Const</span>.<span class="name">ext</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Const.map"><span class="name">Functor</span>.<span class="name">Const</span>.<span class="name">map</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Const.functor"><span class="name">Functor</span>.<span class="name">Const</span>.<span class="name">functor</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Const.lawfulFunctor"><span class="name">Functor</span>.<span class="name">Const</span>.<span class="name">lawfulFunctor</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Const.instInhabited"><span class="name">Functor</span>.<span class="name">Const</span>.<span class="name">instInhabited</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.AddConst"><span class="name">Functor</span>.<span class="name">AddConst</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.AddConst.mk"><span class="name">Functor</span>.<span class="name">AddConst</span>.<span class="name">mk</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.AddConst.run"><span class="name">Functor</span>.<span class="name">AddConst</span>.<span class="name">run</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.AddConst.functor"><span class="name">Functor</span>.<span class="name">AddConst</span>.<span class="name">functor</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.AddConst.lawfulFunctor"><span class="name">Functor</span>.<span class="name">AddConst</span>.<span class="name">lawfulFunctor</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.instInhabitedAddConst"><span class="name">Functor</span>.<span class="name">instInhabitedAddConst</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Comp"><span class="name">Functor</span>.<span class="name">Comp</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Comp.mk"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">mk</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Comp.run"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">run</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Comp.ext"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">ext</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Comp.instInhabited"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">instInhabited</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Comp.map"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">map</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Comp.functor"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">functor</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Comp.map_mk"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">map_mk</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Comp.run_map"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">run_map</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Comp.id_map"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">id_map</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Comp.comp_map"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">comp_map</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Comp.lawfulFunctor"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">lawfulFunctor</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Comp.functor_comp_id"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">functor_comp_id</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Comp.functor_id_comp"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">functor_id_comp</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Comp.seq"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">seq</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Comp.instPure"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">instPure</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Comp.instSeq"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">instSeq</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Comp.run_pure"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">run_pure</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Comp.run_seq"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">run_seq</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Comp.instApplicativeComp"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">instApplicativeComp</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Liftp"><span class="name">Functor</span>.<span class="name">Liftp</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.Liftr"><span class="name">Functor</span>.<span class="name">Liftr</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.supp"><span class="name">Functor</span>.<span class="name">supp</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.of_mem_supp"><span class="name">Functor</span>.<span class="name">of_mem_supp</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.mapConstRev"><span class="name">Functor</span>.<span class="name">mapConstRev</span></a></div><div class="nav_link"><a class="break_within" href="#Functor.«term_$&gt;_»"><span class="name">Functor</span>.<span class="name">«term_$&gt;_»</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Functors" class="markdown-heading">Functors <a class="hover-link" href="#Functors">#</a></h1><p>This module provides additional lemmas, definitions, and instances for <code>Functor</code>s.</p><h2 id="Main-definitions" class="markdown-heading">Main definitions <a class="hover-link" href="#Main-definitions">#</a></h2><ul><li><code><a href="../.././Mathlib/Control/Functor.html#Functor.Const">Functor.Const</a> α</code> is the functor that sends all types to <code>α</code>.</li><li><code><a href="../.././Mathlib/Control/Functor.html#Functor.AddConst">Functor.AddConst</a> α</code> is <code><a href="../.././Mathlib/Control/Functor.html#Functor.Const">Functor.Const</a> α</code> but for when <code>α</code> has an additive structure.</li><li><code><a href="../.././Mathlib/Control/Functor.html#Functor.Comp">Functor.Comp</a> F G</code> for functors <code>F</code> and <code>G</code> is the functor composition of <code>F</code> and <code>G</code>.</li><li><code><a href="../.././Mathlib/Control/Functor.html#Functor.Liftp">Liftp</a></code> and <code><a href="../.././Mathlib/Control/Functor.html#Functor.Liftr">Liftr</a></code> respectively lift predicates and relations on a type <code>α</code>
+to <code>F α</code>.  Terms of <code>F α</code> are considered to, in some sense, contain values of type <code>α</code>.</li></ul><h2 id="Tags" class="markdown-heading">Tags <a class="hover-link" href="#Tags">#</a></h2><p>functor, applicative</p></div><div class="decl" id="Functor.map_id"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L41-L41">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.map_id"><span class="name">Functor</span>.<span class="name">map_id</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u → <a href="../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Functor</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LawfulFunctor</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(fun (<span class="fn">x</span> : <span class="fn"><span class="fn">F</span> <span class="fn">α</span></span>) =&gt; <span class="fn">id</span> <a href="../.././Mathlib/Control/Traversable/Basic.html#Functor.map">&lt;$&gt;</a> <span class="fn">x</span>)</span> <span class="fn">=</span> <span class="fn">id</span></span></div></div></div></div><div class="decl" id="Functor.map_comp_map"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L43-L45">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.map_comp_map"><span class="name">Functor</span>.<span class="name">map_comp_map</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u → <a href="../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α </span><span class="fn">β </span><span class="fn">γ</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Functor</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LawfulFunctor</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">β</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn"><span class="fn">β</span> → <span class="fn">γ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<span class="fn">(fun (<span class="fn">x</span> : <span class="fn"><span class="fn">F</span> <span class="fn">β</span></span>) =&gt; <span class="fn">g</span> <a href="../.././Mathlib/Control/Traversable/Basic.html#Functor.map">&lt;$&gt;</a> <span class="fn">x</span>)</span> <span class="fn">∘</span> <span class="fn">fun (<span class="fn">x</span> : <span class="fn"><span class="fn">F</span> <span class="fn">α</span></span>) =&gt; <span class="fn">f</span> <a href="../.././Mathlib/Control/Traversable/Basic.html#Functor.map">&lt;$&gt;</a> <span class="fn">x</span></span>)</span> <span class="fn">=</span> <span class="fn">fun (<span class="fn">x</span> : <span class="fn"><span class="fn">F</span> <span class="fn">α</span></span>) =&gt; <span class="fn">(<span class="fn">g</span> <span class="fn">∘</span> <span class="fn">f</span>)</span> <a href="../.././Mathlib/Control/Traversable/Basic.html#Functor.map">&lt;$&gt;</a> <span class="fn">x</span></span></span></div></div></div></div><div class="decl" id="Functor.ext"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L47-L57">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.ext"><span class="name">Functor</span>.<span class="name">ext</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u_1 → <a href="../.././foundational_types.html">Type</a> u_2</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F1 </span><span class="fn">F2</span> : <span class="fn"><span class="fn">Functor</span> <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LawfulFunctor</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LawfulFunctor</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(∀ (<span class="fn">α </span><span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_1) (<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">β</span></span>) (<span class="fn">x</span> : <span class="fn"><span class="fn">F</span> <span class="fn">α</span></span>), <span class="fn"><span class="fn">f</span> <a href="../.././Mathlib/Control/Traversable/Basic.html#Functor.map">&lt;$&gt;</a> <span class="fn">x</span> <span class="fn">=</span> <span class="fn">f</span> <a href="../.././Mathlib/Control/Traversable/Basic.html#Functor.map">&lt;$&gt;</a> <span class="fn">x</span></span>)</span> → <span class="fn"><span class="fn">F1</span> <span class="fn">=</span> <span class="fn">F2</span></span></span></div></div></div></div><div class="decl" id="Functor.Const"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L63-L68">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Const" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Const"><span class="name">Functor</span>.<span class="name">Const</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">_β</span> : <a href="../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../.././foundational_types.html">Type</a> u_1</div></div><p><code><a href="../.././Mathlib/Control/Functor.html#Functor.Const">Const</a> α</code> is the constant functor, mapping every type to <code>α</code>. When
+<code>α</code> has a monoid structure, <code><a href="../.././Mathlib/Control/Functor.html#Functor.Const">Const</a> α</code> has an <code>Applicative</code> instance.
+(If <code>α</code> has an additive monoid structure, see <code><a href="../.././Mathlib/Control/Functor.html#Functor.AddConst">Functor.AddConst</a></code>.)</p><details id="instances-for-list-Functor.Const" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Functor.Const.mk"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L70-L74">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Const.mk" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[match_pattern]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Const.mk"><span class="name">Functor</span>.<span class="name">Const</span>.<span class="name">mk</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.Const">Const</a> <span class="fn">α</span> <span class="fn">β</span></span></div></div><p><code><a href="../.././Mathlib/Control/Functor.html#Functor.Const.mk">Const.mk</a></code> is the canonical map <code>α → <a href="../.././Mathlib/Control/Functor.html#Functor.Const">Const</a> α β</code> (the identity), and
+it can be used as a pattern to extract this value.</p><details id="instances-for-list-Functor.Const.mk" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Functor.Const.mk'"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L76-L79">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Const.mk'" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Const.mk'"><span class="name">Functor</span>.<span class="name">Const</span>.<span class="name">mk'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.Const">Const</a> <span class="fn">α</span> <span class="fn">PUnit.{u_2 + 1}</span></span></div></div><p><code><a href="../.././Mathlib/Control/Functor.html#Functor.Const.mk'">Const.mk'</a></code> is <code><a href="../.././Mathlib/Control/Functor.html#Functor.Const.mk">Const.mk</a></code> but specialized to map <code>α</code> to
+<code><a href="../.././Mathlib/Control/Functor.html#Functor.Const">Const</a> α PUnit</code>, where <code>PUnit</code> is the terminal object in <code>Type*</code>.</p><details id="instances-for-list-Functor.Const.mk'" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Functor.Const.run"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L81-L83">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Const.run" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Const.run"><span class="name">Functor</span>.<span class="name">Const</span>.<span class="name">run</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.Const">Const</a> <span class="fn">α</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">α</span></div></div><p>Extract the element of <code>α</code> from the <code><a href="../.././Mathlib/Control/Functor.html#Functor.Const">Const</a></code> functor.</p><details id="instances-for-list-Functor.Const.run" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Functor.Const.ext"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L87-L88">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Const.ext"><span class="name">Functor</span>.<span class="name">Const</span>.<span class="name">ext</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x </span><span class="fn">y</span> : <span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.Const">Const</a> <span class="fn">α</span> <span class="fn">β</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn"><span class="fn">x</span>.<a href="../.././Mathlib/Control/Functor.html#Functor.Const.run">run</a></span> <span class="fn">=</span> <span class="fn"><span class="fn">y</span>.<a href="../.././Mathlib/Control/Functor.html#Functor.Const.run">run</a></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">x</span> <span class="fn">=</span> <span class="fn">y</span></span></div></div></div></div><div class="decl" id="Functor.Const.map"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L90-L93">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Const.map" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Const.map"><span class="name">Functor</span>.<span class="name">Const</span>.<span class="name">map</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">_f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">β</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.Const">Const</a> <span class="fn">γ</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.Const">Const</a> <span class="fn">γ</span> <span class="fn">α</span></span></div></div><p>The map operation of the <code><a href="../.././Mathlib/Control/Functor.html#Functor.Const">Const</a> γ</code> functor.</p><details id="instances-for-list-Functor.Const.map" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Functor.Const.functor"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L95-L95">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Const.functor" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Const.functor"><span class="name">Functor</span>.<span class="name">Const</span>.<span class="name">functor</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Functor</span> <span class="fn">(<a href="../.././Mathlib/Control/Functor.html#Functor.Const">Const</a> <span class="fn">γ</span>)</span></span></div></div></div></div><div class="decl" id="Functor.Const.lawfulFunctor"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L97-L97">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Const.lawfulFunctor" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Const.lawfulFunctor"><span class="name">Functor</span>.<span class="name">Const</span>.<span class="name">lawfulFunctor</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">LawfulFunctor</span> <span class="fn">(<a href="../.././Mathlib/Control/Functor.html#Functor.Const">Const</a> <span class="fn">γ</span>)</span></span></div></div></div></div><div class="decl" id="Functor.Const.instInhabited"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L99-L100">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Const.instInhabited" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Const.instInhabited"><span class="name">Functor</span>.<span class="name">Const</span>.<span class="name">instInhabited</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Inhabited</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Inhabited</span> <span class="fn">(<a href="../.././Mathlib/Control/Functor.html#Functor.Const">Const</a> <span class="fn">α</span> <span class="fn">β</span>)</span></span></div></div></div></div><div class="decl" id="Functor.AddConst"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L104-L109">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.AddConst" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.AddConst"><span class="name">Functor</span>.<span class="name">AddConst</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">_β</span> : <a href="../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../.././foundational_types.html">Type</a> u_1</div></div><p><code><a href="../.././Mathlib/Control/Functor.html#Functor.AddConst">AddConst</a> α</code> is a synonym for constant functor <code><a href="../.././Mathlib/Control/Functor.html#Functor.Const">Const</a> α</code>, mapping
+every type to <code>α</code>. When <code>α</code> has an additive monoid structure,
+<code><a href="../.././Mathlib/Control/Functor.html#Functor.AddConst">AddConst</a> α</code> has an <code>Applicative</code> instance. (If <code>α</code> has a
+multiplicative monoid structure, see <code><a href="../.././Mathlib/Control/Functor.html#Functor.Const">Functor.Const</a></code>.)</p><details id="instances-for-list-Functor.AddConst" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Functor.AddConst.mk"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L111-L115">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.AddConst.mk" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[match_pattern]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.AddConst.mk"><span class="name">Functor</span>.<span class="name">AddConst</span>.<span class="name">mk</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.AddConst">AddConst</a> <span class="fn">α</span> <span class="fn">β</span></span></div></div><p><code><a href="../.././Mathlib/Control/Functor.html#Functor.AddConst.mk">AddConst.mk</a></code> is the canonical map <code>α → <a href="../.././Mathlib/Control/Functor.html#Functor.AddConst">AddConst</a> α β</code>, which is the identity,
+where <code><a href="../.././Mathlib/Control/Functor.html#Functor.AddConst">AddConst</a> α β = <a href="../.././Mathlib/Control/Functor.html#Functor.Const">Const</a> α β</code>. It can be used as a pattern to extract this value.</p><details id="instances-for-list-Functor.AddConst.mk" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Functor.AddConst.run"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L117-L119">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.AddConst.run" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.AddConst.run"><span class="name">Functor</span>.<span class="name">AddConst</span>.<span class="name">run</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.AddConst">AddConst</a> <span class="fn">α</span> <span class="fn">β</span></span> → <span class="fn">α</span></span></div></div><p>Extract the element of <code>α</code> from the constant functor.</p><details id="instances-for-list-Functor.AddConst.run" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Functor.AddConst.functor"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L121-L122">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.AddConst.functor" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.AddConst.functor"><span class="name">Functor</span>.<span class="name">AddConst</span>.<span class="name">functor</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Functor</span> <span class="fn">(<a href="../.././Mathlib/Control/Functor.html#Functor.AddConst">AddConst</a> <span class="fn">γ</span>)</span></span></div></div></div></div><div class="decl" id="Functor.AddConst.lawfulFunctor"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L124-L125">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.AddConst.lawfulFunctor" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.AddConst.lawfulFunctor"><span class="name">Functor</span>.<span class="name">AddConst</span>.<span class="name">lawfulFunctor</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">γ</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">LawfulFunctor</span> <span class="fn">(<a href="../.././Mathlib/Control/Functor.html#Functor.AddConst">AddConst</a> <span class="fn">γ</span>)</span></span></div></div></div></div><div class="decl" id="Functor.instInhabitedAddConst"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L127-L128">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.instInhabitedAddConst" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.instInhabitedAddConst"><span class="name">Functor</span>.<span class="name">instInhabitedAddConst</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Inhabited</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Inhabited</span> <span class="fn">(<a href="../.././Mathlib/Control/Functor.html#Functor.AddConst">AddConst</a> <span class="fn">α</span> <span class="fn">β</span>)</span></span></div></div></div></div><div class="decl" id="Functor.Comp"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L130-L134">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Comp" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Comp"><span class="name">Functor</span>.<span class="name">Comp</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u → <a href="../.././foundational_types.html">Type</a> w</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> v → <a href="../.././foundational_types.html">Type</a> u</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> v)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../.././foundational_types.html">Type</a> w</div></div><p><code><a href="../.././Mathlib/Control/Functor.html#Functor.Comp">Functor.Comp</a></code> is a wrapper around <code>Function.<a href="../.././Mathlib/Control/Functor.html#Functor.Comp">Comp</a></code> for types.
+It prevents Lean's type class resolution mechanism from trying
+a <code>Functor (Comp F id)</code> when <code>Functor F</code> would do.</p><details id="instances-for-list-Functor.Comp" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Functor.Comp.mk"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L136-L140">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Comp.mk" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[match_pattern]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Comp.mk"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">mk</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u → <a href="../.././foundational_types.html">Type</a> w</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> v → <a href="../.././foundational_types.html">Type</a> u</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">F</span> <span class="fn">(<span class="fn">G</span> <span class="fn">α</span>)</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.Comp">Comp</a> <span class="fn">F</span> <span class="fn">G</span> <span class="fn">α</span></span></div></div><p>Construct a term of <code><a href="../.././Mathlib/Control/Functor.html#Functor.Comp">Comp</a> F G α</code> from a term of <code>F (G α)</code>, which is the same type.
+Can be used as a pattern to extract a term of <code>F (G α)</code>.</p><details id="instances-for-list-Functor.Comp.mk" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Functor.Comp.run"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L142-L144">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Comp.run" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Comp.run"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">run</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u → <a href="../.././foundational_types.html">Type</a> w</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> v → <a href="../.././foundational_types.html">Type</a> u</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.Comp">Comp</a> <span class="fn">F</span> <span class="fn">G</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">F</span> <span class="fn">(<span class="fn">G</span> <span class="fn">α</span>)</span></span></div></div><p>Extract a term of <code>F (G α)</code> from a term of <code><a href="../.././Mathlib/Control/Functor.html#Functor.Comp">Comp</a> F G α</code>, which is the same type.</p><details id="instances-for-list-Functor.Comp.run" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Functor.Comp.ext"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L150-L151">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Comp.ext"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">ext</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u → <a href="../.././foundational_types.html">Type</a> w</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> v → <a href="../.././foundational_types.html">Type</a> u</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x </span><span class="fn">y</span> : <span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.Comp">Comp</a> <span class="fn">F</span> <span class="fn">G</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">x</span>.<a href="../.././Mathlib/Control/Functor.html#Functor.Comp.run">run</a></span> <span class="fn">=</span> <span class="fn"><span class="fn">y</span>.<a href="../.././Mathlib/Control/Functor.html#Functor.Comp.run">run</a></span></span> → <span class="fn"><span class="fn">x</span> <span class="fn">=</span> <span class="fn">y</span></span></span></div></div></div></div><div class="decl" id="Functor.Comp.instInhabited"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L153-L154">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Comp.instInhabited" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Comp.instInhabited"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">instInhabited</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u → <a href="../.././foundational_types.html">Type</a> w</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> v → <a href="../.././foundational_types.html">Type</a> u</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Inhabited</span> <span class="fn">(<span class="fn">F</span> <span class="fn">(<span class="fn">G</span> <span class="fn">α</span>)</span>)</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Inhabited</span> <span class="fn">(<a href="../.././Mathlib/Control/Functor.html#Functor.Comp">Comp</a> <span class="fn">F</span> <span class="fn">G</span> <span class="fn">α</span>)</span></span></div></div></div></div><div class="decl" id="Functor.Comp.map"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L158-L160">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Comp.map" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Comp.map"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">map</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u → <a href="../.././foundational_types.html">Type</a> w</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> v → <a href="../.././foundational_types.html">Type</a> u</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Functor</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Functor</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α </span><span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.Comp">Comp</a> <span class="fn">F</span> <span class="fn">G</span> <span class="fn">α</span></span> → <span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.Comp">Comp</a> <span class="fn">F</span> <span class="fn">G</span> <span class="fn">β</span></span></span></div></div><p>The map operation for the composition <code><a href="../.././Mathlib/Control/Functor.html#Functor.Comp">Comp</a> F G</code> of functors <code>F</code> and <code>G</code>.</p><details id="instances-for-list-Functor.Comp.map" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Functor.Comp.functor"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L162-L162">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Comp.functor" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Comp.functor"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">functor</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u → <a href="../.././foundational_types.html">Type</a> w</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> v → <a href="../.././foundational_types.html">Type</a> u</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Functor</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Functor</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Functor</span> <span class="fn">(<a href="../.././Mathlib/Control/Functor.html#Functor.Comp">Comp</a> <span class="fn">F</span> <span class="fn">G</span>)</span></span></div></div></div></div><div class="decl" id="Functor.Comp.map_mk"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L164-L166">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Comp.map_mk" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Comp.map_mk"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">map_mk</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u → <a href="../.././foundational_types.html">Type</a> w</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> v → <a href="../.././foundational_types.html">Type</a> u</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Functor</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Functor</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α </span><span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">β</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">F</span> <span class="fn">(<span class="fn">G</span> <span class="fn">α</span>)</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">h</span> <a href="../.././Mathlib/Control/Traversable/Basic.html#Functor.map">&lt;$&gt;</a> <span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.Comp.mk">mk</a> <span class="fn">x</span></span> <span class="fn">=</span> <span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.Comp.mk">mk</a> (<span class="fn">(fun (<span class="fn">x</span> : <span class="fn"><span class="fn">G</span> <span class="fn">α</span></span>) =&gt; <span class="fn">h</span> <a href="../.././Mathlib/Control/Traversable/Basic.html#Functor.map">&lt;$&gt;</a> <span class="fn">x</span>)</span> <a href="../.././Mathlib/Control/Traversable/Basic.html#Functor.map">&lt;$&gt;</a> <span class="fn">x</span>)</span></span></div></div></div></div><div class="decl" id="Functor.Comp.run_map"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L168-L171">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Comp.run_map" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Comp.run_map"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">run_map</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u → <a href="../.././foundational_types.html">Type</a> w</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> v → <a href="../.././foundational_types.html">Type</a> u</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Functor</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Functor</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α </span><span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">β</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.Comp">Comp</a> <span class="fn">F</span> <span class="fn">G</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<span class="fn">h</span> <a href="../.././Mathlib/Control/Traversable/Basic.html#Functor.map">&lt;$&gt;</a> <span class="fn">x</span>).<a href="../.././Mathlib/Control/Functor.html#Functor.Comp.run">run</a></span> <span class="fn">=</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn"><span class="fn">G</span> <span class="fn">α</span></span>) =&gt; <span class="fn">h</span> <a href="../.././Mathlib/Control/Traversable/Basic.html#Functor.map">&lt;$&gt;</a> <span class="fn">x</span>)</span> <a href="../.././Mathlib/Control/Traversable/Basic.html#Functor.map">&lt;$&gt;</a> <span class="fn"><span class="fn">x</span>.<a href="../.././Mathlib/Control/Functor.html#Functor.Comp.run">run</a></span></span></div></div></div></div><div class="decl" id="Functor.Comp.id_map"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L176-L177">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Comp.id_map" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Comp.id_map"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">id_map</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u → <a href="../.././foundational_types.html">Type</a> w</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> v → <a href="../.././foundational_types.html">Type</a> u</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Functor</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Functor</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LawfulFunctor</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LawfulFunctor</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.Comp">Comp</a> <span class="fn">F</span> <span class="fn">G</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.Comp.map">Comp.map</a> <span class="fn">id</span> <span class="fn">x</span></span> <span class="fn">=</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="Functor.Comp.comp_map"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L179-L181">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Comp.comp_map" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Comp.comp_map"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">comp_map</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u → <a href="../.././foundational_types.html">Type</a> w</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> v → <a href="../.././foundational_types.html">Type</a> u</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Functor</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Functor</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LawfulFunctor</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LawfulFunctor</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α </span><span class="fn">β </span><span class="fn">γ</span> : <a href="../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g'</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">β</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">β</span> → <span class="fn">γ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.Comp">Comp</a> <span class="fn">F</span> <span class="fn">G</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.Comp.map">Comp.map</a> <span class="fn">(<span class="fn">h</span> <span class="fn">∘</span> <span class="fn">g'</span>)</span> <span class="fn">x</span></span> <span class="fn">=</span> <span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.Comp.map">Comp.map</a> <span class="fn">h</span> <span class="fn">(<a href="../.././Mathlib/Control/Functor.html#Functor.Comp.map">Comp.map</a> <span class="fn">g'</span> <span class="fn">x</span>)</span></span></span></div></div></div></div><div class="decl" id="Functor.Comp.lawfulFunctor"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L183-L186">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Comp.lawfulFunctor" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Comp.lawfulFunctor"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">lawfulFunctor</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u → <a href="../.././foundational_types.html">Type</a> w</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> v → <a href="../.././foundational_types.html">Type</a> u</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Functor</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Functor</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LawfulFunctor</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LawfulFunctor</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">LawfulFunctor</span> <span class="fn">(<a href="../.././Mathlib/Control/Functor.html#Functor.Comp">Comp</a> <span class="fn">F</span> <span class="fn">G</span>)</span></span></div></div></div></div><div class="decl" id="Functor.Comp.functor_comp_id"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L188-L190">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Comp.functor_comp_id" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Comp.functor_comp_id"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">functor_comp_id</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u_1 → <a href="../.././foundational_types.html">Type</a> u_2</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">AF</span> : <span class="fn"><span class="fn">Functor</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LawfulFunctor</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.Comp.functor">functor</a> <span class="fn">=</span> <span class="fn">AF</span></span></div></div></div></div><div class="decl" id="Functor.Comp.functor_id_comp"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L192-L193">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Comp.functor_id_comp" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Comp.functor_id_comp"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">functor_id_comp</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u_1 → <a href="../.././foundational_types.html">Type</a> u_2</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">AF</span> : <span class="fn"><span class="fn">Functor</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LawfulFunctor</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.Comp.functor">functor</a> <span class="fn">=</span> <span class="fn">AF</span></span></div></div></div></div><div class="decl" id="Functor.Comp.seq"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L206-L209">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Comp.seq" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Comp.seq"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">seq</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u → <a href="../.././foundational_types.html">Type</a> w</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> v → <a href="../.././foundational_types.html">Type</a> u</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Applicative</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Applicative</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α </span><span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.Comp">Comp</a> <span class="fn">F</span> <span class="fn">G</span> <span class="fn">(<span class="fn">α</span> → <span class="fn">β</span>)</span></span> → <span class="fn"><span class="fn">(<span class="fn">Unit</span> → <span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.Comp">Comp</a> <span class="fn">F</span> <span class="fn">G</span> <span class="fn">α</span></span>)</span> → <span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.Comp">Comp</a> <span class="fn">F</span> <span class="fn">G</span> <span class="fn">β</span></span></span></span></div></div><p>The <code>&lt;*&gt;</code> operation for the composition of applicative functors.</p><details id="instances-for-list-Functor.Comp.seq" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Functor.Comp.instPure"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L212-L213">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Comp.instPure" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Comp.instPure"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">instPure</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u → <a href="../.././foundational_types.html">Type</a> w</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> v → <a href="../.././foundational_types.html">Type</a> u</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Applicative</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Applicative</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Pure</span> <span class="fn">(<a href="../.././Mathlib/Control/Functor.html#Functor.Comp">Comp</a> <span class="fn">F</span> <span class="fn">G</span>)</span></span></div></div></div></div><div class="decl" id="Functor.Comp.instSeq"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L215-L216">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Comp.instSeq" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Comp.instSeq"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">instSeq</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u → <a href="../.././foundational_types.html">Type</a> w</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> v → <a href="../.././foundational_types.html">Type</a> u</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Applicative</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Applicative</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Seq</span> <span class="fn">(<a href="../.././Mathlib/Control/Functor.html#Functor.Comp">Comp</a> <span class="fn">F</span> <span class="fn">G</span>)</span></span></div></div></div></div><div class="decl" id="Functor.Comp.run_pure"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L218-L220">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Comp.run_pure" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Comp.run_pure"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">run_pure</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u → <a href="../.././foundational_types.html">Type</a> w</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> v → <a href="../.././foundational_types.html">Type</a> u</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Applicative</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Applicative</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">pure</span> <span class="fn">x</span>)</span>.<a href="../.././Mathlib/Control/Functor.html#Functor.Comp.run">run</a></span> <span class="fn">=</span> <span class="fn"><span class="fn">pure</span> <span class="fn">(<span class="fn">pure</span> <span class="fn">x</span>)</span></span></span></div></div></div></div><div class="decl" id="Functor.Comp.run_seq"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L222-L225">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Comp.run_seq" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Comp.run_seq"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">run_seq</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u → <a href="../.././foundational_types.html">Type</a> w</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> v → <a href="../.././foundational_types.html">Type</a> u</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Applicative</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Applicative</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α </span><span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.Comp">Comp</a> <span class="fn">F</span> <span class="fn">G</span> <span class="fn">(<span class="fn">α</span> → <span class="fn">β</span>)</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.Comp">Comp</a> <span class="fn">F</span> <span class="fn">G</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">f</span> &lt;*&gt; <span class="fn">x</span>)</span>.<a href="../.././Mathlib/Control/Functor.html#Functor.Comp.run">run</a></span> <span class="fn">=</span> <span class="fn"><span class="fn">(fun (<span class="fn">x1</span> : <span class="fn"><span class="fn">G</span> <span class="fn">(<span class="fn">α</span> → <span class="fn">β</span>)</span></span>) (<span class="fn">x2</span> : <span class="fn"><span class="fn">G</span> <span class="fn">α</span></span>) =&gt; <span class="fn"><span class="fn">x1</span> &lt;*&gt; <span class="fn">x2</span></span>)</span> <a href="../.././Mathlib/Control/Traversable/Basic.html#Functor.map">&lt;$&gt;</a> <span class="fn"><span class="fn">f</span>.<a href="../.././Mathlib/Control/Functor.html#Functor.Comp.run">run</a></span> &lt;*&gt; <span class="fn"><span class="fn">x</span>.<a href="../.././Mathlib/Control/Functor.html#Functor.Comp.run">run</a></span></span></span></div></div></div></div><div class="decl" id="Functor.Comp.instApplicativeComp"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L227-L228">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Comp.instApplicativeComp" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Comp.instApplicativeComp"><span class="name">Functor</span>.<span class="name">Comp</span>.<span class="name">instApplicativeComp</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u → <a href="../.././foundational_types.html">Type</a> w</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> v → <a href="../.././foundational_types.html">Type</a> u</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Applicative</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Applicative</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Applicative</span> <span class="fn">(<a href="../.././Mathlib/Control/Functor.html#Functor.Comp">Comp</a> <span class="fn">F</span> <span class="fn">G</span>)</span></span></div></div></div></div><div class="decl" id="Functor.Liftp"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L234-L237">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Liftp" class="verification-badge math-definition" title="Mathematical definition (Prop-valued)">🔹 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Liftp"><span class="name">Functor</span>.<span class="name">Liftp</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u → <a href="../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Functor</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">F</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../.././foundational_types.html">Prop</a></div></div><p>If we consider <code>x : F α</code> to, in some sense, contain values of type <code>α</code>,
+predicate <code><a href="../.././Mathlib/Control/Functor.html#Functor.Liftp">Liftp</a> p x</code> holds iff every value contained by <code>x</code> satisfies <code>p</code>.</p><details id="instances-for-list-Functor.Liftp" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Functor.Liftr"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L239-L245">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.Liftr" class="verification-badge math-definition" title="Mathematical definition (Prop-valued)">🔹 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.Liftr"><span class="name">Functor</span>.<span class="name">Liftr</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u → <a href="../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Functor</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">r</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x </span><span class="fn">y</span> : <span class="fn"><span class="fn">F</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../.././foundational_types.html">Prop</a></div></div><p>If we consider <code>x : F α</code> to, in some sense, contain values of type <code>α</code>, then
+<code><a href="../.././Mathlib/Control/Functor.html#Functor.Liftr">Liftr</a> r x y</code> relates <code>x</code> and <code>y</code> iff (1) <code>x</code> and <code>y</code> have the same shape and
+(2) we can pair values <code>a</code> from <code>x</code> and <code>b</code> from <code>y</code> so that <code>r a b</code> holds.</p><details id="instances-for-list-Functor.Liftr" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Functor.supp"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L247-L250">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.supp" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.supp"><span class="name">Functor</span>.<span class="name">supp</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u → <a href="../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Functor</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">F</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span></div></div><p>If we consider <code>x : F α</code> to, in some sense, contain values of type <code>α</code>, then
+<code><a href="../.././Mathlib/Control/Functor.html#Functor.supp">supp</a> x</code> is the set of values of type <code>α</code> that <code>x</code> contains.</p><details id="instances-for-list-Functor.supp" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Functor.of_mem_supp"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L252-L253">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.of_mem_supp"><span class="name">Functor</span>.<span class="name">of_mem_supp</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u → <a href="../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Functor</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn"><span class="fn">F</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.Liftp">Liftp</a> <span class="fn">p</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">y</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">y</span> <span class="fn">∈</span> <span class="fn"><a href="../.././Mathlib/Control/Functor.html#Functor.supp">supp</a> <span class="fn">x</span></span></span> → <span class="fn"><span class="fn">p</span> <span class="fn">y</span></span></span></div></div></div></div><div class="decl" id="Functor.mapConstRev"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L255-L260">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.mapConstRev" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[reducible, inline]</div>
+<div class="decl_header"><span class="decl_kind">abbrev</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.mapConstRev"><span class="name">Functor</span>.<span class="name">mapConstRev</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u → <a href="../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Functor</span> <span class="fn">f</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α </span><span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">β</span></span> → <span class="fn"><span class="fn">α</span> → <span class="fn"><span class="fn">f</span> <span class="fn">α</span></span></span></span></div></div><p>If <code>f</code> is a functor, if <code>fb : f β</code> and <code>a : α</code>, then <code><a href="../.././Mathlib/Control/Functor.html#Functor.mapConstRev">mapConstRev</a> fb a</code> is the result of
+applying <code>f.<a href="../.././Mathlib/Control/Functor.html#Functor.Const.map">map</a></code> to the constant function <code>β → α</code> sending everything to <code>a</code>, and then
+evaluating at <code>fb</code>. In other words it's <code>const a &lt;$&gt; fb</code>.</p><details id="instances-for-list-Functor.mapConstRev" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Functor.«term_$&gt;_»"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Functor.lean#L261-L264">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Functor.html#Functor.«term_$&gt;_»" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Functor.html#Functor.«term_$&gt;_»"><span class="name">Functor</span>.<span class="name">«term_$&gt;_»</span></a></span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">Lean.TrailingParserDescr</span></div></div><p>If <code>f</code> is a functor, if <code>fb : f β</code> and <code>a : α</code>, then <code><a href="../.././Mathlib/Control/Functor.html#Functor.mapConstRev">mapConstRev</a> fb a</code> is the result of
+applying <code>f.<a href="../.././Mathlib/Control/Functor.html#Functor.Const.map">map</a></code> to the constant function <code>β → α</code> sending everything to <code>a</code>, and then
+evaluating at <code>fb</code>. In other words it's <code>const a &lt;$&gt; fb</code>.</p><details id="instances-for-list-Functor.«term_$&gt;_»" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div></main>
+<nav class="nav"><iframe src="../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

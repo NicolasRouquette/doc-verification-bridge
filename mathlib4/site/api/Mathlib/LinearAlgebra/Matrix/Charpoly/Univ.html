@@ -1,0 +1,173 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../../.././style.css"></link><link rel="icon" href="../../../.././favicon.svg"></link><link rel="mask-icon" href="../../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.LinearAlgebra.Matrix.Charpoly.Univ</title><script defer="true" src="../../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../../.././";</script><script>const MODULE_NAME="Mathlib.LinearAlgebra.Matrix.Charpoly.Univ";</script><script type="module" src="../../../.././jump-src.js"></script><script type="module" src="../../../.././search.js"></script><script type="module" src="../../../.././expand-nav.js"></script><script type="module" src="../../../.././how-about.js"></script><script type="module" src="../../../.././instances.js"></script><script type="module" src="../../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">LinearAlgebra</span>.<span class="name">Matrix</span>.<span class="name">Charpoly</span>.<span class="name">Univ</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../../.././Init.html">Init</a></li><li><a href="../../../.././Mathlib/Algebra/MvPolynomial/Equiv.html">Mathlib.Algebra.MvPolynomial.Equiv</a></li><li><a href="../../../.././Mathlib/RingTheory/MvPolynomial/Homogeneous.html">Mathlib.RingTheory.MvPolynomial.Homogeneous</a></li><li><a href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Coeff.html">Mathlib.LinearAlgebra.Matrix.Charpoly.Coeff</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.LinearAlgebra.Matrix.Charpoly.Univ" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#Matrix.charpoly.univ"><span class="name">Matrix</span>.<span class="name">charpoly</span>.<span class="name">univ</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.charpoly.univ_map_eval₂Hom"><span class="name">Matrix</span>.<span class="name">charpoly</span>.<span class="name">univ_map_eval₂Hom</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.charpoly.univ_map_map"><span class="name">Matrix</span>.<span class="name">charpoly</span>.<span class="name">univ_map_map</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.charpoly.univ_coeff_eval₂Hom"><span class="name">Matrix</span>.<span class="name">charpoly</span>.<span class="name">univ_coeff_eval₂Hom</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.charpoly.univ_monic"><span class="name">Matrix</span>.<span class="name">charpoly</span>.<span class="name">univ_monic</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.charpoly.univ_natDegree"><span class="name">Matrix</span>.<span class="name">charpoly</span>.<span class="name">univ_natDegree</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.charpoly.univ_coeff_card"><span class="name">Matrix</span>.<span class="name">charpoly</span>.<span class="name">univ_coeff_card</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.charpoly.optionEquivLeft_symm_univ_isHomogeneous"><span class="name">Matrix</span>.<span class="name">charpoly</span>.<span class="name">optionEquivLeft_symm_univ_isHomogeneous</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.charpoly.univ_coeff_isHomogeneous"><span class="name">Matrix</span>.<span class="name">charpoly</span>.<span class="name">univ_coeff_isHomogeneous</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="The-universal-characteristic-polynomial" class="markdown-heading">The universal characteristic polynomial <a class="hover-link" href="#The-universal-characteristic-polynomial">#</a></h1><p>In this file we define the universal characteristic polynomial <code><a href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.html#Matrix.charpoly.univ">Matrix.charpoly.univ</a></code>,
+which is the characteristic polynomial of the matrix with entries <code>Xᵢⱼ</code>,
+and hence has coefficients that are multivariate polynomials.</p><p>It is universal in the sense that one obtains the characteristic polynomial of a matrix <code>M</code>
+by evaluating the coefficients of <code><a href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.html#Matrix.charpoly.univ">univ</a></code> at the entries of <code>M</code>.</p><p>We use it to show that the coefficients of the characteristic polynomial
+of a matrix are homogeneous polynomials in the matrix entries.</p><h2 id="Main-results" class="markdown-heading">Main results <a class="hover-link" href="#Main-results">#</a></h2><ul><li><code><a href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.html#Matrix.charpoly.univ">Matrix.charpoly.univ</a></code>: the universal characteristic polynomial</li><li><code><a href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.html#Matrix.charpoly.univ_map_eval₂Hom">Matrix.charpoly.univ_map_eval₂Hom</a></code>: evaluating <code><a href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.html#Matrix.charpoly.univ">univ</a></code> on the entries of a matrix <code>M</code>
+gives the characteristic polynomial of <code>M</code>.</li><li><code><a href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.html#Matrix.charpoly.univ_coeff_isHomogeneous">Matrix.charpoly.univ_coeff_isHomogeneous</a></code>:
+the <code>i</code>-th coefficient of <code><a href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.html#Matrix.charpoly.univ">univ</a></code> is a homogeneous polynomial of degree <code>n - i</code>.</li></ul></div><div class="decl" id="Matrix.charpoly.univ"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.lean#L42-L53">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_LinearAlgebra_Matrix_Charpoly_Univ.html#Matrix.charpoly.univ" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[reducible, inline]</div>
+<div class="decl_header"><span class="decl_kind">noncomputable abbrev</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.html#Matrix.charpoly.univ"><span class="name">Matrix</span>.<span class="name">charpoly</span>.<span class="name">univ</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Algebra/Polynomial/Basic.html#Polynomial">Polynomial</a> <span class="fn">(<a href="../../../.././Mathlib/Algebra/MvPolynomial/Basic.html#MvPolynomial">MvPolynomial</a> <span class="fn">(<span class="fn">n</span> <span class="fn">×</span> <span class="fn">n</span>)</span> <span class="fn">R</span>)</span></span></div></div><p>The universal characteristic polynomial for <code>n × n</code>-matrices,
+is the characteristic polynomial of <code><a href="../../../.././Mathlib/LinearAlgebra/Matrix/MvPolynomial.html#Matrix.mvPolynomialX">Matrix.mvPolynomialX</a> n n ℤ</code> with entries <code>Xᵢⱼ</code>.</p><p>Its <code>i</code>-th coefficient is a homogeneous polynomial of degree <code>n - i</code>,
+see <code><a href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.html#Matrix.charpoly.univ_coeff_isHomogeneous">Matrix.charpoly.univ_coeff_isHomogeneous</a></code>.</p><p>By evaluating the coefficients at the entries of a matrix <code>M</code>,
+one obtains the characteristic polynomial of <code>M</code>,
+see <code><a href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.html#Matrix.charpoly.univ_map_eval₂Hom">Matrix.charpoly.univ_map_eval₂Hom</a></code>.</p><details id="instances-for-list-Matrix.charpoly.univ" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Matrix.charpoly.univ_map_eval₂Hom"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.lean#L56-L60">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_LinearAlgebra_Matrix_Charpoly_Univ.html#Matrix.charpoly.univ_map_eval₂Hom" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.html#Matrix.charpoly.univ_map_eval₂Hom"><span class="name">Matrix</span>.<span class="name">charpoly</span>.<span class="name">univ_map_eval₂Hom</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">R</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">S</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><span class="fn"><span class="fn">n</span> <span class="fn">×</span> <span class="fn">n</span></span> → <span class="fn">S</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../../.././Mathlib/Algebra/Polynomial/Eval/Defs.html#Polynomial.map">Polynomial.map</a> <span class="fn">(<a href="../../../.././Mathlib/Algebra/MvPolynomial/Eval.html#MvPolynomial.eval₂Hom">MvPolynomial.eval₂Hom</a> <span class="fn">f</span> <span class="fn">M</span>)</span> <span class="fn">(<a href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.html#Matrix.charpoly.univ">univ</a> <span class="fn">R</span> <span class="fn">n</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">(<a href="../../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix.of">of</a> <span class="fn">(<span class="fn">Function.curry</span> <span class="fn">M</span>)</span>)</span>.<a href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Basic.html#Matrix.charpoly">charpoly</a></span></span></div></div></div></div><div class="decl" id="Matrix.charpoly.univ_map_map"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.lean#L63-L65">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_LinearAlgebra_Matrix_Charpoly_Univ.html#Matrix.charpoly.univ_map_map" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.html#Matrix.charpoly.univ_map_map"><span class="name">Matrix</span>.<span class="name">charpoly</span>.<span class="name">univ_map_map</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">R</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">S</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../../.././Mathlib/Algebra/Polynomial/Eval/Defs.html#Polynomial.map">Polynomial.map</a> <span class="fn">(<a href="../../../.././Mathlib/Algebra/MvPolynomial/Eval.html#MvPolynomial.map">MvPolynomial.map</a> <span class="fn">f</span>)</span> <span class="fn">(<a href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.html#Matrix.charpoly.univ">univ</a> <span class="fn">R</span> <span class="fn">n</span>)</span></span> <span class="fn">=</span> <span class="fn"><a href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.html#Matrix.charpoly.univ">univ</a> <span class="fn">S</span> <span class="fn">n</span></span></span></div></div></div></div><div class="decl" id="Matrix.charpoly.univ_coeff_eval₂Hom"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.lean#L67-L71">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_LinearAlgebra_Matrix_Charpoly_Univ.html#Matrix.charpoly.univ_coeff_eval₂Hom" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.html#Matrix.charpoly.univ_coeff_eval₂Hom"><span class="name">Matrix</span>.<span class="name">charpoly</span>.<span class="name">univ_coeff_eval₂Hom</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">R</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">S</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><span class="fn"><span class="fn">n</span> <span class="fn">×</span> <span class="fn">n</span></span> → <span class="fn">S</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Algebra/MvPolynomial/Eval.html#MvPolynomial.eval₂Hom">MvPolynomial.eval₂Hom</a> <span class="fn">f</span> <span class="fn">M</span>)</span> <span class="fn">(<span class="fn"><span class="fn">(<a href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.html#Matrix.charpoly.univ">univ</a> <span class="fn">R</span> <span class="fn">n</span>)</span>.<a href="../../../.././Mathlib/Algebra/Polynomial/Basic.html#Polynomial.coeff">coeff</a></span> <span class="fn">i</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix.of">of</a> <span class="fn">(<span class="fn">Function.curry</span> <span class="fn">M</span>)</span>)</span>.<a href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Basic.html#Matrix.charpoly">charpoly</a></span>.<a href="../../../.././Mathlib/Algebra/Polynomial/Basic.html#Polynomial.coeff">coeff</a></span> <span class="fn">i</span></span></span></div></div></div></div><div class="decl" id="Matrix.charpoly.univ_monic"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.lean#L75-L75">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_LinearAlgebra_Matrix_Charpoly_Univ.html#Matrix.charpoly.univ_monic" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.html#Matrix.charpoly.univ_monic"><span class="name">Matrix</span>.<span class="name">charpoly</span>.<span class="name">univ_monic</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.html#Matrix.charpoly.univ">univ</a> <span class="fn">R</span> <span class="fn">n</span>)</span>.<a href="../../../.././Mathlib/Algebra/Polynomial/Degree/Defs.html#Polynomial.Monic">Monic</a></span></div></div></div></div><div class="decl" id="Matrix.charpoly.univ_natDegree"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.lean#L77-L78">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_LinearAlgebra_Matrix_Charpoly_Univ.html#Matrix.charpoly.univ_natDegree" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.html#Matrix.charpoly.univ_natDegree"><span class="name">Matrix</span>.<span class="name">charpoly</span>.<span class="name">univ_natDegree</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Logic/Nontrivial/Defs.html#Nontrivial">Nontrivial</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.html#Matrix.charpoly.univ">univ</a> <span class="fn">R</span> <span class="fn">n</span>)</span>.<a href="../../../.././Mathlib/Algebra/Polynomial/Degree/Defs.html#Polynomial.natDegree">natDegree</a></span> <span class="fn">=</span> <span class="fn"><a href="../../../.././Mathlib/Data/Fintype/Card.html#Fintype.card">Fintype.card</a> <span class="fn">n</span></span></span></div></div></div></div><div class="decl" id="Matrix.charpoly.univ_coeff_card"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.lean#L80-L85">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_LinearAlgebra_Matrix_Charpoly_Univ.html#Matrix.charpoly.univ_coeff_card" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.html#Matrix.charpoly.univ_coeff_card"><span class="name">Matrix</span>.<span class="name">charpoly</span>.<span class="name">univ_coeff_card</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.html#Matrix.charpoly.univ">univ</a> <span class="fn">R</span> <span class="fn">n</span>)</span>.<a href="../../../.././Mathlib/Algebra/Polynomial/Basic.html#Polynomial.coeff">coeff</a></span> <span class="fn">(<a href="../../../.././Mathlib/Data/Fintype/Card.html#Fintype.card">Fintype.card</a> <span class="fn">n</span>)</span></span> <span class="fn">=</span> <span class="fn">1</span></span></div></div></div></div><div class="decl" id="Matrix.charpoly.optionEquivLeft_symm_univ_isHomogeneous"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.lean#L88-L103">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_LinearAlgebra_Matrix_Charpoly_Univ.html#Matrix.charpoly.optionEquivLeft_symm_univ_isHomogeneous" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.html#Matrix.charpoly.optionEquivLeft_symm_univ_isHomogeneous"><span class="name">Matrix</span>.<span class="name">charpoly</span>.<span class="name">optionEquivLeft_symm_univ_isHomogeneous</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Algebra/MvPolynomial/Equiv.html#MvPolynomial.optionEquivLeft">MvPolynomial.optionEquivLeft</a> <span class="fn">R</span> <span class="fn">(<span class="fn">n</span> <span class="fn">×</span> <span class="fn">n</span>)</span>)</span>.<a href="../../../.././Mathlib/Algebra/Algebra/Equiv.html#AlgEquiv.symm">symm</a></span> <span class="fn">(<a href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.html#Matrix.charpoly.univ">univ</a> <span class="fn">R</span> <span class="fn">n</span>)</span>)</span>.<a href="../../../.././Mathlib/RingTheory/MvPolynomial/Homogeneous.html#MvPolynomial.IsHomogeneous">IsHomogeneous</a></span> <span class="fn">(<a href="../../../.././Mathlib/Data/Fintype/Card.html#Fintype.card">Fintype.card</a> <span class="fn">n</span>)</span></span></div></div></div></div><div class="decl" id="Matrix.charpoly.univ_coeff_isHomogeneous"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.lean#L105-L107">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_LinearAlgebra_Matrix_Charpoly_Univ.html#Matrix.charpoly.univ_coeff_isHomogeneous" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.html#Matrix.charpoly.univ_coeff_isHomogeneous"><span class="name">Matrix</span>.<span class="name">charpoly</span>.<span class="name">univ_coeff_isHomogeneous</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn"><span class="fn">i</span> <span class="fn">+</span> <span class="fn">j</span></span> <span class="fn">=</span> <span class="fn"><a href="../../../.././Mathlib/Data/Fintype/Card.html#Fintype.card">Fintype.card</a> <span class="fn">n</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">(<a href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Univ.html#Matrix.charpoly.univ">univ</a> <span class="fn">R</span> <span class="fn">n</span>)</span>.<a href="../../../.././Mathlib/Algebra/Polynomial/Basic.html#Polynomial.coeff">coeff</a></span> <span class="fn">i</span>)</span>.<a href="../../../.././Mathlib/RingTheory/MvPolynomial/Homogeneous.html#MvPolynomial.IsHomogeneous">IsHomogeneous</a></span> <span class="fn">j</span></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

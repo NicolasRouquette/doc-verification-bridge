@@ -1,0 +1,458 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../.././style.css"></link><link rel="icon" href="../.././favicon.svg"></link><link rel="mask-icon" href="../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.Control.Bifunctor</title><script defer="true" src="../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../.././";</script><script>const MODULE_NAME="Mathlib.Control.Bifunctor";</script><script type="module" src="../.././jump-src.js"></script><script type="module" src="../.././search.js"></script><script type="module" src="../.././expand-nav.js"></script><script type="module" src="../.././how-about.js"></script><script type="module" src="../.././instances.js"></script><script type="module" src="../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">Control</span>.<span class="name">Bifunctor</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../.././Init.html">Init</a></li><li><a href="../.././Mathlib/Control/Functor.html">Mathlib.Control.Functor</a></li><li><a href="../.././Mathlib/Tactic/Common.html">Mathlib.Tactic.Common</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.Control.Bifunctor" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#Bifunctor"><span class="name">Bifunctor</span></a></div><div class="nav_link"><a class="break_within" href="#LawfulBifunctor"><span class="name">LawfulBifunctor</span></a></div><div class="nav_link"><a class="break_within" href="#LawfulBifunctor.bimap_id_id"><span class="name">LawfulBifunctor</span>.<span class="name">bimap_id_id</span></a></div><div class="nav_link"><a class="break_within" href="#LawfulBifunctor.bimap_comp_bimap"><span class="name">LawfulBifunctor</span>.<span class="name">bimap_comp_bimap</span></a></div><div class="nav_link"><a class="break_within" href="#Bifunctor.fst"><span class="name">Bifunctor</span>.<span class="name">fst</span></a></div><div class="nav_link"><a class="break_within" href="#Bifunctor.snd"><span class="name">Bifunctor</span>.<span class="name">snd</span></a></div><div class="nav_link"><a class="break_within" href="#Bifunctor.id_fst"><span class="name">Bifunctor</span>.<span class="name">id_fst</span></a></div><div class="nav_link"><a class="break_within" href="#Bifunctor.fst_id"><span class="name">Bifunctor</span>.<span class="name">fst_id</span></a></div><div class="nav_link"><a class="break_within" href="#Bifunctor.id_snd"><span class="name">Bifunctor</span>.<span class="name">id_snd</span></a></div><div class="nav_link"><a class="break_within" href="#Bifunctor.snd_id"><span class="name">Bifunctor</span>.<span class="name">snd_id</span></a></div><div class="nav_link"><a class="break_within" href="#Bifunctor.comp_fst"><span class="name">Bifunctor</span>.<span class="name">comp_fst</span></a></div><div class="nav_link"><a class="break_within" href="#Bifunctor.fst_comp_fst"><span class="name">Bifunctor</span>.<span class="name">fst_comp_fst</span></a></div><div class="nav_link"><a class="break_within" href="#Bifunctor.fst_snd"><span class="name">Bifunctor</span>.<span class="name">fst_snd</span></a></div><div class="nav_link"><a class="break_within" href="#Bifunctor.fst_comp_snd"><span class="name">Bifunctor</span>.<span class="name">fst_comp_snd</span></a></div><div class="nav_link"><a class="break_within" href="#Bifunctor.snd_fst"><span class="name">Bifunctor</span>.<span class="name">snd_fst</span></a></div><div class="nav_link"><a class="break_within" href="#Bifunctor.snd_comp_fst"><span class="name">Bifunctor</span>.<span class="name">snd_comp_fst</span></a></div><div class="nav_link"><a class="break_within" href="#Bifunctor.comp_snd"><span class="name">Bifunctor</span>.<span class="name">comp_snd</span></a></div><div class="nav_link"><a class="break_within" href="#Bifunctor.snd_comp_snd"><span class="name">Bifunctor</span>.<span class="name">snd_comp_snd</span></a></div><div class="nav_link"><a class="break_within" href="#Prod.bifunctor"><span class="name">Prod</span>.<span class="name">bifunctor</span></a></div><div class="nav_link"><a class="break_within" href="#Prod.lawfulBifunctor"><span class="name">Prod</span>.<span class="name">lawfulBifunctor</span></a></div><div class="nav_link"><a class="break_within" href="#Bifunctor.const"><span class="name">Bifunctor</span>.<span class="name">const</span></a></div><div class="nav_link"><a class="break_within" href="#LawfulBifunctor.const"><span class="name">LawfulBifunctor</span>.<span class="name">const</span></a></div><div class="nav_link"><a class="break_within" href="#Bifunctor.flip"><span class="name">Bifunctor</span>.<span class="name">flip</span></a></div><div class="nav_link"><a class="break_within" href="#LawfulBifunctor.flip"><span class="name">LawfulBifunctor</span>.<span class="name">flip</span></a></div><div class="nav_link"><a class="break_within" href="#Sum.bifunctor"><span class="name">Sum</span>.<span class="name">bifunctor</span></a></div><div class="nav_link"><a class="break_within" href="#Sum.lawfulBifunctor"><span class="name">Sum</span>.<span class="name">lawfulBifunctor</span></a></div><div class="nav_link"><a class="break_within" href="#Bifunctor.functor"><span class="name">Bifunctor</span>.<span class="name">functor</span></a></div><div class="nav_link"><a class="break_within" href="#Bifunctor.lawfulFunctor"><span class="name">Bifunctor</span>.<span class="name">lawfulFunctor</span></a></div><div class="nav_link"><a class="break_within" href="#Function.bicompl.bifunctor"><span class="name">Function</span>.<span class="name">bicompl</span>.<span class="name">bifunctor</span></a></div><div class="nav_link"><a class="break_within" href="#Function.bicompl.lawfulBifunctor"><span class="name">Function</span>.<span class="name">bicompl</span>.<span class="name">lawfulBifunctor</span></a></div><div class="nav_link"><a class="break_within" href="#Function.bicompr.bifunctor"><span class="name">Function</span>.<span class="name">bicompr</span>.<span class="name">bifunctor</span></a></div><div class="nav_link"><a class="break_within" href="#Function.bicompr.lawfulBifunctor"><span class="name">Function</span>.<span class="name">bicompr</span>.<span class="name">lawfulBifunctor</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Functors-with-two-arguments" class="markdown-heading">Functors with two arguments <a class="hover-link" href="#Functors-with-two-arguments">#</a></h1><p>This file defines bifunctors.</p><p>A bifunctor is a function <code>F : Type* → Type* → Type*</code> along with a bimap which turns <code>F α β</code> into
+<code>F α' β'</code> given two functions <code>α → α'</code> and <code>β → β'</code>. It further</p><ul><li>respects the identity: <code><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.bimap">bimap</a> id id = id</code></li><li>composes in the obvious way: <code>(bimap f' g') ∘ (bimap f g) = <a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.bimap">bimap</a> (f' ∘ f) (g' ∘ g)</code></li></ul><h2 id="Main-declarations" class="markdown-heading">Main declarations <a class="hover-link" href="#Main-declarations">#</a></h2><ul><li><code><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a></code>: A typeclass for the bare bimap of a bifunctor.</li><li><code><a href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor">LawfulBifunctor</a></code>: A typeclass asserting this bimap respects the bifunctor laws.</li></ul></div><div class="decl" id="Bifunctor"><div class="class"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L34-L36">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#Bifunctor" class="verification-badge comp-datatype" title="Computational datatype">🔶 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">class</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#Bifunctor"><span class="name">Bifunctor</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u₀ → <span class="fn"><a href="../.././foundational_types.html">Type</a> u₁ → <a href="../.././foundational_types.html">Type</a> u₂</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../.././foundational_types.html">Type</a> (max (max (u₀ + 1) (u₁ + 1)) u₂)</div></div><p>Lawless bifunctor. This typeclass only holds the data for the bimap.</p><ul class="structure_fields" id="Bifunctor.mk"><li id="Bifunctor.bimap" class="structure_field"><div class="structure_field_info">bimap<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α </span><span class="fn">α'</span> : <a href="../.././foundational_types.html">Type</a> u₀}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β </span><span class="fn">β'</span> : <a href="../.././foundational_types.html">Type</a> u₁}</span></span>
+</span> : <span class="fn"><span class="fn">(<span class="fn">α</span> → <span class="fn">α'</span>)</span> → <span class="fn"><span class="fn">(<span class="fn">β</span> → <span class="fn">β'</span>)</span> → <span class="fn"><span class="fn"><span class="fn">F</span> <span class="fn">α</span> <span class="fn">β</span></span> → <span class="fn"><span class="fn">F</span> <span class="fn">α'</span> <span class="fn">β'</span></span></span></span></span></div></li></ul><details class="instances"><summary>Instances</summary><ul id="instances-list-Bifunctor" class="instances-list"></ul></details></div></div><div class="decl" id="LawfulBifunctor"><div class="class"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L40-L45">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#LawfulBifunctor" class="verification-badge comp-datatype" title="Computational datatype">🔶 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">class</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor"><span class="name">LawfulBifunctor</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u₀ → <span class="fn"><a href="../.././foundational_types.html">Type</a> u₁ → <a href="../.././foundational_types.html">Type</a> u₂</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><a href="../.././foundational_types.html">Prop</a></div></div><p>Bifunctor. This typeclass asserts that a lawless <code><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a></code> is lawful.</p><ul class="structure_fields" id="LawfulBifunctor.mk"><li id="LawfulBifunctor.id_bimap" class="structure_field"><div class="structure_field_info">id_bimap<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u₀}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u₁}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">F</span> <span class="fn">α</span> <span class="fn">β</span></span>)</span></span>
+ : <span class="fn"><span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.bimap">bimap</a> <span class="fn">id</span> <span class="fn">id</span> <span class="fn">x</span></span> <span class="fn">=</span> <span class="fn">x</span></span></div></li><li id="LawfulBifunctor.bimap_bimap" class="structure_field"><div class="structure_field_info">bimap_bimap<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α₀ </span><span class="fn">α₁ </span><span class="fn">α₂</span> : <a href="../.././foundational_types.html">Type</a> u₀}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β₀ </span><span class="fn">β₁ </span><span class="fn">β₂</span> : <a href="../.././foundational_types.html">Type</a> u₁}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α₀</span> → <span class="fn">α₁</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f'</span> : <span class="fn"><span class="fn">α₁</span> → <span class="fn">α₂</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn"><span class="fn">β₀</span> → <span class="fn">β₁</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g'</span> : <span class="fn"><span class="fn">β₁</span> → <span class="fn">β₂</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">F</span> <span class="fn">α₀</span> <span class="fn">β₀</span></span>)</span></span>
+ : <span class="fn"><span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.bimap">bimap</a> <span class="fn">f'</span> <span class="fn">g'</span> <span class="fn">(<a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.bimap">bimap</a> <span class="fn">f</span> <span class="fn">g</span> <span class="fn">x</span>)</span></span> <span class="fn">=</span> <span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.bimap">bimap</a> <span class="fn">(<span class="fn">f'</span> <span class="fn">∘</span> <span class="fn">f</span>)</span> <span class="fn">(<span class="fn">g'</span> <span class="fn">∘</span> <span class="fn">g</span>)</span> <span class="fn">x</span></span></span></div></li></ul><details class="instances"><summary>Instances</summary><ul id="instances-list-LawfulBifunctor" class="instances-list"></ul></details></div></div><div class="decl" id="LawfulBifunctor.bimap_id_id"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L49-L49">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#LawfulBifunctor.bimap_id_id" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor.bimap_id_id"><span class="name">LawfulBifunctor</span>.<span class="name">bimap_id_id</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u₀ → <span class="fn"><a href="../.././foundational_types.html">Type</a> u₁ → <a href="../.././foundational_types.html">Type</a> u₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">inst✝</span> : <span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">self</span> : <span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor">LawfulBifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u₀}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u₁}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.bimap">bimap</a> <span class="fn">id</span> <span class="fn">id</span></span> <span class="fn">=</span> <span class="fn">id</span></span></div></div></div></div><div class="decl" id="LawfulBifunctor.bimap_comp_bimap"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L51-L51">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#LawfulBifunctor.bimap_comp_bimap" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor.bimap_comp_bimap"><span class="name">LawfulBifunctor</span>.<span class="name">bimap_comp_bimap</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u₀ → <span class="fn"><a href="../.././foundational_types.html">Type</a> u₁ → <a href="../.././foundational_types.html">Type</a> u₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">inst✝</span> : <span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">self</span> : <span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor">LawfulBifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α₀ </span><span class="fn">α₁ </span><span class="fn">α₂</span> : <a href="../.././foundational_types.html">Type</a> u₀}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β₀ </span><span class="fn">β₁ </span><span class="fn">β₂</span> : <a href="../.././foundational_types.html">Type</a> u₁}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α₀</span> → <span class="fn">α₁</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f'</span> : <span class="fn"><span class="fn">α₁</span> → <span class="fn">α₂</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn"><span class="fn">β₀</span> → <span class="fn">β₁</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g'</span> : <span class="fn"><span class="fn">β₁</span> → <span class="fn">β₂</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.bimap">bimap</a> <span class="fn">f'</span> <span class="fn">g'</span></span> <span class="fn">∘</span> <span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.bimap">bimap</a> <span class="fn">f</span> <span class="fn">g</span></span></span> <span class="fn">=</span> <span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.bimap">bimap</a> <span class="fn">(<span class="fn">f'</span> <span class="fn">∘</span> <span class="fn">f</span>)</span> <span class="fn">(<span class="fn">g'</span> <span class="fn">∘</span> <span class="fn">g</span>)</span></span></span></div></div></div></div><div class="decl" id="Bifunctor.fst"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L59-L61">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#Bifunctor.fst" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[reducible, inline]</div>
+<div class="decl_header"><span class="decl_kind">abbrev</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.fst"><span class="name">Bifunctor</span>.<span class="name">fst</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u₀ → <span class="fn"><a href="../.././foundational_types.html">Type</a> u₁ → <a href="../.././foundational_types.html">Type</a> u₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α </span><span class="fn">α'</span> : <a href="../.././foundational_types.html">Type</a> u₀}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u₁}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">α'</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">F</span> <span class="fn">α</span> <span class="fn">β</span></span> → <span class="fn"><span class="fn">F</span> <span class="fn">α'</span> <span class="fn">β</span></span></span></div></div><p>Left map of a bifunctor.</p><details id="instances-for-list-Bifunctor.fst" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Bifunctor.snd"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L63-L65">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#Bifunctor.snd" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[reducible, inline]</div>
+<div class="decl_header"><span class="decl_kind">abbrev</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.snd"><span class="name">Bifunctor</span>.<span class="name">snd</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u₀ → <span class="fn"><a href="../.././foundational_types.html">Type</a> u₁ → <a href="../.././foundational_types.html">Type</a> u₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u₀}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β </span><span class="fn">β'</span> : <a href="../.././foundational_types.html">Type</a> u₁}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">β</span> → <span class="fn">β'</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">F</span> <span class="fn">α</span> <span class="fn">β</span></span> → <span class="fn"><span class="fn">F</span> <span class="fn">α</span> <span class="fn">β'</span></span></span></div></div><p>Right map of a bifunctor.</p><details id="instances-for-list-Bifunctor.snd" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Bifunctor.id_fst"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L69-L71">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#Bifunctor.id_fst" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.id_fst"><span class="name">Bifunctor</span>.<span class="name">id_fst</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u₀ → <span class="fn"><a href="../.././foundational_types.html">Type</a> u₁ → <a href="../.././foundational_types.html">Type</a> u₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor">LawfulBifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u₀}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u₁}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">F</span> <span class="fn">α</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.fst">fst</a> <span class="fn">id</span> <span class="fn">x</span></span> <span class="fn">=</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="Bifunctor.fst_id"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L69-L69">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#Bifunctor.fst_id" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.fst_id"><span class="name">Bifunctor</span>.<span class="name">fst_id</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u₀ → <span class="fn"><a href="../.././foundational_types.html">Type</a> u₁ → <a href="../.././foundational_types.html">Type</a> u₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor">LawfulBifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u₀}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u₁}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.fst">fst</a> <span class="fn">id</span></span> <span class="fn">=</span> <span class="fn">id</span></span></div></div></div></div><div class="decl" id="Bifunctor.id_snd"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L73-L75">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#Bifunctor.id_snd" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.id_snd"><span class="name">Bifunctor</span>.<span class="name">id_snd</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u₀ → <span class="fn"><a href="../.././foundational_types.html">Type</a> u₁ → <a href="../.././foundational_types.html">Type</a> u₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor">LawfulBifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u₀}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u₁}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">F</span> <span class="fn">α</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.snd">snd</a> <span class="fn">id</span> <span class="fn">x</span></span> <span class="fn">=</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="Bifunctor.snd_id"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L73-L73">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#Bifunctor.snd_id" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.snd_id"><span class="name">Bifunctor</span>.<span class="name">snd_id</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u₀ → <span class="fn"><a href="../.././foundational_types.html">Type</a> u₁ → <a href="../.././foundational_types.html">Type</a> u₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor">LawfulBifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u₀}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u₁}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.snd">snd</a> <span class="fn">id</span></span> <span class="fn">=</span> <span class="fn">id</span></span></div></div></div></div><div class="decl" id="Bifunctor.comp_fst"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L77-L79">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#Bifunctor.comp_fst" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.comp_fst"><span class="name">Bifunctor</span>.<span class="name">comp_fst</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u₀ → <span class="fn"><a href="../.././foundational_types.html">Type</a> u₁ → <a href="../.././foundational_types.html">Type</a> u₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor">LawfulBifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α₀ </span><span class="fn">α₁ </span><span class="fn">α₂</span> : <a href="../.././foundational_types.html">Type</a> u₀}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u₁}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α₀</span> → <span class="fn">α₁</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f'</span> : <span class="fn"><span class="fn">α₁</span> → <span class="fn">α₂</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">F</span> <span class="fn">α₀</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.fst">fst</a> <span class="fn">f'</span> <span class="fn">(<a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.fst">fst</a> <span class="fn">f</span> <span class="fn">x</span>)</span></span> <span class="fn">=</span> <span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.fst">fst</a> <span class="fn">(<span class="fn">f'</span> <span class="fn">∘</span> <span class="fn">f</span>)</span> <span class="fn">x</span></span></span></div></div></div></div><div class="decl" id="Bifunctor.fst_comp_fst"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L77-L77">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#Bifunctor.fst_comp_fst" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.fst_comp_fst"><span class="name">Bifunctor</span>.<span class="name">fst_comp_fst</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u₀ → <span class="fn"><a href="../.././foundational_types.html">Type</a> u₁ → <a href="../.././foundational_types.html">Type</a> u₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor">LawfulBifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α₀ </span><span class="fn">α₁ </span><span class="fn">α₂</span> : <a href="../.././foundational_types.html">Type</a> u₀}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u₁}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α₀</span> → <span class="fn">α₁</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f'</span> : <span class="fn"><span class="fn">α₁</span> → <span class="fn">α₂</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.fst">fst</a> <span class="fn">f'</span></span> <span class="fn">∘</span> <span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.fst">fst</a> <span class="fn">f</span></span></span> <span class="fn">=</span> <span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.fst">fst</a> <span class="fn">(<span class="fn">f'</span> <span class="fn">∘</span> <span class="fn">f</span>)</span></span></span></div></div></div></div><div class="decl" id="Bifunctor.fst_snd"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L81-L83">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#Bifunctor.fst_snd" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.fst_snd"><span class="name">Bifunctor</span>.<span class="name">fst_snd</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u₀ → <span class="fn"><a href="../.././foundational_types.html">Type</a> u₁ → <a href="../.././foundational_types.html">Type</a> u₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor">LawfulBifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α₀ </span><span class="fn">α₁</span> : <a href="../.././foundational_types.html">Type</a> u₀}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β₀ </span><span class="fn">β₁</span> : <a href="../.././foundational_types.html">Type</a> u₁}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α₀</span> → <span class="fn">α₁</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f'</span> : <span class="fn"><span class="fn">β₀</span> → <span class="fn">β₁</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">F</span> <span class="fn">α₀</span> <span class="fn">β₀</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.fst">fst</a> <span class="fn">f</span> <span class="fn">(<a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.snd">snd</a> <span class="fn">f'</span> <span class="fn">x</span>)</span></span> <span class="fn">=</span> <span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.bimap">bimap</a> <span class="fn">f</span> <span class="fn">f'</span> <span class="fn">x</span></span></span></div></div></div></div><div class="decl" id="Bifunctor.fst_comp_snd"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L81-L81">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#Bifunctor.fst_comp_snd" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.fst_comp_snd"><span class="name">Bifunctor</span>.<span class="name">fst_comp_snd</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u₀ → <span class="fn"><a href="../.././foundational_types.html">Type</a> u₁ → <a href="../.././foundational_types.html">Type</a> u₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor">LawfulBifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α₀ </span><span class="fn">α₁</span> : <a href="../.././foundational_types.html">Type</a> u₀}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β₀ </span><span class="fn">β₁</span> : <a href="../.././foundational_types.html">Type</a> u₁}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α₀</span> → <span class="fn">α₁</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f'</span> : <span class="fn"><span class="fn">β₀</span> → <span class="fn">β₁</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.fst">fst</a> <span class="fn">f</span></span> <span class="fn">∘</span> <span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.snd">snd</a> <span class="fn">f'</span></span></span> <span class="fn">=</span> <span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.bimap">bimap</a> <span class="fn">f</span> <span class="fn">f'</span></span></span></div></div></div></div><div class="decl" id="Bifunctor.snd_fst"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L85-L87">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#Bifunctor.snd_fst" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.snd_fst"><span class="name">Bifunctor</span>.<span class="name">snd_fst</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u₀ → <span class="fn"><a href="../.././foundational_types.html">Type</a> u₁ → <a href="../.././foundational_types.html">Type</a> u₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor">LawfulBifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α₀ </span><span class="fn">α₁</span> : <a href="../.././foundational_types.html">Type</a> u₀}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β₀ </span><span class="fn">β₁</span> : <a href="../.././foundational_types.html">Type</a> u₁}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α₀</span> → <span class="fn">α₁</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f'</span> : <span class="fn"><span class="fn">β₀</span> → <span class="fn">β₁</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">F</span> <span class="fn">α₀</span> <span class="fn">β₀</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.snd">snd</a> <span class="fn">f'</span> <span class="fn">(<a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.fst">fst</a> <span class="fn">f</span> <span class="fn">x</span>)</span></span> <span class="fn">=</span> <span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.bimap">bimap</a> <span class="fn">f</span> <span class="fn">f'</span> <span class="fn">x</span></span></span></div></div></div></div><div class="decl" id="Bifunctor.snd_comp_fst"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L85-L85">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#Bifunctor.snd_comp_fst" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.snd_comp_fst"><span class="name">Bifunctor</span>.<span class="name">snd_comp_fst</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u₀ → <span class="fn"><a href="../.././foundational_types.html">Type</a> u₁ → <a href="../.././foundational_types.html">Type</a> u₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor">LawfulBifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α₀ </span><span class="fn">α₁</span> : <a href="../.././foundational_types.html">Type</a> u₀}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β₀ </span><span class="fn">β₁</span> : <a href="../.././foundational_types.html">Type</a> u₁}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α₀</span> → <span class="fn">α₁</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f'</span> : <span class="fn"><span class="fn">β₀</span> → <span class="fn">β₁</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.snd">snd</a> <span class="fn">f'</span></span> <span class="fn">∘</span> <span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.fst">fst</a> <span class="fn">f</span></span></span> <span class="fn">=</span> <span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.bimap">bimap</a> <span class="fn">f</span> <span class="fn">f'</span></span></span></div></div></div></div><div class="decl" id="Bifunctor.comp_snd"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L89-L91">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#Bifunctor.comp_snd" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.comp_snd"><span class="name">Bifunctor</span>.<span class="name">comp_snd</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u₀ → <span class="fn"><a href="../.././foundational_types.html">Type</a> u₁ → <a href="../.././foundational_types.html">Type</a> u₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor">LawfulBifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u₀}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β₀ </span><span class="fn">β₁ </span><span class="fn">β₂</span> : <a href="../.././foundational_types.html">Type</a> u₁}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn"><span class="fn">β₀</span> → <span class="fn">β₁</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g'</span> : <span class="fn"><span class="fn">β₁</span> → <span class="fn">β₂</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">F</span> <span class="fn">α</span> <span class="fn">β₀</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.snd">snd</a> <span class="fn">g'</span> <span class="fn">(<a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.snd">snd</a> <span class="fn">g</span> <span class="fn">x</span>)</span></span> <span class="fn">=</span> <span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.snd">snd</a> <span class="fn">(<span class="fn">g'</span> <span class="fn">∘</span> <span class="fn">g</span>)</span> <span class="fn">x</span></span></span></div></div></div></div><div class="decl" id="Bifunctor.snd_comp_snd"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L89-L89">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#Bifunctor.snd_comp_snd" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.snd_comp_snd"><span class="name">Bifunctor</span>.<span class="name">snd_comp_snd</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u₀ → <span class="fn"><a href="../.././foundational_types.html">Type</a> u₁ → <a href="../.././foundational_types.html">Type</a> u₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor">LawfulBifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u₀}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β₀ </span><span class="fn">β₁ </span><span class="fn">β₂</span> : <a href="../.././foundational_types.html">Type</a> u₁}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn"><span class="fn">β₀</span> → <span class="fn">β₁</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g'</span> : <span class="fn"><span class="fn">β₁</span> → <span class="fn">β₂</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.snd">snd</a> <span class="fn">g'</span></span> <span class="fn">∘</span> <span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.snd">snd</a> <span class="fn">g</span></span></span> <span class="fn">=</span> <span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.snd">snd</a> <span class="fn">(<span class="fn">g'</span> <span class="fn">∘</span> <span class="fn">g</span>)</span></span></span></div></div></div></div><div class="decl" id="Prod.bifunctor"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L101-L101">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#Prod.bifunctor" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#Prod.bifunctor"><span class="name">Prod</span>.<span class="name">bifunctor</span></a></span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">Prod</span></span></div></div></div></div><div class="decl" id="Prod.lawfulBifunctor"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L103-L105">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#Prod.lawfulBifunctor" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#Prod.lawfulBifunctor"><span class="name">Prod</span>.<span class="name">lawfulBifunctor</span></a></span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor">LawfulBifunctor</a> <span class="fn">Prod</span></span></div></div></div></div><div class="decl" id="Bifunctor.const"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L107-L107">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#Bifunctor.const" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.const"><span class="name">Bifunctor</span>.<span class="name">const</span></a></span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <a href="../.././Mathlib/Control/Functor.html#Functor.Const">Functor.Const</a></span></div></div></div></div><div class="decl" id="LawfulBifunctor.const"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L109-L111">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#LawfulBifunctor.const" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor.const"><span class="name">LawfulBifunctor</span>.<span class="name">const</span></a></span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor">LawfulBifunctor</a> <a href="../.././Mathlib/Control/Functor.html#Functor.Const">Functor.Const</a></span></div></div></div></div><div class="decl" id="Bifunctor.flip"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L113-L114">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#Bifunctor.flip" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.flip"><span class="name">Bifunctor</span>.<span class="name">flip</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u₀ → <span class="fn"><a href="../.././foundational_types.html">Type</a> u₁ → <a href="../.././foundational_types.html">Type</a> u₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">(<span class="fn">_root_.flip</span> <span class="fn">F</span>)</span></span></div></div></div></div><div class="decl" id="LawfulBifunctor.flip"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L116-L118">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#LawfulBifunctor.flip" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor.flip"><span class="name">LawfulBifunctor</span>.<span class="name">flip</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u₀ → <span class="fn"><a href="../.././foundational_types.html">Type</a> u₁ → <a href="../.././foundational_types.html">Type</a> u₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor">LawfulBifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor">LawfulBifunctor</a> <span class="fn">(<span class="fn">_root_.flip</span> <span class="fn">F</span>)</span></span></div></div></div></div><div class="decl" id="Sum.bifunctor"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L120-L120">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#Sum.bifunctor" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#Sum.bifunctor"><span class="name">Sum</span>.<span class="name">bifunctor</span></a></span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">Sum</span></span></div></div></div></div><div class="decl" id="Sum.lawfulBifunctor"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L122-L124">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#Sum.lawfulBifunctor" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#Sum.lawfulBifunctor"><span class="name">Sum</span>.<span class="name">lawfulBifunctor</span></a></span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor">LawfulBifunctor</a> <span class="fn">Sum</span></span></div></div></div></div><div class="decl" id="Bifunctor.functor"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L128-L128">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#Bifunctor.functor" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible, instance 10]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.functor"><span class="name">Bifunctor</span>.<span class="name">functor</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u₀ → <span class="fn"><a href="../.././foundational_types.html">Type</a> u₁ → <a href="../.././foundational_types.html">Type</a> u₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u₀}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Functor</span> <span class="fn">(<span class="fn">F</span> <span class="fn">α</span>)</span></span></div></div></div></div><div class="decl" id="Bifunctor.lawfulFunctor"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L130-L134">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#Bifunctor.lawfulFunctor" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[instance 10]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#Bifunctor.lawfulFunctor"><span class="name">Bifunctor</span>.<span class="name">lawfulFunctor</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u₀ → <span class="fn"><a href="../.././foundational_types.html">Type</a> u₁ → <a href="../.././foundational_types.html">Type</a> u₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor">LawfulBifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u₀}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">LawfulFunctor</span> <span class="fn">(<span class="fn">F</span> <span class="fn">α</span>)</span></span></div></div></div></div><div class="decl" id="Function.bicompl.bifunctor"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L140-L141">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#Function.bicompl.bifunctor" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#Function.bicompl.bifunctor"><span class="name">Function</span>.<span class="name">bicompl</span>.<span class="name">bifunctor</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u₀ → <span class="fn"><a href="../.././foundational_types.html">Type</a> u₁ → <a href="../.././foundational_types.html">Type</a> u₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u_1 → <a href="../.././foundational_types.html">Type</a> u₀</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">H</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u_2 → <a href="../.././foundational_types.html">Type</a> u₁</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Functor</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Functor</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">(<a href="../.././Mathlib/Logic/Function/Basic.html#Function.bicompl">bicompl</a> <span class="fn">F</span> <span class="fn">G</span> <span class="fn">H</span>)</span></span></div></div></div></div><div class="decl" id="Function.bicompl.lawfulBifunctor"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L143-L145">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#Function.bicompl.lawfulBifunctor" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#Function.bicompl.lawfulBifunctor"><span class="name">Function</span>.<span class="name">bicompl</span>.<span class="name">lawfulBifunctor</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u₀ → <span class="fn"><a href="../.././foundational_types.html">Type</a> u₁ → <a href="../.././foundational_types.html">Type</a> u₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u_1 → <a href="../.././foundational_types.html">Type</a> u₀</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">H</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u_2 → <a href="../.././foundational_types.html">Type</a> u₁</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Functor</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Functor</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LawfulFunctor</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LawfulFunctor</span> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor">LawfulBifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor">LawfulBifunctor</a> <span class="fn">(<a href="../.././Mathlib/Logic/Function/Basic.html#Function.bicompl">bicompl</a> <span class="fn">F</span> <span class="fn">G</span> <span class="fn">H</span>)</span></span></div></div></div></div><div class="decl" id="Function.bicompr.bifunctor"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L153-L154">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#Function.bicompr.bifunctor" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#Function.bicompr.bifunctor"><span class="name">Function</span>.<span class="name">bicompr</span>.<span class="name">bifunctor</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u₀ → <span class="fn"><a href="../.././foundational_types.html">Type</a> u₁ → <a href="../.././foundational_types.html">Type</a> u₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u₂ → <a href="../.././foundational_types.html">Type</a> u_1</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Functor</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">(<a href="../.././Mathlib/Logic/Function/Basic.html#Function.bicompr">bicompr</a> <span class="fn">G</span> <span class="fn">F</span>)</span></span></div></div></div></div><div class="decl" id="Function.bicompr.lawfulBifunctor"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Bifunctor.lean#L156-L158">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Control_Bifunctor.html#Function.bicompr.lawfulBifunctor" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Control/Bifunctor.html#Function.bicompr.lawfulBifunctor"><span class="name">Function</span>.<span class="name">bicompr</span>.<span class="name">lawfulBifunctor</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u₀ → <span class="fn"><a href="../.././foundational_types.html">Type</a> u₁ → <a href="../.././foundational_types.html">Type</a> u₂</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#Bifunctor">Bifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> u₂ → <a href="../.././foundational_types.html">Type</a> u_1</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Functor</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LawfulFunctor</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor">LawfulBifunctor</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Control/Bifunctor.html#LawfulBifunctor">LawfulBifunctor</a> <span class="fn">(<a href="../.././Mathlib/Logic/Function/Basic.html#Function.bicompr">bicompr</a> <span class="fn">G</span> <span class="fn">F</span>)</span></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

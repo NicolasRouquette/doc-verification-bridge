@@ -1,0 +1,57 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../.././style.css"></link><link rel="icon" href="../.././favicon.svg"></link><link rel="mask-icon" href="../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.Lean.Linter</title><script defer="true" src="../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../.././";</script><script>const MODULE_NAME="Mathlib.Lean.Linter";</script><script type="module" src="../.././jump-src.js"></script><script type="module" src="../.././search.js"></script><script type="module" src="../.././expand-nav.js"></script><script type="module" src="../.././how-about.js"></script><script type="module" src="../.././instances.js"></script><script type="module" src="../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">Lean</span>.<span class="name">Linter</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Lean/Linter.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../.././Init.html">Init</a></li><li><a href="../.././Lean/Elab/Command.html">Lean.Elab.Command</a></li><li><a href="../.././Lean/Linter/Basic.html">Lean.Linter.Basic</a></li><li><a href="../.././Mathlib/Tactic/Linter/Header.html">Mathlib.Tactic.Linter.Header</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.Lean.Linter" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#Lean.Linter.whenLinterOption"><span class="name">Lean</span>.<span class="name">Linter</span>.<span class="name">whenLinterOption</span></a></div><div class="nav_link"><a class="break_within" href="#Lean.Linter.whenNotLinterOption"><span class="name">Lean</span>.<span class="name">Linter</span>.<span class="name">whenNotLinterOption</span></a></div><div class="nav_link"><a class="break_within" href="#Lean.Linter.whenLinterActivated"><span class="name">Lean</span>.<span class="name">Linter</span>.<span class="name">whenLinterActivated</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Additional-utilities-and-boilerplate-for-the-Linter-API" class="markdown-heading">Additional utilities and boilerplate for the <code>Linter</code> API <a class="hover-link" href="#Additional-utilities-and-boilerplate-for-the-Linter-API">#</a></h1></div><div class="decl" id="Lean.Linter.whenLinterOption"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Lean/Linter.lean#L26-L38">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Lean_Linter.html#Lean.Linter.whenLinterOption" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[macro_inline]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Lean/Linter.html#Lean.Linter.whenLinterOption"><span class="name">Lean</span>.<span class="name">Linter</span>.<span class="name">whenLinterOption</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> → <a href="../.././foundational_types.html">Type</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Monad</span> <span class="fn">m</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">MonadOptions</span> <span class="fn">m</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">MonadEnv</span> <span class="fn">m</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">opt</span> : <span class="fn"><span class="fn">Lean.Option</span> <span class="fn">Bool</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">m</span> <span class="fn">Unit</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">m</span> <span class="fn">Unit</span></span></div></div><p>Runs a <code>CommandElabM</code> action when the provided linter option is <code>true</code>.</p><p>This function assumes you have already called <code>withSetOptionIn</code>; use <code><a href="../.././Mathlib/Lean/Linter.html#Lean.Linter.whenLinterActivated">whenLinterActivated</a></code>
+to do so automatically. At the start of linter code, <code><a href="../.././Mathlib/Lean/Linter.html#Lean.Linter.whenLinterActivated">whenLinterActivated</a></code> should be preferred when
+possible.</p><p>Note: this definition is marked as <code>@[macro_inline]</code>, so it is okay to supply it with a linter
+option which has been registered in the same module.</p><details id="instances-for-list-Lean.Linter.whenLinterOption" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Lean.Linter.whenNotLinterOption"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Lean/Linter.lean#L40-L48">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Lean_Linter.html#Lean.Linter.whenNotLinterOption" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[macro_inline]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Lean/Linter.html#Lean.Linter.whenNotLinterOption"><span class="name">Lean</span>.<span class="name">Linter</span>.<span class="name">whenNotLinterOption</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <span class="fn"><a href="../.././foundational_types.html">Type</a> → <a href="../.././foundational_types.html">Type</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Monad</span> <span class="fn">m</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">MonadOptions</span> <span class="fn">m</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">MonadEnv</span> <span class="fn">m</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">opt</span> : <span class="fn"><span class="fn">Lean.Option</span> <span class="fn">Bool</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">m</span> <span class="fn">Unit</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">m</span> <span class="fn">Unit</span></span></div></div><p>Runs a <code>CommandElabM</code> action when the provided linter option is <code>false</code>.</p><p>Note: this definition is marked as <code>@[macro_inline]</code>, so it is okay to supply it with a linter
+option which has been registered in the same module.</p><details id="instances-for-list-Lean.Linter.whenNotLinterOption" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Lean.Linter.whenLinterActivated"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Lean/Linter.lean#L50-L71">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Lean_Linter.html#Lean.Linter.whenLinterActivated" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[macro_inline]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Lean/Linter.html#Lean.Linter.whenLinterActivated"><span class="name">Lean</span>.<span class="name">Linter</span>.<span class="name">whenLinterActivated</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">opt</span> : <span class="fn"><span class="fn">Lean.Option</span> <span class="fn">Bool</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">Elab.Command.CommandElab</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">breakOnError</span> : <span class="fn">Bool</span> := <span class="fn">true</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">Elab.Command.CommandElab</span></div></div><p>Processes <code>set_option ... in</code>s that wrap the input <code>stx</code>, then acts on the inner syntax with
+<code>x</code> after checking that the provided linter option is <code>true</code>.</p><p>If <code>breakOnError</code> is <code>true</code> (the default), avoids running the linter when errors are present.</p><p>This is typically used to start off linter code:</p><pre><code>def myLinter : Linter where
+  run := <a href="../.././Mathlib/Lean/Linter.html#Lean.Linter.whenLinterActivated">whenLinterActivated</a> linter.myLinter fun stx ↦ do
+    ...
+</code></pre><p>Note: this definition is marked as <code>@[macro_inline]</code>, so it is okay to supply it with a linter
+option which has been registered in the same module.</p><details id="instances-for-list-Lean.Linter.whenLinterActivated" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div></main>
+<nav class="nav"><iframe src="../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

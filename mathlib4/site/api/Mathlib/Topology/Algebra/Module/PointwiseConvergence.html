@@ -1,0 +1,907 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../../.././style.css"></link><link rel="icon" href="../../../.././favicon.svg"></link><link rel="mask-icon" href="../../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.Topology.Algebra.Module.PointwiseConvergence</title><script defer="true" src="../../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../../.././";</script><script>const MODULE_NAME="Mathlib.Topology.Algebra.Module.PointwiseConvergence";</script><script type="module" src="../../../.././jump-src.js"></script><script type="module" src="../../../.././search.js"></script><script type="module" src="../../../.././expand-nav.js"></script><script type="module" src="../../../.././how-about.js"></script><script type="module" src="../../../.././instances.js"></script><script type="module" src="../../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">Topology</span>.<span class="name">Algebra</span>.<span class="name">Module</span>.<span class="name">PointwiseConvergence</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Algebra/Module/PointwiseConvergence.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../../.././Init.html">Init</a></li><li><a href="../../../.././Mathlib/Topology/Algebra/Module/StrongTopology.html">Mathlib.Topology.Algebra.Module.StrongTopology</a></li><li><a href="../../../.././Mathlib/Topology/Algebra/Module/WeakDual.html">Mathlib.Topology.Algebra.Module.WeakDual</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.Topology.Algebra.Module.PointwiseConvergence" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#PointwiseConvergenceCLM"><span class="name">PointwiseConvergenceCLM</span></a></div><div class="nav_link"><a class="break_within" href="#«term_→SLₚₜ[_]_»"><span class="name">«term_→SLₚₜ[_]_»</span></a></div><div class="nav_link"><a class="break_within" href="#«term_→Lₚₜ[_]_»"><span class="name">«term_→Lₚₜ[_]_»</span></a></div><div class="nav_link"><a class="break_within" href="#PointwiseConvergenceCLM.instT2Space"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">instT2Space</span></a></div><div class="nav_link"><a class="break_within" href="#PointwiseConvergenceCLM.continuousEvalConst"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">continuousEvalConst</span></a></div><div class="nav_link"><a class="break_within" href="#PointwiseConvergenceCLM.hasBasis_nhds_zero_of_basis"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">hasBasis_nhds_zero_of_basis</span></a></div><div class="nav_link"><a class="break_within" href="#PointwiseConvergenceCLM.hasBasis_nhds_zero"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">hasBasis_nhds_zero</span></a></div><div class="nav_link"><a class="break_within" href="#PointwiseConvergenceCLM.isUniformEmbedding_coeFn"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">isUniformEmbedding_coeFn</span></a></div><div class="nav_link"><a class="break_within" href="#PointwiseConvergenceCLM.isEmbedding_coeFn"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">isEmbedding_coeFn</span></a></div><div class="nav_link"><a class="break_within" href="#PointwiseConvergenceCLM.tendsto_iff_forall_tendsto"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">tendsto_iff_forall_tendsto</span></a></div><div class="nav_link"><a class="break_within" href="#PointwiseConvergenceCLM.coeLMₛₗ"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">coeLMₛₗ</span></a></div><div class="nav_link"><a class="break_within" href="#PointwiseConvergenceCLM.coeLMₛₗ_apply"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">coeLMₛₗ_apply</span></a></div><div class="nav_link"><a class="break_within" href="#PointwiseConvergenceCLM.coeLM"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">coeLM</span></a></div><div class="nav_link"><a class="break_within" href="#PointwiseConvergenceCLM.coeLM_apply"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">coeLM_apply</span></a></div><div class="nav_link"><a class="break_within" href="#PointwiseConvergenceCLM.evalCLM"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">evalCLM</span></a></div><div class="nav_link"><a class="break_within" href="#PointwiseConvergenceCLM.evalCLM_apply"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">evalCLM_apply</span></a></div><div class="nav_link"><a class="break_within" href="#PointwiseConvergenceCLM.continuous_of_continuous_eval"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">continuous_of_continuous_eval</span></a></div><div class="nav_link"><a class="break_within" href="#PointwiseConvergenceCLM.precomp"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">precomp</span></a></div><div class="nav_link"><a class="break_within" href="#PointwiseConvergenceCLM.precomp_apply"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">precomp_apply</span></a></div><div class="nav_link"><a class="break_within" href="#PointwiseConvergenceCLM.postcomp"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">postcomp</span></a></div><div class="nav_link"><a class="break_within" href="#PointwiseConvergenceCLM.postcomp_apply"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">postcomp_apply</span></a></div><div class="nav_link"><a class="break_within" href="#ContinuousLinearMap.toPointwiseConvergenceCLM"><span class="name">ContinuousLinearMap</span>.<span class="name">toPointwiseConvergenceCLM</span></a></div><div class="nav_link"><a class="break_within" href="#ContinuousLinearMap.toPointwiseConvergenceCLM_apply"><span class="name">ContinuousLinearMap</span>.<span class="name">toPointwiseConvergenceCLM_apply</span></a></div><div class="nav_link"><a class="break_within" href="#PointwiseConvergenceCLM.equivWeakDual"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">equivWeakDual</span></a></div><div class="nav_link"><a class="break_within" href="#PointwiseConvergenceCLM.equivWeakDual_symm_apply"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">equivWeakDual_symm_apply</span></a></div><div class="nav_link"><a class="break_within" href="#PointwiseConvergenceCLM.equivWeakDual_apply"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">equivWeakDual_apply</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Topology-of-pointwise-convergence-on-continuous-linear-maps" class="markdown-heading">Topology of pointwise convergence on continuous linear maps <a class="hover-link" href="#Topology-of-pointwise-convergence-on-continuous-linear-maps">#</a></h1><h2 id="Main-definitions" class="markdown-heading">Main definitions <a class="hover-link" href="#Main-definitions">#</a></h2><ul><li><code><a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">PointwiseConvergenceCLM</a></code>: Type synonym of <code>E →SL[σ] F</code> equipped with the uniform convergence
+topology on finite sets.</li><li><code><a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.evalCLM">PointwiseConvergenceCLM.evalCLM</a></code>: The evaluation map <code>(f : E →SLₚₜ[σ] F) ↦ f a</code> for fixed <code>a : E</code>
+as a continuous linear map.</li><li><code><a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#ContinuousLinearMap.toPointwiseConvergenceCLM">ContinuousLinearMap.toPointwiseConvergenceCLM</a></code>: The canonical map from <code>E →SL[σ] F</code> to
+<code>E →SLₚₜ[σ] F</code> as a continuous linear map. This is the statement that bounded convergence is
+stronger than pointwise convergence.</li><li><code><a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.equivWeakDual">PointwiseConvergenceCLM.equivWeakDual</a></code>: The continuous equivalence between <code>E →Lₚₜ[𝕜] 𝕜</code> and
+<code><a href="../../../.././Mathlib/Topology/Algebra/Module/WeakDual.html#WeakDual">WeakDual</a> 𝕜 E</code>.</li></ul><h2 id="Main-statements" class="markdown-heading">Main statements <a class="hover-link" href="#Main-statements">#</a></h2><ul><li><code><a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.tendsto_iff_forall_tendsto">PointwiseConvergenceCLM.tendsto_iff_forall_tendsto</a></code>: In the topology of pointwise convergence,
+<code>a</code> converges to <code>a₀</code> iff for every <code>x : E</code> the map <code>a · x</code> converges to <code>a₀ x</code>.</li><li><code><a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.continuous_of_continuous_eval">PointwiseConvergenceCLM.continuous_of_continuous_eval</a></code>: A map to <code>g : α → E →SLₚₜ[σ] F</code> is
+continuous if for every <code>x : E</code> the evaluation <code>g · x</code> is continuous.</li></ul><h2 id="Notation" class="markdown-heading">Notation <a class="hover-link" href="#Notation">#</a></h2><ul><li><code>E →SLₚₜ[σ] F</code> is space of continuous linear maps equipped with pointwise convergence topology.</li></ul></div><div class="mod_doc"><h3 id="Topology-of-pointwise-convergence" class="markdown-heading">Topology of pointwise convergence <a class="hover-link" href="#Topology-of-pointwise-convergence">#</a></h3></div><div class="decl" id="PointwiseConvergenceCLM"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Algebra/Module/PointwiseConvergence.lean#L55-L60">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Topology_Algebra_Module_PointwiseConvergence.html#PointwiseConvergenceCLM" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[reducible, inline]</div>
+<div class="decl_header"><span class="decl_kind">abbrev</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM"><span class="name">PointwiseConvergenceCLM</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₁</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₂</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₂</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">σ</span> : <span class="fn">𝕜₁</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">𝕜₂</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_7)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_8)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₁</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₂</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><a href="../../../.././foundational_types.html">Type</a> (max u_7 u_8)</div></div><p>The space of continuous linear maps equipped with the topology of pointwise convergence,
+sometimes also called the <em>strong operator topology</em>. We avoid this terminology since so many other
+things share similar names, and using &quot;pointwise convergence&quot; in the name is more informative.</p><p>This topology is also known as the weak*-topology in the case that <code>σ = <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom.id">RingHom.id</a> 𝕜</code> and <code>F = 𝕜</code></p><details id="instances-for-list-PointwiseConvergenceCLM" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="«term_→SLₚₜ[_]_»"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Algebra/Module/PointwiseConvergence.lean#L62-L63">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Topology_Algebra_Module_PointwiseConvergence.html#«term_→SLₚₜ[_]_»" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#«term_→SLₚₜ[_]_»"><span class="name">«term_→SLₚₜ[_]_»</span></a></span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">Lean.TrailingParserDescr</span></div></div><p>The space of continuous linear maps equipped with the topology of pointwise convergence,
+sometimes also called the <em>strong operator topology</em>. We avoid this terminology since so many other
+things share similar names, and using &quot;pointwise convergence&quot; in the name is more informative.</p><p>This topology is also known as the weak*-topology in the case that <code>σ = <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom.id">RingHom.id</a> 𝕜</code> and <code>F = 𝕜</code></p><details id="instances-for-list-«term_→SLₚₜ[_]_»" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="«term_→Lₚₜ[_]_»"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Algebra/Module/PointwiseConvergence.lean#L65-L66">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Topology_Algebra_Module_PointwiseConvergence.html#«term_→Lₚₜ[_]_»" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#«term_→Lₚₜ[_]_»"><span class="name">«term_→Lₚₜ[_]_»</span></a></span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">Lean.TrailingParserDescr</span></div></div><p>The space of continuous linear maps equipped with the topology of pointwise convergence,
+sometimes also called the <em>strong operator topology</em>. We avoid this terminology since so many other
+things share similar names, and using &quot;pointwise convergence&quot; in the name is more informative.</p><p>This topology is also known as the weak*-topology in the case that <code>σ = <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom.id">RingHom.id</a> 𝕜</code> and <code>F = 𝕜</code></p><details id="instances-for-list-«term_→Lₚₜ[_]_»" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="PointwiseConvergenceCLM.instT2Space"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Algebra/Module/PointwiseConvergence.lean#L70-L71">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Topology_Algebra_Module_PointwiseConvergence.html#PointwiseConvergenceCLM.instT2Space" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.instT2Space"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">instT2Space</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₁</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₂</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">σ</span> : <span class="fn">𝕜₁</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">𝕜₂</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_7}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_8}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/Group/Defs.html#IsTopologicalAddGroup">IsTopologicalAddGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₁</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₂</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Separation/Hausdorff.html#T2Space">T2Space</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Topology/Separation/Hausdorff.html#T2Space">T2Space</a> (<span class="fn">E</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">→SLₚₜ[</a><span class="fn">σ</span><a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">]</a> <span class="fn">F</span>)</span></div></div></div></div><div class="decl" id="PointwiseConvergenceCLM.continuousEvalConst"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Algebra/Module/PointwiseConvergence.lean#L73-L74">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Topology_Algebra_Module_PointwiseConvergence.html#PointwiseConvergenceCLM.continuousEvalConst" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.continuousEvalConst"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">continuousEvalConst</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₁</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₂</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">σ</span> : <span class="fn">𝕜₁</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">𝕜₂</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_7}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_8}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/Group/Defs.html#IsTopologicalAddGroup">IsTopologicalAddGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₁</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₂</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Topology/Hom/ContinuousEvalConst.html#ContinuousEvalConst">ContinuousEvalConst</a> (<span class="fn">E</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">→SLₚₜ[</a><span class="fn">σ</span><a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">]</a> <span class="fn">F</span>) <span class="fn">E</span> <span class="fn">F</span></span></div></div></div></div><div class="decl" id="PointwiseConvergenceCLM.hasBasis_nhds_zero_of_basis"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Algebra/Module/PointwiseConvergence.lean#L76-L81">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Topology_Algebra_Module_PointwiseConvergence.html#PointwiseConvergenceCLM.hasBasis_nhds_zero_of_basis" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.hasBasis_nhds_zero_of_basis"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">hasBasis_nhds_zero_of_basis</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₁</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₂</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">σ</span> : <span class="fn">𝕜₁</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">𝕜₂</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_7}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_8}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/Group/Defs.html#IsTopologicalAddGroup">IsTopologicalAddGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₁</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₂</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../.././foundational_types.html">Type</a> u_11}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">ι</span> → <a href="../../../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">b</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn"><a href="../../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">F</span></span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Topology/Defs/Filter.html#nhds">nhds</a> <span class="fn">0</span>)</span>.<a href="../../../.././Mathlib/Order/Filter/Bases/Basic.html#Filter.HasBasis">HasBasis</a></span> <span class="fn">p</span> <span class="fn">b</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Topology/Defs/Filter.html#nhds">nhds</a> <span class="fn">0</span>)</span>.<a href="../../../.././Mathlib/Order/Filter/Bases/Basic.html#Filter.HasBasis">HasBasis</a></span> <span class="fn">(fun (<span class="fn">Si</span> : <span class="fn"><span class="fn"><a href="../../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">E</span></span> <span class="fn">×</span> <span class="fn">ι</span></span>) =&gt; <span class="fn"><span class="fn"><a href="../../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">↑<span class="fn"><span class="fn">Si</span>.1</span></span></span> <span class="fn">∧</span> <span class="fn"><span class="fn">p</span> <span class="fn"><span class="fn">Si</span>.2</span></span></span>)</span> <span class="fn">fun (<span class="fn">Si</span> : <span class="fn"><span class="fn"><a href="../../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">E</span></span> <span class="fn">×</span> <span class="fn">ι</span></span>) =&gt;
+  <a href="../../../.././Mathlib/Data/Set/Defs.html#setOf">{</a><span class="fn">f</span> <a href="../../../.././Mathlib/Data/Set/Defs.html#setOf">:</a> <span class="fn">E</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">→SLₚₜ[</a><span class="fn">σ</span><a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">]</a> <span class="fn">F</span> <a href="../../../.././Mathlib/Data/Set/Defs.html#setOf">|</a> <span class="fn">∀ <span class="fn">x</span> ∈ <span class="fn"><span class="fn">Si</span>.1</span>, <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">x</span></span> <span class="fn">∈</span> <span class="fn"><span class="fn">b</span> <span class="fn"><span class="fn">Si</span>.2</span></span></span></span><a href="../../../.././Mathlib/Data/Set/Defs.html#setOf">}</a></span></span></div></div></div></div><div class="decl" id="PointwiseConvergenceCLM.hasBasis_nhds_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Algebra/Module/PointwiseConvergence.lean#L83-L87">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Topology_Algebra_Module_PointwiseConvergence.html#PointwiseConvergenceCLM.hasBasis_nhds_zero" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.hasBasis_nhds_zero"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">hasBasis_nhds_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₁</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₂</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">σ</span> : <span class="fn">𝕜₁</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">𝕜₂</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_7}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_8}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/Group/Defs.html#IsTopologicalAddGroup">IsTopologicalAddGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₁</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₂</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Topology/Defs/Filter.html#nhds">nhds</a> <span class="fn">0</span>)</span>.<a href="../../../.././Mathlib/Order/Filter/Bases/Basic.html#Filter.HasBasis">HasBasis</a></span> <span class="fn">(fun (<span class="fn">SV</span> : <span class="fn"><span class="fn"><a href="../../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">E</span></span> <span class="fn">×</span> <span class="fn"><a href="../../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">F</span></span></span>) =&gt; <span class="fn"><span class="fn"><a href="../../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">↑<span class="fn"><span class="fn">SV</span>.1</span></span></span> <span class="fn">∧</span> <span class="fn"><span class="fn"><span class="fn">SV</span>.2</span> <span class="fn">∈</span> <span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Filter.html#nhds">nhds</a> <span class="fn">0</span></span></span></span>)</span> <span class="fn">fun (<span class="fn">SV</span> : <span class="fn"><span class="fn"><a href="../../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">E</span></span> <span class="fn">×</span> <span class="fn"><a href="../../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">F</span></span></span>) =&gt;
+  <a href="../../../.././Mathlib/Data/Set/Defs.html#setOf">{</a><span class="fn">f</span> <a href="../../../.././Mathlib/Data/Set/Defs.html#setOf">:</a> <span class="fn">E</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">→SLₚₜ[</a><span class="fn">σ</span><a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">]</a> <span class="fn">F</span> <a href="../../../.././Mathlib/Data/Set/Defs.html#setOf">|</a> <span class="fn">∀ <span class="fn">x</span> ∈ <span class="fn"><span class="fn">SV</span>.1</span>, <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">x</span></span> <span class="fn">∈</span> <span class="fn"><span class="fn">SV</span>.2</span></span></span><a href="../../../.././Mathlib/Data/Set/Defs.html#setOf">}</a></span></span></div></div></div></div><div class="decl" id="PointwiseConvergenceCLM.isUniformEmbedding_coeFn"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Algebra/Module/PointwiseConvergence.lean#L90-L93">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Topology_Algebra_Module_PointwiseConvergence.html#PointwiseConvergenceCLM.isUniformEmbedding_coeFn" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.isUniformEmbedding_coeFn"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">isUniformEmbedding_coeFn</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₁</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₂</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₂</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">σ</span> : <span class="fn">𝕜₁</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">𝕜₂</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_7)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">Fᵤ</span> : <a href="../../../.././foundational_types.html">Type</a> u_9)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">Fᵤ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/UniformSpace/Defs.html#UniformSpace">UniformSpace</a> <span class="fn">Fᵤ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/IsUniformGroup/Defs.html#IsUniformAddGroup">IsUniformAddGroup</a> <span class="fn">Fᵤ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₁</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₂</span> <span class="fn">Fᵤ</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Topology/UniformSpace/Defs.html#IsUniformEmbedding">IsUniformEmbedding</a> <a href="../../../.././Mathlib/Data/FunLike/Basic.html#DFunLike.coe">DFunLike.coe</a></span></div></div></div></div><div class="decl" id="PointwiseConvergenceCLM.isEmbedding_coeFn"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Algebra/Module/PointwiseConvergence.lean#L96-L99">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Topology_Algebra_Module_PointwiseConvergence.html#PointwiseConvergenceCLM.isEmbedding_coeFn" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.isEmbedding_coeFn"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">isEmbedding_coeFn</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₁</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₂</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₂</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">σ</span> : <span class="fn">𝕜₁</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">𝕜₂</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_7)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_8)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/Group/Defs.html#IsTopologicalAddGroup">IsTopologicalAddGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₁</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₂</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Induced.html#Topology.IsEmbedding">Topology.IsEmbedding</a> <a href="../../../.././Mathlib/Data/FunLike/Basic.html#DFunLike.coe">DFunLike.coe</a></span></div></div></div></div><div class="decl" id="PointwiseConvergenceCLM.tendsto_iff_forall_tendsto"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Algebra/Module/PointwiseConvergence.lean#L101-L105">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Topology_Algebra_Module_PointwiseConvergence.html#PointwiseConvergenceCLM.tendsto_iff_forall_tendsto" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.tendsto_iff_forall_tendsto"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">tendsto_iff_forall_tendsto</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₁</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₂</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">σ</span> : <span class="fn">𝕜₁</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">𝕜₂</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_7}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_8}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/Group/Defs.html#IsTopologicalAddGroup">IsTopologicalAddGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₁</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₂</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><a href="../../../.././Mathlib/Order/Filter/Defs.html#Filter">Filter</a> <span class="fn">ι</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">E</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">→SLₚₜ[</a><span class="fn">σ</span><a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">]</a> <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a₀</span> : <span class="fn">E</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">→SLₚₜ[</a><span class="fn">σ</span><a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">]</a> <span class="fn">F</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../../.././Mathlib/Order/Filter/Defs.html#Filter.Tendsto">Filter.Tendsto</a> <span class="fn">a</span> <span class="fn">p</span> <span class="fn">(<a href="../../../.././Mathlib/Topology/Defs/Filter.html#nhds">nhds</a> <span class="fn">a₀</span>)</span></span> <span class="fn">↔</span> <span class="fn">∀ (<span class="fn">x</span> : <span class="fn">E</span>), <span class="fn"><a href="../../../.././Mathlib/Order/Filter/Defs.html#Filter.Tendsto">Filter.Tendsto</a> <span class="fn">(fun (<span class="fn">x_1</span> : <span class="fn">ι</span>) =&gt; <span class="fn"><span class="fn">(<span class="fn">a</span> <span class="fn">x_1</span>)</span> <span class="fn">x</span></span>)</span> <span class="fn">p</span> <span class="fn">(<a href="../../../.././Mathlib/Topology/Defs/Filter.html#nhds">nhds</a> <span class="fn">(<span class="fn">a₀</span> <span class="fn">x</span>)</span>)</span></span></span></span></div></div><p>In the topology of pointwise convergence, <code>a</code> converges to <code>a₀</code> iff for every <code>x : E</code> the map
+<code>a · x</code> converges to <code>a₀ x</code>.</p></div></div><div class="decl" id="PointwiseConvergenceCLM.coeLMₛₗ"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Algebra/Module/PointwiseConvergence.lean#L108-L111">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Topology_Algebra_Module_PointwiseConvergence.html#PointwiseConvergenceCLM.coeLMₛₗ" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.coeLMₛₗ"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">coeLMₛₗ</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₁</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₂</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₂</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">σ</span> : <span class="fn">𝕜₁</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">𝕜₂</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_7)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_8)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/Group/Defs.html#IsTopologicalAddGroup">IsTopologicalAddGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₁</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₂</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/ConstMulAction.html#ContinuousConstSMul">ContinuousConstSMul</a> <span class="fn">𝕜₂</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type">(<span class="fn">E</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">→SLₚₜ[</a><span class="fn">σ</span><a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">]</a> <span class="fn">F</span>) <a href="../../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">𝕜₂</span><a href="../../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn">E</span> <a href="../../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₛₗ[</a><span class="fn">σ</span><a href="../../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn">F</span></div></div><p>Coercion from <code>E →SLₚₜ[σ] F</code> to <code>E →ₛₗ[σ] F</code> as a <code>𝕜₂</code>-linear map.</p><details id="instances-for-list-PointwiseConvergenceCLM.coeLMₛₗ" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="PointwiseConvergenceCLM.coeLMₛₗ_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Algebra/Module/PointwiseConvergence.lean#L109-L109">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Topology_Algebra_Module_PointwiseConvergence.html#PointwiseConvergenceCLM.coeLMₛₗ_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.coeLMₛₗ_apply"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">coeLMₛₗ_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₁</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₂</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₂</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">σ</span> : <span class="fn">𝕜₁</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">𝕜₂</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_7)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_8)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/Group/Defs.html#IsTopologicalAddGroup">IsTopologicalAddGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₁</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₂</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/ConstMulAction.html#ContinuousConstSMul">ContinuousConstSMul</a> <span class="fn">𝕜₂</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">self</span> : <span class="fn">E</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">→SL[</a><span class="fn">σ</span><a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">]</a> <span class="fn">F</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.coeLMₛₗ">coeLMₛₗ</a> <span class="fn">σ</span> <span class="fn">E</span> <span class="fn">F</span>)</span> <span class="fn">self</span></span> <span class="fn">=</span> <span class="fn">↑<span class="fn">self</span></span></span></div></div></div></div><div class="decl" id="PointwiseConvergenceCLM.coeLM"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Algebra/Module/PointwiseConvergence.lean#L114-L116">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Topology_Algebra_Module_PointwiseConvergence.html#PointwiseConvergenceCLM.coeLM" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.coeLM"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">coeLM</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">𝕜</span> : <a href="../../../.././foundational_types.html">Type</a> u_3)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_7)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_8)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/Group/Defs.html#IsTopologicalAddGroup">IsTopologicalAddGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/ConstMulAction.html#ContinuousConstSMul">ContinuousConstSMul</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type">(<span class="fn">E</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">→Lₚₜ[</a><span class="fn">𝕜</span><a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">]</a> <span class="fn">F</span>) <a href="../../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">𝕜</span><a href="../../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn">E</span> <a href="../../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">𝕜</span><a href="../../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn">F</span></div></div><p>Coercion from <code>E →Lₚₜ[𝕜] F</code> to <code>E →ₗ[𝕜] F</code> as a <code>𝕜</code>-linear map.</p><details id="instances-for-list-PointwiseConvergenceCLM.coeLM" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="PointwiseConvergenceCLM.coeLM_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Algebra/Module/PointwiseConvergence.lean#L115-L115">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Topology_Algebra_Module_PointwiseConvergence.html#PointwiseConvergenceCLM.coeLM_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.coeLM_apply"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">coeLM_apply</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">𝕜</span> : <a href="../../../.././foundational_types.html">Type</a> u_3)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_7)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_8)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/Group/Defs.html#IsTopologicalAddGroup">IsTopologicalAddGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/ConstMulAction.html#ContinuousConstSMul">ContinuousConstSMul</a> <span class="fn">𝕜</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">self</span> : <span class="fn">E</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">→L[</a><span class="fn">𝕜</span><a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">]</a> <span class="fn">F</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.coeLM">coeLM</a> <span class="fn">𝕜</span> <span class="fn">E</span> <span class="fn">F</span>)</span> <span class="fn">self</span></span> <span class="fn">=</span> <span class="fn">↑<span class="fn">self</span></span></span></div></div></div></div><div class="decl" id="PointwiseConvergenceCLM.evalCLM"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Algebra/Module/PointwiseConvergence.lean#L119-L123">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Topology_Algebra_Module_PointwiseConvergence.html#PointwiseConvergenceCLM.evalCLM" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.evalCLM"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">evalCLM</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₁</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₂</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₂</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">σ</span> : <span class="fn">𝕜₁</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">𝕜₂</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_7}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_8)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/Group/Defs.html#IsTopologicalAddGroup">IsTopologicalAddGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₁</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₂</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/ConstMulAction.html#ContinuousConstSMul">ContinuousConstSMul</a> <span class="fn">𝕜₂</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">E</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type">(<span class="fn">E</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">→SLₚₜ[</a><span class="fn">σ</span><a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">]</a> <span class="fn">F</span>) <a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">→L[</a><span class="fn">𝕜₂</span><a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">]</a> <span class="fn">F</span></div></div><p>The evaluation map <code>(f : E →SLₚₜ[σ] F) ↦ f a</code> for <code>a : E</code> as a continuous linear map.</p><details id="instances-for-list-PointwiseConvergenceCLM.evalCLM" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="PointwiseConvergenceCLM.evalCLM_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Algebra/Module/PointwiseConvergence.lean#L120-L120">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Topology_Algebra_Module_PointwiseConvergence.html#PointwiseConvergenceCLM.evalCLM_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.evalCLM_apply"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">evalCLM_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₁</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₂</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₂</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">σ</span> : <span class="fn">𝕜₁</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">𝕜₂</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_7}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_8)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/Group/Defs.html#IsTopologicalAddGroup">IsTopologicalAddGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₁</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₂</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/ConstMulAction.html#ContinuousConstSMul">ContinuousConstSMul</a> <span class="fn">𝕜₂</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">E</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">m</span> : <span class="fn">E</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">→SLₚₜ[</a><span class="fn">σ</span><a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">]</a> <span class="fn">F</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.evalCLM">evalCLM</a> <span class="fn">σ</span> <span class="fn">F</span> <span class="fn">a</span>)</span> <span class="fn">m</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">m</span> <span class="fn">a</span></span></span></div></div></div></div><div class="decl" id="PointwiseConvergenceCLM.continuous_of_continuous_eval"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Algebra/Module/PointwiseConvergence.lean#L125-L129">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Topology_Algebra_Module_PointwiseConvergence.html#PointwiseConvergenceCLM.continuous_of_continuous_eval" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.continuous_of_continuous_eval"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">continuous_of_continuous_eval</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₁</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₂</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">σ</span> : <span class="fn">𝕜₁</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">𝕜₂</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_7}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_8}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/Group/Defs.html#IsTopologicalAddGroup">IsTopologicalAddGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₁</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₂</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">E</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">→SLₚₜ[</a><span class="fn">σ</span><a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">]</a> <span class="fn">F</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn">∀ (<span class="fn">x</span> : <span class="fn">E</span>), <span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#Continuous">Continuous</a> <span class="fn">fun (<span class="fn">x_1</span> : <span class="fn">α</span>) =&gt; <span class="fn"><span class="fn">(<span class="fn">g</span> <span class="fn">x_1</span>)</span> <span class="fn">x</span></span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#Continuous">Continuous</a> <span class="fn">g</span></span></div></div><p>A map to <code>E →SLₚₜ[σ] F</code> is continuous if for every <code>x : E</code> the evaluation <code>g · x</code> is
+continuous.</p></div></div><div class="decl" id="PointwiseConvergenceCLM.precomp"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Algebra/Module/PointwiseConvergence.lean#L132-L139">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Topology_Algebra_Module_PointwiseConvergence.html#PointwiseConvergenceCLM.precomp" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.precomp"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">precomp</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₁</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₂</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₃</span> : <a href="../../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₃</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">σ</span> : <span class="fn">𝕜₁</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">𝕜₂</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">τ</span> : <span class="fn">𝕜₂</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">𝕜₃</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ρ</span> : <span class="fn">𝕜₁</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">𝕜₃</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/CompTypeclasses.html#RingHomCompTriple">RingHomCompTriple</a> <span class="fn">σ</span> <span class="fn">τ</span> <span class="fn">ρ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_7}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_8}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_10)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₁</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₂</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₃</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/Group/Defs.html#IsTopologicalAddGroup">IsTopologicalAddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/ConstMulAction.html#ContinuousConstSMul">ContinuousConstSMul</a> <span class="fn">𝕜₃</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">L</span> : <span class="fn">E</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">→SL[</a><span class="fn">σ</span><a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">]</a> <span class="fn">F</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type">(<span class="fn">F</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">→SLₚₜ[</a><span class="fn">τ</span><a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">]</a> <span class="fn">G</span>) <a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">→L[</a><span class="fn">𝕜₃</span><a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">]</a> <span class="fn">E</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">→SLₚₜ[</a><span class="fn">ρ</span><a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">]</a> <span class="fn">G</span></div></div><p>Pre-composition by a <em>fixed</em> continuous linear map as a continuous linear map for the pointwise
+convergence topology.</p><details id="instances-for-list-PointwiseConvergenceCLM.precomp" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="PointwiseConvergenceCLM.precomp_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Algebra/Module/PointwiseConvergence.lean#L134-L134">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Topology_Algebra_Module_PointwiseConvergence.html#PointwiseConvergenceCLM.precomp_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.precomp_apply"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">precomp_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₁</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₂</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₃</span> : <a href="../../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₃</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">σ</span> : <span class="fn">𝕜₁</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">𝕜₂</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">τ</span> : <span class="fn">𝕜₂</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">𝕜₃</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ρ</span> : <span class="fn">𝕜₁</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">𝕜₃</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/CompTypeclasses.html#RingHomCompTriple">RingHomCompTriple</a> <span class="fn">σ</span> <span class="fn">τ</span> <span class="fn">ρ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_7}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_8}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_10)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₁</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₂</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₃</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/Group/Defs.html#IsTopologicalAddGroup">IsTopologicalAddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/ConstMulAction.html#ContinuousConstSMul">ContinuousConstSMul</a> <span class="fn">𝕜₃</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">L</span> : <span class="fn">E</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">→SL[</a><span class="fn">σ</span><a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">]</a> <span class="fn">F</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">F</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">→SLₚₜ[</a><span class="fn">τ</span><a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">]</a> <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.precomp">precomp</a> <span class="fn">G</span> <span class="fn">L</span>)</span> <span class="fn">f</span></span> <span class="fn">=</span> <span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap.comp">ContinuousLinearMap.comp</a> <span class="fn">f</span> <span class="fn">L</span></span></span></div></div></div></div><div class="decl" id="PointwiseConvergenceCLM.postcomp"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Algebra/Module/PointwiseConvergence.lean#L142-L148">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Topology_Algebra_Module_PointwiseConvergence.html#PointwiseConvergenceCLM.postcomp" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.postcomp"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">postcomp</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₁</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₂</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₃</span> : <a href="../../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₃</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">σ</span> : <span class="fn">𝕜₁</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">𝕜₂</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">τ</span> : <span class="fn">𝕜₂</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">𝕜₃</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ρ</span> : <span class="fn">𝕜₁</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">𝕜₃</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/CompTypeclasses.html#RingHomCompTriple">RingHomCompTriple</a> <span class="fn">σ</span> <span class="fn">τ</span> <span class="fn">ρ</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_7)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_8}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_10}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/Group/Defs.html#IsTopologicalAddGroup">IsTopologicalAddGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/Group/Defs.html#IsTopologicalAddGroup">IsTopologicalAddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₁</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₂</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₃</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/ConstMulAction.html#ContinuousConstSMul">ContinuousConstSMul</a> <span class="fn">𝕜₂</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/ConstMulAction.html#ContinuousConstSMul">ContinuousConstSMul</a> <span class="fn">𝕜₃</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">L</span> : <span class="fn">F</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">→SL[</a><span class="fn">τ</span><a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">]</a> <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type">(<span class="fn">E</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">→SLₚₜ[</a><span class="fn">σ</span><a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">]</a> <span class="fn">F</span>) <a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">→SL[</a><span class="fn">τ</span><a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">]</a> <span class="fn">E</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">→SLₚₜ[</a><span class="fn">ρ</span><a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">]</a> <span class="fn">G</span></div></div><p>Post-composition by a <em>fixed</em> continuous linear map as a continuous linear map for the pointwise
+convergence topology.</p><details id="instances-for-list-PointwiseConvergenceCLM.postcomp" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="PointwiseConvergenceCLM.postcomp_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Algebra/Module/PointwiseConvergence.lean#L144-L144">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Topology_Algebra_Module_PointwiseConvergence.html#PointwiseConvergenceCLM.postcomp_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.postcomp_apply"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">postcomp_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₁</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₂</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₃</span> : <a href="../../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₃</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">σ</span> : <span class="fn">𝕜₁</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">𝕜₂</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">τ</span> : <span class="fn">𝕜₂</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">𝕜₃</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ρ</span> : <span class="fn">𝕜₁</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">𝕜₃</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/CompTypeclasses.html#RingHomCompTriple">RingHomCompTriple</a> <span class="fn">σ</span> <span class="fn">τ</span> <span class="fn">ρ</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_7)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_8}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_10}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/Group/Defs.html#IsTopologicalAddGroup">IsTopologicalAddGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/Group/Defs.html#IsTopologicalAddGroup">IsTopologicalAddGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₁</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₂</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₃</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/ConstMulAction.html#ContinuousConstSMul">ContinuousConstSMul</a> <span class="fn">𝕜₂</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/ConstMulAction.html#ContinuousConstSMul">ContinuousConstSMul</a> <span class="fn">𝕜₃</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">L</span> : <span class="fn">F</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">→SL[</a><span class="fn">τ</span><a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">]</a> <span class="fn">G</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">E</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">→SLₚₜ[</a><span class="fn">σ</span><a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">]</a> <span class="fn">F</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.postcomp">postcomp</a> <span class="fn">E</span> <span class="fn">L</span>)</span> <span class="fn">f</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">L</span>.<a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap.comp">comp</a></span> <span class="fn">f</span></span></span></div></div></div></div><div class="decl" id="ContinuousLinearMap.toPointwiseConvergenceCLM"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Algebra/Module/PointwiseConvergence.lean#L151-L157">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Topology_Algebra_Module_PointwiseConvergence.html#ContinuousLinearMap.toPointwiseConvergenceCLM" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#ContinuousLinearMap.toPointwiseConvergenceCLM"><span class="name">ContinuousLinearMap</span>.<span class="name">toPointwiseConvergenceCLM</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₁</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">𝕜₂</span> : <a href="../../../.././foundational_types.html">Type</a> u_5)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₂</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">σ</span> : <span class="fn">𝕜₁</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">𝕜₂</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_7)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_8)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/Group/Defs.html#IsTopologicalAddGroup">IsTopologicalAddGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₁</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₂</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/MulAction.html#ContinuousSMul">ContinuousSMul</a> <span class="fn">𝕜₁</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/ConstMulAction.html#ContinuousConstSMul">ContinuousConstSMul</a> <span class="fn">𝕜₂</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type">(<span class="fn">E</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">→SL[</a><span class="fn">σ</span><a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">]</a> <span class="fn">F</span>) <a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">→L[</a><span class="fn">𝕜₂</span><a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">]</a> <span class="fn">E</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">→SLₚₜ[</a><span class="fn">σ</span><a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">]</a> <span class="fn">F</span></div></div><p>The topology of bounded convergence is stronger than the topology of pointwise convergence.</p><details id="instances-for-list-ContinuousLinearMap.toPointwiseConvergenceCLM" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="ContinuousLinearMap.toPointwiseConvergenceCLM_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Algebra/Module/PointwiseConvergence.lean#L152-L152">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Topology_Algebra_Module_PointwiseConvergence.html#ContinuousLinearMap.toPointwiseConvergenceCLM_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#ContinuousLinearMap.toPointwiseConvergenceCLM_apply"><span class="name">ContinuousLinearMap</span>.<span class="name">toPointwiseConvergenceCLM_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜₁</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">𝕜₂</span> : <a href="../../../.././foundational_types.html">Type</a> u_5)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₁</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜₂</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">σ</span> : <span class="fn">𝕜₁</span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">𝕜₂</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_7)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_8)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/Group/Defs.html#IsTopologicalAddGroup">IsTopologicalAddGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₁</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜₂</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/MulAction.html#ContinuousSMul">ContinuousSMul</a> <span class="fn">𝕜₁</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/ConstMulAction.html#ContinuousConstSMul">ContinuousConstSMul</a> <span class="fn">𝕜₂</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">E</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">→SL[</a><span class="fn">σ</span><a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">]</a> <span class="fn">F</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#ContinuousLinearMap.toPointwiseConvergenceCLM">toPointwiseConvergenceCLM</a> <span class="fn">𝕜₂</span> <span class="fn">σ</span> <span class="fn">E</span> <span class="fn">F</span>)</span> <span class="fn">a</span></span> <span class="fn">=</span> <span class="fn">a</span></span></div></div></div></div><div class="decl" id="PointwiseConvergenceCLM.equivWeakDual"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Algebra/Module/PointwiseConvergence.lean#L160-L166">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Topology_Algebra_Module_PointwiseConvergence.html#PointwiseConvergenceCLM.equivWeakDual" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.equivWeakDual"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">equivWeakDual</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">𝕜</span> : <a href="../../../.././foundational_types.html">Type</a> u_3)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_7)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type">(<span class="fn">E</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">→Lₚₜ[</a><span class="fn">𝕜</span><a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM">]</a> <span class="fn">𝕜</span>) <a href="../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">≃L[</a><span class="fn">𝕜</span><a href="../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">]</a> <span class="fn"><a href="../../../.././Mathlib/Topology/Algebra/Module/WeakDual.html#WeakDual">WeakDual</a> <span class="fn">𝕜</span> <span class="fn">E</span></span></div></div><p>The topology of pointwise convergence on <code>E →Lₚₜ[𝕜] 𝕜</code> coincides with the weak-* topology.</p><details id="instances-for-list-PointwiseConvergenceCLM.equivWeakDual" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="PointwiseConvergenceCLM.equivWeakDual_symm_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Algebra/Module/PointwiseConvergence.lean#L161-L161">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Topology_Algebra_Module_PointwiseConvergence.html#PointwiseConvergenceCLM.equivWeakDual_symm_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.equivWeakDual_symm_apply"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">equivWeakDual_symm_apply</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">𝕜</span> : <a href="../../../.././foundational_types.html">Type</a> u_3)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_7)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">a✝</span> : <span class="fn">E</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">→L[</a><span class="fn">𝕜</span><a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">]</a> <span class="fn">𝕜</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.equivWeakDual">equivWeakDual</a> <span class="fn">𝕜</span> <span class="fn">E</span>)</span>.<a href="../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.symm">symm</a></span> <span class="fn">a✝</span></span> <span class="fn">=</span> <span class="fn">a✝</span></span></div></div></div></div><div class="decl" id="PointwiseConvergenceCLM.equivWeakDual_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Algebra/Module/PointwiseConvergence.lean#L161-L161">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Topology_Algebra_Module_PointwiseConvergence.html#PointwiseConvergenceCLM.equivWeakDual_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.equivWeakDual_apply"><span class="name">PointwiseConvergenceCLM</span>.<span class="name">equivWeakDual_apply</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">𝕜</span> : <a href="../../../.././foundational_types.html">Type</a> u_3)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#NormedField">NormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_7)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">E</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">→L[</a><span class="fn">𝕜</span><a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">]</a> <span class="fn">𝕜</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Topology/Algebra/Module/PointwiseConvergence.html#PointwiseConvergenceCLM.equivWeakDual">equivWeakDual</a> <span class="fn">𝕜</span> <span class="fn">E</span>)</span> <span class="fn">a</span></span> <span class="fn">=</span> <span class="fn">a</span></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

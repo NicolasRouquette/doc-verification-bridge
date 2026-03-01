@@ -1,0 +1,259 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../.././style.css"></link><link rel="icon" href="../../.././favicon.svg"></link><link rel="mask-icon" href="../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.Topology.Sets.Order</title><script defer="true" src="../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../.././";</script><script>const MODULE_NAME="Mathlib.Topology.Sets.Order";</script><script type="module" src="../../.././jump-src.js"></script><script type="module" src="../../.././search.js"></script><script type="module" src="../../.././expand-nav.js"></script><script type="module" src="../../.././how-about.js"></script><script type="module" src="../../.././instances.js"></script><script type="module" src="../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">Topology</span>.<span class="name">Sets</span>.<span class="name">Order</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Sets/Order.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../.././Init.html">Init</a></li><li><a href="../../.././Mathlib/Topology/Sets/Closeds.html">Mathlib.Topology.Sets.Closeds</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.Topology.Sets.Order" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#ClopenUpperSet"><span class="name">ClopenUpperSet</span></a></div><div class="nav_link"><a class="break_within" href="#ClopenUpperSet.instSetLike"><span class="name">ClopenUpperSet</span>.<span class="name">instSetLike</span></a></div><div class="nav_link"><a class="break_within" href="#ClopenUpperSet.instPartialOrder"><span class="name">ClopenUpperSet</span>.<span class="name">instPartialOrder</span></a></div><div class="nav_link"><a class="break_within" href="#ClopenUpperSet.Simps.coe"><span class="name">ClopenUpperSet</span>.<span class="name">Simps</span>.<span class="name">coe</span></a></div><div class="nav_link"><a class="break_within" href="#ClopenUpperSet.upper"><span class="name">ClopenUpperSet</span>.<span class="name">upper</span></a></div><div class="nav_link"><a class="break_within" href="#ClopenUpperSet.isClopen"><span class="name">ClopenUpperSet</span>.<span class="name">isClopen</span></a></div><div class="nav_link"><a class="break_within" href="#ClopenUpperSet.toUpperSet"><span class="name">ClopenUpperSet</span>.<span class="name">toUpperSet</span></a></div><div class="nav_link"><a class="break_within" href="#ClopenUpperSet.coe_toUpperSet"><span class="name">ClopenUpperSet</span>.<span class="name">coe_toUpperSet</span></a></div><div class="nav_link"><a class="break_within" href="#ClopenUpperSet.ext"><span class="name">ClopenUpperSet</span>.<span class="name">ext</span></a></div><div class="nav_link"><a class="break_within" href="#ClopenUpperSet.ext_iff"><span class="name">ClopenUpperSet</span>.<span class="name">ext_iff</span></a></div><div class="nav_link"><a class="break_within" href="#ClopenUpperSet.coe_mk"><span class="name">ClopenUpperSet</span>.<span class="name">coe_mk</span></a></div><div class="nav_link"><a class="break_within" href="#ClopenUpperSet.instMax"><span class="name">ClopenUpperSet</span>.<span class="name">instMax</span></a></div><div class="nav_link"><a class="break_within" href="#ClopenUpperSet.instMin"><span class="name">ClopenUpperSet</span>.<span class="name">instMin</span></a></div><div class="nav_link"><a class="break_within" href="#ClopenUpperSet.instTop"><span class="name">ClopenUpperSet</span>.<span class="name">instTop</span></a></div><div class="nav_link"><a class="break_within" href="#ClopenUpperSet.instBot"><span class="name">ClopenUpperSet</span>.<span class="name">instBot</span></a></div><div class="nav_link"><a class="break_within" href="#ClopenUpperSet.instLattice"><span class="name">ClopenUpperSet</span>.<span class="name">instLattice</span></a></div><div class="nav_link"><a class="break_within" href="#ClopenUpperSet.instBoundedOrder"><span class="name">ClopenUpperSet</span>.<span class="name">instBoundedOrder</span></a></div><div class="nav_link"><a class="break_within" href="#ClopenUpperSet.coe_sup"><span class="name">ClopenUpperSet</span>.<span class="name">coe_sup</span></a></div><div class="nav_link"><a class="break_within" href="#ClopenUpperSet.coe_inf"><span class="name">ClopenUpperSet</span>.<span class="name">coe_inf</span></a></div><div class="nav_link"><a class="break_within" href="#ClopenUpperSet.coe_top"><span class="name">ClopenUpperSet</span>.<span class="name">coe_top</span></a></div><div class="nav_link"><a class="break_within" href="#ClopenUpperSet.coe_bot"><span class="name">ClopenUpperSet</span>.<span class="name">coe_bot</span></a></div><div class="nav_link"><a class="break_within" href="#ClopenUpperSet.instInhabited"><span class="name">ClopenUpperSet</span>.<span class="name">instInhabited</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Clopen-upper-sets" class="markdown-heading">Clopen upper sets <a class="hover-link" href="#Clopen-upper-sets">#</a></h1><p>In this file we define the type of clopen upper sets.</p></div><div class="mod_doc"><h3 id="Compact-open-sets" class="markdown-heading">Compact open sets <a class="hover-link" href="#Compact-open-sets">#</a></h3></div><div class="decl" id="ClopenUpperSet"><div class="structure"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Sets/Order.lean#L26-L28">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_Sets_Order.html#ClopenUpperSet" class="verification-badge comp-datatype" title="Computational datatype">🔶 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">structure</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet"><span class="name">ClopenUpperSet</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_extends">extends</span> <span id="ClopenUpperSet.toClopens"><span class="fn"><a href="../../.././Mathlib/Topology/Sets/Closeds.html#TopologicalSpace.Clopens">TopologicalSpace.Clopens</a> <span class="fn">α</span></span></span><span class="decl_args"> :</span><div class="decl_type"><a href="../../.././foundational_types.html">Type</a> u_2</div></div><p>The type of clopen upper sets of a topological space.</p><ul class="structure_fields" id="ClopenUpperSet.mk"><li class="structure_field inherited_field"><div class="structure_field_info"><a href="../../.././Mathlib/Topology/Sets/Closeds.html#TopologicalSpace.Clopens.carrier">carrier</a> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span></div></li><li class="structure_field inherited_field"><div class="structure_field_info"><a href="../../.././Mathlib/Topology/Sets/Closeds.html#TopologicalSpace.Clopens.isClopen'">isClopen'</a> : <span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#IsClopen">IsClopen</a> <span class="fn"><span class="fn">self</span>.<a href="../../.././Mathlib/Topology/Sets/Closeds.html#TopologicalSpace.Clopens.carrier">carrier</a></span></span></div></li><li id="ClopenUpperSet.upper'" class="structure_field"><div class="structure_field_info">upper' : <span class="fn"><a href="../../.././Mathlib/Order/Defs/Unbundled.html#IsUpperSet">IsUpperSet</a> <span class="fn"><span class="fn">self</span>.<a href="../../.././Mathlib/Topology/Sets/Closeds.html#TopologicalSpace.Clopens.carrier">carrier</a></span></span></div></li></ul><details id="instances-for-list-ClopenUpperSet" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="ClopenUpperSet.instSetLike"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Sets/Order.lean#L32-L37">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_Sets_Order.html#ClopenUpperSet.instSetLike" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet.instSetLike"><span class="name">ClopenUpperSet</span>.<span class="name">instSetLike</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Data/SetLike/Basic.html#SetLike">SetLike</a> <span class="fn">(<a href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet">ClopenUpperSet</a> <span class="fn">α</span>)</span> <span class="fn">α</span></span></div></div></div></div><div class="decl" id="ClopenUpperSet.instPartialOrder"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Sets/Order.lean#L39-L39">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_Sets_Order.html#ClopenUpperSet.instPartialOrder" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet.instPartialOrder"><span class="name">ClopenUpperSet</span>.<span class="name">instPartialOrder</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">(<a href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet">ClopenUpperSet</a> <span class="fn">α</span>)</span></span></div></div></div></div><div class="decl" id="ClopenUpperSet.Simps.coe"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Sets/Order.lean#L41-L42">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_Sets_Order.html#ClopenUpperSet.Simps.coe" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet.Simps.coe"><span class="name">ClopenUpperSet</span>.<span class="name">Simps</span>.<span class="name">coe</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">s</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet">ClopenUpperSet</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span></div></div><p>See Note [custom simps projection].</p><details id="instances-for-list-ClopenUpperSet.Simps.coe" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="ClopenUpperSet.upper"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Sets/Order.lean#L46-L47">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_Sets_Order.html#ClopenUpperSet.upper" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet.upper"><span class="name">ClopenUpperSet</span>.<span class="name">upper</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">s</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet">ClopenUpperSet</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Order/Defs/Unbundled.html#IsUpperSet">IsUpperSet</a> <span class="fn">↑<span class="fn">s</span></span></span></div></div></div></div><div class="decl" id="ClopenUpperSet.isClopen"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Sets/Order.lean#L49-L50">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_Sets_Order.html#ClopenUpperSet.isClopen" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet.isClopen"><span class="name">ClopenUpperSet</span>.<span class="name">isClopen</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">s</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet">ClopenUpperSet</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#IsClopen">IsClopen</a> <span class="fn">↑<span class="fn">s</span></span></span></div></div></div></div><div class="decl" id="ClopenUpperSet.toUpperSet"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Sets/Order.lean#L52-L55">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_Sets_Order.html#ClopenUpperSet.toUpperSet" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet.toUpperSet"><span class="name">ClopenUpperSet</span>.<span class="name">toUpperSet</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">s</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet">ClopenUpperSet</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Order/Defs/Unbundled.html#UpperSet">UpperSet</a> <span class="fn">α</span></span></div></div><p>Reinterpret an upper clopen as an upper set.</p><details id="instances-for-list-ClopenUpperSet.toUpperSet" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="ClopenUpperSet.coe_toUpperSet"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Sets/Order.lean#L53-L53">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_Sets_Order.html#ClopenUpperSet.coe_toUpperSet" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet.coe_toUpperSet"><span class="name">ClopenUpperSet</span>.<span class="name">coe_toUpperSet</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">s</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet">ClopenUpperSet</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">↑<span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet.toUpperSet">toUpperSet</a></span></span> <span class="fn">=</span> <span class="fn">↑<span class="fn">s</span></span></span></div></div></div></div><div class="decl" id="ClopenUpperSet.ext"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Sets/Order.lean#L57-L59">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet.ext"><span class="name">ClopenUpperSet</span>.<span class="name">ext</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet">ClopenUpperSet</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">↑<span class="fn">s</span></span> <span class="fn">=</span> <span class="fn">↑<span class="fn">t</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">s</span> <span class="fn">=</span> <span class="fn">t</span></span></div></div></div></div><div class="decl" id="ClopenUpperSet.ext_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Sets/Order.lean#L57-L57">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_Sets_Order.html#ClopenUpperSet.ext_iff" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet.ext_iff"><span class="name">ClopenUpperSet</span>.<span class="name">ext_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet">ClopenUpperSet</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">s</span> <span class="fn">=</span> <span class="fn">t</span></span> <span class="fn">↔</span> <span class="fn"><span class="fn">↑<span class="fn">s</span></span> <span class="fn">=</span> <span class="fn">↑<span class="fn">t</span></span></span></span></div></div></div></div><div class="decl" id="ClopenUpperSet.coe_mk"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Sets/Order.lean#L61-L63">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_Sets_Order.html#ClopenUpperSet.coe_mk" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet.coe_mk"><span class="name">ClopenUpperSet</span>.<span class="name">coe_mk</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">s</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Sets/Closeds.html#TopologicalSpace.Clopens">TopologicalSpace.Clopens</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../.././Mathlib/Order/Defs/Unbundled.html#IsUpperSet">IsUpperSet</a> <span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Topology/Sets/Closeds.html#TopologicalSpace.Clopens.carrier">carrier</a></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">↑<a href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet.mk">{</a> <span class="fn">toClopens</span> := <span class="fn">s</span>, <span class="fn">upper'</span> := <span class="fn">h</span> <a href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet.mk">}</a></span> <span class="fn">=</span> <span class="fn">↑<span class="fn">s</span></span></span></div></div></div></div><div class="decl" id="ClopenUpperSet.instMax"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Sets/Order.lean#L65-L66">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_Sets_Order.html#ClopenUpperSet.instMax" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet.instMax"><span class="name">ClopenUpperSet</span>.<span class="name">instMax</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Max</span> <span class="fn">(<a href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet">ClopenUpperSet</a> <span class="fn">α</span>)</span></span></div></div></div></div><div class="decl" id="ClopenUpperSet.instMin"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Sets/Order.lean#L68-L69">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_Sets_Order.html#ClopenUpperSet.instMin" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet.instMin"><span class="name">ClopenUpperSet</span>.<span class="name">instMin</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Min</span> <span class="fn">(<a href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet">ClopenUpperSet</a> <span class="fn">α</span>)</span></span></div></div></div></div><div class="decl" id="ClopenUpperSet.instTop"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Sets/Order.lean#L71-L72">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_Sets_Order.html#ClopenUpperSet.instTop" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet.instTop"><span class="name">ClopenUpperSet</span>.<span class="name">instTop</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Order/Notation.html#Top">Top</a> <span class="fn">(<a href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet">ClopenUpperSet</a> <span class="fn">α</span>)</span></span></div></div></div></div><div class="decl" id="ClopenUpperSet.instBot"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Sets/Order.lean#L74-L75">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_Sets_Order.html#ClopenUpperSet.instBot" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet.instBot"><span class="name">ClopenUpperSet</span>.<span class="name">instBot</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Order/Notation.html#Bot">Bot</a> <span class="fn">(<a href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet">ClopenUpperSet</a> <span class="fn">α</span>)</span></span></div></div></div></div><div class="decl" id="ClopenUpperSet.instLattice"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Sets/Order.lean#L77-L78">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_Sets_Order.html#ClopenUpperSet.instLattice" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet.instLattice"><span class="name">ClopenUpperSet</span>.<span class="name">instLattice</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Order/Lattice.html#Lattice">Lattice</a> <span class="fn">(<a href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet">ClopenUpperSet</a> <span class="fn">α</span>)</span></span></div></div></div></div><div class="decl" id="ClopenUpperSet.instBoundedOrder"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Sets/Order.lean#L80-L81">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_Sets_Order.html#ClopenUpperSet.instBoundedOrder" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet.instBoundedOrder"><span class="name">ClopenUpperSet</span>.<span class="name">instBoundedOrder</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Order/BoundedOrder/Basic.html#BoundedOrder">BoundedOrder</a> <span class="fn">(<a href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet">ClopenUpperSet</a> <span class="fn">α</span>)</span></span></div></div></div></div><div class="decl" id="ClopenUpperSet.coe_sup"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Sets/Order.lean#L83-L85">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_Sets_Order.html#ClopenUpperSet.coe_sup" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet.coe_sup"><span class="name">ClopenUpperSet</span>.<span class="name">coe_sup</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet">ClopenUpperSet</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">↑<span class="fn">(<span class="fn">s</span> ⊔ <span class="fn">t</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">↑<span class="fn">s</span></span> <span class="fn">∪</span> <span class="fn">↑<span class="fn">t</span></span></span></span></div></div></div></div><div class="decl" id="ClopenUpperSet.coe_inf"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Sets/Order.lean#L87-L89">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_Sets_Order.html#ClopenUpperSet.coe_inf" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet.coe_inf"><span class="name">ClopenUpperSet</span>.<span class="name">coe_inf</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet">ClopenUpperSet</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">↑<span class="fn">(<span class="fn">s</span> ⊓ <span class="fn">t</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">↑<span class="fn">s</span></span> <span class="fn">∩</span> <span class="fn">↑<span class="fn">t</span></span></span></span></div></div></div></div><div class="decl" id="ClopenUpperSet.coe_top"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Sets/Order.lean#L91-L93">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_Sets_Order.html#ClopenUpperSet.coe_top" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet.coe_top"><span class="name">ClopenUpperSet</span>.<span class="name">coe_top</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">↑<a href="../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span> <span class="fn">=</span> <a href="../../.././Mathlib/Data/Set/Defs.html#Set.univ">Set.univ</a></span></div></div></div></div><div class="decl" id="ClopenUpperSet.coe_bot"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Sets/Order.lean#L95-L97">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_Sets_Order.html#ClopenUpperSet.coe_bot" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet.coe_bot"><span class="name">ClopenUpperSet</span>.<span class="name">coe_bot</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">↑<a href="../../.././Mathlib/Order/Notation.html#Bot.bot">⊥</a></span> <span class="fn">=</span> <span class="fn">∅</span></span></div></div></div></div><div class="decl" id="ClopenUpperSet.instInhabited"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Topology/Sets/Order.lean#L99-L100">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_Sets_Order.html#ClopenUpperSet.instInhabited" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet.instInhabited"><span class="name">ClopenUpperSet</span>.<span class="name">instInhabited</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Inhabited</span> <span class="fn">(<a href="../../.././Mathlib/Topology/Sets/Order.html#ClopenUpperSet">ClopenUpperSet</a> <span class="fn">α</span>)</span></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

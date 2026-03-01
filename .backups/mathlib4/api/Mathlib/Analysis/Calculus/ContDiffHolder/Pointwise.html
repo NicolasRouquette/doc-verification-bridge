@@ -1,0 +1,832 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../../.././style.css"></link><link rel="icon" href="../../../.././favicon.svg"></link><link rel="mask-icon" href="../../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.Analysis.Calculus.ContDiffHolder.Pointwise</title><script defer="true" src="../../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../../.././";</script><script>const MODULE_NAME="Mathlib.Analysis.Calculus.ContDiffHolder.Pointwise";</script><script type="module" src="../../../.././jump-src.js"></script><script type="module" src="../../../.././search.js"></script><script type="module" src="../../../.././expand-nav.js"></script><script type="module" src="../../../.././how-about.js"></script><script type="module" src="../../../.././instances.js"></script><script type="module" src="../../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">Analysis</span>.<span class="name">Calculus</span>.<span class="name">ContDiffHolder</span>.<span class="name">Pointwise</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../../.././Init.html">Init</a></li><li><a href="../../../.././Mathlib/Topology/MetricSpace/Holder.html">Mathlib.Topology.MetricSpace.Holder</a></li><li><a href="../../../.././Mathlib/Analysis/Calculus/ContDiff/Comp.html">Mathlib.Analysis.Calculus.ContDiff.Comp</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.Analysis.Calculus.ContDiffHolder.Pointwise" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#ContDiffPointwiseHolderAt"><span class="name">ContDiffPointwiseHolderAt</span></a></div><div class="nav_link"><a class="break_within" href="#contDiffPointwiseHolderAt_iff"><span class="name">contDiffPointwiseHolderAt_iff</span></a></div><div class="nav_link"><a class="break_within" href="#ContDiffAt.contDiffPointwiseHolderAt"><span class="name">ContDiffAt</span>.<span class="name">contDiffPointwiseHolderAt</span></a></div><div class="nav_link"><a class="break_within" href="#ContDiffPointwiseHolderAt.continuousAt"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">continuousAt</span></a></div><div class="nav_link"><a class="break_within" href="#ContDiffPointwiseHolderAt.differentiableAt"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">differentiableAt</span></a></div><div class="nav_link"><a class="break_within" href="#ContDiffPointwiseHolderAt.zero_exponent_iff"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">zero_exponent_iff</span></a></div><div class="nav_link"><a class="break_within" href="#ContDiffPointwiseHolderAt.zero_order_iff"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">zero_order_iff</span></a></div><div class="nav_link"><a class="break_within" href="#ContDiffPointwiseHolderAt.of_exponent_le"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">of_exponent_le</span></a></div><div class="nav_link"><a class="break_within" href="#ContDiffPointwiseHolderAt.of_order_lt"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">of_order_lt</span></a></div><div class="nav_link"><a class="break_within" href="#ContDiffPointwiseHolderAt.of_toLex_le"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">of_toLex_le</span></a></div><div class="nav_link"><a class="break_within" href="#ContDiffPointwiseHolderAt.of_order_le"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">of_order_le</span></a></div><div class="nav_link"><a class="break_within" href="#ContDiffPointwiseHolderAt.of_contDiffOn_holderOnWith"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">of_contDiffOn_holderOnWith</span></a></div><div class="nav_link"><a class="break_within" href="#ContDiffPointwiseHolderAt.fst"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">fst</span></a></div><div class="nav_link"><a class="break_within" href="#ContDiffPointwiseHolderAt.snd"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">snd</span></a></div><div class="nav_link"><a class="break_within" href="#ContDiffPointwiseHolderAt.prodMk"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">prodMk</span></a></div><div class="nav_link"><a class="break_within" href="#ContDiffPointwiseHolderAt.comp_of_differentiableAt"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">comp_of_differentiableAt</span></a></div><div class="nav_link"><a class="break_within" href="#ContDiffPointwiseHolderAt.comp"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">comp</span></a></div><div class="nav_link"><a class="break_within" href="#ContDiffPointwiseHolderAt.comp₂_of_differentiableAt"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">comp₂_of_differentiableAt</span></a></div><div class="nav_link"><a class="break_within" href="#ContinuousLinearMap.contDiffPointwiseHolderAt"><span class="name">ContinuousLinearMap</span>.<span class="name">contDiffPointwiseHolderAt</span></a></div><div class="nav_link"><a class="break_within" href="#ContinuousLinearEquiv.contDiffPointwiseHolderAt"><span class="name">ContinuousLinearEquiv</span>.<span class="name">contDiffPointwiseHolderAt</span></a></div><div class="nav_link"><a class="break_within" href="#ContDiffPointwiseHolderAt.continuousLinearMap_comp"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">continuousLinearMap_comp</span></a></div><div class="nav_link"><a class="break_within" href="#ContinuousLinearEquiv.contDiffPointwiseHolderAt_left_comp"><span class="name">ContinuousLinearEquiv</span>.<span class="name">contDiffPointwiseHolderAt_left_comp</span></a></div><div class="nav_link"><a class="break_within" href="#LinearIsometryEquiv.contDiffPointwiseHolderAt_left_comp"><span class="name">LinearIsometryEquiv</span>.<span class="name">contDiffPointwiseHolderAt_left_comp</span></a></div><div class="nav_link"><a class="break_within" href="#ContDiffPointwiseHolderAt.id"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">id</span></a></div><div class="nav_link"><a class="break_within" href="#ContDiffPointwiseHolderAt.const"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">const</span></a></div><div class="nav_link"><a class="break_within" href="#ContDiffPointwiseHolderAt.fderiv"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">fderiv</span></a></div><div class="nav_link"><a class="break_within" href="#ContDiffPointwiseHolderAt.iteratedFDeriv"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">iteratedFDeriv</span></a></div><div class="nav_link"><a class="break_within" href="#ContDiffPointwiseHolderAt.congr_of_eventuallyEq"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">congr_of_eventuallyEq</span></a></div><div class="nav_link"><a class="break_within" href="#ContDiffPointwiseHolderAt.clm_apply"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">clm_apply</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Continuously-k-times-differentiable-functions-with-pointwise-Hölder-continuous-derivatives" class="markdown-heading">Continuously <code>k</code> times differentiable functions with pointwise Hölder continuous derivatives <a class="hover-link" href="#Continuously-k-times-differentiable-functions-with-pointwise-Hölder-continuous-derivatives">#</a></h1><p>We say that a function is of class $C^{k+(α)}$ at a point <code>a</code>,
+where <code>k</code> is a natural number and <code>0 ≤ α ≤ 1</code>, if</p><ul><li>it is of class $C^k$ at <code>a</code> in the sense of <code><a href="../../../.././Mathlib/Analysis/Calculus/ContDiff/Defs.html#ContDiffAt">ContDiffAt</a></code>;</li><li>its <code>k</code>th derivative satisfies $D^kf(x)-D^kf(a) = O(‖x - a‖ ^ α)$ as <code>x → a</code>.</li></ul><p>Note that the Hölder condition used in this definition fixes one of the points at <code>a</code>.
+In different sources, it is called <em>pointwise</em>, <em>local</em>, or <em>weak</em> Hölder condition,
+though the term &quot;local&quot; may also mean a stronger condition
+saying that a function is Hölder continuous on a neighborhood of <code>a</code>.</p><p>The immediate reason for adding this definition to the library
+is its use in [Moreira2001], where Moreira proves a version of the Morse-Sard theorem
+for functions that satisfy this condition on their critical set.</p><p>In this file, we define <code><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a></code> to be the predicate
+saying that a function is $C^{k+(α)}$ in the sense described above
+and prove basic properties of this predicate.</p><h2 id="Implementation-notes" class="markdown-heading">Implementation notes <a class="hover-link" href="#Implementation-notes">#</a></h2><p>In Moreira's paper, <code>k</code> is assumed to be a strictly positive number.
+We define the predicate for any <code>k : ℕ</code>, then assume <code>k ≠ 0</code> whenever it is necessary.</p></div><div class="decl" id="ContDiffPointwiseHolderAt"><div class="structure"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L50-L59">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Analysis_Calculus_ContDiffHolder_Pointwise.html#ContDiffPointwiseHolderAt" class="verification-badge comp-datatype" title="Computational datatype">🔶 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">structure</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt"><span class="name">ContDiffPointwiseHolderAt</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">k</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <span class="fn">↑<a href="../../../.././Mathlib/Topology/UnitInterval.html#unitInterval">unitInterval</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">E</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../../.././foundational_types.html">Prop</a></div></div><p>A map <code>f</code> is said to be $C^{k+(α)}$ at <code>a</code>, where <code>k</code> is a natural number and <code>0 ≤ α ≤ 1</code>,
+if it is $C^k$ at this point and $D^kf(x)-D^kf(a) = O(‖x - a‖ ^ α)$ as <code>x → a</code>.</p><p>When naming lemmas about this predicate, <code>k</code> is called &quot;order&quot;, and <code>α</code> is called &quot;exponent&quot;.</p><ul class="structure_fields" id="ContDiffPointwiseHolderAt.mk"><li id="ContDiffPointwiseHolderAt.contDiffAt" class="structure_field"><div class="structure_field_info">contDiffAt : <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiff/Defs.html#ContDiffAt">ContDiffAt</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">(↑<span class="fn">k</span>)</span> <span class="fn">f</span> <span class="fn">a</span></span></div><div class="structure_field_doc"><p>A $C^{k+(α)}$ map is a $C^k$ map.</p></div></li><li id="ContDiffPointwiseHolderAt.isBigO" class="structure_field"><div class="structure_field_info">isBigO : <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <span class="fn"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.html#iteratedFDeriv">iteratedFDeriv</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">k</span> <span class="fn">f</span> <span class="fn">x</span></span> <span class="fn">-</span> <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.html#iteratedFDeriv">iteratedFDeriv</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">k</span> <span class="fn">f</span> <span class="fn">a</span></span></span>)</span> <a href="../../../.././Mathlib/Analysis/Asymptotics/Defs.html#Asymptotics.IsBigO">=O[</a><span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Filter.html#nhds">nhds</a> <span class="fn">a</span></span><a href="../../../.././Mathlib/Analysis/Asymptotics/Defs.html#Asymptotics.IsBigO">]</a> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#Norm.norm">‖</a><span class="fn"><span class="fn">x</span> <span class="fn">-</span> <span class="fn">a</span></span><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#Norm.norm">‖</a> <span class="fn">^</span> <span class="fn">↑<span class="fn">α</span></span></span></span></div><div class="structure_field_doc"><p>A $C^{k+(α)}$ map satisfies $D^kf(x)-D^kf(a) = O(‖x - a‖ ^ α)$ as <code>x → a</code>.</p></div></li></ul><details id="instances-for-list-ContDiffPointwiseHolderAt" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="contDiffPointwiseHolderAt_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L54-L54">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Analysis_Calculus_ContDiffHolder_Pointwise.html#contDiffPointwiseHolderAt_iff" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#contDiffPointwiseHolderAt_iff"><span class="name">contDiffPointwiseHolderAt_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">k</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <span class="fn">↑<a href="../../../.././Mathlib/Topology/UnitInterval.html#unitInterval">unitInterval</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">E</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">f</span> <span class="fn">a</span></span> <span class="fn">↔</span>   <span class="fn"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiff/Defs.html#ContDiffAt">ContDiffAt</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">(↑<span class="fn">k</span>)</span> <span class="fn">f</span> <span class="fn">a</span></span> <span class="fn">∧</span>     <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <span class="fn"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.html#iteratedFDeriv">iteratedFDeriv</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">k</span> <span class="fn">f</span> <span class="fn">x</span></span> <span class="fn">-</span> <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.html#iteratedFDeriv">iteratedFDeriv</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">k</span> <span class="fn">f</span> <span class="fn">a</span></span></span>)</span> <a href="../../../.././Mathlib/Analysis/Asymptotics/Defs.html#Asymptotics.IsBigO">=O[</a><span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Filter.html#nhds">nhds</a> <span class="fn">a</span></span><a href="../../../.././Mathlib/Analysis/Asymptotics/Defs.html#Asymptotics.IsBigO">]</a> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#Norm.norm">‖</a><span class="fn"><span class="fn">x</span> <span class="fn">-</span> <span class="fn">a</span></span><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#Norm.norm">‖</a> <span class="fn">^</span> <span class="fn">↑<span class="fn">α</span></span></span></span></span></span></div></div></div></div><div class="decl" id="ContDiffAt.contDiffPointwiseHolderAt"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L61-L69">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Analysis_Calculus_ContDiffHolder_Pointwise.html#ContDiffAt.contDiffPointwiseHolderAt" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffAt.contDiffPointwiseHolderAt"><span class="name">ContDiffAt</span>.<span class="name">contDiffPointwiseHolderAt</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">E</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <span class="fn"><a href="../../../.././Mathlib/Order/TypeTags.html#WithTop">WithTop</a> <a href="../../../.././Mathlib/Data/ENat/Defs.html#ENat">ℕ∞</a></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiff/Defs.html#ContDiffAt">ContDiffAt</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">n</span> <span class="fn">f</span> <span class="fn">a</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hk</span> : <span class="fn">↑<span class="fn">k</span></span> <a href="../../../.././Mathlib/Algebra/Order/Kleene.html#LT.lt">&lt;</a> <span class="fn">n</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <span class="fn">↑<a href="../../../.././Mathlib/Topology/UnitInterval.html#unitInterval">unitInterval</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">f</span> <span class="fn">a</span></span></div></div><p>A $C^n$ map is a $C^{k+(α)}$ map for any <code>k &lt; n</code>.</p></div></div><div class="decl" id="ContDiffPointwiseHolderAt.continuousAt"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L73-L74">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Analysis_Calculus_ContDiffHolder_Pointwise.html#ContDiffPointwiseHolderAt.continuousAt" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt.continuousAt"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">continuousAt</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <span class="fn">↑<a href="../../../.././Mathlib/Topology/UnitInterval.html#unitInterval">unitInterval</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">f</span> <span class="fn">a</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Filter.html#ContinuousAt">ContinuousAt</a> <span class="fn">f</span> <span class="fn">a</span></span></div></div></div></div><div class="decl" id="ContDiffPointwiseHolderAt.differentiableAt"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L76-L78">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Analysis_Calculus_ContDiffHolder_Pointwise.html#ContDiffPointwiseHolderAt.differentiableAt" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt.differentiableAt"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">differentiableAt</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <span class="fn">↑<a href="../../../.././Mathlib/Topology/UnitInterval.html#unitInterval">unitInterval</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">f</span> <span class="fn">a</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hk</span> : <span class="fn"><span class="fn">k</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#DifferentiableAt">DifferentiableAt</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">f</span> <span class="fn">a</span></span></div></div></div></div><div class="decl" id="ContDiffPointwiseHolderAt.zero_exponent_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L80-L84">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Analysis_Calculus_ContDiffHolder_Pointwise.html#ContDiffPointwiseHolderAt.zero_exponent_iff" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt.zero_exponent_iff"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">zero_exponent_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">0</span> <span class="fn">f</span> <span class="fn">a</span></span> <span class="fn">↔</span> <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiff/Defs.html#ContDiffAt">ContDiffAt</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">(↑<span class="fn">k</span>)</span> <span class="fn">f</span> <span class="fn">a</span></span></span></div></div><p>A function is $C^{k+(0)}$ at a point if and only if it is $C^k$ at the point.</p></div></div><div class="decl" id="ContDiffPointwiseHolderAt.zero_order_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L86-L96">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Analysis_Calculus_ContDiffHolder_Pointwise.html#ContDiffPointwiseHolderAt.zero_order_iff" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt.zero_order_iff"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">zero_order_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <span class="fn">↑<a href="../../../.././Mathlib/Topology/UnitInterval.html#unitInterval">unitInterval</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">0</span> <span class="fn">α</span> <span class="fn">f</span> <span class="fn">a</span></span> <span class="fn">↔</span>   <span class="fn"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiff/Defs.html#ContDiffAt">ContDiffAt</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">0</span> <span class="fn">f</span> <span class="fn">a</span></span> <span class="fn">∧</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">x</span></span> <span class="fn">-</span> <span class="fn"><span class="fn">f</span> <span class="fn">a</span></span></span>)</span> <a href="../../../.././Mathlib/Analysis/Asymptotics/Defs.html#Asymptotics.IsBigO">=O[</a><span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Filter.html#nhds">nhds</a> <span class="fn">a</span></span><a href="../../../.././Mathlib/Analysis/Asymptotics/Defs.html#Asymptotics.IsBigO">]</a> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#Norm.norm">‖</a><span class="fn"><span class="fn">x</span> <span class="fn">-</span> <span class="fn">a</span></span><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#Norm.norm">‖</a> <span class="fn">^</span> <span class="fn">↑<span class="fn">α</span></span></span></span></span></span></div></div><p>A function is $C^{0+(α)}$ at a point if and only if
+it is $C^0$ at the point (i.e., it is continuous on a neighborhood of the point)
+and $f(x) - f(a) = O(‖x - a‖ ^ α)$.</p></div></div><div class="decl" id="ContDiffPointwiseHolderAt.of_exponent_le"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L98-L104">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt.of_exponent_le"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">of_exponent_le</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α </span><span class="fn">β</span> : <span class="fn">↑<a href="../../../.././Mathlib/Topology/UnitInterval.html#unitInterval">unitInterval</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">f</span> <span class="fn">a</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hle</span> : <span class="fn">β</span> <a href="../../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">β</span> <span class="fn">f</span> <span class="fn">a</span></span></div></div></div></div><div class="decl" id="ContDiffPointwiseHolderAt.of_order_lt"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L107-L109">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt.of_order_lt"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">of_order_lt</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k </span><span class="fn">l</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α </span><span class="fn">β</span> : <span class="fn">↑<a href="../../../.././Mathlib/Topology/UnitInterval.html#unitInterval">unitInterval</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">f</span> <span class="fn">a</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hlt</span> : <span class="fn">l</span> <a href="../../../.././Mathlib/Algebra/Order/Kleene.html#LT.lt">&lt;</a> <span class="fn">k</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">l</span> <span class="fn">β</span> <span class="fn">f</span> <span class="fn">a</span></span></div></div></div></div><div class="decl" id="ContDiffPointwiseHolderAt.of_toLex_le"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L111-L113">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt.of_toLex_le"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">of_toLex_le</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k </span><span class="fn">l</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α </span><span class="fn">β</span> : <span class="fn">↑<a href="../../../.././Mathlib/Topology/UnitInterval.html#unitInterval">unitInterval</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">f</span> <span class="fn">a</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hle</span> : <span class="fn"><a href="../../../.././Mathlib/Order/Synonym.html#toLex">toLex</a> <span class="fn"><span class="fn">(</span><span class="fn">l</span><span class="fn">,</span> <span class="fn">β</span><span class="fn">)</span></span></span> <a href="../../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><a href="../../../.././Mathlib/Order/Synonym.html#toLex">toLex</a> <span class="fn"><span class="fn">(</span><span class="fn">k</span><span class="fn">,</span> <span class="fn">α</span><span class="fn">)</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">l</span> <span class="fn">β</span> <span class="fn">f</span> <span class="fn">a</span></span></div></div></div></div><div class="decl" id="ContDiffPointwiseHolderAt.of_order_le"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L115-L117">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt.of_order_le"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">of_order_le</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k </span><span class="fn">l</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <span class="fn">↑<a href="../../../.././Mathlib/Topology/UnitInterval.html#unitInterval">unitInterval</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">f</span> <span class="fn">a</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hl</span> : <span class="fn">l</span> <a href="../../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn">k</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">l</span> <span class="fn">α</span> <span class="fn">f</span> <span class="fn">a</span></span></div></div></div></div><div class="decl" id="ContDiffPointwiseHolderAt.of_contDiffOn_holderOnWith"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L119-L128">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Analysis_Calculus_ContDiffHolder_Pointwise.html#ContDiffPointwiseHolderAt.of_contDiffOn_holderOnWith" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt.of_contDiffOn_holderOnWith"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">of_contDiffOn_holderOnWith</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <span class="fn">↑<a href="../../../.././Mathlib/Topology/UnitInterval.html#unitInterval">unitInterval</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">E</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><a href="../../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">E</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">C</span> : <a href="../../../.././Mathlib/Data/NNReal/Defs.html#NNReal">NNReal</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiff/Defs.html#ContDiffOn">ContDiffOn</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">(↑<span class="fn">k</span>)</span> <span class="fn">f</span> <span class="fn">s</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hs</span> : <span class="fn"><span class="fn">s</span> <span class="fn">∈</span> <span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Filter.html#nhds">nhds</a> <span class="fn">a</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hd</span> : <span class="fn"><a href="../../../.././Mathlib/Topology/MetricSpace/Holder.html#HolderOnWith">HolderOnWith</a> <span class="fn">C</span> <span class="fn"><span class="fn">⟨</span><span class="fn">↑<span class="fn">α</span></span>, <span class="fn">⋯</span><span class="fn">⟩</span></span> <span class="fn">(<a href="../../../.././Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.html#iteratedFDeriv">iteratedFDeriv</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">k</span> <span class="fn">f</span>)</span> <span class="fn">s</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">f</span> <span class="fn">a</span></span></div></div><p>If a function is $C^{k+α}$ on a neighborhood of a point <code>a</code>,
+i.e., it is $C^k$ on this neighborhood and $D^k f$ is Hölder continuous on it,
+then the function is $C^{k+(α)}$ at <code>a</code>.</p></div></div><div class="decl" id="ContDiffPointwiseHolderAt.fst"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L130-L131">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Analysis_Calculus_ContDiffHolder_Pointwise.html#ContDiffPointwiseHolderAt.fst" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt.fst"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">fst</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <span class="fn">↑<a href="../../../.././Mathlib/Topology/UnitInterval.html#unitInterval">unitInterval</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn"><span class="fn">E</span> <span class="fn">×</span> <span class="fn">F</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <a href="../../../.././Mathlib/Order/Interval/Basic.html#Prod.fst">Prod.fst</a> <span class="fn">a</span></span></div></div></div></div><div class="decl" id="ContDiffPointwiseHolderAt.snd"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L133-L134">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Analysis_Calculus_ContDiffHolder_Pointwise.html#ContDiffPointwiseHolderAt.snd" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt.snd"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">snd</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <span class="fn">↑<a href="../../../.././Mathlib/Topology/UnitInterval.html#unitInterval">unitInterval</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn"><span class="fn">E</span> <span class="fn">×</span> <span class="fn">F</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <a href="../../../.././Mathlib/Order/Interval/Basic.html#Prod.snd">Prod.snd</a> <span class="fn">a</span></span></div></div></div></div><div class="decl" id="ContDiffPointwiseHolderAt.prodMk"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L136-L151">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Analysis_Calculus_ContDiffHolder_Pointwise.html#ContDiffPointwiseHolderAt.prodMk" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt.prodMk"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">prodMk</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <span class="fn">↑<a href="../../../.././Mathlib/Topology/UnitInterval.html#unitInterval">unitInterval</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">E</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">G</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">f</span> <span class="fn">a</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">g</span> <span class="fn">a</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <span class="fn"><span class="fn">(</span><span class="fn"><span class="fn">f</span> <span class="fn">x</span></span><span class="fn">,</span> <span class="fn"><span class="fn">g</span> <span class="fn">x</span></span><span class="fn">)</span></span>)</span> <span class="fn">a</span></span></div></div></div></div><div class="decl" id="ContDiffPointwiseHolderAt.comp_of_differentiableAt"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L155-L192">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt.comp_of_differentiableAt"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">comp_of_differentiableAt</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <span class="fn">↑<a href="../../../.././Mathlib/Topology/UnitInterval.html#unitInterval">unitInterval</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">E</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn"><span class="fn">F</span> → <span class="fn">G</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">g</span> <span class="fn">(<span class="fn">f</span> <span class="fn">a</span>)</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">f</span> <span class="fn">a</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hd</span> : <span class="fn"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#DifferentiableAt">DifferentiableAt</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">g</span> <span class="fn">(<span class="fn">f</span> <span class="fn">a</span>)</span></span> <span class="fn">∨</span> <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#DifferentiableAt">DifferentiableAt</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">f</span> <span class="fn">a</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">(<span class="fn">g</span> <span class="fn">∘</span> <span class="fn">f</span>)</span> <span class="fn">a</span></span></div></div><p>Composition of two $C^{k+(α)}$ functions is a $C^{k+(α)}$ function,
+provided that one of them is differentiable.</p><p>The latter condition follows automatically from the functions being $C^{k+(α)}$,
+if <code>k ≠ 0</code>, see <code><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt.comp">comp</a></code> below.</p></div></div><div class="decl" id="ContDiffPointwiseHolderAt.comp"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L195-L199">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt.comp"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">comp</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <span class="fn">↑<a href="../../../.././Mathlib/Topology/UnitInterval.html#unitInterval">unitInterval</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">E</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn"><span class="fn">F</span> → <span class="fn">G</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">g</span> <span class="fn">(<span class="fn">f</span> <span class="fn">a</span>)</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">f</span> <span class="fn">a</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hk</span> : <span class="fn"><span class="fn">k</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">(<span class="fn">g</span> <span class="fn">∘</span> <span class="fn">f</span>)</span> <span class="fn">a</span></span></div></div><p>Composition of two $C^{k+(α)}$ functions, <code>k ≠ 0</code>, is a $C^{k+(α)}$ function.</p></div></div><div class="decl" id="ContDiffPointwiseHolderAt.comp₂_of_differentiableAt"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L202-L209">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt.comp₂_of_differentiableAt"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">comp₂_of_differentiableAt</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <span class="fn">↑<a href="../../../.././Mathlib/Topology/UnitInterval.html#unitInterval">unitInterval</a></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">E</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">H</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn"><span class="fn"><span class="fn">F</span> <span class="fn">×</span> <span class="fn">G</span></span> → <span class="fn">H</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f₁</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f₂</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">G</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">g</span> <span class="fn"><span class="fn">(</span><span class="fn"><span class="fn">f₁</span> <span class="fn">a</span></span><span class="fn">,</span> <span class="fn"><span class="fn">f₂</span> <span class="fn">a</span></span><span class="fn">)</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hf₁</span> : <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">f₁</span> <span class="fn">a</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hf₂</span> : <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">f₂</span> <span class="fn">a</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hdiff</span> : <span class="fn"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#DifferentiableAt">DifferentiableAt</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">g</span> <span class="fn"><span class="fn">(</span><span class="fn"><span class="fn">f₁</span> <span class="fn">a</span></span><span class="fn">,</span> <span class="fn"><span class="fn">f₂</span> <span class="fn">a</span></span><span class="fn">)</span></span></span> <span class="fn">∨</span> <span class="fn"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#DifferentiableAt">DifferentiableAt</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">f₁</span> <span class="fn">a</span></span> <span class="fn">∧</span> <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#DifferentiableAt">DifferentiableAt</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">f₂</span> <span class="fn">a</span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <span class="fn"><span class="fn">g</span> <span class="fn"><span class="fn">(</span><span class="fn"><span class="fn">f₁</span> <span class="fn">x</span></span><span class="fn">,</span> <span class="fn"><span class="fn">f₂</span> <span class="fn">x</span></span><span class="fn">)</span></span></span>)</span> <span class="fn">a</span></span></div></div></div></div><div class="decl" id="ContinuousLinearMap.contDiffPointwiseHolderAt"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L211-L213">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Analysis_Calculus_ContDiffHolder_Pointwise.html#ContinuousLinearMap.contDiffPointwiseHolderAt" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContinuousLinearMap.contDiffPointwiseHolderAt"><span class="name">ContinuousLinearMap</span>.<span class="name">contDiffPointwiseHolderAt</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <span class="fn">↑<a href="../../../.././Mathlib/Topology/UnitInterval.html#unitInterval">unitInterval</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">E</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">→L[</a><a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a><a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">]</a> <span class="fn">F</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">(⇑<span class="fn">f</span>)</span> <span class="fn">a</span></span></div></div></div></div><div class="decl" id="ContinuousLinearEquiv.contDiffPointwiseHolderAt"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L215-L217">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Analysis_Calculus_ContDiffHolder_Pointwise.html#ContinuousLinearEquiv.contDiffPointwiseHolderAt" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContinuousLinearEquiv.contDiffPointwiseHolderAt"><span class="name">ContinuousLinearEquiv</span>.<span class="name">contDiffPointwiseHolderAt</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <span class="fn">↑<a href="../../../.././Mathlib/Topology/UnitInterval.html#unitInterval">unitInterval</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">E</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">≃L[</a><a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a><a href="../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">]</a> <span class="fn">F</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">(⇑<span class="fn">f</span>)</span> <span class="fn">a</span></span></div></div></div></div><div class="decl" id="ContDiffPointwiseHolderAt.continuousLinearMap_comp"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L219-L221">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Analysis_Calculus_ContDiffHolder_Pointwise.html#ContDiffPointwiseHolderAt.continuousLinearMap_comp" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt.continuousLinearMap_comp"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">continuousLinearMap_comp</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <span class="fn">↑<a href="../../../.././Mathlib/Topology/UnitInterval.html#unitInterval">unitInterval</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">f</span> <span class="fn">a</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">F</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">→L[</a><a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a><a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">]</a> <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">(<span class="fn">⇑<span class="fn">g</span></span> <span class="fn">∘</span> <span class="fn">f</span>)</span> <span class="fn">a</span></span></div></div></div></div><div class="decl" id="ContinuousLinearEquiv.contDiffPointwiseHolderAt_left_comp"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L223-L227">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Analysis_Calculus_ContDiffHolder_Pointwise.html#ContinuousLinearEquiv.contDiffPointwiseHolderAt_left_comp" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContinuousLinearEquiv.contDiffPointwiseHolderAt_left_comp"><span class="name">ContinuousLinearEquiv</span>.<span class="name">contDiffPointwiseHolderAt_left_comp</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <span class="fn">↑<a href="../../../.././Mathlib/Topology/UnitInterval.html#unitInterval">unitInterval</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">F</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">≃L[</a><a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a><a href="../../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">]</a> <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">(<span class="fn">⇑<span class="fn">g</span></span> <span class="fn">∘</span> <span class="fn">f</span>)</span> <span class="fn">a</span></span> <span class="fn">↔</span> <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">f</span> <span class="fn">a</span></span></span></div></div></div></div><div class="decl" id="LinearIsometryEquiv.contDiffPointwiseHolderAt_left_comp"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L229-L232">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Analysis_Calculus_ContDiffHolder_Pointwise.html#LinearIsometryEquiv.contDiffPointwiseHolderAt_left_comp" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#LinearIsometryEquiv.contDiffPointwiseHolderAt_left_comp"><span class="name">LinearIsometryEquiv</span>.<span class="name">contDiffPointwiseHolderAt_left_comp</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <span class="fn">↑<a href="../../../.././Mathlib/Topology/UnitInterval.html#unitInterval">unitInterval</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">F</span> <a href="../../../.././Mathlib/Analysis/Normed/Operator/LinearIsometry.html#LinearIsometryEquiv">≃ₗᵢ[</a><a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a><a href="../../../.././Mathlib/Analysis/Normed/Operator/LinearIsometry.html#LinearIsometryEquiv">]</a> <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">(<span class="fn">⇑<span class="fn">g</span></span> <span class="fn">∘</span> <span class="fn">f</span>)</span> <span class="fn">a</span></span> <span class="fn">↔</span> <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">f</span> <span class="fn">a</span></span></span></div></div></div></div><div class="decl" id="ContDiffPointwiseHolderAt.id"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L234-L235">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Analysis_Calculus_ContDiffHolder_Pointwise.html#ContDiffPointwiseHolderAt.id" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt.id"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">id</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <span class="fn">↑<a href="../../../.././Mathlib/Topology/UnitInterval.html#unitInterval">unitInterval</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">id</span> <span class="fn">a</span></span></div></div></div></div><div class="decl" id="ContDiffPointwiseHolderAt.const"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L237-L238">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Analysis_Calculus_ContDiffHolder_Pointwise.html#ContDiffPointwiseHolderAt.const" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt.const"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">const</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <span class="fn">↑<a href="../../../.././Mathlib/Topology/UnitInterval.html#unitInterval">unitInterval</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">E</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">b</span> : <span class="fn">F</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">(<span class="fn">Function.const</span> <span class="fn">E</span> <span class="fn">b</span>)</span> <span class="fn">a</span></span></div></div></div></div><div class="decl" id="ContDiffPointwiseHolderAt.fderiv"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L241-L247">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Analysis_Calculus_ContDiffHolder_Pointwise.html#ContDiffPointwiseHolderAt.fderiv" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt.fderiv"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">fderiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k </span><span class="fn">l</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <span class="fn">↑<a href="../../../.././Mathlib/Topology/UnitInterval.html#unitInterval">unitInterval</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">f</span> <span class="fn">a</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hl</span> : <span class="fn">l</span> <a href="../../../.././Mathlib/Algebra/Order/Kleene.html#LT.lt">&lt;</a> <span class="fn">k</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">l</span> <span class="fn">α</span> <span class="fn">(<a href="../../../.././Mathlib/Analysis/Calculus/FDeriv/Defs.html#fderiv">fderiv</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">f</span>)</span> <span class="fn">a</span></span></div></div><p>The derivative of a $C^{k + (α)}$ function is a $C^{l + (α)}$ function, if <code>l &lt; k</code>.</p></div></div><div class="decl" id="ContDiffPointwiseHolderAt.iteratedFDeriv"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L249-L257">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Analysis_Calculus_ContDiffHolder_Pointwise.html#ContDiffPointwiseHolderAt.iteratedFDeriv" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt.iteratedFDeriv"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">iteratedFDeriv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k </span><span class="fn">l </span><span class="fn">m</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <span class="fn">↑<a href="../../../.././Mathlib/Topology/UnitInterval.html#unitInterval">unitInterval</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">f</span> <span class="fn">a</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hl</span> : <span class="fn"><span class="fn">l</span> <span class="fn">+</span> <span class="fn">m</span></span> <a href="../../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn">k</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">l</span> <span class="fn">α</span> <span class="fn">(<a href="../../../.././Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.html#iteratedFDeriv">iteratedFDeriv</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">m</span> <span class="fn">f</span>)</span> <span class="fn">a</span></span></div></div><p>If <code>f</code> is a $C^{k+(α)}$ function and <code>l + m ≤ k</code>, then $D^mf$ is a $C^{l + (α)}$ function.</p></div></div><div class="decl" id="ContDiffPointwiseHolderAt.congr_of_eventuallyEq"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L259-L266">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt.congr_of_eventuallyEq"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">congr_of_eventuallyEq</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <span class="fn">↑<a href="../../../.././Mathlib/Topology/UnitInterval.html#unitInterval">unitInterval</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">E</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">f</span> <span class="fn">a</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hfg</span> : <span class="fn">f</span> <a href="../../../.././Mathlib/Order/Filter/Defs.html#Filter.EventuallyEq">=ᶠ[</a><span class="fn"><a href="../../../.././Mathlib/Topology/Defs/Filter.html#nhds">nhds</a> <span class="fn">a</span></span><a href="../../../.././Mathlib/Order/Filter/Defs.html#Filter.EventuallyEq">]</a> <span class="fn">g</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">g</span> <span class="fn">a</span></span></div></div></div></div><div class="decl" id="ContDiffPointwiseHolderAt.clm_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.lean#L268-L272">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_Analysis_Calculus_ContDiffHolder_Pointwise.html#ContDiffPointwiseHolderAt.clm_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt.clm_apply"><span class="name">ContDiffPointwiseHolderAt</span>.<span class="name">clm_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <span class="fn">↑<a href="../../../.././Mathlib/Topology/UnitInterval.html#unitInterval">unitInterval</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">E</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span> <a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">→L[</a><a href="../../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a><a href="../../../.././Mathlib/Topology/Algebra/Module/LinearMap.html#ContinuousLinearMap">]</a> <span class="fn">G</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn"><span class="fn">E</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">f</span> <span class="fn">a</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">g</span> <span class="fn">a</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Analysis/Calculus/ContDiffHolder/Pointwise.html#ContDiffPointwiseHolderAt">ContDiffPointwiseHolderAt</a> <span class="fn">k</span> <span class="fn">α</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">E</span>) =&gt; <span class="fn"><span class="fn">(<span class="fn">f</span> <span class="fn">x</span>)</span> <span class="fn">(<span class="fn">g</span> <span class="fn">x</span>)</span></span>)</span> <span class="fn">a</span></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

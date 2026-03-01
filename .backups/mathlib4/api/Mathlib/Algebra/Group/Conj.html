@@ -1,0 +1,437 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../.././style.css"></link><link rel="icon" href="../../.././favicon.svg"></link><link rel="mask-icon" href="../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.Algebra.Group.Conj</title><script defer="true" src="../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../.././";</script><script>const MODULE_NAME="Mathlib.Algebra.Group.Conj";</script><script type="module" src="../../.././jump-src.js"></script><script type="module" src="../../.././search.js"></script><script type="module" src="../../.././expand-nav.js"></script><script type="module" src="../../.././how-about.js"></script><script type="module" src="../../.././instances.js"></script><script type="module" src="../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">Algebra</span>.<span class="name">Group</span>.<span class="name">Conj</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../.././Init.html">Init</a></li><li><a href="../../.././Mathlib/Algebra/Group/End.html">Mathlib.Algebra.Group.End</a></li><li><a href="../../.././Mathlib/Algebra/Group/Semiconj/Units.html">Mathlib.Algebra.Group.Semiconj.Units</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.Algebra.Group.Conj" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#IsConj"><span class="name">IsConj</span></a></div><div class="nav_link"><a class="break_within" href="#IsConj.refl"><span class="name">IsConj</span>.<span class="name">refl</span></a></div><div class="nav_link"><a class="break_within" href="#IsConj.symm"><span class="name">IsConj</span>.<span class="name">symm</span></a></div><div class="nav_link"><a class="break_within" href="#isConj_comm"><span class="name">isConj_comm</span></a></div><div class="nav_link"><a class="break_within" href="#IsConj.trans"><span class="name">IsConj</span>.<span class="name">trans</span></a></div><div class="nav_link"><a class="break_within" href="#IsConj.pow"><span class="name">IsConj</span>.<span class="name">pow</span></a></div><div class="nav_link"><a class="break_within" href="#isConj_iff_eq"><span class="name">isConj_iff_eq</span></a></div><div class="nav_link"><a class="break_within" href="#MonoidHom.map_isConj"><span class="name">MonoidHom</span>.<span class="name">map_isConj</span></a></div><div class="nav_link"><a class="break_within" href="#isConj_one_right"><span class="name">isConj_one_right</span></a></div><div class="nav_link"><a class="break_within" href="#isConj_one_left"><span class="name">isConj_one_left</span></a></div><div class="nav_link"><a class="break_within" href="#isConj_iff"><span class="name">isConj_iff</span></a></div><div class="nav_link"><a class="break_within" href="#conj_inv"><span class="name">conj_inv</span></a></div><div class="nav_link"><a class="break_within" href="#conj_mul"><span class="name">conj_mul</span></a></div><div class="nav_link"><a class="break_within" href="#conj_pow"><span class="name">conj_pow</span></a></div><div class="nav_link"><a class="break_within" href="#conj_zpow"><span class="name">conj_zpow</span></a></div><div class="nav_link"><a class="break_within" href="#conj_injective"><span class="name">conj_injective</span></a></div><div class="nav_link"><a class="break_within" href="#IsConj.setoid"><span class="name">IsConj</span>.<span class="name">setoid</span></a></div><div class="nav_link"><a class="break_within" href="#ConjClasses"><span class="name">ConjClasses</span></a></div><div class="nav_link"><a class="break_within" href="#ConjClasses.mk"><span class="name">ConjClasses</span>.<span class="name">mk</span></a></div><div class="nav_link"><a class="break_within" href="#ConjClasses.instInhabited"><span class="name">ConjClasses</span>.<span class="name">instInhabited</span></a></div><div class="nav_link"><a class="break_within" href="#ConjClasses.mk_eq_mk_iff_isConj"><span class="name">ConjClasses</span>.<span class="name">mk_eq_mk_iff_isConj</span></a></div><div class="nav_link"><a class="break_within" href="#ConjClasses.quotient_mk_eq_mk"><span class="name">ConjClasses</span>.<span class="name">quotient_mk_eq_mk</span></a></div><div class="nav_link"><a class="break_within" href="#ConjClasses.quot_mk_eq_mk"><span class="name">ConjClasses</span>.<span class="name">quot_mk_eq_mk</span></a></div><div class="nav_link"><a class="break_within" href="#ConjClasses.forall_isConj"><span class="name">ConjClasses</span>.<span class="name">forall_isConj</span></a></div><div class="nav_link"><a class="break_within" href="#ConjClasses.mk_surjective"><span class="name">ConjClasses</span>.<span class="name">mk_surjective</span></a></div><div class="nav_link"><a class="break_within" href="#ConjClasses.instOne"><span class="name">ConjClasses</span>.<span class="name">instOne</span></a></div><div class="nav_link"><a class="break_within" href="#ConjClasses.one_eq_mk_one"><span class="name">ConjClasses</span>.<span class="name">one_eq_mk_one</span></a></div><div class="nav_link"><a class="break_within" href="#ConjClasses.exists_rep"><span class="name">ConjClasses</span>.<span class="name">exists_rep</span></a></div><div class="nav_link"><a class="break_within" href="#ConjClasses.map"><span class="name">ConjClasses</span>.<span class="name">map</span></a></div><div class="nav_link"><a class="break_within" href="#ConjClasses.map_surjective"><span class="name">ConjClasses</span>.<span class="name">map_surjective</span></a></div><div class="nav_link"><a class="break_within" href="#LibraryNote.«slow-failing_instance_priority»"><span class="name">LibraryNote</span>.<span class="name">«slow-failing_instance_priority»</span></a></div><div class="nav_link"><a class="break_within" href="#ConjClasses.instDecidableEqOfDecidableRelIsConj"><span class="name">ConjClasses</span>.<span class="name">instDecidableEqOfDecidableRelIsConj</span></a></div><div class="nav_link"><a class="break_within" href="#ConjClasses.mk_injective"><span class="name">ConjClasses</span>.<span class="name">mk_injective</span></a></div><div class="nav_link"><a class="break_within" href="#ConjClasses.mk_bijective"><span class="name">ConjClasses</span>.<span class="name">mk_bijective</span></a></div><div class="nav_link"><a class="break_within" href="#ConjClasses.mkEquiv"><span class="name">ConjClasses</span>.<span class="name">mkEquiv</span></a></div><div class="nav_link"><a class="break_within" href="#conjugatesOf"><span class="name">conjugatesOf</span></a></div><div class="nav_link"><a class="break_within" href="#mem_conjugatesOf_self"><span class="name">mem_conjugatesOf_self</span></a></div><div class="nav_link"><a class="break_within" href="#IsConj.conjugatesOf_eq"><span class="name">IsConj</span>.<span class="name">conjugatesOf_eq</span></a></div><div class="nav_link"><a class="break_within" href="#isConj_iff_conjugatesOf_eq"><span class="name">isConj_iff_conjugatesOf_eq</span></a></div><div class="nav_link"><a class="break_within" href="#ConjClasses.carrier"><span class="name">ConjClasses</span>.<span class="name">carrier</span></a></div><div class="nav_link"><a class="break_within" href="#ConjClasses.mem_carrier_mk"><span class="name">ConjClasses</span>.<span class="name">mem_carrier_mk</span></a></div><div class="nav_link"><a class="break_within" href="#ConjClasses.mem_carrier_iff_mk_eq"><span class="name">ConjClasses</span>.<span class="name">mem_carrier_iff_mk_eq</span></a></div><div class="nav_link"><a class="break_within" href="#ConjClasses.carrier_eq_preimage_mk"><span class="name">ConjClasses</span>.<span class="name">carrier_eq_preimage_mk</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Conjugacy-of-group-elements" class="markdown-heading">Conjugacy of group elements <a class="hover-link" href="#Conjugacy-of-group-elements">#</a></h1><p>See also <code><a href="../../.././Mathlib/Algebra/Group/End.html#MulAut.conj">MulAut.conj</a></code> and <code>Quandle.conj</code>.</p></div><div class="decl" id="IsConj"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L29-L31">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#IsConj" class="verification-badge math-definition" title="Mathematical definition (Prop-valued)">🔹 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj"><span class="name">IsConj</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">a </span><span class="fn">b</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../.././foundational_types.html">Prop</a></div></div><p>We say that <code>a</code> is conjugate to <code>b</code> if for some unit <code>c</code> we have <code>c * a * c⁻¹ = b</code>.</p><details id="instances-for-list-IsConj" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="IsConj.refl"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L33-L35">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#IsConj.refl" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj.refl"><span class="name">IsConj</span>.<span class="name">refl</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj">IsConj</a> <span class="fn">a</span> <span class="fn">a</span></span></div></div></div></div><div class="decl" id="IsConj.symm"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L37-L39">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj.symm"><span class="name">IsConj</span>.<span class="name">symm</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a </span><span class="fn">b</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj">IsConj</a> <span class="fn">a</span> <span class="fn">b</span></span> → <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj">IsConj</a> <span class="fn">b</span> <span class="fn">a</span></span></span></div></div></div></div><div class="decl" id="isConj_comm"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L41-L42">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#isConj_comm" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#isConj_comm"><span class="name">isConj_comm</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g </span><span class="fn">h</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj">IsConj</a> <span class="fn">g</span> <span class="fn">h</span></span> <span class="fn">↔</span> <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj">IsConj</a> <span class="fn">h</span> <span class="fn">g</span></span></span></div></div></div></div><div class="decl" id="IsConj.trans"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L44-L46">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj.trans"><span class="name">IsConj</span>.<span class="name">trans</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a </span><span class="fn">b </span><span class="fn">c</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj">IsConj</a> <span class="fn">a</span> <span class="fn">b</span></span> → <span class="fn"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj">IsConj</a> <span class="fn">b</span> <span class="fn">c</span></span> → <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj">IsConj</a> <span class="fn">a</span> <span class="fn">c</span></span></span></span></div></div></div></div><div class="decl" id="IsConj.pow"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L48-L49">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#IsConj.pow" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj.pow"><span class="name">IsConj</span>.<span class="name">pow</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a </span><span class="fn">b</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj">IsConj</a> <span class="fn">a</span> <span class="fn">b</span></span> → <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj">IsConj</a> <span class="fn">(<span class="fn">a</span> <span class="fn">^</span> <span class="fn">n</span>)</span> <span class="fn">(<span class="fn">b</span> <span class="fn">^</span> <span class="fn">n</span>)</span></span></span></div></div></div></div><div class="decl" id="isConj_iff_eq"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L51-L55">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#isConj_iff_eq" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#isConj_iff_eq"><span class="name">isConj_iff_eq</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#CommMonoid">CommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a </span><span class="fn">b</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj">IsConj</a> <span class="fn">a</span> <span class="fn">b</span></span> <span class="fn">↔</span> <span class="fn"><span class="fn">a</span> <span class="fn">=</span> <span class="fn">b</span></span></span></div></div></div></div><div class="decl" id="MonoidHom.map_isConj"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L57-L58">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#MonoidHom.map_isConj" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#MonoidHom.map_isConj"><span class="name">MonoidHom</span>.<span class="name">map_isConj</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">α</span> <a href="../../.././Mathlib/Algebra/Group/Hom/Defs.html#MonoidHom">→*</a> <span class="fn">β</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a </span><span class="fn">b</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj">IsConj</a> <span class="fn">a</span> <span class="fn">b</span></span> → <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj">IsConj</a> <span class="fn">(<span class="fn">f</span> <span class="fn">a</span>)</span> <span class="fn">(<span class="fn">f</span> <span class="fn">b</span>)</span></span></span></div></div></div></div><div class="decl" id="isConj_one_right"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L60-L64">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#isConj_one_right" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#isConj_one_right"><span class="name">isConj_one_right</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj">IsConj</a> <span class="fn">1</span> <span class="fn">a</span></span> <span class="fn">↔</span> <span class="fn"><span class="fn">a</span> <span class="fn">=</span> <span class="fn">1</span></span></span></div></div></div></div><div class="decl" id="isConj_one_left"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L66-L70">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#isConj_one_left" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#isConj_one_left"><span class="name">isConj_one_left</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj">IsConj</a> <span class="fn">a</span> <span class="fn">1</span></span> <span class="fn">↔</span> <span class="fn"><span class="fn">a</span> <span class="fn">=</span> <span class="fn">1</span></span></span></div></div></div></div><div class="decl" id="isConj_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L78-L81">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#isConj_iff" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#isConj_iff"><span class="name">isConj_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a </span><span class="fn">b</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj">IsConj</a> <span class="fn">a</span> <span class="fn">b</span></span> <span class="fn">↔</span> <span class="fn">∃ (<span class="fn">c</span> : <span class="fn">α</span>), <span class="fn"><span class="fn"><span class="fn"><span class="fn">c</span> <span class="fn">*</span> <span class="fn">a</span></span> <span class="fn">*</span> <span class="fn">c</span><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#Inv.inv">⁻¹</a></span> <span class="fn">=</span> <span class="fn">b</span></span></span></span></div></div></div></div><div class="decl" id="conj_inv"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L83-L84">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#conj_inv" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#conj_inv"><span class="name">conj_inv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a </span><span class="fn">b</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">b</span> <span class="fn">*</span> <span class="fn">a</span></span> <span class="fn">*</span> <span class="fn">b</span><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#Inv.inv">⁻¹</a>)</span><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#Inv.inv">⁻¹</a> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">b</span> <span class="fn">*</span> <span class="fn">a</span><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#Inv.inv">⁻¹</a></span> <span class="fn">*</span> <span class="fn">b</span><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#Inv.inv">⁻¹</a></span></span></div></div></div></div><div class="decl" id="conj_mul"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L86-L88">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#conj_mul" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#conj_mul"><span class="name">conj_mul</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a </span><span class="fn">b </span><span class="fn">c</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn"><span class="fn">b</span> <span class="fn">*</span> <span class="fn">a</span></span> <span class="fn">*</span> <span class="fn">b</span><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#Inv.inv">⁻¹</a></span> <span class="fn">*</span> <span class="fn">(<span class="fn"><span class="fn">b</span> <span class="fn">*</span> <span class="fn">c</span></span> <span class="fn">*</span> <span class="fn">b</span><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#Inv.inv">⁻¹</a>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">b</span> <span class="fn">*</span> <span class="fn">(<span class="fn">a</span> <span class="fn">*</span> <span class="fn">c</span>)</span></span> <span class="fn">*</span> <span class="fn">b</span><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#Inv.inv">⁻¹</a></span></span></div></div></div></div><div class="decl" id="conj_pow"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L90-L94">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#conj_pow" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#conj_pow"><span class="name">conj_pow</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">i</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a </span><span class="fn">b</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">a</span> <span class="fn">*</span> <span class="fn">b</span></span> <span class="fn">*</span> <span class="fn">a</span><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#Inv.inv">⁻¹</a>)</span> <span class="fn">^</span> <span class="fn">i</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">a</span> <span class="fn">*</span> <span class="fn"><span class="fn">b</span> <span class="fn">^</span> <span class="fn">i</span></span></span> <span class="fn">*</span> <span class="fn">a</span><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#Inv.inv">⁻¹</a></span></span></div></div></div></div><div class="decl" id="conj_zpow"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L96-L101">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#conj_zpow" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#conj_zpow"><span class="name">conj_zpow</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">i</span> : <span class="fn">ℤ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a </span><span class="fn">b</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">a</span> <span class="fn">*</span> <span class="fn">b</span></span> <span class="fn">*</span> <span class="fn">a</span><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#Inv.inv">⁻¹</a>)</span> <span class="fn">^</span> <span class="fn">i</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">a</span> <span class="fn">*</span> <span class="fn"><span class="fn">b</span> <span class="fn">^</span> <span class="fn">i</span></span></span> <span class="fn">*</span> <span class="fn">a</span><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#Inv.inv">⁻¹</a></span></span></div></div></div></div><div class="decl" id="conj_injective"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L103-L104">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#conj_injective" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#conj_injective"><span class="name">conj_injective</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Function.Injective</span> <span class="fn">fun (<span class="fn">g</span> : <span class="fn">α</span>) =&gt; <span class="fn"><span class="fn"><span class="fn">x</span> <span class="fn">*</span> <span class="fn">g</span></span> <span class="fn">*</span> <span class="fn">x</span><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#Inv.inv">⁻¹</a></span></span></span></div></div></div></div><div class="decl" id="IsConj.setoid"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L112-L116">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#IsConj.setoid" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj.setoid"><span class="name">IsConj</span>.<span class="name">setoid</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Setoid</span> <span class="fn">α</span></span></div></div><p>The setoid of the relation <code><a href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj">IsConj</a></code> iff there is a unit <code>u</code> such that <code>u * x = y * u</code></p><details id="instances-for-list-IsConj.setoid" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="ConjClasses"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L122-L124">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#ConjClasses" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses"><span class="name">ConjClasses</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><a href="../../.././foundational_types.html">Type</a> u_1</div></div><p>The quotient type of conjugacy classes of a group.</p><details id="instances-for-list-ConjClasses" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="ConjClasses.mk"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L132-L133">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#ConjClasses.mk" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.mk"><span class="name">ConjClasses</span>.<span class="name">mk</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses">ConjClasses</a> <span class="fn">α</span></span></div></div><p>The canonical quotient map from a monoid <code>α</code> into the <code><a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses">ConjClasses</a></code> of <code>α</code></p><details id="instances-for-list-ConjClasses.mk" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="ConjClasses.instInhabited"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L135-L135">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#ConjClasses.instInhabited" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.instInhabited"><span class="name">ConjClasses</span>.<span class="name">instInhabited</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Inhabited</span> <span class="fn">(<a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses">ConjClasses</a> <span class="fn">α</span>)</span></span></div></div></div></div><div class="decl" id="ConjClasses.mk_eq_mk_iff_isConj"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L137-L138">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#ConjClasses.mk_eq_mk_iff_isConj" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.mk_eq_mk_iff_isConj"><span class="name">ConjClasses</span>.<span class="name">mk_eq_mk_iff_isConj</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a </span><span class="fn">b</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.mk">ConjClasses.mk</a> <span class="fn">a</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.mk">ConjClasses.mk</a> <span class="fn">b</span></span></span> <span class="fn">↔</span> <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj">IsConj</a> <span class="fn">a</span> <span class="fn">b</span></span></span></div></div></div></div><div class="decl" id="ConjClasses.quotient_mk_eq_mk"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L140-L141">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#ConjClasses.quotient_mk_eq_mk" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.quotient_mk_eq_mk"><span class="name">ConjClasses</span>.<span class="name">quotient_mk_eq_mk</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">⟦</span><span class="fn">a</span><span class="fn">⟧</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.mk">ConjClasses.mk</a> <span class="fn">a</span></span></span></div></div></div></div><div class="decl" id="ConjClasses.quot_mk_eq_mk"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L143-L144">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#ConjClasses.quot_mk_eq_mk" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.quot_mk_eq_mk"><span class="name">ConjClasses</span>.<span class="name">quot_mk_eq_mk</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">Quot.mk</span> <span class="fn">(⇑<span class="fn">(<a href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj.setoid">IsConj.setoid</a> <span class="fn">α</span>)</span>)</span> <span class="fn">a</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.mk">ConjClasses.mk</a> <span class="fn">a</span></span></span></div></div></div></div><div class="decl" id="ConjClasses.forall_isConj"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L146-L147">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.forall_isConj"><span class="name">ConjClasses</span>.<span class="name">forall_isConj</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses">ConjClasses</a> <span class="fn">α</span></span> → <a href="../../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(∀ (<span class="fn">a</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses">ConjClasses</a> <span class="fn">α</span></span>), <span class="fn"><span class="fn">p</span> <span class="fn">a</span></span>)</span> <span class="fn">↔</span> <span class="fn">∀ (<span class="fn">a</span> : <span class="fn">α</span>), <span class="fn"><span class="fn">p</span> <span class="fn">(<a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.mk">ConjClasses.mk</a> <span class="fn">a</span>)</span></span></span></span></div></div></div></div><div class="decl" id="ConjClasses.mk_surjective"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L149-L150">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#ConjClasses.mk_surjective" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.mk_surjective"><span class="name">ConjClasses</span>.<span class="name">mk_surjective</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Function.Surjective</span> <a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.mk">ConjClasses.mk</a></span></div></div></div></div><div class="decl" id="ConjClasses.instOne"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L152-L153">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#ConjClasses.instOne" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.instOne"><span class="name">ConjClasses</span>.<span class="name">instOne</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">One</span> <span class="fn">(<a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses">ConjClasses</a> <span class="fn">α</span>)</span></span></div></div></div></div><div class="decl" id="ConjClasses.one_eq_mk_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L155-L156">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#ConjClasses.one_eq_mk_one" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.one_eq_mk_one"><span class="name">ConjClasses</span>.<span class="name">one_eq_mk_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">1</span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.mk">ConjClasses.mk</a> <span class="fn">1</span></span></span></div></div></div></div><div class="decl" id="ConjClasses.exists_rep"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L158-L159">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.exists_rep"><span class="name">ConjClasses</span>.<span class="name">exists_rep</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses">ConjClasses</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">∃ (<span class="fn">a0</span> : <span class="fn">α</span>), <span class="fn"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.mk">ConjClasses.mk</a> <span class="fn">a0</span></span> <span class="fn">=</span> <span class="fn">a</span></span></span></div></div></div></div><div class="decl" id="ConjClasses.map"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L161-L163">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#ConjClasses.map" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.map"><span class="name">ConjClasses</span>.<span class="name">map</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">α</span> <a href="../../.././Mathlib/Algebra/Group/Hom/Defs.html#MonoidHom">→*</a> <span class="fn">β</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses">ConjClasses</a> <span class="fn">α</span></span> → <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses">ConjClasses</a> <span class="fn">β</span></span></span></div></div><p>A <code><a href="../../.././Mathlib/Algebra/Group/Hom/Defs.html#MonoidHom">MonoidHom</a></code> maps conjugacy classes of one group to conjugacy classes of another.</p><details id="instances-for-list-ConjClasses.map" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="ConjClasses.map_surjective"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L165-L170">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#ConjClasses.map_surjective" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.map_surjective"><span class="name">ConjClasses</span>.<span class="name">map_surjective</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn">α</span> <a href="../../.././Mathlib/Algebra/Group/Hom/Defs.html#MonoidHom">→*</a> <span class="fn">β</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><span class="fn">Function.Surjective</span> <span class="fn">⇑<span class="fn">f</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Function.Surjective</span> <span class="fn">(<a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.map">map</a> <span class="fn">f</span>)</span></span></div></div></div></div><div class="decl" id="LibraryNote.«slow-failing_instance_priority»"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L172-L188">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#LibraryNote.«slow-failing_instance_priority»" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#LibraryNote.«slow-failing_instance_priority»"><span class="name">LibraryNote</span>.<span class="name">«slow-failing_instance_priority»</span></a></span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">Batteries.Util.LibraryNote</span></div></div><p>Certain instances trigger further searches when they are considered as candidate instances;
+these instances should be assigned a priority lower than the default of 1000 (for example, 900).</p><p>The conditions for this rule are as follows:</p><ul><li>a class <code>C</code> has instances <code>instT : C T</code> and <code>instT' : C T'</code></li><li>types <code>T</code> and <code>T'</code> are both reducible specializations of another type <code>S</code></li><li>the parameters supplied to <code>S</code> to produce <code>T</code> are not (fully) determined by <code>instT</code>,
+instead they have to be found by instance search
+If those conditions hold, the instance <code>instT</code> should be assigned lower priority.</li></ul><p>Note that there is no issue unless <code>T</code> and <code>T'</code> are reducibly equal to <code>S</code>, Otherwise the instance
+discrimination tree can distinguish them, and the note does not apply.</p><p>If the type involved is a free variable (rather than an instantiation of some type <code>S</code>),
+the instance priority should be even lower, see Note [lower instance priority].</p><details id="instances-for-list-LibraryNote.«slow-failing_instance_priority»" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="ConjClasses.instDecidableEqOfDecidableRelIsConj"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L190-L191">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#ConjClasses.instDecidableEqOfDecidableRelIsConj" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.instDecidableEqOfDecidableRelIsConj"><span class="name">ConjClasses</span>.<span class="name">instDecidableEqOfDecidableRelIsConj</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableRel</span> <a href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj">IsConj</a></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">DecidableEq</span> <span class="fn">(<a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses">ConjClasses</a> <span class="fn">α</span>)</span></span></div></div></div></div><div class="decl" id="ConjClasses.mk_injective"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L199-L200">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#ConjClasses.mk_injective" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.mk_injective"><span class="name">ConjClasses</span>.<span class="name">mk_injective</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#CommMonoid">CommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Function.Injective</span> <a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.mk">ConjClasses.mk</a></span></div></div></div></div><div class="decl" id="ConjClasses.mk_bijective"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L202-L203">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#ConjClasses.mk_bijective" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.mk_bijective"><span class="name">ConjClasses</span>.<span class="name">mk_bijective</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#CommMonoid">CommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Logic/Function/Defs.html#Function.Bijective">Function.Bijective</a> <a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.mk">ConjClasses.mk</a></span></div></div></div></div><div class="decl" id="ConjClasses.mkEquiv"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L205-L209">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#ConjClasses.mkEquiv" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.mkEquiv"><span class="name">ConjClasses</span>.<span class="name">mkEquiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#CommMonoid">CommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">α</span> <a href="../../.././Mathlib/Logic/Equiv/Defs.html#Equiv">≃</a> <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses">ConjClasses</a> <span class="fn">α</span></span></div></div><p>The bijection between a <code><a href="../../.././Mathlib/Algebra/Group/Defs.html#CommGroup">CommGroup</a></code> and its <code><a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses">ConjClasses</a></code>.</p><details id="instances-for-list-ConjClasses.mkEquiv" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="conjugatesOf"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L219-L221">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#conjugatesOf" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#conjugatesOf"><span class="name">conjugatesOf</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span></div></div><p>Given an element <code>a</code>, <code><a href="../../.././Mathlib/Algebra/Group/Conj.html#conjugatesOf">conjugatesOf</a> a</code> is the set of conjugates.</p><details id="instances-for-list-conjugatesOf" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="mem_conjugatesOf_self"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L223-L224">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#mem_conjugatesOf_self" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#mem_conjugatesOf_self"><span class="name">mem_conjugatesOf_self</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">a</span> <span class="fn">∈</span> <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#conjugatesOf">conjugatesOf</a> <span class="fn">a</span></span></span></div></div></div></div><div class="decl" id="IsConj.conjugatesOf_eq"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L226-L227">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#IsConj.conjugatesOf_eq" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj.conjugatesOf_eq"><span class="name">IsConj</span>.<span class="name">conjugatesOf_eq</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a </span><span class="fn">b</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">ab</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj">IsConj</a> <span class="fn">a</span> <span class="fn">b</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#conjugatesOf">conjugatesOf</a> <span class="fn">a</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#conjugatesOf">conjugatesOf</a> <span class="fn">b</span></span></span></div></div></div></div><div class="decl" id="isConj_iff_conjugatesOf_eq"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L229-L232">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#isConj_iff_conjugatesOf_eq" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#isConj_iff_conjugatesOf_eq"><span class="name">isConj_iff_conjugatesOf_eq</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a </span><span class="fn">b</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#IsConj">IsConj</a> <span class="fn">a</span> <span class="fn">b</span></span> <span class="fn">↔</span> <span class="fn"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#conjugatesOf">conjugatesOf</a> <span class="fn">a</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#conjugatesOf">conjugatesOf</a> <span class="fn">b</span></span></span></span></div></div></div></div><div class="decl" id="ConjClasses.carrier"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L242-L244">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#ConjClasses.carrier" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.carrier"><span class="name">ConjClasses</span>.<span class="name">carrier</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses">ConjClasses</a> <span class="fn">α</span></span> → <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">α</span></span></span></div></div><p>Given a conjugacy class <code>a</code>, <code><a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.carrier">carrier</a> a</code> is the set it represents.</p><details id="instances-for-list-ConjClasses.carrier" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="ConjClasses.mem_carrier_mk"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L246-L247">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#ConjClasses.mem_carrier_mk" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.mem_carrier_mk"><span class="name">ConjClasses</span>.<span class="name">mem_carrier_mk</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">a</span> <span class="fn">∈</span> <span class="fn"><span class="fn">(<a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.mk">ConjClasses.mk</a> <span class="fn">a</span>)</span>.<a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.carrier">carrier</a></span></span></div></div></div></div><div class="decl" id="ConjClasses.mem_carrier_iff_mk_eq"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L249-L255">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#ConjClasses.mem_carrier_iff_mk_eq" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.mem_carrier_iff_mk_eq"><span class="name">ConjClasses</span>.<span class="name">mem_carrier_iff_mk_eq</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">b</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses">ConjClasses</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">a</span> <span class="fn">∈</span> <span class="fn"><span class="fn">b</span>.<a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.carrier">carrier</a></span></span> <span class="fn">↔</span> <span class="fn"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.mk">ConjClasses.mk</a> <span class="fn">a</span></span> <span class="fn">=</span> <span class="fn">b</span></span></span></div></div></div></div><div class="decl" id="ConjClasses.carrier_eq_preimage_mk"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Algebra/Group/Conj.lean#L257-L258">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Algebra_Group_Conj.html#ConjClasses.carrier_eq_preimage_mk" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.carrier_eq_preimage_mk"><span class="name">ConjClasses</span>.<span class="name">carrier_eq_preimage_mk</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses">ConjClasses</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">a</span>.<a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.carrier">carrier</a></span> <span class="fn">=</span> <a href="../../.././Mathlib/Algebra/Group/Conj.html#ConjClasses.mk">ConjClasses.mk</a> <a href="../../.././Mathlib/Data/Set/Operations.html#Set.preimage">⁻¹'</a> <span class="fn"><span class="fn">{</span><span class="fn">a</span><span class="fn">}</span></span></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

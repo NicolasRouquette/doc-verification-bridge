@@ -1,0 +1,257 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../.././style.css"></link><link rel="icon" href="../../.././favicon.svg"></link><link rel="mask-icon" href="../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../.././/declarations/declaration-data.bmp" as="image"></link><title>PhysLean.Mathematics.VariationalCalculus.HasVarGradient</title><script defer="true" src="../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../.././";</script><script>const MODULE_NAME="PhysLean.Mathematics.VariationalCalculus.HasVarGradient";</script><script type="module" src="../../.././jump-src.js"></script><script type="module" src="../../.././search.js"></script><script type="module" src="../../.././expand-nav.js"></script><script type="module" src="../../.././how-about.js"></script><script type="module" src="../../.././instances.js"></script><script type="module" src="../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">PhysLean</span>.<span class="name">Mathematics</span>.<span class="name">VariationalCalculus</span>.<span class="name">HasVarGradient</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/HEPLean/PhysLean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../.././Init.html">Init</a></li><li><a href="../../.././PhysLean/Mathematics/VariationalCalculus/HasVarAdjDeriv.html">PhysLean.Mathematics.VariationalCalculus.HasVarAdjDeriv</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-PhysLean.Mathematics.VariationalCalculus.HasVarGradient" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#HasVarGradientAt"><span class="name">HasVarGradientAt</span></a></div><div class="nav_link"><a class="break_within" href="#HasVarGradientAt.add"><span class="name">HasVarGradientAt</span>.<span class="name">add</span></a></div><div class="nav_link"><a class="break_within" href="#HasVarGradientAt.sum"><span class="name">HasVarGradientAt</span>.<span class="name">sum</span></a></div><div class="nav_link"><a class="break_within" href="#HasVarGradientAt.neg"><span class="name">HasVarGradientAt</span>.<span class="name">neg</span></a></div><div class="nav_link"><a class="break_within" href="#varGradient"><span class="name">varGradient</span></a></div><div class="nav_link"><a class="break_within" href="#«termδ_,∫_,_»"><span class="name">«termδ_,∫_,_»</span></a></div><div class="nav_link"><a class="break_within" href="#«termδ(_:=_),∫_,_»"><span class="name">«termδ(_:=_),∫_,_»</span></a></div><div class="nav_link"><a class="break_within" href="#HasVarGradientAt.unique"><span class="name">HasVarGradientAt</span>.<span class="name">unique</span></a></div><div class="nav_link"><a class="break_within" href="#HasVarGradientAt.varGradient"><span class="name">HasVarGradientAt</span>.<span class="name">varGradient</span></a></div></nav><main>
+<div class="mod_doc"><h1 class="markdown-heading" id="Variational-gradient">Variational gradient <a class="hover-link" href="#Variational-gradient">#</a></h1><p>Definition of variational gradient that allows for formal treatment of variational calculus
+as used in physics textbooks.</p></div><div class="decl" id="HasVarGradientAt"><div class="inductive"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L21-L61">source</a></div><div class="decl_header"><span class="decl_kind">inductive</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/VariationalCalculus/HasVarGradient.html#HasVarGradientAt"><span class="name">HasVarGradientAt</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">X</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Measure/MeasureSpaceDef.html#MeasureTheory.MeasureSpace">MeasureTheory.MeasureSpace</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">U</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">U</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">U</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><span class="fn">(<span class="fn">X</span> → <span class="fn">U</span>)</span> → <span class="fn"><span class="fn">X</span> → <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">grad </span><span class="fn">u</span> : <span class="fn"><span class="fn">X</span> → <span class="fn">U</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../.././foundational_types.html">Prop</a></div></div><p>Function <code>grad</code> is variational gradient of functional <code>S</code> at point <code>u</code>.</p><p>This formalizes the notion of variational gradient <code>δS/δu</code> of a functional <code>S</code> at a point <code>u</code>.</p><p>However, it is not defined for a functional <code>S : (X → U) → ℝ</code> but rather for the function
+<code>S' : (X → U) → (X → ℝ)</code> which is related to the usual functional as <code>S u = ∫ x, S' (u x) x ∂μ</code>.
+For example for action integral, <code>S u = ∫ t, L (u t) (deriv u t)</code> we have
+<code>S' u t = L (u t) (deriv u t)</code>. Working with <code>S'</code> rather than with <code>S</code> allows us to ignore certain
+technicalities with integrability.</p><p>Examples:</p><p>Euler-Lagrange equations:</p><pre><code>δ/δx ∫ L(x,ẋ) dt = ∂L/∂ x - d/dt (∂L/∂ẋ)
+</code></pre><p>can be expressed as</p><pre><code><a href="../../.././PhysLean/Mathematics/VariationalCalculus/HasVarGradient.html#HasVarGradientAt">HasVarGradientAt</a>
+  (fun u t =&gt; L (u t) (deriv u t))
+  (fun t =&gt;
+    <a href="../../.././Mathlib/Analysis/Calculus/Deriv/Basic.html#deriv">deriv</a> (L · (deriv u t)) ((u t))
+    -
+    <a href="../../.././Mathlib/Analysis/Calculus/Deriv/Basic.html#deriv">deriv</a> (fun t' =&gt; <a href="../../.././Mathlib/Analysis/Calculus/Deriv/Basic.html#deriv">deriv</a> (L (u t') ·) (deriv u t')) t)
+  u
+</code></pre><p>Laplace equation is variational gradient of Dirichlet energy:</p><pre><code>δ/δu ∫ 1/2*‖∇u‖² = - Δu
+</code></pre><p>can be expressed as</p><pre><code><a href="../../.././PhysLean/Mathematics/VariationalCalculus/HasVarGradient.html#HasVarGradientAt">HasVarGradientAt</a>
+  (fun u t =&gt; 1/2 * <a href="../../.././Mathlib/Analysis/Calculus/Deriv/Basic.html#deriv">deriv</a> u t^2)
+  (fun t =&gt; - <a href="../../.././Mathlib/Analysis/Calculus/Deriv/Basic.html#deriv">deriv</a> (deriv u) t)
+  u
+</code></pre><ul class="constructors"><li class="constructor" id="HasVarGradientAt.intro">intro<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">X</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Measure/MeasureSpaceDef.html#MeasureTheory.MeasureSpace">MeasureTheory.MeasureSpace</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">U</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">U</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">U</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><span class="fn">(<span class="fn">X</span> → <span class="fn">U</span>)</span> → <span class="fn"><span class="fn">X</span> → <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a></span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">grad </span><span class="fn">u</span> : <span class="fn"><span class="fn">X</span> → <span class="fn">U</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">F'</span> : <span class="fn"><span class="fn">(<span class="fn">X</span> → <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a>)</span> → <span class="fn"><span class="fn">X</span> → <span class="fn">U</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hF'</span> : <span class="fn"><a href="../../.././PhysLean/Mathematics/VariationalCalculus/HasVarAdjDeriv.html#HasVarAdjDerivAt">HasVarAdjDerivAt</a> <span class="fn">F</span> <span class="fn">F'</span> <span class="fn">u</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hgrad</span> : <span class="fn">grad</span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn">F'</span> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">X</span>) =&gt; <span class="fn">1</span></span></span>)</span></span>
+ : <span class="fn"><a href="../../.././PhysLean/Mathematics/VariationalCalculus/HasVarGradient.html#HasVarGradientAt">HasVarGradientAt</a> <span class="fn">F</span> <span class="fn">grad</span> <span class="fn">u</span></span></li></ul><details id="instances-for-list-HasVarGradientAt" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="HasVarGradientAt.add"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L63-L74">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/VariationalCalculus/HasVarGradient.html#HasVarGradientAt.add"><span class="name">HasVarGradientAt</span>.<span class="name">add</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">X</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Measure/MeasureSpaceDef.html#MeasureTheory.MeasureSpace">MeasureTheory.MeasureSpace</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">U</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">U</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">U</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">F </span><span class="fn">F'</span> : <span class="fn"><span class="fn">(<span class="fn">X</span> → <span class="fn">U</span>)</span> → <span class="fn"><span class="fn">X</span> → <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">grad </span><span class="fn">grad' </span><span class="fn">u</span> : <span class="fn"><span class="fn">X</span> → <span class="fn">U</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Constructions/BorelSpace/Basic.html#OpensMeasurableSpace">OpensMeasurableSpace</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Measure/Typeclasses/Finite.html#MeasureTheory.IsFiniteMeasureOnCompacts">MeasureTheory.IsFiniteMeasureOnCompacts</a> <a href="../../.././Mathlib/MeasureTheory/Measure/MeasureSpaceDef.html#MeasureTheory.MeasureSpace.volume">MeasureTheory.volume</a></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../.././PhysLean/Mathematics/VariationalCalculus/HasVarGradient.html#HasVarGradientAt">HasVarGradientAt</a> <span class="fn">F</span> <span class="fn">grad</span> <span class="fn">u</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h'</span> : <span class="fn"><a href="../../.././PhysLean/Mathematics/VariationalCalculus/HasVarGradient.html#HasVarGradientAt">HasVarGradientAt</a> <span class="fn">F'</span> <span class="fn">grad'</span> <span class="fn">u</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/VariationalCalculus/HasVarGradient.html#HasVarGradientAt">HasVarGradientAt</a> (<span class="fn">F</span> <a href="../../.././Init/Prelude.html#HAdd.hAdd">+</a> <span class="fn">F'</span>) (<span class="fn">grad</span> <a href="../../.././Init/Prelude.html#HAdd.hAdd">+</a> <span class="fn">grad'</span>) <span class="fn">u</span></span></div></div></div></div><div class="decl" id="HasVarGradientAt.sum"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L76-L106">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/VariationalCalculus/HasVarGradient.html#HasVarGradientAt.sum"><span class="name">HasVarGradientAt</span>.<span class="name">sum</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">X</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Measure/MeasureSpaceDef.html#MeasureTheory.MeasureSpace">MeasureTheory.MeasureSpace</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">U</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">U</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">U</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn"><span class="fn">(<span class="fn">X</span> → <span class="fn">U</span>)</span> → <span class="fn"><span class="fn">X</span> → <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a></span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">grad</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn"><span class="fn">X</span> → <span class="fn">U</span></span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">u</span> : <span class="fn"><span class="fn">X</span> → <span class="fn">U</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hu</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Calculus/ContDiff/Defs.html#ContDiff">ContDiff</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">(↑<a href="../../.././Mathlib/Order/Notation.html#Top.top">⊤</a>)</span> <span class="fn">u</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Constructions/BorelSpace/Basic.html#OpensMeasurableSpace">OpensMeasurableSpace</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Measure/Typeclasses/Finite.html#MeasureTheory.IsFiniteMeasureOnCompacts">MeasureTheory.IsFiniteMeasureOnCompacts</a> <a href="../../.././Mathlib/MeasureTheory/Measure/MeasureSpaceDef.html#MeasureTheory.MeasureSpace.volume">MeasureTheory.volume</a></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">ι</span>), <span class="fn"><a href="../../.././PhysLean/Mathematics/VariationalCalculus/HasVarGradient.html#HasVarGradientAt">HasVarGradientAt</a> <span class="fn">(<span class="fn">F</span> <span class="fn">i</span>)</span> <span class="fn">(<span class="fn">grad</span> <span class="fn">i</span>)</span> <span class="fn">u</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/VariationalCalculus/HasVarGradient.html#HasVarGradientAt">HasVarGradientAt</a> <span class="fn">(fun (<span class="fn">v</span> : <span class="fn"><span class="fn">X</span> → <span class="fn">U</span></span>) (<span class="fn">x</span> : <span class="fn">X</span>) =&gt; <span class="fn">∑ <span class="fn">i</span> : <span class="fn">ι</span>, <span class="fn"><span class="fn">F</span> <span class="fn">i</span> <span class="fn">v</span> <span class="fn">x</span></span></span>)</span> <span class="fn">(∑ <span class="fn">i</span> : <span class="fn">ι</span>, <span class="fn"><span class="fn">grad</span> <span class="fn">i</span></span>)</span> <span class="fn">u</span></span></div></div></div></div><div class="decl" id="HasVarGradientAt.neg"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L108-L116">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/VariationalCalculus/HasVarGradient.html#HasVarGradientAt.neg"><span class="name">HasVarGradientAt</span>.<span class="name">neg</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">X</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Measure/MeasureSpaceDef.html#MeasureTheory.MeasureSpace">MeasureTheory.MeasureSpace</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">U</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">U</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">U</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <span class="fn"><span class="fn">(<span class="fn">X</span> → <span class="fn">U</span>)</span> → <span class="fn"><span class="fn">X</span> → <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a></span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">grad </span><span class="fn">u</span> : <span class="fn"><span class="fn">X</span> → <span class="fn">U</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../.././PhysLean/Mathematics/VariationalCalculus/HasVarGradient.html#HasVarGradientAt">HasVarGradientAt</a> <span class="fn">F</span> <span class="fn">grad</span> <span class="fn">u</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/VariationalCalculus/HasVarGradient.html#HasVarGradientAt">HasVarGradientAt</a> (<a href="../../.././Init/Prelude.html#Neg.neg">-</a><span class="fn">F</span>) (<a href="../../.././Init/Prelude.html#Neg.neg">-</a><span class="fn">grad</span>) <span class="fn">u</span></span></div></div></div></div><div class="decl" id="varGradient"><div class="def"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L120-L136">source</a></div><div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/VariationalCalculus/HasVarGradient.html#varGradient"><span class="name">varGradient</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">X</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Measure/MeasureSpaceDef.html#MeasureTheory.MeasureSpace">MeasureTheory.MeasureSpace</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">U</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">U</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">U</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><span class="fn">(<span class="fn">X</span> → <span class="fn">U</span>)</span> → <span class="fn"><span class="fn">X</span> → <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">u</span> : <span class="fn"><span class="fn">X</span> → <span class="fn">U</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">X</span> → <span class="fn">U</span></span></div></div><p>The variational gradient of a function <code>F : (X → U) → (X → ℝ)</code> evaluated
+at a function <code>u : X → U</code>.</p><p>This not defined defined for a functional <code>S : (X → U) → ℝ</code> but rather for the function
+<code>F : (X → U) → (X → ℝ)</code> which is the integrand of the functional <code>S u = ∫ x, F (u x) x ∂μ</code>.
+For example for action integral, <code>S u = ∫ t, L (u t) (deriv u t)</code> we have
+<code>S' u t = L (u t) (deriv u t)</code>.</p><p>On functions <code>F : (X → U) → (X → ℝ)</code> which do not have a variational gradient,
+this function is defined to give <code>0</code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-varGradient" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="«termδ_,∫_,_»"><div class="def"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L139-L140">source</a></div><div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/VariationalCalculus/HasVarGradient.html#«termδ_,∫_,_»"><span class="name">«termδ_,∫_,_»</span></a></span><span class="decl_args"> :</span><div class="decl_type"><a href="../../.././Init/Prelude.html#Lean.ParserDescr">Lean.ParserDescr</a></div></div><p>The variational gradient of a function <code>F : (X → U) → (X → ℝ)</code> evaluated
+at a function <code>u : X → U</code>.</p><p>This not defined defined for a functional <code>S : (X → U) → ℝ</code> but rather for the function
+<code>F : (X → U) → (X → ℝ)</code> which is the integrand of the functional <code>S u = ∫ x, F (u x) x ∂μ</code>.
+For example for action integral, <code>S u = ∫ t, L (u t) (deriv u t)</code> we have
+<code>S' u t = L (u t) (deriv u t)</code>.</p><p>On functions <code>F : (X → U) → (X → ℝ)</code> which do not have a variational gradient,
+this function is defined to give <code>0</code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-«termδ_,∫_,_»" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="«termδ(_:=_),∫_,_»"><div class="def"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L143-L144">source</a></div><div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/VariationalCalculus/HasVarGradient.html#«termδ(_:=_),∫_,_»"><span class="name">«termδ(_:=_),∫_,_»</span></a></span><span class="decl_args"> :</span><div class="decl_type"><a href="../../.././Init/Prelude.html#Lean.ParserDescr">Lean.ParserDescr</a></div></div><p>The variational gradient of a function <code>F : (X → U) → (X → ℝ)</code> evaluated
+at a function <code>u : X → U</code>.</p><p>This not defined defined for a functional <code>S : (X → U) → ℝ</code> but rather for the function
+<code>F : (X → U) → (X → ℝ)</code> which is the integrand of the functional <code>S u = ∫ x, F (u x) x ∂μ</code>.
+For example for action integral, <code>S u = ∫ t, L (u t) (deriv u t)</code> we have
+<code>S' u t = L (u t) (deriv u t)</code>.</p><p>On functions <code>F : (X → U) → (X → ℝ)</code> which do not have a variational gradient,
+this function is defined to give <code>0</code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-«termδ(_:=_),∫_,_»" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="HasVarGradientAt.unique"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L153-L159">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/VariationalCalculus/HasVarGradient.html#HasVarGradientAt.unique"><span class="name">HasVarGradientAt</span>.<span class="name">unique</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">U</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">U</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">U</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">X</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/InnerProductSpace/Defs.html#InnerProductSpace">InnerProductSpace</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Measure/MeasureSpaceDef.html#MeasureTheory.MeasureSpace">MeasureTheory.MeasureSpace</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Constructions/BorelSpace/Basic.html#OpensMeasurableSpace">OpensMeasurableSpace</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Measure/Typeclasses/Finite.html#MeasureTheory.IsFiniteMeasureOnCompacts">MeasureTheory.IsFiniteMeasureOnCompacts</a> <a href="../../.././Mathlib/MeasureTheory/Measure/MeasureSpaceDef.html#MeasureTheory.MeasureSpace.volume">MeasureTheory.volume</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Measure/MeasureSpaceDef.html#MeasureTheory.MeasureSpace.volume">MeasureTheory.volume</a>.<a href="../../.././Mathlib/MeasureTheory/Measure/OpenPos.html#MeasureTheory.Measure.IsOpenPosMeasure">IsOpenPosMeasure</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S'</span> : <span class="fn"><span class="fn">(<span class="fn">X</span> → <span class="fn">U</span>)</span> → <span class="fn"><span class="fn">X</span> → <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a></span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">grad </span><span class="fn">grad' </span><span class="fn">u</span> : <span class="fn"><span class="fn">X</span> → <span class="fn">U</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../.././PhysLean/Mathematics/VariationalCalculus/HasVarGradient.html#HasVarGradientAt">HasVarGradientAt</a> <span class="fn">S'</span> <span class="fn">grad</span> <span class="fn">u</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h'</span> : <span class="fn"><a href="../../.././PhysLean/Mathematics/VariationalCalculus/HasVarGradient.html#HasVarGradientAt">HasVarGradientAt</a> <span class="fn">S'</span> <span class="fn">grad'</span> <span class="fn">u</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">grad</span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">grad'</span></div></div></div></div><div class="decl" id="HasVarGradientAt.varGradient"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L162-L168">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Mathematics/VariationalCalculus/HasVarGradient.html#HasVarGradientAt.varGradient"><span class="name">HasVarGradientAt</span>.<span class="name">varGradient</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">U</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">U</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././PhysLean/Mathematics/InnerProductSpace/Basic.html#InnerProductSpace'">InnerProductSpace'</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">U</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">X</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Basic.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/InnerProductSpace/Defs.html#InnerProductSpace">InnerProductSpace</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Measure/MeasureSpaceDef.html#MeasureTheory.MeasureSpace">MeasureTheory.MeasureSpace</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Constructions/BorelSpace/Basic.html#OpensMeasurableSpace">OpensMeasurableSpace</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Measure/Typeclasses/Finite.html#MeasureTheory.IsFiniteMeasureOnCompacts">MeasureTheory.IsFiniteMeasureOnCompacts</a> <a href="../../.././Mathlib/MeasureTheory/Measure/MeasureSpaceDef.html#MeasureTheory.MeasureSpace.volume">MeasureTheory.volume</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Measure/MeasureSpaceDef.html#MeasureTheory.MeasureSpace.volume">MeasureTheory.volume</a>.<a href="../../.././Mathlib/MeasureTheory/Measure/OpenPos.html#MeasureTheory.Measure.IsOpenPosMeasure">IsOpenPosMeasure</a></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><span class="fn">(<span class="fn">X</span> → <span class="fn">U</span>)</span> → <span class="fn"><span class="fn">X</span> → <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">grad </span><span class="fn">u</span> : <span class="fn"><span class="fn">X</span> → <span class="fn">U</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hF</span> : <span class="fn"><a href="../../.././PhysLean/Mathematics/VariationalCalculus/HasVarGradient.html#HasVarGradientAt">HasVarGradientAt</a> <span class="fn">F</span> <span class="fn">grad</span> <span class="fn">u</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././PhysLean/Mathematics/VariationalCalculus/HasVarGradient.html#varGradient">varGradient</a> <span class="fn">F</span> <span class="fn">u</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">grad</span></div></div></div></div></main>
+<nav class="nav"><iframe src="../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

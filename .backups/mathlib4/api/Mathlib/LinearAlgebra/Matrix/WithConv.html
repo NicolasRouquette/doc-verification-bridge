@@ -1,0 +1,473 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../.././style.css"></link><link rel="icon" href="../../.././favicon.svg"></link><link rel="mask-icon" href="../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.LinearAlgebra.Matrix.WithConv</title><script defer="true" src="../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../.././";</script><script>const MODULE_NAME="Mathlib.LinearAlgebra.Matrix.WithConv";</script><script type="module" src="../../.././jump-src.js"></script><script type="module" src="../../.././search.js"></script><script type="module" src="../../.././expand-nav.js"></script><script type="module" src="../../.././how-about.js"></script><script type="module" src="../../.././instances.js"></script><script type="module" src="../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">LinearAlgebra</span>.<span class="name">Matrix</span>.<span class="name">WithConv</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../.././Init.html">Init</a></li><li><a href="../../.././Mathlib/Algebra/WithConv.html">Mathlib.Algebra.WithConv</a></li><li><a href="../../.././Mathlib/LinearAlgebra/Matrix/Hadamard.html">Mathlib.LinearAlgebra.Matrix.Hadamard</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.LinearAlgebra.Matrix.WithConv" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#instMulWithConvMatrix"><span class="name">instMulWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#convMul_def"><span class="name">convMul_def</span></a></div><div class="nav_link"><a class="break_within" href="#instSemigroupWithConvMatrix"><span class="name">instSemigroupWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#instNonUnitalNonAssocSemiringWithConvMatrix"><span class="name">instNonUnitalNonAssocSemiringWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#instCommMagmaWithConvMatrix"><span class="name">instCommMagmaWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#instOneWithConvMatrix"><span class="name">instOneWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#convOne_def"><span class="name">convOne_def</span></a></div><div class="nav_link"><a class="break_within" href="#instMulOneClassWithConvMatrix"><span class="name">instMulOneClassWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#instMonoidWithConvMatrix"><span class="name">instMonoidWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#instCommMonoidWithConvMatrix"><span class="name">instCommMonoidWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#instNonAssocSemiringWithConvMatrix"><span class="name">instNonAssocSemiringWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#instNonUnitalSemiringWithConvMatrix"><span class="name">instNonUnitalSemiringWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#instNonUnitalNonAssocCommSemiringWithConvMatrix"><span class="name">instNonUnitalNonAssocCommSemiringWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#instNonUnitalCommSemiringWithConvMatrix"><span class="name">instNonUnitalCommSemiringWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#instNonAssocCommSemiringWithConvMatrix"><span class="name">instNonAssocCommSemiringWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#instSemiringWithConvMatrix"><span class="name">instSemiringWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#instCommSemiringWithConvMatrix"><span class="name">instCommSemiringWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#instNonUnitalNonAssocRingWithConvMatrix"><span class="name">instNonUnitalNonAssocRingWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#instNonUnitalNonAssocCommRingWithConvMatrix"><span class="name">instNonUnitalNonAssocCommRingWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#instNonUnitalRingWithConvMatrix"><span class="name">instNonUnitalRingWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#instNonUnitalCommRingWithConvMatrix"><span class="name">instNonUnitalCommRingWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#instNonAssocRingWithConvMatrix"><span class="name">instNonAssocRingWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#instNonAssocCommRingWithConvMatrix"><span class="name">instNonAssocCommRingWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#instRingWithConvMatrix"><span class="name">instRingWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#instCommRingWithConvMatrix"><span class="name">instCommRingWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#instStarWithConvMatrix"><span class="name">instStarWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#intrinsicStar_def"><span class="name">intrinsicStar_def</span></a></div><div class="nav_link"><a class="break_within" href="#instInvolutiveStarWithConvMatrix"><span class="name">instInvolutiveStarWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#instStarAddMonoidWithConvMatrix"><span class="name">instStarAddMonoidWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#instStarMulWithConvMatrix"><span class="name">instStarMulWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#instStarRingWithConvMatrix"><span class="name">instStarRingWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#instSMulCommClassWithConvMatrix"><span class="name">instSMulCommClassWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#instIsScalarTowerWithConvMatrix"><span class="name">instIsScalarTowerWithConvMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#instAlgebraWithConvMatrix"><span class="name">instAlgebraWithConvMatrix</span></a></div></nav><main>
+<div class="mod_doc"><p>The convolutive star ring on matrices</p><p>In this file, we provide the star algebra instance on <code><a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> (Matrix m n R)</code> given by
+the Hadamard product and intrinsic star (i.e., the star of each element in the matrix).</p></div><div class="decl" id="instMulWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L22-L22">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instMulWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instMulWithConvMatrix"><span class="name">instMulWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Mul</span> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="convMul_def"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L24-L25">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#convMul_def" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#convMul_def"><span class="name">convMul_def</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x </span><span class="fn">y</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">x</span> <span class="fn">*</span> <span class="fn">y</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Algebra/WithConv.html#WithConv.toConv">WithConv.toConv</a> <span class="fn">(<span class="fn"><span class="fn"><span class="fn">x</span>.<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv.ofConv">ofConv</a></span>.<a href="../../.././Mathlib/LinearAlgebra/Matrix/Hadamard.html#Matrix.hadamard">hadamard</a></span> <span class="fn"><span class="fn">y</span>.<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv.ofConv">ofConv</a></span>)</span></span></span></div></div></div></div><div class="decl" id="instSemigroupWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L29-L30">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instSemigroupWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instSemigroupWithConvMatrix"><span class="name">instSemigroupWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Semigroup">Semigroup</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Semigroup">Semigroup</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="instNonUnitalNonAssocSemiringWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L32-L36">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instNonUnitalNonAssocSemiringWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instNonUnitalNonAssocSemiringWithConvMatrix"><span class="name">instNonUnitalNonAssocSemiringWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#NonUnitalNonAssocSemiring">NonUnitalNonAssocSemiring</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#NonUnitalNonAssocSemiring">NonUnitalNonAssocSemiring</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="instCommMagmaWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L38-L39">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instCommMagmaWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instCommMagmaWithConvMatrix"><span class="name">instCommMagmaWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#CommMagma">CommMagma</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#CommMagma">CommMagma</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="instOneWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L41-L41">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instOneWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instOneWithConvMatrix"><span class="name">instOneWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">One</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">One</span> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="convOne_def"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L43-L43">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#convOne_def" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#convOne_def"><span class="name">convOne_def</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">One</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">1</span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Algebra/WithConv.html#WithConv.toConv">WithConv.toConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix.of">Matrix.of</a> <span class="fn">1</span>)</span></span></span></div></div></div></div><div class="decl" id="instMulOneClassWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L47-L49">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instMulOneClassWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instMulOneClassWithConvMatrix"><span class="name">instMulOneClassWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#MulOneClass">MulOneClass</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#MulOneClass">MulOneClass</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="instMonoidWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L51-L51">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instMonoidWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instMonoidWithConvMatrix"><span class="name">instMonoidWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="instCommMonoidWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L52-L52">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instCommMonoidWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instCommMonoidWithConvMatrix"><span class="name">instCommMonoidWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#CommMonoid">CommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#CommMonoid">CommMonoid</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="instNonAssocSemiringWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L53-L53">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instNonAssocSemiringWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instNonAssocSemiringWithConvMatrix"><span class="name">instNonAssocSemiringWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#NonAssocSemiring">NonAssocSemiring</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#NonAssocSemiring">NonAssocSemiring</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="instNonUnitalSemiringWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L54-L54">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instNonUnitalSemiringWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instNonUnitalSemiringWithConvMatrix"><span class="name">instNonUnitalSemiringWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#NonUnitalSemiring">NonUnitalSemiring</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#NonUnitalSemiring">NonUnitalSemiring</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="instNonUnitalNonAssocCommSemiringWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L55-L56">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instNonUnitalNonAssocCommSemiringWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instNonUnitalNonAssocCommSemiringWithConvMatrix"><span class="name">instNonUnitalNonAssocCommSemiringWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#NonUnitalNonAssocCommSemiring">NonUnitalNonAssocCommSemiring</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#NonUnitalNonAssocCommSemiring">NonUnitalNonAssocCommSemiring</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="instNonUnitalCommSemiringWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L57-L57">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instNonUnitalCommSemiringWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instNonUnitalCommSemiringWithConvMatrix"><span class="name">instNonUnitalCommSemiringWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#NonUnitalCommSemiring">NonUnitalCommSemiring</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#NonUnitalCommSemiring">NonUnitalCommSemiring</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="instNonAssocCommSemiringWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L58-L58">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instNonAssocCommSemiringWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instNonAssocCommSemiringWithConvMatrix"><span class="name">instNonAssocCommSemiringWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#NonAssocCommSemiring">NonAssocCommSemiring</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#NonAssocCommSemiring">NonAssocCommSemiring</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="instSemiringWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L59-L59">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instSemiringWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instSemiringWithConvMatrix"><span class="name">instSemiringWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="instCommSemiringWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L60-L60">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instCommSemiringWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instCommSemiringWithConvMatrix"><span class="name">instCommSemiringWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommSemiring">CommSemiring</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommSemiring">CommSemiring</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="instNonUnitalNonAssocRingWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L61-L61">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instNonUnitalNonAssocRingWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instNonUnitalNonAssocRingWithConvMatrix"><span class="name">instNonUnitalNonAssocRingWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#NonUnitalNonAssocRing">NonUnitalNonAssocRing</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#NonUnitalNonAssocRing">NonUnitalNonAssocRing</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="instNonUnitalNonAssocCommRingWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L62-L62">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instNonUnitalNonAssocCommRingWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instNonUnitalNonAssocCommRingWithConvMatrix"><span class="name">instNonUnitalNonAssocCommRingWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#NonUnitalNonAssocCommRing">NonUnitalNonAssocCommRing</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#NonUnitalNonAssocCommRing">NonUnitalNonAssocCommRing</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="instNonUnitalRingWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L63-L63">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instNonUnitalRingWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instNonUnitalRingWithConvMatrix"><span class="name">instNonUnitalRingWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#NonUnitalRing">NonUnitalRing</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#NonUnitalRing">NonUnitalRing</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="instNonUnitalCommRingWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L64-L64">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instNonUnitalCommRingWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instNonUnitalCommRingWithConvMatrix"><span class="name">instNonUnitalCommRingWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#NonUnitalCommRing">NonUnitalCommRing</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#NonUnitalCommRing">NonUnitalCommRing</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="instNonAssocRingWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L65-L65">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instNonAssocRingWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instNonAssocRingWithConvMatrix"><span class="name">instNonAssocRingWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#NonAssocRing">NonAssocRing</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#NonAssocRing">NonAssocRing</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="instNonAssocCommRingWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L66-L66">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instNonAssocCommRingWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instNonAssocCommRingWithConvMatrix"><span class="name">instNonAssocCommRingWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#NonAssocCommRing">NonAssocCommRing</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#NonAssocCommRing">NonAssocCommRing</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="instRingWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L67-L67">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instRingWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instRingWithConvMatrix"><span class="name">instRingWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="instCommRingWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L68-L68">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instCommRingWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instCommRingWithConvMatrix"><span class="name">instCommRingWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="instStarWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L70-L70">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instStarWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instStarWithConvMatrix"><span class="name">instStarWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Notation/Defs.html#Star">Star</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Notation/Defs.html#Star">Star</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="intrinsicStar_def"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L72-L73">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#intrinsicStar_def" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#intrinsicStar_def"><span class="name">intrinsicStar_def</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Notation/Defs.html#Star">Star</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Algebra/Notation/Defs.html#Star.star">star</a> <span class="fn">x</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Algebra/WithConv.html#WithConv.toConv">WithConv.toConv</a> <span class="fn">(<span class="fn"><span class="fn"><span class="fn">x</span>.<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv.ofConv">ofConv</a></span>.<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix.map">map</a></span> <a href="../../.././Mathlib/Algebra/Notation/Defs.html#Star.star">star</a>)</span></span></span></div></div></div></div><div class="decl" id="instInvolutiveStarWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L77-L78">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instInvolutiveStarWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instInvolutiveStarWithConvMatrix"><span class="name">instInvolutiveStarWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Star/Basic.html#InvolutiveStar">InvolutiveStar</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Star/Basic.html#InvolutiveStar">InvolutiveStar</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="instStarAddMonoidWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L80-L81">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instStarAddMonoidWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instStarAddMonoidWithConvMatrix"><span class="name">instStarAddMonoidWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddMonoid">AddMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Star/Basic.html#StarAddMonoid">StarAddMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Star/Basic.html#StarAddMonoid">StarAddMonoid</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="instStarMulWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L83-L84">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instStarMulWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instStarMulWithConvMatrix"><span class="name">instStarMulWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Star/Basic.html#StarMul">StarMul</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Star/Basic.html#StarMul">StarMul</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="instStarRingWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L86-L87">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instStarRingWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instStarRingWithConvMatrix"><span class="name">instStarRingWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#NonUnitalNonAssocSemiring">NonUnitalNonAssocSemiring</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Star/Basic.html#StarRing">StarRing</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Star/Basic.html#StarRing">StarRing</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="instSMulCommClassWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L89-L90">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instSMulCommClassWithConvMatrix" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instSMulCommClassWithConvMatrix"><span class="name">instSMulCommClassWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">β</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Defs.html#SMulCommClass">SMulCommClass</a> <span class="fn">β</span> <span class="fn">α</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Defs.html#SMulCommClass">SMulCommClass</a> <span class="fn">β</span> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="instIsScalarTowerWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L92-L93">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instIsScalarTowerWithConvMatrix" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instIsScalarTowerWithConvMatrix"><span class="name">instIsScalarTowerWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">β</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Defs.html#IsScalarTower">IsScalarTower</a> <span class="fn">β</span> <span class="fn">α</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Defs.html#IsScalarTower">IsScalarTower</a> <span class="fn">β</span> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div><div class="decl" id="instAlgebraWithConvMatrix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/Matrix/WithConv.lean#L95-L96">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_Matrix_WithConv.html#instAlgebraWithConvMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/Matrix/WithConv.html#instAlgebraWithConvMatrix"><span class="name">instAlgebraWithConvMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommSemiring">CommSemiring</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">β</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">β</span> <span class="fn">(<a href="../../.././Mathlib/Algebra/WithConv.html#WithConv">WithConv</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">m</span> <span class="fn">n</span> <span class="fn">α</span>)</span>)</span></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

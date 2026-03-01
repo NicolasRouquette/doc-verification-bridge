@@ -1,0 +1,163 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../.././style.css"></link><link rel="icon" href="../.././favicon.svg"></link><link rel="mask-icon" href="../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../.././/declarations/declaration-data.bmp" as="image"></link><title>MRiscX.Hoare.HoareRules</title><script defer="true" src="../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../.././";</script><script>const MODULE_NAME="MRiscX.Hoare.HoareRules";</script><script type="module" src="../.././jump-src.js"></script><script type="module" src="../.././search.js"></script><script type="module" src="../.././expand-nav.js"></script><script type="module" src="../.././how-about.js"></script><script type="module" src="../.././instances.js"></script><script type="module" src="../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">MRiscX</span>.<span class="name">Hoare</span>.<span class="name">HoareRules</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/JulsDE/MRiscX/blob/f877c917b02dfdee848024738f5e922eab5dcdc3/MRiscX/Hoare/HoareRules.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../.././Init.html">Init</a></li><li><a href="../.././MRiscX/Delab/DelabHoare.html">MRiscX.Delab.DelabHoare</a></li><li><a href="../.././MRiscX/Hoare/HoareTheory.html">MRiscX.Hoare.HoareTheory</a></li><li><a href="../.././Mathlib/Data/Set/BooleanAlgebra.html">Mathlib.Data.Set.BooleanAlgebra</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-MRiscX.Hoare.HoareRules" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#BL_SUBSET"><span class="name">BL_SUBSET</span></a></div><div class="nav_link"><a class="break_within" href="#BL_TO_WL"><span class="name">BL_TO_WL</span></a></div><div class="nav_link"><a class="break_within" href="#WL_TO_BL"><span class="name">WL_TO_BL</span></a></div><div class="nav_link"><a class="break_within" href="#S_SEQ'"><span class="name">S_SEQ'</span></a></div><div class="nav_link"><a class="break_within" href="#S_SEQ"><span class="name">S_SEQ</span></a></div><div class="nav_link"><a class="break_within" href="#PRE_STR"><span class="name">PRE_STR</span></a></div><div class="nav_link"><a class="break_within" href="#POST_WEAK"><span class="name">POST_WEAK</span></a></div><div class="nav_link"><a class="break_within" href="#«term_∧∧_»"><span class="name">«term_∧∧_»</span></a></div><div class="nav_link"><a class="break_within" href="#«term∼_»"><span class="name">«term∼_»</span></a></div><div class="nav_link"><a class="break_within" href="#S_COND"><span class="name">S_COND</span></a></div><div class="nav_link"><a class="break_within" href="#S_LOOP'"><span class="name">S_LOOP'</span></a></div></nav><main>
+<div class="decl" id="BL_SUBSET"><div class="theorem"><div class="gh_link"><a href="https://github.com/JulsDE/MRiscX/blob/f877c917b02dfdee848024738f5e922eab5dcdc3/MRiscX/Hoare/HoareRules.lean#L22-L43">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MRiscX/Hoare/HoareRules.html#BL_SUBSET"><span class="name">BL_SUBSET</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">code</span> : <a href="../.././MRiscX/AbstractSyntax/AbstractSyntax.html#Code">Code</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">P </span><span class="fn">Q</span> : <a href="../.././MRiscX/Hoare/HoareCore.html#Assertion">Assertion</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <a href="../.././Init/Prelude.html#UInt64">UInt64</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">L_w </span><span class="fn">L_b </span><span class="fn">L</span> : <span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <a href="../.././Init/Prelude.html#UInt64">UInt64</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">L_w</span> <a href="../.././Init/Core.html#Inter.inter">∩</a> <span class="fn">L_b</span> <a href="../.././Init/Prelude.html#Eq">=</a> <a href="../.././Init/Core.html#EmptyCollection.emptyCollection">∅</a> →
+  <span class="fn"><span class="fn"><span class="fn">code</span>
+    ⦃<span class="fn">P</span>⦄ <span class="fn">l</span> ↦ ⟨<span class="fn">L_w</span> | <span class="fn">L_b</span>⟩⦃<span class="fn">Q</span>⦄</span> →
+    <span class="fn"><span class="fn">code</span>
+    ⦃<span class="fn">P</span>⦄ <span class="fn">l</span> ↦ ⟨<span class="fn">L_w</span> | <span class="fn">L_b</span> <a href="../.././Init/Core.html#SDiff.sdiff">\</a> <span class="fn">L</span>⟩⦃<span class="fn">Q</span>⦄</span></span></span></div></div></div></div><div class="decl" id="BL_TO_WL"><div class="theorem"><div class="gh_link"><a href="https://github.com/JulsDE/MRiscX/blob/f877c917b02dfdee848024738f5e922eab5dcdc3/MRiscX/Hoare/HoareRules.lean#L46-L66">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MRiscX/Hoare/HoareRules.html#BL_TO_WL"><span class="name">BL_TO_WL</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">code</span> : <a href="../.././MRiscX/AbstractSyntax/AbstractSyntax.html#Code">Code</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">P </span><span class="fn">Q</span> : <a href="../.././MRiscX/Hoare/HoareCore.html#Assertion">Assertion</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <a href="../.././Init/Prelude.html#UInt64">UInt64</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">L_w </span><span class="fn">L_b </span><span class="fn">L</span> : <span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <a href="../.././Init/Prelude.html#UInt64">UInt64</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">L</span> <a href="../.././Init/Core.html#HasSubset.Subset">⊆</a> <span class="fn">L_b</span> →
+  <span class="fn"><span class="fn">L_w</span> <a href="../.././Init/Core.html#Inter.inter">∩</a> <span class="fn">L_b</span> <a href="../.././Init/Prelude.html#Eq">=</a> <a href="../.././Init/Core.html#EmptyCollection.emptyCollection">∅</a> →
+    <span class="fn"><span class="fn">L_w</span> <a href="../.././Init/Core.html#Ne">≠</a> <a href="../.././Init/Core.html#EmptyCollection.emptyCollection">∅</a> →
+      <span class="fn"><span class="fn"><span class="fn">code</span>
+        ⦃<span class="fn">P</span>⦄ <span class="fn">l</span> ↦ ⟨<span class="fn">L_w</span> | <span class="fn">L_b</span>⟩⦃<span class="fn">Q</span>⦄</span> →
+        <span class="fn"><span class="fn">code</span>
+        ⦃<span class="fn">P</span>⦄ <span class="fn">l</span> ↦ ⟨<span class="fn">L_w</span> <a href="../.././Init/Core.html#Union.union">∪</a> <span class="fn">L</span> | <span class="fn">L_b</span> <a href="../.././Init/Core.html#SDiff.sdiff">\</a> <span class="fn">L</span>⟩⦃<span class="fn">Q</span>⦄</span></span></span></span></span></div></div></div></div><div class="decl" id="WL_TO_BL"><div class="theorem"><div class="gh_link"><a href="https://github.com/JulsDE/MRiscX/blob/f877c917b02dfdee848024738f5e922eab5dcdc3/MRiscX/Hoare/HoareRules.lean#L71-L114">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MRiscX/Hoare/HoareRules.html#WL_TO_BL"><span class="name">WL_TO_BL</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <a href="../.././MRiscX/AbstractSyntax/AbstractSyntax.html#Code">Code</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">P </span><span class="fn">Q</span> : <a href="../.././MRiscX/Hoare/HoareCore.html#Assertion">Assertion</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <a href="../.././Init/Prelude.html#UInt64">UInt64</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">L_w </span><span class="fn">L_b </span><span class="fn">L</span> : <span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <a href="../.././Init/Prelude.html#UInt64">UInt64</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">L</span> <a href="../.././Init/Core.html#HasSSubset.SSubset">⊂</a> <span class="fn">L_w</span> →
+  <span class="fn"><span class="fn">(∀ (<span class="fn">s</span> : <a href="../.././MRiscX/AbstractSyntax/MState.html#MState">MState</a>), <span class="fn"><span class="fn"><span class="fn">Q</span> <span class="fn">s</span></span> → <span class="fn"><span class="fn"><span class="fn">s</span>.<a href="../.././MRiscX/AbstractSyntax/MState.html#MState.pc">pc</a></span> ∉ <span class="fn">L</span></span></span>)</span> →
+    <span class="fn"><span class="fn">L_w</span> <a href="../.././Init/Core.html#Inter.inter">∩</a> <span class="fn">L_b</span> <a href="../.././Init/Prelude.html#Eq">=</a> <a href="../.././Init/Core.html#EmptyCollection.emptyCollection">∅</a> →
+      <span class="fn"><span class="fn">L_w</span> <a href="../.././Init/Core.html#Ne">≠</a> <a href="../.././Init/Core.html#EmptyCollection.emptyCollection">∅</a> →
+        <span class="fn"><span class="fn"><span class="fn">c</span>
+          ⦃<span class="fn">P</span>⦄ <span class="fn">l</span> ↦ ⟨<span class="fn">L_w</span> | <span class="fn">L_b</span>⟩⦃<span class="fn">Q</span>⦄</span> →
+          <span class="fn"><span class="fn">c</span>
+          ⦃<span class="fn">P</span>⦄ <span class="fn">l</span> ↦ ⟨<span class="fn">L_w</span> <a href="../.././Init/Core.html#SDiff.sdiff">\</a> <span class="fn">L</span> | <span class="fn">L_b</span> <a href="../.././Init/Core.html#Union.union">∪</a> <span class="fn">L</span>⟩⦃<span class="fn">Q</span>⦄</span></span></span></span></span></span></div></div></div></div><div class="decl" id="S_SEQ'"><div class="theorem"><div class="gh_link"><a href="https://github.com/JulsDE/MRiscX/blob/f877c917b02dfdee848024738f5e922eab5dcdc3/MRiscX/Hoare/HoareRules.lean#L118-L164">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MRiscX/Hoare/HoareRules.html#S_SEQ'"><span class="name">S_SEQ'</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">P </span><span class="fn">R </span><span class="fn">Q</span> : <a href="../.././MRiscX/Hoare/HoareCore.html#Assertion">Assertion</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <a href="../.././MRiscX/AbstractSyntax/AbstractSyntax.html#Code">Code</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <a href="../.././Init/Prelude.html#UInt64">UInt64</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">L_w </span><span class="fn">L_b </span><span class="fn">L_w' </span><span class="fn">L_b'</span> : <span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <a href="../.././Init/Prelude.html#UInt64">UInt64</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">L_w</span> <a href="../.././Init/Core.html#Inter.inter">∩</a> <span class="fn">L_b</span> <a href="../.././Init/Prelude.html#Eq">=</a> <a href="../.././Init/Core.html#EmptyCollection.emptyCollection">∅</a> →
+  <span class="fn"><span class="fn">L_w</span> <a href="../.././Init/Core.html#Ne">≠</a> <a href="../.././Init/Core.html#EmptyCollection.emptyCollection">∅</a> →
+    <span class="fn"><span class="fn">L_w'</span> <a href="../.././Init/Core.html#Inter.inter">∩</a> <span class="fn">L_b'</span> <a href="../.././Init/Prelude.html#Eq">=</a> <a href="../.././Init/Core.html#EmptyCollection.emptyCollection">∅</a> →
+      <span class="fn"><span class="fn">L_w'</span> <a href="../.././Init/Core.html#HasSubset.Subset">⊆</a> <span class="fn">L_b</span> <a href="../.././Init/Prelude.html#And">∧</a> <span class="fn">L_w</span> <a href="../.././Init/Core.html#Inter.inter">∩</a> <span class="fn">L_w'</span> <a href="../.././Init/Prelude.html#Eq">=</a> <a href="../.././Init/Core.html#EmptyCollection.emptyCollection">∅</a> →
+        <span class="fn"><span class="fn"><span class="fn">c</span>
+          ⦃<span class="fn">P</span>⦄ <span class="fn">l</span> ↦ ⟨<span class="fn">L_w</span> | <span class="fn">L_b</span>⟩⦃<span class="fn">R</span>⦄</span> →
+          <span class="fn"><span class="fn">(∀ <span class="fn">l'</span> ∈ <span class="fn">L_w</span>,
+              <span class="fn"><span class="fn">c</span>
+              ⦃<span class="fn">R</span>⦄ <span class="fn">l'</span> ↦ ⟨<span class="fn">L_w'</span> | <span class="fn">L_b'</span>⟩⦃<span class="fn">Q</span>⦄</span>)</span> →
+            <span class="fn"><span class="fn">c</span>
+            ⦃<span class="fn">P</span>⦄ <span class="fn">l</span> ↦ ⟨<span class="fn">L_w'</span> | <span class="fn">L_b</span> <a href="../.././Init/Core.html#Inter.inter">∩</a> <span class="fn">L_b'</span>⟩⦃<span class="fn">Q</span>⦄</span></span></span></span></span></span></span></div></div></div></div><div class="decl" id="S_SEQ"><div class="theorem"><div class="gh_link"><a href="https://github.com/JulsDE/MRiscX/blob/f877c917b02dfdee848024738f5e922eab5dcdc3/MRiscX/Hoare/HoareRules.lean#L170-L223">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MRiscX/Hoare/HoareRules.html#S_SEQ"><span class="name">S_SEQ</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L_b''</span> : <span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <a href="../.././Init/Prelude.html#UInt64">UInt64</a></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P </span><span class="fn">R </span><span class="fn">Q</span> : <a href="../.././MRiscX/Hoare/HoareCore.html#Assertion">Assertion</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <a href="../.././MRiscX/AbstractSyntax/AbstractSyntax.html#Code">Code</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <a href="../.././Init/Prelude.html#UInt64">UInt64</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">L_w </span><span class="fn">L_b </span><span class="fn">L_w' </span><span class="fn">L_b'</span> : <span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <a href="../.././Init/Prelude.html#UInt64">UInt64</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">L_w</span> <a href="../.././Init/Core.html#Inter.inter">∩</a> <span class="fn">L_b</span> <a href="../.././Init/Prelude.html#Eq">=</a> <a href="../.././Init/Core.html#EmptyCollection.emptyCollection">∅</a> →
+  <span class="fn"><span class="fn">L_w</span> <a href="../.././Init/Core.html#Ne">≠</a> <a href="../.././Init/Core.html#EmptyCollection.emptyCollection">∅</a> →
+    <span class="fn"><span class="fn">L_w'</span> <a href="../.././Init/Core.html#Inter.inter">∩</a> <span class="fn">L_b'</span> <a href="../.././Init/Prelude.html#Eq">=</a> <a href="../.././Init/Core.html#EmptyCollection.emptyCollection">∅</a> →
+      <span class="fn"><span class="fn">L_w'</span> <a href="../.././Init/Core.html#HasSubset.Subset">⊆</a> <span class="fn">L_b</span> <a href="../.././Init/Prelude.html#And">∧</a> <span class="fn">L_w</span> <a href="../.././Init/Core.html#Inter.inter">∩</a> <span class="fn">L_w'</span> <a href="../.././Init/Prelude.html#Eq">=</a> <a href="../.././Init/Core.html#EmptyCollection.emptyCollection">∅</a> →
+        <span class="fn"><span class="fn"><span class="fn">c</span>
+          ⦃<span class="fn">P</span>⦄ <span class="fn">l</span> ↦ ⟨<span class="fn">L_w</span> | <span class="fn">L_b</span>⟩⦃<span class="fn">R</span>⦄</span> →
+          <span class="fn"><span class="fn">(∀ <span class="fn">l'</span> ∈ <span class="fn">L_w</span>,
+              <span class="fn"><span class="fn">c</span>
+              ⦃<span class="fn">R</span>⦄ <span class="fn">l'</span> ↦ ⟨<span class="fn">L_w'</span> | <span class="fn">L_b'</span>⟩⦃<span class="fn">Q</span>⦄</span>)</span> →
+            <span class="fn"><span class="fn">L_b''</span> <a href="../.././Init/Prelude.html#Eq">=</a> <span class="fn">L_b</span> <a href="../.././Init/Core.html#Inter.inter">∩</a> <span class="fn">L_b'</span> →
+              <span class="fn"><span class="fn">c</span>
+              ⦃<span class="fn">P</span>⦄ <span class="fn">l</span> ↦ ⟨<span class="fn">L_w'</span> | <span class="fn">L_b''</span>⟩⦃<span class="fn">Q</span>⦄</span></span></span></span></span></span></span></span></div></div></div></div><div class="decl" id="PRE_STR"><div class="theorem"><div class="gh_link"><a href="https://github.com/JulsDE/MRiscX/blob/f877c917b02dfdee848024738f5e922eab5dcdc3/MRiscX/Hoare/HoareRules.lean#L226-L239">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MRiscX/Hoare/HoareRules.html#PRE_STR"><span class="name">PRE_STR</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <a href="../.././MRiscX/AbstractSyntax/AbstractSyntax.html#Code">Code</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">P1 </span><span class="fn">P2 </span><span class="fn">Q</span> : <a href="../.././MRiscX/Hoare/HoareCore.html#Assertion">Assertion</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">L_w </span><span class="fn">L_b</span> : <span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <a href="../.././Init/Prelude.html#UInt64">UInt64</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <a href="../.././Init/Prelude.html#UInt64">UInt64</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(∀ (<span class="fn">s</span> : <a href="../.././MRiscX/AbstractSyntax/MState.html#MState">MState</a>), <span class="fn"><span class="fn"><span class="fn">s</span>.<a href="../.././MRiscX/AbstractSyntax/MState.html#MState.code">code</a></span> <a href="../.././Init/Prelude.html#Eq">=</a> <span class="fn">c</span> → <span class="fn"><span class="fn"><span class="fn">s</span>.<a href="../.././MRiscX/AbstractSyntax/MState.html#MState.pc">pc</a></span> <a href="../.././Init/Prelude.html#Eq">=</a> <span class="fn">l</span> <a href="../.././Init/Prelude.html#And">∧</a> <span class="fn"><span class="fn">P2</span> <span class="fn">s</span></span> → <span class="fn"><span class="fn">P1</span> <span class="fn">s</span></span></span></span>)</span> →
+  <span class="fn"><span class="fn"><span class="fn">c</span>
+    ⦃<span class="fn">P1</span>⦄ <span class="fn">l</span> ↦ ⟨<span class="fn">L_w</span> | <span class="fn">L_b</span>⟩⦃<span class="fn">Q</span>⦄</span> →
+    <span class="fn"><span class="fn">c</span>
+    ⦃<span class="fn">P2</span>⦄ <span class="fn">l</span> ↦ ⟨<span class="fn">L_w</span> | <span class="fn">L_b</span>⟩⦃<span class="fn">Q</span>⦄</span></span></span></div></div></div></div><div class="decl" id="POST_WEAK"><div class="theorem"><div class="gh_link"><a href="https://github.com/JulsDE/MRiscX/blob/f877c917b02dfdee848024738f5e922eab5dcdc3/MRiscX/Hoare/HoareRules.lean#L242-L268">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MRiscX/Hoare/HoareRules.html#POST_WEAK"><span class="name">POST_WEAK</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <a href="../.././MRiscX/AbstractSyntax/AbstractSyntax.html#Code">Code</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">P </span><span class="fn">Q1 </span><span class="fn">Q2</span> : <a href="../.././MRiscX/Hoare/HoareCore.html#Assertion">Assertion</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">L_w </span><span class="fn">L_b</span> : <span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <a href="../.././Init/Prelude.html#UInt64">UInt64</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <a href="../.././Init/Prelude.html#UInt64">UInt64</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(∀ (<span class="fn">s</span> : <a href="../.././MRiscX/AbstractSyntax/MState.html#MState">MState</a>), <span class="fn"><span class="fn"><span class="fn">s</span>.<a href="../.././MRiscX/AbstractSyntax/MState.html#MState.code">code</a></span> <a href="../.././Init/Prelude.html#Eq">=</a> <span class="fn">c</span> → <span class="fn"><span class="fn"><span class="fn">s</span>.<a href="../.././MRiscX/AbstractSyntax/MState.html#MState.pc">pc</a></span> <a href="../.././Init/Prelude.html#Membership.mem">∈</a> <span class="fn">L_w</span> <a href="../.././Init/Prelude.html#And">∧</a> <span class="fn"><span class="fn">Q1</span> <span class="fn">s</span></span> → <span class="fn"><span class="fn">Q2</span> <span class="fn">s</span></span></span></span>)</span> →
+  <span class="fn"><span class="fn"><span class="fn">c</span>
+    ⦃<span class="fn">P</span>⦄ <span class="fn">l</span> ↦ ⟨<span class="fn">L_w</span> | <span class="fn">L_b</span>⟩⦃<span class="fn">Q1</span>⦄</span> →
+    <span class="fn"><span class="fn">c</span>
+    ⦃<span class="fn">P</span>⦄ <span class="fn">l</span> ↦ ⟨<span class="fn">L_w</span> | <span class="fn">L_b</span>⟩⦃<span class="fn">Q2</span>⦄</span></span></span></div></div></div></div><div class="decl" id="«term_∧∧_»"><div class="def"><div class="gh_link"><a href="https://github.com/JulsDE/MRiscX/blob/f877c917b02dfdee848024738f5e922eab5dcdc3/MRiscX/Hoare/HoareRules.lean#L276-L277">source</a></div><div class="verification_link">
+<a href="../../../modules/MRiscX_Hoare_HoareRules.html#«term_∧∧_»" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././MRiscX/Hoare/HoareRules.html#«term_∧∧_»"><span class="name">«term_∧∧_»</span></a></span><span class="decl_args"> :</span><div class="decl_type"><a href="../.././Init/Prelude.html#Lean.TrailingParserDescr">Lean.TrailingParserDescr</a></div></div><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-«term_∧∧_»" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="«term∼_»"><div class="def"><div class="gh_link"><a href="https://github.com/JulsDE/MRiscX/blob/f877c917b02dfdee848024738f5e922eab5dcdc3/MRiscX/Hoare/HoareRules.lean#L279-L280">source</a></div><div class="verification_link">
+<a href="../../../modules/MRiscX_Hoare_HoareRules.html#«term∼_»" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././MRiscX/Hoare/HoareRules.html#«term∼_»"><span class="name">«term∼_»</span></a></span><span class="decl_args"> :</span><div class="decl_type"><a href="../.././Init/Prelude.html#Lean.ParserDescr">Lean.ParserDescr</a></div></div><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-«term∼_»" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="S_COND"><div class="theorem"><div class="gh_link"><a href="https://github.com/JulsDE/MRiscX/blob/f877c917b02dfdee848024738f5e922eab5dcdc3/MRiscX/Hoare/HoareRules.lean#L283-L305">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MRiscX/Hoare/HoareRules.html#S_COND"><span class="name">S_COND</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <a href="../.././MRiscX/AbstractSyntax/AbstractSyntax.html#Code">Code</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">P </span><span class="fn">C </span><span class="fn">Q</span> : <a href="../.././MRiscX/Hoare/HoareCore.html#Assertion">Assertion</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <a href="../.././Init/Prelude.html#UInt64">UInt64</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">L_w </span><span class="fn">L_b</span> : <span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <a href="../.././Init/Prelude.html#UInt64">UInt64</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">c</span>
+  ⦃<span class="fn"><a href="../.././MRiscX/Hoare/HoareRules.html#_private.MRiscX.Hoare.HoareRules.0.Assertion.And">Assertion.And✝</a> <span class="fn">P</span> <span class="fn">C</span></span>⦄ <span class="fn">l</span> ↦ ⟨<span class="fn">L_w</span> | <span class="fn">L_b</span>⟩⦃<span class="fn">Q</span>⦄</span> →
+  <span class="fn"><span class="fn"><span class="fn">c</span>
+    ⦃<span class="fn"><a href="../.././MRiscX/Hoare/HoareRules.html#_private.MRiscX.Hoare.HoareRules.0.Assertion.And">Assertion.And✝¹</a> <span class="fn">P</span> <span class="fn">(<a href="../.././MRiscX/Hoare/HoareRules.html#_private.MRiscX.Hoare.HoareRules.0.Assertion.Not">Assertion.Not✝</a> <span class="fn">C</span>)</span></span>⦄ <span class="fn">l</span> ↦ ⟨<span class="fn">L_w</span> | <span class="fn">L_b</span>⟩⦃<span class="fn">Q</span>⦄</span> →
+    <span class="fn"><span class="fn">c</span>
+    ⦃<span class="fn">P</span>⦄ <span class="fn">l</span> ↦ ⟨<span class="fn">L_w</span> | <span class="fn">L_b</span>⟩⦃<span class="fn">Q</span>⦄</span></span></span></div></div></div></div><div class="decl sorried" id="S_LOOP'"><div class="theorem"><div class="gh_link"><a href="https://github.com/JulsDE/MRiscX/blob/f877c917b02dfdee848024738f5e922eab5dcdc3/MRiscX/Hoare/HoareRules.lean#L309-L376">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name" title="declaration uses 'sorry'"><a class="break_within" href="../.././MRiscX/Hoare/HoareRules.html#S_LOOP'"><span class="name">S_LOOP'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#LT">LT</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Order/RelClasses.html#WellFoundedLT">WellFoundedLT</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">Q </span><span class="fn">C </span><span class="fn">I</span> : <a href="../.././MRiscX/Hoare/HoareCore.html#Assertion">Assertion</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <a href="../.././MRiscX/AbstractSyntax/AbstractSyntax.html#Code">Code</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <a href="../.././Init/Prelude.html#UInt64">UInt64</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">L_w </span><span class="fn">L_b</span> : <span class="fn"><a href="../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <a href="../.././Init/Prelude.html#UInt64">UInt64</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">V</span> : <span class="fn"><a href="../.././MRiscX/AbstractSyntax/MState.html#MState">MState</a> → <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">l</span> ∉ <span class="fn">L_w</span></span> →
+  <span class="fn"><span class="fn"><span class="fn">l</span> ∉ <span class="fn">L_b</span></span> →
+    <span class="fn"><span class="fn">(∀ (<span class="fn">x</span> : <span class="fn">α</span>),
+        <span class="fn"><span class="fn">c</span>
+        ⦃<span class="fn"><span class="fn">C</span> <span class="fn">st✝</span></span> <a href="../.././Init/Prelude.html#And">∧</a> <span class="fn"><span class="fn">I</span> <span class="fn">st✝</span></span> <a href="../.././Init/Prelude.html#And">∧</a> <span class="fn"><span class="fn">V</span> <span class="fn">st✝</span></span> <a href="../.././Init/Prelude.html#Eq">=</a> <span class="fn">x</span>⦄ <span class="fn">l</span> ↦ ⟨<a href="../.././Init/Core.html#Singleton.singleton">{</a><span class="fn">l</span><a href="../.././Init/Core.html#Singleton.singleton">}</a> <a href="../.././Init/Core.html#Union.union">∪</a> <span class="fn">L_w</span> | <span class="fn">L_b</span>⟩⦃<span class="fn"><span class="fn">V</span> <span class="fn">st✝</span></span> <a href="../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">x</span> <a href="../.././Init/Prelude.html#And">∧</a> <span class="fn"><span class="fn">I</span> <span class="fn">st✝</span></span> <a href="../.././Init/Prelude.html#And">∧</a> <span class="fn">⸨pc⸩</span> <a href="../.././Init/Prelude.html#Eq">=</a> <span class="fn">l</span>⦄</span>)</span> →
+      <span class="fn"><span class="fn"><span class="fn">c</span>
+        ⦃<a href="../.././Init/Prelude.html#Not">¬</a><span class="fn"><span class="fn">C</span> <span class="fn">st✝¹</span></span> <a href="../.././Init/Prelude.html#And">∧</a> <span class="fn"><span class="fn">I</span> <span class="fn">st✝¹</span></span>⦄ <span class="fn">l</span> ↦ ⟨<span class="fn">L_w</span> | <span class="fn">L_b</span>⟩⦃<span class="fn">Q</span>⦄</span> →
+        <span class="fn"><span class="fn">c</span>
+        ⦃<span class="fn">I</span>⦄ <span class="fn">l</span> ↦ ⟨<span class="fn">L_w</span> | <span class="fn">L_b</span>⟩⦃<span class="fn">Q</span>⦄</span></span></span></span></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

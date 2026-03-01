@@ -1,0 +1,825 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../.././style.css"></link><link rel="icon" href="../../.././favicon.svg"></link><link rel="mask-icon" href="../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.LinearAlgebra.FiniteDimensional.Lemmas</title><script defer="true" src="../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../.././";</script><script>const MODULE_NAME="Mathlib.LinearAlgebra.FiniteDimensional.Lemmas";</script><script type="module" src="../../.././jump-src.js"></script><script type="module" src="../../.././search.js"></script><script type="module" src="../../.././expand-nav.js"></script><script type="module" src="../../.././how-about.js"></script><script type="module" src="../../.././instances.js"></script><script type="module" src="../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">LinearAlgebra</span>.<span class="name">FiniteDimensional</span>.<span class="name">Lemmas</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../.././Init.html">Init</a></li><li><a href="../../.././Mathlib/Tactic/IntervalCases.html">Mathlib.Tactic.IntervalCases</a></li><li><a href="../../.././Mathlib/LinearAlgebra/Dimension/DivisionRing.html">Mathlib.LinearAlgebra.Dimension.DivisionRing</a></li><li><a href="../../.././Mathlib/LinearAlgebra/Dimension/FreeAndStrongRankCondition.html">Mathlib.LinearAlgebra.Dimension.FreeAndStrongRankCondition</a></li><li><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Basic.html">Mathlib.LinearAlgebra.FiniteDimensional.Basic</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.LinearAlgebra.FiniteDimensional.Lemmas" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#Submodule.finrank_lt"><span class="name">Submodule</span>.<span class="name">finrank_lt</span></a></div><div class="nav_link"><a class="break_within" href="#Submodule.finrank_sup_add_finrank_inf_eq"><span class="name">Submodule</span>.<span class="name">finrank_sup_add_finrank_inf_eq</span></a></div><div class="nav_link"><a class="break_within" href="#Submodule.finrank_add_le_finrank_add_finrank"><span class="name">Submodule</span>.<span class="name">finrank_add_le_finrank_add_finrank</span></a></div><div class="nav_link"><a class="break_within" href="#Submodule.finrank_add_finrank_le_of_disjoint"><span class="name">Submodule</span>.<span class="name">finrank_add_finrank_le_of_disjoint</span></a></div><div class="nav_link"><a class="break_within" href="#Submodule.eq_top_of_disjoint"><span class="name">Submodule</span>.<span class="name">eq_top_of_disjoint</span></a></div><div class="nav_link"><a class="break_within" href="#Submodule.isCompl_iff_disjoint"><span class="name">Submodule</span>.<span class="name">isCompl_iff_disjoint</span></a></div><div class="nav_link"><a class="break_within" href="#FiniteDimensional.LinearEquiv.quotEquivOfEquiv"><span class="name">FiniteDimensional</span>.<span class="name">LinearEquiv</span>.<span class="name">quotEquivOfEquiv</span></a></div><div class="nav_link"><a class="break_within" href="#FiniteDimensional.LinearEquiv.quotEquivOfQuotEquiv"><span class="name">FiniteDimensional</span>.<span class="name">LinearEquiv</span>.<span class="name">quotEquivOfQuotEquiv</span></a></div><div class="nav_link"><a class="break_within" href="#LinearMap.finrank_range_add_finrank_ker"><span class="name">LinearMap</span>.<span class="name">finrank_range_add_finrank_ker</span></a></div><div class="nav_link"><a class="break_within" href="#LinearMap.ker_ne_bot_of_finrank_lt"><span class="name">LinearMap</span>.<span class="name">ker_ne_bot_of_finrank_lt</span></a></div><div class="nav_link"><a class="break_within" href="#LinearMap.injective_iff_surjective_of_finrank_eq_finrank"><span class="name">LinearMap</span>.<span class="name">injective_iff_surjective_of_finrank_eq_finrank</span></a></div><div class="nav_link"><a class="break_within" href="#LinearMap.ker_eq_bot_iff_range_eq_top_of_finrank_eq_finrank"><span class="name">LinearMap</span>.<span class="name">ker_eq_bot_iff_range_eq_top_of_finrank_eq_finrank</span></a></div><div class="nav_link"><a class="break_within" href="#LinearMap.linearEquivOfInjective"><span class="name">LinearMap</span>.<span class="name">linearEquivOfInjective</span></a></div><div class="nav_link"><a class="break_within" href="#LinearMap.linearEquivOfInjective_apply"><span class="name">LinearMap</span>.<span class="name">linearEquivOfInjective_apply</span></a></div><div class="nav_link"><a class="break_within" href="#Submodule.finrank_lt_finrank_of_lt"><span class="name">Submodule</span>.<span class="name">finrank_lt_finrank_of_lt</span></a></div><div class="nav_link"><a class="break_within" href="#Submodule.finrank_strictMono"><span class="name">Submodule</span>.<span class="name">finrank_strictMono</span></a></div><div class="nav_link"><a class="break_within" href="#Submodule.finrank_add_eq_of_isCompl"><span class="name">Submodule</span>.<span class="name">finrank_add_eq_of_isCompl</span></a></div><div class="nav_link"><a class="break_within" href="#LinearIndependent.span_eq_top_of_card_eq_finrank'"><span class="name">LinearIndependent</span>.<span class="name">span_eq_top_of_card_eq_finrank'</span></a></div><div class="nav_link"><a class="break_within" href="#LinearIndependent.span_eq_top_of_card_eq_finrank"><span class="name">LinearIndependent</span>.<span class="name">span_eq_top_of_card_eq_finrank</span></a></div><div class="nav_link"><a class="break_within" href="#basisOfLinearIndependentOfCardEqFinrank"><span class="name">basisOfLinearIndependentOfCardEqFinrank</span></a></div><div class="nav_link"><a class="break_within" href="#basisOfLinearIndependentOfCardEqFinrank_repr_apply"><span class="name">basisOfLinearIndependentOfCardEqFinrank_repr_apply</span></a></div><div class="nav_link"><a class="break_within" href="#coe_basisOfLinearIndependentOfCardEqFinrank"><span class="name">coe_basisOfLinearIndependentOfCardEqFinrank</span></a></div><div class="nav_link"><a class="break_within" href="#basisOfPiSpaceOfLinearIndependent"><span class="name">basisOfPiSpaceOfLinearIndependent</span></a></div><div class="nav_link"><a class="break_within" href="#coe_basisOfPiSpaceOfLinearIndependent"><span class="name">coe_basisOfPiSpaceOfLinearIndependent</span></a></div><div class="nav_link"><a class="break_within" href="#finsetBasisOfLinearIndependentOfCardEqFinrank"><span class="name">finsetBasisOfLinearIndependentOfCardEqFinrank</span></a></div><div class="nav_link"><a class="break_within" href="#finsetBasisOfLinearIndependentOfCardEqFinrank_repr_apply"><span class="name">finsetBasisOfLinearIndependentOfCardEqFinrank_repr_apply</span></a></div><div class="nav_link"><a class="break_within" href="#coe_finsetBasisOfLinearIndependentOfCardEqFinrank"><span class="name">coe_finsetBasisOfLinearIndependentOfCardEqFinrank</span></a></div><div class="nav_link"><a class="break_within" href="#setBasisOfLinearIndependentOfCardEqFinrank"><span class="name">setBasisOfLinearIndependentOfCardEqFinrank</span></a></div><div class="nav_link"><a class="break_within" href="#setBasisOfLinearIndependentOfCardEqFinrank_repr_apply"><span class="name">setBasisOfLinearIndependentOfCardEqFinrank_repr_apply</span></a></div><div class="nav_link"><a class="break_within" href="#coe_setBasisOfLinearIndependentOfCardEqFinrank"><span class="name">coe_setBasisOfLinearIndependentOfCardEqFinrank</span></a></div><div class="nav_link"><a class="break_within" href="#is_simple_module_of_finrank_eq_one"><span class="name">is_simple_module_of_finrank_eq_one</span></a></div><div class="nav_link"><a class="break_within" href="#Subalgebra.isSimpleOrder_of_finrank"><span class="name">Subalgebra</span>.<span class="name">isSimpleOrder_of_finrank</span></a></div><div class="nav_link"><a class="break_within" href="#Module.End.exists_ker_pow_eq_ker_pow_succ"><span class="name">Module</span>.<span class="name">End</span>.<span class="name">exists_ker_pow_eq_ker_pow_succ</span></a></div><div class="nav_link"><a class="break_within" href="#Module.End.ker_pow_eq_ker_pow_finrank_of_le"><span class="name">Module</span>.<span class="name">End</span>.<span class="name">ker_pow_eq_ker_pow_finrank_of_le</span></a></div><div class="nav_link"><a class="break_within" href="#Module.End.ker_pow_le_ker_pow_finrank"><span class="name">Module</span>.<span class="name">End</span>.<span class="name">ker_pow_le_ker_pow_finrank</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Finite-dimensional-vector-spaces" class="markdown-heading">Finite-dimensional vector spaces <a class="hover-link" href="#Finite-dimensional-vector-spaces">#</a></h1><p>This file contains some further development of finite-dimensional vector spaces, their dimensions,
+and linear maps on such spaces.</p><p>Definitions are in <code><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html">Mathlib/LinearAlgebra/FiniteDimensional/Defs.lean</a></code>
+and results that require fewer imports are in <code><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Basic.html">Mathlib/LinearAlgebra/FiniteDimensional/Basic.lean</a></code>.</p></div><div class="decl" id="Submodule.finrank_lt"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L42-L50">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#Submodule.finrank_lt" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#Submodule.finrank_lt"><span class="name">Submodule</span>.<span class="name">finrank_lt</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Module/Submodule/Defs.html#Submodule">Submodule</a> <span class="fn">K</span> <span class="fn">V</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">s</span> <span class="fn">≠</span> <a href="../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">s</span></span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LT.lt">&lt;</a> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">V</span></span></div></div><p>The dimension of a strict submodule is strictly bounded by the dimension of the ambient
+space.</p><p>See also <code><a href="../../.././Mathlib/RingTheory/Length.html#Submodule.length_lt">Submodule.length_lt</a></code>.</p></div></div><div class="decl" id="Submodule.finrank_sup_add_finrank_inf_eq"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L53-L60">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#Submodule.finrank_sup_add_finrank_inf_eq" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#Submodule.finrank_sup_add_finrank_inf_eq"><span class="name">Submodule</span>.<span class="name">finrank_sup_add_finrank_inf_eq</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Module/Submodule/Defs.html#Submodule">Submodule</a> <span class="fn">K</span> <span class="fn">V</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">s</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">t</span></span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">(<span class="fn">s</span> ⊔ <span class="fn">t</span>)</span></span></span> <span class="fn">+</span> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">(<span class="fn">s</span> ⊓ <span class="fn">t</span>)</span></span></span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">s</span></span></span> <span class="fn">+</span> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">t</span></span></span></span></span></div></div><p>The sum of the dimensions of s + t and s ∩ t is the sum of the dimensions of s and t</p></div></div><div class="decl" id="Submodule.finrank_add_le_finrank_add_finrank"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L63-L66">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#Submodule.finrank_add_le_finrank_add_finrank" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#Submodule.finrank_add_le_finrank_add_finrank"><span class="name">Submodule</span>.<span class="name">finrank_add_le_finrank_add_finrank</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Module/Submodule/Defs.html#Submodule">Submodule</a> <span class="fn">K</span> <span class="fn">V</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">s</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">t</span></span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">(<span class="fn">s</span> ⊔ <span class="fn">t</span>)</span></span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">s</span></span></span> <span class="fn">+</span> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">t</span></span></span></span></div></div></div></div><div class="decl" id="Submodule.finrank_add_finrank_le_of_disjoint"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L68-L72">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#Submodule.finrank_add_finrank_le_of_disjoint" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#Submodule.finrank_add_finrank_le_of_disjoint"><span class="name">Submodule</span>.<span class="name">finrank_add_finrank_le_of_disjoint</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Module/Submodule/Defs.html#Submodule">Submodule</a> <span class="fn">K</span> <span class="fn">V</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hdisjoint</span> : <span class="fn"><a href="../../.././Mathlib/Order/Disjoint.html#Disjoint">Disjoint</a> <span class="fn">s</span> <span class="fn">t</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">s</span></span></span> <span class="fn">+</span> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">t</span></span></span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">V</span></span></div></div></div></div><div class="decl" id="Submodule.eq_top_of_disjoint"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L74-L84">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#Submodule.eq_top_of_disjoint" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#Submodule.eq_top_of_disjoint"><span class="name">Submodule</span>.<span class="name">eq_top_of_disjoint</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Module/Submodule/Defs.html#Submodule">Submodule</a> <span class="fn">K</span> <span class="fn">V</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hdim</span> : <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">V</span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">s</span></span></span> <span class="fn">+</span> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">t</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hdisjoint</span> : <span class="fn"><a href="../../.././Mathlib/Order/Disjoint.html#Disjoint">Disjoint</a> <span class="fn">s</span> <span class="fn">t</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">s</span> ⊔ <span class="fn">t</span></span> <span class="fn">=</span> <a href="../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span></div></div></div></div><div class="decl" id="Submodule.isCompl_iff_disjoint"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L86-L89">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#Submodule.isCompl_iff_disjoint" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#Submodule.isCompl_iff_disjoint"><span class="name">Submodule</span>.<span class="name">isCompl_iff_disjoint</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Module/Submodule/Defs.html#Submodule">Submodule</a> <span class="fn">K</span> <span class="fn">V</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hdim</span> : <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">V</span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">s</span></span></span> <span class="fn">+</span> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">t</span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Order/Disjoint.html#IsCompl">IsCompl</a> <span class="fn">s</span> <span class="fn">t</span></span> <span class="fn">↔</span> <span class="fn"><a href="../../.././Mathlib/Order/Disjoint.html#Disjoint">Disjoint</a> <span class="fn">s</span> <span class="fn">t</span></span></span></div></div></div></div><div class="decl" id="FiniteDimensional.LinearEquiv.quotEquivOfEquiv"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L104-L112">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#FiniteDimensional.LinearEquiv.quotEquivOfEquiv" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#FiniteDimensional.LinearEquiv.quotEquivOfEquiv"><span class="name">FiniteDimensional</span>.<span class="name">LinearEquiv</span>.<span class="name">quotEquivOfEquiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V₂</span> : <a href="../../.././foundational_types.html">Type</a> v'}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">V₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Module/Submodule/Basic.html#Subspace">Subspace</a> <span class="fn">K</span> <span class="fn">V</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">q</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Module/Submodule/Basic.html#Subspace">Subspace</a> <span class="fn">K</span> <span class="fn">V₂</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f₁</span> : <span class="fn">↥<span class="fn">p</span></span> <a href="../../.././Mathlib/Algebra/Module/Equiv/Defs.html#LinearEquiv">≃ₗ[</a><span class="fn">K</span><a href="../../.././Mathlib/Algebra/Module/Equiv/Defs.html#LinearEquiv">]</a> <span class="fn">↥<span class="fn">q</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f₂</span> : <span class="fn">V</span> <a href="../../.././Mathlib/Algebra/Module/Equiv/Defs.html#LinearEquiv">≃ₗ[</a><span class="fn">K</span><a href="../../.././Mathlib/Algebra/Module/Equiv/Defs.html#LinearEquiv">]</a> <span class="fn">V₂</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type">(<span class="fn">V</span> <a href="../../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn">p</span>) <a href="../../.././Mathlib/Algebra/Module/Equiv/Defs.html#LinearEquiv">≃ₗ[</a><span class="fn">K</span><a href="../../.././Mathlib/Algebra/Module/Equiv/Defs.html#LinearEquiv">]</a> <span class="fn">V₂</span> <a href="../../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn">q</span></div></div><p>Given isomorphic subspaces <code>p q</code> of vector spaces <code>V</code> and <code>V₁</code> respectively,
+<code>p.quotient</code> is isomorphic to <code>q.quotient</code>.</p><details id="instances-for-list-FiniteDimensional.LinearEquiv.quotEquivOfEquiv" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="FiniteDimensional.LinearEquiv.quotEquivOfQuotEquiv"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L116-L121">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#FiniteDimensional.LinearEquiv.quotEquivOfQuotEquiv" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#FiniteDimensional.LinearEquiv.quotEquivOfQuotEquiv"><span class="name">FiniteDimensional</span>.<span class="name">LinearEquiv</span>.<span class="name">quotEquivOfQuotEquiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p </span><span class="fn">q</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Module/Submodule/Basic.html#Subspace">Subspace</a> <span class="fn">K</span> <span class="fn">V</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : (<span class="fn">V</span> <a href="../../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn">p</span>) <a href="../../.././Mathlib/Algebra/Module/Equiv/Defs.html#LinearEquiv">≃ₗ[</a><span class="fn">K</span><a href="../../.././Mathlib/Algebra/Module/Equiv/Defs.html#LinearEquiv">]</a> <span class="fn">↥<span class="fn">q</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type">(<span class="fn">V</span> <a href="../../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn">q</span>) <a href="../../.././Mathlib/Algebra/Module/Equiv/Defs.html#LinearEquiv">≃ₗ[</a><span class="fn">K</span><a href="../../.././Mathlib/Algebra/Module/Equiv/Defs.html#LinearEquiv">]</a> <span class="fn">↥<span class="fn">p</span></span></div></div><p>Given the subspaces <code>p q</code>, if <code>p.quotient ≃ₗ[K] q</code>, then <code>q.quotient ≃ₗ[K] p</code></p><details id="instances-for-list-FiniteDimensional.LinearEquiv.quotEquivOfQuotEquiv" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="LinearMap.finrank_range_add_finrank_ker"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L136-L141">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#LinearMap.finrank_range_add_finrank_ker" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#LinearMap.finrank_range_add_finrank_ker"><span class="name">LinearMap</span>.<span class="name">finrank_range_add_finrank_ker</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V₂</span> : <a href="../../.././foundational_types.html">Type</a> v'}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">V</span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">K</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn">V₂</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">↥<span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/Algebra/Module/Submodule/Range.html#LinearMap.range">range</a></span></span></span> <span class="fn">+</span> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">↥<span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/Algebra/Module/Submodule/Ker.html#LinearMap.ker">ker</a></span></span></span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">V</span></span></span></div></div><p>rank-nullity theorem : the dimensions of the kernel and the range of a linear map add up to
+the dimension of the source space.</p></div></div><div class="decl" id="LinearMap.ker_ne_bot_of_finrank_lt"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L143-L149">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#LinearMap.ker_ne_bot_of_finrank_lt"><span class="name">LinearMap</span>.<span class="name">ker_ne_bot_of_finrank_lt</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V₂</span> : <a href="../../.././foundational_types.html">Type</a> v'}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">V₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn">V</span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">K</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn">V₂</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">V₂</span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LT.lt">&lt;</a> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">V</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/Algebra/Module/Submodule/Ker.html#LinearMap.ker">ker</a></span> <span class="fn">≠</span> <a href="../../.././Mathlib/Order/Notation.html#Bot.bot">⊥</a></span></div></div></div></div><div class="decl" id="LinearMap.injective_iff_surjective_of_finrank_eq_finrank"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L162-L170">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#LinearMap.injective_iff_surjective_of_finrank_eq_finrank" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#LinearMap.injective_iff_surjective_of_finrank_eq_finrank"><span class="name">LinearMap</span>.<span class="name">injective_iff_surjective_of_finrank_eq_finrank</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V₂</span> : <a href="../../.././foundational_types.html">Type</a> v'}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">V₂</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">H</span> : <span class="fn"><span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">V</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">V₂</span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn">V</span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">K</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn">V₂</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">Function.Injective</span> <span class="fn">⇑<span class="fn">f</span></span></span> <span class="fn">↔</span> <span class="fn"><span class="fn">Function.Surjective</span> <span class="fn">⇑<span class="fn">f</span></span></span></span></div></div></div></div><div class="decl" id="LinearMap.ker_eq_bot_iff_range_eq_top_of_finrank_eq_finrank"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L172-L175">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#LinearMap.ker_eq_bot_iff_range_eq_top_of_finrank_eq_finrank" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#LinearMap.ker_eq_bot_iff_range_eq_top_of_finrank_eq_finrank"><span class="name">LinearMap</span>.<span class="name">ker_eq_bot_iff_range_eq_top_of_finrank_eq_finrank</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V₂</span> : <a href="../../.././foundational_types.html">Type</a> v'}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">V₂</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">H</span> : <span class="fn"><span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">V</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">V₂</span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn">V</span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">K</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn">V₂</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/Algebra/Module/Submodule/Ker.html#LinearMap.ker">ker</a></span> <span class="fn">=</span> <a href="../../.././Mathlib/Order/Notation.html#Bot.bot">⊥</a></span> <span class="fn">↔</span> <span class="fn"><span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/Algebra/Module/Submodule/Range.html#LinearMap.range">range</a></span> <span class="fn">=</span> <a href="../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span></span></div></div></div></div><div class="decl" id="LinearMap.linearEquivOfInjective"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L177-L183">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#LinearMap.linearEquivOfInjective" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#LinearMap.linearEquivOfInjective"><span class="name">LinearMap</span>.<span class="name">linearEquivOfInjective</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V₂</span> : <a href="../../.././foundational_types.html">Type</a> v'}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">V₂</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">V</span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">K</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn">V₂</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><span class="fn">Function.Injective</span> <span class="fn">⇑<span class="fn">f</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hdim</span> : <span class="fn"><span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">V</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">V₂</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">V</span> <a href="../../.././Mathlib/Algebra/Module/Equiv/Defs.html#LinearEquiv">≃ₗ[</a><span class="fn">K</span><a href="../../.././Mathlib/Algebra/Module/Equiv/Defs.html#LinearEquiv">]</a> <span class="fn">V₂</span></div></div><p>Given a linear map <code>f</code> between two vector spaces with the same dimension, if
+<code>ker f = ⊥</code> then <code><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#LinearMap.linearEquivOfInjective">linearEquivOfInjective</a></code> is the induced isomorphism
+between the two vector spaces.</p><details id="instances-for-list-LinearMap.linearEquivOfInjective" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="LinearMap.linearEquivOfInjective_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L185-L189">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#LinearMap.linearEquivOfInjective_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#LinearMap.linearEquivOfInjective_apply"><span class="name">LinearMap</span>.<span class="name">linearEquivOfInjective_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V₂</span> : <a href="../../.././foundational_types.html">Type</a> v'}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">V₂</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn">V</span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">K</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn">V₂</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><span class="fn">Function.Injective</span> <span class="fn">⇑<span class="fn">f</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hdim</span> : <span class="fn"><span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">V</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">V₂</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">V</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#LinearMap.linearEquivOfInjective">linearEquivOfInjective</a></span> <span class="fn">hf</span> <span class="fn">hdim</span>)</span> <span class="fn">x</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">f</span> <span class="fn">x</span></span></span></div></div></div></div><div class="decl" id="Submodule.finrank_lt_finrank_of_lt"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L201-L204">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#Submodule.finrank_lt_finrank_of_lt" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#Submodule.finrank_lt_finrank_of_lt"><span class="name">Submodule</span>.<span class="name">finrank_lt_finrank_of_lt</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Module/Submodule/Defs.html#Submodule">Submodule</a> <span class="fn">K</span> <span class="fn">V</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">t</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hst</span> : <span class="fn">s</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LT.lt">&lt;</a> <span class="fn">t</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">s</span></span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LT.lt">&lt;</a> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">t</span></span></span></div></div></div></div><div class="decl" id="Submodule.finrank_strictMono"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L206-L207">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#Submodule.finrank_strictMono" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#Submodule.finrank_strictMono"><span class="name">Submodule</span>.<span class="name">finrank_strictMono</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Order/Monotone/Defs.html#StrictMono">StrictMono</a> <span class="fn">fun (<span class="fn">s</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Module/Submodule/Defs.html#Submodule">Submodule</a> <span class="fn">K</span> <span class="fn">V</span></span>) =&gt; <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">s</span></span></span></span></span></div></div></div></div><div class="decl" id="Submodule.finrank_add_eq_of_isCompl"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L209-L213">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#Submodule.finrank_add_eq_of_isCompl" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#Submodule.finrank_add_eq_of_isCompl"><span class="name">Submodule</span>.<span class="name">finrank_add_eq_of_isCompl</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U </span><span class="fn">W</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Module/Submodule/Defs.html#Submodule">Submodule</a> <span class="fn">K</span> <span class="fn">V</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../.././Mathlib/Order/Disjoint.html#IsCompl">IsCompl</a> <span class="fn">U</span> <span class="fn">W</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">U</span></span></span> <span class="fn">+</span> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">W</span></span></span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">V</span></span></span></div></div></div></div><div class="decl" id="LinearIndependent.span_eq_top_of_card_eq_finrank'"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L225-L230">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#LinearIndependent.span_eq_top_of_card_eq_finrank'" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#LinearIndependent.span_eq_top_of_card_eq_finrank'"><span class="name">LinearIndependent</span>.<span class="name">span_eq_top_of_card_eq_finrank'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">b</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">V</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">lin_ind</span> : <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/LinearIndependent/Defs.html#LinearIndependent">LinearIndependent</a> <span class="fn">K</span> <span class="fn">b</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">card_eq</span> : <span class="fn"><span class="fn"><a href="../../.././Mathlib/Data/Fintype/Card.html#Fintype.card">Fintype.card</a> <span class="fn">ι</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">V</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Span/Defs.html#Submodule.span">Submodule.span</a> <span class="fn">K</span> <span class="fn">(<a href="../../.././Mathlib/Data/Set/Operations.html#Set.range">Set.range</a> <span class="fn">b</span>)</span></span> <span class="fn">=</span> <a href="../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span></div></div></div></div><div class="decl" id="LinearIndependent.span_eq_top_of_card_eq_finrank"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L232-L236">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#LinearIndependent.span_eq_top_of_card_eq_finrank" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#LinearIndependent.span_eq_top_of_card_eq_finrank"><span class="name">LinearIndependent</span>.<span class="name">span_eq_top_of_card_eq_finrank</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nonempty</span> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">b</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">V</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">lin_ind</span> : <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/LinearIndependent/Defs.html#LinearIndependent">LinearIndependent</a> <span class="fn">K</span> <span class="fn">b</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">card_eq</span> : <span class="fn"><span class="fn"><a href="../../.././Mathlib/Data/Fintype/Card.html#Fintype.card">Fintype.card</a> <span class="fn">ι</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">V</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Span/Defs.html#Submodule.span">Submodule.span</a> <span class="fn">K</span> <span class="fn">(<a href="../../.././Mathlib/Data/Set/Operations.html#Set.range">Set.range</a> <span class="fn">b</span>)</span></span> <span class="fn">=</span> <a href="../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span></div></div></div></div><div class="decl" id="basisOfLinearIndependentOfCardEqFinrank"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L238-L243">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#basisOfLinearIndependentOfCardEqFinrank" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#basisOfLinearIndependentOfCardEqFinrank"><span class="name">basisOfLinearIndependentOfCardEqFinrank</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nonempty</span> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">b</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">V</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">lin_ind</span> : <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/LinearIndependent/Defs.html#LinearIndependent">LinearIndependent</a> <span class="fn">K</span> <span class="fn">b</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">card_eq</span> : <span class="fn"><span class="fn"><a href="../../.././Mathlib/Data/Fintype/Card.html#Fintype.card">Fintype.card</a> <span class="fn">ι</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">V</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Basis/Defs.html#Module.Basis">Module.Basis</a> <span class="fn">ι</span> <span class="fn">K</span> <span class="fn">V</span></span></div></div><p>A linear independent family of <code>finrank K V</code> vectors forms a basis.</p><details id="instances-for-list-basisOfLinearIndependentOfCardEqFinrank" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="basisOfLinearIndependentOfCardEqFinrank_repr_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L239-L239">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#basisOfLinearIndependentOfCardEqFinrank_repr_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#basisOfLinearIndependentOfCardEqFinrank_repr_apply"><span class="name">basisOfLinearIndependentOfCardEqFinrank_repr_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nonempty</span> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">b</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">V</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">lin_ind</span> : <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/LinearIndependent/Defs.html#LinearIndependent">LinearIndependent</a> <span class="fn">K</span> <span class="fn">b</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">card_eq</span> : <span class="fn"><span class="fn"><a href="../../.././Mathlib/Data/Fintype/Card.html#Fintype.card">Fintype.card</a> <span class="fn">ι</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">V</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a✝</span> : <span class="fn">V</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#basisOfLinearIndependentOfCardEqFinrank">basisOfLinearIndependentOfCardEqFinrank</a> <span class="fn">lin_ind</span> <span class="fn">card_eq</span>)</span>.<a href="../../.././Mathlib/LinearAlgebra/Basis/Defs.html#Module.Basis.repr">repr</a></span> <span class="fn">a✝</span></span> <span class="fn">=</span>   <span class="fn"><span class="fn"><span class="fn">lin_ind</span>.<a href="../../.././Mathlib/LinearAlgebra/LinearIndependent/Defs.html#LinearIndependent.repr">repr</a></span> <span class="fn">(<span class="fn">(<a href="../../.././Mathlib/Algebra/Module/Submodule/LinearMap.html#LinearMap.codRestrict">LinearMap.codRestrict</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Span/Defs.html#Submodule.span">Submodule.span</a> <span class="fn">K</span> <span class="fn">(<a href="../../.././Mathlib/Data/Set/Operations.html#Set.range">Set.range</a> <span class="fn">b</span>)</span>)</span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap.id">LinearMap.id</a> <span class="fn">⋯</span>)</span> <span class="fn">a✝</span>)</span></span></span></div></div></div></div><div class="decl" id="coe_basisOfLinearIndependentOfCardEqFinrank"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L245-L249">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#coe_basisOfLinearIndependentOfCardEqFinrank" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#coe_basisOfLinearIndependentOfCardEqFinrank"><span class="name">coe_basisOfLinearIndependentOfCardEqFinrank</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nonempty</span> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">b</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">V</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">lin_ind</span> : <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/LinearIndependent/Defs.html#LinearIndependent">LinearIndependent</a> <span class="fn">K</span> <span class="fn">b</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">card_eq</span> : <span class="fn"><span class="fn"><a href="../../.././Mathlib/Data/Fintype/Card.html#Fintype.card">Fintype.card</a> <span class="fn">ι</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">V</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">⇑<span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#basisOfLinearIndependentOfCardEqFinrank">basisOfLinearIndependentOfCardEqFinrank</a> <span class="fn">lin_ind</span> <span class="fn">card_eq</span>)</span></span> <span class="fn">=</span> <span class="fn">b</span></span></div></div></div></div><div class="decl" id="basisOfPiSpaceOfLinearIndependent"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L251-L258">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#basisOfPiSpaceOfLinearIndependent" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#basisOfPiSpaceOfLinearIndependent"><span class="name">basisOfPiSpaceOfLinearIndependent</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Decidable</span> <span class="fn">(<span class="fn">Nonempty</span> <span class="fn">ι</span>)</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">b</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">ι</span> → <span class="fn">K</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hb</span> : <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/LinearIndependent/Defs.html#LinearIndependent">LinearIndependent</a> <span class="fn">K</span> <span class="fn">b</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Basis/Defs.html#Module.Basis">Module.Basis</a> <span class="fn">ι</span> <span class="fn">K</span> <span class="fn">(<span class="fn">ι</span> → <span class="fn">K</span>)</span></span></div></div><p>In a vector space <code>ι → K</code>, a linear independent family indexed by <code>ι</code> is a basis.</p><details id="instances-for-list-basisOfPiSpaceOfLinearIndependent" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="coe_basisOfPiSpaceOfLinearIndependent"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L261-L269">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#coe_basisOfPiSpaceOfLinearIndependent" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#coe_basisOfPiSpaceOfLinearIndependent"><span class="name">coe_basisOfPiSpaceOfLinearIndependent</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">b</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">ι</span> → <span class="fn">K</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hb</span> : <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/LinearIndependent/Defs.html#LinearIndependent">LinearIndependent</a> <span class="fn">K</span> <span class="fn">b</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">⇑<span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#basisOfPiSpaceOfLinearIndependent">basisOfPiSpaceOfLinearIndependent</a> <span class="fn">hb</span>)</span></span> <span class="fn">=</span> <span class="fn">b</span></span></div></div></div></div><div class="decl" id="finsetBasisOfLinearIndependentOfCardEqFinrank"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L271-L276">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#finsetBasisOfLinearIndependentOfCardEqFinrank" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#finsetBasisOfLinearIndependentOfCardEqFinrank"><span class="name">finsetBasisOfLinearIndependentOfCardEqFinrank</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><a href="../../.././Mathlib/Data/Finset/Defs.html#Finset">Finset</a> <span class="fn">V</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hs</span> : <span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Finset/Empty.html#Finset.Nonempty">Nonempty</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">lin_ind</span> : <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/LinearIndependent/Defs.html#LinearIndependent">LinearIndependent</a> <span class="fn">K</span> <span class="fn">Subtype.val</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">card_eq</span> : <span class="fn"><span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Finset/Card.html#Finset.card">card</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">V</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Basis/Defs.html#Module.Basis">Module.Basis</a> <span class="fn">(↥<span class="fn">s</span>)</span> <span class="fn">K</span> <span class="fn">V</span></span></div></div><p>A linear independent finset of <code>finrank K V</code> vectors forms a basis.</p><details id="instances-for-list-finsetBasisOfLinearIndependentOfCardEqFinrank" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="finsetBasisOfLinearIndependentOfCardEqFinrank_repr_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L272-L272">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#finsetBasisOfLinearIndependentOfCardEqFinrank_repr_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#finsetBasisOfLinearIndependentOfCardEqFinrank_repr_apply"><span class="name">finsetBasisOfLinearIndependentOfCardEqFinrank_repr_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><a href="../../.././Mathlib/Data/Finset/Defs.html#Finset">Finset</a> <span class="fn">V</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hs</span> : <span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Finset/Empty.html#Finset.Nonempty">Nonempty</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">lin_ind</span> : <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/LinearIndependent/Defs.html#LinearIndependent">LinearIndependent</a> <span class="fn">K</span> <span class="fn">Subtype.val</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">card_eq</span> : <span class="fn"><span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Finset/Card.html#Finset.card">card</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">V</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a✝</span> : <span class="fn">V</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#finsetBasisOfLinearIndependentOfCardEqFinrank">finsetBasisOfLinearIndependentOfCardEqFinrank</a> <span class="fn">hs</span> <span class="fn">lin_ind</span> <span class="fn">card_eq</span>)</span>.<a href="../../.././Mathlib/LinearAlgebra/Basis/Defs.html#Module.Basis.repr">repr</a></span> <span class="fn">a✝</span></span> <span class="fn">=</span>   <span class="fn"><span class="fn"><span class="fn">lin_ind</span>.<a href="../../.././Mathlib/LinearAlgebra/LinearIndependent/Defs.html#LinearIndependent.repr">repr</a></span> <span class="fn">(<span class="fn">(<a href="../../.././Mathlib/Algebra/Module/Submodule/LinearMap.html#LinearMap.codRestrict">LinearMap.codRestrict</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Span/Defs.html#Submodule.span">Submodule.span</a> <span class="fn">K</span> <span class="fn">(<a href="../../.././Mathlib/Data/Set/Operations.html#Set.range">Set.range</a> <span class="fn">Subtype.val</span>)</span>)</span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap.id">LinearMap.id</a> <span class="fn">⋯</span>)</span> <span class="fn">a✝</span>)</span></span></span></div></div></div></div><div class="decl" id="coe_finsetBasisOfLinearIndependentOfCardEqFinrank"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L278-L282">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#coe_finsetBasisOfLinearIndependentOfCardEqFinrank" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#coe_finsetBasisOfLinearIndependentOfCardEqFinrank"><span class="name">coe_finsetBasisOfLinearIndependentOfCardEqFinrank</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><a href="../../.././Mathlib/Data/Finset/Defs.html#Finset">Finset</a> <span class="fn">V</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hs</span> : <span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Finset/Empty.html#Finset.Nonempty">Nonempty</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">lin_ind</span> : <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/LinearIndependent/Defs.html#LinearIndependent">LinearIndependent</a> <span class="fn">K</span> <span class="fn">Subtype.val</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">card_eq</span> : <span class="fn"><span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Finset/Card.html#Finset.card">card</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">V</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">⇑<span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#finsetBasisOfLinearIndependentOfCardEqFinrank">finsetBasisOfLinearIndependentOfCardEqFinrank</a> <span class="fn">hs</span> <span class="fn">lin_ind</span> <span class="fn">card_eq</span>)</span></span> <span class="fn">=</span> <span class="fn">Subtype.val</span></span></div></div></div></div><div class="decl" id="setBasisOfLinearIndependentOfCardEqFinrank"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L284-L289">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#setBasisOfLinearIndependentOfCardEqFinrank" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#setBasisOfLinearIndependentOfCardEqFinrank"><span class="name">setBasisOfLinearIndependentOfCardEqFinrank</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">V</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nonempty</span> <span class="fn">↑<span class="fn">s</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">↑<span class="fn">s</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">lin_ind</span> : <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/LinearIndependent/Defs.html#LinearIndependent">LinearIndependent</a> <span class="fn">K</span> <span class="fn">Subtype.val</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">card_eq</span> : <span class="fn"><span class="fn"><span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Fintype/Sets.html#Set.toFinset">toFinset</a></span>.<a href="../../.././Mathlib/Data/Finset/Card.html#Finset.card">card</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">V</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Basis/Defs.html#Module.Basis">Module.Basis</a> <span class="fn">(↑<span class="fn">s</span>)</span> <span class="fn">K</span> <span class="fn">V</span></span></div></div><p>A linear independent set of <code>finrank K V</code> vectors forms a basis.</p><details id="instances-for-list-setBasisOfLinearIndependentOfCardEqFinrank" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="setBasisOfLinearIndependentOfCardEqFinrank_repr_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L285-L285">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#setBasisOfLinearIndependentOfCardEqFinrank_repr_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#setBasisOfLinearIndependentOfCardEqFinrank_repr_apply"><span class="name">setBasisOfLinearIndependentOfCardEqFinrank_repr_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">V</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nonempty</span> <span class="fn">↑<span class="fn">s</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">↑<span class="fn">s</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">lin_ind</span> : <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/LinearIndependent/Defs.html#LinearIndependent">LinearIndependent</a> <span class="fn">K</span> <span class="fn">Subtype.val</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">card_eq</span> : <span class="fn"><span class="fn"><span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Fintype/Sets.html#Set.toFinset">toFinset</a></span>.<a href="../../.././Mathlib/Data/Finset/Card.html#Finset.card">card</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">V</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a✝</span> : <span class="fn">V</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#setBasisOfLinearIndependentOfCardEqFinrank">setBasisOfLinearIndependentOfCardEqFinrank</a> <span class="fn">lin_ind</span> <span class="fn">card_eq</span>)</span>.<a href="../../.././Mathlib/LinearAlgebra/Basis/Defs.html#Module.Basis.repr">repr</a></span> <span class="fn">a✝</span></span> <span class="fn">=</span>   <span class="fn"><span class="fn"><span class="fn">lin_ind</span>.<a href="../../.././Mathlib/LinearAlgebra/LinearIndependent/Defs.html#LinearIndependent.repr">repr</a></span> <span class="fn">(<span class="fn">(<a href="../../.././Mathlib/Algebra/Module/Submodule/LinearMap.html#LinearMap.codRestrict">LinearMap.codRestrict</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Span/Defs.html#Submodule.span">Submodule.span</a> <span class="fn">K</span> <span class="fn">(<a href="../../.././Mathlib/Data/Set/Operations.html#Set.range">Set.range</a> <span class="fn">Subtype.val</span>)</span>)</span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap.id">LinearMap.id</a> <span class="fn">⋯</span>)</span> <span class="fn">a✝</span>)</span></span></span></div></div></div></div><div class="decl" id="coe_setBasisOfLinearIndependentOfCardEqFinrank"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L291-L295">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#coe_setBasisOfLinearIndependentOfCardEqFinrank" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#coe_setBasisOfLinearIndependentOfCardEqFinrank"><span class="name">coe_setBasisOfLinearIndependentOfCardEqFinrank</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">V</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nonempty</span> <span class="fn">↑<span class="fn">s</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">↑<span class="fn">s</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">lin_ind</span> : <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/LinearIndependent/Defs.html#LinearIndependent">LinearIndependent</a> <span class="fn">K</span> <span class="fn">Subtype.val</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">card_eq</span> : <span class="fn"><span class="fn"><span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Fintype/Sets.html#Set.toFinset">toFinset</a></span>.<a href="../../.././Mathlib/Data/Finset/Card.html#Finset.card">card</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">V</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">⇑<span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#setBasisOfLinearIndependentOfCardEqFinrank">setBasisOfLinearIndependentOfCardEqFinrank</a> <span class="fn">lin_ind</span> <span class="fn">card_eq</span>)</span></span> <span class="fn">=</span> <span class="fn">Subtype.val</span></span></div></div></div></div><div class="mod_doc"><p>We now give characterisations of <code>finrank K V = 1</code> and <code>finrank K V ≤ 1</code>.</p></div><div class="decl" id="is_simple_module_of_finrank_eq_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L305-L313">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#is_simple_module_of_finrank_eq_one" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#is_simple_module_of_finrank_eq_one"><span class="name">is_simple_module_of_finrank_eq_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">A</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">SMul</span> <span class="fn">K</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Action/Defs.html#IsScalarTower">IsScalarTower</a> <span class="fn">K</span> <span class="fn">A</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">K</span> <span class="fn">V</span></span> <span class="fn">=</span> <span class="fn">1</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Order/Atoms.html#IsSimpleOrder">IsSimpleOrder</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/Module/Submodule/Defs.html#Submodule">Submodule</a> <span class="fn">A</span> <span class="fn">V</span>)</span></span></div></div><p>Any <code>K</code>-algebra module that is 1-dimensional over <code>K</code> is simple.</p></div></div><div class="decl" id="Subalgebra.isSimpleOrder_of_finrank"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L326-L344">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#Subalgebra.isSimpleOrder_of_finrank" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#Subalgebra.isSimpleOrder_of_finrank"><span class="name">Subalgebra</span>.<span class="name">isSimpleOrder_of_finrank</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hr</span> : <span class="fn"><span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">Module.finrank</a> <span class="fn">F</span> <span class="fn">E</span></span> <span class="fn">=</span> <span class="fn">2</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Order/Atoms.html#IsSimpleOrder">IsSimpleOrder</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/Algebra/Subalgebra/Basic.html#Subalgebra">Subalgebra</a> <span class="fn">F</span> <span class="fn">E</span>)</span></span></div></div></div></div><div class="decl" id="Module.End.exists_ker_pow_eq_ker_pow_succ"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L354-L378">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#Module.End.exists_ker_pow_eq_ker_pow_succ" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#Module.End.exists_ker_pow_eq_ker_pow_succ"><span class="name">Module</span>.<span class="name">End</span>.<span class="name">exists_ker_pow_eq_ker_pow_succ</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Module/LinearMap/End.html#Module.End">End</a> <span class="fn">K</span> <span class="fn">V</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">∃ <span class="fn">k</span> ≤ <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">finrank</a> <span class="fn">K</span> <span class="fn">V</span></span>, <span class="fn"><span class="fn"><a href="../../.././Mathlib/Algebra/Module/Submodule/Ker.html#LinearMap.ker">LinearMap.ker</a> <span class="fn">(<span class="fn">f</span> <span class="fn">^</span> <span class="fn">k</span>)</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Algebra/Module/Submodule/Ker.html#LinearMap.ker">LinearMap.ker</a> <span class="fn">(<span class="fn">f</span> <span class="fn">^</span> <span class="fn"><span class="fn">k</span>.<span class="fn">succ</span></span>)</span></span></span></span></div></div></div></div><div class="decl" id="Module.End.ker_pow_eq_ker_pow_finrank_of_le"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L380-L390">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#Module.End.ker_pow_eq_ker_pow_finrank_of_le" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#Module.End.ker_pow_eq_ker_pow_finrank_of_le"><span class="name">Module</span>.<span class="name">End</span>.<span class="name">ker_pow_eq_ker_pow_finrank_of_le</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Module/LinearMap/End.html#Module.End">End</a> <span class="fn">K</span> <span class="fn">V</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hm</span> : <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">finrank</a> <span class="fn">K</span> <span class="fn">V</span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn">m</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Algebra/Module/Submodule/Ker.html#LinearMap.ker">LinearMap.ker</a> <span class="fn">(<span class="fn">f</span> <span class="fn">^</span> <span class="fn">m</span>)</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Algebra/Module/Submodule/Ker.html#LinearMap.ker">LinearMap.ker</a> <span class="fn">(<span class="fn">f</span> <span class="fn">^</span> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">finrank</a> <span class="fn">K</span> <span class="fn">V</span></span>)</span></span></span></div></div></div></div><div class="decl" id="Module.End.ker_pow_le_ker_pow_finrank"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.lean#L392-L397">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_LinearAlgebra_FiniteDimensional_Lemmas.html#Module.End.ker_pow_le_ker_pow_finrank" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Lemmas.html#Module.End.ker_pow_le_ker_pow_finrank"><span class="name">Module</span>.<span class="name">End</span>.<span class="name">ker_pow_le_ker_pow_finrank</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#DivisionRing">DivisionRing</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Module/LinearMap/End.html#Module.End">End</a> <span class="fn">K</span> <span class="fn">V</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">m</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Module/Submodule/Ker.html#LinearMap.ker">LinearMap.ker</a> <span class="fn">(<span class="fn">f</span> <span class="fn">^</span> <span class="fn">m</span>)</span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><a href="../../.././Mathlib/Algebra/Module/Submodule/Ker.html#LinearMap.ker">LinearMap.ker</a> <span class="fn">(<span class="fn">f</span> <span class="fn">^</span> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Dimension/Finrank.html#Module.finrank">finrank</a> <span class="fn">K</span> <span class="fn">V</span></span>)</span></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

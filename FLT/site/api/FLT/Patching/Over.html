@@ -1,0 +1,419 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../.././style.css"></link><link rel="icon" href="../.././favicon.svg"></link><link rel="mask-icon" href="../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../.././/declarations/declaration-data.bmp" as="image"></link><title>FLT.Patching.Over</title><script defer="true" src="../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../.././";</script><script>const MODULE_NAME="FLT.Patching.Over";</script><script type="module" src="../.././jump-src.js"></script><script type="module" src="../.././search.js"></script><script type="module" src="../.././expand-nav.js"></script><script type="module" src="../.././how-about.js"></script><script type="module" src="../.././instances.js"></script><script type="module" src="../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">FLT</span>.<span class="name">Patching</span>.<span class="name">Over</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Patching/Over.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../.././Init.html">Init</a></li><li><a href="../.././FLT/Patching/Algebra.html">FLT.Patching.Algebra</a></li><li><a href="../.././FLT/Patching/Module.html">FLT.Patching.Module</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-FLT.Patching.Over" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#Submodule.liftModIdeal"><span class="name">Submodule</span>.<span class="name">liftModIdeal</span></a></div><div class="nav_link"><a class="break_within" href="#Submodule.liftModIdealEquiv"><span class="name">Submodule</span>.<span class="name">liftModIdealEquiv</span></a></div><div class="nav_link"><a class="break_within" href="#instSubsingletonComponentTopIdeal"><span class="name">instSubsingletonComponentTopIdeal</span></a></div><div class="nav_link"><a class="break_within" href="#PatchingModule.ker_componentMapModule_mkQ"><span class="name">PatchingModule</span>.<span class="name">ker_componentMapModule_mkQ</span></a></div><div class="nav_link"><a class="break_within" href="#PatchingModule.mem_smul_top"><span class="name">PatchingModule</span>.<span class="name">mem_smul_top</span></a></div><div class="nav_link"><a class="break_within" href="#PatchingModule.ker_map_mkQ"><span class="name">PatchingModule</span>.<span class="name">ker_map_mkQ</span></a></div><div class="nav_link"><a class="break_within" href="#PatchingModule.quotientTo"><span class="name">PatchingModule</span>.<span class="name">quotientTo</span></a></div><div class="nav_link"><a class="break_within" href="#PatchingModule.quotientEquiv"><span class="name">PatchingModule</span>.<span class="name">quotientEquiv</span></a></div><div class="nav_link"><a class="break_within" href="#PatchingModule.quotientEquivOver"><span class="name">PatchingModule</span>.<span class="name">quotientEquivOver</span></a></div><div class="nav_link"><a class="break_within" href="#PatchingAlgebra.quotientTo"><span class="name">PatchingAlgebra</span>.<span class="name">quotientTo</span></a></div><div class="nav_link"><a class="break_within" href="#PatchingAlgebra.quotientToOver"><span class="name">PatchingAlgebra</span>.<span class="name">quotientToOver</span></a></div><div class="nav_link"><a class="break_within" href="#PatchingAlgebra.surjective_quotientToOver"><span class="name">PatchingAlgebra</span>.<span class="name">surjective_quotientToOver</span></a></div></nav><main>
+<div class="decl" id="Submodule.liftModIdeal"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Patching/Over.lean#L29-L52">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Patching_Over.html#Submodule.liftModIdeal" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Patching/Over.html#Submodule.liftModIdeal"><span class="name">Submodule</span>.<span class="name">liftModIdeal</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../.././foundational_types.html">Type</a> u_7}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <a href="../.././foundational_types.html">Type</a> u_8}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">N</span> : <a href="../.././foundational_types.html">Type</a> u_9}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">N</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">N</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">I</span> : <span class="fn"><a href="../.././Mathlib/RingTheory/Ideal/Defs.html#Ideal">Ideal</a> <span class="fn">R</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">M</span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn">I</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <a href="../.././Mathlib/Order/Notation.html#Top.top">⊤</a> <a href="../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">R</span><a href="../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn">N</span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn">I</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <a href="../.././Mathlib/Order/Notation.html#Top.top">⊤</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">J</span> : <span class="fn"><a href="../.././Mathlib/RingTheory/Ideal/Defs.html#Ideal">Ideal</a> <span class="fn">R</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type">(<span class="fn">M</span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn">J</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <a href="../.././Mathlib/Order/Notation.html#Top.top">⊤</a>) <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn">I</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <a href="../.././Mathlib/Order/Notation.html#Top.top">⊤</a> <a href="../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">R</span><a href="../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> (<span class="fn">N</span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn">J</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <a href="../.././Mathlib/Order/Notation.html#Top.top">⊤</a>) <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn">I</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <a href="../.././Mathlib/Order/Notation.html#Top.top">⊤</a></div></div><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Submodule.liftModIdeal" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Submodule.liftModIdealEquiv"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Patching/Over.lean#L54-L72">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Patching_Over.html#Submodule.liftModIdealEquiv" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Patching/Over.html#Submodule.liftModIdealEquiv"><span class="name">Submodule</span>.<span class="name">liftModIdealEquiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../.././foundational_types.html">Type</a> u_7}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <a href="../.././foundational_types.html">Type</a> u_8}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">N</span> : <a href="../.././foundational_types.html">Type</a> u_9}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">N</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">N</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">I</span> : <span class="fn"><a href="../.././Mathlib/RingTheory/Ideal/Defs.html#Ideal">Ideal</a> <span class="fn">R</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : (<span class="fn">M</span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn">I</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <a href="../.././Mathlib/Order/Notation.html#Top.top">⊤</a>) <a href="../.././Mathlib/Algebra/Module/Equiv/Defs.html#LinearEquiv">≃ₗ[</a><span class="fn">R</span><a href="../.././Mathlib/Algebra/Module/Equiv/Defs.html#LinearEquiv">]</a> <span class="fn">N</span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn">I</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <a href="../.././Mathlib/Order/Notation.html#Top.top">⊤</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">J</span> : <span class="fn"><a href="../.././Mathlib/RingTheory/Ideal/Defs.html#Ideal">Ideal</a> <span class="fn">R</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type">((<span class="fn">M</span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn">J</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <a href="../.././Mathlib/Order/Notation.html#Top.top">⊤</a>) <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn">I</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <a href="../.././Mathlib/Order/Notation.html#Top.top">⊤</a>) <a href="../.././Mathlib/Algebra/Module/Equiv/Defs.html#LinearEquiv">≃ₗ[</a><span class="fn">R</span><a href="../.././Mathlib/Algebra/Module/Equiv/Defs.html#LinearEquiv">]</a> (<span class="fn">N</span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn">J</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <a href="../.././Mathlib/Order/Notation.html#Top.top">⊤</a>) <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn">I</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <a href="../.././Mathlib/Order/Notation.html#Top.top">⊤</a></div></div><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Submodule.liftModIdealEquiv" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="instSubsingletonComponentTopIdeal"><div class="instance"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Patching/Over.lean#L78-L79">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Patching_Over.html#instSubsingletonComponentTopIdeal" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Patching/Over.html#instSubsingletonComponentTopIdeal"><span class="name">instSubsingletonComponentTopIdeal</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">Λ</span> : <a href="../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../.././foundational_types.html">Type</a> u_4</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">Λ</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><a href="../.././Mathlib/Order/Filter/Ultrafilter/Defs.html#Ultrafilter">Ultrafilter</a> <span class="fn">ι</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Init/Core.html#Subsingleton">Subsingleton</a> <span class="fn">(<a href="../.././FLT/Patching/Module.html#PatchingModule.Component">PatchingModule.Component</a> <span class="fn">Λ</span> <span class="fn">M</span> <span class="fn">F</span> <a href="../.././Mathlib/Order/Notation.html#Top.top">⊤</a>)</span></span></div></div></div></div><div class="decl" id="PatchingModule.ker_componentMapModule_mkQ"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Patching/Over.lean#L88-L153">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Patching_Over.html#PatchingModule.ker_componentMapModule_mkQ" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Patching/Over.html#PatchingModule.ker_componentMapModule_mkQ"><span class="name">PatchingModule</span>.<span class="name">ker_componentMapModule_mkQ</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">Λ</span> : <a href="../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../.././foundational_types.html">Type</a> u_4</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">Λ</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><a href="../.././Mathlib/Order/Filter/Ultrafilter/Defs.html#Ultrafilter">Ultrafilter</a> <span class="fn">ι</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">∀ (<span class="fn">i</span> : <span class="fn">ι</span>), <span class="fn"><a href="../.././Mathlib/LinearAlgebra/FreeModule/Basic.html#Module.Free">Module.Free</a> (<span class="fn">Λ</span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn"><a href="../.././Mathlib/RingTheory/Ideal/Maps.html#Module.annihilator">Module.annihilator</a> <span class="fn">Λ</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span>) <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././FLT/Patching/Module.html#Module.UniformlyBoundedRank">Module.UniformlyBoundedRank</a> <span class="fn">Λ</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">𝔫</span> : <span class="fn"><a href="../.././Mathlib/RingTheory/Ideal/Defs.html#Ideal">Ideal</a> <span class="fn">Λ</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Filter.html#CompactSpace">CompactSpace</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <span class="fn"><a href="../.././FLT/Patching/Module.html#OpenIdeals">OpenIdeals</a> <span class="fn">Λ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<span class="fn">↑<span class="fn">Λ</span></span> <span class="fn">(<a href="../.././FLT/Patching/Module.html#PatchingModule.componentMapModule">componentMapModule</a> <span class="fn">Λ</span> <span class="fn">F</span> <span class="fn">(fun (<span class="fn">i</span> : <span class="fn">ι</span>) =&gt; <span class="fn">(<span class="fn">𝔫</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <a href="../.././Mathlib/Order/Notation.html#Top.top">⊤</a>).<a href="../.././Mathlib/LinearAlgebra/Quotient/Defs.html#Submodule.mkQ">mkQ</a></span>)</span> <span class="fn">↑<span class="fn">α</span></span>)</span>)</span>.<a href="../.././Mathlib/Algebra/Module/Submodule/Ker.html#LinearMap.ker">ker</a></span> <a href="../.././Init/Prelude.html#Eq">=</a> <span class="fn">𝔫</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <a href="../.././Mathlib/Order/Notation.html#Top.top">⊤</a></div></div></div></div><div class="decl" id="PatchingModule.mem_smul_top"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Patching/Over.lean#L157-L234">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Patching_Over.html#PatchingModule.mem_smul_top" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Patching/Over.html#PatchingModule.mem_smul_top"><span class="name">PatchingModule</span>.<span class="name">mem_smul_top</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">Λ</span> : <a href="../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../.././foundational_types.html">Type</a> u_4</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">Λ</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><a href="../.././Mathlib/Order/Filter/Ultrafilter/Defs.html#Ultrafilter">Ultrafilter</a> <span class="fn">ι</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/RingTheory/LocalRing/Defs.html#IsLocalRing">IsLocalRing</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/RingTheory/Noetherian/Defs.html#IsNoetherianRing">IsNoetherianRing</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Separation/Hausdorff.html#T2Space">T2Space</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">∀ (<span class="fn">i</span> : <span class="fn">ι</span>), <span class="fn"><a href="../.././Mathlib/LinearAlgebra/FreeModule/Basic.html#Module.Free">Module.Free</a> (<span class="fn">Λ</span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn"><a href="../.././Mathlib/RingTheory/Ideal/Maps.html#Module.annihilator">Module.annihilator</a> <span class="fn">Λ</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span>) <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././FLT/Patching/Module.html#Module.UniformlyBoundedRank">Module.UniformlyBoundedRank</a> <span class="fn">Λ</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">𝔫</span> : <span class="fn"><a href="../.././Mathlib/RingTheory/Ideal/Defs.html#Ideal">Ideal</a> <span class="fn">Λ</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Filter.html#CompactSpace">CompactSpace</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><a href="../.././FLT/Patching/Module.html#PatchingModule">PatchingModule</a> <span class="fn">Λ</span> <span class="fn">M</span> <span class="fn">F</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">x</span> <a href="../.././Init/Prelude.html#Membership.mem">∈</a> <span class="fn">𝔫</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <a href="../.././Mathlib/Order/Notation.html#Top.top">⊤</a> <a href="../.././Init/Core.html#Iff">↔</a> <span class="fn">∀ (<span class="fn">α</span> : <span class="fn"><a href="../.././FLT/Patching/Module.html#OpenIdeals">OpenIdeals</a> <span class="fn">Λ</span></span>), <span class="fn"><span class="fn">↑<span class="fn">x</span></span> <span class="fn">α</span></span> <a href="../.././Init/Prelude.html#Membership.mem">∈</a> <span class="fn">𝔫</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <a href="../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span></div></div></div></div><div class="decl" id="PatchingModule.ker_map_mkQ"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Patching/Over.lean#L238-L261">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Patching_Over.html#PatchingModule.ker_map_mkQ" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Patching/Over.html#PatchingModule.ker_map_mkQ"><span class="name">PatchingModule</span>.<span class="name">ker_map_mkQ</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">Λ</span> : <a href="../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../.././foundational_types.html">Type</a> u_4</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">Λ</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><a href="../.././Mathlib/Order/Filter/Ultrafilter/Defs.html#Ultrafilter">Ultrafilter</a> <span class="fn">ι</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/RingTheory/LocalRing/Defs.html#IsLocalRing">IsLocalRing</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/RingTheory/Noetherian/Defs.html#IsNoetherianRing">IsNoetherianRing</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Separation/Hausdorff.html#T2Space">T2Space</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">∀ (<span class="fn">i</span> : <span class="fn">ι</span>), <span class="fn"><a href="../.././Mathlib/LinearAlgebra/FreeModule/Basic.html#Module.Free">Module.Free</a> (<span class="fn">Λ</span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn"><a href="../.././Mathlib/RingTheory/Ideal/Maps.html#Module.annihilator">Module.annihilator</a> <span class="fn">Λ</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span>) <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././FLT/Patching/Module.html#Module.UniformlyBoundedRank">Module.UniformlyBoundedRank</a> <span class="fn">Λ</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">𝔫</span> : <span class="fn"><a href="../.././Mathlib/RingTheory/Ideal/Defs.html#Ideal">Ideal</a> <span class="fn">Λ</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Filter.html#CompactSpace">CompactSpace</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<span class="fn">↑<span class="fn">Λ</span></span> <span class="fn">(<a href="../.././FLT/Patching/Module.html#PatchingModule.map">map</a> <span class="fn">Λ</span> <span class="fn">F</span> <span class="fn">fun (<span class="fn">i</span> : <span class="fn">ι</span>) =&gt; <span class="fn">(<span class="fn">𝔫</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <a href="../.././Mathlib/Order/Notation.html#Top.top">⊤</a>).<a href="../.././Mathlib/LinearAlgebra/Quotient/Defs.html#Submodule.mkQ">mkQ</a></span></span>)</span>)</span>.<a href="../.././Mathlib/Algebra/Module/Submodule/Ker.html#LinearMap.ker">ker</a></span> <a href="../.././Init/Prelude.html#Eq">=</a> <span class="fn">𝔫</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <a href="../.././Mathlib/Order/Notation.html#Top.top">⊤</a></div></div></div></div><div class="decl" id="PatchingModule.quotientTo"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Patching/Over.lean#L263-L268">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Patching_Over.html#PatchingModule.quotientTo" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Patching/Over.html#PatchingModule.quotientTo"><span class="name">PatchingModule</span>.<span class="name">quotientTo</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">Λ</span> : <a href="../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../.././foundational_types.html">Type</a> u_4</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">Λ</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><a href="../.././Mathlib/Order/Filter/Ultrafilter/Defs.html#Ultrafilter">Ultrafilter</a> <span class="fn">ι</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/RingTheory/LocalRing/Defs.html#IsLocalRing">IsLocalRing</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/RingTheory/Noetherian/Defs.html#IsNoetherianRing">IsNoetherianRing</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Separation/Hausdorff.html#T2Space">T2Space</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">∀ (<span class="fn">i</span> : <span class="fn">ι</span>), <span class="fn"><a href="../.././Mathlib/LinearAlgebra/FreeModule/Basic.html#Module.Free">Module.Free</a> (<span class="fn">Λ</span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn"><a href="../.././Mathlib/RingTheory/Ideal/Maps.html#Module.annihilator">Module.annihilator</a> <span class="fn">Λ</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span>) <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././FLT/Patching/Module.html#Module.UniformlyBoundedRank">Module.UniformlyBoundedRank</a> <span class="fn">Λ</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">𝔫</span> : <span class="fn"><a href="../.././Mathlib/RingTheory/Ideal/Defs.html#Ideal">Ideal</a> <span class="fn">Λ</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Filter.html#CompactSpace">CompactSpace</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././FLT/Patching/Module.html#PatchingModule">PatchingModule</a> <span class="fn">Λ</span> <span class="fn">M</span> <span class="fn">F</span></span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn">𝔫</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <a href="../.././Mathlib/Order/Notation.html#Top.top">⊤</a> <a href="../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">Λ</span><a href="../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn"><a href="../.././FLT/Patching/Module.html#PatchingModule">PatchingModule</a> <span class="fn">Λ</span> <span class="fn">(fun (<span class="fn">i</span> : <span class="fn">ι</span>) =&gt; <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn">𝔫</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <a href="../.././Mathlib/Order/Notation.html#Top.top">⊤</a>)</span> <span class="fn">F</span></span></div></div><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-PatchingModule.quotientTo" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="PatchingModule.quotientEquiv"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Patching/Over.lean#L270-L278">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Patching_Over.html#PatchingModule.quotientEquiv" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Patching/Over.html#PatchingModule.quotientEquiv"><span class="name">PatchingModule</span>.<span class="name">quotientEquiv</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">Λ</span> : <a href="../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../.././foundational_types.html">Type</a> u_4</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">Λ</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><a href="../.././Mathlib/Order/Filter/Ultrafilter/Defs.html#Ultrafilter">Ultrafilter</a> <span class="fn">ι</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/RingTheory/LocalRing/Defs.html#IsLocalRing">IsLocalRing</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/RingTheory/Noetherian/Defs.html#IsNoetherianRing">IsNoetherianRing</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Algebra/Nonarchimedean/Basic.html#NonarchimedeanRing">NonarchimedeanRing</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Separation/Hausdorff.html#T2Space">T2Space</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">∀ (<span class="fn">i</span> : <span class="fn">ι</span>), <span class="fn"><a href="../.././Mathlib/LinearAlgebra/FreeModule/Basic.html#Module.Free">Module.Free</a> (<span class="fn">Λ</span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn"><a href="../.././Mathlib/RingTheory/Ideal/Maps.html#Module.annihilator">Module.annihilator</a> <span class="fn">Λ</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span>) <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././FLT/Patching/Module.html#Module.UniformlyBoundedRank">Module.UniformlyBoundedRank</a> <span class="fn">Λ</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">𝔫</span> : <span class="fn"><a href="../.././Mathlib/RingTheory/Ideal/Defs.html#Ideal">Ideal</a> <span class="fn">Λ</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Filter.html#CompactSpace">CompactSpace</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type">(<span class="fn"><a href="../.././FLT/Patching/Module.html#PatchingModule">PatchingModule</a> <span class="fn">Λ</span> <span class="fn">M</span> <span class="fn">F</span></span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn">𝔫</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <a href="../.././Mathlib/Order/Notation.html#Top.top">⊤</a>) <a href="../.././Mathlib/Algebra/Module/Equiv/Defs.html#LinearEquiv">≃ₗ[</a><span class="fn">Λ</span><a href="../.././Mathlib/Algebra/Module/Equiv/Defs.html#LinearEquiv">]</a> <span class="fn"><a href="../.././FLT/Patching/Module.html#PatchingModule">PatchingModule</a> <span class="fn">Λ</span> <span class="fn">(fun (<span class="fn">i</span> : <span class="fn">ι</span>) =&gt; <span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn">𝔫</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <a href="../.././Mathlib/Order/Notation.html#Top.top">⊤</a>)</span> <span class="fn">F</span></span></div></div><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-PatchingModule.quotientEquiv" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="PatchingModule.quotientEquivOver"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Patching/Over.lean#L280-L284">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Patching_Over.html#PatchingModule.quotientEquivOver" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Patching/Over.html#PatchingModule.quotientEquivOver"><span class="name">PatchingModule</span>.<span class="name">quotientEquivOver</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">Λ</span> : <a href="../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><span class="fn">ι</span> → <a href="../.././foundational_types.html">Type</a> u_4</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">Λ</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><a href="../.././Mathlib/Order/Filter/Ultrafilter/Defs.html#Ultrafilter">Ultrafilter</a> <span class="fn">ι</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/RingTheory/LocalRing/Defs.html#IsLocalRing">IsLocalRing</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/RingTheory/Noetherian/Defs.html#IsNoetherianRing">IsNoetherianRing</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Algebra/Nonarchimedean/Basic.html#NonarchimedeanRing">NonarchimedeanRing</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Separation/Hausdorff.html#T2Space">T2Space</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">∀ (<span class="fn">i</span> : <span class="fn">ι</span>), <span class="fn"><a href="../.././Mathlib/LinearAlgebra/FreeModule/Basic.html#Module.Free">Module.Free</a> (<span class="fn">Λ</span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn"><a href="../.././Mathlib/RingTheory/Ideal/Maps.html#Module.annihilator">Module.annihilator</a> <span class="fn">Λ</span> <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span>) <span class="fn">(<span class="fn">M</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././FLT/Patching/Module.html#Module.UniformlyBoundedRank">Module.UniformlyBoundedRank</a> <span class="fn">Λ</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M₀</span> : <a href="../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">M₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">Λ</span> <span class="fn">M₀</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">𝔫</span> : <span class="fn"><a href="../.././Mathlib/RingTheory/Ideal/Defs.html#Ideal">Ideal</a> <span class="fn">Λ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">sM</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → (<span class="fn"><span class="fn">M</span> <span class="fn">i</span></span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn">𝔫</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <a href="../.././Mathlib/Order/Notation.html#Top.top">⊤</a>) <a href="../.././Mathlib/Algebra/Module/Equiv/Defs.html#LinearEquiv">≃ₗ[</a><span class="fn">Λ</span><a href="../.././Mathlib/Algebra/Module/Equiv/Defs.html#LinearEquiv">]</a> <span class="fn">M₀</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Filter.html#CompactSpace">CompactSpace</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/RingTheory/Finiteness/Defs.html#Module.Finite">Module.Finite</a> <span class="fn">Λ</span> <span class="fn">M₀</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type">(<span class="fn"><a href="../.././FLT/Patching/Module.html#PatchingModule">PatchingModule</a> <span class="fn">Λ</span> <span class="fn">M</span> <span class="fn">F</span></span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn">𝔫</span> <a href="../.././Init/Prelude.html#HSMul.hSMul">•</a> <a href="../.././Mathlib/Order/Notation.html#Top.top">⊤</a>) <a href="../.././Mathlib/Algebra/Module/Equiv/Defs.html#LinearEquiv">≃ₗ[</a><span class="fn">Λ</span><a href="../.././Mathlib/Algebra/Module/Equiv/Defs.html#LinearEquiv">]</a> <span class="fn">M₀</span></div></div><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-PatchingModule.quotientEquivOver" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="PatchingAlgebra.quotientTo"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Patching/Over.lean#L289-L307">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Patching_Over.html#PatchingAlgebra.quotientTo" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Patching/Over.html#PatchingAlgebra.quotientTo"><span class="name">PatchingAlgebra</span>.<span class="name">quotientTo</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">Λ</span> : <a href="../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <span class="fn"><span class="fn">ι</span> → <a href="../.././foundational_types.html">Type</a> u_3</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">(<span class="fn">R</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">∀ (<span class="fn">i</span> : <span class="fn">ι</span>), <span class="fn"><a href="../.././Mathlib/RingTheory/LocalRing/Defs.html#IsLocalRing">IsLocalRing</a> <span class="fn">(<span class="fn">R</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">Λ</span> <span class="fn">(<span class="fn">R</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><a href="../.././Mathlib/Order/Filter/Ultrafilter/Defs.html#Ultrafilter">Ultrafilter</a> <span class="fn">ι</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">𝔫</span> : <span class="fn"><a href="../.././Mathlib/RingTheory/Ideal/Defs.html#Ideal">Ideal</a> <span class="fn">Λ</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">∀ (<span class="fn">i</span> : <span class="fn">ι</span>), <span class="fn"><a href="../.././Mathlib/RingTheory/LocalRing/Defs.html#IsLocalRing">IsLocalRing</a> (<span class="fn"><span class="fn">R</span> <span class="fn">i</span></span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn"><a href="../.././Mathlib/RingTheory/Ideal/Maps.html#Ideal.map">Ideal.map</a> <span class="fn">(<a href="../.././Mathlib/Algebra/Algebra/Defs.html#algebraMap">algebraMap</a> <span class="fn">Λ</span> <span class="fn">(<span class="fn">R</span> <span class="fn">i</span>)</span>)</span> <span class="fn">𝔫</span></span>)</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././FLT/Patching/Algebra.html#PatchingAlgebra">PatchingAlgebra</a> <span class="fn">R</span> <span class="fn">F</span></span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn"><a href="../.././Mathlib/RingTheory/Ideal/Maps.html#Ideal.map">Ideal.map</a> <span class="fn">(<a href="../.././Mathlib/Algebra/Algebra/Defs.html#algebraMap">algebraMap</a> <span class="fn">Λ</span> <span class="fn">(<a href="../.././FLT/Patching/Algebra.html#PatchingAlgebra">PatchingAlgebra</a> <span class="fn">R</span> <span class="fn">F</span>)</span>)</span> <span class="fn">𝔫</span></span> <a href="../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a>   <span class="fn"><a href="../.././FLT/Patching/Algebra.html#PatchingAlgebra">PatchingAlgebra</a> <span class="fn">(fun (<span class="fn">i</span> : <span class="fn">ι</span>) =&gt; <span class="fn"><span class="fn">R</span> <span class="fn">i</span></span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn"><a href="../.././Mathlib/RingTheory/Ideal/Maps.html#Ideal.map">Ideal.map</a> <span class="fn">(<a href="../.././Mathlib/Algebra/Algebra/Defs.html#algebraMap">algebraMap</a> <span class="fn">Λ</span> <span class="fn">(<span class="fn">R</span> <span class="fn">i</span>)</span>)</span> <span class="fn">𝔫</span></span>)</span> <span class="fn">F</span></span></div></div><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-PatchingAlgebra.quotientTo" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="PatchingAlgebra.quotientToOver"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Patching/Over.lean#L309-L317">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Patching_Over.html#PatchingAlgebra.quotientToOver" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Patching/Over.html#PatchingAlgebra.quotientToOver"><span class="name">PatchingAlgebra</span>.<span class="name">quotientToOver</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">Λ</span> : <a href="../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <span class="fn"><span class="fn">ι</span> → <a href="../.././foundational_types.html">Type</a> u_3</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">(<span class="fn">R</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">∀ (<span class="fn">i</span> : <span class="fn">ι</span>), <span class="fn"><a href="../.././Mathlib/RingTheory/LocalRing/Defs.html#IsLocalRing">IsLocalRing</a> <span class="fn">(<span class="fn">R</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">Λ</span> <span class="fn">(<span class="fn">R</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><a href="../.././Mathlib/Order/Filter/Ultrafilter/Defs.html#Ultrafilter">Ultrafilter</a> <span class="fn">ι</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R₀</span> : <a href="../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">Λ</span> <span class="fn">R₀</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">𝔫</span> : <span class="fn"><a href="../.././Mathlib/RingTheory/Ideal/Defs.html#Ideal">Ideal</a> <span class="fn">Λ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">sR</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → (<span class="fn"><span class="fn">R</span> <span class="fn">i</span></span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn"><a href="../.././Mathlib/RingTheory/Ideal/Maps.html#Ideal.map">Ideal.map</a> <span class="fn">(<a href="../.././Mathlib/Algebra/Algebra/Defs.html#algebraMap">algebraMap</a> <span class="fn">Λ</span> <span class="fn">(<span class="fn">R</span> <span class="fn">i</span>)</span>)</span> <span class="fn">𝔫</span></span>) <a href="../.././Mathlib/Algebra/Algebra/Equiv.html#AlgEquiv">≃ₐ[</a><span class="fn">Λ</span><a href="../.././Mathlib/Algebra/Algebra/Equiv.html#AlgEquiv">]</a> <span class="fn">R₀</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/RingTheory/LocalRing/Defs.html#IsLocalRing">IsLocalRing</a> <span class="fn">R₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/RingTheory/Noetherian/Defs.html#IsNoetherianRing">IsNoetherianRing</a> <span class="fn">R₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">R₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">R₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Filter.html#CompactSpace">CompactSpace</a> <span class="fn">R₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././FLT/Patching/Utils/AdicTopology.html#IsLocalRing.IsAdicTopology">IsLocalRing.IsAdicTopology</a> <span class="fn">R₀</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././FLT/Patching/Algebra.html#PatchingAlgebra">PatchingAlgebra</a> <span class="fn">R</span> <span class="fn">F</span></span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn"><a href="../.././Mathlib/RingTheory/Ideal/Maps.html#Ideal.map">Ideal.map</a> <span class="fn">(<a href="../.././Mathlib/Algebra/Algebra/Defs.html#algebraMap">algebraMap</a> <span class="fn">Λ</span> <span class="fn">(<a href="../.././FLT/Patching/Algebra.html#PatchingAlgebra">PatchingAlgebra</a> <span class="fn">R</span> <span class="fn">F</span>)</span>)</span> <span class="fn">𝔫</span></span> <a href="../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">R₀</span></div></div><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-PatchingAlgebra.quotientToOver" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="PatchingAlgebra.surjective_quotientToOver"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Patching/Over.lean#L329-L341">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Patching_Over.html#PatchingAlgebra.surjective_quotientToOver" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Patching/Over.html#PatchingAlgebra.surjective_quotientToOver"><span class="name">PatchingAlgebra</span>.<span class="name">surjective_quotientToOver</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">Λ</span> : <a href="../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">Λ</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <span class="fn"><span class="fn">ι</span> → <a href="../.././foundational_types.html">Type</a> u_3</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">(<span class="fn">R</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">∀ (<span class="fn">i</span> : <span class="fn">ι</span>), <span class="fn"><a href="../.././Mathlib/RingTheory/LocalRing/Defs.html#IsLocalRing">IsLocalRing</a> <span class="fn">(<span class="fn">R</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">Λ</span> <span class="fn">(<span class="fn">R</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → <span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">(<span class="fn">R</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">∀ (<span class="fn">i</span> : <span class="fn">ι</span>), <span class="fn"><a href="../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">(<span class="fn">R</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">∀ (<span class="fn">i</span> : <span class="fn">ι</span>), <span class="fn"><a href="../.././Mathlib/Topology/Defs/Filter.html#CompactSpace">CompactSpace</a> <span class="fn">(<span class="fn">R</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">∀ (<span class="fn">i</span> : <span class="fn">ι</span>), <span class="fn"><a href="../.././FLT/Patching/Utils/AdicTopology.html#IsLocalRing.IsAdicTopology">IsLocalRing.IsAdicTopology</a> <span class="fn">(<span class="fn">R</span> <span class="fn">i</span>)</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><a href="../.././Mathlib/Order/Filter/Ultrafilter/Defs.html#Ultrafilter">Ultrafilter</a> <span class="fn">ι</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././FLT/Patching/Algebra.html#Algebra.UniformlyBoundedRank">Algebra.UniformlyBoundedRank</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R₀</span> : <a href="../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">Λ</span> <span class="fn">R₀</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">𝔫</span> : <span class="fn"><a href="../.././Mathlib/RingTheory/Ideal/Defs.html#Ideal">Ideal</a> <span class="fn">Λ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">sR</span> : <span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>) → (<span class="fn"><span class="fn">R</span> <span class="fn">i</span></span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn"><a href="../.././Mathlib/RingTheory/Ideal/Maps.html#Ideal.map">Ideal.map</a> <span class="fn">(<a href="../.././Mathlib/Algebra/Algebra/Defs.html#algebraMap">algebraMap</a> <span class="fn">Λ</span> <span class="fn">(<span class="fn">R</span> <span class="fn">i</span>)</span>)</span> <span class="fn">𝔫</span></span>) <a href="../.././Mathlib/Algebra/Algebra/Equiv.html#AlgEquiv">≃ₐ[</a><span class="fn">Λ</span><a href="../.././Mathlib/Algebra/Algebra/Equiv.html#AlgEquiv">]</a> <span class="fn">R₀</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/RingTheory/LocalRing/Defs.html#IsLocalRing">IsLocalRing</a> <span class="fn">R₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/RingTheory/Noetherian/Defs.html#IsNoetherianRing">IsNoetherianRing</a> <span class="fn">R₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">R₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">R₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Filter.html#CompactSpace">CompactSpace</a> <span class="fn">R₀</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././FLT/Patching/Utils/AdicTopology.html#IsLocalRing.IsAdicTopology">IsLocalRing.IsAdicTopology</a> <span class="fn">R₀</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Init/Data/Function.html#Function.Surjective">Function.Surjective</a> <span class="fn">⇑<span class="fn">(<a href="../.././FLT/Patching/Over.html#PatchingAlgebra.quotientToOver">quotientToOver</a> <span class="fn">Λ</span> <span class="fn">R</span> <span class="fn">F</span> <span class="fn">𝔫</span> <span class="fn">sR</span>)</span></span></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

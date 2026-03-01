@@ -1,0 +1,986 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../.././style.css"></link><link rel="icon" href="../../.././favicon.svg"></link><link rel="mask-icon" href="../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.Data.Finsupp.Order</title><script defer="true" src="../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../.././";</script><script>const MODULE_NAME="Mathlib.Data.Finsupp.Order";</script><script type="module" src="../../.././jump-src.js"></script><script type="module" src="../../.././search.js"></script><script type="module" src="../../.././expand-nav.js"></script><script type="module" src="../../.././how-about.js"></script><script type="module" src="../../.././instances.js"></script><script type="module" src="../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">Data</span>.<span class="name">Finsupp</span>.<span class="name">Order</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../.././Init.html">Init</a></li><li><a href="../../.././Mathlib/Algebra/Order/Pi.html">Mathlib.Algebra.Order.Pi</a></li><li><a href="../../.././Mathlib/Data/Finsupp/Basic.html">Mathlib.Data.Finsupp.Basic</a></li><li><a href="../../.././Mathlib/Data/Finsupp/SMulWithZero.html">Mathlib.Data.Finsupp.SMulWithZero</a></li><li><a href="../../.././Mathlib/Order/Preorder/Finsupp.html">Mathlib.Order.Preorder.Finsupp</a></li><li><a href="../../.././Mathlib/Algebra/Order/Module/Defs.html">Mathlib.Algebra.Order.Module.Defs</a></li><li><a href="../../.././Mathlib/Algebra/Order/Sub/Basic.html">Mathlib.Algebra.Order.Sub.Basic</a></li><li><a href="../../.././Mathlib/Algebra/Order/BigOperators/Group/Finset.html">Mathlib.Algebra.Order.BigOperators.Group.Finset</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.Data.Finsupp.Order" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#Finsupp.sum_le_sum"><span class="name">Finsupp</span>.<span class="name">sum_le_sum</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.sum_nonneg"><span class="name">Finsupp</span>.<span class="name">sum_nonneg</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.sum_nonneg'"><span class="name">Finsupp</span>.<span class="name">sum_nonneg'</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.sum_nonpos"><span class="name">Finsupp</span>.<span class="name">sum_nonpos</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.sum_pos"><span class="name">Finsupp</span>.<span class="name">sum_pos</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.sum_pos'"><span class="name">Finsupp</span>.<span class="name">sum_pos'</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.single_le_single"><span class="name">Finsupp</span>.<span class="name">single_le_single</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.single_mono"><span class="name">Finsupp</span>.<span class="name">single_mono</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.single_nonneg"><span class="name">Finsupp</span>.<span class="name">single_nonneg</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.single_nonpos"><span class="name">Finsupp</span>.<span class="name">single_nonpos</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.sum_le_sum_index"><span class="name">Finsupp</span>.<span class="name">sum_le_sum_index</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.isOrderedAddMonoid"><span class="name">Finsupp</span>.<span class="name">isOrderedAddMonoid</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.mapDomain_mono"><span class="name">Finsupp</span>.<span class="name">mapDomain_mono</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.mapDomain_nonneg"><span class="name">Finsupp</span>.<span class="name">mapDomain_nonneg</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.mapDomain_nonpos"><span class="name">Finsupp</span>.<span class="name">mapDomain_nonpos</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.single_le_sum"><span class="name">Finsupp</span>.<span class="name">single_le_sum</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.single_eval_le_sum"><span class="name">Finsupp</span>.<span class="name">single_eval_le_sum</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.isOrderedCancelAddMonoid"><span class="name">Finsupp</span>.<span class="name">isOrderedCancelAddMonoid</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.addLeftReflectLE"><span class="name">Finsupp</span>.<span class="name">addLeftReflectLE</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.instPosSMulMono"><span class="name">Finsupp</span>.<span class="name">instPosSMulMono</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.instSMulPosMono"><span class="name">Finsupp</span>.<span class="name">instSMulPosMono</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.instPosSMulReflectLE"><span class="name">Finsupp</span>.<span class="name">instPosSMulReflectLE</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.instSMulPosReflectLE"><span class="name">Finsupp</span>.<span class="name">instSMulPosReflectLE</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.instPosSMulStrictMono"><span class="name">Finsupp</span>.<span class="name">instPosSMulStrictMono</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.instSMulPosStrictMono"><span class="name">Finsupp</span>.<span class="name">instSMulPosStrictMono</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.instSMulPosReflectLT"><span class="name">Finsupp</span>.<span class="name">instSMulPosReflectLT</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.orderBot"><span class="name">Finsupp</span>.<span class="name">orderBot</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.bot_eq_zero"><span class="name">Finsupp</span>.<span class="name">bot_eq_zero</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.add_eq_zero_iff"><span class="name">Finsupp</span>.<span class="name">add_eq_zero_iff</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.le_iff'"><span class="name">Finsupp</span>.<span class="name">le_iff'</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.le_iff"><span class="name">Finsupp</span>.<span class="name">le_iff</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.support_monotone"><span class="name">Finsupp</span>.<span class="name">support_monotone</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.support_mono"><span class="name">Finsupp</span>.<span class="name">support_mono</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.decidableLE"><span class="name">Finsupp</span>.<span class="name">decidableLE</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.decidableLT"><span class="name">Finsupp</span>.<span class="name">decidableLT</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.single_le_iff"><span class="name">Finsupp</span>.<span class="name">single_le_iff</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.tsub"><span class="name">Finsupp</span>.<span class="name">tsub</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.orderedSub"><span class="name">Finsupp</span>.<span class="name">orderedSub</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.instCanonicallyOrderedAddOfAddLeftMono"><span class="name">Finsupp</span>.<span class="name">instCanonicallyOrderedAddOfAddLeftMono</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.coe_tsub"><span class="name">Finsupp</span>.<span class="name">coe_tsub</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.tsub_apply"><span class="name">Finsupp</span>.<span class="name">tsub_apply</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.single_tsub"><span class="name">Finsupp</span>.<span class="name">single_tsub</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.support_tsub"><span class="name">Finsupp</span>.<span class="name">support_tsub</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.subset_support_tsub"><span class="name">Finsupp</span>.<span class="name">subset_support_tsub</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.support_inf"><span class="name">Finsupp</span>.<span class="name">support_inf</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.support_sup"><span class="name">Finsupp</span>.<span class="name">support_sup</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.disjoint_iff"><span class="name">Finsupp</span>.<span class="name">disjoint_iff</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.sub_single_one_add"><span class="name">Finsupp</span>.<span class="name">sub_single_one_add</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.add_sub_single_one"><span class="name">Finsupp</span>.<span class="name">add_sub_single_one</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.sub_add_single_one_cancel"><span class="name">Finsupp</span>.<span class="name">sub_add_single_one_cancel</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Pointwise-order-on-finitely-supported-functions" class="markdown-heading">Pointwise order on finitely supported functions <a class="hover-link" href="#Pointwise-order-on-finitely-supported-functions">#</a></h1><p>This file lifts order structures on <code>α</code> to <code>ι →₀ α</code>.</p><h2 id="Main-declarations" class="markdown-heading">Main declarations <a class="hover-link" href="#Main-declarations">#</a></h2><ul><li><code><a href="../../.././Mathlib/Order/Preorder/Finsupp.html#Finsupp.orderEmbeddingToFun">Finsupp.orderEmbeddingToFun</a></code>: The order embedding from finitely supported functions to
+functions.</li></ul></div><div class="mod_doc"><h3 id="Order-structures" class="markdown-heading">Order structures <a class="hover-link" href="#Order-structures">#</a></h3></div><div class="decl" id="Finsupp.sum_le_sum"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L47-L49">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.sum_le_sum" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.sum_le_sum"><span class="name">Finsupp</span>.<span class="name">sum_le_sum</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Defs.html#IsOrderedAddMonoid">IsOrderedAddMonoid</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">h₁ </span><span class="fn">h₂</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn"><span class="fn">α</span> → <span class="fn">β</span></span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn">∀ <span class="fn">i</span> ∈ <span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span>, <span class="fn"><span class="fn">h₁</span> <span class="fn">i</span> <span class="fn">(<span class="fn">f</span> <span class="fn">i</span>)</span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn">h₂</span> <span class="fn">i</span> <span class="fn">(<span class="fn">f</span> <span class="fn">i</span>)</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/Algebra/BigOperators/Finsupp/Basic.html#Finsupp.sum">sum</a></span> <span class="fn">h₁</span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/Algebra/BigOperators/Finsupp/Basic.html#Finsupp.sum">sum</a></span> <span class="fn">h₂</span></span></div></div></div></div><div class="decl" id="Finsupp.sum_nonneg"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L51-L51">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.sum_nonneg" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.sum_nonneg"><span class="name">Finsupp</span>.<span class="name">sum_nonneg</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Defs.html#IsOrderedAddMonoid">IsOrderedAddMonoid</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">h₁</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn"><span class="fn">α</span> → <span class="fn">β</span></span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn">∀ <span class="fn">i</span> ∈ <span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span>, <span class="fn">0</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn">h₁</span> <span class="fn">i</span> <span class="fn">(<span class="fn">f</span> <span class="fn">i</span>)</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">0</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/Algebra/BigOperators/Finsupp/Basic.html#Finsupp.sum">sum</a></span> <span class="fn">h₁</span></span></div></div></div></div><div class="decl" id="Finsupp.sum_nonneg'"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L53-L53">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.sum_nonneg'" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.sum_nonneg'"><span class="name">Finsupp</span>.<span class="name">sum_nonneg'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Defs.html#IsOrderedAddMonoid">IsOrderedAddMonoid</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">h₁</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn"><span class="fn">α</span> → <span class="fn">β</span></span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">ι</span>), <span class="fn">0</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn">h₁</span> <span class="fn">i</span> <span class="fn">(<span class="fn">f</span> <span class="fn">i</span>)</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">0</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/Algebra/BigOperators/Finsupp/Basic.html#Finsupp.sum">sum</a></span> <span class="fn">h₁</span></span></div></div></div></div><div class="decl" id="Finsupp.sum_nonpos"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L55-L55">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.sum_nonpos" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.sum_nonpos"><span class="name">Finsupp</span>.<span class="name">sum_nonpos</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Defs.html#IsOrderedAddMonoid">IsOrderedAddMonoid</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">h₁</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn"><span class="fn">α</span> → <span class="fn">β</span></span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn">∀ <span class="fn">i</span> ∈ <span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span>, <span class="fn"><span class="fn">h₁</span> <span class="fn">i</span> <span class="fn">(<span class="fn">f</span> <span class="fn">i</span>)</span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/Algebra/BigOperators/Finsupp/Basic.html#Finsupp.sum">sum</a></span> <span class="fn">h₁</span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn">0</span></div></div></div></div><div class="decl" id="Finsupp.sum_pos"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L64-L65">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.sum_pos" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.sum_pos"><span class="name">Finsupp</span>.<span class="name">sum_pos</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Defs.html#IsOrderedCancelAddMonoid">IsOrderedCancelAddMonoid</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Unbundled/Defs.html#AddLeftStrictMono">AddLeftStrictMono</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn"><span class="fn">α</span> → <span class="fn">β</span></span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn">∀ <span class="fn">i</span> ∈ <span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span>, <span class="fn">0</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LT.lt">&lt;</a> <span class="fn"><span class="fn">g</span> <span class="fn">i</span> <span class="fn">(<span class="fn">f</span> <span class="fn">i</span>)</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><span class="fn">f</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">0</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LT.lt">&lt;</a> <span class="fn"><span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/Algebra/BigOperators/Finsupp/Basic.html#Finsupp.sum">sum</a></span> <span class="fn">g</span></span></div></div></div></div><div class="decl" id="Finsupp.sum_pos'"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L67-L68">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.sum_pos'" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.sum_pos'"><span class="name">Finsupp</span>.<span class="name">sum_pos'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Defs.html#IsOrderedCancelAddMonoid">IsOrderedCancelAddMonoid</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Unbundled/Defs.html#AddLeftStrictMono">AddLeftStrictMono</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn"><span class="fn">α</span> → <span class="fn">β</span></span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn">∀ <span class="fn">i</span> ∈ <span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span>, <span class="fn">0</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn">g</span> <span class="fn">i</span> <span class="fn">(<span class="fn">f</span> <span class="fn">i</span>)</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn">∃ <span class="fn">i</span> ∈ <span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span>, <span class="fn">0</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LT.lt">&lt;</a> <span class="fn"><span class="fn">g</span> <span class="fn">i</span> <span class="fn">(<span class="fn">f</span> <span class="fn">i</span>)</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">0</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LT.lt">&lt;</a> <span class="fn"><span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/Algebra/BigOperators/Finsupp/Basic.html#Finsupp.sum">sum</a></span> <span class="fn">g</span></span></div></div></div></div><div class="decl" id="Finsupp.single_le_single"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L75-L76">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.single_le_single" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.single_le_single"><span class="name">Finsupp</span>.<span class="name">single_le_single</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">i</span> : <span class="fn">ι</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a </span><span class="fn">b</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">((<a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">fun₀</a> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">|</a> <span class="fn">i</span> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">=&gt;</a> <span class="fn">a</span>) <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">fun₀</a> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">|</a> <span class="fn">i</span> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">=&gt;</a> <span class="fn">b</span>) <span class="fn">↔</span> <span class="fn">a</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn">b</span></span></div></div></div></div><div class="decl" id="Finsupp.single_mono"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L78-L78">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.single_mono" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.single_mono"><span class="name">Finsupp</span>.<span class="name">single_mono</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">i</span> : <span class="fn">ι</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Order/Monotone/Defs.html#Monotone">Monotone</a> <span class="fn">(<a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">single</a> <span class="fn">i</span>)</span></span></div></div></div></div><div class="decl" id="Finsupp.single_nonneg"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L80-L80">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.single_nonneg" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.single_nonneg"><span class="name">Finsupp</span>.<span class="name">single_nonneg</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">i</span> : <span class="fn">ι</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">(<span class="fn">0</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">fun₀</a> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">|</a> <span class="fn">i</span> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">=&gt;</a> <span class="fn">a</span>) <span class="fn">↔</span> <span class="fn">0</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn">a</span></span></div></div></div></div><div class="decl" id="Finsupp.single_nonpos"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L81-L81">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.single_nonpos" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.single_nonpos"><span class="name">Finsupp</span>.<span class="name">single_nonpos</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">i</span> : <span class="fn">ι</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">(<a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">fun₀</a> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">|</a> <span class="fn">i</span> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">=&gt;</a> <span class="fn">a</span>) <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn">0</span> <span class="fn">↔</span> <span class="fn">a</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn">0</span></span></div></div></div></div><div class="decl" id="Finsupp.sum_le_sum_index"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L85-L91">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.sum_le_sum_index" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.sum_le_sum_index"><span class="name">Finsupp</span>.<span class="name">sum_le_sum_index</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Defs.html#IsOrderedAddMonoid">IsOrderedAddMonoid</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f₁ </span><span class="fn">f₂</span> : <span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">h</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn"><span class="fn">α</span> → <span class="fn">β</span></span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn">f₁</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn">f₂</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hh</span> : <span class="fn">∀ <span class="fn">i</span> ∈ <span class="fn"><span class="fn"><span class="fn">f₁</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span> <span class="fn">∪</span> <span class="fn"><span class="fn">f₂</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span></span>, <span class="fn"><a href="../../.././Mathlib/Order/Monotone/Defs.html#Monotone">Monotone</a> <span class="fn">(<span class="fn">h</span> <span class="fn">i</span>)</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hh₀</span> : <span class="fn">∀ <span class="fn">i</span> ∈ <span class="fn"><span class="fn"><span class="fn">f₁</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span> <span class="fn">∪</span> <span class="fn"><span class="fn">f₂</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span></span>, <span class="fn"><span class="fn"><span class="fn">h</span> <span class="fn">i</span> <span class="fn">0</span></span> <span class="fn">=</span> <span class="fn">0</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f₁</span>.<a href="../../.././Mathlib/Algebra/BigOperators/Finsupp/Basic.html#Finsupp.sum">sum</a></span> <span class="fn">h</span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn"><span class="fn">f₂</span>.<a href="../../.././Mathlib/Algebra/BigOperators/Finsupp/Basic.html#Finsupp.sum">sum</a></span> <span class="fn">h</span></span></div></div></div></div><div class="mod_doc"><h3 id="Algebraic-order-structures" class="markdown-heading">Algebraic order structures <a class="hover-link" href="#Algebraic-order-structures">#</a></h3></div><div class="decl" id="Finsupp.isOrderedAddMonoid"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L102-L103">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.isOrderedAddMonoid" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.isOrderedAddMonoid"><span class="name">Finsupp</span>.<span class="name">isOrderedAddMonoid</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Defs.html#IsOrderedAddMonoid">IsOrderedAddMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Defs.html#IsOrderedAddMonoid">IsOrderedAddMonoid</a> (<span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>)</span></div></div></div></div><div class="decl" id="Finsupp.mapDomain_mono"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L105-L107">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.mapDomain_mono" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.mapDomain_mono"><span class="name">Finsupp</span>.<span class="name">mapDomain_mono</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">κ</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Defs.html#IsOrderedAddMonoid">IsOrderedAddMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">κ</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Order/Monotone/Defs.html#Monotone">Monotone</a> <span class="fn">(<a href="../../.././Mathlib/Data/Finsupp/Basic.html#Finsupp.mapDomain">mapDomain</a> <span class="fn">f</span>)</span></span></div></div></div></div><div class="decl" id="Finsupp.mapDomain_nonneg"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L109-L109">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.mapDomain_nonneg" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.mapDomain_nonneg"><span class="name">Finsupp</span>.<span class="name">mapDomain_nonneg</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">κ</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Defs.html#IsOrderedAddMonoid">IsOrderedAddMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">κ</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn">0</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn">g</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">0</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><a href="../../.././Mathlib/Data/Finsupp/Basic.html#Finsupp.mapDomain">mapDomain</a> <span class="fn">f</span> <span class="fn">g</span></span></div></div></div></div><div class="decl" id="Finsupp.mapDomain_nonpos"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L110-L110">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.mapDomain_nonpos" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.mapDomain_nonpos"><span class="name">Finsupp</span>.<span class="name">mapDomain_nonpos</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">κ</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Defs.html#IsOrderedAddMonoid">IsOrderedAddMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">κ</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn">g</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn">0</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Data/Finsupp/Basic.html#Finsupp.mapDomain">mapDomain</a> <span class="fn">f</span> <span class="fn">g</span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn">0</span></div></div></div></div><div class="decl" id="Finsupp.single_le_sum"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L112-L121">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.single_le_sum" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.single_le_sum"><span class="name">Finsupp</span>.<span class="name">single_le_sum</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <a href="../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">N</span> : <a href="../../.././foundational_types.html">Type</a> u_7}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">N</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">N</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Defs.html#IsOrderedAddMonoid">IsOrderedAddMonoid</a> <span class="fn">N</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">α</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">M</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn"><span class="fn">α</span> → <span class="fn"><span class="fn">M</span> → <span class="fn">N</span></span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn">0</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn">fun (<span class="fn">x1</span> : <span class="fn">α</span>) (<span class="fn">x2</span> : <span class="fn">M</span>) =&gt; <span class="fn"><span class="fn">g</span> <span class="fn">x1</span> <span class="fn">x2</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">fun₀</a> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">|</a> <span class="fn">a</span> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">=&gt;</a> <span class="fn"><span class="fn">f</span> <span class="fn">a</span></span>).<a href="../../.././Mathlib/Algebra/BigOperators/Finsupp/Basic.html#Finsupp.sum">sum</a></span> <span class="fn">g</span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/Algebra/BigOperators/Finsupp/Basic.html#Finsupp.sum">sum</a></span> <span class="fn">g</span></span></div></div></div></div><div class="decl" id="Finsupp.single_eval_le_sum"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L123-L127">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.single_eval_le_sum" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.single_eval_le_sum"><span class="name">Finsupp</span>.<span class="name">single_eval_le_sum</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <a href="../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">N</span> : <a href="../../.././foundational_types.html">Type</a> u_7}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">N</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">N</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Defs.html#IsOrderedAddMonoid">IsOrderedAddMonoid</a> <span class="fn">N</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">α</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">M</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn"><span class="fn">M</span> → <span class="fn">N</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><span class="fn"><span class="fn">g</span> <span class="fn">0</span></span> <span class="fn">=</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn">0</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">M</span>) =&gt; <span class="fn"><span class="fn">g</span> <span class="fn">x</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">g</span> <span class="fn">(<span class="fn">f</span> <span class="fn">a</span>)</span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/Algebra/BigOperators/Finsupp/Basic.html#Finsupp.sum">sum</a></span> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">α</span>) (<span class="fn">m</span> : <span class="fn">M</span>) =&gt; <span class="fn"><span class="fn">g</span> <span class="fn">m</span></span></span></span></div></div></div></div><div class="decl" id="Finsupp.isOrderedCancelAddMonoid"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L131-L133">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.isOrderedCancelAddMonoid" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.isOrderedCancelAddMonoid"><span class="name">Finsupp</span>.<span class="name">isOrderedCancelAddMonoid</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Defs.html#IsOrderedCancelAddMonoid">IsOrderedCancelAddMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Defs.html#IsOrderedCancelAddMonoid">IsOrderedCancelAddMonoid</a> (<span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>)</span></div></div></div></div><div class="decl" id="Finsupp.addLeftReflectLE"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L135-L137">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.addLeftReflectLE" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.addLeftReflectLE"><span class="name">Finsupp</span>.<span class="name">addLeftReflectLE</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Unbundled/Defs.html#AddLeftReflectLE">AddLeftReflectLE</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Unbundled/Defs.html#AddLeftReflectLE">AddLeftReflectLE</a> (<span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>)</span></div></div></div></div><div class="decl" id="Finsupp.instPosSMulMono"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L142-L143">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.instPosSMulMono" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.instPosSMulMono"><span class="name">Finsupp</span>.<span class="name">instPosSMulMono</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Action/Defs.html#SMulZeroClass">SMulZeroClass</a> <span class="fn">α</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Module/Defs.html#PosSMulMono">PosSMulMono</a> <span class="fn">α</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Order/Module/Defs.html#PosSMulMono">PosSMulMono</a> <span class="fn">α</span> (<span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">β</span>)</span></div></div></div></div><div class="decl" id="Finsupp.instSMulPosMono"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L145-L146">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.instSMulPosMono" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.instSMulPosMono"><span class="name">Finsupp</span>.<span class="name">instSMulPosMono</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Action/Defs.html#SMulZeroClass">SMulZeroClass</a> <span class="fn">α</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Module/Defs.html#SMulPosMono">SMulPosMono</a> <span class="fn">α</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Order/Module/Defs.html#SMulPosMono">SMulPosMono</a> <span class="fn">α</span> (<span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">β</span>)</span></div></div></div></div><div class="decl" id="Finsupp.instPosSMulReflectLE"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L148-L149">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.instPosSMulReflectLE" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.instPosSMulReflectLE"><span class="name">Finsupp</span>.<span class="name">instPosSMulReflectLE</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Action/Defs.html#SMulZeroClass">SMulZeroClass</a> <span class="fn">α</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Module/Defs.html#PosSMulReflectLE">PosSMulReflectLE</a> <span class="fn">α</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Order/Module/Defs.html#PosSMulReflectLE">PosSMulReflectLE</a> <span class="fn">α</span> (<span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">β</span>)</span></div></div></div></div><div class="decl" id="Finsupp.instSMulPosReflectLE"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L151-L152">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.instSMulPosReflectLE" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.instSMulPosReflectLE"><span class="name">Finsupp</span>.<span class="name">instSMulPosReflectLE</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#Preorder">Preorder</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Action/Defs.html#SMulZeroClass">SMulZeroClass</a> <span class="fn">α</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Module/Defs.html#SMulPosReflectLE">SMulPosReflectLE</a> <span class="fn">α</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Order/Module/Defs.html#SMulPosReflectLE">SMulPosReflectLE</a> <span class="fn">α</span> (<span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">β</span>)</span></div></div></div></div><div class="decl" id="Finsupp.instPosSMulStrictMono"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L159-L160">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.instPosSMulStrictMono" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.instPosSMulStrictMono"><span class="name">Finsupp</span>.<span class="name">instPosSMulStrictMono</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Action/Defs.html#SMulWithZero">SMulWithZero</a> <span class="fn">α</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Module/Defs.html#PosSMulStrictMono">PosSMulStrictMono</a> <span class="fn">α</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Order/Module/Defs.html#PosSMulStrictMono">PosSMulStrictMono</a> <span class="fn">α</span> (<span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">β</span>)</span></div></div></div></div><div class="decl" id="Finsupp.instSMulPosStrictMono"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L162-L163">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.instSMulPosStrictMono" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.instSMulPosStrictMono"><span class="name">Finsupp</span>.<span class="name">instSMulPosStrictMono</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Action/Defs.html#SMulWithZero">SMulWithZero</a> <span class="fn">α</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Module/Defs.html#SMulPosStrictMono">SMulPosStrictMono</a> <span class="fn">α</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Order/Module/Defs.html#SMulPosStrictMono">SMulPosStrictMono</a> <span class="fn">α</span> (<span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">β</span>)</span></div></div></div></div><div class="decl" id="Finsupp.instSMulPosReflectLT"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L167-L168">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.instSMulPosReflectLT" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.instSMulPosReflectLT"><span class="name">Finsupp</span>.<span class="name">instSMulPosReflectLT</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/GroupWithZero/Action/Defs.html#SMulWithZero">SMulWithZero</a> <span class="fn">α</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Module/Defs.html#SMulPosReflectLT">SMulPosReflectLT</a> <span class="fn">α</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Order/Module/Defs.html#SMulPosReflectLT">SMulPosReflectLT</a> <span class="fn">α</span> (<span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">β</span>)</span></div></div></div></div><div class="decl" id="Finsupp.orderBot"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L176-L178">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.orderBot" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.orderBot"><span class="name">Finsupp</span>.<span class="name">orderBot</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Canonical/Defs.html#CanonicallyOrderedAdd">CanonicallyOrderedAdd</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Order/BoundedOrder/Basic.html#OrderBot">OrderBot</a> (<span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>)</span></div></div></div></div><div class="decl" id="Finsupp.bot_eq_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L180-L181">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.bot_eq_zero" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.bot_eq_zero"><span class="name">Finsupp</span>.<span class="name">bot_eq_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Canonical/Defs.html#CanonicallyOrderedAdd">CanonicallyOrderedAdd</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Order/Notation.html#Bot.bot">⊥</a> <span class="fn">=</span> <span class="fn">0</span></span></div></div></div></div><div class="decl" id="Finsupp.add_eq_zero_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L183-L185">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.add_eq_zero_iff" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.add_eq_zero_iff"><span class="name">Finsupp</span>.<span class="name">add_eq_zero_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Canonical/Defs.html#CanonicallyOrderedAdd">CanonicallyOrderedAdd</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f </span><span class="fn">g</span> : <span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">+</span> <span class="fn">g</span></span> <span class="fn">=</span> <span class="fn">0</span></span> <span class="fn">↔</span> <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">=</span> <span class="fn">0</span></span> <span class="fn">∧</span> <span class="fn"><span class="fn">g</span> <span class="fn">=</span> <span class="fn">0</span></span></span></span></div></div></div></div><div class="decl" id="Finsupp.le_iff'"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L187-L190">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.le_iff'" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.le_iff'"><span class="name">Finsupp</span>.<span class="name">le_iff'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Canonical/Defs.html#CanonicallyOrderedAdd">CanonicallyOrderedAdd</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f </span><span class="fn">g</span> : <span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><a href="../../.././Mathlib/Data/Finset/Defs.html#Finset">Finset</a> <span class="fn">ι</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span> <span class="fn">⊆</span> <span class="fn">s</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">f</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn">g</span> <span class="fn">↔</span> <span class="fn">∀ <span class="fn">i</span> ∈ <span class="fn">s</span>, <span class="fn"><span class="fn">f</span> <span class="fn">i</span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn">g</span> <span class="fn">i</span></span></span></span></div></div></div></div><div class="decl" id="Finsupp.le_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L192-L193">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.le_iff" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.le_iff"><span class="name">Finsupp</span>.<span class="name">le_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Canonical/Defs.html#CanonicallyOrderedAdd">CanonicallyOrderedAdd</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f </span><span class="fn">g</span> : <span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">f</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn">g</span> <span class="fn">↔</span> <span class="fn">∀ <span class="fn">i</span> ∈ <span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span>, <span class="fn"><span class="fn">f</span> <span class="fn">i</span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn">g</span> <span class="fn">i</span></span></span></span></div></div></div></div><div class="decl" id="Finsupp.support_monotone"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L196-L197">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.support_monotone" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.support_monotone"><span class="name">Finsupp</span>.<span class="name">support_monotone</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Canonical/Defs.html#CanonicallyOrderedAdd">CanonicallyOrderedAdd</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Order/Monotone/Defs.html#Monotone">Monotone</a> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span></div></div></div></div><div class="decl" id="Finsupp.support_mono"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L199-L199">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.support_mono" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.support_mono"><span class="name">Finsupp</span>.<span class="name">support_mono</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Canonical/Defs.html#CanonicallyOrderedAdd">CanonicallyOrderedAdd</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f </span><span class="fn">g</span> : <span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hfg</span> : <span class="fn">f</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn">g</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span> <span class="fn">⊆</span> <span class="fn"><span class="fn">g</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span></span></div></div></div></div><div class="decl" id="Finsupp.decidableLE"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L201-L202">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.decidableLE" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.decidableLE"><span class="name">Finsupp</span>.<span class="name">decidableLE</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Canonical/Defs.html#CanonicallyOrderedAdd">CanonicallyOrderedAdd</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableLE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">DecidableLE</span> (<span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>)</span></div></div></div></div><div class="decl" id="Finsupp.decidableLT"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L204-L205">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.decidableLT" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.decidableLT"><span class="name">Finsupp</span>.<span class="name">decidableLT</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Canonical/Defs.html#CanonicallyOrderedAdd">CanonicallyOrderedAdd</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableLE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">DecidableLT</span> (<span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>)</span></div></div></div></div><div class="decl" id="Finsupp.single_le_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L207-L209">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.single_le_iff" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.single_le_iff"><span class="name">Finsupp</span>.<span class="name">single_le_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Canonical/Defs.html#CanonicallyOrderedAdd">CanonicallyOrderedAdd</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">i</span> : <span class="fn">ι</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">α</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">(<a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">fun₀</a> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">|</a> <span class="fn">i</span> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">=&gt;</a> <span class="fn">x</span>) <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn">f</span> <span class="fn">↔</span> <span class="fn">x</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn">f</span> <span class="fn">i</span></span></span></div></div></div></div><div class="decl" id="Finsupp.tsub"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L213-L216">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.tsub" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">noncomputable instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.tsub"><span class="name">Finsupp</span>.<span class="name">tsub</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Canonical/Defs.html#CanonicallyOrderedAdd">CanonicallyOrderedAdd</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Sub</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Sub/Defs.html#OrderedSub">OrderedSub</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Sub</span> (<span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>)</span></div></div><p>This is called <code><a href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.tsub">tsub</a></code> for truncated subtraction, to distinguish it with subtraction in an
+additive group.</p></div></div><div class="decl" id="Finsupp.orderedSub"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L218-L219">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.orderedSub" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.orderedSub"><span class="name">Finsupp</span>.<span class="name">orderedSub</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Canonical/Defs.html#CanonicallyOrderedAdd">CanonicallyOrderedAdd</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Sub</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Sub/Defs.html#OrderedSub">OrderedSub</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Order/Sub/Defs.html#OrderedSub">OrderedSub</a> (<span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>)</span></div></div></div></div><div class="decl" id="Finsupp.instCanonicallyOrderedAddOfAddLeftMono"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L221-L224">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.instCanonicallyOrderedAddOfAddLeftMono" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.instCanonicallyOrderedAddOfAddLeftMono"><span class="name">Finsupp</span>.<span class="name">instCanonicallyOrderedAddOfAddLeftMono</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Canonical/Defs.html#CanonicallyOrderedAdd">CanonicallyOrderedAdd</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Sub</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Sub/Defs.html#OrderedSub">OrderedSub</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Unbundled/Defs.html#AddLeftMono">AddLeftMono</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Canonical/Defs.html#CanonicallyOrderedAdd">CanonicallyOrderedAdd</a> (<span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>)</span></div></div></div></div><div class="decl" id="Finsupp.coe_tsub"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L226-L226">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.coe_tsub" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.coe_tsub"><span class="name">Finsupp</span>.<span class="name">coe_tsub</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Canonical/Defs.html#CanonicallyOrderedAdd">CanonicallyOrderedAdd</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Sub</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Sub/Defs.html#OrderedSub">OrderedSub</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f </span><span class="fn">g</span> : <span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">⇑<span class="fn">(<span class="fn">f</span> <span class="fn">-</span> <span class="fn">g</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">⇑<span class="fn">f</span></span> <span class="fn">-</span> <span class="fn">⇑<span class="fn">g</span></span></span></span></div></div></div></div><div class="decl" id="Finsupp.tsub_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L228-L229">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.tsub_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.tsub_apply"><span class="name">Finsupp</span>.<span class="name">tsub_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Canonical/Defs.html#CanonicallyOrderedAdd">CanonicallyOrderedAdd</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Sub</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Sub/Defs.html#OrderedSub">OrderedSub</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f </span><span class="fn">g</span> : <span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">ι</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">f</span> <span class="fn">-</span> <span class="fn">g</span>)</span> <span class="fn">a</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">a</span></span> <span class="fn">-</span> <span class="fn"><span class="fn">g</span> <span class="fn">a</span></span></span></span></div></div></div></div><div class="decl" id="Finsupp.single_tsub"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L231-L236">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.single_tsub" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.single_tsub"><span class="name">Finsupp</span>.<span class="name">single_tsub</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Canonical/Defs.html#CanonicallyOrderedAdd">CanonicallyOrderedAdd</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Sub</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Sub/Defs.html#OrderedSub">OrderedSub</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">i</span> : <span class="fn">ι</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a </span><span class="fn">b</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">(<a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">fun₀</a> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">|</a> <span class="fn">i</span> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">=&gt;</a> <span class="fn"><span class="fn">a</span> <span class="fn">-</span> <span class="fn">b</span></span>) <span class="fn">=</span> <span class="fn">(<a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">fun₀</a> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">|</a> <span class="fn">i</span> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">=&gt;</a> <span class="fn">a</span>) <span class="fn">-</span> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">fun₀</a> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">|</a> <span class="fn">i</span> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">=&gt;</a> <span class="fn">b</span></span></span></div></div></div></div><div class="decl" id="Finsupp.support_tsub"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L238-L240">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.support_tsub" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.support_tsub"><span class="name">Finsupp</span>.<span class="name">support_tsub</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Canonical/Defs.html#CanonicallyOrderedAdd">CanonicallyOrderedAdd</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Sub</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Sub/Defs.html#OrderedSub">OrderedSub</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f1 </span><span class="fn">f2</span> : <span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">f1</span> <span class="fn">-</span> <span class="fn">f2</span>)</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span> <span class="fn">⊆</span> <span class="fn"><span class="fn">f1</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span></span></div></div></div></div><div class="decl" id="Finsupp.subset_support_tsub"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L242-L244">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.subset_support_tsub" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.subset_support_tsub"><span class="name">Finsupp</span>.<span class="name">subset_support_tsub</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Canonical/Defs.html#CanonicallyOrderedAdd">CanonicallyOrderedAdd</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Sub</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Sub/Defs.html#OrderedSub">OrderedSub</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f1 </span><span class="fn">f2</span> : <span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f1</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span> <a href="../../.././Mathlib/Order/BooleanAlgebra/Defs.html#SDiff.sdiff">\</a> <span class="fn"><span class="fn">f2</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span> <span class="fn">⊆</span> <span class="fn"><span class="fn">(<span class="fn">f1</span> <span class="fn">-</span> <span class="fn">f2</span>)</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span></span></div></div></div></div><div class="decl" id="Finsupp.support_inf"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L252-L257">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.support_inf" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.support_inf"><span class="name">Finsupp</span>.<span class="name">support_inf</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/LinearOrder.html#LinearOrder">LinearOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Canonical/Defs.html#CanonicallyOrderedAdd">CanonicallyOrderedAdd</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">ι</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f </span><span class="fn">g</span> : <span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">f</span> ⊓ <span class="fn">g</span>)</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span> <span class="fn">∩</span> <span class="fn"><span class="fn">g</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span></span></span></div></div></div></div><div class="decl" id="Finsupp.support_sup"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L259-L263">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.support_sup" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.support_sup"><span class="name">Finsupp</span>.<span class="name">support_sup</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/LinearOrder.html#LinearOrder">LinearOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Canonical/Defs.html#CanonicallyOrderedAdd">CanonicallyOrderedAdd</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">ι</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f </span><span class="fn">g</span> : <span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">f</span> ⊔ <span class="fn">g</span>)</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span> <span class="fn">∪</span> <span class="fn"><span class="fn">g</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span></span></span></div></div></div></div><div class="decl" id="Finsupp.disjoint_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L265-L269">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.disjoint_iff" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.disjoint_iff"><span class="name">Finsupp</span>.<span class="name">disjoint_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/LinearOrder.html#LinearOrder">LinearOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Monoid/Canonical/Defs.html#CanonicallyOrderedAdd">CanonicallyOrderedAdd</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f </span><span class="fn">g</span> : <span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Order/Disjoint.html#Disjoint">Disjoint</a> <span class="fn">f</span> <span class="fn">g</span></span> <span class="fn">↔</span> <span class="fn"><a href="../../.././Mathlib/Order/Disjoint.html#Disjoint">Disjoint</a> <span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span> <span class="fn"><span class="fn">g</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span></span></span></div></div></div></div><div class="mod_doc"><h3 id="Some-lemmas-about-ℕ" class="markdown-heading">Some lemmas about <code>ℕ</code> <a class="hover-link" href="#Some-lemmas-about-ℕ">#</a></h3></div><div class="decl" id="Finsupp.sub_single_one_add"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L278-L280">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.sub_single_one_add" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.sub_single_one_add"><span class="name">Finsupp</span>.<span class="name">sub_single_one_add</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">ι</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">u </span><span class="fn">u'</span> : <span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn"><span class="fn">u</span> <span class="fn">a</span></span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">u</span> <span class="fn">-</span> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">fun₀</a> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">|</a> <span class="fn">a</span> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">=&gt;</a> <span class="fn">1</span>)</span> <span class="fn">+</span> <span class="fn">u'</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">u</span> <span class="fn">+</span> <span class="fn">u'</span></span> <span class="fn">-</span> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">fun₀</a> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">|</a> <span class="fn">a</span> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">=&gt;</a> <span class="fn">1</span></span></span></div></div></div></div><div class="decl" id="Finsupp.add_sub_single_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L282-L284">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.add_sub_single_one" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.add_sub_single_one"><span class="name">Finsupp</span>.<span class="name">add_sub_single_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">ι</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">u </span><span class="fn">u'</span> : <span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn"><span class="fn">u'</span> <span class="fn">a</span></span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">u</span> <span class="fn">+</span> <span class="fn">(<span class="fn">u'</span> <span class="fn">-</span> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">fun₀</a> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">|</a> <span class="fn">a</span> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">=&gt;</a> <span class="fn">1</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">u</span> <span class="fn">+</span> <span class="fn">u'</span></span> <span class="fn">-</span> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">fun₀</a> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">|</a> <span class="fn">a</span> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">=&gt;</a> <span class="fn">1</span></span></span></div></div></div></div><div class="decl" id="Finsupp.sub_add_single_one_cancel"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Data/Finsupp/Order.lean#L286-L288">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Data_Finsupp_Order.html#Finsupp.sub_add_single_one_cancel" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Data/Finsupp/Order.html#Finsupp.sub_add_single_one_cancel"><span class="name">Finsupp</span>.<span class="name">sub_add_single_one_cancel</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">u</span> : <span class="fn">ι</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">i</span> : <span class="fn">ι</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn"><span class="fn">u</span> <span class="fn">i</span></span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<span class="fn">(<span class="fn">u</span> <span class="fn">-</span> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">fun₀</a> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">|</a> <span class="fn">i</span> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">=&gt;</a> <span class="fn">1</span>)</span> <span class="fn">+</span> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">fun₀</a> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">|</a> <span class="fn">i</span> <a href="../../.././Mathlib/Data/Finsupp/Single.html#Finsupp.single">=&gt;</a> <span class="fn">1</span>)</span> <span class="fn">=</span> <span class="fn">u</span></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

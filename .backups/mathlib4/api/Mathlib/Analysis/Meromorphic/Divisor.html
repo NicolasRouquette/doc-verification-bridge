@@ -1,0 +1,561 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../.././style.css"></link><link rel="icon" href="../../.././favicon.svg"></link><link rel="mask-icon" href="../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.Analysis.Meromorphic.Divisor</title><script defer="true" src="../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../.././";</script><script>const MODULE_NAME="Mathlib.Analysis.Meromorphic.Divisor";</script><script type="module" src="../../.././jump-src.js"></script><script type="module" src="../../.././search.js"></script><script type="module" src="../../.././expand-nav.js"></script><script type="module" src="../../.././how-about.js"></script><script type="module" src="../../.././instances.js"></script><script type="module" src="../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">Analysis</span>.<span class="name">Meromorphic</span>.<span class="name">Divisor</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../.././Init.html">Init</a></li><li><a href="../../.././Mathlib/Topology/LocallyFinsupp.html">Mathlib.Topology.LocallyFinsupp</a></li><li><a href="../../.././Mathlib/Analysis/Meromorphic/Order.html">Mathlib.Analysis.Meromorphic.Order</a></li><li><a href="../../.././Mathlib/Algebra/Order/WithTop/Untop0.html">Mathlib.Algebra.Order.WithTop.Untop0</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.Analysis.Meromorphic.Divisor" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#MeromorphicOn.divisor"><span class="name">MeromorphicOn</span>.<span class="name">divisor</span></a></div><div class="nav_link"><a class="break_within" href="#MeromorphicOn.divisor_def"><span class="name">MeromorphicOn</span>.<span class="name">divisor_def</span></a></div><div class="nav_link"><a class="break_within" href="#MeromorphicOn.divisor_apply"><span class="name">MeromorphicOn</span>.<span class="name">divisor_apply</span></a></div><div class="nav_link"><a class="break_within" href="#MeromorphicOn.divisor_congr_codiscreteWithin_of_eqOn_compl"><span class="name">MeromorphicOn</span>.<span class="name">divisor_congr_codiscreteWithin_of_eqOn_compl</span></a></div><div class="nav_link"><a class="break_within" href="#MeromorphicOn.divisor_congr_codiscreteWithin"><span class="name">MeromorphicOn</span>.<span class="name">divisor_congr_codiscreteWithin</span></a></div><div class="nav_link"><a class="break_within" href="#MeromorphicOn.AnalyticOnNhd.divisor_nonneg"><span class="name">MeromorphicOn</span>.<span class="name">AnalyticOnNhd</span>.<span class="name">divisor_nonneg</span></a></div><div class="nav_link"><a class="break_within" href="#MeromorphicOn.divisor_const"><span class="name">MeromorphicOn</span>.<span class="name">divisor_const</span></a></div><div class="nav_link"><a class="break_within" href="#MeromorphicOn.divisor_intCast"><span class="name">MeromorphicOn</span>.<span class="name">divisor_intCast</span></a></div><div class="nav_link"><a class="break_within" href="#MeromorphicOn.divisor_natCast"><span class="name">MeromorphicOn</span>.<span class="name">divisor_natCast</span></a></div><div class="nav_link"><a class="break_within" href="#MeromorphicOn.divisor_ofNat"><span class="name">MeromorphicOn</span>.<span class="name">divisor_ofNat</span></a></div><div class="nav_link"><a class="break_within" href="#MeromorphicOn.min_divisor_le_divisor_add"><span class="name">MeromorphicOn</span>.<span class="name">min_divisor_le_divisor_add</span></a></div><div class="nav_link"><a class="break_within" href="#MeromorphicOn.negPart_divisor_add_le_max"><span class="name">MeromorphicOn</span>.<span class="name">negPart_divisor_add_le_max</span></a></div><div class="nav_link"><a class="break_within" href="#MeromorphicOn.negPart_divisor_add_le_add"><span class="name">MeromorphicOn</span>.<span class="name">negPart_divisor_add_le_add</span></a></div><div class="nav_link"><a class="break_within" href="#MeromorphicOn.divisor_smul"><span class="name">MeromorphicOn</span>.<span class="name">divisor_smul</span></a></div><div class="nav_link"><a class="break_within" href="#MeromorphicOn.divisor_fun_smul"><span class="name">MeromorphicOn</span>.<span class="name">divisor_fun_smul</span></a></div><div class="nav_link"><a class="break_within" href="#MeromorphicOn.divisor_mul"><span class="name">MeromorphicOn</span>.<span class="name">divisor_mul</span></a></div><div class="nav_link"><a class="break_within" href="#MeromorphicOn.divisor_fun_mul"><span class="name">MeromorphicOn</span>.<span class="name">divisor_fun_mul</span></a></div><div class="nav_link"><a class="break_within" href="#MeromorphicOn.divisor_inv"><span class="name">MeromorphicOn</span>.<span class="name">divisor_inv</span></a></div><div class="nav_link"><a class="break_within" href="#MeromorphicOn.divisor_fun_inv"><span class="name">MeromorphicOn</span>.<span class="name">divisor_fun_inv</span></a></div><div class="nav_link"><a class="break_within" href="#MeromorphicOn.divisor_pow"><span class="name">MeromorphicOn</span>.<span class="name">divisor_pow</span></a></div><div class="nav_link"><a class="break_within" href="#MeromorphicOn.divisor_fun_pow"><span class="name">MeromorphicOn</span>.<span class="name">divisor_fun_pow</span></a></div><div class="nav_link"><a class="break_within" href="#MeromorphicOn.divisor_zpow"><span class="name">MeromorphicOn</span>.<span class="name">divisor_zpow</span></a></div><div class="nav_link"><a class="break_within" href="#MeromorphicOn.divisor_fun_zpow"><span class="name">MeromorphicOn</span>.<span class="name">divisor_fun_zpow</span></a></div><div class="nav_link"><a class="break_within" href="#MeromorphicOn.divisor_restrict"><span class="name">MeromorphicOn</span>.<span class="name">divisor_restrict</span></a></div><div class="nav_link"><a class="break_within" href="#MeromorphicOn.negPart_divisor_add_of_analyticNhdOn_right"><span class="name">MeromorphicOn</span>.<span class="name">negPart_divisor_add_of_analyticNhdOn_right</span></a></div><div class="nav_link"><a class="break_within" href="#MeromorphicOn.negPart_divisor_add_of_analyticNhdOn_left"><span class="name">MeromorphicOn</span>.<span class="name">negPart_divisor_add_of_analyticNhdOn_left</span></a></div><div class="nav_link"><a class="break_within" href="#MeromorphicOn.divisor_sub_const_of_ne"><span class="name">MeromorphicOn</span>.<span class="name">divisor_sub_const_of_ne</span></a></div><div class="nav_link"><a class="break_within" href="#MeromorphicOn.divisor_sub_const_self"><span class="name">MeromorphicOn</span>.<span class="name">divisor_sub_const_self</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="The-Divisor-of-a-meromorphic-function" class="markdown-heading">The Divisor of a meromorphic function <a class="hover-link" href="#The-Divisor-of-a-meromorphic-function">#</a></h1><p>This file defines the divisor of a meromorphic function and proves the most basic lemmas about those
+divisors. The lemma <code><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor_restrict">MeromorphicOn.divisor_restrict</a></code> guarantees compatibility between restrictions
+of divisors and of meromorphic functions to subsets of their domain of definition.</p></div><div class="mod_doc"><h2 id="Definition-of-the-Divisor" class="markdown-heading">Definition of the Divisor <a class="hover-link" href="#Definition-of-the-Divisor">#</a></h2></div><div class="decl" id="MeromorphicOn.divisor"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean#L34-L54">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Analysis_Meromorphic_Divisor.html#MeromorphicOn.divisor" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor"><span class="name">MeromorphicOn</span>.<span class="name">divisor</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#NontriviallyNormedField">NontriviallyNormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">𝕜</span> → <span class="fn">E</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">U</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Topology/LocallyFinsupp.html#Function.locallyFinsuppWithin">Function.locallyFinsuppWithin</a> <span class="fn">U</span> <span class="fn">ℤ</span></span></div></div><p>The divisor of a meromorphic function <code>f</code>, mapping a point <code>z</code> to the order of <code>f</code> at <code>z</code>, and to
+zero if the order is infinite.</p><details id="instances-for-list-MeromorphicOn.divisor" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="MeromorphicOn.divisor_def"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean#L57-L60">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Analysis_Meromorphic_Divisor.html#MeromorphicOn.divisor_def" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor_def"><span class="name">MeromorphicOn</span>.<span class="name">divisor_def</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#NontriviallyNormedField">NontriviallyNormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">z</span> : <span class="fn">𝕜</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">𝕜</span> → <span class="fn">E</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">U</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f</span> <span class="fn">U</span>)</span> <span class="fn">z</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">if</span> <span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Basic.html#MeromorphicOn">MeromorphicOn</a> <span class="fn">f</span> <span class="fn">U</span></span> <span class="fn">∧</span> <span class="fn"><span class="fn">z</span> <span class="fn">∈</span> <span class="fn">U</span></span></span> <span class="fn">then</span> <span class="fn"><span class="fn">(<a href="../../.././Mathlib/Analysis/Meromorphic/Order.html#meromorphicOrderAt">meromorphicOrderAt</a> <span class="fn">f</span> <span class="fn">z</span>)</span>.<a href="../../.././Mathlib/Algebra/Order/WithTop/Untop0.html#WithTop.untop₀">untop₀</a></span> <span class="fn">else</span> <span class="fn">0</span></span></span></div></div><p>Definition of the divisor</p></div></div><div class="decl" id="MeromorphicOn.divisor_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean#L62-L68">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Analysis_Meromorphic_Divisor.html#MeromorphicOn.divisor_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor_apply"><span class="name">MeromorphicOn</span>.<span class="name">divisor_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#NontriviallyNormedField">NontriviallyNormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">z</span> : <span class="fn">𝕜</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">𝕜</span> → <span class="fn">E</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Basic.html#MeromorphicOn">MeromorphicOn</a> <span class="fn">f</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hz</span> : <span class="fn"><span class="fn">z</span> <span class="fn">∈</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f</span> <span class="fn">U</span>)</span> <span class="fn">z</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">(<a href="../../.././Mathlib/Analysis/Meromorphic/Order.html#meromorphicOrderAt">meromorphicOrderAt</a> <span class="fn">f</span> <span class="fn">z</span>)</span>.<a href="../../.././Mathlib/Algebra/Order/WithTop/Untop0.html#WithTop.untop₀">untop₀</a></span></span></div></div><p>Simplifier lemma: on <code>U</code>, the divisor of a function <code>f</code> that is meromorphic on <code>U</code> evaluates to
+<code>order.untop₀</code>.</p></div></div><div class="mod_doc"><h2 id="Congruence-Lemmas" class="markdown-heading">Congruence Lemmas <a class="hover-link" href="#Congruence-Lemmas">#</a></h2></div><div class="decl" id="MeromorphicOn.divisor_congr_codiscreteWithin_of_eqOn_compl"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean#L74-L90">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Analysis_Meromorphic_Divisor.html#MeromorphicOn.divisor_congr_codiscreteWithin_of_eqOn_compl" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor_congr_codiscreteWithin_of_eqOn_compl"><span class="name">MeromorphicOn</span>.<span class="name">divisor_congr_codiscreteWithin_of_eqOn_compl</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#NontriviallyNormedField">NontriviallyNormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f₁ </span><span class="fn">f₂</span> : <span class="fn"><span class="fn">𝕜</span> → <span class="fn">E</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf₁</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Basic.html#MeromorphicOn">MeromorphicOn</a> <span class="fn">f₁</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h₁</span> : <span class="fn">f₁</span> <a href="../../.././Mathlib/Order/Filter/Defs.html#Filter.EventuallyEq">=ᶠ[</a><span class="fn"><a href="../../.././Mathlib/Topology/DiscreteSubset.html#Filter.codiscreteWithin">Filter.codiscreteWithin</a> <span class="fn">U</span></span><a href="../../.././Mathlib/Order/Filter/Defs.html#Filter.EventuallyEq">]</a> <span class="fn">f₂</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h₂</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Operations.html#Set.EqOn">Set.EqOn</a> <span class="fn">f₁</span> <span class="fn">f₂</span> <span class="fn">U</span><a href="../../.././Mathlib/Order/Notation.html#Compl.compl">ᶜ</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f₁</span> <span class="fn">U</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f₂</span> <span class="fn">U</span></span></span></div></div><p>If <code>f₁</code> is meromorphic on <code>U</code>, if <code>f₂</code> agrees with <code>f₁</code> on a codiscrete subset of <code>U</code> and outside of
+<code>U</code>, then <code>f₁</code> and <code>f₂</code> induce the same divisors on <code>U</code>.</p></div></div><div class="decl" id="MeromorphicOn.divisor_congr_codiscreteWithin"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean#L92-L113">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Analysis_Meromorphic_Divisor.html#MeromorphicOn.divisor_congr_codiscreteWithin" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor_congr_codiscreteWithin"><span class="name">MeromorphicOn</span>.<span class="name">divisor_congr_codiscreteWithin</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#NontriviallyNormedField">NontriviallyNormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f₁ </span><span class="fn">f₂</span> : <span class="fn"><span class="fn">𝕜</span> → <span class="fn">E</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h₁</span> : <span class="fn">f₁</span> <a href="../../.././Mathlib/Order/Filter/Defs.html#Filter.EventuallyEq">=ᶠ[</a><span class="fn"><a href="../../.././Mathlib/Topology/DiscreteSubset.html#Filter.codiscreteWithin">Filter.codiscreteWithin</a> <span class="fn">U</span></span><a href="../../.././Mathlib/Order/Filter/Defs.html#Filter.EventuallyEq">]</a> <span class="fn">f₂</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h₂</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#IsOpen">IsOpen</a> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f₁</span> <span class="fn">U</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f₂</span> <span class="fn">U</span></span></span></div></div><p>If two functions differ only on a discrete set of an open, then they induce the same divisors.</p></div></div><div class="mod_doc"><h2 id="Divisors-of-Analytic-Functions" class="markdown-heading">Divisors of Analytic Functions <a class="hover-link" href="#Divisors-of-Analytic-Functions">#</a></h2></div><div class="decl" id="MeromorphicOn.AnalyticOnNhd.divisor_nonneg"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean#L119-L125">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Analysis_Meromorphic_Divisor.html#MeromorphicOn.AnalyticOnNhd.divisor_nonneg" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.AnalyticOnNhd.divisor_nonneg"><span class="name">MeromorphicOn</span>.<span class="name">AnalyticOnNhd</span>.<span class="name">divisor_nonneg</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#NontriviallyNormedField">NontriviallyNormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">𝕜</span> → <span class="fn">E</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Analytic/Basic.html#AnalyticOnNhd">AnalyticOnNhd</a> <span class="fn">𝕜</span> <span class="fn">f</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">0</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f</span> <span class="fn">U</span></span></div></div><p>Analytic functions have non-negative divisors.</p></div></div><div class="decl" id="MeromorphicOn.divisor_const"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean#L127-L139">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Analysis_Meromorphic_Divisor.html#MeromorphicOn.divisor_const" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor_const"><span class="name">MeromorphicOn</span>.<span class="name">divisor_const</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#NontriviallyNormedField">NontriviallyNormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">e</span> : <span class="fn">E</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">𝕜</span>) =&gt; <span class="fn">e</span>)</span> <span class="fn">U</span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div><p>The divisor of a constant function is <code>0</code>.</p></div></div><div class="decl" id="MeromorphicOn.divisor_intCast"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean#L141-L146">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Analysis_Meromorphic_Divisor.html#MeromorphicOn.divisor_intCast" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor_intCast"><span class="name">MeromorphicOn</span>.<span class="name">divisor_intCast</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#NontriviallyNormedField">NontriviallyNormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℤ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">(↑<span class="fn">n</span>)</span> <span class="fn">U</span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div><p>The divisor of a constant function is <code>0</code>.</p></div></div><div class="decl" id="MeromorphicOn.divisor_natCast"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean#L148-L153">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Analysis_Meromorphic_Divisor.html#MeromorphicOn.divisor_natCast" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor_natCast"><span class="name">MeromorphicOn</span>.<span class="name">divisor_natCast</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#NontriviallyNormedField">NontriviallyNormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">(↑<span class="fn">n</span>)</span> <span class="fn">U</span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div><p>The divisor of a constant function is <code>0</code>.</p></div></div><div class="decl" id="MeromorphicOn.divisor_ofNat"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean#L155-L161">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Analysis_Meromorphic_Divisor.html#MeromorphicOn.divisor_ofNat" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor_ofNat"><span class="name">MeromorphicOn</span>.<span class="name">divisor_ofNat</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#NontriviallyNormedField">NontriviallyNormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">(<span class="fn">OfNat.ofNat</span> <span class="fn">n</span>)</span> <span class="fn">U</span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div><p>The divisor of a constant function is <code>0</code>.</p></div></div><div class="mod_doc"><h2 id="Behavior-under-Standard-Operations" class="markdown-heading">Behavior under Standard Operations <a class="hover-link" href="#Behavior-under-Standard-Operations">#</a></h2></div><div class="decl" id="MeromorphicOn.min_divisor_le_divisor_add"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean#L167-L183">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Analysis_Meromorphic_Divisor.html#MeromorphicOn.min_divisor_le_divisor_add" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.min_divisor_le_divisor_add"><span class="name">MeromorphicOn</span>.<span class="name">min_divisor_le_divisor_add</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#NontriviallyNormedField">NontriviallyNormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f₁ </span><span class="fn">f₂</span> : <span class="fn"><span class="fn">𝕜</span> → <span class="fn">E</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">z</span> : <span class="fn">𝕜</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf₁</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Basic.html#MeromorphicOn">MeromorphicOn</a> <span class="fn">f₁</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hf₂</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Basic.html#MeromorphicOn">MeromorphicOn</a> <span class="fn">f₂</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h₁z</span> : <span class="fn"><span class="fn">z</span> <span class="fn">∈</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h₃</span> : <span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Order.html#meromorphicOrderAt">meromorphicOrderAt</a> <span class="fn">(<span class="fn">f₁</span> <span class="fn">+</span> <span class="fn">f₂</span>)</span> <span class="fn">z</span></span> <span class="fn">≠</span> <a href="../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Order/AddGroupWithTop.html#Min.min">min</a> <span class="fn">(<span class="fn">(<a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f₁</span> <span class="fn">U</span>)</span> <span class="fn">z</span>)</span> <span class="fn">(<span class="fn">(<a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f₂</span> <span class="fn">U</span>)</span> <span class="fn">z</span>)</span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn">(<a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">(<span class="fn">f₁</span> <span class="fn">+</span> <span class="fn">f₂</span>)</span> <span class="fn">U</span>)</span> <span class="fn">z</span></span></div></div><p>The divisor of <code>f₁ + f₂</code> is larger than or equal to the minimum of the divisors of <code>f₁</code> and <code>f₂</code>,
+respectively.</p></div></div><div class="decl" id="MeromorphicOn.negPart_divisor_add_le_max"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean#L185-L199">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Analysis_Meromorphic_Divisor.html#MeromorphicOn.negPart_divisor_add_le_max" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.negPart_divisor_add_le_max"><span class="name">MeromorphicOn</span>.<span class="name">negPart_divisor_add_le_max</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#NontriviallyNormedField">NontriviallyNormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f₁ </span><span class="fn">f₂</span> : <span class="fn"><span class="fn">𝕜</span> → <span class="fn">E</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf₁</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Basic.html#MeromorphicOn">MeromorphicOn</a> <span class="fn">f₁</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hf₂</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Basic.html#MeromorphicOn">MeromorphicOn</a> <span class="fn">f₂</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">(<a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">(<span class="fn">f₁</span> <span class="fn">+</span> <span class="fn">f₂</span>)</span> <span class="fn">U</span>)</span><a href="../../.././Mathlib/Algebra/Notation.html#NegPart.negPart">⁻</a> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn">(<a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f₁</span> <span class="fn">U</span>)</span><a href="../../.././Mathlib/Algebra/Notation.html#NegPart.negPart">⁻</a> ⊔ <span class="fn">(<a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f₂</span> <span class="fn">U</span>)</span><a href="../../.././Mathlib/Algebra/Notation.html#NegPart.negPart">⁻</a></span></div></div><p>The pole divisor of <code>f₁ + f₂</code> is smaller than or equal to the maximum of the pole divisors of <code>f₁</code>
+and <code>f₂</code>, respectively.</p></div></div><div class="decl" id="MeromorphicOn.negPart_divisor_add_le_add"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean#L201-L213">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Analysis_Meromorphic_Divisor.html#MeromorphicOn.negPart_divisor_add_le_add" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.negPart_divisor_add_le_add"><span class="name">MeromorphicOn</span>.<span class="name">negPart_divisor_add_le_add</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#NontriviallyNormedField">NontriviallyNormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f₁ </span><span class="fn">f₂</span> : <span class="fn"><span class="fn">𝕜</span> → <span class="fn">E</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf₁</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Basic.html#MeromorphicOn">MeromorphicOn</a> <span class="fn">f₁</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hf₂</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Basic.html#MeromorphicOn">MeromorphicOn</a> <span class="fn">f₂</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">(<a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">(<span class="fn">f₁</span> <span class="fn">+</span> <span class="fn">f₂</span>)</span> <span class="fn">U</span>)</span><a href="../../.././Mathlib/Algebra/Notation.html#NegPart.negPart">⁻</a> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn">(<a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f₁</span> <span class="fn">U</span>)</span><a href="../../.././Mathlib/Algebra/Notation.html#NegPart.negPart">⁻</a> <span class="fn">+</span> <span class="fn">(<a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f₂</span> <span class="fn">U</span>)</span><a href="../../.././Mathlib/Algebra/Notation.html#NegPart.negPart">⁻</a></span></div></div><p>The pole divisor of <code>f₁ + f₂</code> is smaller than or equal to the sum of the pole divisors of <code>f₁</code> and
+<code>f₂</code>, respectively.</p></div></div><div class="decl" id="MeromorphicOn.divisor_smul"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean#L215-L233">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Analysis_Meromorphic_Divisor.html#MeromorphicOn.divisor_smul" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor_smul"><span class="name">MeromorphicOn</span>.<span class="name">divisor_smul</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#NontriviallyNormedField">NontriviallyNormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f₁</span> : <span class="fn"><span class="fn">𝕜</span> → <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f₂</span> : <span class="fn"><span class="fn">𝕜</span> → <span class="fn">E</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h₁f₁</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Basic.html#MeromorphicOn">MeromorphicOn</a> <span class="fn">f₁</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h₁f₂</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Basic.html#MeromorphicOn">MeromorphicOn</a> <span class="fn">f₂</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h₂f₁</span> : <span class="fn">∀ <span class="fn">z</span> ∈ <span class="fn">U</span>, <span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Order.html#meromorphicOrderAt">meromorphicOrderAt</a> <span class="fn">f₁</span> <span class="fn">z</span></span> <span class="fn">≠</span> <a href="../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h₂f₂</span> : <span class="fn">∀ <span class="fn">z</span> ∈ <span class="fn">U</span>, <span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Order.html#meromorphicOrderAt">meromorphicOrderAt</a> <span class="fn">f₂</span> <span class="fn">z</span></span> <span class="fn">≠</span> <a href="../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">(<span class="fn">f₁</span> <span class="fn">•</span> <span class="fn">f₂</span>)</span> <span class="fn">U</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f₁</span> <span class="fn">U</span></span> <span class="fn">+</span> <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f₂</span> <span class="fn">U</span></span></span></span></div></div><p>If orders are finite, the divisor of the scalar product of two meromorphic functions is the sum of
+the divisors.</p><p>See <code>MeromorphicOn.exists_order_ne_top_iff_forall</code> and
+<code>MeromorphicOn.order_ne_top_of_isPreconnected</code> for two convenient criteria to guarantee conditions
+<code>h₂f₁</code> and <code>h₂f₂</code>.</p></div></div><div class="decl" id="MeromorphicOn.divisor_fun_smul"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean#L235-L243">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Analysis_Meromorphic_Divisor.html#MeromorphicOn.divisor_fun_smul" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor_fun_smul"><span class="name">MeromorphicOn</span>.<span class="name">divisor_fun_smul</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#NontriviallyNormedField">NontriviallyNormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f₁</span> : <span class="fn"><span class="fn">𝕜</span> → <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f₂</span> : <span class="fn"><span class="fn">𝕜</span> → <span class="fn">E</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h₁f₁</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Basic.html#MeromorphicOn">MeromorphicOn</a> <span class="fn">f₁</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h₁f₂</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Basic.html#MeromorphicOn">MeromorphicOn</a> <span class="fn">f₂</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h₂f₁</span> : <span class="fn">∀ <span class="fn">z</span> ∈ <span class="fn">U</span>, <span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Order.html#meromorphicOrderAt">meromorphicOrderAt</a> <span class="fn">f₁</span> <span class="fn">z</span></span> <span class="fn">≠</span> <a href="../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h₂f₂</span> : <span class="fn">∀ <span class="fn">z</span> ∈ <span class="fn">U</span>, <span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Order.html#meromorphicOrderAt">meromorphicOrderAt</a> <span class="fn">f₂</span> <span class="fn">z</span></span> <span class="fn">≠</span> <a href="../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">(fun (<span class="fn">z</span> : <span class="fn">𝕜</span>) =&gt; <span class="fn"><span class="fn"><span class="fn">f₁</span> <span class="fn">z</span></span> <span class="fn">•</span> <span class="fn"><span class="fn">f₂</span> <span class="fn">z</span></span></span>)</span> <span class="fn">U</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f₁</span> <span class="fn">U</span></span> <span class="fn">+</span> <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f₂</span> <span class="fn">U</span></span></span></span></div></div><p>If orders are finite, the divisor of the scalar product of two meromorphic functions is the sum of
+the divisors.</p></div></div><div class="decl" id="MeromorphicOn.divisor_mul"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean#L245-L256">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Analysis_Meromorphic_Divisor.html#MeromorphicOn.divisor_mul" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor_mul"><span class="name">MeromorphicOn</span>.<span class="name">divisor_mul</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#NontriviallyNormedField">NontriviallyNormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f₁ </span><span class="fn">f₂</span> : <span class="fn"><span class="fn">𝕜</span> → <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h₁f₁</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Basic.html#MeromorphicOn">MeromorphicOn</a> <span class="fn">f₁</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h₁f₂</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Basic.html#MeromorphicOn">MeromorphicOn</a> <span class="fn">f₂</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h₂f₁</span> : <span class="fn">∀ <span class="fn">z</span> ∈ <span class="fn">U</span>, <span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Order.html#meromorphicOrderAt">meromorphicOrderAt</a> <span class="fn">f₁</span> <span class="fn">z</span></span> <span class="fn">≠</span> <a href="../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h₂f₂</span> : <span class="fn">∀ <span class="fn">z</span> ∈ <span class="fn">U</span>, <span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Order.html#meromorphicOrderAt">meromorphicOrderAt</a> <span class="fn">f₂</span> <span class="fn">z</span></span> <span class="fn">≠</span> <a href="../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">(<span class="fn">f₁</span> <span class="fn">*</span> <span class="fn">f₂</span>)</span> <span class="fn">U</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f₁</span> <span class="fn">U</span></span> <span class="fn">+</span> <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f₂</span> <span class="fn">U</span></span></span></span></div></div><p>If orders are finite, the divisor of the product of two meromorphic functions is the sum of the
+divisors.</p><p>See <code>MeromorphicOn.exists_order_ne_top_iff_forall</code> and
+<code>MeromorphicOn.order_ne_top_of_isPreconnected</code> for two convenient criteria to guarantee conditions
+<code>h₂f₁</code> and <code>h₂f₂</code>.</p></div></div><div class="decl" id="MeromorphicOn.divisor_fun_mul"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean#L258-L266">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Analysis_Meromorphic_Divisor.html#MeromorphicOn.divisor_fun_mul" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor_fun_mul"><span class="name">MeromorphicOn</span>.<span class="name">divisor_fun_mul</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#NontriviallyNormedField">NontriviallyNormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f₁ </span><span class="fn">f₂</span> : <span class="fn"><span class="fn">𝕜</span> → <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h₁f₁</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Basic.html#MeromorphicOn">MeromorphicOn</a> <span class="fn">f₁</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h₁f₂</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Basic.html#MeromorphicOn">MeromorphicOn</a> <span class="fn">f₂</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h₂f₁</span> : <span class="fn">∀ <span class="fn">z</span> ∈ <span class="fn">U</span>, <span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Order.html#meromorphicOrderAt">meromorphicOrderAt</a> <span class="fn">f₁</span> <span class="fn">z</span></span> <span class="fn">≠</span> <a href="../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h₂f₂</span> : <span class="fn">∀ <span class="fn">z</span> ∈ <span class="fn">U</span>, <span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Order.html#meromorphicOrderAt">meromorphicOrderAt</a> <span class="fn">f₂</span> <span class="fn">z</span></span> <span class="fn">≠</span> <a href="../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">(fun (<span class="fn">z</span> : <span class="fn">𝕜</span>) =&gt; <span class="fn"><span class="fn"><span class="fn">f₁</span> <span class="fn">z</span></span> <span class="fn">*</span> <span class="fn"><span class="fn">f₂</span> <span class="fn">z</span></span></span>)</span> <span class="fn">U</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f₁</span> <span class="fn">U</span></span> <span class="fn">+</span> <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f₂</span> <span class="fn">U</span></span></span></span></div></div><p>If orders are finite, the divisor of the product of two meromorphic functions is the sum of the
+divisors.</p></div></div><div class="decl" id="MeromorphicOn.divisor_inv"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean#L268-L275">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Analysis_Meromorphic_Divisor.html#MeromorphicOn.divisor_inv" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor_inv"><span class="name">MeromorphicOn</span>.<span class="name">divisor_inv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#NontriviallyNormedField">NontriviallyNormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">𝕜</span> → <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f</span><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#Inv.inv">⁻¹</a> <span class="fn">U</span></span> <span class="fn">=</span> <a href="../../.././Mathlib/Algebra/Order/AddGroupWithTop.html#Neg.neg">-</a><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f</span> <span class="fn">U</span></span></span></div></div><p>The divisor of the inverse is the negative of the divisor.</p></div></div><div class="decl" id="MeromorphicOn.divisor_fun_inv"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean#L277-L279">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Analysis_Meromorphic_Divisor.html#MeromorphicOn.divisor_fun_inv" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor_fun_inv"><span class="name">MeromorphicOn</span>.<span class="name">divisor_fun_inv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#NontriviallyNormedField">NontriviallyNormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">𝕜</span> → <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">(fun (<span class="fn">z</span> : <span class="fn">𝕜</span>) =&gt; <span class="fn">(<span class="fn">f</span> <span class="fn">z</span>)</span><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#Inv.inv">⁻¹</a>)</span> <span class="fn">U</span></span> <span class="fn">=</span> <a href="../../.././Mathlib/Algebra/Order/AddGroupWithTop.html#Neg.neg">-</a><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f</span> <span class="fn">U</span></span></span></div></div><p>The divisor of the inverse is the negative of the divisor.</p></div></div><div class="decl" id="MeromorphicOn.divisor_pow"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean#L281-L292">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Analysis_Meromorphic_Divisor.html#MeromorphicOn.divisor_pow" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor_pow"><span class="name">MeromorphicOn</span>.<span class="name">divisor_pow</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#NontriviallyNormedField">NontriviallyNormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">𝕜</span> → <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Basic.html#MeromorphicOn">MeromorphicOn</a> <span class="fn">f</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">(<span class="fn">f</span> <span class="fn">^</span> <span class="fn">n</span>)</span> <span class="fn">U</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">n</span> <span class="fn">•</span> <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f</span> <span class="fn">U</span></span></span></span></div></div><p>If <code>f</code> is meromorphic, then the divisor of <code>f ^ n</code> is <code>n</code> times the divisor of <code>f</code>.</p></div></div><div class="decl" id="MeromorphicOn.divisor_fun_pow"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean#L294-L298">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Analysis_Meromorphic_Divisor.html#MeromorphicOn.divisor_fun_pow" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor_fun_pow"><span class="name">MeromorphicOn</span>.<span class="name">divisor_fun_pow</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#NontriviallyNormedField">NontriviallyNormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">𝕜</span> → <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Basic.html#MeromorphicOn">MeromorphicOn</a> <span class="fn">f</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">(fun (<span class="fn">z</span> : <span class="fn">𝕜</span>) =&gt; <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">z</span></span> <span class="fn">^</span> <span class="fn">n</span></span>)</span> <span class="fn">U</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">n</span> <span class="fn">•</span> <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f</span> <span class="fn">U</span></span></span></span></div></div><p>If <code>f</code> is meromorphic, then the divisor of <code>f ^ n</code> is <code>n</code> times the divisor of <code>f</code>.</p></div></div><div class="decl" id="MeromorphicOn.divisor_zpow"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean#L300-L311">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Analysis_Meromorphic_Divisor.html#MeromorphicOn.divisor_zpow" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor_zpow"><span class="name">MeromorphicOn</span>.<span class="name">divisor_zpow</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#NontriviallyNormedField">NontriviallyNormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">𝕜</span> → <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Basic.html#MeromorphicOn">MeromorphicOn</a> <span class="fn">f</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℤ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">(<span class="fn">f</span> <span class="fn">^</span> <span class="fn">n</span>)</span> <span class="fn">U</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">n</span> <span class="fn">•</span> <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f</span> <span class="fn">U</span></span></span></span></div></div><p>If <code>f</code> is meromorphic, then the divisor of <code>f ^ n</code> is <code>n</code> times the divisor of <code>f</code>.</p></div></div><div class="decl" id="MeromorphicOn.divisor_fun_zpow"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean#L313-L317">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Analysis_Meromorphic_Divisor.html#MeromorphicOn.divisor_fun_zpow" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor_fun_zpow"><span class="name">MeromorphicOn</span>.<span class="name">divisor_fun_zpow</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#NontriviallyNormedField">NontriviallyNormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">𝕜</span> → <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Basic.html#MeromorphicOn">MeromorphicOn</a> <span class="fn">f</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℤ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">(fun (<span class="fn">z</span> : <span class="fn">𝕜</span>) =&gt; <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">z</span></span> <span class="fn">^</span> <span class="fn">n</span></span>)</span> <span class="fn">U</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">n</span> <span class="fn">•</span> <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f</span> <span class="fn">U</span></span></span></span></div></div><p>If <code>f</code> is meromorphic, then the divisor of <code>f ^ n</code> is <code>n</code> times the divisor of <code>f</code>.</p></div></div><div class="decl" id="MeromorphicOn.divisor_restrict"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean#L319-L329">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Analysis_Meromorphic_Divisor.html#MeromorphicOn.divisor_restrict" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor_restrict"><span class="name">MeromorphicOn</span>.<span class="name">divisor_restrict</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#NontriviallyNormedField">NontriviallyNormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">𝕜</span> → <span class="fn">E</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Basic.html#MeromorphicOn">MeromorphicOn</a> <span class="fn">f</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hV</span> : <span class="fn"><span class="fn">V</span> <span class="fn">⊆</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f</span> <span class="fn">U</span>)</span>.<a href="../../.././Mathlib/Topology/LocallyFinsupp.html#Function.locallyFinsuppWithin.restrict">restrict</a></span> <span class="fn">hV</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f</span> <span class="fn">V</span></span></span></div></div><p>Taking the divisor of a meromorphic function commutes with restriction.</p></div></div><div class="decl" id="MeromorphicOn.negPart_divisor_add_of_analyticNhdOn_right"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean#L332-L352">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Analysis_Meromorphic_Divisor.html#MeromorphicOn.negPart_divisor_add_of_analyticNhdOn_right" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.negPart_divisor_add_of_analyticNhdOn_right"><span class="name">MeromorphicOn</span>.<span class="name">negPart_divisor_add_of_analyticNhdOn_right</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#NontriviallyNormedField">NontriviallyNormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f₁ </span><span class="fn">f₂</span> : <span class="fn"><span class="fn">𝕜</span> → <span class="fn">E</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf₁</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Basic.html#MeromorphicOn">MeromorphicOn</a> <span class="fn">f₁</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hf₂</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Analytic/Basic.html#AnalyticOnNhd">AnalyticOnNhd</a> <span class="fn">𝕜</span> <span class="fn">f₂</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">(<span class="fn">f₁</span> <span class="fn">+</span> <span class="fn">f₂</span>)</span> <span class="fn">U</span>)</span><a href="../../.././Mathlib/Algebra/Notation.html#NegPart.negPart">⁻</a> <span class="fn">=</span> <span class="fn">(<a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f₁</span> <span class="fn">U</span>)</span><a href="../../.././Mathlib/Algebra/Notation.html#NegPart.negPart">⁻</a></span></div></div><p>Adding an analytic function to a meromorphic one does not change the pole divisor.</p></div></div><div class="decl" id="MeromorphicOn.negPart_divisor_add_of_analyticNhdOn_left"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean#L354-L359">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Analysis_Meromorphic_Divisor.html#MeromorphicOn.negPart_divisor_add_of_analyticNhdOn_left" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.negPart_divisor_add_of_analyticNhdOn_left"><span class="name">MeromorphicOn</span>.<span class="name">negPart_divisor_add_of_analyticNhdOn_left</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#NontriviallyNormedField">NontriviallyNormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Group/Defs.html#NormedAddCommGroup">NormedAddCommGroup</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Module/Basic.html#NormedSpace">NormedSpace</a> <span class="fn">𝕜</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f₁ </span><span class="fn">f₂</span> : <span class="fn"><span class="fn">𝕜</span> → <span class="fn">E</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf₁</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Analytic/Basic.html#AnalyticOnNhd">AnalyticOnNhd</a> <span class="fn">𝕜</span> <span class="fn">f₁</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hf₂</span> : <span class="fn"><a href="../../.././Mathlib/Analysis/Meromorphic/Basic.html#MeromorphicOn">MeromorphicOn</a> <span class="fn">f₂</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">(<span class="fn">f₁</span> <span class="fn">+</span> <span class="fn">f₂</span>)</span> <span class="fn">U</span>)</span><a href="../../.././Mathlib/Algebra/Notation.html#NegPart.negPart">⁻</a> <span class="fn">=</span> <span class="fn">(<a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">f₂</span> <span class="fn">U</span>)</span><a href="../../.././Mathlib/Algebra/Notation.html#NegPart.negPart">⁻</a></span></div></div><p>Adding an analytic function to a meromorphic one does not change the pole divisor.</p></div></div><div class="decl" id="MeromorphicOn.divisor_sub_const_of_ne"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean#L362-L370">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Analysis_Meromorphic_Divisor.html#MeromorphicOn.divisor_sub_const_of_ne" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor_sub_const_of_ne"><span class="name">MeromorphicOn</span>.<span class="name">divisor_sub_const_of_ne</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#NontriviallyNormedField">NontriviallyNormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">z₀ </span><span class="fn">x</span> : <span class="fn">𝕜</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hx</span> : <span class="fn"><span class="fn">x</span> <span class="fn">≠</span> <span class="fn">z₀</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">𝕜</span>) =&gt; <span class="fn"><span class="fn">x</span> <span class="fn">-</span> <span class="fn">z₀</span></span>)</span> <span class="fn">U</span>)</span> <span class="fn">x</span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div><p>The divisor of the function <code>z ↦ z - z₀</code> at <code>x</code> is <code>0</code> if <code>x ≠ z₀</code>.</p></div></div><div class="decl" id="MeromorphicOn.divisor_sub_const_self"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Analysis/Meromorphic/Divisor.lean#L373-L377">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Analysis_Meromorphic_Divisor.html#MeromorphicOn.divisor_sub_const_self" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor_sub_const_self"><span class="name">MeromorphicOn</span>.<span class="name">divisor_sub_const_self</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#NontriviallyNormedField">NontriviallyNormedField</a> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">z₀</span> : <span class="fn">𝕜</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">𝕜</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">z₀</span> <span class="fn">∈</span> <span class="fn">U</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/Analysis/Meromorphic/Divisor.html#MeromorphicOn.divisor">divisor</a> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">𝕜</span>) =&gt; <span class="fn"><span class="fn">x</span> <span class="fn">-</span> <span class="fn">z₀</span></span>)</span> <span class="fn">U</span>)</span> <span class="fn">z₀</span></span> <span class="fn">=</span> <span class="fn">1</span></span></div></div><p>The divisor of the function <code>z ↦ z - z₀</code> at <code>z₀</code> is <code>1</code>.</p></div></div></main>
+<nav class="nav"><iframe src="../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

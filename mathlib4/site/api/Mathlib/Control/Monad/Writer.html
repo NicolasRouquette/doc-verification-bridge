@@ -1,0 +1,328 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../.././style.css"></link><link rel="icon" href="../../.././favicon.svg"></link><link rel="mask-icon" href="../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.Control.Monad.Writer</title><script defer="true" src="../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../.././";</script><script>const MODULE_NAME="Mathlib.Control.Monad.Writer";</script><script type="module" src="../../.././jump-src.js"></script><script type="module" src="../../.././search.js"></script><script type="module" src="../../.././expand-nav.js"></script><script type="module" src="../../.././how-about.js"></script><script type="module" src="../../.././instances.js"></script><script type="module" src="../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">Control</span>.<span class="name">Monad</span>.<span class="name">Writer</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Monad/Writer.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../.././Init.html">Init</a></li><li><a href="../../.././Mathlib/Algebra/Group/Defs.html">Mathlib.Algebra.Group.Defs</a></li><li><a href="../../.././Mathlib/Logic/Equiv/Defs.html">Mathlib.Logic.Equiv.Defs</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.Control.Monad.Writer" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#WriterT"><span class="name">WriterT</span></a></div><div class="nav_link"><a class="break_within" href="#Writer"><span class="name">Writer</span></a></div><div class="nav_link"><a class="break_within" href="#MonadWriter"><span class="name">MonadWriter</span></a></div><div class="nav_link"><a class="break_within" href="#instMonadWriterReaderT"><span class="name">instMonadWriterReaderT</span></a></div><div class="nav_link"><a class="break_within" href="#instMonadWriterStateTOfMonad"><span class="name">instMonadWriterStateTOfMonad</span></a></div><div class="nav_link"><a class="break_within" href="#WriterT.mk"><span class="name">WriterT</span>.<span class="name">mk</span></a></div><div class="nav_link"><a class="break_within" href="#WriterT.run"><span class="name">WriterT</span>.<span class="name">run</span></a></div><div class="nav_link"><a class="break_within" href="#WriterT.runThe"><span class="name">WriterT</span>.<span class="name">runThe</span></a></div><div class="nav_link"><a class="break_within" href="#WriterT.ext"><span class="name">WriterT</span>.<span class="name">ext</span></a></div><div class="nav_link"><a class="break_within" href="#WriterT.ext_iff"><span class="name">WriterT</span>.<span class="name">ext_iff</span></a></div><div class="nav_link"><a class="break_within" href="#WriterT.monad"><span class="name">WriterT</span>.<span class="name">monad</span></a></div><div class="nav_link"><a class="break_within" href="#WriterT.liftTell"><span class="name">WriterT</span>.<span class="name">liftTell</span></a></div><div class="nav_link"><a class="break_within" href="#WriterT.instMonadOfEmptyCollectionOfAppend"><span class="name">WriterT</span>.<span class="name">instMonadOfEmptyCollectionOfAppend</span></a></div><div class="nav_link"><a class="break_within" href="#WriterT.instMonadLiftOfEmptyCollection"><span class="name">WriterT</span>.<span class="name">instMonadLiftOfEmptyCollection</span></a></div><div class="nav_link"><a class="break_within" href="#WriterT.instMonadOfMonoid"><span class="name">WriterT</span>.<span class="name">instMonadOfMonoid</span></a></div><div class="nav_link"><a class="break_within" href="#WriterT.instMonadLiftOfMonoid"><span class="name">WriterT</span>.<span class="name">instMonadLiftOfMonoid</span></a></div><div class="nav_link"><a class="break_within" href="#WriterT.instLawfulMonad"><span class="name">WriterT</span>.<span class="name">instLawfulMonad</span></a></div><div class="nav_link"><a class="break_within" href="#WriterT.instMonadWriter"><span class="name">WriterT</span>.<span class="name">instMonadWriter</span></a></div><div class="nav_link"><a class="break_within" href="#WriterT.instMonadExcept"><span class="name">WriterT</span>.<span class="name">instMonadExcept</span></a></div><div class="nav_link"><a class="break_within" href="#WriterT.instMonadControlOfMonadLiftT"><span class="name">WriterT</span>.<span class="name">instMonadControlOfMonadLiftT</span></a></div><div class="nav_link"><a class="break_within" href="#WriterT.instMonadFunctor"><span class="name">WriterT</span>.<span class="name">instMonadFunctor</span></a></div><div class="nav_link"><a class="break_within" href="#WriterT.adapt"><span class="name">WriterT</span>.<span class="name">adapt</span></a></div><div class="nav_link"><a class="break_within" href="#MonadWriterAdapter"><span class="name">MonadWriterAdapter</span></a></div><div class="nav_link"><a class="break_within" href="#monadWriterAdapterTrans"><span class="name">monadWriterAdapterTrans</span></a></div><div class="nav_link"><a class="break_within" href="#instMonadWriterAdapterWriterTOfMonad"><span class="name">instMonadWriterAdapterWriterTOfMonad</span></a></div><div class="nav_link"><a class="break_within" href="#WriterT.equiv"><span class="name">WriterT</span>.<span class="name">equiv</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Writer-monads" class="markdown-heading">Writer monads <a class="hover-link" href="#Writer-monads">#</a></h1><p>This file introduces monads for managing immutable, appendable state.
+Common applications are logging monads where the monad logs messages as the
+computation progresses.</p><h2 id="References" class="markdown-heading">References <a class="hover-link" href="#References">#</a></h2><ul><li><a href="https://hackage.haskell.org/package/mtl-2.2.1/docs/Control-Monad-Writer-Class.html">https://hackage.haskell.org/package/mtl-2.2.1/docs/Control-Monad-Writer-Class.html</a></li><li><a href="https://web.cecs.pdx.edu/~mpj/pubs/springschool.html">Original Mark P Jones article introducing <code>Writer</code></a></li></ul></div><div class="decl" id="WriterT"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Monad/Writer.lean#L28-L34">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Control_Monad_Writer.html#WriterT" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Control/Monad/Writer.html#WriterT"><span class="name">WriterT</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">ω</span> : <a href="../../.././foundational_types.html">Type</a> u)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u → <a href="../../.././foundational_types.html">Type</a> v</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../.././foundational_types.html">Type</a> v</div></div><p>Adds a writable output of type <code>ω</code> to a monad.</p><p>The instances on this type assume that either <code>[Monoid ω]</code> or <code>[EmptyCollection ω] [Append ω]</code>.</p><p>Use <code><a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT.run">WriterT.run</a></code> to obtain the final value of this output.</p><details id="instances-for-list-WriterT" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Writer"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Monad/Writer.lean#L36-L36">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Control_Monad_Writer.html#Writer" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[reducible, inline]</div>
+<div class="decl_header"><span class="decl_kind">abbrev</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Control/Monad/Writer.html#Writer"><span class="name">Writer</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">ω </span><span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../.././foundational_types.html">Type</a> u_1</div></div><details id="instances-for-list-Writer" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="MonadWriter"><div class="class"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Monad/Writer.lean#L38-L44">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Control_Monad_Writer.html#MonadWriter" class="verification-badge comp-datatype" title="Computational datatype">🔶 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">class</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Control/Monad/Writer.html#MonadWriter"><span class="name">MonadWriter</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">ω</span> : <span class="fn"><span class="fn">outParam</span> <a href="../../.././foundational_types.html">(Type</a> u)</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u → <a href="../../.././foundational_types.html">Type</a> v</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../.././foundational_types.html">Type</a> (max (u + 1) v)</div></div><ul class="structure_fields" id="MonadWriter.mk"><li id="MonadWriter.tell" class="structure_field"><div class="structure_field_info">tell<span class="decl_args">
+<span class="fn">(<span class="fn">w</span> : <span class="fn">ω</span>)</span></span>
+ : <span class="fn"><span class="fn">M</span> <span class="fn">PUnit.{u + 1}</span></span></div><div class="structure_field_doc"><p>Emit an output <code>w</code>.</p></div></li><li id="MonadWriter.listen" class="structure_field"><div class="structure_field_info">listen<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">M</span> <span class="fn">α</span></span>)</span></span>
+ : <span class="fn"><span class="fn">M</span> <span class="fn">(<span class="fn">α</span> <span class="fn">×</span> <span class="fn">ω</span>)</span></span></div><div class="structure_field_doc"><p>Capture the output produced by <code>f</code>, without intercepting.</p></div></li><li id="MonadWriter.pass" class="structure_field"><div class="structure_field_info">pass<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">M</span> <span class="fn">(<span class="fn">α</span> <span class="fn">×</span> <span class="fn">(<span class="fn">ω</span> → <span class="fn">ω</span>)</span>)</span></span>)</span></span>
+ : <span class="fn"><span class="fn">M</span> <span class="fn">α</span></span></div><div class="structure_field_doc"><p>Buffer the output produced by <code>f</code> as <code>w</code>, then emit <code>(← f).2 w</code> in its place.</p></div></li></ul><details class="instances"><summary>Instances</summary><ul id="instances-list-MonadWriter" class="instances-list"></ul></details></div></div><div class="decl" id="instMonadWriterReaderT"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Monad/Writer.lean#L50-L53">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Control_Monad_Writer.html#instMonadWriterReaderT" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Control/Monad/Writer.html#instMonadWriterReaderT"><span class="name">instMonadWriterReaderT</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u → <a href="../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ω </span><span class="fn">ρ</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Control/Monad/Writer.html#MonadWriter">MonadWriter</a> <span class="fn">ω</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Control/Monad/Writer.html#MonadWriter">MonadWriter</a> <span class="fn">ω</span> <span class="fn">(<span class="fn">ReaderT</span> <span class="fn">ρ</span> <span class="fn">M</span>)</span></span></div></div></div></div><div class="decl" id="instMonadWriterStateTOfMonad"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Monad/Writer.lean#L55-L58">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Control_Monad_Writer.html#instMonadWriterStateTOfMonad" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Control/Monad/Writer.html#instMonadWriterStateTOfMonad"><span class="name">instMonadWriterStateTOfMonad</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u → <a href="../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ω </span><span class="fn">σ</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Monad</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Control/Monad/Writer.html#MonadWriter">MonadWriter</a> <span class="fn">ω</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Control/Monad/Writer.html#MonadWriter">MonadWriter</a> <span class="fn">ω</span> <span class="fn">(<span class="fn">StateT</span> <span class="fn">σ</span> <span class="fn">M</span>)</span></span></div></div></div></div><div class="decl" id="WriterT.mk"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Monad/Writer.lean#L62-L63">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Control_Monad_Writer.html#WriterT.mk" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[inline]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Control/Monad/Writer.html#WriterT.mk"><span class="name">WriterT</span>.<span class="name">mk</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u → <a href="../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α </span><span class="fn">ω</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">cmd</span> : <span class="fn"><span class="fn">M</span> <span class="fn">(<span class="fn">α</span> <span class="fn">×</span> <span class="fn">ω</span>)</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT">WriterT</a> <span class="fn">ω</span> <span class="fn">M</span> <span class="fn">α</span></span></div></div><details id="instances-for-list-WriterT.mk" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="WriterT.run"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Monad/Writer.lean#L64-L65">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Control_Monad_Writer.html#WriterT.run" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[inline]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Control/Monad/Writer.html#WriterT.run"><span class="name">WriterT</span>.<span class="name">run</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u → <a href="../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α </span><span class="fn">ω</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">cmd</span> : <span class="fn"><a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT">WriterT</a> <span class="fn">ω</span> <span class="fn">M</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">M</span> <span class="fn">(<span class="fn">α</span> <span class="fn">×</span> <span class="fn">ω</span>)</span></span></div></div><details id="instances-for-list-WriterT.run" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="WriterT.runThe"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Monad/Writer.lean#L66-L67">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Control_Monad_Writer.html#WriterT.runThe" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[inline]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Control/Monad/Writer.html#WriterT.runThe"><span class="name">WriterT</span>.<span class="name">runThe</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u → <a href="../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">ω</span> : <a href="../../.././foundational_types.html">Type</a> u)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">cmd</span> : <span class="fn"><a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT">WriterT</a> <span class="fn">ω</span> <span class="fn">M</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">M</span> <span class="fn">(<span class="fn">α</span> <span class="fn">×</span> <span class="fn">ω</span>)</span></span></div></div><details id="instances-for-list-WriterT.runThe" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="WriterT.ext"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Monad/Writer.lean#L69-L70">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Control/Monad/Writer.html#WriterT.ext"><span class="name">WriterT</span>.<span class="name">ext</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u → <a href="../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α </span><span class="fn">ω</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x </span><span class="fn">x'</span> : <span class="fn"><a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT">WriterT</a> <span class="fn">ω</span> <span class="fn">M</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn"><span class="fn">x</span>.<a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT.run">run</a></span> <span class="fn">=</span> <span class="fn"><span class="fn">x'</span>.<a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT.run">run</a></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">x</span> <span class="fn">=</span> <span class="fn">x'</span></span></div></div></div></div><div class="decl" id="WriterT.ext_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Monad/Writer.lean#L69-L69">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Control_Monad_Writer.html#WriterT.ext_iff" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Control/Monad/Writer.html#WriterT.ext_iff"><span class="name">WriterT</span>.<span class="name">ext_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u → <a href="../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α </span><span class="fn">ω</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x </span><span class="fn">x'</span> : <span class="fn"><a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT">WriterT</a> <span class="fn">ω</span> <span class="fn">M</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">x</span> <span class="fn">=</span> <span class="fn">x'</span></span> <span class="fn">↔</span> <span class="fn"><span class="fn"><span class="fn">x</span>.<a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT.run">run</a></span> <span class="fn">=</span> <span class="fn"><span class="fn">x'</span>.<a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT.run">run</a></span></span></span></div></div></div></div><div class="decl" id="WriterT.monad"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Monad/Writer.lean#L74-L88">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Control_Monad_Writer.html#WriterT.monad" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[reducible, inline]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Control/Monad/Writer.html#WriterT.monad"><span class="name">WriterT</span>.<span class="name">monad</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u → <a href="../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ω</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Monad</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">empty</span> : <span class="fn">ω</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">append</span> : <span class="fn"><span class="fn">ω</span> → <span class="fn">ω</span> → <span class="fn">ω</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Monad</span> <span class="fn">(<a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT">WriterT</a> <span class="fn">ω</span> <span class="fn">M</span>)</span></span></div></div><p>Creates an instance of <code>Monad</code>, with explicitly given <code>empty</code> and <code>append</code> operations.</p><p>Previously, this would have used an instance of <code>[Monoid ω]</code> as input.
+In practice, however, <code><a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT">WriterT</a></code> is used for logging and creating lists so restricting to
+monoids with <code>Mul</code> and <code>One</code> can make <code><a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT">WriterT</a></code> cumbersome to use.</p><p>This is used to derive instances for both <code>[EmptyCollection ω] [Append ω]</code> and <code>[Monoid ω]</code>.</p><details id="instances-for-list-WriterT.monad" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="WriterT.liftTell"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Monad/Writer.lean#L90-L93">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Control_Monad_Writer.html#WriterT.liftTell" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[inline]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Control/Monad/Writer.html#WriterT.liftTell"><span class="name">WriterT</span>.<span class="name">liftTell</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u → <a href="../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ω</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Monad</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">empty</span> : <span class="fn">ω</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">MonadLift</span> <span class="fn">M</span> <span class="fn">(<a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT">WriterT</a> <span class="fn">ω</span> <span class="fn">M</span>)</span></span></div></div><p>Lift an <code>M</code> to a <code><a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT">WriterT</a> ω M</code>, using the given <code>empty</code> as the monoid unit.</p><details id="instances-for-list-WriterT.liftTell" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="WriterT.instMonadOfEmptyCollectionOfAppend"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Monad/Writer.lean#L95-L95">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Control_Monad_Writer.html#WriterT.instMonadOfEmptyCollectionOfAppend" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Control/Monad/Writer.html#WriterT.instMonadOfEmptyCollectionOfAppend"><span class="name">WriterT</span>.<span class="name">instMonadOfEmptyCollectionOfAppend</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u → <a href="../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ω</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Monad</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">EmptyCollection</span> <span class="fn">ω</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Append</span> <span class="fn">ω</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Monad</span> <span class="fn">(<a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT">WriterT</a> <span class="fn">ω</span> <span class="fn">M</span>)</span></span></div></div></div></div><div class="decl" id="WriterT.instMonadLiftOfEmptyCollection"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Monad/Writer.lean#L96-L96">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Control_Monad_Writer.html#WriterT.instMonadLiftOfEmptyCollection" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Control/Monad/Writer.html#WriterT.instMonadLiftOfEmptyCollection"><span class="name">WriterT</span>.<span class="name">instMonadLiftOfEmptyCollection</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u → <a href="../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ω</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Monad</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">EmptyCollection</span> <span class="fn">ω</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">MonadLift</span> <span class="fn">M</span> <span class="fn">(<a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT">WriterT</a> <span class="fn">ω</span> <span class="fn">M</span>)</span></span></div></div></div></div><div class="decl" id="WriterT.instMonadOfMonoid"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Monad/Writer.lean#L97-L97">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Control_Monad_Writer.html#WriterT.instMonadOfMonoid" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Control/Monad/Writer.html#WriterT.instMonadOfMonoid"><span class="name">WriterT</span>.<span class="name">instMonadOfMonoid</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u → <a href="../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ω</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Monad</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">ω</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Monad</span> <span class="fn">(<a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT">WriterT</a> <span class="fn">ω</span> <span class="fn">M</span>)</span></span></div></div></div></div><div class="decl" id="WriterT.instMonadLiftOfMonoid"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Monad/Writer.lean#L98-L98">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Control_Monad_Writer.html#WriterT.instMonadLiftOfMonoid" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Control/Monad/Writer.html#WriterT.instMonadLiftOfMonoid"><span class="name">WriterT</span>.<span class="name">instMonadLiftOfMonoid</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u → <a href="../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ω</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Monad</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">ω</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">MonadLift</span> <span class="fn">M</span> <span class="fn">(<a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT">WriterT</a> <span class="fn">ω</span> <span class="fn">M</span>)</span></span></div></div></div></div><div class="decl" id="WriterT.instLawfulMonad"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Monad/Writer.lean#L100-L105">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Control_Monad_Writer.html#WriterT.instLawfulMonad" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Control/Monad/Writer.html#WriterT.instLawfulMonad"><span class="name">WriterT</span>.<span class="name">instLawfulMonad</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u → <a href="../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ω</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Monad</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Monoid">Monoid</a> <span class="fn">ω</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LawfulMonad</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">LawfulMonad</span> <span class="fn">(<a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT">WriterT</a> <span class="fn">ω</span> <span class="fn">M</span>)</span></span></div></div></div></div><div class="decl" id="WriterT.instMonadWriter"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Monad/Writer.lean#L107-L110">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Control_Monad_Writer.html#WriterT.instMonadWriter" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Control/Monad/Writer.html#WriterT.instMonadWriter"><span class="name">WriterT</span>.<span class="name">instMonadWriter</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u → <a href="../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ω</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Monad</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Control/Monad/Writer.html#MonadWriter">MonadWriter</a> <span class="fn">ω</span> <span class="fn">(<a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT">WriterT</a> <span class="fn">ω</span> <span class="fn">M</span>)</span></span></div></div></div></div><div class="decl" id="WriterT.instMonadExcept"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Monad/Writer.lean#L112-L114">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Control_Monad_Writer.html#WriterT.instMonadExcept" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Control/Monad/Writer.html#WriterT.instMonadExcept"><span class="name">WriterT</span>.<span class="name">instMonadExcept</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u → <a href="../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ω</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ε</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">MonadExcept</span> <span class="fn">ε</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">MonadExcept</span> <span class="fn">ε</span> <span class="fn">(<a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT">WriterT</a> <span class="fn">ω</span> <span class="fn">M</span>)</span></span></div></div></div></div><div class="decl" id="WriterT.instMonadControlOfMonadLiftT"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Monad/Writer.lean#L116-L119">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Control_Monad_Writer.html#WriterT.instMonadControlOfMonadLiftT" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Control/Monad/Writer.html#WriterT.instMonadControlOfMonadLiftT"><span class="name">WriterT</span>.<span class="name">instMonadControlOfMonadLiftT</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u → <a href="../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ω</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">MonadLiftT</span> <span class="fn">M</span> <span class="fn">(<a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT">WriterT</a> <span class="fn">ω</span> <span class="fn">M</span>)</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">MonadControl</span> <span class="fn">M</span> <span class="fn">(<a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT">WriterT</a> <span class="fn">ω</span> <span class="fn">M</span>)</span></span></div></div></div></div><div class="decl" id="WriterT.instMonadFunctor"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Monad/Writer.lean#L121-L122">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Control_Monad_Writer.html#WriterT.instMonadFunctor" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Control/Monad/Writer.html#WriterT.instMonadFunctor"><span class="name">WriterT</span>.<span class="name">instMonadFunctor</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u → <a href="../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ω</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">MonadFunctor</span> <span class="fn">M</span> <span class="fn">(<a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT">WriterT</a> <span class="fn">ω</span> <span class="fn">M</span>)</span></span></div></div></div></div><div class="decl" id="WriterT.adapt"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Monad/Writer.lean#L124-L126">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Control_Monad_Writer.html#WriterT.adapt" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[inline]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Control/Monad/Writer.html#WriterT.adapt"><span class="name">WriterT</span>.<span class="name">adapt</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u → <a href="../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ω</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Monad</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ω' </span><span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">ω</span> → <span class="fn">ω'</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT">WriterT</a> <span class="fn">ω</span> <span class="fn">M</span> <span class="fn">α</span></span> → <span class="fn"><a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT">WriterT</a> <span class="fn">ω'</span> <span class="fn">M</span> <span class="fn">α</span></span></span></div></div><details id="instances-for-list-WriterT.adapt" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="MonadWriterAdapter"><div class="class"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Monad/Writer.lean#L130-L137">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Control_Monad_Writer.html#MonadWriterAdapter" class="verification-badge comp-datatype" title="Computational datatype">🔶 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">class</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Control/Monad/Writer.html#MonadWriterAdapter"><span class="name">MonadWriterAdapter</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">ω</span> : <span class="fn"><span class="fn">outParam</span> <a href="../../.././foundational_types.html">(Type</a> u)</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">m</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u → <a href="../../.././foundational_types.html">Type</a> v</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../.././foundational_types.html">Type</a> (max (u + 1) v)</div></div><p>Adapt a monad stack, changing the type of its top-most environment.</p><p>This class is comparable to <a href="https://hackage.haskell.org/package/lens-4.15.4/docs/Control-Lens-Zoom.html#t:Magnify">Control.Lens.Magnify</a>,
+but does not use lenses (why would it), and is derived automatically for any transformer
+implementing <code>MonadFunctor</code>.</p><ul class="structure_fields" id="MonadWriterAdapter.mk"><li id="MonadWriterAdapter.adaptWriter" class="structure_field"><div class="structure_field_info">adaptWriter<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span> : <span class="fn"><span class="fn">(<span class="fn">ω</span> → <span class="fn">ω</span>)</span> → <span class="fn"><span class="fn"><span class="fn">m</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn">m</span> <span class="fn">α</span></span></span></span></div></li></ul><details class="instances"><summary>Instances</summary><ul id="instances-list-MonadWriterAdapter" class="instances-list"></ul></details></div></div><div class="decl" id="monadWriterAdapterTrans"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Monad/Writer.lean#L142-L147">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Control_Monad_Writer.html#monadWriterAdapterTrans" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible, instance 100]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Control/Monad/Writer.html#monadWriterAdapterTrans"><span class="name">monadWriterAdapterTrans</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ω</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u → <a href="../../.././foundational_types.html">Type</a> u_1</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u → <a href="../../.././foundational_types.html">Type</a> v</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Control/Monad/Writer.html#MonadWriterAdapter">MonadWriterAdapter</a> <span class="fn">ω</span> <span class="fn">m</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">MonadFunctor</span> <span class="fn">m</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Control/Monad/Writer.html#MonadWriterAdapter">MonadWriterAdapter</a> <span class="fn">ω</span> <span class="fn">n</span></span></div></div><p>Transitivity.</p><p>see Note [lower instance priority]</p></div></div><div class="decl" id="instMonadWriterAdapterWriterTOfMonad"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Monad/Writer.lean#L149-L150">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Control_Monad_Writer.html#instMonadWriterAdapterWriterTOfMonad" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Control/Monad/Writer.html#instMonadWriterAdapterWriterTOfMonad"><span class="name">instMonadWriterAdapterWriterTOfMonad</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ω</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u → <a href="../../.././foundational_types.html">Type</a> u_1</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Monad</span> <span class="fn">m</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Control/Monad/Writer.html#MonadWriterAdapter">MonadWriterAdapter</a> <span class="fn">ω</span> <span class="fn">(<a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT">WriterT</a> <span class="fn">ω</span> <span class="fn">m</span>)</span></span></div></div></div></div><div class="decl" id="WriterT.equiv"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Control/Monad/Writer.lean#L153-L161">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Control_Monad_Writer.html#WriterT.equiv" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Control/Monad/Writer.html#WriterT.equiv"><span class="name">WriterT</span>.<span class="name">equiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m₁</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u₀ → <a href="../../.././foundational_types.html">Type</a> v₀</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m₂</span> : <span class="fn"><a href="../../.././foundational_types.html">Type</a> u₁ → <a href="../../.././foundational_types.html">Type</a> v₁</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α₁ </span><span class="fn">ω₁</span> : <a href="../../.././foundational_types.html">Type</a> u₀}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α₂ </span><span class="fn">ω₂</span> : <a href="../../.././foundational_types.html">Type</a> u₁}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <span class="fn"><span class="fn">m₁</span> <span class="fn">(<span class="fn">α₁</span> <span class="fn">×</span> <span class="fn">ω₁</span>)</span></span> <a href="../../.././Mathlib/Logic/Equiv/Defs.html#Equiv">≃</a> <span class="fn"><span class="fn">m₂</span> <span class="fn">(<span class="fn">α₂</span> <span class="fn">×</span> <span class="fn">ω₂</span>)</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT">WriterT</a> <span class="fn">ω₁</span> <span class="fn">m₁</span> <span class="fn">α₁</span></span> <a href="../../.././Mathlib/Logic/Equiv/Defs.html#Equiv">≃</a> <span class="fn"><a href="../../.././Mathlib/Control/Monad/Writer.html#WriterT">WriterT</a> <span class="fn">ω₂</span> <span class="fn">m₂</span> <span class="fn">α₂</span></span></div></div><p>reduce the equivalence between two writer monads to the equivalence between
+their underlying monad</p><details id="instances-for-list-WriterT.equiv" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div></main>
+<nav class="nav"><iframe src="../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

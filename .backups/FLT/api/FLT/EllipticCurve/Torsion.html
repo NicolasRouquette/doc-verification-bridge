@@ -1,0 +1,252 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../.././style.css"></link><link rel="icon" href="../.././favicon.svg"></link><link rel="mask-icon" href="../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../.././/declarations/declaration-data.bmp" as="image"></link><title>FLT.EllipticCurve.Torsion</title><script defer="true" src="../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../.././";</script><script>const MODULE_NAME="FLT.EllipticCurve.Torsion";</script><script type="module" src="../.././jump-src.js"></script><script type="module" src="../.././search.js"></script><script type="module" src="../.././expand-nav.js"></script><script type="module" src="../.././how-about.js"></script><script type="module" src="../.././instances.js"></script><script type="module" src="../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">FLT</span>.<span class="name">EllipticCurve</span>.<span class="name">Torsion</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/EllipticCurve/Torsion.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../.././Init.html">Init</a></li><li><a href="../.././Mathlib/FieldTheory/IsSepClosed.html">Mathlib.FieldTheory.IsSepClosed</a></li><li><a href="../.././Mathlib/RepresentationTheory/Basic.html">Mathlib.RepresentationTheory.Basic</a></li><li><a href="../.././FLT/Deformations/RepresentationTheory/GaloisRep.html">FLT.Deformations.RepresentationTheory.GaloisRep</a></li><li><a href="../.././Mathlib/Topology/Instances/ZMod.html">Mathlib.Topology.Instances.ZMod</a></li><li><a href="../.././Mathlib/Algebra/Module/Torsion/Free.html">Mathlib.Algebra.Module.Torsion.Free</a></li><li><a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Basic.html">Mathlib.AlgebraicGeometry.EllipticCurve.Affine.Basic</a></li><li><a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Formula.html">Mathlib.AlgebraicGeometry.EllipticCurve.Affine.Formula</a></li><li><a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Point.html">Mathlib.AlgebraicGeometry.EllipticCurve.Affine.Point</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-FLT.EllipticCurve.Torsion" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#WeierstrassCurve.n_torsion"><span class="name">WeierstrassCurve</span>.<span class="name">n_torsion</span></a></div><div class="nav_link"><a class="break_within" href="#instModuleZModN_torsion"><span class="name">instModuleZModN_torsion</span></a></div><div class="nav_link"><a class="break_within" href="#WeierstrassCurve.n_torsion_finite"><span class="name">WeierstrassCurve</span>.<span class="name">n_torsion_finite</span></a></div><div class="nav_link"><a class="break_within" href="#WeierstrassCurve.n_torsion_card"><span class="name">WeierstrassCurve</span>.<span class="name">n_torsion_card</span></a></div><div class="nav_link"><a class="break_within" href="#group_theory_lemma"><span class="name">group_theory_lemma</span></a></div><div class="nav_link"><a class="break_within" href="#WeierstrassCurve.n_torsion_dimension"><span class="name">WeierstrassCurve</span>.<span class="name">n_torsion_dimension</span></a></div><div class="nav_link"><a class="break_within" href="#instFiniteZModN_torsion"><span class="name">instFiniteZModN_torsion</span></a></div><div class="nav_link"><a class="break_within" href="#WeierstrassCurve.Points.map"><span class="name">WeierstrassCurve</span>.<span class="name">Points</span>.<span class="name">map</span></a></div><div class="nav_link"><a class="break_within" href="#WeierstrassCurve.Points.map_id"><span class="name">WeierstrassCurve</span>.<span class="name">Points</span>.<span class="name">map_id</span></a></div><div class="nav_link"><a class="break_within" href="#WeierstrassCurve.Points.map_comp"><span class="name">WeierstrassCurve</span>.<span class="name">Points</span>.<span class="name">map_comp</span></a></div><div class="nav_link"><a class="break_within" href="#WeierstrassCurve.galoisRepresentation_smul"><span class="name">WeierstrassCurve</span>.<span class="name">galoisRepresentation_smul</span></a></div><div class="nav_link"><a class="break_within" href="#WeierstrassCurve.galoisRepresentation"><span class="name">WeierstrassCurve</span>.<span class="name">galoisRepresentation</span></a></div><div class="nav_link"><a class="break_within" href="#WeierstrassCurve.galoisRep"><span class="name">WeierstrassCurve</span>.<span class="name">galoisRep</span></a></div></nav><main>
+<div class="mod_doc"><p>See
+https://leanprover.zulipchat.com/#narrow/stream/217875-Is-there-code-for-X.3F/topic/n-torsion.20or.20multiplication.20by.20n.20as.20an.20additive.20group.20hom/near/429096078</p><p>The main theorems in this file are part of the PhD thesis work of David Angdinata, one of KB's
+PhD students. It would be great if anyone who is interested in working on these results
+could talk to David first. Note that he has already made substantial progress.</p></div><div class="decl" id="WeierstrassCurve.n_torsion"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/EllipticCurve/Torsion.lean#L32-L32">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_EllipticCurve_Torsion.html#WeierstrassCurve.n_torsion" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[reducible, inline]</div>
+<div class="decl_header"><span class="decl_kind">abbrev</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/EllipticCurve/Torsion.html#WeierstrassCurve.n_torsion"><span class="name">WeierstrassCurve</span>.<span class="name">n_torsion</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">k</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <span class="fn"><a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.html#WeierstrassCurve">WeierstrassCurve</a> <span class="fn">k</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">k</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../.././Init/Prelude.html#Nat">ℕ</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../.././foundational_types.html">Type</a> u</div></div><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-WeierstrassCurve.n_torsion" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="instModuleZModN_torsion"><div class="instance"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/EllipticCurve/Torsion.lean#L38-L41">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_EllipticCurve_Torsion.html#instModuleZModN_torsion" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable instance</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/EllipticCurve/Torsion.html#instModuleZModN_torsion"><span class="name">instModuleZModN_torsion</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">k</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <span class="fn"><a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.html#WeierstrassCurve">WeierstrassCurve</a> <span class="fn">k</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">k</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../.././Init/Prelude.html#Nat">ℕ</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">(<a href="../.././Mathlib/Data/ZMod/Defs.html#ZMod">ZMod</a> <span class="fn">n</span>)</span> <span class="fn">(<span class="fn"><span class="fn">E</span>.<a href="../.././FLT/EllipticCurve/Torsion.html#WeierstrassCurve.n_torsion">n_torsion</a></span> <span class="fn">n</span>)</span></span></div></div><details><summary>Equations</summary><ul class="equations"></ul></details></div></div><div class="decl sorried" id="WeierstrassCurve.n_torsion_finite"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/EllipticCurve/Torsion.lean#L45-L45">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_EllipticCurve_Torsion.html#WeierstrassCurve.n_torsion_finite" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name" title="declaration uses 'sorry'"><a class="break_within" href="../.././FLT/EllipticCurve/Torsion.html#WeierstrassCurve.n_torsion_finite"><span class="name">WeierstrassCurve</span>.<span class="name">n_torsion_finite</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">k</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <span class="fn"><a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.html#WeierstrassCurve">WeierstrassCurve</a> <span class="fn">k</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">E</span>.<a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.html#WeierstrassCurve.IsElliptic">IsElliptic</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">k</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hn</span> : <span class="fn">0</span> <a href="../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">n</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">(<span class="fn"><span class="fn">E</span>.<a href="../.././FLT/EllipticCurve/Torsion.html#WeierstrassCurve.n_torsion">n_torsion</a></span> <span class="fn">n</span>)</span></span></div></div></div></div><div class="decl sorried" id="WeierstrassCurve.n_torsion_card"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/EllipticCurve/Torsion.lean#L49-L50">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_EllipticCurve_Torsion.html#WeierstrassCurve.n_torsion_card" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name" title="declaration uses 'sorry'"><a class="break_within" href="../.././FLT/EllipticCurve/Torsion.html#WeierstrassCurve.n_torsion_card"><span class="name">WeierstrassCurve</span>.<span class="name">n_torsion_card</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">k</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <span class="fn"><a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.html#WeierstrassCurve">WeierstrassCurve</a> <span class="fn">k</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">E</span>.<a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.html#WeierstrassCurve.IsElliptic">IsElliptic</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">k</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/FieldTheory/IsSepClosed.html#IsSepClosed">IsSepClosed</a> <span class="fn">k</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hn</span> : <span class="fn">↑<span class="fn">n</span></span> <a href="../.././Init/Core.html#Ne">≠</a> <span class="fn">0</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a> <span class="fn">(<span class="fn"><span class="fn">E</span>.<a href="../.././FLT/EllipticCurve/Torsion.html#WeierstrassCurve.n_torsion">n_torsion</a></span> <span class="fn">n</span>)</span></span> <a href="../.././Init/Prelude.html#Eq">=</a> <span class="fn">n</span> <a href="../.././Init/Prelude.html#HPow.hPow">^</a> <span class="fn">2</span></div></div></div></div><div class="decl sorried" id="group_theory_lemma"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/EllipticCurve/Torsion.lean#L52-L54">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name" title="declaration uses 'sorry'"><a class="break_within" href="../.././FLT/EllipticCurve/Torsion.html#group_theory_lemma"><span class="name">group_theory_lemma</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hn</span> : <span class="fn">0</span> <a href="../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">n</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">r</span> : <a href="../.././Init/Prelude.html#Nat">ℕ</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn">∀ (<span class="fn">d</span> : <a href="../.././Init/Prelude.html#Nat">ℕ</a>), <span class="fn"><span class="fn">d</span> <a href="../.././Init/Prelude.html#Dvd.dvd">∣</a> <span class="fn">n</span> → <span class="fn"><a href="../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a> <span class="fn">↥<span class="fn">(<a href="../.././Mathlib/Algebra/Module/Torsion/Basic.html#Submodule.torsionBy">Submodule.torsionBy</a> <a href="../.././Init/Data/Int/Basic.html#Int">ℤ</a> <span class="fn">A</span> <span class="fn">↑<span class="fn">d</span></span>)</span></span></span> <a href="../.././Init/Prelude.html#Eq">=</a> <span class="fn">d</span> <a href="../.././Init/Prelude.html#HPow.hPow">^</a> <span class="fn">r</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Init/Prelude.html#Nonempty">Nonempty</a> (<span class="fn">↥<span class="fn">(<a href="../.././Mathlib/Algebra/Module/Torsion/Basic.html#Submodule.torsionBy">Submodule.torsionBy</a> <a href="../.././Init/Data/Int/Basic.html#Int">ℤ</a> <span class="fn">A</span> <span class="fn">↑<span class="fn">n</span></span>)</span></span> <a href="../.././Mathlib/Algebra/Group/Equiv/Defs.html#AddEquiv">≃+</a> <span class="fn">(<span class="fn"><a href="../.././Init/Prelude.html#Fin">Fin</a> <span class="fn">r</span></span> → <span class="fn"><a href="../.././Mathlib/Data/ZMod/Defs.html#ZMod">ZMod</a> <span class="fn">n</span></span>)</span>)</span></div></div></div></div><div class="decl" id="WeierstrassCurve.n_torsion_dimension"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/EllipticCurve/Torsion.lean#L59-L68">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_EllipticCurve_Torsion.html#WeierstrassCurve.n_torsion_dimension" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/EllipticCurve/Torsion.html#WeierstrassCurve.n_torsion_dimension"><span class="name">WeierstrassCurve</span>.<span class="name">n_torsion_dimension</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">k</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <span class="fn"><a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.html#WeierstrassCurve">WeierstrassCurve</a> <span class="fn">k</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">E</span>.<a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.html#WeierstrassCurve.IsElliptic">IsElliptic</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">k</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/FieldTheory/IsSepClosed.html#IsSepClosed">IsSepClosed</a> <span class="fn">k</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hn</span> : <span class="fn">↑<span class="fn">n</span></span> <a href="../.././Init/Core.html#Ne">≠</a> <span class="fn">0</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Init/Prelude.html#Nonempty">Nonempty</a> (<span class="fn"><span class="fn"><span class="fn">E</span>.<a href="../.././FLT/EllipticCurve/Torsion.html#WeierstrassCurve.n_torsion">n_torsion</a></span> <span class="fn">n</span></span> <a href="../.././Mathlib/Algebra/Group/Equiv/Defs.html#AddEquiv">≃+</a> <span class="fn"><a href="../.././Mathlib/Data/ZMod/Defs.html#ZMod">ZMod</a> <span class="fn">n</span></span> <a href="../.././Init/Prelude.html#Prod">×</a> <span class="fn"><a href="../.././Mathlib/Data/ZMod/Defs.html#ZMod">ZMod</a> <span class="fn">n</span></span>)</span></div></div></div></div><div class="decl" id="instFiniteZModN_torsion"><div class="instance"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/EllipticCurve/Torsion.lean#L71-L71">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_EllipticCurve_Torsion.html#instFiniteZModN_torsion" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/EllipticCurve/Torsion.html#instFiniteZModN_torsion"><span class="name">instFiniteZModN_torsion</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">k</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <span class="fn"><a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.html#WeierstrassCurve">WeierstrassCurve</a> <span class="fn">k</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">k</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../.././Init/Prelude.html#Nat">ℕ</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/RingTheory/Finiteness/Defs.html#Module.Finite">Module.Finite</a> <span class="fn">(<a href="../.././Mathlib/Data/ZMod/Defs.html#ZMod">ZMod</a> <span class="fn">n</span>)</span> <span class="fn">(<span class="fn"><span class="fn">E</span>.<a href="../.././FLT/EllipticCurve/Torsion.html#WeierstrassCurve.n_torsion">n_torsion</a></span> <span class="fn">n</span>)</span></span></div></div></div></div><div class="decl" id="WeierstrassCurve.Points.map"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/EllipticCurve/Torsion.lean#L74-L78">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_EllipticCurve_Torsion.html#WeierstrassCurve.Points.map" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/EllipticCurve/Torsion.html#WeierstrassCurve.Points.map"><span class="name">WeierstrassCurve</span>.<span class="name">Points</span>.<span class="name">map</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">k</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <span class="fn"><a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.html#WeierstrassCurve">WeierstrassCurve</a> <span class="fn">k</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K </span><span class="fn">L</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">k</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">k</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">K</span> <a href="../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">→ₐ[</a><span class="fn">k</span><a href="../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">]</a> <span class="fn">L</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Point.html#WeierstrassCurve.Affine.Point">Affine.Point</a> <span class="fn">(<span class="fn"><span class="fn">E</span>.<a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.html#WeierstrassCurve.baseChange">baseChange</a></span> <span class="fn">K</span>)</span></span> <a href="../.././Mathlib/Algebra/Group/Hom/Defs.html#AddMonoidHom">→+</a> <span class="fn"><a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Point.html#WeierstrassCurve.Affine.Point">Affine.Point</a> <span class="fn">(<span class="fn"><span class="fn">E</span>.<a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.html#WeierstrassCurve.baseChange">baseChange</a></span> <span class="fn">L</span>)</span></span></div></div><p>The map on points for an elliptic curve over <code>k</code> induced by a morphism of <code>k</code>-algebras
+is a group homomorphism.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-WeierstrassCurve.Points.map" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="WeierstrassCurve.Points.map_id"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/EllipticCurve/Torsion.lean#L81-L84">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_EllipticCurve_Torsion.html#WeierstrassCurve.Points.map_id" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/EllipticCurve/Torsion.html#WeierstrassCurve.Points.map_id"><span class="name">WeierstrassCurve</span>.<span class="name">Points</span>.<span class="name">map_id</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">k</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <span class="fn"><a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.html#WeierstrassCurve">WeierstrassCurve</a> <span class="fn">k</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">K</span> : <a href="../.././foundational_types.html">Type</a> u)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">k</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././FLT/EllipticCurve/Torsion.html#WeierstrassCurve.Points.map">map</a> <span class="fn">E</span> <span class="fn">(<a href="../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom.id">AlgHom.id</a> <span class="fn">k</span> <span class="fn">K</span>)</span></span> <a href="../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../.././Mathlib/Algebra/Group/Hom/Defs.html#AddMonoidHom.id">AddMonoidHom.id</a> <span class="fn">(<a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Point.html#WeierstrassCurve.Affine.Point">Affine.Point</a> <span class="fn">(<span class="fn"><span class="fn">E</span>.<a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.html#WeierstrassCurve.baseChange">baseChange</a></span> <span class="fn">K</span>)</span>)</span></span></div></div></div></div><div class="decl" id="WeierstrassCurve.Points.map_comp"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/EllipticCurve/Torsion.lean#L87-L93">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/EllipticCurve/Torsion.html#WeierstrassCurve.Points.map_comp"><span class="name">WeierstrassCurve</span>.<span class="name">Points</span>.<span class="name">map_comp</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">k</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <span class="fn"><a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.html#WeierstrassCurve">WeierstrassCurve</a> <span class="fn">k</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">K </span><span class="fn">L </span><span class="fn">M</span> : <a href="../.././foundational_types.html">Type</a> u)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">k</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">k</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">k</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">K</span> <a href="../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">→ₐ[</a><span class="fn">k</span><a href="../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">]</a> <span class="fn">L</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">L</span> <a href="../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">→ₐ[</a><span class="fn">k</span><a href="../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">]</a> <span class="fn">M</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Point.html#WeierstrassCurve.Affine.Point.map">Affine.Point.map</a> <span class="fn">g</span>)</span>.<a href="../.././Mathlib/Algebra/Group/Hom/Defs.html#AddMonoidHom.comp">comp</a></span> <span class="fn">(<a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Point.html#WeierstrassCurve.Affine.Point.map">Affine.Point.map</a> <span class="fn">f</span>)</span></span> <a href="../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Point.html#WeierstrassCurve.Affine.Point.map">Affine.Point.map</a> <span class="fn">(<span class="fn"><span class="fn">g</span>.<a href="../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom.comp">comp</a></span> <span class="fn">f</span>)</span></span></div></div></div></div><div class="decl" id="WeierstrassCurve.galoisRepresentation_smul"><div class="instance"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/EllipticCurve/Torsion.lean#L95-L99">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_EllipticCurve_Torsion.html#WeierstrassCurve.galoisRepresentation_smul" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable instance</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/EllipticCurve/Torsion.html#WeierstrassCurve.galoisRepresentation_smul"><span class="name">WeierstrassCurve</span>.<span class="name">galoisRepresentation_smul</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">k</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <span class="fn"><a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.html#WeierstrassCurve">WeierstrassCurve</a> <span class="fn">k</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">K</span> : <a href="../.././foundational_types.html">Type</a> u)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">k</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Init/Prelude.html#SMul">SMul</a> <span class="fn">Gal(<span class="fn">K</span>/<span class="fn">k</span>)</span> <span class="fn">(<a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Point.html#WeierstrassCurve.Affine.Point">Affine.Point</a> <span class="fn">(<span class="fn"><span class="fn">E</span>.<a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.html#WeierstrassCurve.baseChange">baseChange</a></span> <span class="fn">K</span>)</span>)</span></span></div></div><p>The Galois action on the points of an elliptic curve.</p><details><summary>Equations</summary><ul class="equations"></ul></details></div></div><div class="decl" id="WeierstrassCurve.galoisRepresentation"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/EllipticCurve/Torsion.lean#L101-L108">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_EllipticCurve_Torsion.html#WeierstrassCurve.galoisRepresentation" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/EllipticCurve/Torsion.html#WeierstrassCurve.galoisRepresentation"><span class="name">WeierstrassCurve</span>.<span class="name">galoisRepresentation</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">k</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <span class="fn"><a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.html#WeierstrassCurve">WeierstrassCurve</a> <span class="fn">k</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">K</span> : <a href="../.././foundational_types.html">Type</a> u)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">k</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Algebra/GroupWithZero/Action/Defs.html#DistribMulAction">DistribMulAction</a> <span class="fn">Gal(<span class="fn">K</span>/<span class="fn">k</span>)</span> <span class="fn">(<a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Affine/Point.html#WeierstrassCurve.Affine.Point">Affine.Point</a> <span class="fn">(<span class="fn"><span class="fn">E</span>.<a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.html#WeierstrassCurve.baseChange">baseChange</a></span> <span class="fn">K</span>)</span>)</span></span></div></div><p>The Galois action on the points of an elliptic curve.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-WeierstrassCurve.galoisRepresentation" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl sorried" id="WeierstrassCurve.galoisRep"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/EllipticCurve/Torsion.lean#L113-L116">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_EllipticCurve_Torsion.html#WeierstrassCurve.galoisRep" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name" title="declaration uses 'sorry'"><a class="break_within" href="../.././FLT/EllipticCurve/Torsion.html#WeierstrassCurve.galoisRep"><span class="name">WeierstrassCurve</span>.<span class="name">galoisRep</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <span class="fn"><a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.html#WeierstrassCurve">WeierstrassCurve</a> <span class="fn">K</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">E</span>.<a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.html#WeierstrassCurve.IsElliptic">IsElliptic</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">(<a href="../.././Mathlib/FieldTheory/IsAlgClosed/AlgebraicClosure.html#AlgebraicClosure">AlgebraicClosure</a> <span class="fn">K</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../.././Init/Prelude.html#Nat">ℕ</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hn</span> : <span class="fn">0</span> <a href="../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">n</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././FLT/Deformations/RepresentationTheory/GaloisRep.html#GaloisRep">GaloisRep</a> <span class="fn">K</span> <span class="fn">(<a href="../.././Mathlib/Data/ZMod/Defs.html#ZMod">ZMod</a> <span class="fn">n</span>)</span> <span class="fn">(<span class="fn"><span class="fn">(<span class="fn"><span class="fn">E</span>.<a href="../.././Mathlib/AlgebraicGeometry/EllipticCurve/Weierstrass.html#WeierstrassCurve.map">map</a></span> <span class="fn">(<a href="../.././Mathlib/Algebra/Algebra/Defs.html#algebraMap">algebraMap</a> <span class="fn">K</span> <span class="fn">(<a href="../.././Mathlib/FieldTheory/IsAlgClosed/AlgebraicClosure.html#AlgebraicClosure">AlgebraicClosure</a> <span class="fn">K</span>)</span>)</span>)</span>.<a href="../.././FLT/EllipticCurve/Torsion.html#WeierstrassCurve.n_torsion">n_torsion</a></span> <span class="fn">n</span>)</span></span></div></div><p>The continuous Galois representation associated to an elliptic curve over a field.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-WeierstrassCurve.galoisRep" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div></main>
+<nav class="nav"><iframe src="../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

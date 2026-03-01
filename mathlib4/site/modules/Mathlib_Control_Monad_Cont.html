@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mathlib_Control_Monad_Cont - Documentation Verification</title>
+  <link rel="stylesheet" href="../style.css">
+  <script defer src="../verification.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Documentation Verification Report</h1>
+    <nav>
+      <a href="../index.html">Overview</a>
+      <a href="index.html">Modules</a>
+      <a href="../search.html">Search</a>
+      <a href="../api/index.html">API Docs</a>
+    </nav>
+  </header>
+  <main>
+    <div class="container">
+      <nav class="breadcrumbs">
+        <a href="../index.html">Verification</a> /
+        <a href="index.html">Modules</a> /
+        Mathlib_Control_Monad_Cont
+      </nav>
+      <h1>Cont</h1>
+<p>📁 <strong>Source:</strong> <a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean">Mathlib/Control/Monad/Cont.lean</a></p>
+<h2>Statistics</h2>
+<table class="verification-table">
+<tr><th>Metric</th><th>Count</th></tr>
+<tr><td><details><summary>Definitions</summary><a href="#Cont"><code>Cont</code></a>, <a href="#ContT"><code>ContT</code></a>, <a href="#ContT-equiv"><code>equiv</code></a>, <a href="#ContT-instMonad"><code>instMonad</code></a>, <a href="#ContT-instMonadCont"><code>instMonadCont</code></a>, <a href="#ContT-instMonadExcept"><code>instMonadExcept</code></a>, <a href="#ContT-instMonadLiftOfMonad"><code>instMonadLiftOfMonad</code></a>, <a href="#ContT-map"><code>map</code></a>, <a href="#ContT-monadLift"><code>monadLift</code></a>, <a href="#ContT-run"><code>run</code></a>, <a href="#ContT-withContT"><code>withContT</code></a>, <a href="#ExceptT-callCC"><code>callCC</code></a>, <a href="#ExceptT-mkLabel"><code>mkLabel</code></a>, <a href="#LawfulMonadCont"><code>LawfulMonadCont</code></a>, <a href="#MonadCont"><code>MonadCont</code></a>, <a href="#MonadCont-Label"><code>Label</code></a>, <a href="#MonadCont-Label-apply"><code>apply</code></a>, <a href="#MonadCont-callCC"><code>callCC</code></a>, <a href="#MonadCont-goto"><code>goto</code></a>, <a href="#OptionT-callCC"><code>callCC</code></a>, <a href="#OptionT-mkLabel"><code>mkLabel</code></a>, <a href="#ReaderT-callCC"><code>callCC</code></a>, <a href="#ReaderT-mkLabel"><code>mkLabel</code></a>, <a href="#StateT-callCC"><code>callCC</code></a>, <a href="#StateT-mkLabel"><code>mkLabel</code></a>, <a href="#Turing-ToPartrec-Cont"><code>Cont</code></a>, <a href="#WriterT-callCC"><code>callCC</code></a>, <a href="#WriterT-callCC'"><code>callCC'</code></a>, <a href="#WriterT-mkLabel"><code>mkLabel</code></a>, <a href="#WriterT-mkLabel'"><code>mkLabel'</code></a>, <a href="#instMonadContExceptT"><code>instMonadContExceptT</code></a>, <a href="#instMonadContOptionT"><code>instMonadContOptionT</code></a>, <a href="#instMonadContReaderT"><code>instMonadContReaderT</code></a>, <a href="#instMonadContStateT"><code>instMonadContStateT</code></a>, <a href="#instMonadContWriterTOfMonadOfEmptyCollection"><code>instMonadContWriterTOfMonadOfEmptyCollection</code></a>, <a href="#instMonadContWriterTOfMonadOfMonoid"><code>instMonadContWriterTOfMonadOfMonoid</code></a></details></td><td>36</td></tr>
+<tr><td><details><summary>Theorems</summary><a href="#ContT-ext"><code>ext</code></a>, <a href="#ContT-ext_iff"><code>ext_iff</code></a>, <a href="#ContT-instLawfulMonad"><code>instLawfulMonad</code></a>, <a href="#ContT-instLawfulMonadCont"><code>instLawfulMonadCont</code></a>, <a href="#ContT-monadLift_bind"><code>monadLift_bind</code></a>, <a href="#ContT-run_contT_map_contT"><code>run_contT_map_contT</code></a>, <a href="#ContT-run_withContT"><code>run_withContT</code></a>, <a href="#ExceptT-goto_mkLabel"><code>goto_mkLabel</code></a>, <a href="#LawfulMonadCont-callCC_bind_left"><code>callCC_bind_left</code></a>, <a href="#LawfulMonadCont-callCC_bind_right"><code>callCC_bind_right</code></a>, <a href="#LawfulMonadCont-callCC_dummy"><code>callCC_dummy</code></a>, <a href="#LawfulMonadCont-toLawfulMonad"><code>toLawfulMonad</code></a>, <a href="#OptionT-goto_mkLabel"><code>goto_mkLabel</code></a>, <a href="#ReaderT-goto_mkLabel"><code>goto_mkLabel</code></a>, <a href="#StateT-goto_mkLabel"><code>goto_mkLabel</code></a>, <a href="#WriterT-goto_mkLabel"><code>goto_mkLabel</code></a>, <a href="#WriterT-goto_mkLabel'"><code>goto_mkLabel'</code></a>, <a href="#instLawfulMonadContExceptT"><code>instLawfulMonadContExceptT</code></a>, <a href="#instLawfulMonadContOptionT"><code>instLawfulMonadContOptionT</code></a>, <a href="#instLawfulMonadContReaderT"><code>instLawfulMonadContReaderT</code></a>, <a href="#instLawfulMonadContStateT"><code>instLawfulMonadContStateT</code></a>, <a href="#run_callCC"><code>run_callCC</code></a></details></td><td>22</td></tr>
+<tr><td><strong>Total</strong></td><td><strong>58</strong></td></tr>
+</table>
+<h2>ContT</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L268" id="ContT-equiv"><code>equiv</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#ContT.equiv" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L80" id="ContT-instMonad"><code>instMonad</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#ContT.instMonad" title="API Documentation">📖</a></td><td>CompOp</td><td><details><summary>3 math</summary><strong>math:</strong> <a href="#ContT-instLawfulMonadCont"><code>instLawfulMonadCont</code></a>, <a href="#ContT-monadLift_bind"><code>monadLift_bind</code></a>, <a href="#ContT-instLawfulMonad"><code>instLawfulMonad</code></a><br></details></td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L100" id="ContT-instMonadCont"><code>instMonadCont</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#ContT.instMonadCont" title="API Documentation">📖</a></td><td>CompOp</td><td><details><summary>1 math</summary><strong>math:</strong> <a href="#ContT-instLawfulMonadCont"><code>instLawfulMonadCont</code></a><br></details></td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L123" id="ContT-instMonadExcept"><code>instMonadExcept</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#ContT.instMonadExcept" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L91" id="ContT-instMonadLiftOfMonad"><code>instMonadLiftOfMonad</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#ContT.instMonadLiftOfMonad" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L64" id="ContT-map"><code>map</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#ContT.map" title="API Documentation">📖</a></td><td>CompOp</td><td><details><summary>1 math</summary><strong>math:</strong> <a href="#ContT-run_contT_map_contT"><code>run_contT_map_contT</code></a><br></details></td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L89" id="ContT-monadLift"><code>monadLift</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#ContT.monadLift" title="API Documentation">📖</a></td><td>CompOp</td><td><details><summary>1 math</summary><strong>math:</strong> <a href="#ContT-monadLift_bind"><code>monadLift_bind</code></a><br></details></td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L61" id="ContT-run"><code>run</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#ContT.run" title="API Documentation">📖</a></td><td>CompOp</td><td><details><summary>3 math</summary><strong>math:</strong> <a href="#ContT-run_withContT"><code>run_withContT</code></a>, <a href="#ContT-ext_iff"><code>ext_iff</code></a>, <a href="#ContT-run_contT_map_contT"><code>run_contT_map_contT</code></a><br></details></td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L70" id="ContT-withContT"><code>withContT</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#ContT.withContT" title="API Documentation">📖</a></td><td>CompOp</td><td><details><summary>1 math</summary><strong>math:</strong> <a href="#ContT-run_withContT"><code>run_withContT</code></a><br></details></td></tr>
+</table>
+<h3>Theorems</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Kind</th><th>Assumes</th><th>Proves</th><th>Validates</th><th>Depends On</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L77" id="ContT-ext"><code>ext</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#ContT.ext" title="API Documentation">📖</a></td><td>—</td><td><a href="#ContT-run"><code>run</code></a></td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L76" id="ContT-ext_iff"><code>ext_iff</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#ContT.ext_iff" title="API Documentation">📖</a></td><td>mathematical</td><td>—</td><td><a href="#ContT-run"><code>run</code></a></td><td>—</td><td><a href="#ContT-ext"><code>ext</code></a></td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L84" id="ContT-instLawfulMonad"><code>instLawfulMonad</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#ContT.instLawfulMonad" title="API Documentation">📖</a></td><td>mathematical</td><td>—</td><td><a href="#ContT"><code>ContT</code></a><br><a href="#ContT-instMonad"><code>instMonad</code></a></td><td>—</td><td><a href="#ContT-ext"><code>ext</code></a></td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L103" id="ContT-instLawfulMonadCont"><code>instLawfulMonadCont</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#ContT.instLawfulMonadCont" title="API Documentation">📖</a></td><td>mathematical</td><td>—</td><td><a href="#LawfulMonadCont"><code>LawfulMonadCont</code></a><br><a href="#ContT"><code>ContT</code></a><br><a href="#ContT-instMonad"><code>instMonad</code></a><br><a href="#ContT-instMonadCont"><code>instMonadCont</code></a></td><td>—</td><td><a href="#ContT-instLawfulMonad"><code>instLawfulMonad</code></a><br><a href="#ContT-ext"><code>ext</code></a></td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L94" id="ContT-monadLift_bind"><code>monadLift_bind</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#ContT.monadLift_bind" title="API Documentation">📖</a></td><td>mathematical</td><td>—</td><td><a href="#ContT-monadLift"><code>monadLift</code></a><br><a href="#ContT"><code>ContT</code></a><br><a href="#ContT-instMonad"><code>instMonad</code></a></td><td>—</td><td><a href="#ContT-ext"><code>ext</code></a></td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L67" id="ContT-run_contT_map_contT"><code>run_contT_map_contT</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#ContT.run_contT_map_contT" title="API Documentation">📖</a></td><td>mathematical</td><td>—</td><td><a href="#ContT-run"><code>run</code></a><br><a href="#ContT-map"><code>map</code></a></td><td>—</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L72" id="ContT-run_withContT"><code>run_withContT</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#ContT.run_withContT" title="API Documentation">📖</a></td><td>mathematical</td><td>—</td><td><a href="#ContT-run"><code>run</code></a><br><a href="#ContT-withContT"><code>withContT</code></a></td><td>—</td><td>—</td></tr>
+</table>
+<h2>ExceptT</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L141" id="ExceptT-callCC"><code>callCC</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#ExceptT.callCC" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L134" id="ExceptT-mkLabel"><code>mkLabel</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#ExceptT.mkLabel" title="API Documentation">📖</a></td><td>CompOp</td><td><details><summary>1 math</summary><strong>math:</strong> <a href="#ExceptT-goto_mkLabel"><code>goto_mkLabel</code></a><br></details></td></tr>
+</table>
+<h3>Theorems</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Kind</th><th>Assumes</th><th>Proves</th><th>Validates</th><th>Depends On</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L137" id="ExceptT-goto_mkLabel"><code>goto_mkLabel</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#ExceptT.goto_mkLabel" title="API Documentation">📖</a></td><td>mathematical</td><td>—</td><td><a href="#MonadCont-goto"><code>MonadCont.goto</code></a><br><a href="#ExceptT-mkLabel"><code>mkLabel</code></a></td><td>—</td><td>—</td></tr>
+</table>
+<h2>LawfulMonadCont</h2>
+<h3>Theorems</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Kind</th><th>Assumes</th><th>Proves</th><th>Validates</th><th>Depends On</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L43" id="LawfulMonadCont-callCC_bind_left"><code>callCC_bind_left</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#LawfulMonadCont.callCC_bind_left" title="API Documentation">📖</a></td><td>mathematical</td><td>—</td><td><a href="#MonadCont-callCC"><code>MonadCont.callCC</code></a><br><a href="#MonadCont-goto"><code>MonadCont.goto</code></a></td><td>—</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L41" id="LawfulMonadCont-callCC_bind_right"><code>callCC_bind_right</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#LawfulMonadCont.callCC_bind_right" title="API Documentation">📖</a></td><td>mathematical</td><td>—</td><td><a href="#MonadCont-callCC"><code>MonadCont.callCC</code></a></td><td>—</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L45" id="LawfulMonadCont-callCC_dummy"><code>callCC_dummy</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#LawfulMonadCont.callCC_dummy" title="API Documentation">📖</a></td><td>mathematical</td><td>—</td><td><a href="#MonadCont-callCC"><code>MonadCont.callCC</code></a></td><td>—</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L40" id="LawfulMonadCont-toLawfulMonad"><code>toLawfulMonad</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#LawfulMonadCont.toLawfulMonad" title="API Documentation">📖</a></td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+</table>
+<h2>MonadCont</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L28" id="MonadCont-Label"><code>Label</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#MonadCont.Label" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L35" id="MonadCont-callCC"><code>callCC</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#MonadCont.callCC" title="API Documentation">📖</a></td><td>CompOp</td><td><details><summary>4 math</summary><strong>math:</strong> <a href="#run_callCC"><code>run_callCC</code></a>, <a href="#LawfulMonadCont-callCC_dummy"><code>LawfulMonadCont.callCC_dummy</code></a>, <a href="#LawfulMonadCont-callCC_bind_left"><code>LawfulMonadCont.callCC_bind_left</code></a>, <a href="#LawfulMonadCont-callCC_bind_right"><code>LawfulMonadCont.callCC_bind_right</code></a><br></details></td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L31" id="MonadCont-goto"><code>goto</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#MonadCont.goto" title="API Documentation">📖</a></td><td>CompOp</td><td><details><summary>7 math</summary><strong>math:</strong> <a href="#WriterT-goto_mkLabel"><code>WriterT.goto_mkLabel</code></a>, <a href="#LawfulMonadCont-callCC_bind_left"><code>LawfulMonadCont.callCC_bind_left</code></a>, <a href="#ExceptT-goto_mkLabel"><code>ExceptT.goto_mkLabel</code></a>, <a href="#OptionT-goto_mkLabel"><code>OptionT.goto_mkLabel</code></a>, <a href="#StateT-goto_mkLabel"><code>StateT.goto_mkLabel</code></a>, <a href="#WriterT-goto_mkLabel'"><code>WriterT.goto_mkLabel'</code></a>, <a href="#ReaderT-goto_mkLabel"><code>ReaderT.goto_mkLabel</code></a><br></details></td></tr>
+</table>
+<h2>MonadCont.Label</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L29" id="MonadCont-Label-apply"><code>apply</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#MonadCont.Label.apply" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>OptionT</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L167" id="OptionT-callCC"><code>callCC</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#OptionT.callCC" title="API Documentation">📖</a></td><td>CompOp</td><td><details><summary>1 math</summary><strong>math:</strong> <a href="#run_callCC"><code>run_callCC</code></a><br></details></td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L160" id="OptionT-mkLabel"><code>mkLabel</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#OptionT.mkLabel" title="API Documentation">📖</a></td><td>CompOp</td><td><details><summary>2 math</summary><strong>math:</strong> <a href="#run_callCC"><code>run_callCC</code></a>, <a href="#OptionT-goto_mkLabel"><code>goto_mkLabel</code></a><br></details></td></tr>
+</table>
+<h3>Theorems</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Kind</th><th>Assumes</th><th>Proves</th><th>Validates</th><th>Depends On</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L163" id="OptionT-goto_mkLabel"><code>goto_mkLabel</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#OptionT.goto_mkLabel" title="API Documentation">📖</a></td><td>mathematical</td><td>—</td><td><a href="#MonadCont-goto"><code>MonadCont.goto</code></a><br><a href="#OptionT-mkLabel"><code>mkLabel</code></a></td><td>—</td><td>—</td></tr>
+</table>
+<h2>ReaderT</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L250" id="ReaderT-callCC"><code>callCC</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#ReaderT.callCC" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L244" id="ReaderT-mkLabel"><code>mkLabel</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#ReaderT.mkLabel" title="API Documentation">📖</a></td><td>CompOp</td><td><details><summary>1 math</summary><strong>math:</strong> <a href="#ReaderT-goto_mkLabel"><code>goto_mkLabel</code></a><br></details></td></tr>
+</table>
+<h3>Theorems</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Kind</th><th>Assumes</th><th>Proves</th><th>Validates</th><th>Depends On</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L247" id="ReaderT-goto_mkLabel"><code>goto_mkLabel</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#ReaderT.goto_mkLabel" title="API Documentation">📖</a></td><td>mathematical</td><td>—</td><td><a href="#MonadCont-goto"><code>MonadCont.goto</code></a><br><a href="#ReaderT-mkLabel"><code>mkLabel</code></a></td><td>—</td><td>—</td></tr>
+</table>
+<h2>StateT</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L224" id="StateT-callCC"><code>callCC</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#StateT.callCC" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L218" id="StateT-mkLabel"><code>mkLabel</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#StateT.mkLabel" title="API Documentation">📖</a></td><td>CompOp</td><td><details><summary>1 math</summary><strong>math:</strong> <a href="#StateT-goto_mkLabel"><code>goto_mkLabel</code></a><br></details></td></tr>
+</table>
+<h3>Theorems</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Kind</th><th>Assumes</th><th>Proves</th><th>Validates</th><th>Depends On</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L221" id="StateT-goto_mkLabel"><code>goto_mkLabel</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#StateT.goto_mkLabel" title="API Documentation">📖</a></td><td>mathematical</td><td>—</td><td><a href="#MonadCont-goto"><code>MonadCont.goto</code></a><br><a href="#StateT-mkLabel"><code>mkLabel</code></a></td><td>—</td><td>—</td></tr>
+</table>
+<h2>Turing.ToPartrec</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L417" id="Turing-ToPartrec-Cont"><code>Cont</code></a> <a href="../api/Mathlib/Computability/TMConfig.html#Turing.ToPartrec.Cont" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+</table>
+<h2>WriterT</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L201" id="WriterT-callCC"><code>callCC</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#WriterT.callCC" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L205" id="WriterT-callCC'"><code>callCC'</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#WriterT.callCC'" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L189" id="WriterT-mkLabel"><code>mkLabel</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#WriterT.mkLabel" title="API Documentation">📖</a></td><td>CompOp</td><td><details><summary>1 math</summary><strong>math:</strong> <a href="#WriterT-goto_mkLabel"><code>goto_mkLabel</code></a><br></details></td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L192" id="WriterT-mkLabel'"><code>mkLabel'</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#WriterT.mkLabel'" title="API Documentation">📖</a></td><td>CompOp</td><td><details><summary>1 math</summary><strong>math:</strong> <a href="#WriterT-goto_mkLabel'"><code>goto_mkLabel'</code></a><br></details></td></tr>
+</table>
+<h3>Theorems</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Kind</th><th>Assumes</th><th>Proves</th><th>Validates</th><th>Depends On</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L195" id="WriterT-goto_mkLabel"><code>goto_mkLabel</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#WriterT.goto_mkLabel" title="API Documentation">📖</a></td><td>mathematical</td><td>—</td><td><a href="#MonadCont-goto"><code>MonadCont.goto</code></a><br><a href="#WriterT"><code>WriterT</code></a><br><a href="#WriterT-mkLabel"><code>mkLabel</code></a><br><a href="#WriterT-instMonadLiftOfEmptyCollection"><code>instMonadLiftOfEmptyCollection</code></a></td><td>—</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L198" id="WriterT-goto_mkLabel'"><code>goto_mkLabel'</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#WriterT.goto_mkLabel'" title="API Documentation">📖</a></td><td>mathematical</td><td>—</td><td><a href="#MonadCont-goto"><code>MonadCont.goto</code></a><br><a href="#WriterT"><code>WriterT</code></a><br><a href="#WriterT-mkLabel'"><code>mkLabel'</code></a><br><a href="#WriterT-instMonadLiftOfMonoid"><code>instMonadLiftOfMonoid</code></a><br><a href="#MulOne-toOne"><code>MulOne.toOne</code></a><br><a href="#MulOneClass-toMulOne"><code>MulOneClass.toMulOne</code></a><br><a href="#Monoid-toMulOneClass"><code>Monoid.toMulOneClass</code></a></td><td>—</td><td>—</td></tr>
+</table>
+<h2>(root)</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L52" id="Cont"><code>Cont</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#Cont" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L49" id="ContT"><code>ContT</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#ContT" title="API Documentation">📖</a></td><td>CompOp</td><td><details><summary>3 math</summary><strong>math:</strong> <a href="#ContT-instLawfulMonadCont"><code>ContT.instLawfulMonadCont</code></a>, <a href="#ContT-monadLift_bind"><code>ContT.monadLift_bind</code></a>, <a href="#ContT-instLawfulMonad"><code>ContT.instLawfulMonad</code></a><br></details></td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L39" id="LawfulMonadCont"><code>LawfulMonadCont</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#LawfulMonadCont" title="API Documentation">📖</a></td><td>CompData</td><td><details><summary>5 math</summary><strong>math:</strong> <a href="#ContT-instLawfulMonadCont"><code>ContT.instLawfulMonadCont</code></a>, <a href="#instLawfulMonadContStateT"><code>instLawfulMonadContStateT</code></a>, <a href="#instLawfulMonadContOptionT"><code>instLawfulMonadContOptionT</code></a>, <a href="#instLawfulMonadContReaderT"><code>instLawfulMonadContReaderT</code></a>, <a href="#instLawfulMonadContExceptT"><code>instLawfulMonadContExceptT</code></a><br></details></td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L34" id="MonadCont"><code>MonadCont</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#MonadCont" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L145" id="instMonadContExceptT"><code>instMonadContExceptT</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#instMonadContExceptT" title="API Documentation">📖</a></td><td>CompOp</td><td><details><summary>1 math</summary><strong>math:</strong> <a href="#instLawfulMonadContExceptT"><code>instLawfulMonadContExceptT</code></a><br></details></td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L175" id="instMonadContOptionT"><code>instMonadContOptionT</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#instMonadContOptionT" title="API Documentation">📖</a></td><td>CompOp</td><td><details><summary>1 math</summary><strong>math:</strong> <a href="#instLawfulMonadContOptionT"><code>instLawfulMonadContOptionT</code></a><br></details></td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L254" id="instMonadContReaderT"><code>instMonadContReaderT</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#instMonadContReaderT" title="API Documentation">📖</a></td><td>CompOp</td><td><details><summary>1 math</summary><strong>math:</strong> <a href="#instLawfulMonadContReaderT"><code>instLawfulMonadContReaderT</code></a><br></details></td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L228" id="instMonadContStateT"><code>instMonadContStateT</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#instMonadContStateT" title="API Documentation">📖</a></td><td>CompOp</td><td><details><summary>1 math</summary><strong>math:</strong> <a href="#instLawfulMonadContStateT"><code>instLawfulMonadContStateT</code></a><br></details></td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L212" id="instMonadContWriterTOfMonadOfEmptyCollection"><code>instMonadContWriterTOfMonadOfEmptyCollection</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#instMonadContWriterTOfMonadOfEmptyCollection" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L215" id="instMonadContWriterTOfMonadOfMonoid"><code>instMonadContWriterTOfMonadOfMonoid</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#instMonadContWriterTOfMonadOfMonoid" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h3>Theorems</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Kind</th><th>Assumes</th><th>Proves</th><th>Validates</th><th>Depends On</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L148" id="instLawfulMonadContExceptT"><code>instLawfulMonadContExceptT</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#instLawfulMonadContExceptT" title="API Documentation">📖</a></td><td>mathematical</td><td>—</td><td><a href="#LawfulMonadCont"><code>LawfulMonadCont</code></a><br><a href="#instMonadContExceptT"><code>instMonadContExceptT</code></a></td><td>—</td><td><a href="#LawfulMonadCont-toLawfulMonad"><code>LawfulMonadCont.toLawfulMonad</code></a><br><a href="#LawfulMonadCont-callCC_bind_right"><code>LawfulMonadCont.callCC_bind_right</code></a><br><a href="#LawfulMonadCont-callCC_dummy"><code>LawfulMonadCont.callCC_dummy</code></a><br><a href="#ExceptT-goto_mkLabel"><code>ExceptT.goto_mkLabel</code></a><br><a href="#map_eq_bind_pure_comp"><code>map_eq_bind_pure_comp</code></a><br><a href="#LawfulMonadCont-callCC_bind_left"><code>LawfulMonadCont.callCC_bind_left</code></a></td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L178" id="instLawfulMonadContOptionT"><code>instLawfulMonadContOptionT</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#instLawfulMonadContOptionT" title="API Documentation">📖</a></td><td>mathematical</td><td>—</td><td><a href="#LawfulMonadCont"><code>LawfulMonadCont</code></a><br><a href="#instMonadContOptionT"><code>instMonadContOptionT</code></a></td><td>—</td><td><a href="#LawfulMonadCont-toLawfulMonad"><code>LawfulMonadCont.toLawfulMonad</code></a><br><a href="#run_callCC"><code>run_callCC</code></a><br><a href="#LawfulMonadCont-callCC_bind_right"><code>LawfulMonadCont.callCC_bind_right</code></a><br><a href="#LawfulMonadCont-callCC_dummy"><code>LawfulMonadCont.callCC_dummy</code></a><br><a href="#OptionT-goto_mkLabel"><code>OptionT.goto_mkLabel</code></a><br><a href="#LawfulMonadCont-callCC_bind_left"><code>LawfulMonadCont.callCC_bind_left</code></a></td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L257" id="instLawfulMonadContReaderT"><code>instLawfulMonadContReaderT</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#instLawfulMonadContReaderT" title="API Documentation">📖</a></td><td>mathematical</td><td>—</td><td><a href="#LawfulMonadCont"><code>LawfulMonadCont</code></a><br><a href="#instMonadContReaderT"><code>instMonadContReaderT</code></a></td><td>—</td><td><a href="#LawfulMonadCont-toLawfulMonad"><code>LawfulMonadCont.toLawfulMonad</code></a><br><a href="#LawfulMonadCont-callCC_bind_right"><code>LawfulMonadCont.callCC_bind_right</code></a><br><a href="#ReaderT-goto_mkLabel"><code>ReaderT.goto_mkLabel</code></a><br><a href="#LawfulMonadCont-callCC_bind_left"><code>LawfulMonadCont.callCC_bind_left</code></a><br><a href="#LawfulMonadCont-callCC_dummy"><code>LawfulMonadCont.callCC_dummy</code></a></td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L231" id="instLawfulMonadContStateT"><code>instLawfulMonadContStateT</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#instLawfulMonadContStateT" title="API Documentation">📖</a></td><td>mathematical</td><td>—</td><td><a href="#LawfulMonadCont"><code>LawfulMonadCont</code></a><br><a href="#instMonadContStateT"><code>instMonadContStateT</code></a></td><td>—</td><td><a href="#LawfulMonadCont-toLawfulMonad"><code>LawfulMonadCont.toLawfulMonad</code></a><br><a href="#LawfulMonadCont-callCC_bind_right"><code>LawfulMonadCont.callCC_bind_right</code></a><br><a href="#StateT-goto_mkLabel"><code>StateT.goto_mkLabel</code></a><br><a href="#LawfulMonadCont-callCC_bind_left"><code>LawfulMonadCont.callCC_bind_left</code></a><br><a href="#LawfulMonadCont-callCC_dummy"><code>LawfulMonadCont.callCC_dummy</code></a></td></tr>
+<tr><td><a href="https://github.com/leanprover-community/mathlib4/blob/master/Mathlib/Control/Monad/Cont.lean#L172" id="run_callCC"><code>run_callCC</code></a> <a href="../api/Mathlib/Control/Monad/Cont.html#run_callCC" title="API Documentation">📖</a></td><td>mathematical</td><td>—</td><td><a href="#OptionT-callCC"><code>OptionT.callCC</code></a><br><a href="#MonadCont-callCC"><code>MonadCont.callCC</code></a><br><a href="#OptionT-mkLabel"><code>OptionT.mkLabel</code></a></td><td>—</td><td>—</td></tr>
+</table>
+<p>---</p>
+<p><a href="index.html">← Back to Index</a></p>
+    </div>
+  </main>
+</body>
+</html>

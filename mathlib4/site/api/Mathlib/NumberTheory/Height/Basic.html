@@ -1,0 +1,894 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../.././style.css"></link><link rel="icon" href="../../.././favicon.svg"></link><link rel="mask-icon" href="../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.NumberTheory.Height.Basic</title><script defer="true" src="../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../.././";</script><script>const MODULE_NAME="Mathlib.NumberTheory.Height.Basic";</script><script type="module" src="../../.././jump-src.js"></script><script type="module" src="../../.././search.js"></script><script type="module" src="../../.././expand-nav.js"></script><script type="module" src="../../.././how-about.js"></script><script type="module" src="../../.././instances.js"></script><script type="module" src="../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">NumberTheory</span>.<span class="name">Height</span>.<span class="name">Basic</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../.././Init.html">Init</a></li><li><a href="../../.././Mathlib/Data/Fintype/Order.html">Mathlib.Data.Fintype.Order</a></li><li><a href="../../.././Mathlib/RingTheory/Nilpotent/Defs.html">Mathlib.RingTheory.Nilpotent.Defs</a></li><li><a href="../../.././Mathlib/Tactic/Positivity/Core.html">Mathlib.Tactic.Positivity.Core</a></li><li><a href="../../.././Mathlib/Algebra/Order/Group/Indicator.html">Mathlib.Algebra.Order.Group.Indicator</a></li><li><a href="../../.././Mathlib/Algebra/Order/Ring/IsNonarchimedean.html">Mathlib.Algebra.Order.Ring.IsNonarchimedean</a></li><li><a href="../../.././Mathlib/Analysis/SpecialFunctions/Log/Basic.html">Mathlib.Analysis.SpecialFunctions.Log.Basic</a></li><li><a href="../../.././Mathlib/Algebra/Order/BigOperators/GroupWithZero/Finset.html">Mathlib.Algebra.Order.BigOperators.GroupWithZero.Finset</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.NumberTheory.Height.Basic" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#Height.AdmissibleAbsValues"><span class="name">Height</span>.<span class="name">AdmissibleAbsValues</span></a></div><div class="nav_link"><a class="break_within" href="#Height.totalWeight"><span class="name">Height</span>.<span class="name">totalWeight</span></a></div><div class="nav_link"><a class="break_within" href="#Height.mulHeight₁"><span class="name">Height</span>.<span class="name">mulHeight₁</span></a></div><div class="nav_link"><a class="break_within" href="#Height.mulHeight₁_eq"><span class="name">Height</span>.<span class="name">mulHeight₁_eq</span></a></div><div class="nav_link"><a class="break_within" href="#Height.mulHeight₁_zero"><span class="name">Height</span>.<span class="name">mulHeight₁_zero</span></a></div><div class="nav_link"><a class="break_within" href="#Height.mulHeight₁_one"><span class="name">Height</span>.<span class="name">mulHeight₁_one</span></a></div><div class="nav_link"><a class="break_within" href="#Height.one_le_mulHeight₁"><span class="name">Height</span>.<span class="name">one_le_mulHeight₁</span></a></div><div class="nav_link"><a class="break_within" href="#Height.mulHeight₁_pos"><span class="name">Height</span>.<span class="name">mulHeight₁_pos</span></a></div><div class="nav_link"><a class="break_within" href="#Height.mulHeight₁_ne_zero"><span class="name">Height</span>.<span class="name">mulHeight₁_ne_zero</span></a></div><div class="nav_link"><a class="break_within" href="#Height.mulHeight₁_nonneg"><span class="name">Height</span>.<span class="name">mulHeight₁_nonneg</span></a></div><div class="nav_link"><a class="break_within" href="#Height.logHeight₁"><span class="name">Height</span>.<span class="name">logHeight₁</span></a></div><div class="nav_link"><a class="break_within" href="#Height.logHeight₁_eq_log_mulHeight₁"><span class="name">Height</span>.<span class="name">logHeight₁_eq_log_mulHeight₁</span></a></div><div class="nav_link"><a class="break_within" href="#Height.logHeight₁_zero"><span class="name">Height</span>.<span class="name">logHeight₁_zero</span></a></div><div class="nav_link"><a class="break_within" href="#Height.logHeight₁_one"><span class="name">Height</span>.<span class="name">logHeight₁_one</span></a></div><div class="nav_link"><a class="break_within" href="#Height.zero_le_logHeight₁"><span class="name">Height</span>.<span class="name">zero_le_logHeight₁</span></a></div><div class="nav_link"><a class="break_within" href="#Mathlib.Meta.Positivity.evalMulHeight₁"><span class="name">Mathlib</span>.<span class="name">Meta</span>.<span class="name">Positivity</span>.<span class="name">evalMulHeight₁</span></a></div><div class="nav_link"><a class="break_within" href="#Mathlib.Meta.Positivity.evalLogHeight₁"><span class="name">Mathlib</span>.<span class="name">Meta</span>.<span class="name">Positivity</span>.<span class="name">evalLogHeight₁</span></a></div><div class="nav_link"><a class="break_within" href="#Height.mulHeight"><span class="name">Height</span>.<span class="name">mulHeight</span></a></div><div class="nav_link"><a class="break_within" href="#Height.mulHeight_eq"><span class="name">Height</span>.<span class="name">mulHeight_eq</span></a></div><div class="nav_link"><a class="break_within" href="#Height.mulHeight_zero"><span class="name">Height</span>.<span class="name">mulHeight_zero</span></a></div><div class="nav_link"><a class="break_within" href="#Height.fun_mulHeight_zero"><span class="name">Height</span>.<span class="name">fun_mulHeight_zero</span></a></div><div class="nav_link"><a class="break_within" href="#Height.mulHeight_one"><span class="name">Height</span>.<span class="name">mulHeight_one</span></a></div><div class="nav_link"><a class="break_within" href="#Height.fun_mulHeight_one"><span class="name">Height</span>.<span class="name">fun_mulHeight_one</span></a></div><div class="nav_link"><a class="break_within" href="#Height.mulHeight_comp_equiv"><span class="name">Height</span>.<span class="name">mulHeight_comp_equiv</span></a></div><div class="nav_link"><a class="break_within" href="#Height.mulHeight_swap"><span class="name">Height</span>.<span class="name">mulHeight_swap</span></a></div><div class="nav_link"><a class="break_within" href="#Height.logHeight"><span class="name">Height</span>.<span class="name">logHeight</span></a></div><div class="nav_link"><a class="break_within" href="#Height.logHeight_eq_log_mulHeight"><span class="name">Height</span>.<span class="name">logHeight_eq_log_mulHeight</span></a></div><div class="nav_link"><a class="break_within" href="#Height.logHeight_zero"><span class="name">Height</span>.<span class="name">logHeight_zero</span></a></div><div class="nav_link"><a class="break_within" href="#Height.fun_logHeight_zero"><span class="name">Height</span>.<span class="name">fun_logHeight_zero</span></a></div><div class="nav_link"><a class="break_within" href="#Height.logHeight_one"><span class="name">Height</span>.<span class="name">logHeight_one</span></a></div><div class="nav_link"><a class="break_within" href="#Height.fun_logHeight_one"><span class="name">Height</span>.<span class="name">fun_logHeight_one</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.mulHeight"><span class="name">Finsupp</span>.<span class="name">mulHeight</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.logHeight"><span class="name">Finsupp</span>.<span class="name">logHeight</span></a></div><div class="nav_link"><a class="break_within" href="#Finsupp.logHeight_eq_log_mulHeight"><span class="name">Finsupp</span>.<span class="name">logHeight_eq_log_mulHeight</span></a></div><div class="nav_link"><a class="break_within" href="#Height.mulHeight_smul_eq_mulHeight"><span class="name">Height</span>.<span class="name">mulHeight_smul_eq_mulHeight</span></a></div><div class="nav_link"><a class="break_within" href="#Height.one_le_mulHeight"><span class="name">Height</span>.<span class="name">one_le_mulHeight</span></a></div><div class="nav_link"><a class="break_within" href="#Height.mulHeight_pos"><span class="name">Height</span>.<span class="name">mulHeight_pos</span></a></div><div class="nav_link"><a class="break_within" href="#Height.mulHeight_ne_zero"><span class="name">Height</span>.<span class="name">mulHeight_ne_zero</span></a></div><div class="nav_link"><a class="break_within" href="#Height.logHeight_nonneg"><span class="name">Height</span>.<span class="name">logHeight_nonneg</span></a></div><div class="nav_link"><a class="break_within" href="#Mathlib.Meta.Positivity.evalMulHeight"><span class="name">Mathlib</span>.<span class="name">Meta</span>.<span class="name">Positivity</span>.<span class="name">evalMulHeight</span></a></div><div class="nav_link"><a class="break_within" href="#Mathlib.Meta.Positivity.evalLogHeight"><span class="name">Mathlib</span>.<span class="name">Meta</span>.<span class="name">Positivity</span>.<span class="name">evalLogHeight</span></a></div><div class="nav_link"><a class="break_within" href="#Height.logHeight_smul_eq_logHeight"><span class="name">Height</span>.<span class="name">logHeight_smul_eq_logHeight</span></a></div><div class="nav_link"><a class="break_within" href="#Height.mulHeight₁_eq_mulHeight"><span class="name">Height</span>.<span class="name">mulHeight₁_eq_mulHeight</span></a></div><div class="nav_link"><a class="break_within" href="#Height.logHeight₁_eq_logHeight"><span class="name">Height</span>.<span class="name">logHeight₁_eq_logHeight</span></a></div><div class="nav_link"><a class="break_within" href="#Height.mulHeight₁_div_eq_mulHeight"><span class="name">Height</span>.<span class="name">mulHeight₁_div_eq_mulHeight</span></a></div><div class="nav_link"><a class="break_within" href="#Height.logHeight₁_div_eq_logHeight"><span class="name">Height</span>.<span class="name">logHeight₁_div_eq_logHeight</span></a></div><div class="nav_link"><a class="break_within" href="#Height.mulHeight_pow"><span class="name">Height</span>.<span class="name">mulHeight_pow</span></a></div><div class="nav_link"><a class="break_within" href="#Height.logHeight_pow"><span class="name">Height</span>.<span class="name">logHeight_pow</span></a></div><div class="nav_link"><a class="break_within" href="#Height.mulHeight₁_inv"><span class="name">Height</span>.<span class="name">mulHeight₁_inv</span></a></div><div class="nav_link"><a class="break_within" href="#Height.logHeight₁_inv"><span class="name">Height</span>.<span class="name">logHeight₁_inv</span></a></div><div class="nav_link"><a class="break_within" href="#Height.mulHeight₁_pow"><span class="name">Height</span>.<span class="name">mulHeight₁_pow</span></a></div><div class="nav_link"><a class="break_within" href="#Height.logHeight₁_pow"><span class="name">Height</span>.<span class="name">logHeight₁_pow</span></a></div><div class="nav_link"><a class="break_within" href="#Height.mulHeight₁_zpow"><span class="name">Height</span>.<span class="name">mulHeight₁_zpow</span></a></div><div class="nav_link"><a class="break_within" href="#Height.logHeight₁_zpow"><span class="name">Height</span>.<span class="name">logHeight₁_zpow</span></a></div><div class="nav_link"><a class="break_within" href="#Finset.max_abv_sum_one_le"><span class="name">Finset</span>.<span class="name">max_abv_sum_one_le</span></a></div><div class="nav_link"><a class="break_within" href="#Finset.max_abv_sum_one_le_of_isNonarchimedean"><span class="name">Finset</span>.<span class="name">max_abv_sum_one_le_of_isNonarchimedean</span></a></div><div class="nav_link"><a class="break_within" href="#Height.mulHeight₁_sum_le"><span class="name">Height</span>.<span class="name">mulHeight₁_sum_le</span></a></div><div class="nav_link"><a class="break_within" href="#Height.logHeight₁_sum_le"><span class="name">Height</span>.<span class="name">logHeight₁_sum_le</span></a></div><div class="nav_link"><a class="break_within" href="#Height.mulHeight₁_neg"><span class="name">Height</span>.<span class="name">mulHeight₁_neg</span></a></div><div class="nav_link"><a class="break_within" href="#Height.logHeight₁_neg"><span class="name">Height</span>.<span class="name">logHeight₁_neg</span></a></div><div class="nav_link"><a class="break_within" href="#Height.mulHeight₁_add_le"><span class="name">Height</span>.<span class="name">mulHeight₁_add_le</span></a></div><div class="nav_link"><a class="break_within" href="#Height.logHeight₁_add_le"><span class="name">Height</span>.<span class="name">logHeight₁_add_le</span></a></div><div class="nav_link"><a class="break_within" href="#Height.mulHeight₁_sub_le"><span class="name">Height</span>.<span class="name">mulHeight₁_sub_le</span></a></div><div class="nav_link"><a class="break_within" href="#Height.logHeight₁_sub_le"><span class="name">Height</span>.<span class="name">logHeight₁_sub_le</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Basic-theory-of-heights" class="markdown-heading">Basic theory of heights <a class="hover-link" href="#Basic-theory-of-heights">#</a></h1><p>This is an attempt at formalizing some basic properties of height functions.</p><p>We aim at a level of generality that allows to apply the theory to algebraic number fields
+and to function fields (and possibly beyond).</p><p>The general set-up for heights is the following. Let <code>K</code> be a field.</p><ul><li>We have a <code><a href="../../.././Mathlib/Data/Multiset/Defs.html#Multiset">Multiset</a></code> of archimedean absolute values on <code>K</code> (with values in <code>ℝ</code>).</li><li>We also have a <code><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a></code> of non-archimedean (i.e., <code>|x+y| ≤ max |x| |y|</code>) absolute values.</li><li>For a given <code>x ≠ 0</code> in <code>K</code>, <code>|x|ᵥ = 1</code> for all but finitely many (non-archimedean) <code>v</code>.</li><li>We have the <em>product formula</em> <code>∏ v : arch, |x|ᵥ * ∏ v : nonarch, |x|ᵥ = 1</code>
+for all <code>x ≠ 0</code> in <code>K</code>, where the first product is over the multiset of archimedean
+absolute values.</li></ul><p>We realize this implementation via the class <code><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">Height.AdmissibleAbsValues</a> K</code>.</p><h2 id="Main-definitions" class="markdown-heading">Main definitions <a class="hover-link" href="#Main-definitions">#</a></h2><p>We define <em>multiplicative heights</em> and <em>logarithmic heights</em> (which are just defined to
+be the (real) logarithm of the corresponding multiplicative height). This leads to some
+duplication (in the definitions and statements; the proofs are reduced to those for the
+multiplicative height), which is justified, as both versions are frequently used.</p><p>We define the following variants.</p><ul><li><code><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁">Height.mulHeight₁</a> x</code> and <code><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁">Height.logHeight₁</a> x</code> for <code>x : K</code>.
+This is the height of an element of <code>K</code>.</li><li><code><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight">Height.mulHeight</a> x</code> and <code><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight">Height.logHeight</a> x</code> for <code>x : ι → K</code> with <code>ι</code> finite. This is the height
+of a tuple of elements of <code>K</code> representing a point in projective space. When <code>x = 0</code>, we
+define the multiplicative height to be <code>1</code> (so the loarithmic height is <code>0</code>).
+It is invariant under scaling by nonzero elements of <code>K</code>.</li><li><code><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Finsupp.mulHeight">Finsupp.mulHeight</a> x</code> and <code><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Finsupp.logHeight">Finsupp.logHeight</a> x</code> for <code>x : α →₀ K</code>. This is the same
+as the height of <code>x</code> restricted to the support of <code>x</code>.</li></ul><h2 id="TODO" class="markdown-heading">TODO <a class="hover-link" href="#TODO">#</a></h2><ul><li><p>Add <code><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">Height.AdmissibleAbsValues</a></code> instances for</p><ul><li>Fields of rational functions in <code>n</code> variables and</li><li>Finite extensions of fields with <code><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">Height.AdmissibleAbsValues</a></code>.</li></ul></li><li><p>Prove upper and lower bounds on the height of the image of a tuple under a tuple
+of homogeneous polynomial maps of the same degree.</p></li></ul><h2 id="Tags" class="markdown-heading">Tags <a class="hover-link" href="#Tags">#</a></h2><p>Height, absolute value</p></div><div class="mod_doc"><h3 id="Families-of-admissible-absolute-values" class="markdown-heading">Families of admissible absolute values <a class="hover-link" href="#Families-of-admissible-absolute-values">#</a></h3><p>We define the class <code><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> K</code> for a field <code>K</code>, which captures the notion of a
+family of absolute values on <code>K</code> satisfying a product formula.</p></div><div class="decl" id="Height.AdmissibleAbsValues"><div class="class"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L78-L90">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.AdmissibleAbsValues" class="verification-badge comp-datatype" title="Computational datatype">🔶 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">class</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues"><span class="name">Height</span>.<span class="name">AdmissibleAbsValues</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><a href="../../.././foundational_types.html">Type</a> u_1</div></div><p>A type class capturing an admissible family of absolute values.</p><ul class="structure_fields" id="Height.AdmissibleAbsValues.mk"><li id="Height.AdmissibleAbsValues.archAbsVal" class="structure_field"><div class="structure_field_info">archAbsVal : <span class="fn"><a href="../../.././Mathlib/Data/Multiset/Defs.html#Multiset">Multiset</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue">AbsoluteValue</a> <span class="fn">K</span> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a>)</span></span></div><div class="structure_field_doc"><p>The archimedean absolute values as a multiset of <code>ℝ</code>-valued absolute values on <code>K</code>.</p></div></li><li id="Height.AdmissibleAbsValues.nonarchAbsVal" class="structure_field"><div class="structure_field_info">nonarchAbsVal : <span class="fn"><a href="../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">(<a href="../../.././Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue">AbsoluteValue</a> <span class="fn">K</span> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a>)</span></span></div><div class="structure_field_doc"><p>The nonarchimedean absolute values as a set of <code>ℝ</code>-valued absolute values on <code>K</code>.</p></div></li><li id="Height.AdmissibleAbsValues.isNonarchimedean" class="structure_field"><div class="structure_field_info">isNonarchimedean<span class="decl_args">
+<span class="fn">(<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue">AbsoluteValue</a> <span class="fn">K</span> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a></span>)</span></span>
+ : <span class="fn"><span class="fn"><span class="fn">v</span> <span class="fn">∈</span> <a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues.nonarchAbsVal">nonarchAbsVal</a></span> → <span class="fn"><a href="../../.././Mathlib/Algebra/Order/Ring/Basic.html#IsNonarchimedean">IsNonarchimedean</a> <span class="fn">⇑<span class="fn">v</span></span></span></span></div><div class="structure_field_doc"><p>The nonarchimedean absolute values are indeed nonarchimedean.</p></div></li><li id="Height.AdmissibleAbsValues.mulSupport_finite" class="structure_field"><div class="structure_field_info">mulSupport_finite<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">K</span>}</span></span>
+</span> : <span class="fn"><span class="fn"><span class="fn">x</span> <span class="fn">≠</span> <span class="fn">0</span></span> → <span class="fn"><span class="fn">(<a href="../../.././Mathlib/Algebra/Notation/Support.html#Function.mulSupport">Function.mulSupport</a> <span class="fn">fun (<span class="fn">v</span> : <span class="fn">↑<a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues.nonarchAbsVal">nonarchAbsVal</a></span>) =&gt; <span class="fn"><span class="fn">↑<span class="fn">v</span></span> <span class="fn">x</span></span></span>)</span>.<a href="../../.././Mathlib/Data/Finite/Defs.html#Set.Finite">Finite</a></span></span></div><div class="structure_field_doc"><p>Only finitely many (nonarchimedean) absolute values are <code>≠ 1</code> for any nonzero <code>x : K</code>.</p></div></li><li id="Height.AdmissibleAbsValues.product_formula" class="structure_field"><div class="structure_field_info">product_formula<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">K</span>}</span></span>
+</span> : <span class="fn"><span class="fn"><span class="fn">x</span> <span class="fn">≠</span> <span class="fn">0</span></span> → <span class="fn"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/Data/Multiset/MapFold.html#Multiset.map">Multiset.map</a> <span class="fn">(fun (<span class="fn">x_1</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue">AbsoluteValue</a> <span class="fn">K</span> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a></span>) =&gt; <span class="fn"><span class="fn">x_1</span> <span class="fn">x</span></span>)</span> <a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues.archAbsVal">archAbsVal</a>)</span>.<a href="../../.././Mathlib/Algebra/BigOperators/Group/Multiset/Defs.html#Multiset.prod">prod</a></span> <span class="fn">*</span> <span class="fn"><a href="../../.././Mathlib/Algebra/BigOperators/Finprod.html#finprod">∏ᶠ</a> (<span class="fn">v</span> : <span class="fn">↑<a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues.nonarchAbsVal">nonarchAbsVal</a></span>)<a href="../../.././Mathlib/Algebra/BigOperators/Finprod.html#finprod">,</a> <span class="fn"><span class="fn">↑<span class="fn">v</span></span> <span class="fn">x</span></span></span></span> <span class="fn">=</span> <span class="fn">1</span></span></span></div><div class="structure_field_doc"><p>The product formula. The archimedean absolute values are taken with their multiplicity.</p></div></li></ul><details class="instances"><summary>Instances</summary><ul id="instances-list-Height.AdmissibleAbsValues" class="instances-list"></ul></details></div></div><div class="decl" id="Height.totalWeight"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L96-L98">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.totalWeight" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.totalWeight"><span class="name">Height</span>.<span class="name">totalWeight</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">ℕ</span></div></div><p>The <code><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.totalWeight">totalWeight</a></code> of a field with <code><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a></code> is the sum of the multiplicities of
+the archimedean places.</p><details id="instances-for-list-Height.totalWeight" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="mod_doc"><h3 id="Heights-of-field-elements" class="markdown-heading">Heights of field elements <a class="hover-link" href="#Heights-of-field-elements">#</a></h3><p>We use the subscipt <code>₁</code> to denote multiplicative and logarithmic heights of field elements
+(this is because we are in the one-dimensional case of (affine) heights).</p></div><div class="decl" id="Height.mulHeight₁"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L109-L111">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.mulHeight₁" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁"><span class="name">Height</span>.<span class="name">mulHeight₁</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">K</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a></div></div><p>The multiplicative height of an element of <code>K</code>.</p><details id="instances-for-list-Height.mulHeight₁" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Height.mulHeight₁_eq"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L113-L116">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.mulHeight₁_eq" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁_eq"><span class="name">Height</span>.<span class="name">mulHeight₁_eq</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">K</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁">mulHeight₁</a> <span class="fn">x</span></span> <span class="fn">=</span>   <span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/Data/Multiset/MapFold.html#Multiset.map">Multiset.map</a> <span class="fn">(fun (<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue">AbsoluteValue</a> <span class="fn">K</span> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a></span>) =&gt; <span class="fn"><a href="../../.././Mathlib/Algebra/Order/AddGroupWithTop.html#Max.max">max</a> <span class="fn">(<span class="fn">v</span> <span class="fn">x</span>)</span> <span class="fn">1</span></span>)</span> <a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues.archAbsVal">AdmissibleAbsValues.archAbsVal</a>)</span>.<a href="../../.././Mathlib/Algebra/BigOperators/Group/Multiset/Defs.html#Multiset.prod">prod</a></span> <span class="fn">*</span>     <span class="fn"><a href="../../.././Mathlib/Algebra/BigOperators/Finprod.html#finprod">∏ᶠ</a> (<span class="fn">v</span> : <span class="fn">↑<a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues.nonarchAbsVal">AdmissibleAbsValues.nonarchAbsVal</a></span>)<a href="../../.././Mathlib/Algebra/BigOperators/Finprod.html#finprod">,</a> <span class="fn"><a href="../../.././Mathlib/Algebra/Order/AddGroupWithTop.html#Max.max">max</a> <span class="fn">(<span class="fn">↑<span class="fn">v</span></span> <span class="fn">x</span>)</span> <span class="fn">1</span></span></span></span></span></div></div></div></div><div class="decl" id="Height.mulHeight₁_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L118-L120">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.mulHeight₁_zero" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁_zero"><span class="name">Height</span>.<span class="name">mulHeight₁_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁">mulHeight₁</a> <span class="fn">0</span></span> <span class="fn">=</span> <span class="fn">1</span></span></div></div></div></div><div class="decl" id="Height.mulHeight₁_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L122-L124">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.mulHeight₁_one" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁_one"><span class="name">Height</span>.<span class="name">mulHeight₁_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁">mulHeight₁</a> <span class="fn">1</span></span> <span class="fn">=</span> <span class="fn">1</span></span></div></div></div></div><div class="decl" id="Height.one_le_mulHeight₁"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L126-L129">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.one_le_mulHeight₁" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.one_le_mulHeight₁"><span class="name">Height</span>.<span class="name">one_le_mulHeight₁</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">K</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">1</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁">mulHeight₁</a> <span class="fn">x</span></span></div></div><p>The mutliplicative height of a field element is always at least <code>1</code>.</p></div></div><div class="decl" id="Height.mulHeight₁_pos"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L132-L133">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.mulHeight₁_pos" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁_pos"><span class="name">Height</span>.<span class="name">mulHeight₁_pos</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">K</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">0</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LT.lt">&lt;</a> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁">mulHeight₁</a> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="Height.mulHeight₁_ne_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L136-L137">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁_ne_zero"><span class="name">Height</span>.<span class="name">mulHeight₁_ne_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">K</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁">mulHeight₁</a> <span class="fn">x</span></span> <span class="fn">≠</span> <span class="fn">0</span></span></div></div></div></div><div class="decl" id="Height.mulHeight₁_nonneg"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L139-L140">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.mulHeight₁_nonneg" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁_nonneg"><span class="name">Height</span>.<span class="name">mulHeight₁_nonneg</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">K</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">0</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁">mulHeight₁</a> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="Height.logHeight₁"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L142-L143">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.logHeight₁" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁"><span class="name">Height</span>.<span class="name">logHeight₁</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">K</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a></div></div><p>The logarithmic height of an element of <code>K</code>.</p><details id="instances-for-list-Height.logHeight₁" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Height.logHeight₁_eq_log_mulHeight₁"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L145-L145">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.logHeight₁_eq_log_mulHeight₁" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁_eq_log_mulHeight₁"><span class="name">Height</span>.<span class="name">logHeight₁_eq_log_mulHeight₁</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">K</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁">logHeight₁</a> <span class="fn">x</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Analysis/SpecialFunctions/Log/Basic.html#Real.log">Real.log</a> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁">mulHeight₁</a> <span class="fn">x</span>)</span></span></span></div></div></div></div><div class="decl" id="Height.logHeight₁_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L147-L149">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.logHeight₁_zero" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁_zero"><span class="name">Height</span>.<span class="name">logHeight₁_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁">logHeight₁</a> <span class="fn">0</span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div></div></div><div class="decl" id="Height.logHeight₁_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L151-L153">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.logHeight₁_one" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁_one"><span class="name">Height</span>.<span class="name">logHeight₁_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁">logHeight₁</a> <span class="fn">1</span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div></div></div><div class="decl" id="Height.zero_le_logHeight₁"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L155-L156">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.zero_le_logHeight₁" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.zero_le_logHeight₁"><span class="name">Height</span>.<span class="name">zero_le_logHeight₁</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">K</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">0</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁">logHeight₁</a> <span class="fn">x</span></span></div></div></div></div><div class="mod_doc"><h3 id="Positivity-extension-for-mulHeight₁-logHeight₁" class="markdown-heading">Positivity extension for mulHeight₁, logHeight₁ <a class="hover-link" href="#Positivity-extension-for-mulHeight₁-logHeight₁">#</a></h3></div><div class="decl" id="Mathlib.Meta.Positivity.evalMulHeight₁"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L168-L175">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Mathlib.Meta.Positivity.evalMulHeight₁" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Mathlib.Meta.Positivity.evalMulHeight₁"><span class="name">Mathlib</span>.<span class="name">Meta</span>.<span class="name">Positivity</span>.<span class="name">evalMulHeight₁</span></a></span><span class="decl_args"> :</span><div class="decl_type"><a href="../../.././Mathlib/Tactic/Positivity/Core.html#Mathlib.Meta.Positivity.PositivityExt">PositivityExt</a></div></div><p>Extension for the <code><a href="../../.././Mathlib/Tactic/Positivity/Core.html#positivity">positivity</a></code> tactic: <code><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁">Height.mulHeight₁</a></code> is always positive.</p><details id="instances-for-list-Mathlib.Meta.Positivity.evalMulHeight₁" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Mathlib.Meta.Positivity.evalLogHeight₁"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L177-L184">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Mathlib.Meta.Positivity.evalLogHeight₁" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Mathlib.Meta.Positivity.evalLogHeight₁"><span class="name">Mathlib</span>.<span class="name">Meta</span>.<span class="name">Positivity</span>.<span class="name">evalLogHeight₁</span></a></span><span class="decl_args"> :</span><div class="decl_type"><a href="../../.././Mathlib/Tactic/Positivity/Core.html#Mathlib.Meta.Positivity.PositivityExt">PositivityExt</a></div></div><p>Extension for the <code><a href="../../.././Mathlib/Tactic/Positivity/Core.html#positivity">positivity</a></code> tactic: <code><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁">Height.logHeight₁</a></code> is always nonnegative.</p><details id="instances-for-list-Mathlib.Meta.Positivity.evalLogHeight₁" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="mod_doc"><h3 id="Heights-of-tuples-and-finitely-supported-maps" class="markdown-heading">Heights of tuples and finitely supported maps <a class="hover-link" href="#Heights-of-tuples-and-finitely-supported-maps">#</a></h3><p>We define the multiplicative height of a nonzero tuple <code>x : ι → K</code> as the product of the maxima
+of <code>v</code> on <code>x</code>, as <code>v</code> runs through the relevant absolute values of <code>K</code>. As usual, the
+logarithmic height is the logarithm of the multiplicative height.
+When <code>x = 0</code>, we define the multiplicative height to be <code>1</code>; this is a convenient &quot;junk value&quot;,
+which allows to avoid the condition <code>x ≠ 0</code> in most of the results.</p><p>For a finitely supported function <code>x : ι →₀ K</code>, we define the height as the height of <code>x</code>
+restricted to its support.</p></div><div class="decl" id="Height.mulHeight"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L208-L213">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.mulHeight" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight"><span class="name">Height</span>.<span class="name">mulHeight</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">K</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a></div></div><p>The multiplicative height of a tuple of elements of <code>K</code>.
+For the zero tuple we take the junk value <code>1</code>.</p><details id="instances-for-list-Height.mulHeight" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Height.mulHeight_eq"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L215-L218">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.mulHeight_eq" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight_eq"><span class="name">Height</span>.<span class="name">mulHeight_eq</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">K</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hx</span> : <span class="fn"><span class="fn">x</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight">mulHeight</a> <span class="fn">x</span></span> <span class="fn">=</span>   <span class="fn"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/Data/Multiset/MapFold.html#Multiset.map">Multiset.map</a> <span class="fn">(fun (<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue">AbsoluteValue</a> <span class="fn">K</span> <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a></span>) =&gt; <span class="fn">⨆ (<span class="fn">i</span> : <span class="fn">ι</span>), <span class="fn"><span class="fn">v</span> <span class="fn">(<span class="fn">x</span> <span class="fn">i</span>)</span></span></span>)</span> <a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues.archAbsVal">AdmissibleAbsValues.archAbsVal</a>)</span>.<a href="../../.././Mathlib/Algebra/BigOperators/Group/Multiset/Defs.html#Multiset.prod">prod</a></span> <span class="fn">*</span>     <span class="fn"><a href="../../.././Mathlib/Algebra/BigOperators/Finprod.html#finprod">∏ᶠ</a> (<span class="fn">v</span> : <span class="fn">↑<a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues.nonarchAbsVal">AdmissibleAbsValues.nonarchAbsVal</a></span>)<a href="../../.././Mathlib/Algebra/BigOperators/Finprod.html#finprod">,</a> <span class="fn">⨆ (<span class="fn">i</span> : <span class="fn">ι</span>), <span class="fn"><span class="fn">↑<span class="fn">v</span></span> <span class="fn">(<span class="fn">x</span> <span class="fn">i</span>)</span></span></span></span></span></span></div></div></div></div><div class="decl" id="Height.mulHeight_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L220-L222">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.mulHeight_zero" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight_zero"><span class="name">Height</span>.<span class="name">mulHeight_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight">mulHeight</a> <span class="fn">0</span></span> <span class="fn">=</span> <span class="fn">1</span></span></div></div></div></div><div class="decl" id="Height.fun_mulHeight_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L220-L220">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.fun_mulHeight_zero" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.fun_mulHeight_zero"><span class="name">Height</span>.<span class="name">fun_mulHeight_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight">mulHeight</a> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">ι</span>) =&gt; <span class="fn">0</span></span>)</span> <span class="fn">=</span> <span class="fn">1</span></span></div></div><p>Eta-expanded form of <code><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight_zero">Height.mulHeight_zero</a></code></p></div></div><div class="decl" id="Height.mulHeight_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L224-L230">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.mulHeight_one" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight_one"><span class="name">Height</span>.<span class="name">mulHeight_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight">mulHeight</a> <span class="fn">1</span></span> <span class="fn">=</span> <span class="fn">1</span></span></div></div></div></div><div class="decl" id="Height.fun_mulHeight_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L224-L224">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.fun_mulHeight_one" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.fun_mulHeight_one"><span class="name">Height</span>.<span class="name">fun_mulHeight_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight">mulHeight</a> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">ι</span>) =&gt; <span class="fn">1</span></span>)</span> <span class="fn">=</span> <span class="fn">1</span></span></div></div><p>Eta-expanded form of <code><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight_one">Height.mulHeight_one</a></code></p></div></div><div class="decl" id="Height.mulHeight_comp_equiv"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L232-L241">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.mulHeight_comp_equiv" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight_comp_equiv"><span class="name">Height</span>.<span class="name">mulHeight_comp_equiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι'</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">e</span> : <span class="fn">ι</span> <a href="../../.././Mathlib/Logic/Equiv/Defs.html#Equiv">≃</a> <span class="fn">ι'</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">ι'</span> → <span class="fn">K</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight">mulHeight</a> <span class="fn">(<span class="fn">x</span> <span class="fn">∘</span> <span class="fn">⇑<span class="fn">e</span></span>)</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight">mulHeight</a> <span class="fn">x</span></span></span></div></div><p>The multiplicative height does not change under re-indexing.</p></div></div><div class="decl" id="Height.mulHeight_swap"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L243-L246">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.mulHeight_swap" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight_swap"><span class="name">Height</span>.<span class="name">mulHeight_swap</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x </span><span class="fn">y</span> : <span class="fn">K</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight">mulHeight</a> <a href="../../.././Mathlib/Data/Fin/VecNotation.html#Matrix.vecCons">![</a><span class="fn">x</span><a href="../../.././Mathlib/Data/Fin/VecNotation.html#Matrix.vecCons">,</a> <span class="fn">y</span><a href="../../.././Mathlib/Data/Fin/VecNotation.html#Matrix.vecCons">]</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight">mulHeight</a> <a href="../../.././Mathlib/Data/Fin/VecNotation.html#Matrix.vecCons">![</a><span class="fn">y</span><a href="../../.././Mathlib/Data/Fin/VecNotation.html#Matrix.vecCons">,</a> <span class="fn">x</span><a href="../../.././Mathlib/Data/Fin/VecNotation.html#Matrix.vecCons">]</a></span></span></div></div></div></div><div class="decl" id="Height.logHeight"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L248-L249">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.logHeight" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight"><span class="name">Height</span>.<span class="name">logHeight</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">K</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a></div></div><p>The logarithmic height of a tuple of elements of <code>K</code>.</p><details id="instances-for-list-Height.logHeight" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Height.logHeight_eq_log_mulHeight"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L251-L251">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.logHeight_eq_log_mulHeight" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight_eq_log_mulHeight"><span class="name">Height</span>.<span class="name">logHeight_eq_log_mulHeight</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">K</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight">logHeight</a> <span class="fn">x</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Analysis/SpecialFunctions/Log/Basic.html#Real.log">Real.log</a> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight">mulHeight</a> <span class="fn">x</span>)</span></span></span></div></div></div></div><div class="decl" id="Height.logHeight_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L253-L255">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.logHeight_zero" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight_zero"><span class="name">Height</span>.<span class="name">logHeight_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight">logHeight</a> <span class="fn">0</span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div></div></div><div class="decl" id="Height.fun_logHeight_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L253-L253">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.fun_logHeight_zero" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.fun_logHeight_zero"><span class="name">Height</span>.<span class="name">fun_logHeight_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight">logHeight</a> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">ι</span>) =&gt; <span class="fn">0</span></span>)</span> <span class="fn">=</span> <span class="fn">0</span></span></div></div><p>Eta-expanded form of <code><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight_zero">Height.logHeight_zero</a></code></p></div></div><div class="decl" id="Height.logHeight_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L257-L259">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.logHeight_one" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight_one"><span class="name">Height</span>.<span class="name">logHeight_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight">logHeight</a> <span class="fn">1</span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div></div></div><div class="decl" id="Height.fun_logHeight_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L257-L257">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.fun_logHeight_one" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.fun_logHeight_one"><span class="name">Height</span>.<span class="name">fun_logHeight_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight">logHeight</a> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">ι</span>) =&gt; <span class="fn">1</span></span>)</span> <span class="fn">=</span> <span class="fn">0</span></span></div></div><p>Eta-expanded form of <code><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight_one">Height.logHeight_one</a></code></p></div></div><div class="decl" id="Finsupp.mulHeight"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L263-L265">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Finsupp.mulHeight" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Finsupp.mulHeight"><span class="name">Finsupp</span>.<span class="name">mulHeight</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">Height.AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">α</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">K</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a></div></div><p>The multiplicative height of a finitely supported function.</p><details id="instances-for-list-Finsupp.mulHeight" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Finsupp.logHeight"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L267-L268">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Finsupp.logHeight" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Finsupp.logHeight"><span class="name">Finsupp</span>.<span class="name">logHeight</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">Height.AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">α</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">K</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a></div></div><p>The logarithmic height of a finitely supported function.</p><details id="instances-for-list-Finsupp.logHeight" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Finsupp.logHeight_eq_log_mulHeight"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L270-L271">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Finsupp.logHeight_eq_log_mulHeight" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Finsupp.logHeight_eq_log_mulHeight"><span class="name">Finsupp</span>.<span class="name">logHeight_eq_log_mulHeight</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">Height.AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">α</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">K</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight">Height.logHeight</a> <span class="fn">⇑<span class="fn">x</span></span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Analysis/SpecialFunctions/Log/Basic.html#Real.log">Real.log</a> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight">Height.mulHeight</a> <span class="fn">⇑<span class="fn">x</span></span>)</span></span></span></div></div></div></div><div class="mod_doc"><h3 id="First-properties-of-heights" class="markdown-heading">First properties of heights <a class="hover-link" href="#First-properties-of-heights">#</a></h3></div><div class="decl" id="Height.mulHeight_smul_eq_mulHeight"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L305-L315">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.mulHeight_smul_eq_mulHeight" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight_smul_eq_mulHeight"><span class="name">Height</span>.<span class="name">mulHeight_smul_eq_mulHeight</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">K</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">c</span> : <span class="fn">K</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hc</span> : <span class="fn"><span class="fn">c</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight">mulHeight</a> <span class="fn">(<span class="fn">c</span> <span class="fn">•</span> <span class="fn">x</span>)</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight">mulHeight</a> <span class="fn">x</span></span></span></div></div><p>The multiplicative height of a tuple does not change under scaling.</p></div></div><div class="decl" id="Height.one_le_mulHeight"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L317-L327">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.one_le_mulHeight" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.one_le_mulHeight"><span class="name">Height</span>.<span class="name">one_le_mulHeight</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">K</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">1</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight">mulHeight</a> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="Height.mulHeight_pos"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L329-L330">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.mulHeight_pos" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight_pos"><span class="name">Height</span>.<span class="name">mulHeight_pos</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">K</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">0</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LT.lt">&lt;</a> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight">mulHeight</a> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="Height.mulHeight_ne_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L332-L333">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight_ne_zero"><span class="name">Height</span>.<span class="name">mulHeight_ne_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">K</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight">mulHeight</a> <span class="fn">x</span></span> <span class="fn">≠</span> <span class="fn">0</span></span></div></div></div></div><div class="decl" id="Height.logHeight_nonneg"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L335-L336">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.logHeight_nonneg" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight_nonneg"><span class="name">Height</span>.<span class="name">logHeight_nonneg</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">K</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">0</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight">logHeight</a> <span class="fn">x</span></span></div></div></div></div><div class="mod_doc"><h3 id="Positivity-extension-for-mulHeight-logHeight" class="markdown-heading">Positivity extension for mulHeight, logHeight <a class="hover-link" href="#Positivity-extension-for-mulHeight-logHeight">#</a></h3></div><div class="decl" id="Mathlib.Meta.Positivity.evalMulHeight"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L348-L359">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Mathlib.Meta.Positivity.evalMulHeight" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Mathlib.Meta.Positivity.evalMulHeight"><span class="name">Mathlib</span>.<span class="name">Meta</span>.<span class="name">Positivity</span>.<span class="name">evalMulHeight</span></a></span><span class="decl_args"> :</span><div class="decl_type"><a href="../../.././Mathlib/Tactic/Positivity/Core.html#Mathlib.Meta.Positivity.PositivityExt">PositivityExt</a></div></div><p>Extension for the <code><a href="../../.././Mathlib/Tactic/Positivity/Core.html#positivity">positivity</a></code> tactic: <code><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight">Height.mulHeight</a></code> is always positive.</p><details id="instances-for-list-Mathlib.Meta.Positivity.evalMulHeight" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Mathlib.Meta.Positivity.evalLogHeight"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L361-L372">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Mathlib.Meta.Positivity.evalLogHeight" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Mathlib.Meta.Positivity.evalLogHeight"><span class="name">Mathlib</span>.<span class="name">Meta</span>.<span class="name">Positivity</span>.<span class="name">evalLogHeight</span></a></span><span class="decl_args"> :</span><div class="decl_type"><a href="../../.././Mathlib/Tactic/Positivity/Core.html#Mathlib.Meta.Positivity.PositivityExt">PositivityExt</a></div></div><p>Extension for the <code><a href="../../.././Mathlib/Tactic/Positivity/Core.html#positivity">positivity</a></code> tactic: <code><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight">Height.logHeight</a></code> is always nonnegative.</p><details id="instances-for-list-Mathlib.Meta.Positivity.evalLogHeight" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="mod_doc"><h3 id="Further-properties-of-heights" class="markdown-heading">Further properties of heights <a class="hover-link" href="#Further-properties-of-heights">#</a></h3></div><div class="decl" id="Height.logHeight_smul_eq_logHeight"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L385-L388">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.logHeight_smul_eq_logHeight" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight_smul_eq_logHeight"><span class="name">Height</span>.<span class="name">logHeight_smul_eq_logHeight</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">K</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">c</span> : <span class="fn">K</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hc</span> : <span class="fn"><span class="fn">c</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight">logHeight</a> <span class="fn">(<span class="fn">c</span> <span class="fn">•</span> <span class="fn">x</span>)</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight">logHeight</a> <span class="fn">x</span></span></span></div></div><p>The logarithmic height of a tuple does not change under scaling.</p></div></div><div class="decl" id="Height.mulHeight₁_eq_mulHeight"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L390-L395">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.mulHeight₁_eq_mulHeight" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁_eq_mulHeight"><span class="name">Height</span>.<span class="name">mulHeight₁_eq_mulHeight</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">K</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁">mulHeight₁</a> <span class="fn">x</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight">mulHeight</a> <a href="../../.././Mathlib/Data/Fin/VecNotation.html#Matrix.vecCons">![</a><span class="fn">x</span><a href="../../.././Mathlib/Data/Fin/VecNotation.html#Matrix.vecCons">,</a> <span class="fn">1</span><a href="../../.././Mathlib/Data/Fin/VecNotation.html#Matrix.vecCons">]</a></span></span></div></div></div></div><div class="decl" id="Height.logHeight₁_eq_logHeight"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L397-L398">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.logHeight₁_eq_logHeight" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁_eq_logHeight"><span class="name">Height</span>.<span class="name">logHeight₁_eq_logHeight</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">K</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁">logHeight₁</a> <span class="fn">x</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight">logHeight</a> <a href="../../.././Mathlib/Data/Fin/VecNotation.html#Matrix.vecCons">![</a><span class="fn">x</span><a href="../../.././Mathlib/Data/Fin/VecNotation.html#Matrix.vecCons">,</a> <span class="fn">1</span><a href="../../.././Mathlib/Data/Fin/VecNotation.html#Matrix.vecCons">]</a></span></span></div></div></div></div><div class="decl" id="Height.mulHeight₁_div_eq_mulHeight"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L400-L411">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.mulHeight₁_div_eq_mulHeight" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁_div_eq_mulHeight"><span class="name">Height</span>.<span class="name">mulHeight₁_div_eq_mulHeight</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x </span><span class="fn">y</span> : <span class="fn">K</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁">mulHeight₁</a> <span class="fn">(<span class="fn">x</span> <span class="fn">/</span> <span class="fn">y</span>)</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight">mulHeight</a> <a href="../../.././Mathlib/Data/Fin/VecNotation.html#Matrix.vecCons">![</a><span class="fn">x</span><a href="../../.././Mathlib/Data/Fin/VecNotation.html#Matrix.vecCons">,</a> <span class="fn">y</span><a href="../../.././Mathlib/Data/Fin/VecNotation.html#Matrix.vecCons">]</a></span></span></div></div></div></div><div class="decl" id="Height.logHeight₁_div_eq_logHeight"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L413-L415">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.logHeight₁_div_eq_logHeight" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁_div_eq_logHeight"><span class="name">Height</span>.<span class="name">logHeight₁_div_eq_logHeight</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x </span><span class="fn">y</span> : <span class="fn">K</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁">logHeight₁</a> <span class="fn">(<span class="fn">x</span> <span class="fn">/</span> <span class="fn">y</span>)</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight">logHeight</a> <a href="../../.././Mathlib/Data/Fin/VecNotation.html#Matrix.vecCons">![</a><span class="fn">x</span><a href="../../.././Mathlib/Data/Fin/VecNotation.html#Matrix.vecCons">,</a> <span class="fn">y</span><a href="../../.././Mathlib/Data/Fin/VecNotation.html#Matrix.vecCons">]</a></span></span></div></div></div></div><div class="decl" id="Height.mulHeight_pow"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L418-L433">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.mulHeight_pow" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight_pow"><span class="name">Height</span>.<span class="name">mulHeight_pow</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">K</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight">mulHeight</a> <span class="fn">(<span class="fn">x</span> <span class="fn">^</span> <span class="fn">n</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight">mulHeight</a> <span class="fn">x</span></span> <span class="fn">^</span> <span class="fn">n</span></span></span></div></div><p>The multiplicative height of the coordinate-wise <code>n</code>th power of a tuple
+is the <code>n</code>th power of its multiplicative height.</p></div></div><div class="decl" id="Height.logHeight_pow"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L435-L438">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.logHeight_pow" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight_pow"><span class="name">Height</span>.<span class="name">logHeight_pow</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">K</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight">logHeight</a> <span class="fn">(<span class="fn">x</span> <span class="fn">^</span> <span class="fn">n</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">↑<span class="fn">n</span></span> <span class="fn">*</span> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight">logHeight</a> <span class="fn">x</span></span></span></span></div></div><p>The logarithmic height of the coordinate-wise <code>n</code>th power of a tuple
+is <code>n</code> times its logarithmic height.</p></div></div><div class="decl" id="Height.mulHeight₁_inv"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L440-L447">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.mulHeight₁_inv" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁_inv"><span class="name">Height</span>.<span class="name">mulHeight₁_inv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">K</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁">mulHeight₁</a> <span class="fn">x</span><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#Inv.inv">⁻¹</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁">mulHeight₁</a> <span class="fn">x</span></span></span></div></div><p>The multiplicative height of the inverse of a field element <code>x</code>
+is the same as the multiplicative height of <code>x</code>.</p></div></div><div class="decl" id="Height.logHeight₁_inv"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L449-L452">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.logHeight₁_inv" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁_inv"><span class="name">Height</span>.<span class="name">logHeight₁_inv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">K</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁">logHeight₁</a> <span class="fn">x</span><a href="../../.././Mathlib/Analysis/Normed/Field/Basic.html#Inv.inv">⁻¹</a></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁">logHeight₁</a> <span class="fn">x</span></span></span></div></div><p>The logarithmic height of the inverse of a field element <code>x</code>
+is the same as the logarithmic height of <code>x</code>.</p></div></div><div class="decl" id="Height.mulHeight₁_pow"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L454-L460">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.mulHeight₁_pow" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁_pow"><span class="name">Height</span>.<span class="name">mulHeight₁_pow</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">K</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁">mulHeight₁</a> <span class="fn">(<span class="fn">x</span> <span class="fn">^</span> <span class="fn">n</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁">mulHeight₁</a> <span class="fn">x</span></span> <span class="fn">^</span> <span class="fn">n</span></span></span></div></div><p>The multiplicative height of the <code>n</code>th power of a field element <code>x</code> (with <code>n : ℕ</code>)
+is the <code>n</code>th power of the multiplicative height of <code>x</code>.</p></div></div><div class="decl" id="Height.logHeight₁_pow"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L462-L465">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.logHeight₁_pow" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁_pow"><span class="name">Height</span>.<span class="name">logHeight₁_pow</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">K</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁">logHeight₁</a> <span class="fn">(<span class="fn">x</span> <span class="fn">^</span> <span class="fn">n</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">↑<span class="fn">n</span></span> <span class="fn">*</span> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁">logHeight₁</a> <span class="fn">x</span></span></span></span></div></div><p>The logarithmic height of the <code>n</code>th power of a field element <code>x</code> (with <code>n : ℕ</code>)
+is <code>n</code> times the logaritmic height of <code>x</code>.</p></div></div><div class="decl" id="Height.mulHeight₁_zpow"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L467-L474">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.mulHeight₁_zpow" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁_zpow"><span class="name">Height</span>.<span class="name">mulHeight₁_zpow</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">K</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℤ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁">mulHeight₁</a> <span class="fn">(<span class="fn">x</span> <span class="fn">^</span> <span class="fn">n</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁">mulHeight₁</a> <span class="fn">x</span></span> <span class="fn">^</span> <span class="fn"><span class="fn">n</span>.<span class="fn">natAbs</span></span></span></span></div></div><p>The multiplicative height of the <code>n</code>th power of a field element <code>x</code> (with <code>n : ℤ</code>)
+is the <code>|n|</code>th power of the multiplicative height of <code>x</code>.</p></div></div><div class="decl" id="Height.logHeight₁_zpow"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L476-L479">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.logHeight₁_zpow" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁_zpow"><span class="name">Height</span>.<span class="name">logHeight₁_zpow</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">K</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℤ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁">logHeight₁</a> <span class="fn">(<span class="fn">x</span> <span class="fn">^</span> <span class="fn">n</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">↑<span class="fn"><span class="fn">n</span>.<span class="fn">natAbs</span></span></span> <span class="fn">*</span> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁">logHeight₁</a> <span class="fn">x</span></span></span></span></div></div><p>The logarithmic height of the <code>n</code>th power of a field element <code>x</code> (with <code>n : ℤ</code>)
+is <code>|n|</code> times the logarithmic height of <code>x</code>.</p></div></div><div class="mod_doc"><h3 id="Bounds-for-the-height-of-sums-of-field-elements" class="markdown-heading">Bounds for the height of sums of field elements <a class="hover-link" href="#Bounds-for-the-height-of-sums-of-field-elements">#</a></h3><p>We prove the general case (finite sums of arbitrary length) first and deduce the result
+for sums of two elements from it.</p></div><div class="decl" id="Finset.max_abv_sum_one_le"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L494-L507">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Finset.max_abv_sum_one_le" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Finset.max_abv_sum_one_le"><span class="name">Finset</span>.<span class="name">max_abv_sum_one_le</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommSemiring">CommSemiring</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/LinearOrder.html#LinearOrder">LinearOrder</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Ring/Defs.html#IsOrderedRing">IsOrderedRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/CharZero/Defs.html#CharZero">CharZero</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue">AbsoluteValue</a> <span class="fn">R</span> <span class="fn">S</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><a href="../../.././Mathlib/Data/Finset/Defs.html#Finset">Finset</a> <span class="fn">ι</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hs</span> : <span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Finset/Empty.html#Finset.Nonempty">Nonempty</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">R</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Order/AddGroupWithTop.html#Max.max">max</a> <span class="fn">(<span class="fn">v</span> <span class="fn">(∑ <span class="fn">i</span> ∈ <span class="fn">s</span>, <span class="fn"><span class="fn">x</span> <span class="fn">i</span></span>)</span>)</span> <span class="fn">1</span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn">↑<span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Finset/Card.html#Finset.card">card</a></span></span> <span class="fn">*</span> <span class="fn">∏ <span class="fn">i</span> ∈ <span class="fn">s</span>, <span class="fn"><a href="../../.././Mathlib/Algebra/Order/AddGroupWithTop.html#Max.max">max</a> <span class="fn">(<span class="fn">v</span> <span class="fn">(<span class="fn">x</span> <span class="fn">i</span>)</span>)</span> <span class="fn">1</span></span></span></span></div></div><p>The &quot;local&quot; version of the height bound for arbitrary sums for general (possibly archimedean)
+absolute values.</p></div></div><div class="decl" id="Finset.max_abv_sum_one_le_of_isNonarchimedean"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L509-L518">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Finset.max_abv_sum_one_le_of_isNonarchimedean" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Finset.max_abv_sum_one_le_of_isNonarchimedean"><span class="name">Finset</span>.<span class="name">max_abv_sum_one_le_of_isNonarchimedean</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommSemiring">CommSemiring</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/LinearOrder.html#LinearOrder">LinearOrder</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Order/Ring/Defs.html#IsOrderedRing">IsOrderedRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue">AbsoluteValue</a> <span class="fn">R</span> <span class="fn">S</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hv</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Order/Ring/Basic.html#IsNonarchimedean">IsNonarchimedean</a> <span class="fn">⇑<span class="fn">v</span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">s</span> : <span class="fn"><a href="../../.././Mathlib/Data/Finset/Defs.html#Finset">Finset</a> <span class="fn">ι</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">R</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Order/AddGroupWithTop.html#Max.max">max</a> <span class="fn">(<span class="fn">v</span> <span class="fn">(∑ <span class="fn">i</span> ∈ <span class="fn">s</span>, <span class="fn"><span class="fn">x</span> <span class="fn">i</span></span>)</span>)</span> <span class="fn">1</span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn">∏ <span class="fn">i</span> ∈ <span class="fn">s</span>, <span class="fn"><a href="../../.././Mathlib/Algebra/Order/AddGroupWithTop.html#Max.max">max</a> <span class="fn">(<span class="fn">v</span> <span class="fn">(<span class="fn">x</span> <span class="fn">i</span>)</span>)</span> <span class="fn">1</span></span></span></div></div><p>The &quot;local&quot; version of the height bound for arbitrary sums for nonarchimedean
+absolute values.</p></div></div><div class="decl" id="Height.mulHeight₁_sum_le"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L529-L546">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.mulHeight₁_sum_le" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁_sum_le"><span class="name">Height</span>.<span class="name">mulHeight₁_sum_le</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><a href="../../.././Mathlib/Data/Finset/Defs.html#Finset">Finset</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hs</span> : <span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Finset/Empty.html#Finset.Nonempty">Nonempty</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">K</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁">mulHeight₁</a> <span class="fn">(∑ <span class="fn">a</span> ∈ <span class="fn">s</span>, <span class="fn"><span class="fn">x</span> <span class="fn">a</span></span>)</span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn"><span class="fn">↑<span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Finset/Card.html#Finset.card">card</a></span></span> <span class="fn">^</span> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.totalWeight">totalWeight</a> <span class="fn">K</span></span></span> <span class="fn">*</span> <span class="fn">∏ <span class="fn">a</span> ∈ <span class="fn">s</span>, <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁">mulHeight₁</a> <span class="fn">(<span class="fn">x</span> <span class="fn">a</span>)</span></span></span></span></div></div><p>The multiplicative height of a nonempty finite sum of field elements is at most
+<code>n ^ (totalWeight K)</code> times the product of the individual multiplicative
+heights, where <code>n</code> is the number of terms.</p></div></div><div class="decl" id="Height.logHeight₁_sum_le"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L549-L563">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.logHeight₁_sum_le" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁_sum_le"><span class="name">Height</span>.<span class="name">logHeight₁_sum_le</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">s</span> : <span class="fn"><a href="../../.././Mathlib/Data/Finset/Defs.html#Finset">Finset</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">K</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁">logHeight₁</a> <span class="fn">(∑ <span class="fn">a</span> ∈ <span class="fn">s</span>, <span class="fn"><span class="fn">x</span> <span class="fn">a</span></span>)</span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn"><span class="fn">↑<span class="fn">(<a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.totalWeight">totalWeight</a> <span class="fn">K</span>)</span></span> <span class="fn">*</span> <span class="fn"><a href="../../.././Mathlib/Analysis/SpecialFunctions/Log/Basic.html#Real.log">Real.log</a> <span class="fn">↑<span class="fn"><span class="fn">s</span>.<a href="../../.././Mathlib/Data/Finset/Card.html#Finset.card">card</a></span></span></span></span> <span class="fn">+</span> <span class="fn">∑ <span class="fn">a</span> ∈ <span class="fn">s</span>, <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁">logHeight₁</a> <span class="fn">(<span class="fn">x</span> <span class="fn">a</span>)</span></span></span></span></div></div><p>The logarithmic height of a finite sum of field elements is at most
+<code><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.totalWeight">totalWeight</a> K * log n</code> plus the sum of the individual logarithmic heights,
+where <code>n</code> is the number of terms.</p><p>(Note that here we do not need to assume that <code>s</code> is nonempty, due to the convenient
+junk value <code>log 0 = 0</code>.)</p></div></div><div class="decl" id="Height.mulHeight₁_neg"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L565-L568">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.mulHeight₁_neg" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁_neg"><span class="name">Height</span>.<span class="name">mulHeight₁_neg</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">K</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁">mulHeight₁</a> (<a href="../../.././Mathlib/Algebra/Order/AddGroupWithTop.html#Neg.neg">-</a><span class="fn">x</span>)</span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁">mulHeight₁</a> <span class="fn">x</span></span></span></div></div><p>The multiplicative height of <code>-x</code> is the same as that of <code>x</code>.</p></div></div><div class="decl" id="Height.logHeight₁_neg"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L570-L573">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.logHeight₁_neg" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁_neg"><span class="name">Height</span>.<span class="name">logHeight₁_neg</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">K</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁">logHeight₁</a> (<a href="../../.././Mathlib/Algebra/Order/AddGroupWithTop.html#Neg.neg">-</a><span class="fn">x</span>)</span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁">logHeight₁</a> <span class="fn">x</span></span></span></div></div><p>The logarithmic height of <code>-x</code> is the same as that of <code>x</code>.</p></div></div><div class="decl" id="Height.mulHeight₁_add_le"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L575-L581">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.mulHeight₁_add_le" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁_add_le"><span class="name">Height</span>.<span class="name">mulHeight₁_add_le</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x </span><span class="fn">y</span> : <span class="fn">K</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁">mulHeight₁</a> <span class="fn">(<span class="fn">x</span> <span class="fn">+</span> <span class="fn">y</span>)</span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn"><span class="fn"><span class="fn">2</span> <span class="fn">^</span> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.totalWeight">totalWeight</a> <span class="fn">K</span></span></span> <span class="fn">*</span> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁">mulHeight₁</a> <span class="fn">x</span></span></span> <span class="fn">*</span> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁">mulHeight₁</a> <span class="fn">y</span></span></span></div></div><p>The multiplicative height of <code>x + y</code> is at most <code>2 ^ <a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.totalWeight">totalWeight</a> K</code>
+times the product of the multiplicative heights of <code>x</code> and <code>y</code>.</p></div></div><div class="decl" id="Height.logHeight₁_add_le"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L583-L589">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.logHeight₁_add_le" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁_add_le"><span class="name">Height</span>.<span class="name">logHeight₁_add_le</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x </span><span class="fn">y</span> : <span class="fn">K</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁">logHeight₁</a> <span class="fn">(<span class="fn">x</span> <span class="fn">+</span> <span class="fn">y</span>)</span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn"><span class="fn"><span class="fn">↑<span class="fn">(<a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.totalWeight">totalWeight</a> <span class="fn">K</span>)</span></span> <span class="fn">*</span> <span class="fn"><a href="../../.././Mathlib/Analysis/SpecialFunctions/Log/Basic.html#Real.log">Real.log</a> <span class="fn">2</span></span></span> <span class="fn">+</span> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁">logHeight₁</a> <span class="fn">x</span></span></span> <span class="fn">+</span> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁">logHeight₁</a> <span class="fn">y</span></span></span></div></div><p>The logarithmic height of <code>x + y</code> is at most <code><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.totalWeight">totalWeight</a> K * log 2</code>
+plus the sum of the logarithmic heights of <code>x</code> and <code>y</code>.</p></div></div><div class="decl" id="Height.mulHeight₁_sub_le"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L591-L596">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.mulHeight₁_sub_le" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁_sub_le"><span class="name">Height</span>.<span class="name">mulHeight₁_sub_le</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x </span><span class="fn">y</span> : <span class="fn">K</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁">mulHeight₁</a> <span class="fn">(<span class="fn">x</span> <span class="fn">-</span> <span class="fn">y</span>)</span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn"><span class="fn"><span class="fn">2</span> <span class="fn">^</span> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.totalWeight">totalWeight</a> <span class="fn">K</span></span></span> <span class="fn">*</span> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁">mulHeight₁</a> <span class="fn">x</span></span></span> <span class="fn">*</span> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.mulHeight₁">mulHeight₁</a> <span class="fn">y</span></span></span></div></div><p>The multiplicative height of <code>x - y</code> is at most <code>2 ^ <a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.totalWeight">totalWeight</a> K</code>
+times the product of the multiplicative heights of <code>x</code> and <code>y</code>.</p></div></div><div class="decl" id="Height.logHeight₁_sub_le"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/NumberTheory/Height/Basic.lean#L598-L603">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_NumberTheory_Height_Basic.html#Height.logHeight₁_sub_le" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁_sub_le"><span class="name">Height</span>.<span class="name">logHeight₁_sub_le</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.AdmissibleAbsValues">AdmissibleAbsValues</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x </span><span class="fn">y</span> : <span class="fn">K</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁">logHeight₁</a> <span class="fn">(<span class="fn">x</span> <span class="fn">-</span> <span class="fn">y</span>)</span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn"><span class="fn"><span class="fn">↑<span class="fn">(<a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.totalWeight">totalWeight</a> <span class="fn">K</span>)</span></span> <span class="fn">*</span> <span class="fn"><a href="../../.././Mathlib/Analysis/SpecialFunctions/Log/Basic.html#Real.log">Real.log</a> <span class="fn">2</span></span></span> <span class="fn">+</span> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁">logHeight₁</a> <span class="fn">x</span></span></span> <span class="fn">+</span> <span class="fn"><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.logHeight₁">logHeight₁</a> <span class="fn">y</span></span></span></div></div><p>The logarithmic height of <code>x - y</code> is at most <code><a href="../../.././Mathlib/NumberTheory/Height/Basic.html#Height.totalWeight">totalWeight</a> K * log 2</code>
+plus the sum of the logarithmic heights of <code>x</code> and <code>y</code>.</p></div></div></main>
+<nav class="nav"><iframe src="../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

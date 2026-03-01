@@ -1,0 +1,150 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../.././style.css"></link><link rel="icon" href="../.././favicon.svg"></link><link rel="mask-icon" href="../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.Combinatorics.KatonaCircle</title><script defer="true" src="../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../.././";</script><script>const MODULE_NAME="Mathlib.Combinatorics.KatonaCircle";</script><script type="module" src="../.././jump-src.js"></script><script type="module" src="../.././search.js"></script><script type="module" src="../.././expand-nav.js"></script><script type="module" src="../.././how-about.js"></script><script type="module" src="../.././instances.js"></script><script type="module" src="../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">Combinatorics</span>.<span class="name">KatonaCircle</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Combinatorics/KatonaCircle.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../.././Init.html">Init</a></li><li><a href="../.././Mathlib/Data/Finset/Density.html">Mathlib.Data.Finset.Density</a></li><li><a href="../.././Mathlib/Data/Fintype/Perm.html">Mathlib.Data.Fintype.Perm</a></li><li><a href="../.././Mathlib/Data/Fintype/Prod.html">Mathlib.Data.Fintype.Prod</a></li><li><a href="../.././Mathlib/Data/Nat/Choose/Cast.html">Mathlib.Data.Nat.Choose.Cast</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.Combinatorics.KatonaCircle" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#Numbering"><span class="name">Numbering</span></a></div><div class="nav_link"><a class="break_within" href="#Fintype.card_numbering"><span class="name">Fintype</span>.<span class="name">card_numbering</span></a></div><div class="nav_link"><a class="break_within" href="#Numbering.IsPrefix"><span class="name">Numbering</span>.<span class="name">IsPrefix</span></a></div><div class="nav_link"><a class="break_within" href="#Numbering.IsPrefix.subset_of_card_le_card"><span class="name">Numbering</span>.<span class="name">IsPrefix</span>.<span class="name">subset_of_card_le_card</span></a></div><div class="nav_link"><a class="break_within" href="#Numbering.instDecidableIsPrefix"><span class="name">Numbering</span>.<span class="name">instDecidableIsPrefix</span></a></div><div class="nav_link"><a class="break_within" href="#Numbering.prefixed"><span class="name">Numbering</span>.<span class="name">prefixed</span></a></div><div class="nav_link"><a class="break_within" href="#Numbering.mem_prefixed"><span class="name">Numbering</span>.<span class="name">mem_prefixed</span></a></div><div class="nav_link"><a class="break_within" href="#Numbering.prefixedEquiv"><span class="name">Numbering</span>.<span class="name">prefixedEquiv</span></a></div><div class="nav_link"><a class="break_within" href="#Numbering.card_prefixed"><span class="name">Numbering</span>.<span class="name">card_prefixed</span></a></div><div class="nav_link"><a class="break_within" href="#Numbering.dens_prefixed"><span class="name">Numbering</span>.<span class="name">dens_prefixed</span></a></div><div class="nav_link"><a class="break_within" href="#Numbering.disjoint_prefixed_prefixed"><span class="name">Numbering</span>.<span class="name">disjoint_prefixed_prefixed</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="The-Katona-circle-method" class="markdown-heading">The Katona circle method <a class="hover-link" href="#The-Katona-circle-method">#</a></h1><p>This file provides tooling to use the Katona circle method, which is double-counting ways to order
+<code>n</code> elements on a circle under some condition.</p></div><div class="decl" id="Numbering"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Combinatorics/KatonaCircle.lean#L27-L28">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Combinatorics_KatonaCircle.html#Numbering" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[reducible, inline]</div>
+<div class="decl_header"><span class="decl_kind">abbrev</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering"><span class="name">Numbering</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">X</span> : <a href="../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><a href="../.././foundational_types.html">Type</a> u_1</div></div><p>A numbering of a fintype <code>X</code> is a bijection between <code>X</code> and <code>Fin (card X)</code>.</p><details id="instances-for-list-Numbering" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Fintype.card_numbering"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Combinatorics/KatonaCircle.lean#L30-L31">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Combinatorics_KatonaCircle.html#Fintype.card_numbering" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Combinatorics/KatonaCircle.html#Fintype.card_numbering"><span class="name">Fintype</span>.<span class="name">card_numbering</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">X</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">X</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Data/Fintype/Card.html#Fintype.card">card</a> <span class="fn">(<a href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering">Numbering</a> <span class="fn">X</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">(<a href="../.././Mathlib/Data/Fintype/Card.html#Fintype.card">card</a> <span class="fn">X</span>)</span>.<a href="../.././Mathlib/Data/Nat/Factorial/Basic.html#Nat.factorial">factorial</a></span></span></div></div></div></div><div class="decl" id="Numbering.IsPrefix"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Combinatorics/KatonaCircle.lean#L36-L38">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Combinatorics_KatonaCircle.html#Numbering.IsPrefix" class="verification-badge math-definition" title="Mathematical definition (Prop-valued)">🔹 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering.IsPrefix"><span class="name">Numbering</span>.<span class="name">IsPrefix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">X</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><a href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering">Numbering</a> <span class="fn">X</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">s</span> : <span class="fn"><a href="../.././Mathlib/Data/Finset/Defs.html#Finset">Finset</a> <span class="fn">X</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../.././foundational_types.html">Prop</a></div></div><p><code><a href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering.IsPrefix">IsPrefix</a> f s</code> means that the elements of <code>s</code> precede the elements of <code>sᶜ</code>
+in the numbering <code>f</code>.</p><details id="instances-for-list-Numbering.IsPrefix" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Numbering.IsPrefix.subset_of_card_le_card"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Combinatorics/KatonaCircle.lean#L40-L41">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Combinatorics_KatonaCircle.html#Numbering.IsPrefix.subset_of_card_le_card" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering.IsPrefix.subset_of_card_le_card"><span class="name">Numbering</span>.<span class="name">IsPrefix</span>.<span class="name">subset_of_card_le_card</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">X</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><a href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering">Numbering</a> <span class="fn">X</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../.././Mathlib/Data/Finset/Defs.html#Finset">Finset</a> <span class="fn">X</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hs</span> : <span class="fn"><span class="fn"><span class="fn">f</span>.<a href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering.IsPrefix">IsPrefix</a></span> <span class="fn">s</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">ht</span> : <span class="fn"><span class="fn"><span class="fn">f</span>.<a href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering.IsPrefix">IsPrefix</a></span> <span class="fn">t</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hst</span> : <span class="fn"><span class="fn">s</span>.<a href="../.././Mathlib/Data/Finset/Card.html#Finset.card">card</a></span> <a href="../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn">t</span>.<a href="../.././Mathlib/Data/Finset/Card.html#Finset.card">card</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">s</span> <span class="fn">⊆</span> <span class="fn">t</span></span></div></div></div></div><div class="decl" id="Numbering.instDecidableIsPrefix"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Combinatorics/KatonaCircle.lean#L45-L45">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Combinatorics_KatonaCircle.html#Numbering.instDecidableIsPrefix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering.instDecidableIsPrefix"><span class="name">Numbering</span>.<span class="name">instDecidableIsPrefix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">X</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><a href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering">Numbering</a> <span class="fn">X</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><a href="../.././Mathlib/Data/Finset/Defs.html#Finset">Finset</a> <span class="fn">X</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">X</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Decidable</span> <span class="fn">(<span class="fn"><span class="fn">f</span>.<a href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering.IsPrefix">IsPrefix</a></span> <span class="fn">s</span>)</span></span></div></div></div></div><div class="decl" id="Numbering.prefixed"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Combinatorics/KatonaCircle.lean#L47-L48">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Combinatorics_KatonaCircle.html#Numbering.prefixed" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering.prefixed"><span class="name">Numbering</span>.<span class="name">prefixed</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">X</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">X</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">s</span> : <span class="fn"><a href="../.././Mathlib/Data/Finset/Defs.html#Finset">Finset</a> <span class="fn">X</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Data/Finset/Defs.html#Finset">Finset</a> <span class="fn">(<a href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering">Numbering</a> <span class="fn">X</span>)</span></span></div></div><p>The set of numberings of which <code>s</code> is a prefix.</p><details id="instances-for-list-Numbering.prefixed" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Numbering.mem_prefixed"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Combinatorics/KatonaCircle.lean#L50-L50">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Combinatorics_KatonaCircle.html#Numbering.mem_prefixed" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering.mem_prefixed"><span class="name">Numbering</span>.<span class="name">mem_prefixed</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">X</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><a href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering">Numbering</a> <span class="fn">X</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><a href="../.././Mathlib/Data/Finset/Defs.html#Finset">Finset</a> <span class="fn">X</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">X</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">∈</span> <span class="fn"><a href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering.prefixed">prefixed</a> <span class="fn">s</span></span></span> <span class="fn">↔</span> <span class="fn"><span class="fn"><span class="fn">f</span>.<a href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering.IsPrefix">IsPrefix</a></span> <span class="fn">s</span></span></span></div></div></div></div><div class="decl" id="Numbering.prefixedEquiv"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Combinatorics/KatonaCircle.lean#L53-L106">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Combinatorics_KatonaCircle.html#Numbering.prefixedEquiv" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering.prefixedEquiv"><span class="name">Numbering</span>.<span class="name">prefixedEquiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">X</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">X</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">s</span> : <span class="fn"><a href="../.././Mathlib/Data/Finset/Defs.html#Finset">Finset</a> <span class="fn">X</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">↥<span class="fn">(<a href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering.prefixed">prefixed</a> <span class="fn">s</span>)</span></span> <a href="../.././Mathlib/Logic/Equiv/Defs.html#Equiv">≃</a> <span class="fn"><span class="fn"><a href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering">Numbering</a> <span class="fn">↥<span class="fn">s</span></span></span> <span class="fn">×</span> <span class="fn"><a href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering">Numbering</a> <span class="fn">↥<span class="fn">s</span><a href="../.././Mathlib/Order/Notation.html#Compl.compl">ᶜ</a></span></span></span></div></div><p>Decompose a numbering of which <code>s</code> is a prefix into a numbering of <code>s</code> and a numbering on <code>sᶜ</code>.</p><details id="instances-for-list-Numbering.prefixedEquiv" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Numbering.card_prefixed"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Combinatorics/KatonaCircle.lean#L109-L110">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Combinatorics_KatonaCircle.html#Numbering.card_prefixed" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering.card_prefixed"><span class="name">Numbering</span>.<span class="name">card_prefixed</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">X</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">X</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">s</span> : <span class="fn"><a href="../.././Mathlib/Data/Finset/Defs.html#Finset">Finset</a> <span class="fn">X</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering.prefixed">prefixed</a> <span class="fn">s</span>)</span>.<a href="../.././Mathlib/Data/Finset/Card.html#Finset.card">card</a></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">s</span>.<a href="../.././Mathlib/Data/Finset/Card.html#Finset.card">card</a></span>.<a href="../.././Mathlib/Data/Nat/Factorial/Basic.html#Nat.factorial">factorial</a></span> <span class="fn">*</span> <span class="fn"><span class="fn">(<span class="fn"><a href="../.././Mathlib/Data/Fintype/Card.html#Fintype.card">Fintype.card</a> <span class="fn">X</span></span> <span class="fn">-</span> <span class="fn"><span class="fn">s</span>.<a href="../.././Mathlib/Data/Finset/Card.html#Finset.card">card</a></span>)</span>.<a href="../.././Mathlib/Data/Nat/Factorial/Basic.html#Nat.factorial">factorial</a></span></span></span></div></div></div></div><div class="decl" id="Numbering.dens_prefixed"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Combinatorics/KatonaCircle.lean#L112-L114">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Combinatorics_KatonaCircle.html#Numbering.dens_prefixed" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering.dens_prefixed"><span class="name">Numbering</span>.<span class="name">dens_prefixed</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">X</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">X</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">s</span> : <span class="fn"><a href="../.././Mathlib/Data/Finset/Defs.html#Finset">Finset</a> <span class="fn">X</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering.prefixed">prefixed</a> <span class="fn">s</span>)</span>.<a href="../.././Mathlib/Data/Finset/Density.html#Finset.dens">dens</a></span> <span class="fn">=</span> <span class="fn">(↑<span class="fn">(<span class="fn"><span class="fn">(<a href="../.././Mathlib/Data/Fintype/Card.html#Fintype.card">Fintype.card</a> <span class="fn">X</span>)</span>.<a href="../.././Mathlib/Data/Nat/Choose/Basic.html#Nat.choose">choose</a></span> <span class="fn"><span class="fn">s</span>.<a href="../.././Mathlib/Data/Finset/Card.html#Finset.card">card</a></span>)</span>)</span><a href="../.././Mathlib/Analysis/Normed/Field/Basic.html#Inv.inv">⁻¹</a></span></div></div></div></div><div class="decl" id="Numbering.disjoint_prefixed_prefixed"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/Combinatorics/KatonaCircle.lean#L117-L123">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_Combinatorics_KatonaCircle.html#Numbering.disjoint_prefixed_prefixed" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering.disjoint_prefixed_prefixed"><span class="name">Numbering</span>.<span class="name">disjoint_prefixed_prefixed</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">X</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">X</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><a href="../.././Mathlib/Data/Finset/Defs.html#Finset">Finset</a> <span class="fn">X</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">X</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hst</span> : <span class="fn"><span class="fn">¬</span><span class="fn"><span class="fn">s</span> <span class="fn">⊆</span> <span class="fn">t</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hts</span> : <span class="fn"><span class="fn">¬</span><span class="fn"><span class="fn">t</span> <span class="fn">⊆</span> <span class="fn">s</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Order/Disjoint.html#Disjoint">Disjoint</a> <span class="fn">(<a href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering.prefixed">prefixed</a> <span class="fn">s</span>)</span> <span class="fn">(<a href="../.././Mathlib/Combinatorics/KatonaCircle.html#Numbering.prefixed">prefixed</a> <span class="fn">t</span>)</span></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

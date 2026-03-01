@@ -1,0 +1,784 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../.././style.css"></link><link rel="icon" href="../.././favicon.svg"></link><link rel="mask-icon" href="../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.GroupTheory.PGroup</title><script defer="true" src="../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../.././";</script><script>const MODULE_NAME="Mathlib.GroupTheory.PGroup";</script><script type="module" src="../.././jump-src.js"></script><script type="module" src="../.././search.js"></script><script type="module" src="../.././expand-nav.js"></script><script type="module" src="../.././how-about.js"></script><script type="module" src="../.././instances.js"></script><script type="module" src="../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">GroupTheory</span>.<span class="name">PGroup</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../.././Init.html">Init</a></li><li><a href="../.././Mathlib/GroupTheory/SpecificGroups/Cyclic.html">Mathlib.GroupTheory.SpecificGroups.Cyclic</a></li><li><a href="../.././Mathlib/GroupTheory/Perm/Cycle/Type.html">Mathlib.GroupTheory.Perm.Cycle.Type</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.GroupTheory.PGroup" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#IsPGroup"><span class="name">IsPGroup</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.iff_orderOf"><span class="name">IsPGroup</span>.<span class="name">iff_orderOf</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.of_card"><span class="name">IsPGroup</span>.<span class="name">of_card</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.of_bot"><span class="name">IsPGroup</span>.<span class="name">of_bot</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.iff_card"><span class="name">IsPGroup</span>.<span class="name">iff_card</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.exists_card_eq"><span class="name">IsPGroup</span>.<span class="name">exists_card_eq</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.of_injective"><span class="name">IsPGroup</span>.<span class="name">of_injective</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.to_subgroup"><span class="name">IsPGroup</span>.<span class="name">to_subgroup</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.of_surjective"><span class="name">IsPGroup</span>.<span class="name">of_surjective</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.to_quotient"><span class="name">IsPGroup</span>.<span class="name">to_quotient</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.of_equiv"><span class="name">IsPGroup</span>.<span class="name">of_equiv</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.orderOf_coprime"><span class="name">IsPGroup</span>.<span class="name">orderOf_coprime</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.powEquiv"><span class="name">IsPGroup</span>.<span class="name">powEquiv</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.powEquiv_apply"><span class="name">IsPGroup</span>.<span class="name">powEquiv_apply</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.powEquiv_symm_apply"><span class="name">IsPGroup</span>.<span class="name">powEquiv_symm_apply</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.powEquiv'"><span class="name">IsPGroup</span>.<span class="name">powEquiv'</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.index"><span class="name">IsPGroup</span>.<span class="name">index</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.card_eq_or_dvd"><span class="name">IsPGroup</span>.<span class="name">card_eq_or_dvd</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.nontrivial_iff_card"><span class="name">IsPGroup</span>.<span class="name">nontrivial_iff_card</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.card_orbit"><span class="name">IsPGroup</span>.<span class="name">card_orbit</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.card_modEq_card_fixedPoints"><span class="name">IsPGroup</span>.<span class="name">card_modEq_card_fixedPoints</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.nonempty_fixed_point_of_prime_not_dvd_card"><span class="name">IsPGroup</span>.<span class="name">nonempty_fixed_point_of_prime_not_dvd_card</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.exists_fixed_point_of_prime_dvd_card_of_fixed_point"><span class="name">IsPGroup</span>.<span class="name">exists_fixed_point_of_prime_dvd_card_of_fixed_point</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.center_nontrivial"><span class="name">IsPGroup</span>.<span class="name">center_nontrivial</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.bot_lt_center"><span class="name">IsPGroup</span>.<span class="name">bot_lt_center</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.to_le"><span class="name">IsPGroup</span>.<span class="name">to_le</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.to_inf_left"><span class="name">IsPGroup</span>.<span class="name">to_inf_left</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.to_inf_right"><span class="name">IsPGroup</span>.<span class="name">to_inf_right</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.map"><span class="name">IsPGroup</span>.<span class="name">map</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.comap_of_ker_isPGroup"><span class="name">IsPGroup</span>.<span class="name">comap_of_ker_isPGroup</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.ker_isPGroup_of_injective"><span class="name">IsPGroup</span>.<span class="name">ker_isPGroup_of_injective</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.comap_of_injective"><span class="name">IsPGroup</span>.<span class="name">comap_of_injective</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.comap_subtype"><span class="name">IsPGroup</span>.<span class="name">comap_subtype</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.to_sup_of_normal_right"><span class="name">IsPGroup</span>.<span class="name">to_sup_of_normal_right</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.to_sup_of_normal_left"><span class="name">IsPGroup</span>.<span class="name">to_sup_of_normal_left</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.to_sup_of_normal_right'"><span class="name">IsPGroup</span>.<span class="name">to_sup_of_normal_right'</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.to_sup_of_normal_left'"><span class="name">IsPGroup</span>.<span class="name">to_sup_of_normal_left'</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.coprime_card_of_ne"><span class="name">IsPGroup</span>.<span class="name">coprime_card_of_ne</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.disjoint_of_ne"><span class="name">IsPGroup</span>.<span class="name">disjoint_of_ne</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.le_or_disjoint_of_coprime"><span class="name">IsPGroup</span>.<span class="name">le_or_disjoint_of_coprime</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.card_center_eq_prime_pow"><span class="name">IsPGroup</span>.<span class="name">card_center_eq_prime_pow</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.cyclic_center_quotient_of_card_eq_prime_sq"><span class="name">IsPGroup</span>.<span class="name">cyclic_center_quotient_of_card_eq_prime_sq</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.commGroupOfCardEqPrimeSq"><span class="name">IsPGroup</span>.<span class="name">commGroupOfCardEqPrimeSq</span></a></div><div class="nav_link"><a class="break_within" href="#IsPGroup.commutative_of_card_eq_prime_sq"><span class="name">IsPGroup</span>.<span class="name">commutative_of_card_eq_prime_sq</span></a></div><div class="nav_link"><a class="break_within" href="#ZModModule.isPGroup_multiplicative"><span class="name">ZModModule</span>.<span class="name">isPGroup_multiplicative</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="p-groups" class="markdown-heading">p-groups <a class="hover-link" href="#p-groups">#</a></h1><p>This file contains a proof that if <code>G</code> is a <code>p</code>-group acting on a finite set <code>α</code>,
+then the number of fixed points of the action is congruent mod <code>p</code> to the cardinality of <code>α</code>.
+It also contains proofs of some corollaries of this lemma about existence of fixed points.</p></div><div class="decl" id="IsPGroup"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L25-L27">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup" class="verification-badge math-definition" title="Mathematical definition (Prop-valued)">🔹 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup"><span class="name">IsPGroup</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><a href="../.././foundational_types.html">Prop</a></div></div><p>A p-group is a group in which the order of every element is a power of <code>p</code>.</p><details id="instances-for-list-IsPGroup" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="IsPGroup.iff_orderOf"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L33-L38">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.iff_orderOf" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.iff_orderOf"><span class="name">IsPGroup</span>.<span class="name">iff_orderOf</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">hp</span> : <span class="fn"><a href="../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">G</span></span> <span class="fn">↔</span> <span class="fn">∀ (<span class="fn">g</span> : <span class="fn">G</span>), <span class="fn">∃ (<span class="fn">k</span> : <span class="fn">ℕ</span>), <span class="fn"><span class="fn"><a href="../.././Mathlib/GroupTheory/OrderOfElement.html#orderOf">orderOf</a> <span class="fn">g</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">p</span> <span class="fn">^</span> <span class="fn">k</span></span></span></span></span></span></div></div></div></div><div class="decl" id="IsPGroup.of_card"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L40-L41">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.of_card" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.of_card"><span class="name">IsPGroup</span>.<span class="name">of_card</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hG</span> : <span class="fn"><span class="fn"><a href="../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a> <span class="fn">G</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">p</span> <span class="fn">^</span> <span class="fn">n</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">G</span></span></div></div></div></div><div class="decl" id="IsPGroup.of_bot"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L43-L44">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.of_bot" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.of_bot"><span class="name">IsPGroup</span>.<span class="name">of_bot</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<a href="../.././Mathlib/Order/Notation.html#Bot.bot">⊥</a></span></span></div></div></div></div><div class="decl" id="IsPGroup.iff_card"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L46-L57">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.iff_card" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.iff_card"><span class="name">IsPGroup</span>.<span class="name">iff_card</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">G</span></span> <span class="fn">↔</span> <span class="fn">∃ (<span class="fn">n</span> : <span class="fn">ℕ</span>), <span class="fn"><span class="fn"><a href="../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a> <span class="fn">G</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">p</span> <span class="fn">^</span> <span class="fn">n</span></span></span></span></span></div></div></div></div><div class="decl" id="IsPGroup.exists_card_eq"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L59-L59">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.exists_card_eq" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.exists_card_eq"><span class="name">IsPGroup</span>.<span class="name">exists_card_eq</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">G</span></span> → <span class="fn">∃ (<span class="fn">n</span> : <span class="fn">ℕ</span>), <span class="fn"><span class="fn"><a href="../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a> <span class="fn">G</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">p</span> <span class="fn">^</span> <span class="fn">n</span></span></span></span></span></div></div><p><strong>Alias</strong> of the forward direction of <code><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.iff_card">IsPGroup.iff_card</a></code>.</p></div></div><div class="decl" id="IsPGroup.of_injective"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L66-L69">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.of_injective"><span class="name">IsPGroup</span>.<span class="name">of_injective</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hG</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">G</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">ϕ</span> : <span class="fn">H</span> <a href="../.././Mathlib/Algebra/Group/Hom/Defs.html#MonoidHom">→*</a> <span class="fn">G</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hϕ</span> : <span class="fn"><span class="fn">Function.Injective</span> <span class="fn">⇑<span class="fn">ϕ</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">H</span></span></div></div></div></div><div class="decl" id="IsPGroup.to_subgroup"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L71-L72">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.to_subgroup" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.to_subgroup"><span class="name">IsPGroup</span>.<span class="name">to_subgroup</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hG</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">G</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">H</span> : <span class="fn"><a href="../.././Mathlib/Algebra/Group/Subgroup/Defs.html#Subgroup">Subgroup</a> <span class="fn">G</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn">H</span></span></span></div></div></div></div><div class="decl" id="IsPGroup.of_surjective"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L74-L77">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.of_surjective"><span class="name">IsPGroup</span>.<span class="name">of_surjective</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hG</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">G</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">ϕ</span> : <span class="fn">G</span> <a href="../.././Mathlib/Algebra/Group/Hom/Defs.html#MonoidHom">→*</a> <span class="fn">H</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hϕ</span> : <span class="fn"><span class="fn">Function.Surjective</span> <span class="fn">⇑<span class="fn">ϕ</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">H</span></span></div></div></div></div><div class="decl" id="IsPGroup.to_quotient"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L79-L80">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.to_quotient" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.to_quotient"><span class="name">IsPGroup</span>.<span class="name">to_quotient</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hG</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">G</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">H</span> : <span class="fn"><a href="../.././Mathlib/Algebra/Group/Subgroup/Defs.html#Subgroup">Subgroup</a> <span class="fn">G</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">H</span>.<a href="../.././Mathlib/Algebra/Group/Subgroup/Defs.html#Subgroup.Normal">Normal</a></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> (<span class="fn">G</span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn">H</span>)</span></div></div></div></div><div class="decl" id="IsPGroup.of_equiv"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L82-L83">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.of_equiv"><span class="name">IsPGroup</span>.<span class="name">of_equiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hG</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">G</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">H</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">ϕ</span> : <span class="fn">G</span> <a href="../.././Mathlib/Algebra/Group/Equiv/Defs.html#MulEquiv">≃*</a> <span class="fn">H</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">H</span></span></div></div></div></div><div class="decl" id="IsPGroup.orderOf_coprime"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L85-L87">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.orderOf_coprime" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.orderOf_coprime"><span class="name">IsPGroup</span>.<span class="name">orderOf_coprime</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hG</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">G</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hn</span> : <span class="fn"><span class="fn"><span class="fn">p</span>.<span class="fn">Coprime</span></span> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../.././Mathlib/GroupTheory/OrderOfElement.html#orderOf">orderOf</a> <span class="fn">g</span>)</span>.<span class="fn">Coprime</span></span> <span class="fn">n</span></span></div></div></div></div><div class="decl" id="IsPGroup.powEquiv"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L89-L100">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.powEquiv" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.powEquiv"><span class="name">IsPGroup</span>.<span class="name">powEquiv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hG</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">G</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hn</span> : <span class="fn"><span class="fn"><span class="fn">p</span>.<span class="fn">Coprime</span></span> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">G</span> <a href="../.././Mathlib/Logic/Equiv/Defs.html#Equiv">≃</a> <span class="fn">G</span></div></div><p>If <code>gcd(p,n) = 1</code>, then the <code>n</code>th power map is a bijection.</p><details id="instances-for-list-IsPGroup.powEquiv" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="IsPGroup.powEquiv_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L102-L104">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.powEquiv_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.powEquiv_apply"><span class="name">IsPGroup</span>.<span class="name">powEquiv_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hG</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">G</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hn</span> : <span class="fn"><span class="fn"><span class="fn">p</span>.<span class="fn">Coprime</span></span> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">hG</span>.<a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.powEquiv">powEquiv</a></span> <span class="fn">hn</span>)</span> <span class="fn">g</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">g</span> <span class="fn">^</span> <span class="fn">n</span></span></span></div></div></div></div><div class="decl" id="IsPGroup.powEquiv_symm_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L106-L108">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.powEquiv_symm_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.powEquiv_symm_apply"><span class="name">IsPGroup</span>.<span class="name">powEquiv_symm_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hG</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">G</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hn</span> : <span class="fn"><span class="fn"><span class="fn">p</span>.<span class="fn">Coprime</span></span> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">hG</span>.<a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.powEquiv">powEquiv</a></span> <span class="fn">hn</span>)</span>.<a href="../.././Mathlib/Logic/Equiv/Defs.html#Equiv.symm">symm</a></span> <span class="fn">g</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">g</span> <span class="fn">^</span> <span class="fn"><span class="fn"><span class="fn">(<a href="../.././Mathlib/GroupTheory/OrderOfElement.html#orderOf">orderOf</a> <span class="fn">g</span>)</span>.<a href="../.././Mathlib/Data/Int/GCD.html#Nat.gcdB">gcdB</a></span> <span class="fn">n</span></span></span></span></div></div></div></div><div class="decl" id="IsPGroup.powEquiv'"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L112-L114">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.powEquiv'" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[reducible, inline]</div>
+<div class="decl_header"><span class="decl_kind">noncomputable abbrev</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.powEquiv'"><span class="name">IsPGroup</span>.<span class="name">powEquiv'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hG</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">G</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">hp</span> : <span class="fn"><a href="../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hn</span> : <span class="fn"><span class="fn">¬</span><span class="fn"><span class="fn">p</span> <span class="fn">∣</span> <span class="fn">n</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">G</span> <a href="../.././Mathlib/Logic/Equiv/Defs.html#Equiv">≃</a> <span class="fn">G</span></div></div><p>If <code>p ∤ n</code>, then the <code>n</code>th power map is a bijection.</p><details id="instances-for-list-IsPGroup.powEquiv'" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="IsPGroup.index"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L116-L122">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.index" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.index"><span class="name">IsPGroup</span>.<span class="name">index</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hG</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">G</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">hp</span> : <span class="fn"><a href="../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">H</span> : <span class="fn"><a href="../.././Mathlib/Algebra/Group/Subgroup/Defs.html#Subgroup">Subgroup</a> <span class="fn">G</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">H</span>.<a href="../.././Mathlib/GroupTheory/Index.html#Subgroup.FiniteIndex">FiniteIndex</a></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">∃ (<span class="fn">n</span> : <span class="fn">ℕ</span>), <span class="fn"><span class="fn"><span class="fn">H</span>.<a href="../.././Mathlib/GroupTheory/Index.html#Subgroup.index">index</a></span> <span class="fn">=</span> <span class="fn"><span class="fn">p</span> <span class="fn">^</span> <span class="fn">n</span></span></span></span></div></div></div></div><div class="decl" id="IsPGroup.card_eq_or_dvd"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L124-L132">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.card_eq_or_dvd" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.card_eq_or_dvd"><span class="name">IsPGroup</span>.<span class="name">card_eq_or_dvd</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hG</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">G</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">hp</span> : <span class="fn"><a href="../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><a href="../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a> <span class="fn">G</span></span> <span class="fn">=</span> <span class="fn">1</span></span> <span class="fn">∨</span> <span class="fn"><span class="fn">p</span> <span class="fn">∣</span> <span class="fn"><a href="../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a> <span class="fn">G</span></span></span></span></div></div></div></div><div class="decl" id="IsPGroup.nontrivial_iff_card"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L134-L143">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.nontrivial_iff_card" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.nontrivial_iff_card"><span class="name">IsPGroup</span>.<span class="name">nontrivial_iff_card</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hG</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">G</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">hp</span> : <span class="fn"><a href="../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././Mathlib/Logic/Nontrivial/Defs.html#Nontrivial">Nontrivial</a> <span class="fn">G</span></span> <span class="fn">↔</span> <span class="fn">∃ <span class="fn">n</span> &gt; <span class="fn">0</span>, <span class="fn"><span class="fn"><a href="../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a> <span class="fn">G</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">p</span> <span class="fn">^</span> <span class="fn">n</span></span></span></span></span></div></div></div></div><div class="decl" id="IsPGroup.card_orbit"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L147-L152">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.card_orbit" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.card_orbit"><span class="name">IsPGroup</span>.<span class="name">card_orbit</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hG</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">G</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">hp</span> : <span class="fn"><a href="../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">↑<span class="fn">(<a href="../.././Mathlib/GroupTheory/GroupAction/Defs.html#MulAction.orbit">MulAction.orbit</a> <span class="fn">G</span> <span class="fn">a</span>)</span></span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">∃ (<span class="fn">n</span> : <span class="fn">ℕ</span>), <span class="fn"><span class="fn"><a href="../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a> <span class="fn">↑<span class="fn">(<a href="../.././Mathlib/GroupTheory/GroupAction/Defs.html#MulAction.orbit">MulAction.orbit</a> <span class="fn">G</span> <span class="fn">a</span>)</span></span></span> <span class="fn">=</span> <span class="fn"><span class="fn">p</span> <span class="fn">^</span> <span class="fn">n</span></span></span></span></div></div></div></div><div class="decl" id="IsPGroup.card_modEq_card_fixedPoints"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L156-L189">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.card_modEq_card_fixedPoints" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.card_modEq_card_fixedPoints"><span class="name">IsPGroup</span>.<span class="name">card_modEq_card_fixedPoints</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hG</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">G</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">hp</span> : <span class="fn"><a href="../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a> <span class="fn">α</span></span> <a href="../.././Mathlib/Data/Nat/ModEq.html#Nat.ModEq">≡</a> <span class="fn"><a href="../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a> <span class="fn">↑<span class="fn">(<a href="../.././Mathlib/GroupTheory/GroupAction/Defs.html#MulAction.fixedPoints">MulAction.fixedPoints</a> <span class="fn">G</span> <span class="fn">α</span>)</span></span></span> <a href="../.././Mathlib/Data/Nat/ModEq.html#Nat.ModEq">[MOD</a> <span class="fn">p</span><a href="../.././Mathlib/Data/Nat/ModEq.html#Nat.ModEq">]</a></div></div><p>If <code>G</code> is a <code>p</code>-group acting on a finite set <code>α</code>, then the number of fixed points
+of the action is congruent mod <code>p</code> to the cardinality of <code>α</code></p></div></div><div class="decl" id="IsPGroup.nonempty_fixed_point_of_prime_not_dvd_card"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L191-L201">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.nonempty_fixed_point_of_prime_not_dvd_card" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.nonempty_fixed_point_of_prime_not_dvd_card"><span class="name">IsPGroup</span>.<span class="name">nonempty_fixed_point_of_prime_not_dvd_card</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hG</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">G</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">hp</span> : <span class="fn"><a href="../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_3)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hpα</span> : <span class="fn"><span class="fn">¬</span><span class="fn"><span class="fn">p</span> <span class="fn">∣</span> <span class="fn"><a href="../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a> <span class="fn">α</span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<a href="../.././Mathlib/GroupTheory/GroupAction/Defs.html#MulAction.fixedPoints">MulAction.fixedPoints</a> <span class="fn">G</span> <span class="fn">α</span>)</span>.<a href="../.././Mathlib/Data/Set/Defs.html#Set.Nonempty">Nonempty</a></span></div></div><p>If a p-group acts on <code>α</code> and the cardinality of <code>α</code> is not a multiple
+of <code>p</code> then the action has a fixed point.</p></div></div><div class="decl" id="IsPGroup.exists_fixed_point_of_prime_dvd_card_of_fixed_point"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L203-L214">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.exists_fixed_point_of_prime_dvd_card_of_fixed_point"><span class="name">IsPGroup</span>.<span class="name">exists_fixed_point_of_prime_dvd_card_of_fixed_point</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hG</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">G</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">hp</span> : <span class="fn"><a href="../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">G</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hpα</span> : <span class="fn"><span class="fn">p</span> <span class="fn">∣</span> <span class="fn"><a href="../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a> <span class="fn">α</span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">ha</span> : <span class="fn"><span class="fn">a</span> <span class="fn">∈</span> <span class="fn"><a href="../.././Mathlib/GroupTheory/GroupAction/Defs.html#MulAction.fixedPoints">MulAction.fixedPoints</a> <span class="fn">G</span> <span class="fn">α</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">∃ <span class="fn">b</span> ∈ <span class="fn"><a href="../.././Mathlib/GroupTheory/GroupAction/Defs.html#MulAction.fixedPoints">MulAction.fixedPoints</a> <span class="fn">G</span> <span class="fn">α</span></span>, <span class="fn"><span class="fn">a</span> <span class="fn">≠</span> <span class="fn">b</span></span></span></div></div><p>If a p-group acts on <code>α</code> and the cardinality of <code>α</code> is a multiple
+of <code>p</code>, and the action has one fixed point, then it has another fixed point.</p></div></div><div class="decl" id="IsPGroup.center_nontrivial"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L216-L224">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.center_nontrivial" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.center_nontrivial"><span class="name">IsPGroup</span>.<span class="name">center_nontrivial</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hG</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">G</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">hp</span> : <span class="fn"><a href="../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Logic/Nontrivial/Defs.html#Nontrivial">Nontrivial</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Logic/Nontrivial/Defs.html#Nontrivial">Nontrivial</a> <span class="fn">↥<span class="fn">(<a href="../.././Mathlib/GroupTheory/Subgroup/Center.html#Subgroup.center">Subgroup.center</a> <span class="fn">G</span>)</span></span></span></div></div></div></div><div class="decl" id="IsPGroup.bot_lt_center"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L227-L230">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.bot_lt_center" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.bot_lt_center"><span class="name">IsPGroup</span>.<span class="name">bot_lt_center</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hG</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">G</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">hp</span> : <span class="fn"><a href="../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Logic/Nontrivial/Defs.html#Nontrivial">Nontrivial</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><a href="../.././Mathlib/Order/Notation.html#Bot.bot">⊥</a> <a href="../.././Mathlib/Algebra/Order/Kleene.html#LT.lt">&lt;</a> <span class="fn"><a href="../.././Mathlib/GroupTheory/Subgroup/Center.html#Subgroup.center">Subgroup.center</a> <span class="fn">G</span></span></div></div></div></div><div class="decl" id="IsPGroup.to_le"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L234-L238">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.to_le"><span class="name">IsPGroup</span>.<span class="name">to_le</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H </span><span class="fn">K</span> : <span class="fn"><a href="../.././Mathlib/Algebra/Group/Subgroup/Defs.html#Subgroup">Subgroup</a> <span class="fn">G</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hK</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn">K</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hHK</span> : <span class="fn">H</span> <a href="../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn">K</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn">H</span></span></span></div></div></div></div><div class="decl" id="IsPGroup.to_inf_left"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L240-L241">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.to_inf_left" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.to_inf_left"><span class="name">IsPGroup</span>.<span class="name">to_inf_left</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H </span><span class="fn">K</span> : <span class="fn"><a href="../.././Mathlib/Algebra/Group/Subgroup/Defs.html#Subgroup">Subgroup</a> <span class="fn">G</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hH</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn">H</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn">(<span class="fn">H</span> ⊓ <span class="fn">K</span>)</span></span></span></div></div></div></div><div class="decl" id="IsPGroup.to_inf_right"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L243-L244">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.to_inf_right" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.to_inf_right"><span class="name">IsPGroup</span>.<span class="name">to_inf_right</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H </span><span class="fn">K</span> : <span class="fn"><a href="../.././Mathlib/Algebra/Group/Subgroup/Defs.html#Subgroup">Subgroup</a> <span class="fn">G</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hK</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn">K</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn">(<span class="fn">H</span> ⊓ <span class="fn">K</span>)</span></span></span></div></div></div></div><div class="decl" id="IsPGroup.map"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L246-L249">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.map" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.map"><span class="name">IsPGroup</span>.<span class="name">map</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <span class="fn"><a href="../.././Mathlib/Algebra/Group/Subgroup/Defs.html#Subgroup">Subgroup</a> <span class="fn">G</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hH</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn">H</span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">ϕ</span> : <span class="fn">G</span> <a href="../.././Mathlib/Algebra/Group/Hom/Defs.html#MonoidHom">→*</a> <span class="fn">K</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn">(<a href="../.././Mathlib/Algebra/Group/Subgroup/Map.html#Subgroup.map">Subgroup.map</a> <span class="fn">ϕ</span> <span class="fn">H</span>)</span></span></span></div></div></div></div><div class="decl" id="IsPGroup.comap_of_ker_isPGroup"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L251-L258">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.comap_of_ker_isPGroup" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.comap_of_ker_isPGroup"><span class="name">IsPGroup</span>.<span class="name">comap_of_ker_isPGroup</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <span class="fn"><a href="../.././Mathlib/Algebra/Group/Subgroup/Defs.html#Subgroup">Subgroup</a> <span class="fn">G</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hH</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn">H</span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">ϕ</span> : <span class="fn">K</span> <a href="../.././Mathlib/Algebra/Group/Hom/Defs.html#MonoidHom">→*</a> <span class="fn">G</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hϕ</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn"><span class="fn">ϕ</span>.<a href="../.././Mathlib/Algebra/Group/Subgroup/Ker.html#MonoidHom.ker">ker</a></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn">(<a href="../.././Mathlib/Algebra/Group/Subgroup/Map.html#Subgroup.comap">Subgroup.comap</a> <span class="fn">ϕ</span> <span class="fn">H</span>)</span></span></span></div></div></div></div><div class="decl" id="IsPGroup.ker_isPGroup_of_injective"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L260-L262">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.ker_isPGroup_of_injective" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.ker_isPGroup_of_injective"><span class="name">IsPGroup</span>.<span class="name">ker_isPGroup_of_injective</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ϕ</span> : <span class="fn">K</span> <a href="../.././Mathlib/Algebra/Group/Hom/Defs.html#MonoidHom">→*</a> <span class="fn">G</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hϕ</span> : <span class="fn"><span class="fn">Function.Injective</span> <span class="fn">⇑<span class="fn">ϕ</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn"><span class="fn">ϕ</span>.<a href="../.././Mathlib/Algebra/Group/Subgroup/Ker.html#MonoidHom.ker">ker</a></span></span></span></div></div></div></div><div class="decl" id="IsPGroup.comap_of_injective"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L264-L266">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.comap_of_injective" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.comap_of_injective"><span class="name">IsPGroup</span>.<span class="name">comap_of_injective</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <span class="fn"><a href="../.././Mathlib/Algebra/Group/Subgroup/Defs.html#Subgroup">Subgroup</a> <span class="fn">G</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hH</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn">H</span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">ϕ</span> : <span class="fn">K</span> <a href="../.././Mathlib/Algebra/Group/Hom/Defs.html#MonoidHom">→*</a> <span class="fn">G</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hϕ</span> : <span class="fn"><span class="fn">Function.Injective</span> <span class="fn">⇑<span class="fn">ϕ</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn">(<a href="../.././Mathlib/Algebra/Group/Subgroup/Map.html#Subgroup.comap">Subgroup.comap</a> <span class="fn">ϕ</span> <span class="fn">H</span>)</span></span></span></div></div></div></div><div class="decl" id="IsPGroup.comap_subtype"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L268-L270">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.comap_subtype" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.comap_subtype"><span class="name">IsPGroup</span>.<span class="name">comap_subtype</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <span class="fn"><a href="../.././Mathlib/Algebra/Group/Subgroup/Defs.html#Subgroup">Subgroup</a> <span class="fn">G</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hH</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn">H</span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <span class="fn"><a href="../.././Mathlib/Algebra/Group/Subgroup/Defs.html#Subgroup">Subgroup</a> <span class="fn">G</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn">(<a href="../.././Mathlib/Algebra/Group/Subgroup/Map.html#Subgroup.comap">Subgroup.comap</a> <span class="fn"><span class="fn">K</span>.<a href="../.././Mathlib/Algebra/Group/Subgroup/Defs.html#Subgroup.subtype">subtype</a></span> <span class="fn">H</span>)</span></span></span></div></div></div></div><div class="decl" id="IsPGroup.to_sup_of_normal_right"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L272-L276">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.to_sup_of_normal_right" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.to_sup_of_normal_right"><span class="name">IsPGroup</span>.<span class="name">to_sup_of_normal_right</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H </span><span class="fn">K</span> : <span class="fn"><a href="../.././Mathlib/Algebra/Group/Subgroup/Defs.html#Subgroup">Subgroup</a> <span class="fn">G</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hH</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn">H</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hK</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn">K</span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">K</span>.<a href="../.././Mathlib/Algebra/Group/Subgroup/Defs.html#Subgroup.Normal">Normal</a></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn">(<span class="fn">H</span> ⊔ <span class="fn">K</span>)</span></span></span></div></div></div></div><div class="decl" id="IsPGroup.to_sup_of_normal_left"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L278-L279">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.to_sup_of_normal_left" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.to_sup_of_normal_left"><span class="name">IsPGroup</span>.<span class="name">to_sup_of_normal_left</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H </span><span class="fn">K</span> : <span class="fn"><a href="../.././Mathlib/Algebra/Group/Subgroup/Defs.html#Subgroup">Subgroup</a> <span class="fn">G</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hH</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn">H</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hK</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn">K</span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">H</span>.<a href="../.././Mathlib/Algebra/Group/Subgroup/Defs.html#Subgroup.Normal">Normal</a></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn">(<span class="fn">H</span> ⊔ <span class="fn">K</span>)</span></span></span></div></div></div></div><div class="decl" id="IsPGroup.to_sup_of_normal_right'"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L281-L289">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.to_sup_of_normal_right'" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.to_sup_of_normal_right'"><span class="name">IsPGroup</span>.<span class="name">to_sup_of_normal_right'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H </span><span class="fn">K</span> : <span class="fn"><a href="../.././Mathlib/Algebra/Group/Subgroup/Defs.html#Subgroup">Subgroup</a> <span class="fn">G</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hH</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn">H</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hK</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn">K</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hHK</span> : <span class="fn">H</span> <a href="../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn">K</span>.<a href="../.././Mathlib/Algebra/Group/Subgroup/Defs.html#Subgroup.normalizer">normalizer</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn">(<span class="fn">H</span> ⊔ <span class="fn">K</span>)</span></span></span></div></div></div></div><div class="decl" id="IsPGroup.to_sup_of_normal_left'"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L291-L293">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.to_sup_of_normal_left'" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.to_sup_of_normal_left'"><span class="name">IsPGroup</span>.<span class="name">to_sup_of_normal_left'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H </span><span class="fn">K</span> : <span class="fn"><a href="../.././Mathlib/Algebra/Group/Subgroup/Defs.html#Subgroup">Subgroup</a> <span class="fn">G</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hH</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn">H</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hK</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn">K</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hHK</span> : <span class="fn">K</span> <a href="../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn">H</span>.<a href="../.././Mathlib/Algebra/Group/Subgroup/Defs.html#Subgroup.normalizer">normalizer</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn">(<span class="fn">H</span> ⊔ <span class="fn">K</span>)</span></span></span></div></div></div></div><div class="decl" id="IsPGroup.coprime_card_of_ne"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L295-L302">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.coprime_card_of_ne" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.coprime_card_of_ne"><span class="name">IsPGroup</span>.<span class="name">coprime_card_of_ne</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G₂</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G₂</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p₁ </span><span class="fn">p₂</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">hp₁</span> : <span class="fn"><a href="../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p₁</span>)</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">hp₂</span> : <span class="fn"><a href="../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p₂</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hne</span> : <span class="fn"><span class="fn">p₁</span> <span class="fn">≠</span> <span class="fn">p₂</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">H₁</span> : <span class="fn"><a href="../.././Mathlib/Algebra/Group/Subgroup/Defs.html#Subgroup">Subgroup</a> <span class="fn">G</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">H₂</span> : <span class="fn"><a href="../.././Mathlib/Algebra/Group/Subgroup/Defs.html#Subgroup">Subgroup</a> <span class="fn">G₂</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">↥<span class="fn">H₁</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">↥<span class="fn">H₂</span></span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hH₁</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p₁</span> <span class="fn">↥<span class="fn">H₁</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hH₂</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p₂</span> <span class="fn">↥<span class="fn">H₂</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a> <span class="fn">↥<span class="fn">H₁</span></span>)</span>.<span class="fn">Coprime</span></span> <span class="fn">(<a href="../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a> <span class="fn">↥<span class="fn">H₂</span></span>)</span></span></div></div><p>finite p-groups with different p have coprime orders</p></div></div><div class="decl" id="IsPGroup.disjoint_of_ne"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L305-L316">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.disjoint_of_ne" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.disjoint_of_ne"><span class="name">IsPGroup</span>.<span class="name">disjoint_of_ne</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p₁ </span><span class="fn">p₂</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">hp₁</span> : <span class="fn"><a href="../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p₁</span>)</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">hp₂</span> : <span class="fn"><a href="../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p₂</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hne</span> : <span class="fn"><span class="fn">p₁</span> <span class="fn">≠</span> <span class="fn">p₂</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">H₁ </span><span class="fn">H₂</span> : <span class="fn"><a href="../.././Mathlib/Algebra/Group/Subgroup/Defs.html#Subgroup">Subgroup</a> <span class="fn">G</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hH₁</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p₁</span> <span class="fn">↥<span class="fn">H₁</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hH₂</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p₂</span> <span class="fn">↥<span class="fn">H₂</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Order/Disjoint.html#Disjoint">Disjoint</a> <span class="fn">H₁</span> <span class="fn">H₂</span></span></div></div><p>p-groups with different p are disjoint</p></div></div><div class="decl" id="IsPGroup.le_or_disjoint_of_coprime"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L319-L343">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.le_or_disjoint_of_coprime" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.le_or_disjoint_of_coprime"><span class="name">IsPGroup</span>.<span class="name">le_or_disjoint_of_coprime</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">hp</span> : <span class="fn"><a href="../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P</span> : <span class="fn"><a href="../.././Mathlib/Algebra/Group/Subgroup/Defs.html#Subgroup">Subgroup</a> <span class="fn">G</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hP</span> : <span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">p</span> <span class="fn">↥<span class="fn">P</span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <span class="fn"><a href="../.././Mathlib/Algebra/Group/Subgroup/Defs.html#Subgroup">Subgroup</a> <span class="fn">G</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">H</span>.<a href="../.././Mathlib/Algebra/Group/Subgroup/Defs.html#Subgroup.Normal">Normal</a></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h_cop</span> : <span class="fn"><span class="fn"><span class="fn">(<a href="../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a> <span class="fn">↥<span class="fn">H</span></span>)</span>.<span class="fn">Coprime</span></span> <span class="fn"><span class="fn">H</span>.<a href="../.././Mathlib/GroupTheory/Index.html#Subgroup.index">index</a></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">P</span> <a href="../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn">H</span> <span class="fn">∨</span> <span class="fn"><a href="../.././Mathlib/Order/Disjoint.html#Disjoint">Disjoint</a> <span class="fn">H</span> <span class="fn">P</span></span></span></div></div></div></div><div class="decl" id="IsPGroup.card_center_eq_prime_pow"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L351-L358">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.card_center_eq_prime_pow" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.card_center_eq_prime_pow"><span class="name">IsPGroup</span>.<span class="name">card_center_eq_prime_pow</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hGpn</span> : <span class="fn"><span class="fn"><a href="../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a> <span class="fn">G</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">p</span> <span class="fn">^</span> <span class="fn">n</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hn</span> : <span class="fn">0</span> <a href="../.././Mathlib/Algebra/Order/Kleene.html#LT.lt">&lt;</a> <span class="fn">n</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">∃ <span class="fn">k</span> &gt; <span class="fn">0</span>, <span class="fn"><span class="fn"><a href="../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a> <span class="fn">↥<span class="fn">(<a href="../.././Mathlib/GroupTheory/Subgroup/Center.html#Subgroup.center">Subgroup.center</a> <span class="fn">G</span>)</span></span></span> <span class="fn">=</span> <span class="fn"><span class="fn">p</span> <span class="fn">^</span> <span class="fn">k</span></span></span></span></div></div><p>The cardinality of the <code>center</code> of a <code>p</code>-group is <code>p ^ k</code> where <code>k</code> is positive.</p></div></div><div class="decl" id="IsPGroup.cyclic_center_quotient_of_card_eq_prime_sq"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L360-L368">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.cyclic_center_quotient_of_card_eq_prime_sq" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.cyclic_center_quotient_of_card_eq_prime_sq"><span class="name">IsPGroup</span>.<span class="name">cyclic_center_quotient_of_card_eq_prime_sq</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hG</span> : <span class="fn"><span class="fn"><a href="../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a> <span class="fn">G</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">p</span> <span class="fn">^</span> <span class="fn">2</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> (<span class="fn">G</span> <a href="../.././Mathlib/Algebra/Quotient.html#HasQuotient.Quotient">⧸</a> <span class="fn"><a href="../.././Mathlib/GroupTheory/Subgroup/Center.html#Subgroup.center">Subgroup.center</a> <span class="fn">G</span></span>)</span></div></div><p>The quotient by the center of a group of cardinality <code>p ^ 2</code> is cyclic.</p></div></div><div class="decl" id="IsPGroup.commGroupOfCardEqPrimeSq"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L370-L374">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.commGroupOfCardEqPrimeSq" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.commGroupOfCardEqPrimeSq"><span class="name">IsPGroup</span>.<span class="name">commGroupOfCardEqPrimeSq</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hG</span> : <span class="fn"><span class="fn"><a href="../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a> <span class="fn">G</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">p</span> <span class="fn">^</span> <span class="fn">2</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#CommGroup">CommGroup</a> <span class="fn">G</span></span></div></div><p>A group of order <code>p ^ 2</code> is commutative. See also <code><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.commutative_of_card_eq_prime_sq">IsPGroup.commutative_of_card_eq_prime_sq</a></code>
+for just the proof that <code>∀ a b, a * b = b * a</code></p><details id="instances-for-list-IsPGroup.commGroupOfCardEqPrimeSq" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="IsPGroup.commutative_of_card_eq_prime_sq"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L376-L379">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#IsPGroup.commutative_of_card_eq_prime_sq" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.commutative_of_card_eq_prime_sq"><span class="name">IsPGroup</span>.<span class="name">commutative_of_card_eq_prime_sq</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">p</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hG</span> : <span class="fn"><span class="fn"><a href="../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a> <span class="fn">G</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">p</span> <span class="fn">^</span> <span class="fn">2</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a </span><span class="fn">b</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">a</span> <span class="fn">*</span> <span class="fn">b</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">b</span> <span class="fn">*</span> <span class="fn">a</span></span></span></div></div><p>A group of order <code>p ^ 2</code> is commutative. See also <code><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup.commGroupOfCardEqPrimeSq">IsPGroup.commGroupOfCardEqPrimeSq</a></code>
+for the <code><a href="../.././Mathlib/Algebra/Group/Defs.html#CommGroup">CommGroup</a></code> instance.</p></div></div><div class="decl" id="ZModModule.isPGroup_multiplicative"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/GroupTheory/PGroup.lean#L388-L390">source</a></div><div class="verification_link">
+<a href="../../../modules/Mathlib_GroupTheory_PGroup.html#ZModModule.isPGroup_multiplicative" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././Mathlib/GroupTheory/PGroup.html#ZModModule.isPGroup_multiplicative"><span class="name">ZModModule</span>.<span class="name">isPGroup_multiplicative</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">(<a href="../.././Mathlib/Data/ZMod/Defs.html#ZMod">ZMod</a> <span class="fn">n</span>)</span> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/GroupTheory/PGroup.html#IsPGroup">IsPGroup</a> <span class="fn">n</span> <span class="fn">(<a href="../.././Mathlib/Algebra/Group/TypeTags/Basic.html#Multiplicative">Multiplicative</a> <span class="fn">G</span>)</span></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

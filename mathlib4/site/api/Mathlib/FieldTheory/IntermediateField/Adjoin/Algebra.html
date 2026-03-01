@@ -1,0 +1,1015 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../../.././style.css"></link><link rel="icon" href="../../../.././favicon.svg"></link><link rel="mask-icon" href="../../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.FieldTheory.IntermediateField.Adjoin.Algebra</title><script defer="true" src="../../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../../.././";</script><script>const MODULE_NAME="Mathlib.FieldTheory.IntermediateField.Adjoin.Algebra";</script><script type="module" src="../../../.././jump-src.js"></script><script type="module" src="../../../.././search.js"></script><script type="module" src="../../../.././expand-nav.js"></script><script type="module" src="../../../.././how-about.js"></script><script type="module" src="../../../.././instances.js"></script><script type="module" src="../../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">FieldTheory</span>.<span class="name">IntermediateField</span>.<span class="name">Adjoin</span>.<span class="name">Algebra</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../../.././Init.html">Init</a></li><li><a href="../../../.././Mathlib/FieldTheory/Finiteness.html">Mathlib.FieldTheory.Finiteness</a></li><li><a href="../../../.././Mathlib/RingTheory/EssentialFiniteness.html">Mathlib.RingTheory.EssentialFiniteness</a></li><li><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Algebraic.html">Mathlib.FieldTheory.IntermediateField.Algebraic</a></li><li><a href="../../../.././Mathlib/RingTheory/Adjoin/Singleton.html">Mathlib.RingTheory.Adjoin.Singleton</a></li><li><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html">Mathlib.FieldTheory.IntermediateField.Adjoin.Defs</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.FieldTheory.IntermediateField.Adjoin.Algebra" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#IntermediateField.algebra_adjoin_le_adjoin"><span class="name">IntermediateField</span>.<span class="name">algebra_adjoin_le_adjoin</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.algebraAdjoinAdjoin.instAlgebraSubtypeMemSubalgebraAdjoinAdjoin"><span class="name">IntermediateField</span>.<span class="name">algebraAdjoinAdjoin</span>.<span class="name">instAlgebraSubtypeMemSubalgebraAdjoinAdjoin</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.algebraAdjoinAdjoin.instIsScalarTowerSubtypeMemSubalgebraAdjoinAdjoin"><span class="name">IntermediateField</span>.<span class="name">algebraAdjoinAdjoin</span>.<span class="name">instIsScalarTowerSubtypeMemSubalgebraAdjoinAdjoin</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.algebraAdjoinAdjoin.instIsScalarTowerSubtypeMemSubalgebraAdjoinAdjoin_1"><span class="name">IntermediateField</span>.<span class="name">algebraAdjoinAdjoin</span>.<span class="name">instIsScalarTowerSubtypeMemSubalgebraAdjoinAdjoin_1</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.algebraAdjoinAdjoin.instFaithfulSMulSubtypeMemSubalgebraAdjoinAdjoin"><span class="name">IntermediateField</span>.<span class="name">algebraAdjoinAdjoin</span>.<span class="name">instFaithfulSMulSubtypeMemSubalgebraAdjoinAdjoin</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.algebraAdjoinAdjoin.instIsFractionRingSubtypeMemSubalgebraAdjoinAdjoin"><span class="name">IntermediateField</span>.<span class="name">algebraAdjoinAdjoin</span>.<span class="name">instIsFractionRingSubtypeMemSubalgebraAdjoinAdjoin</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.algebraAdjoinAdjoin.instIsAlgebraicSubtypeMemSubalgebraAdjoinAdjoin"><span class="name">IntermediateField</span>.<span class="name">algebraAdjoinAdjoin</span>.<span class="name">instIsAlgebraicSubtypeMemSubalgebraAdjoinAdjoin</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.adjoin_eq_algebra_adjoin"><span class="name">IntermediateField</span>.<span class="name">adjoin_eq_algebra_adjoin</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.eq_adjoin_of_eq_algebra_adjoin"><span class="name">IntermediateField</span>.<span class="name">eq_adjoin_of_eq_algebra_adjoin</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.adjoin_eq_top_of_algebra"><span class="name">IntermediateField</span>.<span class="name">adjoin_eq_top_of_algebra</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.fg_top_iff"><span class="name">IntermediateField</span>.<span class="name">fg_top_iff</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.fg_top"><span class="name">IntermediateField</span>.<span class="name">fg_top</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.essFiniteType_iff"><span class="name">IntermediateField</span>.<span class="name">essFiniteType_iff</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.AdjoinSimple.isIntegral_gen"><span class="name">IntermediateField</span>.<span class="name">AdjoinSimple</span>.<span class="name">isIntegral_gen</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.adjoin_toSubalgebra_of_isAlgebraic"><span class="name">IntermediateField</span>.<span class="name">adjoin_toSubalgebra_of_isAlgebraic</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.adjoin_algebraic_toSubalgebra"><span class="name">IntermediateField</span>.<span class="name">adjoin_algebraic_toSubalgebra</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.adjoin_simple_toSubalgebra_of_isAlgebraic"><span class="name">IntermediateField</span>.<span class="name">adjoin_simple_toSubalgebra_of_isAlgebraic</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.adjoin_simple_toSubalgebra_of_integral"><span class="name">IntermediateField</span>.<span class="name">adjoin_simple_toSubalgebra_of_integral</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.adjoin_toSubalgebra"><span class="name">IntermediateField</span>.<span class="name">adjoin_toSubalgebra</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.adjoin_eq_top_iff_of_isAlgebraic"><span class="name">IntermediateField</span>.<span class="name">adjoin_eq_top_iff_of_isAlgebraic</span></a></div><div class="nav_link"><a class="break_within" href="#Algebra.adjoin_eq_top_of_intermediateField"><span class="name">Algebra</span>.<span class="name">adjoin_eq_top_of_intermediateField</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.adjoin_simple_eq_top_iff_of_isAlgebraic"><span class="name">IntermediateField</span>.<span class="name">adjoin_simple_eq_top_iff_of_isAlgebraic</span></a></div><div class="nav_link"><a class="break_within" href="#Algebra.adjoin_eq_top_of_primitive_element"><span class="name">Algebra</span>.<span class="name">adjoin_eq_top_of_primitive_element</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.adjoin_eq_top_iff"><span class="name">IntermediateField</span>.<span class="name">adjoin_eq_top_iff</span></a></div><div class="nav_link"><a class="break_within" href="#Algebra.finite_of_essFiniteType_of_isAlgebraic"><span class="name">Algebra</span>.<span class="name">finite_of_essFiniteType_of_isAlgebraic</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.finite_of_fg_of_isAlgebraic"><span class="name">IntermediateField</span>.<span class="name">finite_of_fg_of_isAlgebraic</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.RingHom.adjoinAlgebraMapOfAlgebra"><span class="name">IntermediateField</span>.<span class="name">RingHom</span>.<span class="name">adjoinAlgebraMapOfAlgebra</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.instAlgebraSubtypeMemSubalgebraAdjoinSingletonSetAdjoinCoeRingHomAlgebraMap"><span class="name">IntermediateField</span>.<span class="name">instAlgebraSubtypeMemSubalgebraAdjoinSingletonSetAdjoinCoeRingHomAlgebraMap</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.instIsScalarTowerSubtypeMemSubalgebraAdjoinSingletonSetAdjoinCoeRingHomAlgebraMap"><span class="name">IntermediateField</span>.<span class="name">instIsScalarTowerSubtypeMemSubalgebraAdjoinSingletonSetAdjoinCoeRingHomAlgebraMap</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.le_sup_toSubalgebra"><span class="name">IntermediateField</span>.<span class="name">le_sup_toSubalgebra</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.sup_toSubalgebra_of_isAlgebraic_right"><span class="name">IntermediateField</span>.<span class="name">sup_toSubalgebra_of_isAlgebraic_right</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.sup_toSubalgebra_of_isAlgebraic_left"><span class="name">IntermediateField</span>.<span class="name">sup_toSubalgebra_of_isAlgebraic_left</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.sup_toSubalgebra_of_isAlgebraic"><span class="name">IntermediateField</span>.<span class="name">sup_toSubalgebra_of_isAlgebraic</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.sup_toSubalgebra_of_left"><span class="name">IntermediateField</span>.<span class="name">sup_toSubalgebra_of_left</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.sup_toSubalgebra_of_right"><span class="name">IntermediateField</span>.<span class="name">sup_toSubalgebra_of_right</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.adjoin_intermediateField_toSubalgebra_of_isAlgebraic"><span class="name">IntermediateField</span>.<span class="name">adjoin_intermediateField_toSubalgebra_of_isAlgebraic</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.adjoin_intermediateField_toSubalgebra_of_isAlgebraic_left"><span class="name">IntermediateField</span>.<span class="name">adjoin_intermediateField_toSubalgebra_of_isAlgebraic_left</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.adjoin_toSubalgebra_of_isAlgebraic_left"><span class="name">IntermediateField</span>.<span class="name">adjoin_toSubalgebra_of_isAlgebraic_left</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.adjoin_intermediateField_toSubalgebra_of_isAlgebraic_right"><span class="name">IntermediateField</span>.<span class="name">adjoin_intermediateField_toSubalgebra_of_isAlgebraic_right</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.adjoin_toSubalgebra_of_isAlgebraic_right"><span class="name">IntermediateField</span>.<span class="name">adjoin_toSubalgebra_of_isAlgebraic_right</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.fg_of_fg_toSubalgebra"><span class="name">IntermediateField</span>.<span class="name">fg_of_fg_toSubalgebra</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.fg_of_noetherian"><span class="name">IntermediateField</span>.<span class="name">fg_of_noetherian</span></a></div><div class="nav_link"><a class="break_within" href="#IntermediateField.induction_on_adjoin"><span class="name">IntermediateField</span>.<span class="name">induction_on_adjoin</span></a></div><div class="nav_link"><a class="break_within" href="#IsFractionRing.algHom_fieldRange_eq_of_comp_eq"><span class="name">IsFractionRing</span>.<span class="name">algHom_fieldRange_eq_of_comp_eq</span></a></div><div class="nav_link"><a class="break_within" href="#IsFractionRing.algHom_fieldRange_eq_of_comp_eq_of_range_eq"><span class="name">IsFractionRing</span>.<span class="name">algHom_fieldRange_eq_of_comp_eq_of_range_eq</span></a></div><div class="nav_link"><a class="break_within" href="#IsFractionRing.liftAlgHom_fieldRange"><span class="name">IsFractionRing</span>.<span class="name">liftAlgHom_fieldRange</span></a></div><div class="nav_link"><a class="break_within" href="#IsFractionRing.liftAlgHom_fieldRange_eq_of_range_eq"><span class="name">IsFractionRing</span>.<span class="name">liftAlgHom_fieldRange_eq_of_range_eq</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Adjoining-Elements-to-Fields" class="markdown-heading">Adjoining Elements to Fields <a class="hover-link" href="#Adjoining-Elements-to-Fields">#</a></h1><p>This file relates <code><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.adjoin">IntermediateField.adjoin</a></code> to <code><a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a></code>.</p></div><div class="decl" id="IntermediateField.algebra_adjoin_le_adjoin"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L30-L31">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.algebra_adjoin_le_adjoin" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.algebra_adjoin_le_adjoin"><span class="name">IntermediateField</span>.<span class="name">algebra_adjoin_le_adjoin</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">S</span> : <span class="fn"><a href="../../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">E</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">F</span> <span class="fn">S</span></span> <a href="../../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn">(<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.adjoin">adjoin</a> <span class="fn">F</span> <span class="fn">S</span>)</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span></div></div></div></div><div class="decl" id="IntermediateField.algebraAdjoinAdjoin.instAlgebraSubtypeMemSubalgebraAdjoinAdjoin"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L35-L37">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.algebraAdjoinAdjoin.instAlgebraSubtypeMemSubalgebraAdjoinAdjoin" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.algebraAdjoinAdjoin.instAlgebraSubtypeMemSubalgebraAdjoinAdjoin"><span class="name">IntermediateField</span>.<span class="name">algebraAdjoinAdjoin</span>.<span class="name">instAlgebraSubtypeMemSubalgebraAdjoinAdjoin</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">S</span> : <span class="fn"><a href="../../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">E</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">↥<span class="fn">(<a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">F</span> <span class="fn">S</span>)</span></span> <span class="fn">↥<span class="fn">(<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.adjoin">adjoin</a> <span class="fn">F</span> <span class="fn">S</span>)</span></span></span></div></div><p><code><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.adjoin">IntermediateField.adjoin</a></code> as an algebra over <code><a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a></code>.</p><details id="instances-for-list-IntermediateField.algebraAdjoinAdjoin.instAlgebraSubtypeMemSubalgebraAdjoinAdjoin" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="IntermediateField.algebraAdjoinAdjoin.instIsScalarTowerSubtypeMemSubalgebraAdjoinAdjoin"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L39-L41">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.algebraAdjoinAdjoin.instIsScalarTowerSubtypeMemSubalgebraAdjoinAdjoin" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.algebraAdjoinAdjoin.instIsScalarTowerSubtypeMemSubalgebraAdjoinAdjoin"><span class="name">IntermediateField</span>.<span class="name">algebraAdjoinAdjoin</span>.<span class="name">instIsScalarTowerSubtypeMemSubalgebraAdjoinAdjoin</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">S</span> : <span class="fn"><a href="../../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">E</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">X</span> : <a href="../../../.././foundational_types.html">Type</a> u_3)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">SMul</span> <span class="fn">X</span> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">SMul</span> <span class="fn">X</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#IsScalarTower">IsScalarTower</a> <span class="fn">X</span> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#IsScalarTower">IsScalarTower</a> <span class="fn">X</span> <span class="fn">↥<span class="fn">(<a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">F</span> <span class="fn">S</span>)</span></span> <span class="fn">↥<span class="fn">(<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.adjoin">adjoin</a> <span class="fn">F</span> <span class="fn">S</span>)</span></span></span></div></div></div></div><div class="decl" id="IntermediateField.algebraAdjoinAdjoin.instIsScalarTowerSubtypeMemSubalgebraAdjoinAdjoin_1"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L43-L44">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.algebraAdjoinAdjoin.instIsScalarTowerSubtypeMemSubalgebraAdjoinAdjoin_1" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.algebraAdjoinAdjoin.instIsScalarTowerSubtypeMemSubalgebraAdjoinAdjoin_1"><span class="name">IntermediateField</span>.<span class="name">algebraAdjoinAdjoin</span>.<span class="name">instIsScalarTowerSubtypeMemSubalgebraAdjoinAdjoin_1</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">S</span> : <span class="fn"><a href="../../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">E</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">X</span> : <a href="../../../.././foundational_types.html">Type</a> u_3)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#MulAction">MulAction</a> <span class="fn">E</span> <span class="fn">X</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#IsScalarTower">IsScalarTower</a> <span class="fn">(↥<span class="fn">(<a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">F</span> <span class="fn">S</span>)</span>)</span> <span class="fn">(↥<span class="fn">(<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.adjoin">adjoin</a> <span class="fn">F</span> <span class="fn">S</span>)</span>)</span> <span class="fn">X</span></span></div></div></div></div><div class="decl" id="IntermediateField.algebraAdjoinAdjoin.instFaithfulSMulSubtypeMemSubalgebraAdjoinAdjoin"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L46-L47">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.algebraAdjoinAdjoin.instFaithfulSMulSubtypeMemSubalgebraAdjoinAdjoin" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.algebraAdjoinAdjoin.instFaithfulSMulSubtypeMemSubalgebraAdjoinAdjoin"><span class="name">IntermediateField</span>.<span class="name">algebraAdjoinAdjoin</span>.<span class="name">instFaithfulSMulSubtypeMemSubalgebraAdjoinAdjoin</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">S</span> : <span class="fn"><a href="../../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">E</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Faithful.html#FaithfulSMul">FaithfulSMul</a> <span class="fn">↥<span class="fn">(<a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">F</span> <span class="fn">S</span>)</span></span> <span class="fn">↥<span class="fn">(<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.adjoin">adjoin</a> <span class="fn">F</span> <span class="fn">S</span>)</span></span></span></div></div></div></div><div class="decl" id="IntermediateField.algebraAdjoinAdjoin.instIsFractionRingSubtypeMemSubalgebraAdjoinAdjoin"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L50-L52">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.algebraAdjoinAdjoin.instIsFractionRingSubtypeMemSubalgebraAdjoinAdjoin" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.algebraAdjoinAdjoin.instIsFractionRingSubtypeMemSubalgebraAdjoinAdjoin"><span class="name">IntermediateField</span>.<span class="name">algebraAdjoinAdjoin</span>.<span class="name">instIsFractionRingSubtypeMemSubalgebraAdjoinAdjoin</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">S</span> : <span class="fn"><a href="../../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">E</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/RingTheory/Localization/FractionRing.html#IsFractionRing">IsFractionRing</a> <span class="fn">↥<span class="fn">(<a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">F</span> <span class="fn">S</span>)</span></span> <span class="fn">↥<span class="fn">(<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.adjoin">adjoin</a> <span class="fn">F</span> <span class="fn">S</span>)</span></span></span></div></div></div></div><div class="decl" id="IntermediateField.algebraAdjoinAdjoin.instIsAlgebraicSubtypeMemSubalgebraAdjoinAdjoin"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L55-L56">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.algebraAdjoinAdjoin.instIsAlgebraicSubtypeMemSubalgebraAdjoinAdjoin" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.algebraAdjoinAdjoin.instIsAlgebraicSubtypeMemSubalgebraAdjoinAdjoin"><span class="name">IntermediateField</span>.<span class="name">algebraAdjoinAdjoin</span>.<span class="name">instIsAlgebraicSubtypeMemSubalgebraAdjoinAdjoin</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">S</span> : <span class="fn"><a href="../../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">E</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/RingTheory/Algebraic/Defs.html#Algebra.IsAlgebraic">Algebra.IsAlgebraic</a> <span class="fn">↥<span class="fn">(<a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">F</span> <span class="fn">S</span>)</span></span> <span class="fn">↥<span class="fn">(<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.adjoin">adjoin</a> <span class="fn">F</span> <span class="fn">S</span>)</span></span></span></div></div></div></div><div class="decl" id="IntermediateField.adjoin_eq_algebra_adjoin"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L60-L67">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.adjoin_eq_algebra_adjoin" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.adjoin_eq_algebra_adjoin"><span class="name">IntermediateField</span>.<span class="name">adjoin_eq_algebra_adjoin</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">S</span> : <span class="fn"><a href="../../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">E</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">inv_mem</span> : <span class="fn">∀ <span class="fn">x</span> ∈ <span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">F</span> <span class="fn">S</span></span>, <span class="fn"><span class="fn">x</span><a href="../../../.././Mathlib/Analysis/Normed/Field/Basic.html#Inv.inv">⁻¹</a> <span class="fn">∈</span> <span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">F</span> <span class="fn">S</span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.adjoin">adjoin</a> <span class="fn">F</span> <span class="fn">S</span>)</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span> <span class="fn">=</span> <span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">F</span> <span class="fn">S</span></span></span></div></div></div></div><div class="decl" id="IntermediateField.eq_adjoin_of_eq_algebra_adjoin"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L69-L75">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.eq_adjoin_of_eq_algebra_adjoin" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.eq_adjoin_of_eq_algebra_adjoin"><span class="name">IntermediateField</span>.<span class="name">eq_adjoin_of_eq_algebra_adjoin</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">S</span> : <span class="fn"><a href="../../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">E</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">K</span> : <span class="fn"><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField">IntermediateField</a> <span class="fn">F</span> <span class="fn">E</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn"><span class="fn">K</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span> <span class="fn">=</span> <span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">F</span> <span class="fn">S</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">K</span> <span class="fn">=</span> <span class="fn"><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.adjoin">adjoin</a> <span class="fn">F</span> <span class="fn">S</span></span></span></div></div></div></div><div class="decl" id="IntermediateField.adjoin_eq_top_of_algebra"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L77-L78">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.adjoin_eq_top_of_algebra" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.adjoin_eq_top_of_algebra"><span class="name">IntermediateField</span>.<span class="name">adjoin_eq_top_of_algebra</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">S</span> : <span class="fn"><a href="../../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">E</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hS</span> : <span class="fn"><span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">F</span> <span class="fn">S</span></span> <span class="fn">=</span> <a href="../../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.adjoin">adjoin</a> <span class="fn">F</span> <span class="fn">S</span></span> <span class="fn">=</span> <a href="../../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span></div></div></div></div><div class="decl" id="IntermediateField.fg_top_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L86-L106">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.fg_top_iff" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.fg_top_iff"><span class="name">IntermediateField</span>.<span class="name">fg_top_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../../.././Mathlib/Order/Notation.html#Top.top">⊤</a>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.FG">FG</a></span> <span class="fn">↔</span> <span class="fn"><a href="../../../.././Mathlib/RingTheory/EssentialFiniteness.html#Algebra.EssFiniteType">Algebra.EssFiniteType</a> <span class="fn">F</span> <span class="fn">E</span></span></span></div></div></div></div><div class="decl" id="IntermediateField.fg_top"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L109-L110">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.fg_top" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.fg_top"><span class="name">IntermediateField</span>.<span class="name">fg_top</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/RingTheory/EssentialFiniteness.html#Algebra.EssFiniteType">Algebra.EssFiniteType</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Order/Notation.html#Top.top">⊤</a>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.FG">FG</a></span></div></div></div></div><div class="decl" id="IntermediateField.essFiniteType_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L113-L120">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.essFiniteType_iff" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.essFiniteType_iff"><span class="name">IntermediateField</span>.<span class="name">essFiniteType_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <span class="fn"><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField">IntermediateField</a> <span class="fn">F</span> <span class="fn">E</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../../.././Mathlib/RingTheory/EssentialFiniteness.html#Algebra.EssFiniteType">Algebra.EssFiniteType</a> <span class="fn">F</span> <span class="fn">↥<span class="fn">K</span></span></span> <span class="fn">↔</span> <span class="fn"><span class="fn">K</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.FG">FG</a></span></span></div></div></div></div><div class="decl" id="IntermediateField.AdjoinSimple.isIntegral_gen"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L129-L132">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.AdjoinSimple.isIntegral_gen" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.AdjoinSimple.isIntegral_gen"><span class="name">IntermediateField</span>.<span class="name">AdjoinSimple</span>.<span class="name">isIntegral_gen</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <span class="fn">E</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../../.././Mathlib/RingTheory/IntegralClosure/IsIntegral/Defs.html#IsIntegral">IsIntegral</a> <span class="fn">F</span> <span class="fn">(<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.AdjoinSimple.gen">gen</a> <span class="fn">F</span> <span class="fn">α</span>)</span></span> <span class="fn">↔</span> <span class="fn"><a href="../../../.././Mathlib/RingTheory/IntegralClosure/IsIntegral/Defs.html#IsIntegral">IsIntegral</a> <span class="fn">F</span> <span class="fn">α</span></span></span></div></div></div></div><div class="decl" id="IntermediateField.adjoin_toSubalgebra_of_isAlgebraic"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L136-L139">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.adjoin_toSubalgebra_of_isAlgebraic" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.adjoin_toSubalgebra_of_isAlgebraic"><span class="name">IntermediateField</span>.<span class="name">adjoin_toSubalgebra_of_isAlgebraic</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <span class="fn"><a href="../../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">E</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hS</span> : <span class="fn">∀ <span class="fn">x</span> ∈ <span class="fn">S</span>, <span class="fn"><a href="../../../.././Mathlib/RingTheory/Algebraic/Defs.html#IsAlgebraic">IsAlgebraic</a> <span class="fn">F</span> <span class="fn">x</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.adjoin">adjoin</a> <span class="fn">F</span> <span class="fn">S</span>)</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span> <span class="fn">=</span> <span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">F</span> <span class="fn">S</span></span></span></div></div></div></div><div class="decl" id="IntermediateField.adjoin_algebraic_toSubalgebra"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L141-L142">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.adjoin_algebraic_toSubalgebra" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[deprecated IntermediateField.adjoin_toSubalgebra_of_isAlgebraic (since := &quot;2025-11-24&quot;)]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.adjoin_algebraic_toSubalgebra"><span class="name">IntermediateField</span>.<span class="name">adjoin_algebraic_toSubalgebra</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <span class="fn"><a href="../../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">E</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hS</span> : <span class="fn">∀ <span class="fn">x</span> ∈ <span class="fn">S</span>, <span class="fn"><a href="../../../.././Mathlib/RingTheory/Algebraic/Defs.html#IsAlgebraic">IsAlgebraic</a> <span class="fn">F</span> <span class="fn">x</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.adjoin">adjoin</a> <span class="fn">F</span> <span class="fn">S</span>)</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span> <span class="fn">=</span> <span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">F</span> <span class="fn">S</span></span></span></div></div><p><strong>Alias</strong> of <code><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.adjoin_toSubalgebra_of_isAlgebraic">IntermediateField.adjoin_toSubalgebra_of_isAlgebraic</a></code>.</p></div></div><div class="decl" id="IntermediateField.adjoin_simple_toSubalgebra_of_isAlgebraic"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L144-L146">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.adjoin_simple_toSubalgebra_of_isAlgebraic" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.adjoin_simple_toSubalgebra_of_isAlgebraic"><span class="name">IntermediateField</span>.<span class="name">adjoin_simple_toSubalgebra_of_isAlgebraic</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hα</span> : <span class="fn"><a href="../../../.././Mathlib/RingTheory/Algebraic/Defs.html#IsAlgebraic">IsAlgebraic</a> <span class="fn">F</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">F</span>⟮<span class="fn">α</span>⟯</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span> <span class="fn">=</span> <span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">F</span> <span class="fn"><span class="fn">{</span><span class="fn">α</span><span class="fn">}</span></span></span></span></div></div></div></div><div class="decl" id="IntermediateField.adjoin_simple_toSubalgebra_of_integral"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L148-L151">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.adjoin_simple_toSubalgebra_of_integral" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[deprecated &quot;Use `adjoin_simple_toSubalgebra_of_isAlgebraic` instead&quot; (since := &quot;2025-11-24&quot;)]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.adjoin_simple_toSubalgebra_of_integral"><span class="name">IntermediateField</span>.<span class="name">adjoin_simple_toSubalgebra_of_integral</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hα</span> : <span class="fn"><a href="../../../.././Mathlib/RingTheory/IntegralClosure/IsIntegral/Defs.html#IsIntegral">IsIntegral</a> <span class="fn">F</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">F</span>⟮<span class="fn">α</span>⟯</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span> <span class="fn">=</span> <span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">F</span> <span class="fn"><span class="fn">{</span><span class="fn">α</span><span class="fn">}</span></span></span></span></div></div></div></div><div class="decl" id="IntermediateField.adjoin_toSubalgebra"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L153-L156">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.adjoin_toSubalgebra" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.adjoin_toSubalgebra"><span class="name">IntermediateField</span>.<span class="name">adjoin_toSubalgebra</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/RingTheory/Algebraic/Defs.html#Algebra.IsAlgebraic">Algebra.IsAlgebraic</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">S</span> : <span class="fn"><a href="../../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">E</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.adjoin">adjoin</a> <span class="fn">F</span> <span class="fn">S</span>)</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span> <span class="fn">=</span> <span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">F</span> <span class="fn">S</span></span></span></div></div></div></div><div class="decl" id="IntermediateField.adjoin_eq_top_iff_of_isAlgebraic"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L158-L162">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.adjoin_eq_top_iff_of_isAlgebraic" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.adjoin_eq_top_iff_of_isAlgebraic"><span class="name">IntermediateField</span>.<span class="name">adjoin_eq_top_iff_of_isAlgebraic</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <span class="fn"><a href="../../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">E</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hS</span> : <span class="fn">∀ <span class="fn">x</span> ∈ <span class="fn">S</span>, <span class="fn"><a href="../../../.././Mathlib/RingTheory/Algebraic/Defs.html#IsAlgebraic">IsAlgebraic</a> <span class="fn">F</span> <span class="fn">x</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.adjoin">adjoin</a> <span class="fn">F</span> <span class="fn">S</span></span> <span class="fn">=</span> <a href="../../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span> <span class="fn">↔</span> <span class="fn"><span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">F</span> <span class="fn">S</span></span> <span class="fn">=</span> <a href="../../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span></span></div></div></div></div><div class="decl" id="Algebra.adjoin_eq_top_of_intermediateField"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L164-L164">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#Algebra.adjoin_eq_top_of_intermediateField" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#Algebra.adjoin_eq_top_of_intermediateField"><span class="name">Algebra</span>.<span class="name">adjoin_eq_top_of_intermediateField</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <span class="fn"><a href="../../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">E</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hS</span> : <span class="fn">∀ <span class="fn">x</span> ∈ <span class="fn">S</span>, <span class="fn"><a href="../../../.././Mathlib/RingTheory/Algebraic/Defs.html#IsAlgebraic">IsAlgebraic</a> <span class="fn">F</span> <span class="fn">x</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.adjoin">IntermediateField.adjoin</a> <span class="fn">F</span> <span class="fn">S</span></span> <span class="fn">=</span> <a href="../../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span> → <span class="fn"><span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">adjoin</a> <span class="fn">F</span> <span class="fn">S</span></span> <span class="fn">=</span> <a href="../../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span></span></div></div><p><strong>Alias</strong> of the forward direction of <code><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.adjoin_eq_top_iff_of_isAlgebraic">IntermediateField.adjoin_eq_top_iff_of_isAlgebraic</a></code>.</p></div></div><div class="decl" id="IntermediateField.adjoin_simple_eq_top_iff_of_isAlgebraic"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L166-L167">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.adjoin_simple_eq_top_iff_of_isAlgebraic" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.adjoin_simple_eq_top_iff_of_isAlgebraic"><span class="name">IntermediateField</span>.<span class="name">adjoin_simple_eq_top_iff_of_isAlgebraic</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hx</span> : <span class="fn"><a href="../../../.././Mathlib/RingTheory/Algebraic/Defs.html#IsAlgebraic">IsAlgebraic</a> <span class="fn">F</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">F</span>⟮<span class="fn">x</span>⟯</span> <span class="fn">=</span> <a href="../../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span> <span class="fn">↔</span> <span class="fn"><span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">F</span> <span class="fn"><span class="fn">{</span><span class="fn">x</span><span class="fn">}</span></span></span> <span class="fn">=</span> <a href="../../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span></span></div></div></div></div><div class="decl" id="Algebra.adjoin_eq_top_of_primitive_element"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L169-L170">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#Algebra.adjoin_eq_top_of_primitive_element" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#Algebra.adjoin_eq_top_of_primitive_element"><span class="name">Algebra</span>.<span class="name">adjoin_eq_top_of_primitive_element</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">E</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hx</span> : <span class="fn"><a href="../../../.././Mathlib/RingTheory/Algebraic/Defs.html#IsAlgebraic">IsAlgebraic</a> <span class="fn">F</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">F</span>⟮<span class="fn">x</span>⟯</span> <span class="fn">=</span> <a href="../../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span> → <span class="fn"><span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">adjoin</a> <span class="fn">F</span> <span class="fn"><span class="fn">{</span><span class="fn">x</span><span class="fn">}</span></span></span> <span class="fn">=</span> <a href="../../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span></span></div></div><p><strong>Alias</strong> of the forward direction of <code><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.adjoin_simple_eq_top_iff_of_isAlgebraic">IntermediateField.adjoin_simple_eq_top_iff_of_isAlgebraic</a></code>.</p></div></div><div class="decl" id="IntermediateField.adjoin_eq_top_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L172-L175">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.adjoin_eq_top_iff" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.adjoin_eq_top_iff"><span class="name">IntermediateField</span>.<span class="name">adjoin_eq_top_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/RingTheory/Algebraic/Defs.html#Algebra.IsAlgebraic">Algebra.IsAlgebraic</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <span class="fn"><a href="../../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">E</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.adjoin">adjoin</a> <span class="fn">F</span> <span class="fn">S</span></span> <span class="fn">=</span> <a href="../../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span> <span class="fn">↔</span> <span class="fn"><span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">F</span> <span class="fn">S</span></span> <span class="fn">=</span> <a href="../../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span></span></div></div></div></div><div class="decl" id="Algebra.finite_of_essFiniteType_of_isAlgebraic"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L177-L185">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#Algebra.finite_of_essFiniteType_of_isAlgebraic" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#Algebra.finite_of_essFiniteType_of_isAlgebraic"><span class="name">Algebra</span>.<span class="name">finite_of_essFiniteType_of_isAlgebraic</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/RingTheory/EssentialFiniteness.html#Algebra.EssFiniteType">EssFiniteType</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/RingTheory/Algebraic/Defs.html#Algebra.IsAlgebraic">Algebra.IsAlgebraic</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/RingTheory/Finiteness/Defs.html#Module.Finite">Module.Finite</a> <span class="fn">F</span> <span class="fn">E</span></span></div></div></div></div><div class="decl" id="IntermediateField.finite_of_fg_of_isAlgebraic"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L187-L188">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.finite_of_fg_of_isAlgebraic" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[deprecated Algebra.finite_of_essFiniteType_of_isAlgebraic (since := &quot;2025-12-08&quot;)]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.finite_of_fg_of_isAlgebraic"><span class="name">IntermediateField</span>.<span class="name">finite_of_fg_of_isAlgebraic</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/RingTheory/EssentialFiniteness.html#Algebra.EssFiniteType">Algebra.EssFiniteType</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/RingTheory/Algebraic/Defs.html#Algebra.IsAlgebraic">Algebra.IsAlgebraic</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/RingTheory/Finiteness/Defs.html#Module.Finite">Module.Finite</a> <span class="fn">F</span> <span class="fn">E</span></span></div></div><p><strong>Alias</strong> of <code><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#Algebra.finite_of_essFiniteType_of_isAlgebraic">Algebra.finite_of_essFiniteType_of_isAlgebraic</a></code>.</p></div></div><div class="decl" id="IntermediateField.RingHom.adjoinAlgebraMapOfAlgebra"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L195-L200">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.RingHom.adjoinAlgebraMapOfAlgebra" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.RingHom.adjoinAlgebraMapOfAlgebra"><span class="name">IntermediateField</span>.<span class="name">RingHom</span>.<span class="name">adjoinAlgebraMapOfAlgebra</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">B</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">C</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#CommSemiring">CommSemiring</a> <span class="fn">B</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">C</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">A</span> <span class="fn">B</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">B</span> <span class="fn">C</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">A</span> <span class="fn">C</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#IsScalarTower">IsScalarTower</a> <span class="fn">A</span> <span class="fn">B</span> <span class="fn">C</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">b</span> : <span class="fn">B</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">↥<span class="fn">(<a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">A</span> <span class="fn"><span class="fn">{</span><span class="fn">b</span><span class="fn">}</span></span>)</span></span> <a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <span class="fn">↥<span class="fn"><span class="fn">A</span>⟮<span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#algebraMap">algebraMap</a> <span class="fn">B</span> <span class="fn">C</span>)</span> <span class="fn">b</span></span>⟯</span></span></div></div><p>Ring homomorphism between <code>A[b]</code> and <code>A⟮↑b⟯</code>.</p><details id="instances-for-list-IntermediateField.RingHom.adjoinAlgebraMapOfAlgebra" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="IntermediateField.instAlgebraSubtypeMemSubalgebraAdjoinSingletonSetAdjoinCoeRingHomAlgebraMap"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L202-L203">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.instAlgebraSubtypeMemSubalgebraAdjoinSingletonSetAdjoinCoeRingHomAlgebraMap" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">noncomputable instance</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.instAlgebraSubtypeMemSubalgebraAdjoinSingletonSetAdjoinCoeRingHomAlgebraMap"><span class="name">IntermediateField</span>.<span class="name">instAlgebraSubtypeMemSubalgebraAdjoinSingletonSetAdjoinCoeRingHomAlgebraMap</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">B</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">C</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#CommSemiring">CommSemiring</a> <span class="fn">B</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">C</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">A</span> <span class="fn">B</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">B</span> <span class="fn">C</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">A</span> <span class="fn">C</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#IsScalarTower">IsScalarTower</a> <span class="fn">A</span> <span class="fn">B</span> <span class="fn">C</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">b</span> : <span class="fn">B</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">↥<span class="fn">(<a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">A</span> <span class="fn"><span class="fn">{</span><span class="fn">b</span><span class="fn">}</span></span>)</span></span> <span class="fn">↥<span class="fn"><span class="fn">A</span>⟮<span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#algebraMap">algebraMap</a> <span class="fn">B</span> <span class="fn">C</span>)</span> <span class="fn">b</span></span>⟯</span></span></span></div></div></div></div><div class="decl" id="IntermediateField.instIsScalarTowerSubtypeMemSubalgebraAdjoinSingletonSetAdjoinCoeRingHomAlgebraMap"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L206-L207">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.instIsScalarTowerSubtypeMemSubalgebraAdjoinSingletonSetAdjoinCoeRingHomAlgebraMap" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.instIsScalarTowerSubtypeMemSubalgebraAdjoinSingletonSetAdjoinCoeRingHomAlgebraMap"><span class="name">IntermediateField</span>.<span class="name">instIsScalarTowerSubtypeMemSubalgebraAdjoinSingletonSetAdjoinCoeRingHomAlgebraMap</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">B</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">C</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#CommSemiring">CommSemiring</a> <span class="fn">B</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">C</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">A</span> <span class="fn">B</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">B</span> <span class="fn">C</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">A</span> <span class="fn">C</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#IsScalarTower">IsScalarTower</a> <span class="fn">A</span> <span class="fn">B</span> <span class="fn">C</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">b</span> : <span class="fn">B</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#IsScalarTower">IsScalarTower</a> <span class="fn">(↥<span class="fn">(<a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">A</span> <span class="fn"><span class="fn">{</span><span class="fn">b</span><span class="fn">}</span></span>)</span>)</span> <span class="fn">(↥<span class="fn"><span class="fn">A</span>⟮<span class="fn"><span class="fn">(<a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#algebraMap">algebraMap</a> <span class="fn">B</span> <span class="fn">C</span>)</span> <span class="fn">b</span></span>⟯</span>)</span> <span class="fn">C</span></span></div></div></div></div><div class="decl" id="IntermediateField.le_sup_toSubalgebra"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L215-L216">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.le_sup_toSubalgebra" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.le_sup_toSubalgebra"><span class="name">IntermediateField</span>.<span class="name">le_sup_toSubalgebra</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E1 </span><span class="fn">E2</span> : <span class="fn"><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField">IntermediateField</a> <span class="fn">K</span> <span class="fn">L</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">E1</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span> ⊔ <span class="fn"><span class="fn">E2</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span></span> <a href="../../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn">(<span class="fn">E1</span> ⊔ <span class="fn">E2</span>)</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span></div></div></div></div><div class="decl" id="IntermediateField.sup_toSubalgebra_of_isAlgebraic_right"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L219-L229">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.sup_toSubalgebra_of_isAlgebraic_right" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.sup_toSubalgebra_of_isAlgebraic_right"><span class="name">IntermediateField</span>.<span class="name">sup_toSubalgebra_of_isAlgebraic_right</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E1 </span><span class="fn">E2</span> : <span class="fn"><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField">IntermediateField</a> <span class="fn">K</span> <span class="fn">L</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/RingTheory/Algebraic/Defs.html#Algebra.IsAlgebraic">Algebra.IsAlgebraic</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">E2</span></span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">E1</span> ⊔ <span class="fn">E2</span>)</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">E1</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span> ⊔ <span class="fn"><span class="fn">E2</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span></span></span></div></div></div></div><div class="decl" id="IntermediateField.sup_toSubalgebra_of_isAlgebraic_left"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L231-L234">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.sup_toSubalgebra_of_isAlgebraic_left" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.sup_toSubalgebra_of_isAlgebraic_left"><span class="name">IntermediateField</span>.<span class="name">sup_toSubalgebra_of_isAlgebraic_left</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E1 </span><span class="fn">E2</span> : <span class="fn"><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField">IntermediateField</a> <span class="fn">K</span> <span class="fn">L</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/RingTheory/Algebraic/Defs.html#Algebra.IsAlgebraic">Algebra.IsAlgebraic</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">E1</span></span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">E1</span> ⊔ <span class="fn">E2</span>)</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">E1</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span> ⊔ <span class="fn"><span class="fn">E2</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span></span></span></div></div></div></div><div class="decl" id="IntermediateField.sup_toSubalgebra_of_isAlgebraic"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L236-L242">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.sup_toSubalgebra_of_isAlgebraic" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.sup_toSubalgebra_of_isAlgebraic"><span class="name">IntermediateField</span>.<span class="name">sup_toSubalgebra_of_isAlgebraic</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E1 </span><span class="fn">E2</span> : <span class="fn"><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField">IntermediateField</a> <span class="fn">K</span> <span class="fn">L</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">halg</span> : <span class="fn"><span class="fn"><a href="../../../.././Mathlib/RingTheory/Algebraic/Defs.html#Algebra.IsAlgebraic">Algebra.IsAlgebraic</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">E1</span></span></span> <span class="fn">∨</span> <span class="fn"><a href="../../../.././Mathlib/RingTheory/Algebraic/Defs.html#Algebra.IsAlgebraic">Algebra.IsAlgebraic</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">E2</span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">E1</span> ⊔ <span class="fn">E2</span>)</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">E1</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span> ⊔ <span class="fn"><span class="fn">E2</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span></span></span></div></div><p>The compositum of two intermediate fields is equal to the compositum of them
+as subalgebras, if one of them is algebraic over the base field.</p></div></div><div class="decl" id="IntermediateField.sup_toSubalgebra_of_left"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L245-L247">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.sup_toSubalgebra_of_left" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.sup_toSubalgebra_of_left"><span class="name">IntermediateField</span>.<span class="name">sup_toSubalgebra_of_left</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E1 </span><span class="fn">E2</span> : <span class="fn"><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField">IntermediateField</a> <span class="fn">K</span> <span class="fn">L</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">E1</span></span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">E1</span> ⊔ <span class="fn">E2</span>)</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">E1</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span> ⊔ <span class="fn"><span class="fn">E2</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span></span></span></div></div></div></div><div class="decl" id="IntermediateField.sup_toSubalgebra_of_right"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L250-L252">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.sup_toSubalgebra_of_right" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.sup_toSubalgebra_of_right"><span class="name">IntermediateField</span>.<span class="name">sup_toSubalgebra_of_right</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E1 </span><span class="fn">E2</span> : <span class="fn"><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField">IntermediateField</a> <span class="fn">K</span> <span class="fn">L</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">K</span> <span class="fn">↥<span class="fn">E2</span></span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">E1</span> ⊔ <span class="fn">E2</span>)</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">E1</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span> ⊔ <span class="fn"><span class="fn">E2</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span></span></span></div></div></div></div><div class="decl" id="IntermediateField.adjoin_intermediateField_toSubalgebra_of_isAlgebraic"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L262-L277">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.adjoin_intermediateField_toSubalgebra_of_isAlgebraic" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.adjoin_intermediateField_toSubalgebra_of_isAlgebraic"><span class="name">IntermediateField</span>.<span class="name">adjoin_intermediateField_toSubalgebra_of_isAlgebraic</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">E</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#IsScalarTower">IsScalarTower</a> <span class="fn">F</span> <span class="fn">E</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">L</span> : <span class="fn"><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField">IntermediateField</a> <span class="fn">F</span> <span class="fn">K</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">halg</span> : <span class="fn"><span class="fn"><a href="../../../.././Mathlib/RingTheory/Algebraic/Defs.html#Algebra.IsAlgebraic">Algebra.IsAlgebraic</a> <span class="fn">F</span> <span class="fn">E</span></span> <span class="fn">∨</span> <span class="fn"><a href="../../../.././Mathlib/RingTheory/Algebraic/Defs.html#Algebra.IsAlgebraic">Algebra.IsAlgebraic</a> <span class="fn">F</span> <span class="fn">↥<span class="fn">L</span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.adjoin">adjoin</a> <span class="fn">E</span> <span class="fn">↑<span class="fn">L</span></span>)</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span> <span class="fn">=</span> <span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">E</span> <span class="fn">↑<span class="fn">L</span></span></span></span></div></div><p>If <code>K / E / F</code> is a field extension tower, <code>L</code> is an intermediate field of <code>K / F</code>, such that
+either <code>E / F</code> or <code>L / F</code> is algebraic, then <code>E(L) = E[L]</code>.</p></div></div><div class="decl" id="IntermediateField.adjoin_intermediateField_toSubalgebra_of_isAlgebraic_left"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L279-L282">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.adjoin_intermediateField_toSubalgebra_of_isAlgebraic_left" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.adjoin_intermediateField_toSubalgebra_of_isAlgebraic_left"><span class="name">IntermediateField</span>.<span class="name">adjoin_intermediateField_toSubalgebra_of_isAlgebraic_left</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">E</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#IsScalarTower">IsScalarTower</a> <span class="fn">F</span> <span class="fn">E</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">L</span> : <span class="fn"><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField">IntermediateField</a> <span class="fn">F</span> <span class="fn">K</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">halg</span> : <span class="fn"><a href="../../../.././Mathlib/RingTheory/Algebraic/Defs.html#Algebra.IsAlgebraic">Algebra.IsAlgebraic</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.adjoin">adjoin</a> <span class="fn">E</span> <span class="fn">↑<span class="fn">L</span></span>)</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span> <span class="fn">=</span> <span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">E</span> <span class="fn">↑<span class="fn">L</span></span></span></span></div></div></div></div><div class="decl" id="IntermediateField.adjoin_toSubalgebra_of_isAlgebraic_left"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L284-L285">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.adjoin_toSubalgebra_of_isAlgebraic_left" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[deprecated IntermediateField.adjoin_intermediateField_toSubalgebra_of_isAlgebraic_left (since := &quot;2025-11-24&quot;)]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.adjoin_toSubalgebra_of_isAlgebraic_left"><span class="name">IntermediateField</span>.<span class="name">adjoin_toSubalgebra_of_isAlgebraic_left</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">E</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#IsScalarTower">IsScalarTower</a> <span class="fn">F</span> <span class="fn">E</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">L</span> : <span class="fn"><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField">IntermediateField</a> <span class="fn">F</span> <span class="fn">K</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">halg</span> : <span class="fn"><a href="../../../.././Mathlib/RingTheory/Algebraic/Defs.html#Algebra.IsAlgebraic">Algebra.IsAlgebraic</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.adjoin">adjoin</a> <span class="fn">E</span> <span class="fn">↑<span class="fn">L</span></span>)</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span> <span class="fn">=</span> <span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">E</span> <span class="fn">↑<span class="fn">L</span></span></span></span></div></div><p><strong>Alias</strong> of <code><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.adjoin_intermediateField_toSubalgebra_of_isAlgebraic_left">IntermediateField.adjoin_intermediateField_toSubalgebra_of_isAlgebraic_left</a></code>.</p></div></div><div class="decl" id="IntermediateField.adjoin_intermediateField_toSubalgebra_of_isAlgebraic_right"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L287-L290">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.adjoin_intermediateField_toSubalgebra_of_isAlgebraic_right" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.adjoin_intermediateField_toSubalgebra_of_isAlgebraic_right"><span class="name">IntermediateField</span>.<span class="name">adjoin_intermediateField_toSubalgebra_of_isAlgebraic_right</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">E</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#IsScalarTower">IsScalarTower</a> <span class="fn">F</span> <span class="fn">E</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">L</span> : <span class="fn"><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField">IntermediateField</a> <span class="fn">F</span> <span class="fn">K</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">halg</span> : <span class="fn"><a href="../../../.././Mathlib/RingTheory/Algebraic/Defs.html#Algebra.IsAlgebraic">Algebra.IsAlgebraic</a> <span class="fn">F</span> <span class="fn">↥<span class="fn">L</span></span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.adjoin">adjoin</a> <span class="fn">E</span> <span class="fn">↑<span class="fn">L</span></span>)</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span> <span class="fn">=</span> <span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">E</span> <span class="fn">↑<span class="fn">L</span></span></span></span></div></div></div></div><div class="decl" id="IntermediateField.adjoin_toSubalgebra_of_isAlgebraic_right"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L292-L293">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.adjoin_toSubalgebra_of_isAlgebraic_right" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[deprecated IntermediateField.adjoin_intermediateField_toSubalgebra_of_isAlgebraic_right (since := &quot;2025-11-24&quot;)]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.adjoin_toSubalgebra_of_isAlgebraic_right"><span class="name">IntermediateField</span>.<span class="name">adjoin_toSubalgebra_of_isAlgebraic_right</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">E</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#IsScalarTower">IsScalarTower</a> <span class="fn">F</span> <span class="fn">E</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">L</span> : <span class="fn"><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField">IntermediateField</a> <span class="fn">F</span> <span class="fn">K</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">halg</span> : <span class="fn"><a href="../../../.././Mathlib/RingTheory/Algebraic/Defs.html#Algebra.IsAlgebraic">Algebra.IsAlgebraic</a> <span class="fn">F</span> <span class="fn">↥<span class="fn">L</span></span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.adjoin">adjoin</a> <span class="fn">E</span> <span class="fn">↑<span class="fn">L</span></span>)</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.toSubalgebra">toSubalgebra</a></span> <span class="fn">=</span> <span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">E</span> <span class="fn">↑<span class="fn">L</span></span></span></span></div></div><p><strong>Alias</strong> of <code><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.adjoin_intermediateField_toSubalgebra_of_isAlgebraic_right">IntermediateField.adjoin_intermediateField_toSubalgebra_of_isAlgebraic_right</a></code>.</p></div></div><div class="decl" id="IntermediateField.fg_of_fg_toSubalgebra"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L305-L307">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.fg_of_fg_toSubalgebra" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.fg_of_fg_toSubalgebra"><span class="name">IntermediateField</span>.<span class="name">fg_of_fg_toSubalgebra</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">S</span> : <span class="fn"><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField">IntermediateField</a> <span class="fn">F</span> <span class="fn">E</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">S</span>.<a href="../../../.././Mathlib/RingTheory/Adjoin/FG.html#Subalgebra.FG">FG</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">S</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.FG">FG</a></span></div></div></div></div><div class="decl" id="IntermediateField.fg_of_noetherian"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L309-L310">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IntermediateField.fg_of_noetherian" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.fg_of_noetherian"><span class="name">IntermediateField</span>.<span class="name">fg_of_noetherian</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">S</span> : <span class="fn"><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField">IntermediateField</a> <span class="fn">F</span> <span class="fn">E</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/RingTheory/Noetherian/Defs.html#IsNoetherian">IsNoetherian</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">S</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.FG">FG</a></span></div></div></div></div><div class="decl" id="IntermediateField.induction_on_adjoin"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L313-L317">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IntermediateField.induction_on_adjoin"><span class="name">IntermediateField</span>.<span class="name">induction_on_adjoin</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">F</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><span class="fn"><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField">IntermediateField</a> <span class="fn">F</span> <span class="fn">E</span></span> → <a href="../../../.././foundational_types.html">Prop</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">base</span> : <span class="fn"><span class="fn">P</span> <a href="../../../.././Mathlib/Order/Notation.html#Bot.bot">⊥</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">ih</span> : <span class="fn">∀ (<span class="fn">K</span> : <span class="fn"><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField">IntermediateField</a> <span class="fn">F</span> <span class="fn">E</span></span>) (<span class="fn">x</span> : <span class="fn">E</span>), <span class="fn"><span class="fn"><span class="fn">P</span> <span class="fn">K</span></span> → <span class="fn"><span class="fn">P</span> <span class="fn">(<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField.restrictScalars">restrictScalars</a> <span class="fn">F</span> <span class="fn"><span class="fn">(↥<span class="fn">K</span>)</span>⟮<span class="fn">x</span>⟯</span>)</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">K</span> : <span class="fn"><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#IntermediateField">IntermediateField</a> <span class="fn">F</span> <span class="fn">E</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">P</span> <span class="fn">K</span></span></div></div></div></div><div class="decl" id="IsFractionRing.algHom_fieldRange_eq_of_comp_eq"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L329-L338">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IsFractionRing.algHom_fieldRange_eq_of_comp_eq" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IsFractionRing.algHom_fieldRange_eq_of_comp_eq"><span class="name">IsFractionRing</span>.<span class="name">algHom_fieldRange_eq_of_comp_eq</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">A</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/RingTheory/Localization/FractionRing.html#IsFractionRing">IsFractionRing</a> <span class="fn">A</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn">A</span> <a href="../../../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">→ₐ[</a><span class="fn">F</span><a href="../../../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">]</a> <span class="fn">L</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn">K</span> <a href="../../../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">→ₐ[</a><span class="fn">F</span><a href="../../../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">]</a> <span class="fn">L</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn"><span class="fn"><span class="fn">(↑<span class="fn">f</span>)</span>.<a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom.comp">comp</a></span> <span class="fn">(<a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#algebraMap">algebraMap</a> <span class="fn">A</span> <span class="fn">K</span>)</span></span> <span class="fn">=</span> <span class="fn">↑<span class="fn">g</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#AlgHom.fieldRange">fieldRange</a></span> <span class="fn">=</span> <span class="fn"><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.adjoin">IntermediateField.adjoin</a> <span class="fn">F</span> <span class="fn">↑<span class="fn"><span class="fn">g</span>.<a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Basic.html#AlgHom.range">range</a></span></span></span></span></div></div><p>If <code>F</code> is a field, <code>A</code> is an <code>F</code>-algebra with fraction field <code>K</code>, <code>L</code> is a field,
+<code>g : A →ₐ[F] L</code> lifts to <code>f : K →ₐ[F] L</code>,
+then the image of <code>f</code> is the field generated by the image of <code>g</code>.
+Note: this does not require <code><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#IsScalarTower">IsScalarTower</a> F A K</code>.</p></div></div><div class="decl" id="IsFractionRing.algHom_fieldRange_eq_of_comp_eq_of_range_eq"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L340-L352">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IsFractionRing.algHom_fieldRange_eq_of_comp_eq_of_range_eq" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IsFractionRing.algHom_fieldRange_eq_of_comp_eq_of_range_eq"><span class="name">IsFractionRing</span>.<span class="name">algHom_fieldRange_eq_of_comp_eq_of_range_eq</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">A</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/RingTheory/Localization/FractionRing.html#IsFractionRing">IsFractionRing</a> <span class="fn">A</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn">A</span> <a href="../../../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">→ₐ[</a><span class="fn">F</span><a href="../../../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">]</a> <span class="fn">L</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn">K</span> <a href="../../../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">→ₐ[</a><span class="fn">F</span><a href="../../../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">]</a> <span class="fn">L</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn"><span class="fn"><span class="fn">(↑<span class="fn">f</span>)</span>.<a href="../../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom.comp">comp</a></span> <span class="fn">(<a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#algebraMap">algebraMap</a> <span class="fn">A</span> <span class="fn">K</span>)</span></span> <span class="fn">=</span> <span class="fn">↑<span class="fn">g</span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><a href="../../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">L</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hs</span> : <span class="fn"><span class="fn"><span class="fn">g</span>.<a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Basic.html#AlgHom.range">range</a></span> <span class="fn">=</span> <span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">F</span> <span class="fn">s</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#AlgHom.fieldRange">fieldRange</a></span> <span class="fn">=</span> <span class="fn"><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.adjoin">IntermediateField.adjoin</a> <span class="fn">F</span> <span class="fn">s</span></span></span></div></div><p>If <code>F</code> is a field, <code>A</code> is an <code>F</code>-algebra with fraction field <code>K</code>, <code>L</code> is a field,
+<code>g : A →ₐ[F] L</code> lifts to <code>f : K →ₐ[F] L</code>,
+<code>s</code> is a set such that the image of <code>g</code> is the subalgebra generated by <code>s</code>,
+then the image of <code>f</code> is the intermediate field generated by <code>s</code>.
+Note: this does not require <code><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#IsScalarTower">IsScalarTower</a> F A K</code>.</p></div></div><div class="decl" id="IsFractionRing.liftAlgHom_fieldRange"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L356-L360">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IsFractionRing.liftAlgHom_fieldRange" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IsFractionRing.liftAlgHom_fieldRange"><span class="name">IsFractionRing</span>.<span class="name">liftAlgHom_fieldRange</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">A</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/RingTheory/Localization/FractionRing.html#IsFractionRing">IsFractionRing</a> <span class="fn">A</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn">A</span> <a href="../../../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">→ₐ[</a><span class="fn">F</span><a href="../../../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">]</a> <span class="fn">L</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#IsScalarTower">IsScalarTower</a> <span class="fn">F</span> <span class="fn">A</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><span class="fn">Function.Injective</span> <span class="fn">⇑<span class="fn">g</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/RingTheory/Localization/FractionRing.html#IsFractionRing.liftAlgHom">liftAlgHom</a> <span class="fn">hg</span>)</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#AlgHom.fieldRange">fieldRange</a></span> <span class="fn">=</span> <span class="fn"><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.adjoin">IntermediateField.adjoin</a> <span class="fn">F</span> <span class="fn">↑<span class="fn"><span class="fn">g</span>.<a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Basic.html#AlgHom.range">range</a></span></span></span></span></div></div><p>The image of <code><a href="../../../.././Mathlib/RingTheory/Localization/FractionRing.html#IsFractionRing.liftAlgHom">IsFractionRing.liftAlgHom</a></code> is the intermediate field generated by the image
+of the algebra hom.</p></div></div><div class="decl" id="IsFractionRing.liftAlgHom_fieldRange_eq_of_range_eq"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/338973d7437af2cf5a6769391b1b4e5b1f8db099/Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.lean#L362-L367">source</a></div><div class="verification_link">
+<a href="../../../../../modules/Mathlib_FieldTheory_IntermediateField_Adjoin_Algebra.html#IsFractionRing.liftAlgHom_fieldRange_eq_of_range_eq" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Algebra.html#IsFractionRing.liftAlgHom_fieldRange_eq_of_range_eq"><span class="name">IsFractionRing</span>.<span class="name">liftAlgHom_fieldRange_eq_of_range_eq</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">A</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/RingTheory/Localization/FractionRing.html#IsFractionRing">IsFractionRing</a> <span class="fn">A</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn">A</span> <a href="../../../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">→ₐ[</a><span class="fn">F</span><a href="../../../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom">]</a> <span class="fn">L</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Action/Defs.html#IsScalarTower">IsScalarTower</a> <span class="fn">F</span> <span class="fn">A</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><span class="fn">Function.Injective</span> <span class="fn">⇑<span class="fn">g</span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><a href="../../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">L</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hs</span> : <span class="fn"><span class="fn"><span class="fn">g</span>.<a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Basic.html#AlgHom.range">range</a></span> <span class="fn">=</span> <span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Subalgebra/Lattice.html#Algebra.adjoin">Algebra.adjoin</a> <span class="fn">F</span> <span class="fn">s</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../../.././Mathlib/RingTheory/Localization/FractionRing.html#IsFractionRing.liftAlgHom">liftAlgHom</a> <span class="fn">hg</span>)</span>.<a href="../../../.././Mathlib/FieldTheory/IntermediateField/Basic.html#AlgHom.fieldRange">fieldRange</a></span> <span class="fn">=</span> <span class="fn"><a href="../../../.././Mathlib/FieldTheory/IntermediateField/Adjoin/Defs.html#IntermediateField.adjoin">IntermediateField.adjoin</a> <span class="fn">F</span> <span class="fn">s</span></span></span></div></div><p>The image of <code><a href="../../../.././Mathlib/RingTheory/Localization/FractionRing.html#IsFractionRing.liftAlgHom">IsFractionRing.liftAlgHom</a></code> is the intermediate field generated by <code>s</code>,
+if the image of the algebra hom is the subalgebra generated by <code>s</code>.</p></div></div></main>
+<nav class="nav"><iframe src="../../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>
