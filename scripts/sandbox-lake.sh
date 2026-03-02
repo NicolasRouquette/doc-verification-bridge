@@ -189,9 +189,10 @@ mkdir -p "$SHARED_CACHE"
 # Create symlinks from shared cache to project cache for existing .ltar files
 # This is a one-time setup per project - new downloads go to project dir
 # The .ltar files are content-addressed (hash-named) so safe to share
+# Use find instead of glob to avoid shell expansion limits with 244k+ files
+# Limit to files accessed/modified in the last 30 days to reduce overhead
 if [[ -d "$SHARED_CACHE" ]]; then
-  for ltar in "$SHARED_CACHE"/*.ltar; do
-    [[ -e "$ltar" ]] || continue  # Skip if no .ltar files exist
+  find "$SHARED_CACHE" -maxdepth 1 -name "*.ltar" -type f -mtime -30 2>/dev/null | while IFS= read -r ltar; do
     ltar_name=$(basename "$ltar")
     # Only create symlink if target doesn't exist (avoid overwriting real files)
     if [[ ! -e "$PROJECT_CACHE_DIR/$ltar_name" ]]; then
