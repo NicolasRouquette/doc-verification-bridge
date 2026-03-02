@@ -2082,11 +2082,16 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
         cmdLog (some logCtx)
       cmdLog := newLog
       if !cacheOk then
-        generateErrorPage name "lake exe cache get failed" cacheLog outputDir (some tcCheck) (some config.sitesDir)
-        writeProjectState config.sitesDir name .failed
-        return { name, repo, success := false,
-                 errorMessage := some "cache get failed", buildLog := cacheLog,
-                 siteDir := some outputDir }
+        -- Check if the failure is because the cache executable doesn't exist
+        -- (projects without mathlib don't have it)
+        if cacheLog.contains "unknown executable cache" then
+          IO.println s!"[{name}]       Warning: cache executable not found (project doesn't depend on mathlib), continuing..."
+        else
+          generateErrorPage name "lake exe cache get failed" cacheLog outputDir (some tcCheck) (some config.sitesDir)
+          writeProjectState config.sitesDir name .failed
+          return { name, repo, success := false,
+                   errorMessage := some "cache get failed", buildLog := cacheLog,
+                   siteDir := some outputDir }
 
     let (buildOk, buildLog', newLog) ← runLakeLogged "lake-build" config.useSandbox
       config.docVerificationBridgePath projectDir "isolated" #["build"]
