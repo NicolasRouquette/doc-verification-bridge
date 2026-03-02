@@ -1272,13 +1272,14 @@ def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
   let mainPackage ← detectPackageName projectDir projectName
 
   -- Determine doc-gen4 reference based on project toolchain:
-  -- - For Lean >= 4.27.0: use "main" to get PR #341 (custom source linker) and #344 (html decorator support)
-  -- - For older Lean versions: use matching version tag (no decorator support, but compatible)
+  -- - Use the version tag that matches the project's Lean toolchain (e.g., v4.28.0 for Lean 4.28.0)
+  -- - This avoids conflicts when the project already has doc-gen4 as a dependency
+  -- - For Lean >= 4.27.0: doc-gen4 releases include PR #341 (custom source linker) and #344 (decorator support)
+  -- - Fall back to "main" only if we can't determine a specific version
   let useDecoratorSupport := match parseVersion tcCheck.projectToolchain with
     | some ver => versionGe ver (4, 27, 0)
     | none => false
-  let docgen4Ref := if useDecoratorSupport then "main"
-    else if tcCheck.docgen4Tag.isEmpty then "main" else tcCheck.docgen4Tag
+  let docgen4Ref := if tcCheck.docgen4Tag.isEmpty then "main" else tcCheck.docgen4Tag
 
   -- Copy doc-verification-bridge source files to docvb (avoids cross-toolchain dependency)
   -- We automatically discover all .lean files, excluding:
@@ -1329,9 +1330,9 @@ package docvb where
 -- Require the main project
 require «{mainPackage}» from \"../\"
 
--- Require doc-gen4 (version-matched for toolchain compatibility)
--- For Lean >= 4.27.0: main branch with PR #344 decorator support
--- For older versions: matching version tag without decorator support
+-- Require doc-gen4 (version-matched to project's Lean toolchain)
+-- This ensures compatibility and avoids package conflicts when the project
+-- already has doc-gen4 as a dependency
 require «doc-gen4» from git
   \"https://github.com/leanprover/doc-gen4\" @ \"{docgen4Ref}\"
 
