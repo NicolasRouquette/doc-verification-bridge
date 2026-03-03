@@ -9,6 +9,7 @@ import DocGen4.Output.Base
 import DocGen4.Process.Analyze
 import DocVerificationBridge.Classify
 import DocVerificationBridge.Report
+import DocVerificationBridge.TableData
 import DocVerificationBridge.Compatibility
 
 /-!
@@ -1368,6 +1369,13 @@ def generateStaticSite (cfg : StaticHtmlConfig)
   IO.println s!"  Generating search index..."
   let searchIndex := generateSearchIndex entries
   IO.FS.writeFile (cfg.outputDir / "declarations.json") searchIndex
+
+  -- Export table data as JSON
+  IO.println s!"  Exporting module table data..."
+  let tableDataDir := cfg.outputDir / "table-data"
+  TableData.saveAllModuleTableData entries tableDataDir
+  -- Also save combined file for convenience
+  TableData.saveAllModuleTableDataCombined entries (cfg.outputDir / "table-data.json")
 
   -- Generate module index
   let moduleIndexHtml := runBaseHtmlM (generateModuleIndexPage moduleReports cfg) cfg.outputDir
