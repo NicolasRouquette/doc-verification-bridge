@@ -78,7 +78,9 @@ def isBlackListed (env : Environment) (name : Name) : MetaM Bool := do
   match ← findDeclarationRanges? name with
   | some _ =>
     -- Has source location, check other criteria
-    pure (name.isInternal)
+    -- Note: We now include _private declarations, so check isInternal but exclude _private
+    let isInternalButNotPrivate := name.isInternal && !name.toString.startsWith "_private"
+    pure isInternalButNotPrivate
     <||> (pure <| isAuxRecursor env name)
     <||> (pure <| isNoConfusion env name)
     <||> (pure <| name.isInternalDetail)
@@ -89,10 +91,10 @@ def isBlackListed (env : Environment) (name : Name) : MetaM Bool := do
 /-- Additional filter for names we don't want in the report -/
 def shouldExclude (name : Name) : Bool :=
   let str := name.toString
-  -- Exclude private/internal definitions
-  str.startsWith "_private" ||
+  -- Exclude only _root_ definitions (but include _private for comprehensive reporting)
   str.startsWith "_root_"
   -- Note: We no longer exclude "inst*" names - instances are tracked for sorry detection
+  -- Note: We now INCLUDE _private declarations so they appear in table data with isPrivate=true
 
 /-!
 ## Main Classification
