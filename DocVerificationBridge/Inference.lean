@@ -29,6 +29,25 @@ We decompose it using `forallTelescope` and:
 
 3. **Validates candidates**: Extract Bool-returning functions from `f x = true/false`
    patterns, which indicate bridging theorems between Bool and Prop.
+
+## Important: Separate Hypothesis vs Conclusion Tracking
+
+**A theorem can both assume AND prove facts about the same predicate.**
+
+For example:
+```lean
+theorem list_grammable (ih : Grammable x) : Grammable (f x)
+```
+This theorem:
+- **Assumes** `Grammable` holds for `x` (in hypothesis)
+- **Proves** `Grammable` holds for `f x` (in conclusion)
+
+Both should be tracked! The theorem uses prior results about `Grammable` to prove
+new results about `Grammable`. This pattern is common in soundness/completeness proofs
+where a predicate is iteratively extended to more cases.
+
+We use **separate deduplication** for hypotheses vs conclusion to ensure predicates
+appearing in both contexts are correctly recorded in both `assumes` and `proves`.
 -/
 
 namespace DocVerificationBridge
@@ -390,8 +409,14 @@ def inferTheoremAnnotations (declName : Name) : MetaM InferredTheoremAnnotations
     let mut assumesCandidates : Array InferredName := #[]
     let mut provesCandidates : Array InferredName := #[]
     let mut validatesCandidates : Array InferredName := #[]
-    let mut seenNames : Array Name := #[]
-    let mut seenValidates : Array Name := #[]
+    -- IMPORTANT: Use SEPARATE deduplication for hypotheses vs conclusion.
+    -- A theorem can both ASSUME facts about a predicate (in hypotheses) AND
+    -- PROVE new facts about the same predicate (in conclusion).
+    -- Example: `(h : Grammable x) : Grammable (f x)` assumes and proves about Grammable.
+    let mut seenInHypotheses : Array Name := #[]
+    let mut seenInConclusion : Array Name := #[]
+    let mut seenValidatesInHypotheses : Array Name := #[]
+    let mut seenValidatesInConclusion : Array Name := #[]
 
     -- Process each parameter (hypothesis)
     for param in params do
@@ -409,8 +434,8 @@ def inferTheoremAnnotations (declName : Name) : MetaM InferredTheoremAnnotations
 
         let heads ← collectHeadConstants paramType sourceDesc internalPrefixes
         for (head, src) in heads do
-          unless seenNames.contains head do
-            seenNames := seenNames.push head
+          unless seenInHypotheses.contains head do
+            seenInHypotheses := seenInHypotheses.push head
             let isInt := isInternalName env internalPrefixes head
             assumesCandidates := assumesCandidates.push {
               name := head, source := src, isInternal := isInt
@@ -418,8 +443,8 @@ def inferTheoremAnnotations (declName : Name) : MetaM InferredTheoremAnnotations
 
         let boolFuns ← collectBoolFunctionsShallow cache paramType sourceDesc
         for (head, src) in boolFuns do
-          unless seenValidates.contains head do
-            seenValidates := seenValidates.push head
+          unless seenValidatesInHypotheses.contains head do
+            seenValidatesInHypotheses := seenValidatesInHypotheses.push head
             let isInt := isInternalName env internalPrefixes head
             validatesCandidates := validatesCandidates.push {
               name := head, source := src, isInternal := isInt
@@ -429,8 +454,8 @@ def inferTheoremAnnotations (declName : Name) : MetaM InferredTheoremAnnotations
     let concSourceDesc := "conclusion"
     let concHeads ← collectHeadConstants conclusion concSourceDesc internalPrefixes
     for (head, src) in concHeads do
-      unless seenNames.contains head do
-        seenNames := seenNames.push head
+      unless seenInConclusion.contains head do
+        seenInConclusion := seenInConclusion.push head
         let isInt := isInternalName env internalPrefixes head
         provesCandidates := provesCandidates.push {
           name := head, source := src, isInternal := isInt
@@ -438,8 +463,8 @@ def inferTheoremAnnotations (declName : Name) : MetaM InferredTheoremAnnotations
 
     let concBoolFuns ← collectBoolFunctionsShallow cache conclusion concSourceDesc
     for (head, src) in concBoolFuns do
-      unless seenValidates.contains head do
-        seenValidates := seenValidates.push head
+      unless seenValidatesInConclusion.contains head do
+        seenValidatesInConclusion := seenValidatesInConclusion.push head
         let isInt := isInternalName env internalPrefixes head
         validatesCandidates := validatesCandidates.push {
           name := head, source := src, isInternal := isInt
@@ -474,8 +499,14 @@ def inferTheoremAnnotationsLight (declName : Name) : MetaM InferredTheoremAnnota
     let mut assumesCandidates : Array InferredName := #[]
     let mut provesCandidates : Array InferredName := #[]
     let mut validatesCandidates : Array InferredName := #[]
-    let mut seenNames : Array Name := #[]
-    let mut seenValidates : Array Name := #[]
+    -- IMPORTANT: Use SEPARATE deduplication for hypotheses vs conclusion.
+    -- A theorem can both ASSUME facts about a predicate (in hypotheses) AND
+    -- PROVE new facts about the same predicate (in conclusion).
+    -- Example: `(h : Grammable x) : Grammable (f x)` assumes and proves about Grammable.
+    let mut seenInHypotheses : Array Name := #[]
+    let mut seenInConclusion : Array Name := #[]
+    let mut seenValidatesInHypotheses : Array Name := #[]
+    let mut seenValidatesInConclusion : Array Name := #[]
 
     -- Process each parameter (hypothesis)
     for param in params do
@@ -491,8 +522,8 @@ def inferTheoremAnnotationsLight (declName : Name) : MetaM InferredTheoremAnnota
 
         let heads ← collectHeadConstants paramType sourceDesc internalPrefixes
         for (head, src) in heads do
-          unless seenNames.contains head do
-            seenNames := seenNames.push head
+          unless seenInHypotheses.contains head do
+            seenInHypotheses := seenInHypotheses.push head
             let isInt := isInternalName env internalPrefixes head
             assumesCandidates := assumesCandidates.push {
               name := head, source := src, isInternal := isInt
@@ -500,8 +531,8 @@ def inferTheoremAnnotationsLight (declName : Name) : MetaM InferredTheoremAnnota
 
         let boolFuns ← collectBoolFunctionsShallow cache paramType sourceDesc
         for (head, src) in boolFuns do
-          unless seenValidates.contains head do
-            seenValidates := seenValidates.push head
+          unless seenValidatesInHypotheses.contains head do
+            seenValidatesInHypotheses := seenValidatesInHypotheses.push head
             let isInt := isInternalName env internalPrefixes head
             validatesCandidates := validatesCandidates.push {
               name := head, source := src, isInternal := isInt
@@ -511,8 +542,8 @@ def inferTheoremAnnotationsLight (declName : Name) : MetaM InferredTheoremAnnota
     let concSourceDesc := "conclusion"
     let concHeads ← collectHeadConstants conclusion concSourceDesc internalPrefixes
     for (head, src) in concHeads do
-      unless seenNames.contains head do
-        seenNames := seenNames.push head
+      unless seenInConclusion.contains head do
+        seenInConclusion := seenInConclusion.push head
         let isInt := isInternalName env internalPrefixes head
         provesCandidates := provesCandidates.push {
           name := head, source := src, isInternal := isInt
@@ -520,8 +551,8 @@ def inferTheoremAnnotationsLight (declName : Name) : MetaM InferredTheoremAnnota
 
     let concBoolFuns ← collectBoolFunctionsShallow cache conclusion concSourceDesc
     for (head, src) in concBoolFuns do
-      unless seenValidates.contains head do
-        seenValidates := seenValidates.push head
+      unless seenValidatesInConclusion.contains head do
+        seenValidatesInConclusion := seenValidatesInConclusion.push head
         let isInt := isInternalName env internalPrefixes head
         validatesCandidates := validatesCandidates.push {
           name := head, source := src, isInternal := isInt
