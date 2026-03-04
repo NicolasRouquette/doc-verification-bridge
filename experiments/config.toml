@@ -3,7 +3,9 @@
 
 [settings]
 # Relative to the experiments directory
-doc_verification_bridge_path = ".."
+# Note: With Phase 3 multi-version support, this path is primarily used for local development.
+# In production, DocVerificationBridge is cloned from git at the version specified per-project.
+doc_verification_bridge_path = "../DocVerificationBridge"
 repos_dir = "repos"
 sites_dir = "sites"
 base_port = 9000
@@ -66,20 +68,47 @@ name = "lean4-yaml-verified"
 repo = "git@github.jpl.nasa.gov:pass/lean4-yaml-verified.git"
 modules = ["Lean4Yaml"]
 description = "A YAML 1.2.2 parser in Lean 4 with the goal of **verified correctness**"
+docvb_version = "v4.28.0"
 lake_exe_cache_get = false  # No mathlib dependency, cache not available
 disable_equations = false
 skip_proof_deps = false
 proof_dep_workers = 50
 html_workers = 20
 
-
 [[projects]]
 name = "contracts"
 repo = "git@fornat1.jpl.nasa.gov:tlr/testing/contracts.git"
 modules = ["AsyncDSLMath"]
 description = "Async DSL Formalized"
+docvb_version = "v4.28.0"
 lake_exe_cache_get = true
 disable_equations = false
+skip_proof_deps = false
+proof_dep_workers = 50
+html_workers = 20
+
+[[projects]]
+name = "batteries"
+repo = "https://github.com/leanprover-community/batteries"
+modules = ["Batteries"]
+description = "Standard library extensions for Lean 4"
+docvb_version = "main"
+
+[[projects]]
+name = "cslib"
+repo = "https://github.com/leanprover/cslib"
+modules = ["Cslib"]
+description = "The Lean Computer Science Library (CSLib)"
+docvb_version = "main"
+
+[[projects]]
+name = "mathlib4"
+repo = "https://github.com/leanprover-community/mathlib4"                                                                                                                                                                                                                                                                                                                                                                                                 
+modules = ["Mathlib"]
+description = "Mathematical library for Lean 4"
+docvb_version = "main"
+lake_exe_cache_get = true
+disable_equations = true
 skip_proof_deps = false
 proof_dep_workers = 50
 html_workers = 20

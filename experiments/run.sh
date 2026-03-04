@@ -3,13 +3,14 @@
 # Usage: ./run.sh [run|serve|clean] [options]
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-DVB_DIR="$(dirname "$SCRIPT_DIR")"
+ROOT_DIR="$(dirname "$SCRIPT_DIR")"
+EXPERIMENTS_DIR="$ROOT_DIR/Experiments"
 cd "$SCRIPT_DIR"
 
 # Build the experiments executable if needed
 build_experiments() {
     echo "Building experiments executable..."
-    (cd "$DVB_DIR" && lake build experiments)
+    (cd "$EXPERIMENTS_DIR" && lake build experiments)
 }
 
 case "${1:-help}" in
@@ -18,17 +19,17 @@ case "${1:-help}" in
         shift
         # Pass remaining arguments (--resume, --update, etc.)
         echo "Starting experiment pipeline..."
-        "$DVB_DIR/.lake/build/bin/experiments" run "$@" --config "$SCRIPT_DIR/config.toml"
+        "$EXPERIMENTS_DIR/.lake/build/bin/experiments" run "$@" --config "$SCRIPT_DIR/config.toml"
         ;;
     refresh)
         build_experiments
         echo "Refreshing summary page..."
-        "$DVB_DIR/.lake/build/bin/experiments" refresh --config "$SCRIPT_DIR/config.toml"
+        "$EXPERIMENTS_DIR/.lake/build/bin/experiments" refresh --config "$SCRIPT_DIR/config.toml"
         ;;
     serve)
         build_experiments
         echo "Starting HTTP server..."
-        "$DVB_DIR/.lake/build/bin/experiments" serve --config "$SCRIPT_DIR/config.toml"
+        "$EXPERIMENTS_DIR/.lake/build/bin/experiments" serve --config "$SCRIPT_DIR/config.toml"
         ;;
     clean)
         echo "Cleaning experiment artifacts..."
