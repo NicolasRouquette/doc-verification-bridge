@@ -315,15 +315,7 @@ def runUnifiedCmd (args : Cli.Parsed) : IO UInt32 := do
   runUnifiedPipelineWithMode cfg (modules.map String.toName) mode
 
 /-- Run standalone doc-gen4 (delegates to doc-gen4's infrastructure) -/
-def runDocGen4Cmd (args : Cli.Parsed) : IO UInt32 := do
-  let modules : Array String := args.variableArgsAs! String
-
-  if modules.isEmpty then
-    IO.eprintln "Error: At least one module name required"
-    return 1
-
-  let buildDir := args.flag? "output" |>.map (·.as! String) |>.getD ".lake/build/doc"
-  let sourceUrl := args.flag? "source-url" |>.map (·.as! String)
+def runDocGen4Cmd (_args : Cli.Parsed) : IO UInt32 := do
 
   IO.eprintln "Error: Standalone doc-gen4 mode is not supported in v4.29.0+"
   IO.eprintln "Please use the unified command instead: docvb unified"

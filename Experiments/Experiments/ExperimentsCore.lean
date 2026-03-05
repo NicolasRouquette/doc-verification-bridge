@@ -8,6 +8,7 @@
   4. Generating a meta-summary page with sortable statistics
 -/
 import Lean
+import Lake.Util.Git
 import Experiments.Compatibility
 
 open Lean System IO
@@ -157,8 +158,14 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
   -- Simple line-by-line parsing for our specific format
   let lines := content.splitOn "\n"
 
+  let mut dvbRepo : String := "https://github.com/NicolasRouquette/doc-verification-bridge.git"
   let mut dvbPath : FilePath := ".."
-  let mut dvbRepo : String := "https://github.com/leanprover/doc-verification-bridge.git"
+  let gitDir := dvbPath / ".git"
+  -- Check if git directory exists and try to get remote URL
+  if (← gitDir.pathExists) then
+    let gitRepo := Lake.GitRepo.mk (dir := gitDir)
+    if let some url ← gitRepo.getRemoteUrl? "origin" then
+      dvbRepo := url
   let mut reposDir : FilePath := "repos"
   let mut sitesDir : FilePath := "sites"
   let mut basePort : Nat := 9000
