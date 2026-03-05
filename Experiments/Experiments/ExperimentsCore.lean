@@ -2439,8 +2439,8 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
   -- SECURITY: unified-doc is our own trusted binary built in the sandboxed docvb build step.
   -- It only reads .olean files and generates HTML/JSON - no code execution.
   -- LEAN_PATH points to already-compiled artifacts, not source that could be re-compiled.
-  let (docOk, docLog, newLog) ← runCmdStreaming "unified-doc" unifiedCmd unifiedCmdArgs (some docvbDir) cmdLog (some logCtx) env
-  cmdLog := newLog
+  let (docOk, docLog, _) ← runCmdStreaming "unified-doc" unifiedCmd unifiedCmdArgs (some docvbDir) cmdLog (some logCtx) env
+  -- cmdLog is saved incrementally by runCmdStreaming, no need to capture final value
 
   -- Log is already saved incrementally by runCmdLogged
 
