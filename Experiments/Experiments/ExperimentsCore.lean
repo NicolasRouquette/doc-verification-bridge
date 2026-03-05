@@ -1393,7 +1393,7 @@ def invokeUnifiedDoc (dvbPath : FilePath) (args : Array String) (projectName : S
 -/
 def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
     (project : Project) (config : Config)
-    : IO (Bool × ToolchainCheck) := do
+    : IO (Bool × ToolchainCheck × FilePath) := do
   let docvbDir := projectDir / "docvb"
   IO.FS.createDirAll docvbDir
 
@@ -1411,7 +1411,7 @@ def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
       docgen4Tag := ""
       message := s!"Failed to clone DocVerificationBridge version {project.docvbVersion}"
     }
-    return (true, tcCheck)
+    return (true, tcCheck, cacheDir)
 
   -- Check toolchain compatibility using the cached DocVerificationBridge
   let tcCheck ← checkToolchainCompatibility projectDir cacheDir
@@ -1522,7 +1522,7 @@ lean_exe «unified-doc» where
   if ← oldLakefile.pathExists then
     IO.FS.removeFile oldLakefile
 
-  return (!tcCheck.compatible, tcCheck)
+  return (!tcCheck.compatible, tcCheck, cacheDir)
 
 /-! ## Statistics Parsing -/
 
@@ -2178,7 +2178,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
 
   -- Setup docvb directory and check toolchain compatibility
   IO.println s!"[{name}] [3/6] Setting up docvb directory (DocVB version: {project.docvbVersion})..."
-  let (hasToolchainIssue, tcCheck) ← setupDocvbDirectory projectDir name project config
+  let (hasToolchainIssue, tcCheck, dvbCacheDir) ← setupDocvbDirectory projectDir name project config
 
   -- Log the toolchain check result
   IO.println s!"[{name}]       {tcCheck.message}"
@@ -2221,7 +2221,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
     -- This must happen before the isolated build step, otherwise Lake will
     -- try to download dependencies during compilation and fail due to network isolation.
     let (updateOk, updateLog, newLog) ← runLakeLogged "lake-update-project" config.useSandbox
-      config.docVerificationBridgePath projectDir "network" #["update"]
+      dvbCacheDir projectDir "network" #["update"]
       cmdLog (some logCtx)
     cmdLog := newLog
     if !updateOk then
@@ -2238,7 +2238,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
     -- For projects like mathlib4, fetch the cloud cache first
     if lakeExeCacheGet then
       let (cacheOk, cacheLog, newLog) ← runLakeLogged "lake-exe-cache-get" config.useSandbox
-        config.docVerificationBridgePath projectDir "network" #["exe", "cache", "get"]
+        dvbCacheDir projectDir "network" #["exe", "cache", "get"]
         cmdLog (some logCtx)
       cmdLog := newLog
       if !cacheOk then
@@ -2254,7 +2254,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
                    siteDir := some outputDir }
 
     let (buildOk, buildLog', newLog) ← runLakeLogged "lake-build" config.useSandbox
-      config.docVerificationBridgePath projectDir "isolated" #["build"]
+      dvbCacheDir projectDir "isolated" #["build"]
       cmdLog (some logCtx)
     cmdLog := newLog
     buildLog := buildLog'
@@ -2271,7 +2271,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
 
   -- Update lake dependencies
   let (updateOk, updateLog, newLog) ← runLakeLogged "lake-update" config.useSandbox
-    config.docVerificationBridgePath docvbDir "network" #["update"]
+    dvbCacheDir docvbDir "network" #["update"]
     cmdLog (some logCtx)
   cmdLog := newLog
 
@@ -2296,7 +2296,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
 
   -- Build docvb
   let (docvbBuildOk, docvbBuildLog, newLog) ← runLakeLogged "docvb-build" config.useSandbox
-    config.docVerificationBridgePath docvbDir "isolated" #["build"]
+    dvbCacheDir docvbDir "isolated" #["build"]
     cmdLog (some logCtx)
   cmdLog := newLog
   if !docvbBuildOk then
@@ -2409,7 +2409,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
         -- Rebuild the main project to regenerate removed files
         IO.println s!"[{name}]       Rebuilding project to regenerate removed files..."
         let (rebuildOk, rebuildLog, newLog) ← runLakeLogged "lake-rebuild-after-cleanup" config.useSandbox
-          config.docVerificationBridgePath projectDir "isolated" #["build"]
+          dvbCacheDir projectDir "isolated" #["build"]
           cmdLog (some logCtx)
         cmdLog := newLog
         buildLog := buildLog ++ "\n" ++ rebuildLog
