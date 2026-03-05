@@ -1175,23 +1175,43 @@ structure ToolchainCheck where
   deriving Repr, Inhabited
 
 /-- Strip RC suffix from version tag (e.g., "v4.25.0-rc2" → "v4.25.0")
-    doc-gen4 typically only has release tags, not RC tags -/
+    doc-gen4 typically only has release tags, not RC tags.
+
+    EXCEPTION: For Lean 4.29.0+, we preserve RC suffixes because doc-gen4
+    only has RC tags (v4.29.0-rc1, v4.29.0-rc2, v4.29.0-rc3) and no stable
+    v4.29.0 tag yet. -/
 def stripRcSuffix (version : String) : String :=
-  match version.splitOn "-rc" with
-  | [base, _] => base
-  | _ => match version.splitOn "-" with
-    | [base, _] => base  -- Also handle other pre-release suffixes
-    | _ => version
+  -- For 4.29.0-rcX, preserve the RC suffix (doc-gen4 only has RC tags)
+  if version.startsWith "v4.29.0-rc" then
+    version
+  else
+    match version.splitOn "-rc" with
+    | [base, _] => base
+    | _ => match version.splitOn "-" with
+      | [base, _] => base  -- Also handle other pre-release suffixes
+      | _ => version
 
 /-- Extract version tag from toolchain string (e.g., "leanprover/lean4:v4.26.0" → "v4.26.0")
-    Strips RC suffixes since doc-gen4 typically only has release tags -/
+    For stable releases, strips RC suffixes since doc-gen4 typically only has release tags.
+    For 4.29.0, preserves RC suffix and falls back to rc3 if newer RC is requested. -/
 def extractVersionTag (toolchain : String) : String :=
   let rawTag := match toolchain.splitOn ":v" with
     | [_, ver] => s!"v{ver.trimCompat}"
     | _ => match toolchain.splitOn ":" with
       | [_, ver] => ver.trimCompat
       | _ => "main"
-  stripRcSuffix rawTag
+
+  -- Special handling for 4.29.0-rcX: fallback to rc3 for newer RCs
+  -- batteries needs v4.29.0-rc4 but only rc3 exists
+  if rawTag.startsWith "v4.29.0-rc" then
+    let rcNum := rawTag.replace "v4.29.0-rc" "" |>.toNat!
+    if rcNum > 3 then
+      -- Fallback to rc3 (known to exist) for rc4, rc5, etc.
+      "v4.29.0-rc3"
+    else
+      rawTag
+  else
+    stripRcSuffix rawTag
 
 /-- Check if a project's toolchain is compatible with doc-verification-bridge -/
 def checkToolchainCompatibility (projectDir : FilePath) (dvbPath : FilePath)
