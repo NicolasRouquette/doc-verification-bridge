@@ -5,6 +5,7 @@ import Cli
 import Lean
 import DocGen4
 import DocGen4.Load
+import DocGen4.Process.Hierarchy
 import DocVerificationBridge
 import DocVerificationBridge.Unified
 import DocVerificationBridge.Cache
@@ -26,7 +27,7 @@ This CLI provides commands to:
 The unified mode shares module loading for efficiency.
 -/
 
-open Lean System Cli DocVerificationBridge DocVerificationBridge.Unified DocVerificationBridge.StaticHtml
+open Lean System Cli DocVerificationBridge DocVerificationBridge.Unified DocVerificationBridge.StaticHtml DocGen4.Process
 
 /-!
 ## Timing Helpers
@@ -117,7 +118,9 @@ def loadAndAnalyzeWithMode (cfg : UnifiedConfig) (modules : Array Name)
     DocGen4.Process.AnalyzeTask.analyzePrefixModules modules[0]!
   else
     DocGen4.Process.AnalyzeTask.analyzeConcreteModules modules
-  let ((analyzerResult, hierarchy), _) ← Meta.MetaM.toIO (DocGen4.Process.process task) defaultMetaConfig { env := env } {} {}
+  let (analyzerResult, _) ← Meta.MetaM.toIO (DocGen4.Process.process task) defaultMetaConfig { env := env } {} {}
+  -- Build hierarchy from module names
+  let hierarchy := DocGen4.Hierarchy.fromArray analyzerResult.moduleNames
 
   -- Use first module name as project identifier for logging
   let projectName := if modules.isEmpty then "unknown" else modules[0]!.toString
@@ -322,22 +325,9 @@ def runDocGen4Cmd (args : Cli.Parsed) : IO UInt32 := do
   let buildDir := args.flag? "output" |>.map (·.as! String) |>.getD ".lake/build/doc"
   let sourceUrl := args.flag? "source-url" |>.map (·.as! String)
 
-  IO.println s!"doc-gen4: Loading {modules.size} module(s)..."
-  (← IO.getStdout).flush
-
-  Lean.initSearchPath (← Lean.findSysroot)
-
-  let moduleNames := modules.map String.toName
-  let task := DocGen4.Process.AnalyzeTask.analyzeConcreteModules moduleNames
-  let (result, hierarchy) ← DocGen4.load task
-
-  IO.println s!"doc-gen4: Generating HTML..."
-  (← IO.getStdout).flush
-  DocGen4.htmlOutput buildDir result hierarchy sourceUrl
-
-  IO.println s!"✅ Documentation generated at {buildDir}/doc/"
-  (← IO.getStdout).flush
-  return 0
+  IO.eprintln "Error: Standalone doc-gen4 mode is not supported in v4.29.0+"
+  IO.eprintln "Please use the unified command instead: docvb unified"
+  return 1
 
 /-- Run standalone verification analysis -/
 def runVerifyCmd (args : Cli.Parsed) : IO UInt32 := do
