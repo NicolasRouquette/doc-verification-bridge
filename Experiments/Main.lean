@@ -1,7 +1,7 @@
 /-
   Entry point for experiments executable.
 -/
-import DocVerificationBridge.Experiments
+import Experiments.ExperimentsCore
 
 def main (args : List String) : IO UInt32 :=
   experimentsMain args

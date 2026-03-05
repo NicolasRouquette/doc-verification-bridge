@@ -1,5 +1,5 @@
 -- DocVerificationBridge/UnifiedBasic.lean
--- Basic unified pipeline for toolchains < 4.27.0 (without decorator support)
+-- Basic unified pipeline for toolchains >= 4.29.0 (without decorator support due to API changes)
 -- This version generates documentation without bidirectional navigation badges
 
 import Lean
@@ -16,11 +16,15 @@ import DocVerificationBridge.StaticHtml
 # Basic Unified Documentation Pipeline (No Decorator Support)
 
 This module provides a unified CLI for documentation generation using static HTML.
-This is the compatibility version for Lean < 4.27.0 toolchains that don't have
-the doc-gen4 decorator support from PR #344.
+This is the compatibility version for Lean >= 4.29.0 toolchains where doc-gen4
+has switched to a DB-based pipeline that requires significant refactoring of our
+compatibility layer.
 
 The generated API documentation will NOT have verification badges or bidirectional
 navigation links. Verification coverage pages are still generated separately.
+
+NOTE: This is a temporary solution until SourceLinkerCompat.lean is updated to use
+the new DB-based htmlOutputResultsParallel API.
 -/
 
 namespace DocVerificationBridge.Unified
@@ -181,26 +185,44 @@ def loadAndAnalyze (cfg : UnifiedConfig) (modules : Array Name) : IO UnifiedResu
   IO.println s!"  Found {gitCache.allFiles.size} .lean files"
   (← IO.getStdout).flush
 
-  -- Run our classification with proper parallel proof dep extraction
-  IO.println s!"unified-doc [3/7]: Classifying declarations..."
-  (← IO.getStdout).flush
+  -- Check if we should load classification from cache
+  let allEntries ← if let some cachePath := cfg.loadClassificationCache then
+    IO.println s!"unified-doc [3/7]: Loading classification from cache..."
+    (← IO.getStdout).flush
+    let entries ← Cache.loadClassification cachePath
+    IO.println s!"  Loaded {entries.size} declarations from cache"
+    (← IO.getStdout).flush
+    pure entries
+  else do
+    -- Run our classification with proper parallel proof dep extraction
+    IO.println s!"unified-doc [3/7]: Classifying declarations..."
+    (← IO.getStdout).flush
 
-  let mut allEntries : NameMap APIMeta := {}
+    let mut allEntries : NameMap APIMeta := {}
 
-  -- Classify declarations from all analyzed modules
-  for modName in modules do
-    let coreCtx : Core.Context := {
-      options := {},
-      fileName := "<verification-bridge>",
-      fileMap := default
-    }
-    let coreState : Core.State := { env }
-    -- Use proper parallel proof dep extraction
-    let (result, _) ← (classifyAllDeclarations env modName cfg.skipProofDeps cfg.proofDepWorkers startTime cfg.proofDepBlacklist cfg.slowThresholdSecs).run' {} |>.toIO coreCtx coreState
-    allEntries := result.entries.foldl (fun acc name apiMeta => acc.insert name apiMeta) allEntries
+    -- Classify declarations from all analyzed modules
+    for modName in modules do
+      let coreCtx : Core.Context := {
+        options := {},
+        fileName := "<verification-bridge>",
+        fileMap := default,
+        maxHeartbeats := 0  -- Unlimited heartbeats for classification
+      }
+      let coreState : Core.State := { env }
+      -- Use proper parallel proof dep extraction
+      let (result, _) ← (classifyAllDeclarations env modName cfg.skipProofDeps cfg.proofDepWorkers startTime cfg.proofDepBlacklist cfg.slowThresholdSecs).run' {} |>.toIO coreCtx coreState
+      allEntries := result.entries.foldl (fun acc name apiMeta => acc.insert name apiMeta) allEntries
 
-  IO.println s!"  Classified {allEntries.size} declarations"
-  (← IO.getStdout).flush
+    IO.println s!"  Classified {allEntries.size} declarations"
+    (← IO.getStdout).flush
+
+    -- Save to cache if requested
+    if let some cachePath := cfg.saveClassificationCache then
+      if let some parentDir := cachePath.parent then
+        IO.FS.createDirAll parentDir
+      Cache.saveClassification allEntries cfg.projectName cachePath
+
+    pure allEntries
 
   return {
     analyzerResult
@@ -212,10 +234,10 @@ def loadAndAnalyze (cfg : UnifiedConfig) (modules : Array Name) : IO UnifiedResu
   }
 
 /-- Generate doc-gen4 documentation to a temporary directory.
-    This is the basic version without decorator support (for Lean < 4.27.0). -/
+    This is the basic version without decorator support (for Lean >= 4.29.0). -/
 def generateDocGen4ToTemp (cfg : UnifiedConfig) (result : UnifiedResult) : IO System.FilePath := do
   IO.println s!"unified-doc [5/7]: Generating doc-gen4 API documentation..."
-  IO.println s!"  Note: Verification badges not available (requires Lean >= 4.27.0)"
+  IO.println s!"  Note: Verification badges not available (Lean >= 4.29.0 DB-based API needs implementation)"
   (← IO.getStdout).flush
 
   -- Generate to a temp directory that we'll copy later
@@ -225,7 +247,6 @@ def generateDocGen4ToTemp (cfg : UnifiedConfig) (result : UnifiedResult) : IO Sy
   let baseConfig ← DocGen4.getSimpleBaseContext apiTempDir result.hierarchy
 
   -- Call doc-gen4's htmlOutputResults WITHOUT decorator support (standard API)
-  -- For Lean < 4.27.0, we use the basic 3-argument API without custom decorator
   let sourceUrl? := if cfg.repoUrl.isEmpty then none else some cfg.repoUrl
   discard <| DocGen4.htmlOutputResults baseConfig result.analyzerResult sourceUrl?
   DocGen4.htmlOutputIndex baseConfig
@@ -303,17 +324,30 @@ def runUnifiedPipeline (cfg : UnifiedConfig) (modules : Array Name) : IO UInt32 
     -- Step 1: Load and analyze
     let result ← loadAndAnalyze cfg modules
 
-    -- Step 2: Generate doc-gen4 to temp location
-    let apiTempDir ← generateDocGen4ToTemp cfg result
+    -- Step 2: Generate doc-gen4 to temp location (or use existing)
+    let apiTempDir := cfg.buildDir / "api-temp"
+    if cfg.skipDocGen then
+      IO.println s!"unified-doc [5/7]: Skipping doc-gen4 (using existing output)..."
+      -- Verify existing output exists
+      let expectedDoc := apiTempDir / "doc"
+      if !(← expectedDoc.pathExists) then
+        throw <| IO.userError s!"--skip-docgen requires existing doc-gen4 output at {expectedDoc}"
+      IO.println s!"  Found existing API docs at {apiTempDir}/"
+    else
+      discard <| generateDocGen4ToTemp cfg result
 
     -- Step 3: Generate static HTML site
     let siteDir ← generateStaticHtmlSite cfg result (modules.toList.map toString)
 
     -- Step 4: Copy doc-gen4 output into site
-    IO.println s!"unified-doc: Copying API docs into site..."
+    IO.println s!"unified-doc [7/7]: Copying API docs into site..."
     let apiDestDir := siteDir / "api"
     copyDirRecursive (apiTempDir / "doc") apiDestDir
     IO.println s!"  Copied API docs to {apiDestDir}/"
+
+    -- Step 5: Create stub pages for missing dependency modules
+    StaticHtml.createMissingDependencyStubs apiDestDir cfg.projectName cfg.externalDocs
+    StaticHtml.createMissingDependencyStubs (apiTempDir / "doc") cfg.projectName cfg.externalDocs
 
     IO.println ""
     IO.println "✅ Unified documentation generated successfully!"

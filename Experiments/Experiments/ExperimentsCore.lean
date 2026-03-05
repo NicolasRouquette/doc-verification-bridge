@@ -8,8 +8,7 @@
   4. Generating a meta-summary page with sortable statistics
 -/
 import Lean
-import DocVerificationBridge.Compatibility
-import DocVerificationBridge.StaticHtml
+import Experiments.Compatibility
 
 open Lean System IO
 
@@ -67,6 +66,10 @@ structure Project where
   modules : Array String
   description : String := ""
   classificationMode : ClassificationMode := .auto
+  /-- Git branch, tag, or commit SHA of DocVerificationBridge to use for this project.
+      This allows different projects to use different DocVerificationBridge versions,
+      enabling analysis of projects across multiple Lean versions. -/
+  docvbVersion : String := "main"
   /-- Subdirectory within repo containing the Lean project (for monorepos) -/
   subdirectory : Option String := none
   /-- Whether to run `lake exe cache get` before building (for mathlib4 and dependents).
@@ -93,6 +96,8 @@ structure Project where
 /-- Experiment configuration -/
 structure Config where
   docVerificationBridgePath : FilePath
+  /-- Git repository URL for DocVerificationBridge (used when cloning for subprocess invocation) -/
+  docVerificationBridgeRepo : String := "https://github.com/leanprover/doc-verification-bridge.git"
   reposDir : FilePath
   sitesDir : FilePath
   basePort : Nat
@@ -153,6 +158,7 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
   let lines := content.splitOn "\n"
 
   let mut dvbPath : FilePath := ".."
+  let mut dvbRepo : String := "https://github.com/leanprover/doc-verification-bridge.git"
   let mut reposDir : FilePath := "repos"
   let mut sitesDir : FilePath := "sites"
   let mut basePort : Nat := 9000
@@ -234,6 +240,7 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
               let mode := if value == "annotated" then ClassificationMode.annotated
                           else ClassificationMode.auto
               { proj with classificationMode := mode }
+            | "docvb_version" => { proj with docvbVersion := value }
             | "branch" => { proj with branch := some value }
             | _ => proj
           currentProject := some updatedProj
@@ -241,6 +248,7 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
           -- Global settings
           match key with
           | "doc_verification_bridge_path" => dvbPath := baseDir / value
+          | "doc_verification_bridge_repo" => dvbRepo := value
           | "repos_dir" => reposDir := baseDir / value
           | "sites_dir" => sitesDir := baseDir / value
           | "base_port" => basePort := value.toNat? |>.getD 9000
@@ -265,6 +273,7 @@ def parseConfig (content : String) (baseDir : FilePath) : IO Config := do
 
   return {
     docVerificationBridgePath := dvbPath
+    docVerificationBridgeRepo := dvbRepo
     reposDir := reposDir
     sitesDir := sitesDir
     basePort := basePort
@@ -1185,23 +1194,43 @@ structure ToolchainCheck where
   deriving Repr, Inhabited
 
 /-- Strip RC suffix from version tag (e.g., "v4.25.0-rc2" → "v4.25.0")
-    doc-gen4 typically only has release tags, not RC tags -/
+    doc-gen4 typically only has release tags, not RC tags.
+
+    EXCEPTION: For Lean 4.29.0+, we preserve RC suffixes because doc-gen4
+    only has RC tags (v4.29.0-rc1, v4.29.0-rc2, v4.29.0-rc3) and no stable
+    v4.29.0 tag yet. -/
 def stripRcSuffix (version : String) : String :=
-  match version.splitOn "-rc" with
-  | [base, _] => base
-  | _ => match version.splitOn "-" with
-    | [base, _] => base  -- Also handle other pre-release suffixes
-    | _ => version
+  -- For 4.29.0-rcX, preserve the RC suffix (doc-gen4 only has RC tags)
+  if version.startsWith "v4.29.0-rc" then
+    version
+  else
+    match version.splitOn "-rc" with
+    | [base, _] => base
+    | _ => match version.splitOn "-" with
+      | [base, _] => base  -- Also handle other pre-release suffixes
+      | _ => version
 
 /-- Extract version tag from toolchain string (e.g., "leanprover/lean4:v4.26.0" → "v4.26.0")
-    Strips RC suffixes since doc-gen4 typically only has release tags -/
+    For stable releases, strips RC suffixes since doc-gen4 typically only has release tags.
+    For 4.29.0, preserves RC suffix and falls back to rc3 if newer RC is requested. -/
 def extractVersionTag (toolchain : String) : String :=
   let rawTag := match toolchain.splitOn ":v" with
     | [_, ver] => s!"v{ver.trimCompat}"
     | _ => match toolchain.splitOn ":" with
       | [_, ver] => ver.trimCompat
       | _ => "main"
-  stripRcSuffix rawTag
+
+  -- Special handling for 4.29.0-rcX: fallback to rc3 for newer RCs
+  -- batteries needs v4.29.0-rc4 but only rc3 exists
+  if rawTag.startsWith "v4.29.0-rc" then
+    let rcNum := rawTag.replace "v4.29.0-rc" "" |>.toNat!
+    if rcNum > 3 then
+      -- Fallback to rc3 (known to exist) for rc4, rc5, etc.
+      "v4.29.0-rc3"
+    else
+      rawTag
+  else
+    stripRcSuffix rawTag
 
 /-- Check if a project's toolchain is compatible with doc-verification-bridge -/
 def checkToolchainCompatibility (projectDir : FilePath) (dvbPath : FilePath)
@@ -1249,15 +1278,162 @@ def copyFileIfExists (src dst : FilePath) : IO Bool := do
     return true
   return false
 
-/-- Setup the docvb directory for a project with dynamic toolchain support -/
+/-- Clone or update DocVerificationBridge repository to a specific version.
+
+    This function:
+    - Clones the repository if the target directory doesn't exist
+    - Fetches and checks out the specified version (branch, tag, or commit SHA)
+    - Caches the clone to avoid repeated downloads
+
+    Parameters:
+    - `repoUrl`: Git repository URL for DocVerificationBridge
+    - `targetDir`: Directory where the repository should be cloned
+    - `version`: Git ref to check out (branch name, tag, or commit SHA)
+
+    Returns: `true` if successful, `false` if any git operation failed
+-/
+def cloneDocVerificationBridge (repoUrl : String) (targetDir : FilePath) (version : String) : IO Bool := do
+  -- Clone repository if it doesn't exist
+  if !(← targetDir.pathExists) then
+    IO.println s!"[DocVB] Cloning {repoUrl} to {targetDir}..."
+    let cloneResult ← IO.Process.spawn {
+      cmd := "git"
+      args := #["clone", repoUrl, targetDir.toString]
+      stdout := .piped
+      stderr := .piped
+    }
+    let cloneExitCode ← cloneResult.wait
+
+    if cloneExitCode != 0 then
+      let stderr ← cloneResult.stderr.readToEnd
+      IO.eprintln s!"[DocVB] Error: Failed to clone repository: {stderr}"
+      return false
+
+    IO.println s!"[DocVB] Clone successful"
+  else
+    IO.println s!"[DocVB] Repository already exists at {targetDir}, updating..."
+    -- Fetch latest changes
+    let fetchResult ← IO.Process.spawn {
+      cmd := "git"
+      args := #["fetch", "--all"]
+      cwd := targetDir
+      stdout := .piped
+      stderr := .piped
+    }
+    let fetchExitCode ← fetchResult.wait
+
+    if fetchExitCode != 0 then
+      let stderr ← fetchResult.stderr.readToEnd
+      IO.eprintln s!"[DocVB] Warning: Failed to fetch updates: {stderr}"
+      -- Continue anyway - we may have the version we need already
+
+  -- Checkout the specified version
+  IO.println s!"[DocVB] Checking out version: {version}..."
+  let checkoutResult ← IO.Process.spawn {
+    cmd := "git"
+    args := #["checkout", version]
+    cwd := targetDir
+    stdout := .piped
+    stderr := .piped
+  }
+  let checkoutExitCode ← checkoutResult.wait
+
+  if checkoutExitCode != 0 then
+    let stderr ← checkoutResult.stderr.readToEnd
+    IO.eprintln s!"[DocVB] Error: Failed to checkout version '{version}': {stderr}"
+    return false
+
+  IO.println s!"[DocVB] Successfully checked out version: {version}"
+  return true
+
+/-- Invoke DocVerificationBridge's unified-doc command via subprocess.
+
+    This function provides process isolation for running DocVerificationBridge
+    with different Lean versions. It:
+    1. Builds the unified-doc executable in the DocVerificationBridge directory
+    2. Runs the executable with the provided arguments
+    3. Captures stdout, stderr, and exit code
+
+    Parameters:
+    - `dvbPath`: Path to the DocVerificationBridge package directory
+    - `args`: Command-line arguments to pass to unified-doc
+    - `projectName`: Project name for logging
+
+    Returns: `(exitCode, stdout, stderr)`
+-/
+def invokeUnifiedDoc (dvbPath : FilePath) (args : Array String) (projectName : String) : IO (UInt32 × String × String) := do
+  -- Build the unified-doc executable
+  IO.println s!"[{projectName}] Building unified-doc in {dvbPath}..."
+  let buildResult ← IO.Process.spawn {
+    cmd := "lake"
+    args := #["build", "unified-doc"]
+    cwd := dvbPath
+    stdout := .piped
+    stderr := .piped
+  }
+  let buildStdout ← buildResult.stdout.readToEnd
+  let buildStderr ← buildResult.stderr.readToEnd
+  let buildExitCode ← buildResult.wait
+
+  if buildExitCode != 0 then
+    IO.eprintln s!"[{projectName}] Error: Failed to build unified-doc"
+    IO.eprintln s!"[{projectName}] Build stderr: {buildStderr}"
+    return (buildExitCode, buildStdout, buildStderr)
+
+  IO.println s!"[{projectName}] Build successful, running unified-doc with args: {args}"
+
+  -- Run the unified-doc executable
+  let runResult ← IO.Process.spawn {
+    cmd := "lake"
+    args := #["exe", "unified-doc"] ++ args
+    cwd := dvbPath
+    stdout := .piped
+    stderr := .piped
+  }
+
+  let stdout ← runResult.stdout.readToEnd
+  let stderr ← runResult.stderr.readToEnd
+  let exitCode ← runResult.wait
+
+  if exitCode != 0 then
+    IO.eprintln s!"[{projectName}] unified-doc exited with code {exitCode}"
+    if !stderr.isEmpty then
+      IO.eprintln s!"[{projectName}] stderr: {stderr}"
+  else
+    IO.println s!"[{projectName}] unified-doc completed successfully"
+
+  return (exitCode, stdout, stderr)
+
+/-- Setup the docvb directory for a project with dynamic toolchain support.
+
+    This function now uses git clone to obtain DocVerificationBridge at the
+    specified version, enabling multi-version support. Each project can use
+    a different DocVerificationBridge version based on its Lean toolchain.
+-/
 def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
-    (dvbPath : FilePath) (_modules : Array String)
-    : IO (Bool × ToolchainCheck) := do
+    (project : Project) (config : Config)
+    : IO (Bool × ToolchainCheck × FilePath) := do
   let docvbDir := projectDir / "docvb"
   IO.FS.createDirAll docvbDir
 
-  -- Check toolchain compatibility FIRST
-  let tcCheck ← checkToolchainCompatibility projectDir dvbPath
+  -- Clone or update DocVerificationBridge to a cache location
+  let cacheDir := config.reposDir / ".docvb-cache" / project.docvbVersion
+  IO.FS.createDirAll (config.reposDir / ".docvb-cache")
+
+  let cloneOk ← cloneDocVerificationBridge config.docVerificationBridgeRepo cacheDir project.docvbVersion
+  if !cloneOk then
+    -- Return error state if clone failed
+    let tcCheck : ToolchainCheck := {
+      compatible := false
+      projectToolchain := "unknown"
+      dvbToolchain := "unknown"
+      docgen4Tag := ""
+      message := s!"Failed to clone DocVerificationBridge version {project.docvbVersion}"
+    }
+    return (true, tcCheck, cacheDir)
+
+  -- Check toolchain compatibility using the cached DocVerificationBridge
+  let tcCheck ← checkToolchainCompatibility projectDir cacheDir
 
   -- Use the PROJECT's toolchain for docvb (enables cross-version compatibility)
   let toolchainSrc := projectDir / "lean-toolchain"
@@ -1303,20 +1479,22 @@ def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
   let excludeFiles := if useDecoratorSupport then baseExcludeFiles
     else baseExcludeFiles ++ #["VerificationDecorator.lean", "SourceLinkerCompat.lean", "Unified.lean"]
 
-  for entry in ← System.FilePath.readDir (dvbPath / "DocVerificationBridge") do
+  -- Copy files from cached DocVerificationBridge clone
+  let dvbPackageDir := cacheDir / "DocVerificationBridge"
+  for entry in ← System.FilePath.readDir (dvbPackageDir / "DocVerificationBridge") do
     let fileName := entry.fileName
     if fileName.endsWith ".lean" && !excludeFiles.contains fileName then
-      discard <| copyFileIfExists (dvbPath / "DocVerificationBridge" / fileName) (dvbSrcDir / fileName)
+      discard <| copyFileIfExists (dvbPackageDir / "DocVerificationBridge" / fileName) (dvbSrcDir / fileName)
 
   -- For older toolchains, copy UnifiedBasic.lean as Unified.lean (provides same API without decorators)
   if !useDecoratorSupport then
-    discard <| copyFileIfExists (dvbPath / "DocVerificationBridge" / "UnifiedBasic.lean") (dvbSrcDir / "Unified.lean")
+    discard <| copyFileIfExists (dvbPackageDir / "DocVerificationBridge" / "UnifiedBasic.lean") (dvbSrcDir / "Unified.lean")
 
-  -- Copy UnifiedMain.lean (works with either Unified.lean version)
-  discard <| copyFileIfExists (dvbPath / "UnifiedMain.lean") (docvbDir / "UnifiedMain.lean")
+  -- Copy Main.lean (the executable entry point)
+  discard <| copyFileIfExists (dvbPackageDir / "Main.lean") (docvbDir / "Main.lean")
 
   -- Copy DocVerificationBridge.lean (the root module file)
-  discard <| copyFileIfExists (dvbPath / "DocVerificationBridge.lean") (docvbDir / "DocVerificationBridge.lean")
+  discard <| copyFileIfExists (dvbPackageDir / "DocVerificationBridge.lean") (docvbDir / "DocVerificationBridge.lean")
 
   -- Create lakefile.lean (using .lean format for more flexibility)
   -- Note: We do NOT share packagesDir with the main project because toolchains may differ
@@ -1336,13 +1514,13 @@ require «{mainPackage}» from \"../\"
 require «doc-gen4» from git
   \"https://github.com/leanprover/doc-gen4\" @ \"{docgen4Ref}\"
 
--- Local library with doc-verification-bridge sources (copied for toolchain compatibility)
+-- Local library with doc-verification-bridge sources (cloned from git at version {project.docvbVersion})
 lean_lib DocVerificationBridge where
 
 -- Unified CLI executable
 @[default_target]
 lean_exe «unified-doc» where
-  root := `UnifiedMain
+  root := `Main
   supportInterpreter := true
 "
   IO.FS.writeFile (docvbDir / "lakefile.lean") lakefileContent
@@ -1363,7 +1541,7 @@ lean_exe «unified-doc» where
   if ← oldLakefile.pathExists then
     IO.FS.removeFile oldLakefile
 
-  return (!tcCheck.compatible, tcCheck)
+  return (!tcCheck.compatible, tcCheck, cacheDir)
 
 /-! ## Statistics Parsing -/
 
@@ -2018,8 +2196,8 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
              errorMessage := some errMsg, siteDir := some outputDir }
 
   -- Setup docvb directory and check toolchain compatibility
-  IO.println s!"[{name}] [3/6] Setting up docvb directory..."
-  let (hasToolchainIssue, tcCheck) ← setupDocvbDirectory projectDir name config.docVerificationBridgePath modules
+  IO.println s!"[{name}] [3/6] Setting up docvb directory (DocVB version: {project.docvbVersion})..."
+  let (hasToolchainIssue, tcCheck, dvbCacheDir) ← setupDocvbDirectory projectDir name project config
 
   -- Log the toolchain check result
   IO.println s!"[{name}]       {tcCheck.message}"
@@ -2062,7 +2240,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
     -- This must happen before the isolated build step, otherwise Lake will
     -- try to download dependencies during compilation and fail due to network isolation.
     let (updateOk, updateLog, newLog) ← runLakeLogged "lake-update-project" config.useSandbox
-      config.docVerificationBridgePath projectDir "network" #["update"]
+      dvbCacheDir projectDir "network" #["update"]
       cmdLog (some logCtx)
     cmdLog := newLog
     if !updateOk then
@@ -2079,7 +2257,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
     -- For projects like mathlib4, fetch the cloud cache first
     if lakeExeCacheGet then
       let (cacheOk, cacheLog, newLog) ← runLakeLogged "lake-exe-cache-get" config.useSandbox
-        config.docVerificationBridgePath projectDir "network" #["exe", "cache", "get"]
+        dvbCacheDir projectDir "network" #["exe", "cache", "get"]
         cmdLog (some logCtx)
       cmdLog := newLog
       if !cacheOk then
@@ -2095,7 +2273,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
                    siteDir := some outputDir }
 
     let (buildOk, buildLog', newLog) ← runLakeLogged "lake-build" config.useSandbox
-      config.docVerificationBridgePath projectDir "isolated" #["build"]
+      dvbCacheDir projectDir "isolated" #["build"]
       cmdLog (some logCtx)
     cmdLog := newLog
     buildLog := buildLog'
@@ -2112,7 +2290,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
 
   -- Update lake dependencies
   let (updateOk, updateLog, newLog) ← runLakeLogged "lake-update" config.useSandbox
-    config.docVerificationBridgePath docvbDir "network" #["update"]
+    dvbCacheDir docvbDir "network" #["update"]
     cmdLog (some logCtx)
   cmdLog := newLog
 
@@ -2137,7 +2315,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
 
   -- Build docvb
   let (docvbBuildOk, docvbBuildLog, newLog) ← runLakeLogged "docvb-build" config.useSandbox
-    config.docVerificationBridgePath docvbDir "isolated" #["build"]
+    dvbCacheDir docvbDir "isolated" #["build"]
     cmdLog (some logCtx)
   cmdLog := newLog
   if !docvbBuildOk then
@@ -2250,7 +2428,7 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
         -- Rebuild the main project to regenerate removed files
         IO.println s!"[{name}]       Rebuilding project to regenerate removed files..."
         let (rebuildOk, rebuildLog, newLog) ← runLakeLogged "lake-rebuild-after-cleanup" config.useSandbox
-          config.docVerificationBridgePath projectDir "isolated" #["build"]
+          dvbCacheDir projectDir "isolated" #["build"]
           cmdLog (some logCtx)
         cmdLog := newLog
         buildLog := buildLog ++ "\n" ++ rebuildLog
@@ -2280,8 +2458,8 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
   -- SECURITY: unified-doc is our own trusted binary built in the sandboxed docvb build step.
   -- It only reads .olean files and generates HTML/JSON - no code execution.
   -- LEAN_PATH points to already-compiled artifacts, not source that could be re-compiled.
-  let (docOk, docLog, newLog) ← runCmdStreaming "unified-doc" unifiedCmd unifiedCmdArgs (some docvbDir) cmdLog (some logCtx) env
-  cmdLog := newLog
+  let (docOk, docLog, _) ← runCmdStreaming "unified-doc" unifiedCmd unifiedCmdArgs (some docvbDir) cmdLog (some logCtx) env
+  -- cmdLog is saved incrementally by runCmdStreaming, no need to capture final value
 
   -- Log is already saved incrementally by runCmdLogged
 

@@ -1,545 +1,249 @@
-# doc-verification-bridge
+# Doc Verification Bridge
 
-**Linking theorems to what they assume, prove, validate, and depend on**
+A tool for analyzing Lean 4 projects to classify theorems and track verification coverage using the Four-Category Ontology.
 
-A doc-gen4 plugin that automatically classifies theorems by their role in bridging mathematical specifications and computational implementations.
+## Repository Structure
 
-[NFM 2026 Paper Submission](./paper/doc_verification_bridge_NFM2026.pdf)
+This repository contains **two independent Lake packages**:
 
-## Overview
-
-When writing verified software, proofs exist at different conceptual levels:
-
-| Classification | Role |
-|----------------|------|
-| **Mathematical Property** | Proves within the specification layer |
-| **Computational Property** | Proves within the implementation layer |
-| **Bridging Property** | Connects spec ↔ impl (soundness/completeness) |
-| **Soundness Property** | Shows impl → spec (embedding) |
-| **Completeness Property** | Shows spec → impl (representation) |
-
-This tool:
-1. **Automatically infers** `assumes`/`proves`/`dependsOn` relationships from theorem types and proof terms
-2. **Classifies** definitions by their ontological category (mathematical vs computational)
-3. **Identifies** bridging theorems that connect Bool computations to Prop specifications
-4. **Tracks proof dependencies** — which theorems a proof uses
-5. **Generates** documentation showing verification coverage and proof relationships
-
-## Installation
-
-Add to your `lakefile.lean`:
-
-```lean
-require «doc-verification-bridge» from git
-  "https://github.com/NicolasRouquette/doc-verification-bridge" @ "main"
+```
+doc-verification-bridge/
+├── REFACTORING.md              # Detailed refactoring plan
+├── README.md                    # This file
+├── DocVerificationBridge/       # Core analysis library (version-dependent)
+│   ├── lakefile.toml
+│   ├── DocVerificationBridge.lean
+│   ├── Main.lean               # unified-doc CLI
+│   └── DocVerificationBridge/   # Core modules
+│       ├── Types.lean
+│       ├── Inference.lean
+│       ├── Classify.lean
+│       ├── Report.lean
+│       ├── StaticHtml.lean
+│       ├── TableData.lean
+│       ├── Unified.lean
+│       ├── Cache.lean
+│       ├── Attributes.lean
+│       ├── Compatibility.lean
+│       ├── SourceLinkerCompat.lean
+│       ├── VerificationDecorator.lean
+│       └── ... (other modules)
+└── Experiments/                 # Multi-project orchestration (version-agnostic)
+    ├── lakefile.toml
+    ├── Main.lean               # experiments CLI
+    └── Experiments.lean        # Pipeline orchestration
 ```
 
----
+### Why Two Packages?
 
-## Using Annotations in Your Code
+DocVerificationBridge depends on Lean and doc-gen4 APIs that have **breaking changes** between versions (v4.27.0, v4.28.0, v4.29.0-rc2+). A single codebase cannot support all versions simultaneously.
 
-To use the `@[api_type]`, `@[api_def]`, `@[api_theorem]`, and `@[api_lemma]` attributes in your Lean files, import the attributes module:
+**Solution**: Version-specific git branches + process isolation:
+- **DocVerificationBridge** has version-specific branches (v4.27.0, v4.28.0, main)
+- **Experiments** orchestrates by cloning the appropriate DocVerificationBridge version per project
+- Communication happens via CLI/subprocess (not Lean imports)
 
-```lean
-import DocVerificationBridge.Attributes
+## DocVerificationBridge Package
 
-@[api_type { category := .mathematicalAbstraction, coverage := .complete }]
-inductive PathWithLength {α : Type*} (r : α → α → Prop) : α → α → Nat → Prop
-  | single {a b} : r a b → PathWithLength r a b 1
-  | cons {a b c n} : r a b → PathWithLength r b c n → PathWithLength r a c (n + 1)
+**Purpose**: Core analysis library that classifies theorems and generates verification reports.
 
-@[api_theorem {
-  theoremKind := .soundnessProperty,
-  assumes := #[`PathWithLength],
-  proves := #[`Relation.TransGen]
-}]
-theorem PathWithLength_soundness {a b : α} {n : Nat} (h : PathWithLength r a b n) :
-    Relation.TransGen r a b := by
-  induction h <;> simp_all [Relation.TransGen.single, Relation.TransGen.trans]
+**Dependencies**: Lean 4, doc-gen4 (version-specific)
+
+**Executables**:
+- `unified-doc`: Combined doc-gen4 + verification pipeline
+
+### Building
+
+```bash
+cd DocVerificationBridge
+lake build unified-doc
 ```
 
-### Adding as a Dependency (Path-based)
+### Usage
 
-For local development, add doc-verification-bridge as a path-based dependency in your `lakefile.toml`:
+```bash
+# Generate documentation with auto-classification
+lake exe unified-doc unified \
+  --repo https://github.com/owner/repo \
+  --project "MyProject" \
+  --auto \
+  MyModule
+
+# Generate with explicit annotations only
+lake exe unified-doc unified \
+  --repo https://github.com/owner/repo \
+  --annotated \
+  MyModule
+```
+
+### Supported Lean Versions
+
+- **v4.27.0 branch**: Lean 4.24.0 - 4.27.0
+- **v4.28.0 branch**: Lean 4.28.0
+- **main branch**: Lean 4.28.0+ (will update to 4.29.0-rc2 when stable)
+
+## Experiments Package
+
+**Purpose**: Orchestration module for running verification analysis across multiple projects.
+
+**Dependencies**: Lean 4 (minimal, no doc-gen4)
+
+**Executables**:
+- `experiments`: Multi-project pipeline runner
+
+### Building
+
+```bash
+cd Experiments
+lake build experiments
+```
+
+### Usage
+
+```bash
+# Run all experiments from config
+lake exe experiments --config config.toml
+
+# Resume incomplete experiments
+lake exe experiments --config config.toml --resume
+
+# Re-run analysis only (skip build)
+lake exe experiments --config config.toml --reanalyze
+```
+
+### Configuration Format
+
+Create a `config.toml` in the `Experiments/` directory:
 
 ```toml
-[[require]]
-name = "doc-verification-bridge"
-path = "../path/to/doc-verification-bridge"
+# Experiments configuration
+repos_dir = "experiments/repos"
+sites_dir = "experiments/sites"
+max_parallel_jobs = 4
+
+[[project]]
+name = "my-project"
+repo = "https://github.com/owner/my-project"
+modules = ["MyProject"]
+description = "Project description"
+docvb_version = "v4.28.0"  # Which DocVerificationBridge version to use
 ```
 
-Or in `lakefile.lean`:
-
-```lean
-require «doc-verification-bridge» from "../path/to/doc-verification-bridge"
-```
-
----
-
-## Running on External Projects
-
-To analyze a project you haven't modified (e.g., `batteries`, `mathlib4`), you need a **nested docbuild directory** similar to doc-gen4. This is required because:
-
-1. The target project's compiled modules must be available to import
-2. doc-verification-bridge and its dependencies (doc-gen4, Cli) must be in scope
-3. The nested project approach allows both requirements without modifying the target
-
-### Setup Instructions
-
-1. **Create a `docbuild` subdirectory** inside the target project:
-
-```bash
-cd /path/to/target-project  # e.g., batteries
-mkdir docbuild
-cd docbuild
-```
-
-2. **Create `lakefile.toml`** with the following content:
-
-```toml
-name = "docbuild"
-reservoir = false
-version = "0.1.0"
-packagesDir = "../.lake/packages"
-
-[[require]]
-name = "batteries"       # Replace with your target library name
-path = "../"
-
-[[require]]
-name = "doc-verification-bridge"
-git = "https://github.com/NicolasRouquette/doc-verification-bridge"
-rev = "main"
-```
-
-3. **Copy the `lean-toolchain`** from the parent project:
-
-```bash
-cp ../lean-toolchain .
-```
-
-4. **Update dependencies:**
-
-```bash
-lake update doc-verification-bridge
-```
-
-5. **Build the target project** (if not already built):
-
-```bash
-cd ..
-lake build
-cd docbuild
-```
-
-6. **Run doc-verification-bridge:**
-
-```bash
-lake exe doc-verification-bridge --output docs Batteries Batteries
-```
-
-### Example: Analyzing batteries
-
-```bash
-# From batteries root
-cd /path/to/batteries
-mkdir -p docbuild
-cd docbuild
-
-# Create lakefile.toml
-cat > lakefile.toml << 'EOF'
-name = "docbuild"
-reservoir = false
-version = "0.1.0"
-packagesDir = "../.lake/packages"
-
-[[require]]
-name = "batteries"
-path = "../"
-
-[[require]]
-name = "doc-verification-bridge"
-git = "https://github.com/NicolasRouquette/doc-verification-bridge"
-rev = "main"
-EOF
-
-cp ../lean-toolchain .
-lake update doc-verification-bridge
-
-# Run with automatic classification (default)
-lake exe unified-doc unified --auto --output docs Batteries
-
-# Or with annotation-based classification
-lake exe unified-doc unified --annotated --output docs Batteries
-```
-
-The generated documentation will be in `docbuild/docs/`.
-
----
-
-## Performance Tuning for Large Projects
-
-For very large projects like mathlib4, proof dependency extraction can be slow because it traverses proof terms to find which lemmas each theorem uses.
-
-### CLI Flags
-
-| Flag | Effect |
-|------|--------|
-| `--skip-proof-deps` | Skip proof dependency extraction entirely (fastest, no `dependsOn` data) |
-| `--proof-dep-workers N` | Use up to N worker threads for parallel proof extraction |
-| `--save-classification PATH` | Save classification results to cache (creates PATH.json + PATH.jsonl) |
-| `--load-classification PATH` | Load classification from cache, skip classification phase |
-| `--html-workers N` | Use N parallel workers for HTML file generation |
-
-**Example:**
-```bash
-# Skip proof deps entirely (fastest)
-lake exe unified-doc unified --auto --skip-proof-deps --output docs Mathlib
-
-# Parallel proof extraction with 8 workers
-lake exe unified-doc unified --auto --proof-dep-workers 8 --output docs Mathlib
-
-# Parallel HTML generation with 20 workers (speeds up file writing for large projects)
-lake exe unified-doc unified --auto --html-workers 20 --output docs Mathlib
-
-# Combined: parallel proof extraction + parallel HTML generation
-lake exe unified-doc unified --auto --proof-dep-workers 50 --html-workers 20 --output docs Mathlib
-
-# Save classification to cache (for large projects like mathlib4)
-# Creates /tmp/mathlib-cache.json (metadata) and /tmp/mathlib-cache.jsonl (entries)
-lake exe unified-doc unified --auto --save-classification /tmp/mathlib-cache --output docs Mathlib
-
-# Load from cache and regenerate HTML only (fast iteration)
-lake exe unified-doc unified --auto --load-classification /tmp/mathlib-cache --html-workers 20 --output docs Mathlib
-```
-
-### Classification Cache Format
-
-The classification cache uses a split format for streaming I/O with large projects:
-
-- **`<path>.json`**: Small metadata file with version and entry count
-- **`<path>.jsonl`**: Pure [JSON Lines](https://jsonlines.org/) with one entry per line
-
-This enables standard JSONL tooling (`jq`, `wc -l`, `head`, `tail`) and avoids stack overflow when serializing/deserializing 280K+ entries.
-
-### How Parallel Extraction Works
-
-When `--proof-dep-workers N` is specified with N > 0, the classifier uses a two-phase approach:
-1. **Phase 1 (Sequential in MetaM)**: Extract type information, infer theorem kinds, and detect `sorry` usage
-2. **Phase 2 (Parallel in IO)**: Extract proof dependencies using worker threads
-
-This provides good speedup while maintaining correctness, since proof term traversal is pure and can be safely parallelized.
-
-> **Tip:** For batch analysis of multiple projects, see the [experiments pipeline](experiments/README.md) which handles this configuration via TOML. Global settings like `proof_dep_workers` and `html_workers` can be set once and overridden per-project.
-
----
-
-## Two Modes of Operation
-
-doc-verification-bridge supports two complementary classification modes:
-
-| Mode | Flag | Effort | Precision | Best For |
-|------|------|--------|-----------|----------|
-| **Automatic** | `--auto` | Zero annotations | Good (heuristic-based) | Quick overview, existing codebases |
-| **Annotated** | `--annotated` | Explicit annotations | Exact | Production documentation, precise control |
-
----
-
-## Mode 1: Automatic (No Annotations Required)
-
-Run doc-verification-bridge on any Lean 4 project without modifying source code.
-
-> **Batch Analysis:** To automatically analyze multiple Lean 4 projects in parallel,
-> see the [experiments/README.md](experiments/README.md) for an automated pipeline
-> that clones, builds, and generates documentation for configured repositories.
-
-> **Note:** Run these commands from inside the `docbuild` directory after completing
-> the [setup instructions](#running-on-external-projects) above.
-
-```bash
-lake exe unified-doc unified --auto --output docs MyProject.Core MyProject.Theorems
-```
-
-With source links:
-```bash
-lake exe unified-doc unified --auto \
-  --repo https://github.com/org/repo \
-  --output docs \
-  MyProject.Core MyProject.Theorems
-```
-
-For projects with a single top-level module:
-```bash
-lake exe unified-doc unified --auto --output docs --project "Batteries" Batteries
-```
-
-### How Automatic Inference Works
-
-The inference engine analyzes theorem types to classify names into `assumes`, `proves`, `validates`, and `dependsOn`:
-
-#### H1: Predicate Hypotheses → `assumes`
-
-```lean
-theorem foo (h : IsAcyclic g) : ...
---            ^^^^^^^^^^^^^ predicate hypothesis → assumes
-```
-
-#### H2: Equation Hypotheses → `proves`
-
-```lean
-theorem map_val (h : strings.mapM Identifier.mk? = some ids) : ...
---                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ equation → proves
-```
-
-When a hypothesis characterizes a function's behavior, the theorem proves a property *about* that function.
-
-#### H3: Conclusion Analysis → `proves`
-
-```lean
-theorem foo ... : NoSelfLoop g ∧ IsTree g
---                ^^^^^^^^^^^^^^^^^^^^^^^ conclusion → proves
-```
-
-#### H4: Bool Functions in Hypotheses/Conclusions → `validates`
-
-```lean
-theorem sound : isAcyclicBool g = true → IsAcyclic g
---              ^^^^^^^^^^^^^                        → validates
-```
-
-#### H5: Proof Term Analysis → `dependsOn`
-
-```lean
-theorem bar : P := by
-  apply foo  -- bar depends on foo
-  exact baz  -- bar depends on baz
-```
-
-The tool examines the proof term to find all theorems and lemmas used in the proof.
-This creates a "depends on" relationship: if theorem A uses theorem B in its proof,
-then A depends on B. This is useful for understanding proof structure and identifying
-which foundational lemmas are most widely used.
-
-#### Theorem Kind Inference
-
-| Pattern | Inferred Kind |
-|---------|---------------|
-| `BoolFunc = true → PropSpec` | `bridgingProperty` (sound) |
-| `PropSpec → BoolFunc = true` | `bridgingProperty` (complete) |
-| `BoolFunc = true ↔ PropSpec` | `bridgingProperty` (iff) |
-| `UserType → ExternalType` | `soundnessProperty` |
-| `ExternalType → ∃..., UserType` | `completenessProperty` |
-| Internal properties only | `mathematicalProperty` |
-| Algebraic laws (BEq, Hashable) | `computationalProperty` |
-
----
-
-## Mode 2: Annotated Mode (Precise Control)
-
-For production documentation, use explicit annotations to ensure accuracy.
-Run with `--annotated` flag to only classify declarations with explicit `@[api_*]` attributes:
-
-```bash
-lake exe unified-doc unified --annotated --output docs MyProject
-```
-
-### Three Attributes for the Four-Category Ontology
-
-| Attribute | For | Category Detection |
-|-----------|-----|-------------------|
-| `@[api_type]` | `structure`, `inductive`, `class` | **User specifies** |
-| `@[api_def]` | `def` | **Auto-detected** from return type |
-| `@[api_theorem]` / `@[api_lemma]` | `theorem`, `lemma` | N/A (use `theoremKind`) |
-
-### `@[api_type]` — For Types
-
-Category **must** be specified (abstract vs concrete can't be auto-detected):
-
-```lean
-@[api_type { category := .mathematicalAbstraction }]
-structure PackageRegistrySpec where ...
-
-@[api_type { category := .computationalDatatype }]
-inductive DependencyKind where ...
-```
-
-### `@[api_def]` — For Definitions
-
-Category is **auto-detected** from return type:
-
-```lean
-@[api_def]  -- Returns Prop → mathematicalDefinition
-def IsAcyclic (g : Graph) : Prop := ...
-
-@[api_def]  -- Returns Option Value → computationalOperation
-def lookup (m : Map) (k : Key) : Option Value := ...
-
-@[api_def { coverage := .complete }]  -- Can specify other fields
-def isEmpty (xs : List α) : Bool := ...
-```
-
-### `@[api_theorem]` / `@[api_lemma]` — For Proofs
-
-Use `theoremKind` to classify:
-
-```lean
-@[api_theorem {
-  theoremKind := .bridgingProperty,
-  bridgingDirection := .sound,
-  proves := #[`IsPositive],
-  validates := #[`isPositiveBool]
-}]
-theorem isPositiveBool_sound : isPositiveBool n = true → IsPositive n := ...
-
-@[api_lemma {
-  theoremKind := .mathematicalProperty,
-  proves := #[`IsAcyclic]
-}]
-lemma acyclic_of_tree : IsTree g → IsAcyclic g := ...
-```
-
-### Annotation Fields
-
-#### `assumes` / `proves` / `validates`
-
-| Field | Meaning | Example |
-|-------|---------|---------|
-| `assumes` | Preconditions the theorem relies on | `assumes := #[\`IsWellFormed]` |
-| `proves` | What the theorem establishes | `proves := #[\`IsAcyclic]` |
-| `validates` | Bool functions validated (bridging only) | `validates := #[\`isAcyclicBool]` |
-
-#### `bridgingDirection` (for `bridgingProperty`)
-
-| Direction | Pattern | Meaning |
-|-----------|---------|---------|
-| `.sound` | `comp = true → prop` | "If algorithm says yes, spec agrees" |
-| `.complete` | `prop → comp = true` | "If spec says yes, algorithm finds it" |
-| `.iff` | `comp = true ↔ prop` | Full decidability |
-
----
+The `docvb_version` field specifies which DocVerificationBridge branch/tag to use for that project. This allows mixing projects with different Lean versions in the same experiment run.
 
 ## Four-Category Ontology
 
-Based on E.J. Lowe's *Four-Category Ontology* (Oxford, 2006):
+DocVerificationBridge classifies declarations into four categories based on E.J. Lowe's ontology:
 
-|                    | **Mathematical** (Universal, Prop) | **Computational** (Particular, data) |
-|--------------------|-------------------------------------|--------------------------------------|
-| **Substantial**    | `mathematicalAbstraction` — Kinds   | `computationalDatatype` — Objects    |
-| **Non-substantial**| `mathematicalDefinition` — Attributes | `computationalOperation` — Modes   |
+|                    | **Mathematical** (Universal) | **Computational** (Particular) |
+|--------------------|------------------------------|--------------------------------|
+| **Substantial**    | Mathematical Abstraction     | Computational Datatype         |
+| **Non-substantial**| Mathematical Definition      | Computational Operation        |
 
-### Theorem Classification Summary
+**Theorem Kinds**:
+- **Computational Property**: Proves computational definitions satisfy laws
+- **Mathematical Property**: Proves abstract mathematical properties
+- **Bridging Property**: Connects Prop specifications with Bool computations
+- **Soundness Property**: Proves user types correctly embed into external specs
+- **Completeness Property**: Proves external specs can be represented by user types
 
-| Pattern | TheoremKind | proves | validates |
-|---------|-------------|--------|-----------|
-| `UserType → ExternalType` | `soundnessProperty` | ExternalType | ∅ |
-| `ExternalType → ∃..., UserType` | `completenessProperty` | UserType | ∅ |
-| Internal closure properties | `mathematicalProperty` | internal types | ∅ |
-| `BoolFunc = true ↔ PropSpec` | `bridgingProperty` | PropSpec | BoolFunc |
-| Algebraic laws (reflexivity, etc.) | `computationalProperty` | internal types | ∅ |
+## Classification Modes
 
-**Key distinctions:**
-- **soundnessProperty**: Every UserType is a valid ExternalType ("PathWithLength is a valid TransGen")
-- **completenessProperty**: Every ExternalType can be represented as UserType
-- **bridgingProperty**: Links Bool computations to Prop specifications
-- **mathematicalProperty**: Internal closure/structural properties
-- **computationalProperty**: Algebraic laws about BEq, Hashable, Ord instances
+### Auto Mode (Default)
 
----
+Uses heuristic-based type analysis to automatically infer categories:
+- Types: Prop-based → Mathematical Abstraction, Data-carrying → Computational Datatype
+- Definitions: Returns Prop → Mathematical Definition, Returns non-Prop → Computational Operation
+- Theorems: Automatically infers `assumes`, `proves`, `validates` from type structure
 
-## Validation Rules
+```bash
+lake exe unified-doc unified --auto MyModule
+```
 
-The annotation system validates at compile time:
+### Annotated Mode
 
-| Code | Severity | Description |
-|------|----------|-------------|
-| ACE1 | ❌ error | `theoremKind` without `proves` |
-| ACE2 | ❌ error | Unresolved `proves` reference |
-| ACE3 | ❌ error | Unresolved `validates` reference |
-| ACE13 | ❌ error | Missing `category` on type |
-| ACE18 | ❌ error | `validates` on non-bridging theorem |
-| ACE19 | ❌ error | Missing `validates` on bridging theorem |
-| ACW9 | ⚠️ warning | Inference suggests different values |
-| ACW10 | ⚠️ warning | `proves` without `theoremKind` |
-| ACW19 | ⚠️ warning | Naming convention suggestion |
-
-### Suppressing Warnings
+Only classifies declarations with explicit `@[api_*]` annotations:
 
 ```lean
-@[api_theorem {
-  theoremKind := .mathematicalProperty,
-  proves := #[`MyDef],
-  suppress := #["ACW15", "ACW19"]  -- Use string array
-}]
-theorem myTheorem : ... := ...
+@[api_type .mathematicalAbstraction]
+class MapLike (α : Type) where ...
+
+@[api_def .computationalOperation]
+def lookup (m : Map α β) (key : α) : Option β := ...
+
+@[api_theorem .bridgingProperty
+  (assumes := #[`wellFormed])
+  (proves := #[`isCorrect])
+  (validates := #[`checkInvariant])]
+theorem lookup_correct : wellFormed m → ... := ...
 ```
 
----
-
-## Output
-
-Generates static HTML documentation (Python-free) with:
-- Cross-referenced definitions and theorems
-- Source code links with line numbers
-- Coverage status (✅ complete, ⚠️ axiom-dependent, 🔄 partial, ❌ unverified)
-- Theorem classification breakdown
-- Bidirectional `verifiedBy` links
-
-### Example Output Structure
-
-```
-site/
-├── index.html
-├── style.css
-├── modules/
-│   ├── index.html
-│   └── <module>.html
-└── api/
-    └── (doc-gen4 output with verification badges)
-```
-
-### Bidirectional Navigation
-
-The unified pipeline enables true bidirectional navigation between API documentation and verification coverage:
-
-**From API docs → Coverage reports:**
-Each declaration in the doc-gen4 API documentation displays a verification badge indicating its classification:
-- 🔷 Mathematical abstraction type
-- 🔶 Computational datatype  
-- 🔹 Mathematical definition
-- 🔸 Computational operation
-- 📐 Mathematical property (theorem)
-- ⚙️ Computational property (theorem)
-- ⬇️ Soundness theorem
-- ⬆️ Completeness theorem
-- ⇕ Equivalence theorem
-
-Clicking a badge navigates to the corresponding coverage report page.
-
-**From Coverage reports → API docs:**
-Each entry in the verification coverage reports links back to the doc-gen4 API page for that declaration.
-
-This bidirectional linking is achieved through a custom `DeclarationDecoratorFn` hook in doc-gen4 (added in [PR #344](https://github.com/leanprover/doc-gen4/pull/344)).
-
-Serve locally:
 ```bash
-python3 -m http.server -d site 8000
+lake exe unified-doc unified --annotated MyModule
 ```
 
----
+## Development
 
-## Comparison with Other Tools
+### Running Tests
 
-| Feature | doc-gen4 | blueprint | doc-verification-bridge |
-|---------|----------|-----------|-------------------------|
-| **Purpose** | API docs | Proof dependency graphs | Semantic coverage tracking |
-| **Tracks** | Types, signatures | Theorem dependencies | Ontological categories |
-| **Semantic classification** | ❌ | ❌ | ✅ Four-Category Ontology |
-| **Spec↔Impl links** | ❌ | ❌ | ✅ `proves`/`validates` |
-| **Coverage metrics** | ❌ | ✅ (sorry tracking) | ✅ (unverified/partial/complete) |
+```bash
+# Test DocVerificationBridge
+cd DocVerificationBridge
+lake build
+lake exe unified-doc unified --repo https://github.com/test/project TestModule
 
----
+# Test Experiments
+cd Experiments
+lake build
+lake exe experiments --config test-config.toml
+```
+
+### Adding Support for New Lean Versions
+
+1. Create a new git branch from main: `git checkout -b v4.XX.0`
+2. Update `DocVerificationBridge/lakefile.toml` with new Lean/doc-gen4 versions
+3. Fix any API breakages in the core modules
+4. Test with projects using that Lean version
+5. Tag the branch: `git tag v4.XX.0`
+6. Update experiment configs to use `docvb_version = "v4.XX.0"` for appropriate projects
+
+## Project Status
+
+### Current Phase: Refactoring (Step 1)
+
+We are currently in **Phase 1** of the refactoring (see [REFACTORING.md](REFACTORING.md) for full plan):
+
+- [x] Create two-package structure
+- [x] Create lakefiles for both packages
+- [x] Move files to new locations
+- [ ] **TODO**: Refactor Experiments imports to use subprocess invocation (Phase 3)
+- [ ] **TODO**: Per-branch cleanup of version-specific files (Phase 2)
+
+**Note**: The Experiments module currently still imports DocVerificationBridge modules directly. This will be refactored in Phase 3 to use subprocess invocation, making it truly version-agnostic.
+
+### Recent Improvements
+
+- **Fixed "Grammable" inference bug** ([Inference.lean:389-535](DocVerificationBridge/DocVerificationBridge/Inference.lean#L389-L535))
+  - Theorems can now correctly appear in both `assumes` and `proves`
+  - Uses separate deduplication for hypotheses vs conclusion
+  - Critical for soundness/completeness proof chains
+
+## Contributing
+
+See [REFACTORING.md](REFACTORING.md) for the detailed refactoring plan and contribution guidelines.
 
 ## License
 
-Apache 2.0
+Apache 2.0 (see LICENSE file)
 
+## Authors
+
+- Nicolas Rouquette (California Institute of Technology)
+- Contributors
+
+## Acknowledgments
+
+This tool builds on:
+- [doc-gen4](https://github.com/leanprover/doc-gen4) - Lean 4 documentation generator
+- [lean4-cli](https://github.com/leanprover/lean4-cli) - CLI framework
+- E.J. Lowe's *Four-Category Ontology* (Oxford, 2006) - Philosophical foundation
