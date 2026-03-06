@@ -1285,21 +1285,46 @@ def copyFileIfExists (src dst : FilePath) : IO Bool := do
     return true
   return false
 
-/-- Clone or update DocVerificationBridge repository to a specific version.
+/-- Acquire a file-based lock with retry logic.
 
-    This function:
-    - Clones the repository if the target directory doesn't exist
-    - Fetches and checks out the specified version (branch, tag, or commit SHA)
-    - Caches the clone to avoid repeated downloads
+    Uses a simple lock file mechanism to prevent concurrent operations.
+    Retries with exponential backoff if locked.
 
     Parameters:
-    - `repoUrl`: Git repository URL for DocVerificationBridge
-    - `targetDir`: Directory where the repository should be cloned
-    - `version`: Git ref to check out (branch name, tag, or commit SHA)
+    - `lockPath`: Path to the lock file
+    - `maxRetries`: Maximum number of retry attempts (default: 60)
+    - `initialDelay`: Initial delay in milliseconds (default: 1000)
 
-    Returns: `true` if successful, `false` if any git operation failed
+    Returns: `true` if lock acquired, `false` if timeout
 -/
-def cloneDocVerificationBridge (repoUrl : String) (targetDir : FilePath) (version : String) : IO Bool := do
+def acquireLock (lockPath : FilePath) (maxRetries : Nat := 60) (initialDelay : Nat := 1000) : IO Bool := do
+  for attempt in [0:maxRetries] do
+    if !(← lockPath.pathExists) then
+      try
+        -- Create lock file (with timestamp as identifier)
+        IO.FS.writeFile lockPath "locked\n"
+        return true
+      catch _ =>
+        pure ()
+    -- Wait with exponential backoff (cap at 5 seconds)
+    let delay := initialDelay * (1 + attempt / 10)
+    let cappedDelay : UInt32 := if delay > 5000 then 5000 else delay.toUInt32
+    IO.sleep cappedDelay
+  return false
+
+/-- Release a file-based lock.
+-/
+def releaseLock (lockPath : FilePath) : IO Unit := do
+  try
+    if ← lockPath.pathExists then
+      IO.FS.removeFile lockPath
+  catch _ =>
+    pure ()
+
+/-- Implementation of DocVerificationBridge cloning (without locking).
+    Internal helper - use cloneDocVerificationBridge instead.
+-/
+def cloneDocVerificationBridgeImpl (repoUrl : String) (targetDir : FilePath) (version : String) : IO Bool := do
   -- Clone repository if it doesn't exist
   if !(← targetDir.pathExists) then
     IO.println s!"[DocVB] Cloning {repoUrl} to {targetDir}..."
@@ -1352,6 +1377,43 @@ def cloneDocVerificationBridge (repoUrl : String) (targetDir : FilePath) (versio
 
   IO.println s!"[DocVB] Successfully checked out version: {version}"
   return true
+
+/-- Clone or update DocVerificationBridge repository to a specific version.
+
+    This function wraps cloneDocVerificationBridgeImpl with file-based locking
+    to prevent concurrent git operations on the same cache directory.
+
+    Parameters:
+    - `repoUrl`: Git repository URL for DocVerificationBridge
+    - `targetDir`: Directory where the repository should be cloned
+    - `version`: Git ref to check out (branch name, tag, or commit SHA)
+
+    Returns: `true` if successful, `false` if any git operation failed
+-/
+def cloneDocVerificationBridge (repoUrl : String) (targetDir : FilePath) (version : String) : IO Bool := do
+  -- Use lock file to prevent concurrent git operations on the same cache directory
+  let lockPath := (targetDir.toString ++ ".lock")
+
+  -- Try to acquire lock (wait up to 60 seconds with retries)
+  IO.println s!"[DocVB] Acquiring lock for {targetDir}..."
+  let lockAcquired ← acquireLock lockPath
+  if !lockAcquired then
+    IO.eprintln s!"[DocVB] Error: Timeout waiting for lock on {targetDir}"
+    return false
+
+  IO.println s!"[DocVB] Lock acquired, proceeding with git operations..."
+
+  -- Perform git operations (ensure lock is released even if operations fail)
+  let result ← try
+    cloneDocVerificationBridgeImpl repoUrl targetDir version
+  catch e =>
+    IO.eprintln s!"[DocVB] Error during clone: {e}"
+    releaseLock lockPath
+    pure false
+
+  releaseLock lockPath
+  IO.println s!"[DocVB] Lock released"
+  return result
 
 /-- Invoke DocVerificationBridge's unified-doc command via subprocess.
 
@@ -1457,10 +1519,11 @@ def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
   -- Determine doc-gen4 reference based on project toolchain:
   -- - Use the version tag that matches the project's Lean toolchain (e.g., v4.28.0 for Lean 4.28.0)
   -- - This avoids conflicts when the project already has doc-gen4 as a dependency
-  -- - For Lean >= 4.27.0: doc-gen4 releases include PR #341 (custom source linker) and #344 (decorator support)
+  -- - For Lean >= 4.29.0: doc-gen4 migrated to database-based API (DocGen4.DB module)
+  -- - For Lean < 4.29.0: Use UnifiedBasic.lean for compatibility (no DB dependency)
   -- - Fall back to "main" only if we can't determine a specific version
   let useDecoratorSupport := match parseVersion tcCheck.projectToolchain with
-    | some ver => versionGe ver (4, 27, 0)
+    | some ver => versionGe ver (4, 29, 0)
     | none => false
   let docgen4Ref := if tcCheck.docgen4Tag.isEmpty then "main" else tcCheck.docgen4Tag
 
@@ -1469,9 +1532,10 @@ def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
   --   - Experiments.lean (the pipeline itself, not needed in docvb)
   --   - SourceLinkerCompatStandard.lean (deprecated stub, no longer needed)
   --   - VerificationDecoratorStandard.lean (deprecated stub, no longer needed)
-  -- For older toolchains (< 4.27.0), also exclude:
-  --   - VerificationDecorator.lean (requires PR #344 DeclarationDecoratorFn)
-  --   - SourceLinkerCompat.lean (requires PR #341 SourceLinkerFn 4-arg API)
+  -- For older toolchains (< 4.29.0), also exclude:
+  --   - Unified.lean (requires DocGen4.DB from database migration in v4.29.0)
+  --   - SourceLinkerCompat.lean (requires doc-gen4 v4.29.0+ API)
+  --   - VerificationDecorator.lean (requires doc-gen4 v4.29.0+ decorator support)
   let dvbSrcDir := docvbDir / "DocVerificationBridge"
   IO.FS.createDirAll dvbSrcDir
 
