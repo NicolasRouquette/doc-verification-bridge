@@ -2359,8 +2359,13 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
                    errorMessage := some "cache get failed", buildLog := cacheLog,
                    siteDir := some outputDir }
 
+    -- Build the project's default targets plus the modules we need for documentation.
+    -- The default `lake build` only builds defaultTargets from the lakefile, which may
+    -- not include the library root modules specified in config.toml (e.g., contracts
+    -- defaults to executables rs/rsnav but we need the AsyncDSLMath library).
+    let buildTargets := #["build"] ++ modules
     let (buildOk, buildLog', newLog) ← runLakeLogged "lake-build" config.useSandbox
-      dvbCacheDir projectDir "isolated" #["build"]
+      dvbCacheDir projectDir "isolated" buildTargets
       cmdLog (some logCtx)
     cmdLog := newLog
     buildLog := buildLog'
