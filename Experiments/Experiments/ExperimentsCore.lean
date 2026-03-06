@@ -1551,20 +1551,34 @@ def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
     else baseExcludeFiles ++ #["VerificationDecorator.lean", "SourceLinkerCompat.lean", "Unified.lean"]
 
   -- Copy files from cached DocVerificationBridge clone
+  -- Handle both old (flat) and new (nested) directory structures:
+  -- - Old (v4.28.0): cacheDir/DocVerificationBridge/*.lean
+  -- - New (v4.29.0+): cacheDir/DocVerificationBridge/DocVerificationBridge/*.lean
   let dvbPackageDir := cacheDir / "DocVerificationBridge"
-  for entry in ← System.FilePath.readDir (dvbPackageDir / "DocVerificationBridge") do
+  let nestedSourceDir := dvbPackageDir / "DocVerificationBridge"
+  let dvbSourceDir := if ← nestedSourceDir.pathExists then
+    nestedSourceDir  -- New nested structure (v4.29.0+)
+  else
+    dvbPackageDir  -- Old flat structure (v4.28.0)
+
+  for entry in ← System.FilePath.readDir dvbSourceDir do
     let fileName := entry.fileName
     if fileName.endsWith ".lean" && !excludeFiles.contains fileName then
-      discard <| copyFileIfExists (dvbPackageDir / "DocVerificationBridge" / fileName) (dvbSrcDir / fileName)
+      discard <| copyFileIfExists (dvbSourceDir / fileName) (dvbSrcDir / fileName)
 
   -- For older toolchains, copy UnifiedBasic.lean as Unified.lean (provides same API without decorators)
   if !useDecoratorSupport then
-    discard <| copyFileIfExists (dvbPackageDir / "DocVerificationBridge" / "UnifiedBasic.lean") (dvbSrcDir / "Unified.lean")
+    discard <| copyFileIfExists (dvbSourceDir / "UnifiedBasic.lean") (dvbSrcDir / "Unified.lean")
 
   -- Copy Main.lean (the executable entry point)
-  discard <| copyFileIfExists (dvbPackageDir / "Main.lean") (docvbDir / "Main.lean")
+  -- v4.28.0: UnifiedMain.lean at root, v4.29.0+: Main.lean in package dir
+  if ← (cacheDir / "UnifiedMain.lean").pathExists then
+    discard <| copyFileIfExists (cacheDir / "UnifiedMain.lean") (docvbDir / "Main.lean")
+  else
+    discard <| copyFileIfExists (dvbPackageDir / "Main.lean") (docvbDir / "Main.lean")
 
   -- Copy DocVerificationBridge.lean (the root module file)
+  -- Both versions have this at package dir level
   discard <| copyFileIfExists (dvbPackageDir / "DocVerificationBridge.lean") (docvbDir / "DocVerificationBridge.lean")
 
   -- Create lakefile.lean (using .lean format for more flexibility)
