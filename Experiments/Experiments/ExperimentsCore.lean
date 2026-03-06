@@ -1497,6 +1497,23 @@ def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
   -- Detect main package name
   let mainPackage ← detectPackageName projectDir projectName
 
+  -- Check if the project already depends on doc-verification-bridge
+  -- If so, we must not create a local lean_lib DocVerificationBridge (it would
+  -- conflict with the one from the transitive dependency).
+  let projectHasDvbDep ← do
+    let lakefileToml := projectDir / "lakefile.toml"
+    let lakefileLean := projectDir / "lakefile.lean"
+    if ← lakefileToml.pathExists then
+      let content ← IO.FS.readFile lakefileToml
+      let parts := content.splitOn "doc-verification-bridge"
+      pure (parts.length != 1)
+    else if ← lakefileLean.pathExists then
+      let content ← IO.FS.readFile lakefileLean
+      let parts := content.splitOn "doc-verification-bridge"
+      pure (parts.length != 1)
+    else
+      pure false
+
   -- Determine doc-gen4 reference based on project toolchain:
   -- - Use the version tag that matches the project's Lean toolchain (e.g., v4.28.0 for Lean 4.28.0)
   -- - This avoids conflicts when the project already has doc-gen4 as a dependency
@@ -1508,33 +1525,9 @@ def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
     | none => false
   let docgen4Ref := if tcCheck.docgen4Tag.isEmpty then "main" else tcCheck.docgen4Tag
 
-  -- Copy doc-verification-bridge source files to docvb (avoids cross-toolchain dependency)
-  -- We automatically discover all .lean files, excluding:
-  --   - Experiments.lean (the pipeline itself, not needed in docvb)
-  --   - SourceLinkerCompatStandard.lean (deprecated stub, no longer needed)
-  --   - VerificationDecoratorStandard.lean (deprecated stub, no longer needed)
-  -- For older toolchains (< 4.29.0), also exclude:
-  --   - Unified.lean (requires DocGen4.DB from database migration in v4.29.0)
-  --   - SourceLinkerCompat.lean (requires doc-gen4 v4.29.0+ API)
-  --   - VerificationDecorator.lean (requires doc-gen4 v4.29.0+ decorator support)
-  let dvbSrcDir := docvbDir / "DocVerificationBridge"
-  IO.FS.createDirAll dvbSrcDir
-
-  let baseExcludeFiles : Array String := #[
-    "Experiments.lean",
-    "SourceLinkerCompatCustom.lean",
-    "SourceLinkerCompatStandard.lean",
-    "VerificationDecoratorStandard.lean",
-    "UnifiedBasic.lean"  -- Copied separately based on toolchain version
-  ]
-  -- For older toolchains, exclude decorator/source-linker/unified files that need PR #341/#344
-  let excludeFiles := if useDecoratorSupport then baseExcludeFiles
-    else baseExcludeFiles ++ #["VerificationDecorator.lean", "SourceLinkerCompat.lean", "Unified.lean"]
-
-  -- Copy files from cached DocVerificationBridge clone
-  -- Handle both old (flat) and new (nested) directory structures:
-  -- - Old (v4.28.0): cacheDir/DocVerificationBridge/*.lean
-  -- - New (v4.29.0+): cacheDir/DocVerificationBridge/DocVerificationBridge/*.lean
+  -- Resolve the directory layout for cached DocVerificationBridge sources
+  -- - Old (v4.28.0): cacheDir/DocVerificationBridge/*.lean  (flat structure)
+  -- - New (v4.29.0+): cacheDir/DocVerificationBridge/DocVerificationBridge/*.lean (nested)
   let dvbPackageDir := cacheDir / "DocVerificationBridge"
   let nestedSourceDir := dvbPackageDir / "DocVerificationBridge"
   let dvbSourceDir := if ← nestedSourceDir.pathExists then
@@ -1542,14 +1535,42 @@ def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
   else
     dvbPackageDir  -- Old flat structure (v4.28.0)
 
-  for entry in ← System.FilePath.readDir dvbSourceDir do
-    let fileName := entry.fileName
-    if fileName.endsWith ".lean" && !excludeFiles.contains fileName then
-      discard <| copyFileIfExists (dvbSourceDir / fileName) (dvbSrcDir / fileName)
+  -- Copy doc-verification-bridge source files to docvb (avoids cross-toolchain dependency)
+  -- Skip this when the project already depends on doc-verification-bridge —
+  -- the modules will be provided by the transitive dependency, and copying
+  -- them locally would cause module disambiguation errors.
+  if !projectHasDvbDep then
+    let dvbSrcDir := docvbDir / "DocVerificationBridge"
+    IO.FS.createDirAll dvbSrcDir
 
-  -- For older toolchains, copy UnifiedBasic.lean as Unified.lean (provides same API without decorators)
-  if !useDecoratorSupport then
-    discard <| copyFileIfExists (dvbSourceDir / "UnifiedBasic.lean") (dvbSrcDir / "Unified.lean")
+    let baseExcludeFiles : Array String := #[
+      "Experiments.lean",
+      "SourceLinkerCompatCustom.lean",
+      "SourceLinkerCompatStandard.lean",
+      "VerificationDecoratorStandard.lean",
+      "UnifiedBasic.lean"  -- Copied separately based on toolchain version
+    ]
+    -- For older toolchains, exclude decorator/source-linker/unified files that need PR #341/#344
+    let excludeFiles := if useDecoratorSupport then baseExcludeFiles
+      else baseExcludeFiles ++ #["VerificationDecorator.lean", "SourceLinkerCompat.lean", "Unified.lean"]
+
+    let mut copiedModules : Array String := #[]
+    for entry in ← System.FilePath.readDir dvbSourceDir do
+      let fileName := entry.fileName
+      if fileName.endsWith ".lean" && !excludeFiles.contains fileName then
+        discard <| copyFileIfExists (dvbSourceDir / fileName) (dvbSrcDir / fileName)
+        copiedModules := copiedModules.push (fileName.takeCompat (fileName.length - 5))  -- strip ".lean"
+
+    -- For older toolchains, copy UnifiedBasic.lean as Unified.lean (provides same API without decorators)
+    if !useDecoratorSupport then
+      discard <| copyFileIfExists (dvbSourceDir / "UnifiedBasic.lean") (dvbSrcDir / "Unified.lean")
+      copiedModules := copiedModules.push "Unified"
+
+    -- Generate DocVerificationBridge.lean root module from the files we actually copied
+    let imports := copiedModules.map (s!"import DocVerificationBridge.{·}")
+    let rootContent := "-- Auto-generated root module for DocVerificationBridge\n"
+      ++ String.intercalate "\n" imports.toList ++ "\n"
+    IO.FS.writeFile (docvbDir / "DocVerificationBridge.lean") rootContent
 
   -- Copy Main.lean (the executable entry point)
   -- v4.28.0: UnifiedMain.lean at root, v4.29.0+: Main.lean in package dir
@@ -1558,12 +1579,14 @@ def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
   else
     discard <| copyFileIfExists (dvbPackageDir / "Main.lean") (docvbDir / "Main.lean")
 
-  -- Copy DocVerificationBridge.lean (the root module file)
-  -- Both versions have this at package dir level
-  discard <| copyFileIfExists (dvbPackageDir / "DocVerificationBridge.lean") (docvbDir / "DocVerificationBridge.lean")
-
   -- Create lakefile.lean (using .lean format for more flexibility)
   -- Note: We do NOT share packagesDir with the main project because toolchains may differ
+  -- When the project already depends on doc-verification-bridge, we omit the local
+  -- lean_lib to avoid module disambiguation errors (two packages providing DocVerificationBridge.*).
+  let dvbLibSection := if projectHasDvbDep then
+    s!"-- DocVerificationBridge is provided by the project's own dependency\n"
+  else
+    s!"-- Local library with doc-verification-bridge sources (cloned from git at version {project.docvbVersion})\nlean_lib DocVerificationBridge where\n"
   let lakefileContent := s!"import Lake
 open Lake DSL
 
@@ -1580,9 +1603,7 @@ require «{mainPackage}» from \"../\"
 require «doc-gen4» from git
   \"https://github.com/leanprover/doc-gen4\" @ \"{docgen4Ref}\"
 
--- Local library with doc-verification-bridge sources (cloned from git at version {project.docvbVersion})
-lean_lib DocVerificationBridge where
-
+{dvbLibSection}
 -- Unified CLI executable
 @[default_target]
 lean_exe «unified-doc» where
