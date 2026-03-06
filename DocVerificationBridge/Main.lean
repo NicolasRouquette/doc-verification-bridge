@@ -315,7 +315,7 @@ def runUnifiedCmd (args : Cli.Parsed) : IO UInt32 := do
   runUnifiedPipelineWithMode cfg (modules.map String.toName) mode
 
 /-- Run standalone doc-gen4 (delegates to doc-gen4's infrastructure) -/
-def runDocGen4Cmd (_argsargs : Cli.Parsed) : IO UInt32 := do
+def runDocGen4Cmd (_args : Cli.Parsed) : IO UInt32 := do
 
   IO.eprintln "Error: Standalone doc-gen4 mode is not supported in v4.29.0+"
   IO.eprintln "Please use the unified command instead: docvb unified"
