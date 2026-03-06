@@ -1438,10 +1438,11 @@ def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
   -- Determine doc-gen4 reference based on project toolchain:
   -- - Use the version tag that matches the project's Lean toolchain (e.g., v4.28.0 for Lean 4.28.0)
   -- - This avoids conflicts when the project already has doc-gen4 as a dependency
-  -- - For Lean >= 4.27.0: doc-gen4 releases include PR #341 (custom source linker) and #344 (decorator support)
+  -- - For Lean >= 4.29.0: doc-gen4 migrated to database-based API (DocGen4.DB module)
+  -- - For Lean < 4.29.0: Use UnifiedBasic.lean for compatibility (no DB dependency)
   -- - Fall back to "main" only if we can't determine a specific version
   let useDecoratorSupport := match parseVersion tcCheck.projectToolchain with
-    | some ver => versionGe ver (4, 27, 0)
+    | some ver => versionGe ver (4, 29, 0)
     | none => false
   let docgen4Ref := if tcCheck.docgen4Tag.isEmpty then "main" else tcCheck.docgen4Tag
 
@@ -1450,9 +1451,10 @@ def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
   --   - Experiments.lean (the pipeline itself, not needed in docvb)
   --   - SourceLinkerCompatStandard.lean (deprecated stub, no longer needed)
   --   - VerificationDecoratorStandard.lean (deprecated stub, no longer needed)
-  -- For older toolchains (< 4.27.0), also exclude:
-  --   - VerificationDecorator.lean (requires PR #344 DeclarationDecoratorFn)
-  --   - SourceLinkerCompat.lean (requires PR #341 SourceLinkerFn 4-arg API)
+  -- For older toolchains (< 4.29.0), also exclude:
+  --   - Unified.lean (requires DocGen4.DB from database migration in v4.29.0)
+  --   - SourceLinkerCompat.lean (requires doc-gen4 v4.29.0+ API)
+  --   - VerificationDecorator.lean (requires doc-gen4 v4.29.0+ decorator support)
   let dvbSrcDir := docvbDir / "DocVerificationBridge"
   IO.FS.createDirAll dvbSrcDir
 
