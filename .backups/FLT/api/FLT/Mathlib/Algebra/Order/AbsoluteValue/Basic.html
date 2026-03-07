@@ -1,0 +1,262 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../../../.././style.css"></link><link rel="icon" href="../../../../.././favicon.svg"></link><link rel="mask-icon" href="../../../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../../../.././/declarations/declaration-data.bmp" as="image"></link><title>FLT.Mathlib.Algebra.Order.AbsoluteValue.Basic</title><script defer="true" src="../../../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../../../.././";</script><script>const MODULE_NAME="FLT.Mathlib.Algebra.Order.AbsoluteValue.Basic";</script><script type="module" src="../../../../.././jump-src.js"></script><script type="module" src="../../../../.././search.js"></script><script type="module" src="../../../../.././expand-nav.js"></script><script type="module" src="../../../../.././how-about.js"></script><script type="module" src="../../../../.././instances.js"></script><script type="module" src="../../../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">FLT</span>.<span class="name">Mathlib</span>.<span class="name">Algebra</span>.<span class="name">Order</span>.<span class="name">AbsoluteValue</span>.<span class="name">Basic</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/Order/AbsoluteValue/Basic.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../../../.././Init.html">Init</a></li><li><a href="../../../../.././Mathlib/Tactic/Linarith.html">Mathlib.Tactic.Linarith</a></li><li><a href="../../../../.././Mathlib/Tactic/Ring/Basic.html">Mathlib.Tactic.Ring.Basic</a></li><li><a href="../../../../.././Mathlib/Algebra/Order/AbsoluteValue/Basic.html">Mathlib.Algebra.Order.AbsoluteValue.Basic</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-FLT.Mathlib.Algebra.Order.AbsoluteValue.Basic" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#AbsoluteValue.inv_pos"><span class="name">AbsoluteValue</span>.<span class="name">inv_pos</span></a></div><div class="nav_link"><a class="break_within" href="#AbsoluteValue.ne_zero_of_lt_one"><span class="name">AbsoluteValue</span>.<span class="name">ne_zero_of_lt_one</span></a></div><div class="nav_link"><a class="break_within" href="#AbsoluteValue.isNontrivial_iff_exists_abv_gt_one"><span class="name">AbsoluteValue</span>.<span class="name">isNontrivial_iff_exists_abv_gt_one</span></a></div><div class="nav_link"><a class="break_within" href="#AbsoluteValue.inv_lt_one_iff"><span class="name">AbsoluteValue</span>.<span class="name">inv_lt_one_iff</span></a></div><div class="nav_link"><a class="break_within" href="#AbsoluteValue.mul_one_div_lt_iff"><span class="name">AbsoluteValue</span>.<span class="name">mul_one_div_lt_iff</span></a></div><div class="nav_link"><a class="break_within" href="#AbsoluteValue.mul_one_div_pow_lt_iff"><span class="name">AbsoluteValue</span>.<span class="name">mul_one_div_pow_lt_iff</span></a></div><div class="nav_link"><a class="break_within" href="#AbsoluteValue.one_lt_of_lt_one"><span class="name">AbsoluteValue</span>.<span class="name">one_lt_of_lt_one</span></a></div><div class="nav_link"><a class="break_within" href="#AbsoluteValue.one_lt_iff_of_lt_one_iff"><span class="name">AbsoluteValue</span>.<span class="name">one_lt_iff_of_lt_one_iff</span></a></div><div class="nav_link"><a class="break_within" href="#AbsoluteValue.eq_one_of_lt_one_iff"><span class="name">AbsoluteValue</span>.<span class="name">eq_one_of_lt_one_iff</span></a></div><div class="nav_link"><a class="break_within" href="#AbsoluteValue.eq_one_iff_of_lt_one_iff"><span class="name">AbsoluteValue</span>.<span class="name">eq_one_iff_of_lt_one_iff</span></a></div><div class="nav_link"><a class="break_within" href="#AbsoluteValue.pos_of_pos"><span class="name">AbsoluteValue</span>.<span class="name">pos_of_pos</span></a></div><div class="nav_link"><a class="break_within" href="#AbsoluteValue.one_add_pow_le"><span class="name">AbsoluteValue</span>.<span class="name">one_add_pow_le</span></a></div><div class="nav_link"><a class="break_within" href="#AbsoluteValue.one_sub_pow_le"><span class="name">AbsoluteValue</span>.<span class="name">one_sub_pow_le</span></a></div></nav><main>
+<div class="decl" id="AbsoluteValue.inv_pos"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/Order/AbsoluteValue/Basic.lean#L10-L11">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue.inv_pos"><span class="name">AbsoluteValue</span>.<span class="name">inv_pos</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Order/Defs/LinearOrder.html#LinearOrder">LinearOrder</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><a href="../../../../.././Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue">AbsoluteValue</a> <span class="fn">F</span> <span class="fn">S</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Order/Ring/Defs.html#IsStrictOrderedRing">IsStrictOrderedRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">F</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn">0</span> <a href="../../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn"><span class="fn">v</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">0</span> <a href="../../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn"><span class="fn">v</span> <span class="fn">x</span><a href="../../../../.././Init/Prelude.html#Inv.inv">⁻¹</a></span></div></div></div></div><div class="decl" id="AbsoluteValue.ne_zero_of_lt_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/Order/AbsoluteValue/Basic.lean#L13-L15">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue.ne_zero_of_lt_one"><span class="name">AbsoluteValue</span>.<span class="name">ne_zero_of_lt_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Order/Defs/LinearOrder.html#LinearOrder">LinearOrder</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Order/Ring/Defs.html#IsStrictOrderedRing">IsStrictOrderedRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><a href="../../../../.././Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue">AbsoluteValue</a> <span class="fn">F</span> <span class="fn">S</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">F</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hv</span> : <span class="fn">1</span> <a href="../../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn"><span class="fn">v</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">x</span> <a href="../../../../.././Init/Core.html#Ne">≠</a> <span class="fn">0</span></div></div></div></div><div class="decl" id="AbsoluteValue.isNontrivial_iff_exists_abv_gt_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/Order/AbsoluteValue/Basic.lean#L17-L23">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue.isNontrivial_iff_exists_abv_gt_one"><span class="name">AbsoluteValue</span>.<span class="name">isNontrivial_iff_exists_abv_gt_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Order/Defs/LinearOrder.html#LinearOrder">LinearOrder</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Order/Ring/Defs.html#IsStrictOrderedRing">IsStrictOrderedRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><a href="../../../../.././Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue">AbsoluteValue</a> <span class="fn">F</span> <span class="fn">S</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">v</span>.<a href="../../../../.././Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue.IsNontrivial">IsNontrivial</a></span> <a href="../../../../.././Init/Core.html#Iff">↔</a> <span class="fn">∃ (<span class="fn">x</span> : <span class="fn">F</span>), <span class="fn">1</span> <a href="../../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn"><span class="fn">v</span> <span class="fn">x</span></span></span></div></div></div></div><div class="decl" id="AbsoluteValue.inv_lt_one_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/Order/AbsoluteValue/Basic.lean#L26-L27">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue.inv_lt_one_iff"><span class="name">AbsoluteValue</span>.<span class="name">inv_lt_one_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Order/Defs/LinearOrder.html#LinearOrder">LinearOrder</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><a href="../../../../.././Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue">AbsoluteValue</a> <span class="fn">F</span> <span class="fn">S</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Order/Ring/Defs.html#IsStrictOrderedRing">IsStrictOrderedRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">F</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">v</span> <span class="fn">x</span><a href="../../../../.././Init/Prelude.html#Inv.inv">⁻¹</a></span> <a href="../../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">1</span> <a href="../../../../.././Init/Core.html#Iff">↔</a> <span class="fn">x</span> <a href="../../../../.././Init/Prelude.html#Eq">=</a> <span class="fn">0</span> <a href="../../../../.././Init/Prelude.html#Or">∨</a> <span class="fn">1</span> <a href="../../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn"><span class="fn">v</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="AbsoluteValue.mul_one_div_lt_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/Order/AbsoluteValue/Basic.lean#L29-L31">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue.mul_one_div_lt_iff"><span class="name">AbsoluteValue</span>.<span class="name">mul_one_div_lt_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Order/Defs/LinearOrder.html#LinearOrder">LinearOrder</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><a href="../../../../.././Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue">AbsoluteValue</a> <span class="fn">F</span> <span class="fn">S</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Order/Ring/Defs.html#IsStrictOrderedRing">IsStrictOrderedRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">y</span> : <span class="fn">F</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">F</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn">0</span> <a href="../../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn"><span class="fn">v</span> <span class="fn">y</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">v</span> (<span class="fn">x</span> <a href="../../../../.././Init/Prelude.html#HMul.hMul">*</a> (<span class="fn">1</span> <a href="../../../../.././Init/Prelude.html#HDiv.hDiv">/</a> <span class="fn">y</span>))</span> <a href="../../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">1</span> <a href="../../../../.././Init/Core.html#Iff">↔</a> <span class="fn"><span class="fn">v</span> <span class="fn">x</span></span> <a href="../../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn"><span class="fn">v</span> <span class="fn">y</span></span></div></div></div></div><div class="decl" id="AbsoluteValue.mul_one_div_pow_lt_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/Order/AbsoluteValue/Basic.lean#L33-L35">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue.mul_one_div_pow_lt_iff"><span class="name">AbsoluteValue</span>.<span class="name">mul_one_div_pow_lt_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Order/Defs/LinearOrder.html#LinearOrder">LinearOrder</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><a href="../../../../.././Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue">AbsoluteValue</a> <span class="fn">F</span> <span class="fn">S</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Order/Ring/Defs.html#IsStrictOrderedRing">IsStrictOrderedRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">y</span> : <span class="fn">F</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">F</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn">0</span> <a href="../../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn"><span class="fn">v</span> <span class="fn">y</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">v</span> (<span class="fn">x</span> <a href="../../../../.././Init/Prelude.html#HMul.hMul">*</a> (<span class="fn">1</span> <a href="../../../../.././Init/Prelude.html#HDiv.hDiv">/</a> <span class="fn">y</span> <a href="../../../../.././Init/Prelude.html#HPow.hPow">^</a> <span class="fn">n</span>))</span> <a href="../../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">1</span> <a href="../../../../.././Init/Core.html#Iff">↔</a> <span class="fn"><span class="fn">v</span> <span class="fn">x</span></span> <a href="../../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn"><span class="fn">v</span> <span class="fn">y</span></span> <a href="../../../../.././Init/Prelude.html#HPow.hPow">^</a> <span class="fn">n</span></div></div></div></div><div class="decl" id="AbsoluteValue.one_lt_of_lt_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/Order/AbsoluteValue/Basic.lean#L37-L39">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue.one_lt_of_lt_one"><span class="name">AbsoluteValue</span>.<span class="name">one_lt_of_lt_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Order/Defs/LinearOrder.html#LinearOrder">LinearOrder</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v </span><span class="fn">w</span> : <span class="fn"><a href="../../../../.././Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue">AbsoluteValue</a> <span class="fn">F</span> <span class="fn">S</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Order/Ring/Defs.html#IsStrictOrderedRing">IsStrictOrderedRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn">∀ (<span class="fn">x</span> : <span class="fn">F</span>), <span class="fn"><span class="fn"><span class="fn">v</span> <span class="fn">x</span></span> <a href="../../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">1</span> → <span class="fn"><span class="fn">w</span> <span class="fn">x</span></span> <a href="../../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">1</span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">F</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hv</span> : <span class="fn">1</span> <a href="../../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn"><span class="fn">v</span> <span class="fn">x</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">1</span> <a href="../../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn"><span class="fn">w</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="AbsoluteValue.one_lt_iff_of_lt_one_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/Order/AbsoluteValue/Basic.lean#L41-L43">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue.one_lt_iff_of_lt_one_iff"><span class="name">AbsoluteValue</span>.<span class="name">one_lt_iff_of_lt_one_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Order/Defs/LinearOrder.html#LinearOrder">LinearOrder</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v </span><span class="fn">w</span> : <span class="fn"><a href="../../../../.././Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue">AbsoluteValue</a> <span class="fn">F</span> <span class="fn">S</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Order/Ring/Defs.html#IsStrictOrderedRing">IsStrictOrderedRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn">∀ (<span class="fn">x</span> : <span class="fn">F</span>), <span class="fn"><span class="fn">v</span> <span class="fn">x</span></span> <a href="../../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">1</span> <a href="../../../../.././Init/Core.html#Iff">↔</a> <span class="fn"><span class="fn">w</span> <span class="fn">x</span></span> <a href="../../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">1</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">F</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">1</span> <a href="../../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn"><span class="fn">v</span> <span class="fn">x</span></span> <a href="../../../../.././Init/Core.html#Iff">↔</a> <span class="fn">1</span> <a href="../../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn"><span class="fn">w</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="AbsoluteValue.eq_one_of_lt_one_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/Order/AbsoluteValue/Basic.lean#L45-L48">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue.eq_one_of_lt_one_iff"><span class="name">AbsoluteValue</span>.<span class="name">eq_one_of_lt_one_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Order/Defs/LinearOrder.html#LinearOrder">LinearOrder</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v </span><span class="fn">w</span> : <span class="fn"><a href="../../../../.././Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue">AbsoluteValue</a> <span class="fn">F</span> <span class="fn">S</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Order/Ring/Defs.html#IsStrictOrderedRing">IsStrictOrderedRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn">∀ (<span class="fn">x</span> : <span class="fn">F</span>), <span class="fn"><span class="fn">v</span> <span class="fn">x</span></span> <a href="../../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">1</span> <a href="../../../../.././Init/Core.html#Iff">↔</a> <span class="fn"><span class="fn">w</span> <span class="fn">x</span></span> <a href="../../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">1</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">F</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hv</span> : <span class="fn"><span class="fn">v</span> <span class="fn">x</span></span> <a href="../../../../.././Init/Prelude.html#Eq">=</a> <span class="fn">1</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">w</span> <span class="fn">x</span></span> <a href="../../../../.././Init/Prelude.html#Eq">=</a> <span class="fn">1</span></div></div></div></div><div class="decl" id="AbsoluteValue.eq_one_iff_of_lt_one_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/Order/AbsoluteValue/Basic.lean#L50-L51">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue.eq_one_iff_of_lt_one_iff"><span class="name">AbsoluteValue</span>.<span class="name">eq_one_iff_of_lt_one_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Order/Defs/LinearOrder.html#LinearOrder">LinearOrder</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v </span><span class="fn">w</span> : <span class="fn"><a href="../../../../.././Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue">AbsoluteValue</a> <span class="fn">F</span> <span class="fn">S</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Order/Ring/Defs.html#IsStrictOrderedRing">IsStrictOrderedRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn">∀ (<span class="fn">x</span> : <span class="fn">F</span>), <span class="fn"><span class="fn">v</span> <span class="fn">x</span></span> <a href="../../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">1</span> <a href="../../../../.././Init/Core.html#Iff">↔</a> <span class="fn"><span class="fn">w</span> <span class="fn">x</span></span> <a href="../../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">1</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">F</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">v</span> <span class="fn">x</span></span> <a href="../../../../.././Init/Prelude.html#Eq">=</a> <span class="fn">1</span> <a href="../../../../.././Init/Core.html#Iff">↔</a> <span class="fn"><span class="fn">w</span> <span class="fn">x</span></span> <a href="../../../../.././Init/Prelude.html#Eq">=</a> <span class="fn">1</span></div></div></div></div><div class="decl" id="AbsoluteValue.pos_of_pos"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/Order/AbsoluteValue/Basic.lean#L56-L57">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue.pos_of_pos"><span class="name">AbsoluteValue</span>.<span class="name">pos_of_pos</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Order/Defs/LinearOrder.html#LinearOrder">LinearOrder</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><a href="../../../../.././Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue">AbsoluteValue</a> <span class="fn">F</span> <span class="fn">S</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">w</span> : <span class="fn"><a href="../../../../.././Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue">AbsoluteValue</a> <span class="fn">F</span> <span class="fn">S</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">F</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hv</span> : <span class="fn">0</span> <a href="../../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn"><span class="fn">v</span> <span class="fn">a</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">0</span> <a href="../../../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn"><span class="fn">w</span> <span class="fn">a</span></span></div></div></div></div><div class="decl" id="AbsoluteValue.one_add_pow_le"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/Order/AbsoluteValue/Basic.lean#L62-L63">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue.one_add_pow_le"><span class="name">AbsoluteValue</span>.<span class="name">one_add_pow_le</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">v</span> : <span class="fn"><a href="../../../../.././Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue">AbsoluteValue</a> <span class="fn">R</span> <span class="fn">S</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/Defs.html#IsDomain">IsDomain</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Logic/Nontrivial/Defs.html#Nontrivial">Nontrivial</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">R</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../../../../.././Init/Prelude.html#Nat">ℕ</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">v</span> (<span class="fn">1</span> <a href="../../../../.././Init/Prelude.html#HAdd.hAdd">+</a> <span class="fn">a</span> <a href="../../../../.././Init/Prelude.html#HPow.hPow">^</a> <span class="fn">n</span>)</span> <a href="../../../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn">1</span> <a href="../../../../.././Init/Prelude.html#HAdd.hAdd">+</a> <span class="fn"><span class="fn">v</span> <span class="fn">a</span></span> <a href="../../../../.././Init/Prelude.html#HPow.hPow">^</a> <span class="fn">n</span></div></div></div></div><div class="decl" id="AbsoluteValue.one_sub_pow_le"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/Algebra/Order/AbsoluteValue/Basic.lean#L68-L69">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././FLT/Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue.one_sub_pow_le"><span class="name">AbsoluteValue</span>.<span class="name">one_sub_pow_le</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Order/Defs/PartialOrder.html#PartialOrder">PartialOrder</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Order/Ring/Defs.html#IsOrderedRing">IsOrderedRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">v</span> : <span class="fn"><a href="../../../../.././Mathlib/Algebra/Order/AbsoluteValue/Basic.html#AbsoluteValue">AbsoluteValue</a> <span class="fn">R</span> <span class="fn">S</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/GroupWithZero/Defs.html#NoZeroDivisors">NoZeroDivisors</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Algebra/Ring/Defs.html#IsDomain">IsDomain</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././Mathlib/Logic/Nontrivial/Defs.html#Nontrivial">Nontrivial</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">R</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../../../../.././Init/Prelude.html#Nat">ℕ</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">1</span> <a href="../../../../.././Init/Prelude.html#HSub.hSub">-</a> <span class="fn"><span class="fn">v</span> <span class="fn">a</span></span> <a href="../../../../.././Init/Prelude.html#HPow.hPow">^</a> <span class="fn">n</span> <a href="../../../../.././Init/Prelude.html#LE.le">≤</a> <span class="fn"><span class="fn">v</span> (<span class="fn">1</span> <a href="../../../../.././Init/Prelude.html#HAdd.hAdd">+</a> <span class="fn">a</span> <a href="../../../../.././Init/Prelude.html#HPow.hPow">^</a> <span class="fn">n</span>)</span></div></div></div></div></main>
+<nav class="nav"><iframe src="../../../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

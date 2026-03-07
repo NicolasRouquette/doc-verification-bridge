@@ -1,0 +1,66 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../.././style.css"></link><link rel="icon" href="../../.././favicon.svg"></link><link rel="mask-icon" href="../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../.././/declarations/declaration-data.bmp" as="image"></link><title>PhysLean.Thermodynamics.IdealGas.Basic</title><script defer="true" src="../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../.././";</script><script>const MODULE_NAME="PhysLean.Thermodynamics.IdealGas.Basic";</script><script type="module" src="../../.././jump-src.js"></script><script type="module" src="../../.././search.js"></script><script type="module" src="../../.././expand-nav.js"></script><script type="module" src="../../.././how-about.js"></script><script type="module" src="../../.././instances.js"></script><script type="module" src="../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">PhysLean</span>.<span class="name">Thermodynamics</span>.<span class="name">IdealGas</span>.<span class="name">Basic</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/HEPLean/PhysLean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../.././Init.html">Init</a></li><li><a href="../../.././Mathlib/Analysis/SpecialFunctions/Pow/Real.html">Mathlib.Analysis.SpecialFunctions.Pow.Real</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-PhysLean.Thermodynamics.IdealGas.Basic" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#entropy"><span class="name">entropy</span></a></div><div class="nav_link"><a class="break_within" href="#adiabatic_relation_log"><span class="name">adiabatic_relation_log</span></a></div><div class="nav_link"><a class="break_within" href="#adiabatic_relation_UaUbVaVb"><span class="name">adiabatic_relation_UaUbVaVb</span></a></div></nav><main>
+<div class="mod_doc"><h1 class="markdown-heading" id="Ideal-gas-basic-entropy-and-adiabatic-relations">Ideal gas: basic entropy and adiabatic relations <a class="hover-link" href="#Ideal-gas-basic-entropy-and-adiabatic-relations">#</a></h1><p>In this module we formalize a simple thermodynamic model of a monophase
+ideal gas. We:</p><ul>
+<li><p>Define the entropy
+S(U,V,N) = N s₀ + N R (c \log(U/U₀) + \log(V/V₀) - (c+1)\log(N/N₀)),</p>
+</li>
+<li><p>Prove equivalent formulations of the adiabatic relation for two states
+(U_a, V_a) and (U_b, V_b) at fixed N:</p>
+<ol>
+<li>c \log(U_a/U_b) + \log(V_a/V_b) = 0,</li>
+<li>(U_a/U_b)^c (V_a/V_b) = 1,</li>
+<li>U_a^c V_a = U_b^c V_b (the latter follows from (2)).</li>
+</ol>
+</li>
+</ul></div><div class="decl" id="entropy"><div class="def"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L28-L36">source</a></div><div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Thermodynamics/IdealGas/Basic.html#entropy"><span class="name">entropy</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">c </span><span class="fn">R </span><span class="fn">s0 </span><span class="fn">U0 </span><span class="fn">V0 </span><span class="fn">N0 </span><span class="fn">U </span><span class="fn">V </span><span class="fn">N</span> : <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a></div></div><p>Entropy of a monophase ideal gas:
+S(U,V,N) = N s0 + N R (c log(U/U0) + log(V/V0) - (c+1) log(N/N0)).</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-entropy" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="adiabatic_relation_log"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L38-L162">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Thermodynamics/IdealGas/Basic.html#adiabatic_relation_log"><span class="name">adiabatic_relation_log</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s0 </span><span class="fn">U0 </span><span class="fn">V0 </span><span class="fn">N0 </span><span class="fn">c </span><span class="fn">R </span><span class="fn">Ua </span><span class="fn">Ub </span><span class="fn">Va </span><span class="fn">Vb </span><span class="fn">N</span> : <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hUa</span> : <span class="fn">0</span> <a href="../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">Ua</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hUb</span> : <span class="fn">0</span> <a href="../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">Ub</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hVa</span> : <span class="fn">0</span> <a href="../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">Va</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hVb</span> : <span class="fn">0</span> <a href="../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">Vb</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hN</span> : <span class="fn">0</span> <a href="../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">N</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hU0</span> : <span class="fn">0</span> <a href="../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">U0</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hV0</span> : <span class="fn">0</span> <a href="../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">V0</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hR</span> : <span class="fn">0</span> <a href="../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">R</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hS</span> : <span class="fn"><a href="../../.././PhysLean/Thermodynamics/IdealGas/Basic.html#entropy">entropy</a> <span class="fn">c</span> <span class="fn">R</span> <span class="fn">s0</span> <span class="fn">U0</span> <span class="fn">V0</span> <span class="fn">N0</span> <span class="fn">Ua</span> <span class="fn">Va</span> <span class="fn">N</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../.././PhysLean/Thermodynamics/IdealGas/Basic.html#entropy">entropy</a> <span class="fn">c</span> <span class="fn">R</span> <span class="fn">s0</span> <span class="fn">U0</span> <span class="fn">V0</span> <span class="fn">N0</span> <span class="fn">Ub</span> <span class="fn">Vb</span> <span class="fn">N</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">c</span> <a href="../../.././Init/Prelude.html#HMul.hMul">*</a> <span class="fn"><a href="../../.././Mathlib/Analysis/SpecialFunctions/Log/Basic.html#Real.log">Real.log</a> (<span class="fn">Ua</span> <a href="../../.././Init/Prelude.html#HDiv.hDiv">/</a> <span class="fn">Ub</span>)</span> <a href="../../.././Init/Prelude.html#HAdd.hAdd">+</a> <span class="fn"><a href="../../.././Mathlib/Analysis/SpecialFunctions/Log/Basic.html#Real.log">Real.log</a> (<span class="fn">Va</span> <a href="../../.././Init/Prelude.html#HDiv.hDiv">/</a> <span class="fn">Vb</span>)</span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">0</span></div></div><p>Adiabatic relation in logarithmic form:
+If S(Ua,Va,N) = S(Ub,Vb,N) with N fixed,
+then c * log (Ua/Ub) + log (Va/Vb) = 0.</p></div></div><div class="decl" id="adiabatic_relation_UaUbVaVb"><div class="theorem"><div class="gh_link"><a href="https://github.com/HEPLean/PhysLean#L164-L212">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././PhysLean/Thermodynamics/IdealGas/Basic.html#adiabatic_relation_UaUbVaVb"><span class="name">adiabatic_relation_UaUbVaVb</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s0 </span><span class="fn">U0 </span><span class="fn">V0 </span><span class="fn">N0 </span><span class="fn">c </span><span class="fn">R </span><span class="fn">Ua </span><span class="fn">Ub </span><span class="fn">Va </span><span class="fn">Vb </span><span class="fn">N</span> : <a href="../../.././Mathlib/Data/Real/Basic.html#Real">ℝ</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hUa</span> : <span class="fn">0</span> <a href="../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">Ua</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hUb</span> : <span class="fn">0</span> <a href="../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">Ub</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hVa</span> : <span class="fn">0</span> <a href="../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">Va</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hVb</span> : <span class="fn">0</span> <a href="../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">Vb</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hN</span> : <span class="fn">0</span> <a href="../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">N</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hU0</span> : <span class="fn">0</span> <a href="../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">U0</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hV0</span> : <span class="fn">0</span> <a href="../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">V0</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hR</span> : <span class="fn">0</span> <a href="../../.././Init/Prelude.html#LT.lt">&lt;</a> <span class="fn">R</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hS</span> : <span class="fn"><a href="../../.././PhysLean/Thermodynamics/IdealGas/Basic.html#entropy">entropy</a> <span class="fn">c</span> <span class="fn">R</span> <span class="fn">s0</span> <span class="fn">U0</span> <span class="fn">V0</span> <span class="fn">N0</span> <span class="fn">Ua</span> <span class="fn">Va</span> <span class="fn">N</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../.././PhysLean/Thermodynamics/IdealGas/Basic.html#entropy">entropy</a> <span class="fn">c</span> <span class="fn">R</span> <span class="fn">s0</span> <span class="fn">U0</span> <span class="fn">V0</span> <span class="fn">N0</span> <span class="fn">Ub</span> <span class="fn">Vb</span> <span class="fn">N</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<span class="fn">Ua</span> <a href="../../.././Init/Prelude.html#HDiv.hDiv">/</a> <span class="fn">Ub</span>).<a href="../../.././Mathlib/Analysis/SpecialFunctions/Pow/Real.html#Real.rpow">rpow</a></span> <span class="fn">c</span></span> <a href="../../.././Init/Prelude.html#HMul.hMul">*</a> (<span class="fn">Va</span> <a href="../../.././Init/Prelude.html#HDiv.hDiv">/</a> <span class="fn">Vb</span>) <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">1</span></div></div><p>Adiabatic relation in product form:
+If S(Ua,Va,N) = S(Ub,Vb,N) with N fixed,
+then (Ua/Ub)^c * (Va/Vb) = 1.</p></div></div></main>
+<nav class="nav"><iframe src="../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>
