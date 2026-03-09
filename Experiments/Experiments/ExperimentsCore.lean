@@ -1375,7 +1375,22 @@ def cloneDocVerificationBridgeImpl (repoUrl : String) (targetDir : FilePath) (ve
     IO.eprintln s!"[DocVB] Error: Failed to checkout version '{version}': {stderr}"
     return false
 
-  IO.println s!"[DocVB] Successfully checked out version: {version}"
+  -- Fast-forward to latest fetched commits (needed when version is a branch name).
+  -- For detached HEAD (tags/SHAs) this will fail harmlessly.
+  let pullResult ← IO.Process.spawn {
+    cmd := "git"
+    args := #["pull", "--ff-only"]
+    cwd := targetDir
+    stdout := .piped
+    stderr := .piped
+  }
+  let pullExitCode ← pullResult.wait
+  if pullExitCode == 0 then
+    IO.println s!"[DocVB] Fast-forwarded to latest '{version}'"
+  else
+    -- Expected for tags/SHAs (detached HEAD) — not an error
+    IO.println s!"[DocVB] Checked out '{version}' (not a branch, skip pull)"
+
   return true
 
 /-- Clone or update DocVerificationBridge repository to a specific version.
