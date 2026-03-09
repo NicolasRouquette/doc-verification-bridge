@@ -122,23 +122,31 @@ def apiMetaToTheoremReference (name : Name) (apiMeta : APIMeta) : TheoremReferen
       bridgingDirection := none
     }
 
-/-- Convert APIMeta for a definition to a DefinitionTableEntry -/
-def apiMetaToDefinitionEntry (name : Name) (apiMeta : APIMeta) (allEntries : NameMap APIMeta) : DefinitionTableEntry :=
-  -- Compute verifiedBy dynamically by scanning all theorems
-  -- A theorem verifies this definition if it appears in the theorem's proves or validates fields
-  let verifiedBy := allEntries.toList.filterMap fun (thmName, thmMeta) =>
+/-- Pre-compute the reverse index: for each definition, which theorems verify it.
+    This is O(n) over all entries, replacing the previous O(defs × total) scan. -/
+def computeVerifiedByMap (allEntries : NameMap APIMeta) : Std.HashMap Name (Array TheoremReference) := Id.run do
+  let mut result : Std.HashMap Name (Array TheoremReference) := {}
+  let entriesArray := allEntries.foldl (init := #[]) fun acc name apiMeta => acc.push (name, apiMeta)
+  for (thmName, thmMeta) in entriesArray do
     match thmMeta.kind with
     | .apiTheorem thmData =>
-      -- Check if this theorem proves or validates this definition
-      if thmData.proves.contains name || thmData.validates.contains name then
-        some (apiMetaToTheoremReference thmName thmMeta)
-      else
-        none
-    | _ => none
+      let ref := apiMetaToTheoremReference thmName thmMeta
+      for defName in thmData.proves do
+        let existing := result.getD defName #[]
+        result := result.insert defName (existing.push ref)
+      for defName in thmData.validates do
+        let existing := result.getD defName #[]
+        result := result.insert defName (existing.push ref)
+    | _ => pure ()
+  return result
+
+/-- Convert APIMeta for a definition to a DefinitionTableEntry -/
+def apiMetaToDefinitionEntry (name : Name) (apiMeta : APIMeta)
+    (verifiedByMap : Std.HashMap Name (Array TheoremReference)) : DefinitionTableEntry :=
   {
     name := name
     category := apiMeta.categoryString
-    verifiedBy := verifiedBy.toArray
+    verifiedBy := verifiedByMap.getD name #[]
     hasSorry := apiMeta.hasSorry
     isPrivate := isPrivateName name
   }
@@ -173,15 +181,10 @@ def apiMetaToTheoremEntry (name : Name) (apiMeta : APIMeta) : TheoremTableEntry 
       isPrivate := isPrivateName name
     }
 
-/-- Extract table data for a specific module from the complete metadata -/
-def extractModuleTableData (moduleName : Name) (allEntries : NameMap APIMeta) : ModuleTableData :=
-  -- Filter declarations that belong to this module
-  let moduleDecls := allEntries.toList.foldl (init := #[]) fun acc (name, apiMeta) =>
-    if apiMeta.module == moduleName then
-      acc.push (name, apiMeta)
-    else
-      acc
-
+/-- Extract table data for a pre-grouped module (entries already filtered) -/
+def extractModuleTableDataFromGroup (moduleName : Name)
+    (moduleDecls : Array (Name × APIMeta))
+    (verifiedByMap : Std.HashMap Name (Array TheoremReference)) : ModuleTableData :=
   -- Separate into definitions and theorems
   let (defs, thms) := moduleDecls.foldl (init := (#[], #[])) fun (defAcc, thmAcc) (name, apiMeta) =>
     match apiMeta.kind with
@@ -192,7 +195,7 @@ def extractModuleTableData (moduleName : Name) (allEntries : NameMap APIMeta) : 
 
   -- Convert to table entries
   let defEntries := defs.map fun (name, apiMeta) =>
-    apiMetaToDefinitionEntry name apiMeta allEntries
+    apiMetaToDefinitionEntry name apiMeta verifiedByMap
 
   let thmEntries := thms.map fun (name, apiMeta) =>
     apiMetaToTheoremEntry name apiMeta
@@ -203,23 +206,32 @@ def extractModuleTableData (moduleName : Name) (allEntries : NameMap APIMeta) : 
     theorems := thmEntries
   }
 
-/-- Extract table data for all modules -/
-def extractAllModuleTableData (allEntries : NameMap APIMeta) : Array ModuleTableData :=
-  -- Get unique module names
-  let modules := allEntries.toList.foldl (init := (∅ : Std.HashSet Name)) fun acc (_, apiMeta) =>
-    acc.insert apiMeta.module
+/-- Extract table data for all modules.
+    Groups entries by module in a single pass using HashMap, and pre-computes
+    the verifiedBy reverse index once. O(n) overall instead of O(modules × n). -/
+def extractAllModuleTableData (allEntries : NameMap APIMeta) : Array ModuleTableData := Id.run do
+  -- Pre-compute the verifiedBy reverse index once
+  let verifiedByMap := computeVerifiedByMap allEntries
 
-  -- Extract table data for each module
-  modules.fold (init := #[]) fun acc moduleName =>
-    acc.push (extractModuleTableData moduleName allEntries)
+  -- Group entries by module in a single pass
+  let mut moduleGroups : Std.HashMap Name (Array (Name × APIMeta)) := {}
+  let entriesArray := allEntries.foldl (init := #[]) fun acc name apiMeta => acc.push (name, apiMeta)
+  for (name, apiMeta) in entriesArray do
+    let existing := moduleGroups.getD apiMeta.module #[]
+    moduleGroups := moduleGroups.insert apiMeta.module (existing.push (name, apiMeta))
+
+  -- Build ModuleTableData for each module from pre-grouped entries
+  let mut result : Array ModuleTableData := #[]
+  for (moduleName, moduleDecls) in moduleGroups.toArray do
+    result := result.push (extractModuleTableDataFromGroup moduleName moduleDecls verifiedByMap)
+  return result
 
 /-! ## JSON File I/O -/
 
 /-- Save module table data to a JSON file -/
 def ModuleTableData.saveToFile (data : ModuleTableData) (path : System.FilePath) : IO Unit := do
   let json := toJson data
-  let jsonStr := toString json
-  IO.FS.writeFile path jsonStr
+  IO.FS.writeFile path json.compress
 
 /-- Load module table data from a JSON file -/
 def ModuleTableData.loadFromFile (path : System.FilePath) : IO ModuleTableData := do
@@ -232,21 +244,17 @@ def ModuleTableData.loadFromFile (path : System.FilePath) : IO ModuleTableData :
     | .ok data => pure data
 
 /-- Save all module table data to a directory (one JSON file per module) -/
-def saveAllModuleTableData (allEntries : NameMap APIMeta) (outputDir : System.FilePath) : IO Unit := do
+def saveAllModuleTableData (allModuleData : Array ModuleTableData) (outputDir : System.FilePath) : IO Unit := do
   IO.FS.createDirAll outputDir
-  let allModuleData := extractAllModuleTableData allEntries
   for moduleData in allModuleData do
     let filename := moduleData.moduleName.toString.replace "." "_" ++ ".json"
     let filepath := outputDir / filename
     moduleData.saveToFile filepath
-    IO.println s!"Saved table data for {moduleData.moduleName} to {filepath}"
 
 /-- Save a single combined JSON file with all module data -/
-def saveAllModuleTableDataCombined (allEntries : NameMap APIMeta) (outputFile : System.FilePath) : IO Unit := do
-  let allModuleData := extractAllModuleTableData allEntries
+def saveAllModuleTableDataCombined (allModuleData : Array ModuleTableData) (outputFile : System.FilePath) : IO Unit := do
   let json := toJson allModuleData
-  let jsonStr := toString json
-  IO.FS.writeFile outputFile jsonStr
+  IO.FS.writeFile outputFile json.compress
   IO.println s!"Saved combined table data for {allModuleData.size} modules to {outputFile}"
 
 end DocVerificationBridge.TableData

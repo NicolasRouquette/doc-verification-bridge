@@ -1370,12 +1370,12 @@ def generateStaticSite (cfg : StaticHtmlConfig)
   let searchIndex := generateSearchIndex entries
   IO.FS.writeFile (cfg.outputDir / "declarations.json") searchIndex
 
-  -- Export table data as JSON
+  -- Export table data as JSON (extract once, save twice)
   IO.println s!"  Exporting module table data..."
+  let allModuleTableData := TableData.extractAllModuleTableData entries
   let tableDataDir := cfg.outputDir / "table-data"
-  TableData.saveAllModuleTableData entries tableDataDir
-  -- Also save combined file for convenience
-  TableData.saveAllModuleTableDataCombined entries (cfg.outputDir / "table-data.json")
+  TableData.saveAllModuleTableData allModuleTableData tableDataDir
+  TableData.saveAllModuleTableDataCombined allModuleTableData (cfg.outputDir / "table-data.json")
 
   -- Generate module index
   let moduleIndexHtml := runBaseHtmlM (generateModuleIndexPage moduleReports cfg) cfg.outputDir
