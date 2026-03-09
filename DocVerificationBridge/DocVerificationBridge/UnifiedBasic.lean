@@ -8,6 +8,7 @@ import DocGen4.Load
 import DocGen4.Output
 import DocGen4.Process.Analyze
 import DocGen4.Process.Hierarchy
+import DocVerificationBridge.Cache
 import DocVerificationBridge.Classify
 import DocVerificationBridge.Report
 import DocVerificationBridge.StaticHtml
@@ -172,8 +173,7 @@ def loadAndAnalyze (cfg : UnifiedConfig) (modules : Array Name) : IO UnifiedResu
     AnalyzeTask.analyzePrefixModules modules[0]!
   else
     AnalyzeTask.analyzeConcreteModules modules
-  let (analyzerResult, _) ← Meta.MetaM.toIO (process task) defaultMetaConfig { env := env } {} {}
-  let hierarchy := Hierarchy.fromArray analyzerResult.moduleNames
+  let ((analyzerResult, hierarchy), _) ← Meta.MetaM.toIO (process task) defaultMetaConfig { env := env } {} {}
 
   IO.println s!"  Loaded {analyzerResult.moduleInfo.size} modules"
   (← IO.getStdout).flush
