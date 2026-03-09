@@ -118,7 +118,9 @@ def loadAndAnalyzeWithMode (cfg : UnifiedConfig) (modules : Array Name)
     DocGen4.Process.AnalyzeTask.analyzePrefixModules modules[0]!
   else
     DocGen4.Process.AnalyzeTask.analyzeConcreteModules modules
-  let ((analyzerResult, hierarchy), _) ← Meta.MetaM.toIO (DocGen4.Process.process task) defaultMetaConfig { env := env } {} {}
+  let (analyzerResult, _) ← Meta.MetaM.toIO (DocGen4.Process.process task) defaultMetaConfig { env := env } {} {}
+  -- Build hierarchy from module names
+  let hierarchy := DocGen4.Hierarchy.fromArray analyzerResult.moduleNames
 
   -- Use first module name as project identifier for logging
   let projectName := if modules.isEmpty then "unknown" else modules[0]!.toString

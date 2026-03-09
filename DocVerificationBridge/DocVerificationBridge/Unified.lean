@@ -177,7 +177,9 @@ def loadAndAnalyze (cfg : UnifiedConfig) (modules : Array Name) : IO UnifiedResu
     AnalyzeTask.analyzePrefixModules modules[0]!
   else
     AnalyzeTask.analyzeConcreteModules modules
-  let ((analyzerResult, hierarchy), _) ← Meta.MetaM.toIO (process task) defaultMetaConfig { env := env } {} {}
+  let (analyzerResult, _) ← Meta.MetaM.toIO (process task) defaultMetaConfig { env := env } {} {}
+  -- Build hierarchy from module names
+  let hierarchy := DocGen4.Hierarchy.fromArray analyzerResult.moduleNames
 
   IO.println s!"  Loaded {analyzerResult.moduleInfo.size} modules"
   (← IO.getStdout).flush

@@ -314,10 +314,7 @@ def saveClassification (entries : NameMap APIMeta) (projectName : String)
   let mut count := 0
   for (name, m) in entryArray do
     let json := apiMetaToJson name m
-    -- Use toString instead of compress for massive speedup with minimal size increase.
-    -- For Mathlib (287k entries): compress takes ~4 hours, toString takes ~2-5 minutes.
-    -- Size increase: ~10% (181MB → 199MB), which is acceptable for the time savings.
-    handle.putStrLn (toString json)
+    handle.putStrLn json.compress
     count := count + 1
     -- Flush periodically to avoid memory buildup
     if count % 10000 == 0 then
