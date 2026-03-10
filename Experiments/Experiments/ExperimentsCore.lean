@@ -1522,11 +1522,22 @@ def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
   -- Use the PROJECT's toolchain for docvb (enables cross-version compatibility)
   let toolchainSrc := projectDir / "lean-toolchain"
   let toolchainDst := docvbDir / "lean-toolchain"
-  if ← toolchainSrc.pathExists then
-    let content ← IO.FS.readFile toolchainSrc
-    IO.FS.writeFile toolchainDst content
+  let newToolchain ← if ← toolchainSrc.pathExists then
+    IO.FS.readFile toolchainSrc
   else
-    IO.FS.writeFile toolchainDst s!"leanprover/lean4:v{minSupportedVersion.1}.{minSupportedVersion.2.1}.{minSupportedVersion.2.2}\n"
+    pure s!"leanprover/lean4:v{minSupportedVersion.1}.{minSupportedVersion.2.1}.{minSupportedVersion.2.2}\n"
+  -- Detect if toolchain changed from a previous run — if so, clean stale build artifacts
+  -- to prevent "incompatible header" errors from olean version mismatch
+  let oldToolchain ← if ← toolchainDst.pathExists then
+    some <$> IO.FS.readFile toolchainDst
+  else
+    pure none
+  if oldToolchain.isSome && oldToolchain.get! != newToolchain then
+    IO.println s!"[{projectName}]       Toolchain changed ({oldToolchain.get!.trimCompat} → {newToolchain.trimCompat}), cleaning docvb build cache..."
+    let docvbLake := docvbDir / ".lake"
+    if ← docvbLake.pathExists then
+      removeDir docvbLake
+  IO.FS.writeFile toolchainDst newToolchain
 
   -- Detect main package name
   let mainPackage ← detectPackageName projectDir projectName
@@ -1607,10 +1618,18 @@ def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
     IO.FS.writeFile (docvbDir / "DocVerificationBridge.lean") rootContent
 
   -- Copy Main.lean (the executable entry point)
-  -- v4.28.0: UnifiedMain.lean at root, v4.29.0+: Main.lean in package dir
-  if ← (cacheDir / "UnifiedMain.lean").pathExists then
-    discard <| copyFileIfExists (cacheDir / "UnifiedMain.lean") (docvbDir / "Main.lean")
+  -- For older toolchains (< 4.29.0), use MainBasic.lean which has v4.28.0-compatible
+  -- process destructuring: ((analyzerResult, hierarchy), _) vs (analyzerResult, _)
+  if !useDecoratorSupport then
+    -- v4.28.0: use MainBasic.lean (AnalyzerResult × Hierarchy tuple)
+    if ← (dvbPackageDir / "MainBasic.lean").pathExists then
+      discard <| copyFileIfExists (dvbPackageDir / "MainBasic.lean") (docvbDir / "Main.lean")
+    else if ← (cacheDir / "UnifiedMain.lean").pathExists then
+      discard <| copyFileIfExists (cacheDir / "UnifiedMain.lean") (docvbDir / "Main.lean")
+    else
+      discard <| copyFileIfExists (dvbPackageDir / "Main.lean") (docvbDir / "Main.lean")
   else
+    -- v4.29.0+: use Main.lean (flat AnalyzerResult)
     discard <| copyFileIfExists (dvbPackageDir / "Main.lean") (docvbDir / "Main.lean")
 
   -- Create lakefile.lean (using .lean format for more flexibility)
