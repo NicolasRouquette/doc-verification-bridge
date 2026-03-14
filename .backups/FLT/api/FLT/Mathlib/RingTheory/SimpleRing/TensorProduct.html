@@ -1,0 +1,156 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../../.././style.css"></link><link rel="icon" href="../../../.././favicon.svg"></link><link rel="mask-icon" href="../../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../../.././/declarations/declaration-data.bmp" as="image"></link><title>FLT.Mathlib.RingTheory.SimpleRing.TensorProduct</title><script defer="true" src="../../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../../.././";</script><script>const MODULE_NAME="FLT.Mathlib.RingTheory.SimpleRing.TensorProduct";</script><script type="module" src="../../../.././jump-src.js"></script><script type="module" src="../../../.././search.js"></script><script type="module" src="../../../.././expand-nav.js"></script><script type="module" src="../../../.././how-about.js"></script><script type="module" src="../../../.././instances.js"></script><script type="module" src="../../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">FLT</span>.<span class="name">Mathlib</span>.<span class="name">RingTheory</span>.<span class="name">SimpleRing</span>.<span class="name">TensorProduct</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/RingTheory/SimpleRing/TensorProduct.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../../.././Init.html">Init</a></li><li><a href="../../../.././Mathlib/RingTheory/Henselian.html">Mathlib.RingTheory.Henselian</a></li><li><a href="../../../.././Mathlib/Algebra/Central/Basic.html">Mathlib.Algebra.Central.Basic</a></li><li><a href="../../../.././Mathlib/LinearAlgebra/Basis/VectorSpace.html">Mathlib.LinearAlgebra.Basis.VectorSpace</a></li><li><a href="../../../.././Mathlib/LinearAlgebra/Finsupp/LinearCombination.html">Mathlib.LinearAlgebra.Finsupp.LinearCombination</a></li><li><a href="../../../.././Mathlib/RingTheory/TwoSidedIdeal/Instances.html">Mathlib.RingTheory.TwoSidedIdeal.Instances</a></li><li><a href="../../../.././Mathlib/RingTheory/TwoSidedIdeal/Operations.html">Mathlib.RingTheory.TwoSidedIdeal.Operations</a></li><li><a href="../../../.././Mathlib/RingTheory/Flat/FaithfullyFlat/Basic.html">Mathlib.RingTheory.Flat.FaithfullyFlat.Basic</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-FLT.Mathlib.RingTheory.SimpleRing.TensorProduct" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#TwoSidedIdeal.span_eq_bot"><span class="name">TwoSidedIdeal</span>.<span class="name">span_eq_bot</span></a></div><div class="nav_link"><a class="break_within" href="#TwoSidedIdeal.span_singleton_eq_bot"><span class="name">TwoSidedIdeal</span>.<span class="name">span_singleton_eq_bot</span></a></div><div class="nav_link"><a class="break_within" href="#TwoSidedIdeal.map_bot"><span class="name">TwoSidedIdeal</span>.<span class="name">map_bot</span></a></div><div class="nav_link"><a class="break_within" href="#TwoSidedIdeal.mem_map_of_mem"><span class="name">TwoSidedIdeal</span>.<span class="name">mem_map_of_mem</span></a></div><div class="nav_link"><a class="break_within" href="#Submodule.mem_span_range_iff_exists"><span class="name">Submodule</span>.<span class="name">mem_span_range_iff_exists</span></a></div><div class="nav_link"><a class="break_within" href="#TwoSidedIdeal.eq_bot_of_map_comap_eq_bot"><span class="name">TwoSidedIdeal</span>.<span class="name">eq_bot_of_map_comap_eq_bot</span></a></div><div class="nav_link"><a class="break_within" href="#TensorProduct.map_comap_eq"><span class="name">TensorProduct</span>.<span class="name">map_comap_eq</span></a></div><div class="nav_link"><a class="break_within" href="#TensorProduct.simple"><span class="name">TensorProduct</span>.<span class="name">simple</span></a></div></nav><main>
+<div class="mod_doc"><h1 class="markdown-heading" id="Tensor-product-of-simple-algebras-over-a-field">Tensor product of simple algebras over a field <a class="hover-link" href="#Tensor-product-of-simple-algebras-over-a-field">#</a></h1><p>In this file, we show that the tensor product of a simple algebra and a central simple algebra is
+simple, which in particular implies that the tensor product of two central simple algebras is
+another central simple algebra. This is a prerequisite for defining the group law on the Brauer
+group.</p><h2 class="markdown-heading" id="Main-Results">Main Results <a class="hover-link" href="#Main-Results">#</a></h2><ul>
+<li><code><a href="../../../.././FLT/Mathlib/RingTheory/SimpleRing/TensorProduct.html#TensorProduct.simple">TensorProduct.simple</a></code>: The tensor product of a simple algebra and a central simple algebra
+is simple.</li>
+</ul><h2 class="markdown-heading" id="References">References <a class="hover-link" href="#References">#</a></h2><ul>
+<li><a href="https://stacks.math.columbia.edu/tag/074B">StackProject 074B</a></li>
+</ul><h2 class="markdown-heading" id="Tags">Tags <a class="hover-link" href="#Tags">#</a></h2><p>Noncommutative algebra, tensor product, simple algebra, central simple algebra</p></div><div class="decl" id="TwoSidedIdeal.span_eq_bot"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/RingTheory/SimpleRing/TensorProduct.lean#L44-L48">source</a></div><div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././FLT/Mathlib/RingTheory/SimpleRing/TensorProduct.html#TwoSidedIdeal.span_eq_bot"><span class="name">TwoSidedIdeal</span>.<span class="name">span_eq_bot</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#NonUnitalNonAssocRing">NonUnitalNonAssocRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><a href="../../../.././Mathlib/Data/Set/Defs.html#Set">Set</a> <span class="fn">R</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/RingTheory/TwoSidedIdeal/Operations.html#TwoSidedIdeal.span">span</a> <span class="fn">s</span></span> <a href="../../../.././Init/Prelude.html#Eq">=</a> <a href="../../../.././Mathlib/Order/Notation.html#Bot.bot">⊥</a> <a href="../../../.././Init/Core.html#Iff">↔</a> <span class="fn">∀ <span class="fn">x</span> ∈ <span class="fn">s</span>, <span class="fn">x</span> <a href="../../../.././Init/Prelude.html#Eq">=</a> <span class="fn">0</span></span></div></div></div></div><div class="decl" id="TwoSidedIdeal.span_singleton_eq_bot"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/RingTheory/SimpleRing/TensorProduct.lean#L50-L51">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././FLT/Mathlib/RingTheory/SimpleRing/TensorProduct.html#TwoSidedIdeal.span_singleton_eq_bot"><span class="name">TwoSidedIdeal</span>.<span class="name">span_singleton_eq_bot</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#NonUnitalNonAssocRing">NonUnitalNonAssocRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">R</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/RingTheory/TwoSidedIdeal/Operations.html#TwoSidedIdeal.span">span</a> <a href="../../../.././Init/Core.html#Singleton.singleton">{</a><span class="fn">x</span><a href="../../../.././Init/Core.html#Singleton.singleton">}</a></span> <a href="../../../.././Init/Prelude.html#Eq">=</a> <a href="../../../.././Mathlib/Order/Notation.html#Bot.bot">⊥</a> <a href="../../../.././Init/Core.html#Iff">↔</a> <span class="fn">x</span> <a href="../../../.././Init/Prelude.html#Eq">=</a> <span class="fn">0</span></div></div></div></div><div class="decl" id="TwoSidedIdeal.map_bot"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/RingTheory/SimpleRing/TensorProduct.lean#L53-L58">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././FLT/Mathlib/RingTheory/SimpleRing/TensorProduct.html#TwoSidedIdeal.map_bot"><span class="name">TwoSidedIdeal</span>.<span class="name">map_bot</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#NonUnitalNonAssocRing">NonUnitalNonAssocRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#NonUnitalNonAssocRing">NonUnitalNonAssocRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Data/FunLike/Basic.html#FunLike">FunLike</a> <span class="fn">F</span> <span class="fn">R</span> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Hom/Defs.html#ZeroHomClass">ZeroHomClass</a> <span class="fn">F</span> <span class="fn">R</span> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn">F</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/RingTheory/TwoSidedIdeal/Operations.html#TwoSidedIdeal.map">map</a> <span class="fn">f</span> <a href="../../../.././Mathlib/Order/Notation.html#Bot.bot">⊥</a></span> <a href="../../../.././Init/Prelude.html#Eq">=</a> <a href="../../../.././Mathlib/Order/Notation.html#Bot.bot">⊥</a></div></div></div></div><div class="decl" id="TwoSidedIdeal.mem_map_of_mem"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/RingTheory/SimpleRing/TensorProduct.lean#L60-L64">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././FLT/Mathlib/RingTheory/SimpleRing/TensorProduct.html#TwoSidedIdeal.mem_map_of_mem"><span class="name">TwoSidedIdeal</span>.<span class="name">mem_map_of_mem</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">S</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#NonUnitalNonAssocRing">NonUnitalNonAssocRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#NonUnitalNonAssocRing">NonUnitalNonAssocRing</a> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Data/FunLike/Basic.html#FunLike">FunLike</a> <span class="fn">F</span> <span class="fn">R</span> <span class="fn">S</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn">F</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">I</span> : <span class="fn"><a href="../../../.././Mathlib/RingTheory/TwoSidedIdeal/Basic.html#TwoSidedIdeal">TwoSidedIdeal</a> <span class="fn">R</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">R</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hx</span> : <span class="fn">x</span> <a href="../../../.././Init/Prelude.html#Membership.mem">∈</a> <span class="fn">I</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">f</span> <span class="fn">x</span></span> <a href="../../../.././Init/Prelude.html#Membership.mem">∈</a> <span class="fn"><a href="../../../.././Mathlib/RingTheory/TwoSidedIdeal/Operations.html#TwoSidedIdeal.map">map</a> <span class="fn">f</span> <span class="fn">I</span></span></div></div></div></div><div class="decl" id="Submodule.mem_span_range_iff_exists"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/RingTheory/SimpleRing/TensorProduct.lean#L68-L77">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././FLT/Mathlib/RingTheory/SimpleRing/TensorProduct.html#Submodule.mem_span_range_iff_exists"><span class="name">Submodule</span>.<span class="name">mem_span_range_iff_exists</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#Semiring">Semiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Group/Defs.html#AddCommMonoid">AddCommMonoid</a> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">M</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn">M</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">x</span> <a href="../../../.././Init/Prelude.html#Membership.mem">∈</a> <span class="fn"><a href="../../../.././Mathlib/LinearAlgebra/Span/Defs.html#Submodule.span">span</a> <span class="fn">R</span> <span class="fn">(<a href="../../../.././Mathlib/Data/Set/Operations.html#Set.range">Set.range</a> <span class="fn">v</span>)</span></span> <a href="../../../.././Init/Core.html#Iff">↔</a> <span class="fn">∃ (<span class="fn">s</span> : <span class="fn"><a href="../../../.././Mathlib/Data/Finset/Defs.html#Finset">Finset</a> <span class="fn">α</span></span>) (<span class="fn">c</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">R</span></span>), <span class="fn">∑ <span class="fn">i</span> ∈ <span class="fn">s</span>, <span class="fn"><span class="fn">c</span> <span class="fn">i</span></span> <a href="../../../.././Init/Prelude.html#HSMul.hSMul">•</a> <span class="fn"><span class="fn">v</span> <span class="fn">i</span></span></span> <a href="../../../.././Init/Prelude.html#Eq">=</a> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="TwoSidedIdeal.eq_bot_of_map_comap_eq_bot"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/RingTheory/SimpleRing/TensorProduct.lean#L89-L173">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././FLT/Mathlib/RingTheory/SimpleRing/TensorProduct.html#TwoSidedIdeal.eq_bot_of_map_comap_eq_bot"><span class="name">TwoSidedIdeal</span>.<span class="name">eq_bot_of_map_comap_eq_bot</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">K</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">B</span> : <a href="../../../.././foundational_types.html">Type</a> u_3)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">B</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">B</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">hA</span> : <span class="fn"><a href="../../../.././Mathlib/RingTheory/SimpleRing/Defs.html#IsSimpleRing">IsSimpleRing</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">isCentral_A</span> : <span class="fn"><a href="../../../.././Mathlib/Algebra/Central/Defs.html#Algebra.IsCentral">Algebra.IsCentral</a> <span class="fn">K</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/RingTheory/SimpleRing/Defs.html#IsSimpleRing">IsSimpleRing</a> <span class="fn">B</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">I</span> : <span class="fn"><a href="../../../.././Mathlib/RingTheory/TwoSidedIdeal/Basic.html#TwoSidedIdeal">TwoSidedIdeal</a> <span class="fn">(<a href="../../../.././Mathlib/LinearAlgebra/TensorProduct/Basic.html#TensorProduct">TensorProduct</a> <span class="fn">K</span> <span class="fn">A</span> <span class="fn">B</span>)</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hAB</span> : <span class="fn"><a href="../../../.././Mathlib/RingTheory/TwoSidedIdeal/Operations.html#TwoSidedIdeal.map">map</a> <a href="../../../.././Mathlib/RingTheory/TensorProduct/Basic.html#Algebra.TensorProduct.includeRight">Algebra.TensorProduct.includeRight</a> <span class="fn">(<span class="fn">(<a href="../../../.././Mathlib/RingTheory/TwoSidedIdeal/Operations.html#TwoSidedIdeal.comap">comap</a> <a href="../../../.././Mathlib/RingTheory/TensorProduct/Basic.html#Algebra.TensorProduct.includeRight">Algebra.TensorProduct.includeRight</a>)</span> <span class="fn">I</span>)</span></span> <a href="../../../.././Init/Prelude.html#Eq">=</a> <a href="../../../.././Mathlib/Order/Notation.html#Bot.bot">⊥</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">I</span> <a href="../../../.././Init/Prelude.html#Eq">=</a> <a href="../../../.././Mathlib/Order/Notation.html#Bot.bot">⊥</a></div></div></div></div><div class="decl" id="TensorProduct.map_comap_eq"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/RingTheory/SimpleRing/TensorProduct.lean#L175-L199">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././FLT/Mathlib/RingTheory/SimpleRing/TensorProduct.html#TensorProduct.map_comap_eq"><span class="name">TensorProduct</span>.<span class="name">map_comap_eq</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">K</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">B</span> : <a href="../../../.././foundational_types.html">Type</a> u_3)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">B</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">B</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/RingTheory/SimpleRing/Defs.html#IsSimpleRing">IsSimpleRing</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Central/Defs.html#Algebra.IsCentral">Algebra.IsCentral</a> <span class="fn">K</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">hB</span> : <span class="fn"><a href="../../../.././Mathlib/RingTheory/SimpleRing/Defs.html#IsSimpleRing">IsSimpleRing</a> <span class="fn">B</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">I</span> : <span class="fn"><a href="../../../.././Mathlib/RingTheory/TwoSidedIdeal/Basic.html#TwoSidedIdeal">TwoSidedIdeal</a> <span class="fn">(<a href="../../../.././Mathlib/LinearAlgebra/TensorProduct/Basic.html#TensorProduct">TensorProduct</a> <span class="fn">K</span> <span class="fn">A</span> <span class="fn">B</span>)</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/RingTheory/TwoSidedIdeal/Operations.html#TwoSidedIdeal.map">TwoSidedIdeal.map</a> <a href="../../../.././Mathlib/RingTheory/TensorProduct/Basic.html#Algebra.TensorProduct.includeRight">Algebra.TensorProduct.includeRight</a> <span class="fn">(<span class="fn">(<a href="../../../.././Mathlib/RingTheory/TwoSidedIdeal/Operations.html#TwoSidedIdeal.comap">TwoSidedIdeal.comap</a> <a href="../../../.././Mathlib/RingTheory/TensorProduct/Basic.html#Algebra.TensorProduct.includeRight">Algebra.TensorProduct.includeRight</a>)</span> <span class="fn">I</span>)</span></span> <a href="../../../.././Init/Prelude.html#Eq">=</a> <span class="fn">I</span></div></div></div></div><div class="decl" id="TensorProduct.simple"><div class="instance"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Mathlib/RingTheory/SimpleRing/TensorProduct.lean#L201-L213">source</a></div><div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../../.././FLT/Mathlib/RingTheory/SimpleRing/TensorProduct.html#TensorProduct.simple"><span class="name">TensorProduct</span>.<span class="name">simple</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">K</span> : <a href="../../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">B</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/RingTheory/SimpleRing/Defs.html#IsSimpleRing">IsSimpleRing</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">B</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">B</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././Mathlib/Algebra/Central/Defs.html#Algebra.IsCentral">Algebra.IsCentral</a> <span class="fn">K</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">isSimple_B</span> : <span class="fn"><a href="../../../.././Mathlib/RingTheory/SimpleRing/Defs.html#IsSimpleRing">IsSimpleRing</a> <span class="fn">B</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././Mathlib/RingTheory/SimpleRing/Defs.html#IsSimpleRing">IsSimpleRing</a> <span class="fn">(<a href="../../../.././Mathlib/LinearAlgebra/TensorProduct/Basic.html#TensorProduct">TensorProduct</a> <span class="fn">K</span> <span class="fn">A</span> <span class="fn">B</span>)</span></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

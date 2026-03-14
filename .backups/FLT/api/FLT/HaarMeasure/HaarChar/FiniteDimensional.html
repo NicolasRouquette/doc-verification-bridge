@@ -1,0 +1,359 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../.././style.css"></link><link rel="icon" href="../../.././favicon.svg"></link><link rel="mask-icon" href="../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../.././/declarations/declaration-data.bmp" as="image"></link><title>FLT.HaarMeasure.HaarChar.FiniteDimensional</title><script defer="true" src="../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../.././";</script><script>const MODULE_NAME="FLT.HaarMeasure.HaarChar.FiniteDimensional";</script><script type="module" src="../../.././jump-src.js"></script><script type="module" src="../../.././search.js"></script><script type="module" src="../../.././expand-nav.js"></script><script type="module" src="../../.././how-about.js"></script><script type="module" src="../../.././instances.js"></script><script type="module" src="../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">FLT</span>.<span class="name">HaarMeasure</span>.<span class="name">HaarChar</span>.<span class="name">FiniteDimensional</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/HaarMeasure/HaarChar/FiniteDimensional.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../.././Init.html">Init</a></li><li><a href="../../.././FLT/HaarMeasure/HaarChar/Ring.html">FLT.HaarMeasure.HaarChar.Ring</a></li><li><a href="../../.././FLT/Mathlib/LinearAlgebra/Determinant.html">FLT.Mathlib.LinearAlgebra.Determinant</a></li><li><a href="../../.././FLT/Mathlib/LinearAlgebra/Matrix/Transvection.html">FLT.Mathlib.LinearAlgebra.Matrix.Transvection</a></li><li><a href="../../.././Mathlib/Topology/Algebra/Module/ModuleTopology.html">Mathlib.Topology.Algebra.Module.ModuleTopology</a></li><li><a href="../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html">FLT.Mathlib.Topology.Algebra.Module.Equiv</a></li><li><a href="../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html">FLT.Mathlib.Topology.Algebra.Module.Equiv</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-FLT.HaarMeasure.HaarChar.FiniteDimensional" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#MeasureTheory.addEquivAddHaarChar_eq_ringHaarChar_det_diagonal"><span class="name">MeasureTheory</span>.<span class="name">addEquivAddHaarChar_eq_ringHaarChar_det_diagonal</span></a></div><div class="nav_link"><a class="break_within" href="#MeasureTheory.Matrix.TransvectionStruct.measurePreserving"><span class="name">MeasureTheory</span>.<span class="name">Matrix</span>.<span class="name">TransvectionStruct</span>.<span class="name">measurePreserving</span></a></div><div class="nav_link"><a class="break_within" href="#MeasureTheory.addEquivAddHaarChar_eq_ringHaarChar_det_matrix_pi"><span class="name">MeasureTheory</span>.<span class="name">addEquivAddHaarChar_eq_ringHaarChar_det_matrix_pi</span></a></div><div class="nav_link"><a class="break_within" href="#MeasureTheory.addEquivAddHaarChar_eq_ringHaarChar_det_pi"><span class="name">MeasureTheory</span>.<span class="name">addEquivAddHaarChar_eq_ringHaarChar_det_pi</span></a></div><div class="nav_link"><a class="break_within" href="#MeasureTheory.addEquivAddHaarChar_eq_ringHaarChar_det_of_existsListTransvecEtc"><span class="name">MeasureTheory</span>.<span class="name">addEquivAddHaarChar_eq_ringHaarChar_det_of_existsListTransvecEtc</span></a></div><div class="nav_link"><a class="break_within" href="#MeasureTheory.addEquivAddHaarChar_eq_ringHaarChar_det"><span class="name">MeasureTheory</span>.<span class="name">addEquivAddHaarChar_eq_ringHaarChar_det</span></a></div><div class="nav_link"><a class="break_within" href="#ContinuousLinearEquiv.mulLeft"><span class="name">ContinuousLinearEquiv</span>.<span class="name">mulLeft</span></a></div><div class="nav_link"><a class="break_within" href="#ContinuousLinearEquiv.mulRight"><span class="name">ContinuousLinearEquiv</span>.<span class="name">mulRight</span></a></div><div class="nav_link"><a class="break_within" href="#MeasureTheory.algebra_ringHaarChar_eq_ringHaarChar_det"><span class="name">MeasureTheory</span>.<span class="name">algebra_ringHaarChar_eq_ringHaarChar_det</span></a></div><div class="nav_link"><a class="break_within" href="#IsSimpleRing.ringHaarChar_eq_addEquivAddHaarChar_mulRight"><span class="name">IsSimpleRing</span>.<span class="name">ringHaarChar_eq_addEquivAddHaarChar_mulRight</span></a></div></nav><main>
+<div class="mod_doc"><h1 class="markdown-heading" id="Haar-character-scaling-under-linear-automorphisms">Haar character scaling under linear automorphisms <a class="hover-link" href="#Haar-character-scaling-under-linear-automorphisms">#</a></h1><p>We prove that a linear isomorphism on a finite-dimensional vector space
+<code>V</code> over a locally compact field <code>F</code> scales Haar measure by its determinant. The
+proof assumes <code>[SecondCountableTopology F]</code>.</p><p>We proceed by:</p><ol>
+<li>Proving the scaling property for diagonal matrices.</li>
+<li>Showing that transvections preserve Haar measure.</li>
+<li>Extending to arbitrary matrices using induction on diagonal/transvection decomposition.</li>
+<li>Proving the result for automorphisms on <code>(ι → F)</code></li>
+<li>Deducing the general result for <code>V</code></li>
+</ol><h2 class="markdown-heading" id="Main-result">Main result: <a class="hover-link" href="#Main-result">#</a></h2><ul>
+<li><code><a href="../../.././FLT/HaarMeasure/HaarChar/FiniteDimensional.html#MeasureTheory.addEquivAddHaarChar_eq_ringHaarChar_det">addEquivAddHaarChar_eq_ringHaarChar_det</a></code></li>
+</ul><h2 class="markdown-heading" id="TODO">TODO <a class="hover-link" href="#TODO">#</a></h2><ul>
+<li>Review <code>[SecondCountableTopology F]</code> assumption</li>
+<li>Consider generalisation to commutative rings</li>
+</ul></div><div class="decl" id="MeasureTheory.addEquivAddHaarChar_eq_ringHaarChar_det_diagonal"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/HaarMeasure/HaarChar/FiniteDimensional.lean#L56-L104">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_HaarMeasure_HaarChar_FiniteDimensional.html#MeasureTheory.addEquivAddHaarChar_eq_ringHaarChar_det_diagonal" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/HaarMeasure/HaarChar/FiniteDimensional.html#MeasureTheory.addEquivAddHaarChar_eq_ringHaarChar_det_diagonal"><span class="name">MeasureTheory</span>.<span class="name">addEquivAddHaarChar_eq_ringHaarChar_det_diagonal</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Constructions/BorelSpace/Basic.html#BorelSpace">BorelSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Filter.html#LocallyCompactSpace">LocallyCompactSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Bases.html#SecondCountableTopology">SecondCountableTopology</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">ρ</span> : <span class="fn">(<span class="fn">ι</span> → <span class="fn">F</span>)</span> <a href="../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">≃L[</a><span class="fn">F</span><a href="../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">]</a> <span class="fn"><span class="fn">ι</span> → <span class="fn">F</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">D</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">F</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Matrix/ToLin.html#LinearMap.toMatrix'">LinearMap.toMatrix'</a> <span class="fn">↑<span class="fn"><span class="fn">ρ</span>.<a href="../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.toLinearEquiv">toLinearEquiv</a></span></span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../.././Mathlib/Data/Matrix/Diagonal.html#Matrix.diagonal">Matrix.diagonal</a> <span class="fn">D</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/MeasureTheory/Measure/Haar/MulEquivHaarChar.html#MeasureTheory.addEquivAddHaarChar">addEquivAddHaarChar</a> <span class="fn"><span class="fn">ρ</span>.<a href="../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.toContinuousAddEquiv">toContinuousAddEquiv</a></span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../.././FLT/HaarMeasure/HaarChar/Ring.html#MeasureTheory.ringHaarChar">ringHaarChar</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Determinant.html#LinearEquiv.det">LinearEquiv.det</a> <span class="fn"><span class="fn">ρ</span>.<a href="../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.toLinearEquiv">toLinearEquiv</a></span>)</span></span></div></div><p>A diagonal matrix scales addHaar with its determinant</p></div></div><div class="decl" id="MeasureTheory.Matrix.TransvectionStruct.measurePreserving"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/HaarMeasure/HaarChar/FiniteDimensional.lean#L106-L141">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/HaarMeasure/HaarChar/FiniteDimensional.html#MeasureTheory.Matrix.TransvectionStruct.measurePreserving"><span class="name">MeasureTheory</span>.<span class="name">Matrix</span>.<span class="name">TransvectionStruct</span>.<span class="name">measurePreserving</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Constructions/BorelSpace/Basic.html#BorelSpace">BorelSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Filter.html#LocallyCompactSpace">LocallyCompactSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Bases.html#SecondCountableTopology">SecondCountableTopology</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Matrix/Transvection.html#Matrix.TransvectionStruct">Matrix.TransvectionStruct</a> <span class="fn">ι</span> <span class="fn">F</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Dynamics/Ergodic/MeasurePreserving.html#MeasureTheory.MeasurePreserving">MeasurePreserving</a> <span class="fn">(⇑<span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/ToLin.html#Matrix.toLin'">Matrix.toLin'</a> <span class="fn"><span class="fn">t</span>.<a href="../../.././Mathlib/LinearAlgebra/Matrix/Transvection.html#Matrix.TransvectionStruct.toMatrix">toMatrix</a></span>)</span>)</span> <a href="../../.././Mathlib/MeasureTheory/Measure/Haar/Basic.html#MeasureTheory.Measure.addHaar">Measure.addHaar</a> <a href="../../.././Mathlib/MeasureTheory/Measure/Haar/Basic.html#MeasureTheory.Measure.addHaar">Measure.addHaar</a></span></div></div><p>A transvection preserves addHaar on <code>ι → F</code>.</p></div></div><div class="decl" id="MeasureTheory.addEquivAddHaarChar_eq_ringHaarChar_det_matrix_pi"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/HaarMeasure/HaarChar/FiniteDimensional.lean#L143-L193">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_HaarMeasure_HaarChar_FiniteDimensional.html#MeasureTheory.addEquivAddHaarChar_eq_ringHaarChar_det_matrix_pi" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/HaarMeasure/HaarChar/FiniteDimensional.html#MeasureTheory.addEquivAddHaarChar_eq_ringHaarChar_det_matrix_pi"><span class="name">MeasureTheory</span>.<span class="name">addEquivAddHaarChar_eq_ringHaarChar_det_matrix_pi</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Constructions/BorelSpace/Basic.html#BorelSpace">BorelSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Filter.html#LocallyCompactSpace">LocallyCompactSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Bases.html#SecondCountableTopology">SecondCountableTopology</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Matrix/Defs.html#Matrix">Matrix</a> <span class="fn">ι</span> <span class="fn">ι</span> <span class="fn">F</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hM</span> : <span class="fn"><a href="../../.././FLT/Mathlib/LinearAlgebra/Matrix/Transvection.html#Matrix.Pivot.ExistsListTransvecMulDiagonalMulListTransvec">Matrix.Pivot.ExistsListTransvecMulDiagonalMulListTransvec</a> <span class="fn">M</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Units/Defs.html#IsUnit">IsUnit</a> <span class="fn"><span class="fn">M</span>.<a href="../../.././Mathlib/LinearAlgebra/Matrix/Determinant/Basic.html#Matrix.det">det</a></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">have <span class="fn">b</span> := <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/StdBasis.html#Pi.basisFun">Pi.basisFun</a> <span class="fn">F</span> <span class="fn">ι</span></span>;
+<span class="fn">have <span class="fn">f</span> := <span class="fn"><span class="fn"><span class="fn">M</span>.<a href="../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#Matrix.toContinuousLinearEquiv">toContinuousLinearEquiv</a></span> <span class="fn">b</span> <span class="fn">h</span></span>;
+<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Measure/Haar/MulEquivHaarChar.html#MeasureTheory.addEquivAddHaarChar">addEquivAddHaarChar</a> <span class="fn"><span class="fn">f</span>.<a href="../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.toContinuousAddEquiv">toContinuousAddEquiv</a></span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../.././FLT/HaarMeasure/HaarChar/Ring.html#MeasureTheory.ringHaarChar">ringHaarChar</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Determinant.html#LinearEquiv.det">LinearEquiv.det</a> <span class="fn"><span class="fn">f</span>.<a href="../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.toLinearEquiv">toLinearEquiv</a></span>)</span></span></span></span></div></div><p>Haar measure scaling on <code>(ι → F)</code> for continuous linear equivalences generated by a matrix</p></div></div><div class="decl" id="MeasureTheory.addEquivAddHaarChar_eq_ringHaarChar_det_pi"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/HaarMeasure/HaarChar/FiniteDimensional.lean#L195-L210">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_HaarMeasure_HaarChar_FiniteDimensional.html#MeasureTheory.addEquivAddHaarChar_eq_ringHaarChar_det_pi" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/HaarMeasure/HaarChar/FiniteDimensional.html#MeasureTheory.addEquivAddHaarChar_eq_ringHaarChar_det_pi"><span class="name">MeasureTheory</span>.<span class="name">addEquivAddHaarChar_eq_ringHaarChar_det_pi</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Constructions/BorelSpace/Basic.html#BorelSpace">BorelSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Filter.html#LocallyCompactSpace">LocallyCompactSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Bases.html#SecondCountableTopology">SecondCountableTopology</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">ρ</span> : <span class="fn">(<span class="fn">ι</span> → <span class="fn">F</span>)</span> <a href="../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">≃L[</a><span class="fn">F</span><a href="../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">]</a> <span class="fn"><span class="fn">ι</span> → <span class="fn">F</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hρM</span> :
+  <span class="fn"><a href="../../.././FLT/Mathlib/LinearAlgebra/Matrix/Transvection.html#Matrix.Pivot.ExistsListTransvecMulDiagonalMulListTransvec">Matrix.Pivot.ExistsListTransvecMulDiagonalMulListTransvec</a>
+    <span class="fn">(<span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/ToLin.html#LinearMap.toMatrix">LinearMap.toMatrix</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/StdBasis.html#Pi.basisFun">Pi.basisFun</a> <span class="fn">F</span> <span class="fn">ι</span>)</span> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/StdBasis.html#Pi.basisFun">Pi.basisFun</a> <span class="fn">F</span> <span class="fn">ι</span>)</span>)</span> <span class="fn">↑<span class="fn"><span class="fn">ρ</span>.<a href="../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.toLinearEquiv">toLinearEquiv</a></span></span>)</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/MeasureTheory/Measure/Haar/MulEquivHaarChar.html#MeasureTheory.addEquivAddHaarChar">addEquivAddHaarChar</a> <span class="fn"><span class="fn">ρ</span>.<a href="../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.toContinuousAddEquiv">toContinuousAddEquiv</a></span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../.././FLT/HaarMeasure/HaarChar/Ring.html#MeasureTheory.ringHaarChar">ringHaarChar</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Determinant.html#LinearEquiv.det">LinearEquiv.det</a> <span class="fn"><span class="fn">ρ</span>.<a href="../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.toLinearEquiv">toLinearEquiv</a></span>)</span></span></div></div><p>Haar measure scaling for linear maps on (ι → F)</p></div></div><div class="decl" id="MeasureTheory.addEquivAddHaarChar_eq_ringHaarChar_det_of_existsListTransvecEtc"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/HaarMeasure/HaarChar/FiniteDimensional.lean#L221-L244">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_HaarMeasure_HaarChar_FiniteDimensional.html#MeasureTheory.addEquivAddHaarChar_eq_ringHaarChar_det_of_existsListTransvecEtc" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/HaarMeasure/HaarChar/FiniteDimensional.html#MeasureTheory.addEquivAddHaarChar_eq_ringHaarChar_det_of_existsListTransvecEtc"><span class="name">MeasureTheory</span>.<span class="name">addEquivAddHaarChar_eq_ringHaarChar_det_of_existsListTransvecEtc</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Constructions/BorelSpace/Basic.html#BorelSpace">BorelSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Filter.html#LocallyCompactSpace">LocallyCompactSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Constructions/BorelSpace/Basic.html#BorelSpace">BorelSpace</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">F</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Algebra/Module/ModuleTopology.html#IsModuleTopology">IsModuleTopology</a> <span class="fn">F</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Algebra/Group/Defs.html#IsTopologicalAddGroup">IsTopologicalAddGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Filter.html#LocallyCompactSpace">LocallyCompactSpace</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Bases.html#SecondCountableTopology">SecondCountableTopology</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">ρ</span> : <span class="fn">V</span> <a href="../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">≃L[</a><span class="fn">F</span><a href="../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">]</a> <span class="fn">V</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../../.././Init/Prelude.html#Nat">ℕ</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">b</span> : <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Basis/Defs.html#Module.Basis">Module.Basis</a> <span class="fn">(<a href="../../.././Init/Prelude.html#Fin">Fin</a> <span class="fn">n</span>)</span> <span class="fn">F</span> <span class="fn">V</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hρ</span> : <span class="fn"><a href="../../.././FLT/Mathlib/LinearAlgebra/Matrix/Transvection.html#Matrix.Pivot.ExistsListTransvecMulDiagonalMulListTransvec">Matrix.Pivot.ExistsListTransvecMulDiagonalMulListTransvec</a> <span class="fn">(<span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Matrix/ToLin.html#LinearMap.toMatrix">LinearMap.toMatrix</a> <span class="fn">b</span> <span class="fn">b</span>)</span> <span class="fn">↑<span class="fn"><span class="fn">ρ</span>.<a href="../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.toLinearEquiv">toLinearEquiv</a></span></span>)</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/MeasureTheory/Measure/Haar/MulEquivHaarChar.html#MeasureTheory.addEquivAddHaarChar">addEquivAddHaarChar</a> <span class="fn"><span class="fn">ρ</span>.<a href="../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.toContinuousAddEquiv">toContinuousAddEquiv</a></span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../.././FLT/HaarMeasure/HaarChar/Ring.html#MeasureTheory.ringHaarChar">ringHaarChar</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Determinant.html#LinearEquiv.det">LinearEquiv.det</a> <span class="fn"><span class="fn">ρ</span>.<a href="../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.toLinearEquiv">toLinearEquiv</a></span>)</span></span></div></div><p>Haar measure scaling for invertible linear maps on a finite-dimensional vector space
+over a field F assuming <code>[SecondCountableTopology F]</code>.</p></div></div><div class="decl" id="MeasureTheory.addEquivAddHaarChar_eq_ringHaarChar_det"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/HaarMeasure/HaarChar/FiniteDimensional.lean#L261-L267">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_HaarMeasure_HaarChar_FiniteDimensional.html#MeasureTheory.addEquivAddHaarChar_eq_ringHaarChar_det" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/HaarMeasure/HaarChar/FiniteDimensional.html#MeasureTheory.addEquivAddHaarChar_eq_ringHaarChar_det"><span class="name">MeasureTheory</span>.<span class="name">addEquivAddHaarChar_eq_ringHaarChar_det</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Constructions/BorelSpace/Basic.html#BorelSpace">BorelSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Filter.html#LocallyCompactSpace">LocallyCompactSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Constructions/BorelSpace/Basic.html#BorelSpace">BorelSpace</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">F</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">F</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Algebra/Module/ModuleTopology.html#IsModuleTopology">IsModuleTopology</a> <span class="fn">F</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Algebra/Group/Defs.html#IsTopologicalAddGroup">IsTopologicalAddGroup</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Filter.html#LocallyCompactSpace">LocallyCompactSpace</a> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Bases.html#SecondCountableTopology">SecondCountableTopology</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">ρ</span> : <span class="fn">V</span> <a href="../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">≃L[</a><span class="fn">F</span><a href="../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">]</a> <span class="fn">V</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/MeasureTheory/Measure/Haar/MulEquivHaarChar.html#MeasureTheory.addEquivAddHaarChar">addEquivAddHaarChar</a> <span class="fn"><span class="fn">ρ</span>.<a href="../../.././FLT/Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.toContinuousAddEquiv">toContinuousAddEquiv</a></span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../.././FLT/HaarMeasure/HaarChar/Ring.html#MeasureTheory.ringHaarChar">ringHaarChar</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Determinant.html#LinearEquiv.det">LinearEquiv.det</a> <span class="fn"><span class="fn">ρ</span>.<a href="../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv.toLinearEquiv">toLinearEquiv</a></span>)</span></span></div></div><p>Haar measure scaling for invertible linear maps on a finite-dimensional vector space
+over a field F assuming <code>[SecondCountableTopology F]</code>.</p></div></div><div class="decl" id="ContinuousLinearEquiv.mulLeft"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/HaarMeasure/HaarChar/FiniteDimensional.lean#L285-L292">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_HaarMeasure_HaarChar_FiniteDimensional.html#ContinuousLinearEquiv.mulLeft" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/HaarMeasure/HaarChar/FiniteDimensional.html#ContinuousLinearEquiv.mulLeft"><span class="name">ContinuousLinearEquiv</span>.<span class="name">mulLeft</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommSemiring">CommSemiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">R</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">u</span> : <span class="fn">A</span><a href="../../.././Mathlib/Algebra/Group/Units/Defs.html#Units">ˣ</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">A</span> <a href="../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">≃L[</a><span class="fn">R</span><a href="../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">]</a> <span class="fn">A</span></div></div><p>Multiplication on the left by a unit of an F-algebra which is a topological
+ring, is a continuous F-linear homeomorphism.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-ContinuousLinearEquiv.mulLeft" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="ContinuousLinearEquiv.mulRight"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/HaarMeasure/HaarChar/FiniteDimensional.lean#L295-L302">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_HaarMeasure_HaarChar_FiniteDimensional.html#ContinuousLinearEquiv.mulRight" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/HaarMeasure/HaarChar/FiniteDimensional.html#ContinuousLinearEquiv.mulRight"><span class="name">ContinuousLinearEquiv</span>.<span class="name">mulRight</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommSemiring">CommSemiring</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">R</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">u</span> : <span class="fn">A</span><a href="../../.././Mathlib/Algebra/Group/Units/Defs.html#Units">ˣ</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">A</span> <a href="../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">≃L[</a><span class="fn">R</span><a href="../../.././Mathlib/Topology/Algebra/Module/Equiv.html#ContinuousLinearEquiv">]</a> <span class="fn">A</span></div></div><p>Multiplication on the right by a unit of an F-algebra which is a topological
+ring, is a continuous F-linear homeomorphism.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-ContinuousLinearEquiv.mulRight" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="MeasureTheory.algebra_ringHaarChar_eq_ringHaarChar_det"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/HaarMeasure/HaarChar/FiniteDimensional.lean#L316-L318">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_HaarMeasure_HaarChar_FiniteDimensional.html#MeasureTheory.algebra_ringHaarChar_eq_ringHaarChar_det" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/HaarMeasure/HaarChar/FiniteDimensional.html#MeasureTheory.algebra_ringHaarChar_eq_ringHaarChar_det"><span class="name">MeasureTheory</span>.<span class="name">algebra_ringHaarChar_eq_ringHaarChar_det</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_1)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Constructions/BorelSpace/Basic.html#BorelSpace">BorelSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Filter.html#LocallyCompactSpace">LocallyCompactSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">F</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Algebra/Module/ModuleTopology.html#IsModuleTopology">IsModuleTopology</a> <span class="fn">F</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Filter.html#LocallyCompactSpace">LocallyCompactSpace</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Constructions/BorelSpace/Basic.html#BorelSpace">BorelSpace</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Bases.html#SecondCountableTopology">SecondCountableTopology</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">u</span> : <span class="fn">A</span><a href="../../.././Mathlib/Algebra/Group/Units/Defs.html#Units">ˣ</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././FLT/HaarMeasure/HaarChar/Ring.html#MeasureTheory.ringHaarChar">ringHaarChar</a> <span class="fn">u</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../.././FLT/HaarMeasure/HaarChar/Ring.html#MeasureTheory.ringHaarChar">ringHaarChar</a> <span class="fn">(<a href="../../.././Mathlib/LinearAlgebra/Determinant.html#LinearEquiv.det">LinearEquiv.det</a> <span class="fn">(<a href="../../.././FLT/Mathlib/Algebra/Algebra/Bilinear.html#LinearEquiv.mulLeft">LinearEquiv.mulLeft</a> <span class="fn">F</span> <span class="fn">u</span>)</span>)</span></span></div></div></div></div><div class="decl" id="IsSimpleRing.ringHaarChar_eq_addEquivAddHaarChar_mulRight"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/HaarMeasure/HaarChar/FiniteDimensional.lean#L336-L341">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_HaarMeasure_HaarChar_FiniteDimensional.html#IsSimpleRing.ringHaarChar_eq_addEquivAddHaarChar_mulRight" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/HaarMeasure/HaarChar/FiniteDimensional.html#IsSimpleRing.ringHaarChar_eq_addEquivAddHaarChar_mulRight"><span class="name">IsSimpleRing</span>.<span class="name">ringHaarChar_eq_addEquivAddHaarChar_mulRight</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">F</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Constructions/BorelSpace/Basic.html#BorelSpace">BorelSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Filter.html#LocallyCompactSpace">LocallyCompactSpace</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">D</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#Ring">Ring</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">F</span> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/LinearAlgebra/FiniteDimensional/Defs.html#FiniteDimensional">FiniteDimensional</a> <span class="fn">F</span> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/RingTheory/SimpleRing/Defs.html#IsSimpleRing">IsSimpleRing</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Algebra/Module/ModuleTopology.html#IsModuleTopology">IsModuleTopology</a> <span class="fn">F</span> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Central/Defs.html#Algebra.IsCentral">Algebra.IsCentral</a> <span class="fn">F</span> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Algebra/Ring/Basic.html#IsTopologicalRing">IsTopologicalRing</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Filter.html#LocallyCompactSpace">LocallyCompactSpace</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/MeasurableSpace/Defs.html#MeasurableSpace">MeasurableSpace</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/MeasureTheory/Constructions/BorelSpace/Basic.html#BorelSpace">BorelSpace</a> <span class="fn">D</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Bases.html#SecondCountableTopology">SecondCountableTopology</a> <span class="fn">F</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">u</span> : <span class="fn">D</span><a href="../../.././Mathlib/Algebra/Group/Units/Defs.html#Units">ˣ</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././FLT/HaarMeasure/HaarChar/Ring.html#MeasureTheory.ringHaarChar">MeasureTheory.ringHaarChar</a> <span class="fn">u</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../.././Mathlib/MeasureTheory/Measure/Haar/MulEquivHaarChar.html#MeasureTheory.addEquivAddHaarChar">MeasureTheory.addEquivAddHaarChar</a> <span class="fn">(<a href="../../.././FLT/HaarMeasure/HaarChar/Ring.html#ContinuousAddEquiv.mulRight">ContinuousAddEquiv.mulRight</a> <span class="fn">u</span>)</span></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>
