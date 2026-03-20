@@ -31,7 +31,10 @@ doc-verification-bridge/
 └── Experiments/                 # Multi-project orchestration (version-agnostic)
     ├── lakefile.toml
     ├── Main.lean               # experiments CLI
-    └── Experiments.lean        # Pipeline orchestration
+    ├── Experiments.lean        # Library root module
+    └── Experiments/
+        ├── Compatibility.lean  # Local copy of compat helpers
+        └── ExperimentsCore.lean # Pipeline orchestration + git clone + subprocess
 ```
 
 ### Why Two Packages?
@@ -207,21 +210,117 @@ lake exe experiments --config test-config.toml
 5. Tag the branch: `git tag v4.XX.0`
 6. Update experiment configs to use `docvb_version = "v4.XX.0"` for appropriate projects
 
+## Security
+
+Compiling untrusted Lean 4 code executes arbitrary code at build time (tactics, macros, elaborators, `initialize` blocks). The project uses a two-phase sandboxed build via [Bubblewrap](https://github.com/containers/bubblewrap) to mitigate this:
+
+1. **Dependency fetch phase**: Network allowed, compilation blocked
+2. **Compilation phase**: Network completely disabled (blocks exfiltration), filesystem restricted
+
+See [SECURITY.md](SECURITY.md) for the full threat model, attack vector analysis, sandboxing strategy evaluation (Docker, Firejail, Bubblewrap, VMs, Landlock), and implementation details in [`scripts/sandbox-lake.sh`](scripts/sandbox-lake.sh).
+
 ## Project Status
 
-### Current Phase: Refactoring (Step 1)
+### Refactoring: Complete
 
-We are currently in **Phase 1** of the refactoring (see [REFACTORING.md](REFACTORING.md) for full plan):
+The three-phase refactoring is complete (see [REFACTORING.md](REFACTORING.md), [PHASE1-COMPLETE.md](PHASE1-COMPLETE.md), [PHASE2-COMPLETE.md](PHASE2-COMPLETE.md), [PHASE3-PROGRESS.md](PHASE3-PROGRESS.md)):
 
-- [x] Create two-package structure
-- [x] Create lakefiles for both packages
-- [x] Move files to new locations
-- [ ] **TODO**: Refactor Experiments imports to use subprocess invocation (Phase 3)
-- [ ] **TODO**: Per-branch cleanup of version-specific files (Phase 2)
+- [x] **Phase 1**: Two-package structure, lakefiles, file moves (2026-03-03)
+- [x] **Phase 2**: Per-branch cleanup — internal + v4.28.0 branches cleaned (2026-03-03)
+- [x] **Phase 3**: Experiments decoupling — subprocess invocation, git clone/checkout, `docvb_version` config (2026-03-03)
+  - Implementation complete; end-to-end testing pending
 
-**Note**: The Experiments module currently still imports DocVerificationBridge modules directly. This will be refactored in Phase 3 to use subprocess invocation, making it truly version-agnostic.
+### Current Phase: Inference Improvements
 
-### Recent Improvements
+Current work focuses on improving classification accuracy for verification coverage tracking.
+
+### Planned: Existential Binder Type Tracing
+
+**Problem:** When a theorem concludes with `∃ vy : ValidYaml, vy.input = ... ∧ ...`, the `collectHeadConstants` function in [Inference.lean](DocVerificationBridge/DocVerificationBridge/Inference.lean) strips the existential binder and recurses into the body only. The field projections (`.input`, `.value`) are traced into `proves`, but the binder type (`ValidYaml`) is discarded. This means the parent structure never appears in any theorem's `proves` list, so its `verifiedBy` stays empty.
+
+**Root cause** — the `Exists` branch in `collectHeadConstants`:
+```lean
+| .const ``Exists _, #[_, body] =>
+  lambdaTelescope body fun _ innerBody =>
+    collectHeadConstants innerBody sourceDesc internalPrefixes
+```
+
+The first argument to `Exists` is the binder type (e.g., `ValidYaml`), but it is matched as `_` and ignored.
+
+**Fix** — also extract head constants from the binder type:
+```lean
+| .const ``Exists _, #[binderType, body] =>
+  let binderNames ← collectHeadConstantsFromTerm binderType sourceDesc
+  let bodyNames ← lambdaTelescope body fun _ innerBody =>
+    collectHeadConstants innerBody sourceDesc internalPrefixes
+  return binderNames ++ bodyNames
+```
+
+Uses `collectHeadConstantsFromTerm` (not `collectHeadConstants`) because the binder type is a `Type`-level expression, not `Prop`. Existing filtering (`shouldFilter`, `isInternalName`) prevents stdlib types like `Nat` from leaking in.
+
+**Impact** — for `parse_produces_valid_yaml`:
+- Before: `proves = [ValidYaml.input, stripAnnotations, ValidYaml.value, ...]`
+- After: `proves = [ValidYaml, ValidYaml.input, stripAnnotations, ValidYaml.value, ...]`
+- `computeVerifiedByMap` then automatically populates `ValidYaml.verifiedBy`
+
+| File | Change |
+|------|--------|
+| [Inference.lean](DocVerificationBridge/DocVerificationBridge/Inference.lean) | Extract `binderType` from `Exists` in `collectHeadConstants` (~5 lines) |
+
+### Planned: Def-as-Witness Detection
+
+**Problem:** A `def` returning a specification structure (e.g., `def scan_produces_valid_tokens : ... → ValidTokenStream`) is classified as `computationalOperation` because its return type is `Type`, not `Prop`. The bridge never populates `proves` for definitions — only theorems get inference. These "def-as-witness" patterns are invisible to verification coverage tracking.
+
+**Heuristic** — "Structure-instance witness": A `def` is a witness if its return type (after stripping ∀-args) is an application of an internal structure/inductive classified as `computationalDatatype`.
+
+**Solution** — add a `witnessOf` field to `DefData`:
+```lean
+structure DefData where
+  category : DefCategory
+  hasSorry : Bool
+  witnessOf : Array Name := #[]  -- structures this def constructs instances of
+```
+
+New helper `extractWitnessTargets` checks whether the return type head is an internal inductive:
+```lean
+def extractWitnessTargets (type : Expr) (internalPrefixes : Array String) : MetaM (Array Name) := do
+  let env ← getEnv
+  forallTelescope type fun _params body => do
+    let body ← whnf body
+    match body.getAppFn with
+    | .const name _ =>
+      if isInternalName env internalPrefixes name then
+        match env.find? name with
+        | some (.inductInfo _) => return #[name]
+        | _ => return #[]
+      else return #[]
+    | _ => return #[]
+```
+
+Then `computeVerifiedByMap` includes `witnessOf` in the reverse index alongside theorem `proves`/`validates`.
+
+**Impact:**
+- `scan_produces_valid_tokens` → `witnessOf = [ValidTokenStream]` → fills `ValidTokenStream.verifiedBy`
+- `toYamlValue_nodeToValue` → `witnessOf = [NodeToValue]` → adds to `NodeToValue.verifiedBy`
+
+| File | Change |
+|------|--------|
+| [Types.lean](DocVerificationBridge/DocVerificationBridge/Types.lean) | Add `witnessOf : Array Name := #[]` to `DefData` |
+| [Classify.lean](DocVerificationBridge/DocVerificationBridge/Classify.lean) | Add `extractWitnessTargets`, use in `classifyConstantLight`/`classifyConstant` (~20 lines) |
+| [TableData.lean](DocVerificationBridge/DocVerificationBridge/TableData.lean) | Include `witnessOf` in `computeVerifiedByMap` reverse index (~8 lines) |
+| [TableData.lean](DocVerificationBridge/DocVerificationBridge/TableData.lean) | Add `witnessOf` to `DefinitionTableEntry` JSON serialization (~3 lines) |
+
+### Previous Improvements
+
+- **Bubblewrap sandboxing** ([SECURITY.md](SECURITY.md), [`scripts/sandbox-lake.sh`](scripts/sandbox-lake.sh))
+  - Two-phase build isolation: network allowed during fetch, disabled during compilation
+  - Filesystem restrictions deny access to sensitive credentials
+  - Unprivileged, minimal attack surface (~2000 lines of C)
+
+- **Three-phase refactoring** ([REFACTORING.md](REFACTORING.md))
+  - Phase 1: Two-package structure (DocVerificationBridge + Experiments)
+  - Phase 2: Per-branch cleanup of version-specific file variants
+  - Phase 3: Experiments decoupled — git clone, subprocess invocation, `docvb_version` config
 
 - **Fixed "Grammable" inference bug** ([Inference.lean:389-535](DocVerificationBridge/DocVerificationBridge/Inference.lean#L389-L535))
   - Theorems can now correctly appear in both `assumes` and `proves`
@@ -230,7 +329,7 @@ We are currently in **Phase 1** of the refactoring (see [REFACTORING.md](REFACTO
 
 ## Contributing
 
-See [REFACTORING.md](REFACTORING.md) for the detailed refactoring plan and contribution guidelines.
+See [REFACTORING.md](REFACTORING.md) for the refactoring plan and contribution guidelines.
 
 ## License
 
