@@ -234,20 +234,11 @@ The three-phase refactoring is complete (see [REFACTORING.md](REFACTORING.md), [
 
 Current work focuses on improving classification accuracy for verification coverage tracking.
 
-### Planned: Existential Binder Type Tracing
+### Completed: Existential Binder Type Tracing (2026-03-20)
 
 **Problem:** When a theorem concludes with `∃ vy : ValidYaml, vy.input = ... ∧ ...`, the `collectHeadConstants` function in [Inference.lean](DocVerificationBridge/DocVerificationBridge/Inference.lean) strips the existential binder and recurses into the body only. The field projections (`.input`, `.value`) are traced into `proves`, but the binder type (`ValidYaml`) is discarded. This means the parent structure never appears in any theorem's `proves` list, so its `verifiedBy` stays empty.
 
-**Root cause** — the `Exists` branch in `collectHeadConstants`:
-```lean
-| .const ``Exists _, #[_, body] =>
-  lambdaTelescope body fun _ innerBody =>
-    collectHeadConstants innerBody sourceDesc internalPrefixes
-```
-
-The first argument to `Exists` is the binder type (e.g., `ValidYaml`), but it is matched as `_` and ignored.
-
-**Fix** — also extract head constants from the binder type:
+**Fix** — extract the binder type in the `Exists` branch of `collectHeadConstants`:
 ```lean
 | .const ``Exists _, #[binderType, body] =>
   let binderNames ← collectHeadConstantsFromTerm binderType sourceDesc
@@ -262,10 +253,6 @@ Uses `collectHeadConstantsFromTerm` (not `collectHeadConstants`) because the bin
 - Before: `proves = [ValidYaml.input, stripAnnotations, ValidYaml.value, ...]`
 - After: `proves = [ValidYaml, ValidYaml.input, stripAnnotations, ValidYaml.value, ...]`
 - `computeVerifiedByMap` then automatically populates `ValidYaml.verifiedBy`
-
-| File | Change |
-|------|--------|
-| [Inference.lean](DocVerificationBridge/DocVerificationBridge/Inference.lean) | Extract `binderType` from `Exists` in `collectHeadConstants` (~5 lines) |
 
 ### Planned: Def-as-Witness Detection
 

@@ -236,8 +236,12 @@ partial def collectHeadConstants (e : Expr) (sourceDesc : String := "") (interna
     forallTelescope e' fun _ body => collectHeadConstants body sourceDesc internalPrefixes
   else
     match e'.getAppFn, e'.getAppArgs with
-    | .const ``Exists _, #[_, body] =>
-      lambdaTelescope body fun _ innerBody => collectHeadConstants innerBody sourceDesc internalPrefixes
+    | .const ``Exists _, #[binderType, body] =>
+      -- Extract the binder type (e.g., ValidYaml from ∃ vy : ValidYaml, ...)
+      let binderNames ← collectHeadConstantsFromTerm binderType sourceDesc
+      let bodyNames ← lambdaTelescope body fun _ innerBody =>
+        collectHeadConstants innerBody sourceDesc internalPrefixes
+      return binderNames ++ bodyNames
     | .const ``Eq _, #[_, lhs, rhs] =>
       let leftNames ← collectHeadConstantsFromTerm lhs sourceDesc
       let rightNames ← collectHeadConstantsFromTerm rhs sourceDesc
