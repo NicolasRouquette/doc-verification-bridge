@@ -1359,6 +1359,18 @@ def cloneDocVerificationBridgeImpl (repoUrl : String) (targetDir : FilePath) (ve
       IO.eprintln s!"[DocVB] Warning: Failed to fetch updates: {stderr}"
       -- Continue anyway - we may have the version we need already
 
+    -- Discard any local modifications left from previous runs (e.g., source files
+    -- copied into the working tree by setupDocvbDirectory). Without this, git pull
+    -- fails on dirty working trees and the cache silently stays stale.
+    let resetResult ← IO.Process.spawn {
+      cmd := "git"
+      args := #["reset", "--hard"]
+      cwd := targetDir
+      stdout := .piped
+      stderr := .piped
+    }
+    discard <| resetResult.wait
+
   -- Checkout the specified version
   IO.println s!"[DocVB] Checking out version: {version}..."
   let checkoutResult ← IO.Process.spawn {
