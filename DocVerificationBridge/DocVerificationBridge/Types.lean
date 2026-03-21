@@ -117,6 +117,79 @@ deriving Repr, BEq, Hashable, Inhabited
 ## Metadata Structures
 -/
 
+/-!
+### Instance Classification Rules
+
+Extensible mechanism for classifying typeclass instances.
+Rules determine how instances contribute to verification coverage.
+-/
+
+/-- How instances of a typeclass should be handled for verification tracking -/
+inductive InstanceDisposition where
+  /-- Instance is self-certifying: constructing the instance IS the proof.
+      Examples: Decidable (decision with proof), LawfulBEq (BEq law proofs) -/
+  | selfCertifying
+  /-- Instance requires a corresponding lawful proof for correctness.
+      Examples: BEq requires LawfulBEq, Monad requires LawfulMonad -/
+  | requiresLawful (lawfulClass : Name)
+  /-- Instance is infrastructure, not relevant to verification coverage.
+      Examples: ToString, Repr, Inhabited -/
+  | infrastructure
+deriving Repr, BEq, Inhabited
+
+/-- Instance-specific metadata -/
+structure InstanceInfo where
+  /-- The typeclass this instance implements -/
+  className : Name
+  /-- The internal types/definitions this instance applies to -/
+  argTypes : Array Name
+  /-- The disposition from the matching typeclass rule -/
+  disposition : InstanceDisposition
+deriving Repr, BEq, Inhabited
+
+/-- Rule for classifying instances of a specific typeclass.
+    Projects can extend `defaultTypeclassRules` with additional entries. -/
+structure TypeclassRule where
+  /-- The typeclass this rule applies to -/
+  className : Name
+  /-- How instances should be handled -/
+  disposition : InstanceDisposition
+  /-- Human-readable description -/
+  description : String := ""
+deriving Repr, BEq, Inhabited
+
+/-- Default typeclass rules for common typeclasses.
+    Self-certifying: the type guarantees correctness by construction.
+    RequiresLawful: the instance needs a companion "Lawful*" proof.
+    Infrastructure: not relevant to verification tracking. -/
+def defaultTypeclassRules : Array TypeclassRule := #[
+  -- Self-certifying: constructing the instance IS the proof
+  ⟨``Decidable,     .selfCertifying, "Decision procedure with correctness proof"⟩,
+  ⟨``DecidableEq,   .selfCertifying, "Decidable equality with correctness proof"⟩,
+  ⟨``DecidablePred, .selfCertifying, "Decidable predicate with correctness proof"⟩,
+  ⟨``DecidableRel,  .selfCertifying, "Decidable relation with correctness proof"⟩,
+  ⟨``LawfulBEq,     .selfCertifying, "Proof that BEq satisfies equality laws"⟩,
+  ⟨``LawfulFunctor, .selfCertifying, "Proof that Functor satisfies functor laws"⟩,
+  ⟨``LawfulMonad,   .selfCertifying, "Proof that Monad satisfies monad laws"⟩,
+  -- Require lawful companion proofs
+  ⟨``BEq,     .requiresLawful ``LawfulBEq,    "Needs LawfulBEq proof for correctness"⟩,
+  ⟨``Functor, .requiresLawful ``LawfulFunctor, "Needs LawfulFunctor proof for correctness"⟩,
+  ⟨``Monad,   .requiresLawful ``LawfulMonad,   "Needs LawfulMonad proof for correctness"⟩,
+  -- Infrastructure: not verification-relevant
+  ⟨``ToString,  .infrastructure, "Display infrastructure"⟩,
+  ⟨``Repr,      .infrastructure, "Display infrastructure"⟩,
+  ⟨``Inhabited, .infrastructure, "Default value infrastructure"⟩,
+  ⟨``Nonempty,  .infrastructure, "Existence witness"⟩,
+  ⟨``Hashable,  .infrastructure, "Hashing infrastructure"⟩,
+  ⟨``Ord,       .infrastructure, "Ordering infrastructure"⟩
+]
+
+/-- Convert InstanceDisposition to display string -/
+def InstanceDisposition.toString : InstanceDisposition → String
+  | .selfCertifying => "selfCertifying"
+  | .requiresLawful _ => "requiresLawful"
+  | .infrastructure => "infrastructure"
+
 /-- Data carried by a definition declaration -/
 structure DefData where
   /-- Auto-detected category -/
@@ -125,6 +198,8 @@ structure DefData where
   verifiedBy : Array Name := #[]
   /-- Whether the definition body contains sorry -/
   hasSorry : Bool := false
+  /-- If this definition is a typeclass instance, its classification metadata -/
+  instanceInfo : Option InstanceInfo := none
 deriving Repr, BEq, Inhabited
 
 /-- Warning codes that can be suppressed -/
@@ -178,8 +253,8 @@ deriving Repr, BEq, Inhabited
 def DeclKind.categoryString : DeclKind → String
   | .apiType .mathematicalAbstraction => "mathematicalAbstraction"
   | .apiType .computationalDatatype => "computationalDatatype"
-  | .apiDef ⟨.mathematicalDefinition, _, _⟩ => "mathematicalDefinition"
-  | .apiDef ⟨.computationalOperation, _, _⟩ => "computationalOperation"
+  | .apiDef ⟨.mathematicalDefinition, _, _, _⟩ => "mathematicalDefinition"
+  | .apiDef ⟨.computationalOperation, _, _, _⟩ => "computationalOperation"
   | .apiTheorem { kind := some .computationalProperty, .. } => "computationalProperty"
   | .apiTheorem { kind := some .mathematicalProperty, .. } => "mathematicalProperty"
   | .apiTheorem { kind := some .bridgingProperty, .. } => "bridgingProperty"

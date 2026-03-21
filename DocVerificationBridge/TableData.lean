@@ -46,6 +46,14 @@ structure DefinitionTableEntry where
   hasSorry : Bool
   /-- Whether this is a private declaration -/
   isPrivate : Bool
+  /-- If this is a typeclass instance: the class name -/
+  instanceOf : Option String := none
+  /-- If this is a typeclass instance: the disposition (selfCertifying/requiresLawful/infrastructure) -/
+  instanceDisposition : Option String := none
+  /-- If requiresLawful: the needed lawful companion class -/
+  instanceLawfulClass : Option String := none
+  /-- If this is a typeclass instance: the internal argument types -/
+  instanceArgTypes : Array Name := #[]
   deriving Repr, Inhabited, ToJson, FromJson
 
 /-! ## Theorems Table -/
@@ -123,32 +131,55 @@ def apiMetaToTheoremReference (name : Name) (apiMeta : APIMeta) : TheoremReferen
     }
 
 /-- Pre-compute the reverse index: for each definition, which theorems verify it.
+    Also includes self-certifying instances as verifiers of their argument types.
     This is O(n) over all entries, replacing the previous O(defs × total) scan. -/
 def computeVerifiedByMap (allEntries : NameMap APIMeta) : Std.HashMap Name (Array TheoremReference) := Id.run do
   let mut result : Std.HashMap Name (Array TheoremReference) := {}
   let entriesArray := allEntries.foldl (init := #[]) fun acc name apiMeta => acc.push (name, apiMeta)
-  for (thmName, thmMeta) in entriesArray do
-    match thmMeta.kind with
+  for (declName, declMeta) in entriesArray do
+    match declMeta.kind with
     | .apiTheorem thmData =>
-      let ref := apiMetaToTheoremReference thmName thmMeta
+      let ref := apiMetaToTheoremReference declName declMeta
       for defName in thmData.proves do
         let existing := result.getD defName #[]
         result := result.insert defName (existing.push ref)
       for defName in thmData.validates do
         let existing := result.getD defName #[]
         result := result.insert defName (existing.push ref)
+    | .apiDef defData =>
+      -- Self-certifying instances contribute to verifiedBy for their argument types
+      if let some instInfo := defData.instanceInfo then
+        if instInfo.disposition == .selfCertifying then
+          let ref : TheoremReference := {
+            name := declName
+            kind := some "selfCertifyingInstance"
+            bridgingDirection := none
+          }
+          for argType in instInfo.argTypes do
+            let existing := result.getD argType #[]
+            result := result.insert argType (existing.push ref)
     | _ => pure ()
   return result
 
 /-- Convert APIMeta for a definition to a DefinitionTableEntry -/
 def apiMetaToDefinitionEntry (name : Name) (apiMeta : APIMeta)
     (verifiedByMap : Std.HashMap Name (Array TheoremReference)) : DefinitionTableEntry :=
+  let instFields := match apiMeta.kind with
+    | .apiDef defData => defData.instanceInfo
+    | _ => none
   {
     name := name
     category := apiMeta.categoryString
     verifiedBy := verifiedByMap.getD name #[]
     hasSorry := apiMeta.hasSorry
     isPrivate := isPrivateName name
+    instanceOf := instFields.map (·.className.toString)
+    instanceDisposition := instFields.map (·.disposition.toString)
+    instanceLawfulClass := instFields.bind fun info =>
+      match info.disposition with
+      | .requiresLawful lawfulClass => some lawfulClass.toString
+      | _ => none
+    instanceArgTypes := instFields.map (·.argTypes) |>.getD #[]
   }
 
 /-- Convert APIMeta for a theorem to a TheoremTableEntry -/

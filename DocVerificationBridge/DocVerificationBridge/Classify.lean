@@ -97,6 +97,53 @@ def shouldExclude (name : Name) : Bool :=
   -- Note: We now INCLUDE _private declarations so they appear in table data with isPrivate=true
 
 /-!
+## Instance Classification
+-/
+
+/-- Look up the typeclass rule for a given class name -/
+def findTypeclassRule (rules : Array TypeclassRule) (className : Name) : Option TypeclassRule :=
+  rules.find? (·.className == className)
+
+/-- Collect internal head constant names from instance type arguments.
+    Skips arguments that are themselves instances or filtered names.
+    Recurses one level into sub-arguments to handle types like `BEq (List MyType)`. -/
+private def collectInstanceArgTypes (body : Expr) (env : Environment)
+    (internalPrefixes : Array String) : MetaM (Array Name) := do
+  let mut result : Array Name := #[]
+  for arg in body.getAppArgs do
+    -- Check head constant of this argument
+    if let .const n _ := arg.getAppFn then
+      if !shouldFilter n && isInternalName env internalPrefixes n then
+        unless ← Meta.isInstance n do
+          result := result.push n
+    -- Check heads of sub-arguments (one level deeper)
+    for subarg in arg.getAppArgs do
+      if let .const n _ := subarg.getAppFn then
+        if !shouldFilter n && isInternalName env internalPrefixes n then
+          unless ← Meta.isInstance n do
+            result := result.push n
+  return result
+
+/-- Extract instance metadata for a constant, if it's a typeclass instance.
+    Returns `none` for non-instances. Uses `forallMetaTelescopeReducing` to
+    strip ∀-binders, then extracts the class name and argument types. -/
+def extractInstanceInfo (name : Name) (type : Expr)
+    (rules : Array TypeclassRule) (internalPrefixes : Array String) : MetaM (Option InstanceInfo) := do
+  unless ← Meta.isInstance name do return none
+  let env ← getEnv
+  -- Strip foralls to get the class application body
+  let (_, _, body) ← forallMetaTelescopeReducing type
+  let body ← whnf body
+  match body.getAppFn with
+  | .const className _ =>
+    let disposition := match findTypeclassRule rules className with
+      | some rule => rule.disposition
+      | none => .infrastructure
+    let argTypes ← collectInstanceArgTypes body env internalPrefixes
+    return some { className, argTypes, disposition }
+  | _ => return none
+
+/-!
 ## Main Classification
 -/
 
@@ -117,7 +164,8 @@ deriving Inhabited
 
 /-- Classify a single constant from the environment (Phase 1: without proof deps) -/
 def classifyConstantLight (env : Environment) (name : Name) (cinfo : ConstantInfo)
-    (internalPrefixes : Array String) (modName : Name := Name.anonymous) : MetaM (Option (APIMeta × Option ProofDepTask)) := do
+    (internalPrefixes : Array String) (modName : Name := Name.anonymous)
+    (typeclassRules : Array TypeclassRule := defaultTypeclassRules) : MetaM (Option (APIMeta × Option ProofDepTask)) := do
   -- Skip blacklisted declarations
   if ← isBlackListed env name then return none
   if shouldExclude name then return none
@@ -149,10 +197,11 @@ def classifyConstantLight (env : Environment) (name : Name) (cinfo : ConstantInf
     return some (apiMeta, some task)
 
   | .defnInfo info =>
-    -- Definition: classify by return type and check for sorry
+    -- Definition: classify by return type, check for sorry, detect instance
     let category ← classifyDefinition info.type
     let hasSorry := exprContainsSorry info.value
-    let defData : DefData := { category, hasSorry }
+    let instanceInfo ← extractInstanceInfo name info.type typeclassRules internalPrefixes
+    let defData : DefData := { category, hasSorry, instanceInfo }
     return some ({ kind := .apiDef defData, module := modName, coverage := .unverified }, none)
 
   | .inductInfo info =>
@@ -168,14 +217,16 @@ def classifyConstantLight (env : Environment) (name : Name) (cinfo : ConstantInf
     -- Opaque constant (includes noncomputable instances and definitions)
     let category ← classifyDefinition info.type
     let hasSorry := exprContainsSorry info.value
-    let defData : DefData := { category, hasSorry }
+    let instanceInfo ← extractInstanceInfo name info.type typeclassRules internalPrefixes
+    let defData : DefData := { category, hasSorry, instanceInfo }
     return some ({ kind := .apiDef defData, module := modName, coverage := .unverified }, none)
 
   | _ => return none  -- Skip other kinds (constructors, recursors, etc.)
 
 /-- Classify a single constant (non-parallel version, used when proof deps are skipped) -/
 def classifyConstant (env : Environment) (name : Name) (cinfo : ConstantInfo)
-    (internalPrefixes : Array String) (modName : Name := Name.anonymous) : MetaM (Option APIMeta) := do
+    (internalPrefixes : Array String) (modName : Name := Name.anonymous)
+    (typeclassRules : Array TypeclassRule := defaultTypeclassRules) : MetaM (Option APIMeta) := do
   -- Skip blacklisted declarations
   if ← isBlackListed env name then return none
   if shouldExclude name then return none
@@ -204,10 +255,11 @@ def classifyConstant (env : Environment) (name : Name) (cinfo : ConstantInfo)
     return some { kind := .apiTheorem thmData, module := modName, coverage := .unverified }
 
   | .defnInfo info =>
-    -- Definition: classify by return type and check for sorry
+    -- Definition: classify by return type, check for sorry, detect instance
     let category ← classifyDefinition info.type
     let hasSorry := exprContainsSorry info.value
-    let defData : DefData := { category, hasSorry }
+    let instanceInfo ← extractInstanceInfo name info.type typeclassRules internalPrefixes
+    let defData : DefData := { category, hasSorry, instanceInfo }
     return some { kind := .apiDef defData, module := modName, coverage := .unverified }
 
   | .inductInfo info =>
@@ -223,7 +275,8 @@ def classifyConstant (env : Environment) (name : Name) (cinfo : ConstantInfo)
     -- Opaque constant (includes noncomputable instances and definitions)
     let category ← classifyDefinition info.type
     let hasSorry := exprContainsSorry info.value
-    let defData : DefData := { category, hasSorry }
+    let instanceInfo ← extractInstanceInfo name info.type typeclassRules internalPrefixes
+    let defData : DefData := { category, hasSorry, instanceInfo }
     return some { kind := .apiDef defData, module := modName, coverage := .unverified }
 
   | _ => return none  -- Skip other kinds (constructors, recursors, etc.)

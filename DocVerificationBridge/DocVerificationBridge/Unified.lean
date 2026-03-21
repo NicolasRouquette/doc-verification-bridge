@@ -410,8 +410,8 @@ def generateVerificationJson (buildDir : System.FilePath) (entries : NameMap API
     let catStr := match m.kind with
       | .apiType .mathematicalAbstraction => "MathAbstract"
       | .apiType .computationalDatatype => "CompDatatype"
-      | .apiDef ⟨.mathematicalDefinition, _, _⟩ => "MathDef"
-      | .apiDef ⟨.computationalOperation, _, _⟩ => "CompOp"
+      | .apiDef ⟨.mathematicalDefinition, _, _, _⟩ => "MathDef"
+      | .apiDef ⟨.computationalOperation, _, _, _⟩ => "CompOp"
       | .apiTheorem _ => "Theorem"
     let entry : Json := Json.mkObj [
       ("name", Json.str name.toString),

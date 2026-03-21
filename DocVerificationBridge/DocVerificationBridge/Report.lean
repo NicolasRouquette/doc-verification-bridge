@@ -390,8 +390,8 @@ def flatEntryToMarkdownXRef (env : Environment) (cfg : Option ReportConfig) (nam
     let catDisplay := match m.kind with
       | .apiType .mathematicalAbstraction => "MathAb"
       | .apiType .computationalDatatype => "CompData"
-      | .apiDef ⟨.mathematicalDefinition, _, _⟩ => "MathDef"
-      | .apiDef ⟨.computationalOperation, _, _⟩ => "CompOp"
+      | .apiDef ⟨.mathematicalDefinition, _, _, _⟩ => "MathDef"
+      | .apiDef ⟨.computationalOperation, _, _, _⟩ => "CompOp"
       | .apiTheorem _ => "—"  -- shouldn't happen for defs
     -- Add sorry indicator if definition contains sorry
     let sorryIndicator := if m.hasSorry then " ⚠️" else ""
@@ -619,8 +619,8 @@ def generateReport (env : Environment) (entries : NameMap APIMeta)
       match m.kind with
       | .apiType .mathematicalAbstraction => mathAbstractions := mathAbstractions.push name
       | .apiType .computationalDatatype => compDatatypes := compDatatypes.push name
-      | .apiDef ⟨.mathematicalDefinition, _, _⟩ => mathDefs := mathDefs.push name
-      | .apiDef ⟨.computationalOperation, _, _⟩ => compOps := compOps.push name
+      | .apiDef ⟨.mathematicalDefinition, _, _, _⟩ => mathDefs := mathDefs.push name
+      | .apiDef ⟨.computationalOperation, _, _, _⟩ => compOps := compOps.push name
       | _ => pure ()
 
   -- Helper to format a list of names as links (HTML unordered list for details sections)
@@ -724,8 +724,8 @@ def generateSummaryReport (entries : NameMap APIMeta) (projectName : String := "
       match m.kind with
       | .apiType .mathematicalAbstraction => mathAbstractions := mathAbstractions + 1
       | .apiType .computationalDatatype => compDatatypes := compDatatypes + 1
-      | .apiDef ⟨.mathematicalDefinition, _, _⟩ => mathDefs := mathDefs + 1
-      | .apiDef ⟨.computationalOperation, _, _⟩ => compOps := compOps + 1
+      | .apiDef ⟨.mathematicalDefinition, _, _, _⟩ => mathDefs := mathDefs + 1
+      | .apiDef ⟨.computationalOperation, _, _, _⟩ => compOps := compOps + 1
       | _ => pure ()
 
   let mut output := s!"# {projectName} Summary\n\n"
@@ -839,8 +839,8 @@ def generateModuleReport (env : Environment) (filePath : String)
       match m.kind with
       | .apiType .mathematicalAbstraction => stats := { stats with mathAbstractions := stats.mathAbstractions + 1 }
       | .apiType .computationalDatatype => stats := { stats with compDatatypes := stats.compDatatypes + 1 }
-      | .apiDef ⟨.mathematicalDefinition, _, _⟩ => stats := { stats with mathDefs := stats.mathDefs + 1 }
-      | .apiDef ⟨.computationalOperation, _, _⟩ => stats := { stats with compOps := stats.compOps + 1 }
+      | .apiDef ⟨.mathematicalDefinition, _, _, _⟩ => stats := { stats with mathDefs := stats.mathDefs + 1 }
+      | .apiDef ⟨.computationalOperation, _, _, _⟩ => stats := { stats with compOps := stats.compOps + 1 }
       | _ => pure ()
 
   -- Generate markdown

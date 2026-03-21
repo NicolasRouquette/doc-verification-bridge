@@ -254,6 +254,62 @@ Uses `collectHeadConstantsFromTerm` (not `collectHeadConstants`) because the bin
 - After: `proves = [ValidYaml, ValidYaml.input, stripAnnotations, ValidYaml.value, ...]`
 - `computeVerifiedByMap` then automatically populates `ValidYaml.verifiedBy`
 
+### Completed: Instance Classification Rules (2026-03-20)
+
+**Problem:** Typeclass instances (e.g., `instance : Decidable (isFoldAppendChar c)`, `instance : BEq CollectionStyle`) are classified as plain definitions (`computationalOperation` or `mathematicalDefinition`). The bridge treats them identically to regular functions, missing important verification semantics:
+- **Self-certifying** instances like `Decidable` are proofs by construction — their type *encodes* correctness
+- **Requires-lawful** instances like `BEq` need companion proofs (`LawfulBEq`) for correctness
+- **Infrastructure** instances like `ToString`, `Repr` are not verification-relevant
+
+**Solution** — extensible typeclass rule system:
+
+1. `InstanceDisposition` enum classifies how instances should be handled:
+   ```lean
+   inductive InstanceDisposition where
+     | selfCertifying                       -- Instance IS the proof (Decidable, LawfulBEq)
+     | requiresLawful (lawfulClass : Name)  -- Needs companion proof (BEq → LawfulBEq)
+     | infrastructure                       -- Not verification-relevant (ToString, Repr)
+   ```
+
+2. `TypeclassRule` pairs a class name with its disposition:
+   ```lean
+   structure TypeclassRule where
+     className : Name
+     disposition : InstanceDisposition
+     description : String := ""
+   ```
+
+3. `defaultTypeclassRules` provides rules for common typeclasses (extensible by adding entries):
+
+   | Typeclass | Disposition | Rationale |
+   |-----------|-------------|-----------|
+   | `Decidable`, `DecidableEq`, `DecidablePred`, `DecidableRel` | `selfCertifying` | Decision procedure with proof |
+   | `LawfulBEq`, `LawfulFunctor`, `LawfulMonad` | `selfCertifying` | Law-satisfaction proofs |
+   | `BEq` | `requiresLawful LawfulBEq` | Needs correctness proof |
+   | `Functor` | `requiresLawful LawfulFunctor` | Needs functor law proof |
+   | `Monad` | `requiresLawful LawfulMonad` | Needs monad law proof |
+   | `ToString`, `Repr`, `Inhabited`, `Nonempty`, `Hashable`, `Ord` | `infrastructure` | Not verification-relevant |
+
+4. `extractInstanceInfo` (Classify.lean) detects instances via `Meta.isInstance`, extracts the class and argument types, and looks up the matching rule.
+
+5. `computeVerifiedByMap` (TableData.lean) includes self-certifying instances in the reverse index — a `Decidable (isFoldAppendChar c)` instance now appears in `isFoldAppendChar.verifiedBy`.
+
+6. JSON output adds `instanceOf`, `instanceDisposition`, `instanceLawfulClass`, `instanceArgTypes` fields to definition entries.
+
+**Impact:**
+- `instDecidableIsFoldAppendChar` → `instanceOf: Decidable, disposition: selfCertifying, argTypes: [isFoldAppendChar]` → fills `isFoldAppendChar.verifiedBy`
+- `instBEqCollectionStyle` → `instanceOf: BEq, disposition: requiresLawful, lawfulClass: LawfulBEq, argTypes: [CollectionStyle]` → obligation tracked
+- `instLawfulBEqCollectionStyle` → `instanceOf: LawfulBEq, disposition: selfCertifying, argTypes: [CollectionStyle]` → fills `CollectionStyle.verifiedBy`
+
+| File | Change |
+|------|--------|
+| [Types.lean](DocVerificationBridge/DocVerificationBridge/Types.lean) | Add `InstanceDisposition`, `InstanceInfo`, `TypeclassRule`, `defaultTypeclassRules`; add `instanceInfo` to `DefData` |
+| [Classify.lean](DocVerificationBridge/DocVerificationBridge/Classify.lean) | Add `extractInstanceInfo`, `collectInstanceArgTypes`, `findTypeclassRule`; call from `classifyConstantLight`/`classifyConstant` |
+| [TableData.lean](DocVerificationBridge/DocVerificationBridge/TableData.lean) | Self-certifying instances in `computeVerifiedByMap`; add instance fields to `DefinitionTableEntry` |
+| [Report.lean](DocVerificationBridge/DocVerificationBridge/Report.lean) | Update `DefData` pattern matches (4 fields) |
+| [Unified.lean](DocVerificationBridge/DocVerificationBridge/Unified.lean) | Update `DefData` pattern matches (4 fields) |
+| [UnifiedBasic.lean](DocVerificationBridge/DocVerificationBridge/UnifiedBasic.lean) | Update `DefData` pattern matches (4 fields) |
+
 ### Planned: Def-as-Witness Detection
 
 **Problem:** A `def` returning a specification structure (e.g., `def scan_produces_valid_tokens : ... → ValidTokenStream`) is classified as `computationalOperation` because its return type is `Type`, not `Prop`. The bridge never populates `proves` for definitions — only theorems get inference. These "def-as-witness" patterns are invisible to verification coverage tracking.
