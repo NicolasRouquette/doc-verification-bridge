@@ -2424,6 +2424,24 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
                    errorMessage := some "cache get failed", buildLog := cacheLog,
                    siteDir := some outputDir }
 
+    -- ProofWidgets4 has a custom build target (widgetJsAll) that downloads pre-built
+    -- JavaScript from GitHub releases. This must happen with network access BEFORE the
+    -- isolated build, otherwise it fails in the no-network sandbox.
+    -- We attempt `lake build proofwidgets` with network; if the project doesn't depend
+    -- on ProofWidgets, this is a no-op (Lake reports "no such package" which we ignore).
+    if lakeExeCacheGet then
+      let (pwOk, pwLog, newLog) ← runLakeLogged "lake-build-proofwidgets" config.useSandbox
+        dvbCacheDir projectDir "network" #["build", "proofwidgets"]
+        cmdLog (some logCtx)
+      cmdLog := newLog
+      if !pwOk then
+        -- Non-fatal: project may not depend on ProofWidgets
+        if pwLog.contains "unknown package" || pwLog.contains "no such package"
+           || pwLog.contains "unknown target" then
+          IO.println s!"[{name}]       Note: ProofWidgets not a dependency, skipping widget fetch"
+        else
+          IO.println s!"[{name}]       Warning: ProofWidgets build failed, continuing with isolated build..."
+
     -- Build the project's default targets plus the modules we need for documentation.
     -- The default `lake build` only builds defaultTargets from the lakefile, which may
     -- not include the library root modules specified in config.toml (e.g., contracts
