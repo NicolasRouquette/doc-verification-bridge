@@ -1,5 +1,5 @@
 -- MainBasic.lean
--- Unified CLI for doc-gen4 v4.28.0 (process returns AnalyzerResult × Hierarchy)
+-- Unified CLI for doc-gen4 ≤ v4.28.0 (process returns AnalyzerResult × Hierarchy)
 
 import Cli
 import Lean

@@ -39,10 +39,21 @@ doc-verification-bridge/
 
 ### Why Two Packages?
 
-DocVerificationBridge depends on Lean and doc-gen4 APIs that have **breaking changes** between versions (v4.27.0, v4.28.0, v4.29.0-rc2+). A single codebase cannot support all versions simultaneously.
+DocVerificationBridge depends on Lean and doc-gen4 APIs that have **breaking changes** between versions. A single codebase cannot support all versions simultaneously.
+
+#### Supported Version Range
+
+| Constant | Value | Location |
+|----------|-------|----------|
+| **Min supported** | 4.24.0 | `Experiments/Experiments/ExperimentsCore.lean` → `minSupportedVersion` |
+| **Max supported** | 4.29.0 | `Experiments/Experiments/ExperimentsCore.lean` → `maxSupportedVersion` |
+| **Current toolchain** | v4.29.0 | `DocVerificationBridge/lakefile.toml` → `leanVersion` |
+
+> **To add a new Lean version**: update `maxSupportedVersion` in ExperimentsCore.lean,
+> then follow the steps in [Adding Support for New Lean Versions](#adding-support-for-new-lean-versions).
 
 **Solution**: Version-specific git branches + process isolation:
-- **DocVerificationBridge** has version-specific branches (v4.27.0, v4.28.0, main)
+- **DocVerificationBridge** has version-specific branches (v4.27.0, v4.28.0, v4.29.0, main)
 - **Experiments** orchestrates by cloning the appropriate DocVerificationBridge version per project
 - Communication happens via CLI/subprocess (not Lean imports)
 
@@ -81,9 +92,13 @@ lake exe unified-doc unified \
 
 ### Supported Lean Versions
 
-- **v4.27.0 branch**: Lean 4.24.0 - 4.27.0
-- **v4.28.0 branch**: Lean 4.28.0
-- **main branch**: Lean 4.28.0+ (will update to 4.29.0-rc2 when stable)
+| Branch | Lean Versions | Notes |
+|--------|--------------|-------|
+| v4.27.0 | 4.24.0 – 4.27.0 | Legacy |
+| v4.28.0 | 4.28.0 | |
+| v4.29.0 / main | 4.29.0-rc1+ | Current development |
+
+See the [Supported Version Range](#supported-version-range) table above for the authoritative min/max.
 
 ## Experiments Package
 
@@ -129,7 +144,7 @@ name = "my-project"
 repo = "https://github.com/owner/my-project"
 modules = ["MyProject"]
 description = "Project description"
-docvb_version = "v4.28.0"  # Which DocVerificationBridge version to use
+docvb_version = "v4.29.0"  # Which DocVerificationBridge branch to use (see Supported Version Range)
 ```
 
 The `docvb_version` field specifies which DocVerificationBridge branch/tag to use for that project. This allows mixing projects with different Lean versions in the same experiment run.

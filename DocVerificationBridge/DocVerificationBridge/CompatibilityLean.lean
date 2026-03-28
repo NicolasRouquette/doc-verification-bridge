@@ -7,7 +7,8 @@ import Lean
 # Lean-Specific Compatibility Tests
 
 This module tests idioms that require `import Lean` and must work across
-supported Lean versions (4.24.0 - 4.28.0+).
+all supported Lean versions (see `minSupportedVersion`/`maxSupportedVersion`
+in ExperimentsCore.lean for the authoritative range).
 
 ## Options API Changes
 
@@ -23,7 +24,7 @@ open Lean
 namespace DocVerificationBridge.CompatibilityLean
 
 /-- Test that Options.empty and setBool work (required for MetaM config).
-    This pattern works from at least Lean 4.24.0 through 4.28.0+. -/
+    This pattern works across all supported Lean versions. -/
 def testOptionsConstruction : Options :=
   Options.empty
     |>.setBool `pp.tagAppFns true
