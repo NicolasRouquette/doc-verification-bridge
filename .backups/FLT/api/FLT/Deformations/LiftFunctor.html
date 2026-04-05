@@ -1,0 +1,316 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../.././style.css"></link><link rel="icon" href="../.././favicon.svg"></link><link rel="mask-icon" href="../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../.././/declarations/declaration-data.bmp" as="image"></link><title>FLT.Deformations.LiftFunctor</title><script defer="true" src="../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../.././";</script><script>const MODULE_NAME="FLT.Deformations.LiftFunctor";</script><script type="module" src="../.././jump-src.js"></script><script type="module" src="../.././search.js"></script><script type="module" src="../.././expand-nav.js"></script><script type="module" src="../.././how-about.js"></script><script type="module" src="../.././instances.js"></script><script type="module" src="../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">FLT</span>.<span class="name">Deformations</span>.<span class="name">LiftFunctor</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Deformations/LiftFunctor.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../.././Init.html">Init</a></li><li><a href="../.././FLT/Deformations/Categories.html">FLT.Deformations.Categories</a></li><li><a href="../.././FLT/Deformations/Subfunctor.html">FLT.Deformations.Subfunctor</a></li><li><a href="../.././Mathlib/RepresentationTheory/Basic.html">Mathlib.RepresentationTheory.Basic</a></li><li><a href="../.././FLT/Deformations/RepresentationTheory/GaloisRep.html">FLT.Deformations.RepresentationTheory.GaloisRep</a></li><li><a href="../.././Mathlib/NumberTheory/Cyclotomic/CyclotomicCharacter.html">Mathlib.NumberTheory.Cyclotomic.CyclotomicCharacter</a></li><li><a href="../.././Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Defs.html">Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Defs</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-FLT.Deformations.LiftFunctor" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#Deformation.repnFunctor"><span class="name">Deformation</span>.<span class="name">repnFunctor</span></a></div><div class="nav_link"><a class="break_within" href="#Deformation.repnFunctor_map"><span class="name">Deformation</span>.<span class="name">repnFunctor_map</span></a></div><div class="nav_link"><a class="break_within" href="#Deformation.toRepresentation"><span class="name">Deformation</span>.<span class="name">toRepresentation</span></a></div><div class="nav_link"><a class="break_within" href="#Deformation.toFramedGaloisRep"><span class="name">Deformation</span>.<span class="name">toFramedGaloisRep</span></a></div><div class="nav_link"><a class="break_within" href="#Deformation.toFramedGaloisRep_map"><span class="name">Deformation</span>.<span class="name">toFramedGaloisRep_map</span></a></div><div class="nav_link"><a class="break_within" href="#Deformation.repnQuotFunctor"><span class="name">Deformation</span>.<span class="name">repnQuotFunctor</span></a></div><div class="nav_link"><a class="break_within" href="#Deformation.toRepnQuot"><span class="name">Deformation</span>.<span class="name">toRepnQuot</span></a></div><div class="nav_link"><a class="break_within" href="#Deformation.liftFunctor"><span class="name">Deformation</span>.<span class="name">liftFunctor</span></a></div><div class="nav_link"><a class="break_within" href="#Deformation.deformationFunctor"><span class="name">Deformation</span>.<span class="name">deformationFunctor</span></a></div><div class="nav_link"><a class="break_within" href="#Deformation.flatFunctor"><span class="name">Deformation</span>.<span class="name">flatFunctor</span></a></div><div class="nav_link"><a class="break_within" href="#Deformation.unramifiedFunctor"><span class="name">Deformation</span>.<span class="name">unramifiedFunctor</span></a></div><div class="nav_link"><a class="break_within" href="#Deformation.traceConditionFunctor"><span class="name">Deformation</span>.<span class="name">traceConditionFunctor</span></a></div><div class="nav_link"><a class="break_within" href="#Deformation.narrowTraceConditionFunctor"><span class="name">Deformation</span>.<span class="name">narrowTraceConditionFunctor</span></a></div><div class="nav_link"><a class="break_within" href="#Deformation.detConditionFunctor"><span class="name">Deformation</span>.<span class="name">detConditionFunctor</span></a></div></nav><main>
+<div class="decl" id="Deformation.repnFunctor"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Deformations/LiftFunctor.lean#L23-L26">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Deformations_LiftFunctor.html#Deformation.repnFunctor" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Deformations/LiftFunctor.html#Deformation.repnFunctor"><span class="name">Deformation</span>.<span class="name">repnFunctor</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">«𝓞»</span> : <a href="../.././foundational_types.html">Type</a> u)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">«𝓞»</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor">CategoryTheory.Functor</a> <span class="fn">(<a href="../.././FLT/Deformations/Categories.html#Deformation.ProartinianCat">ProartinianCat</a> <span class="fn">«𝓞»</span>)</span> <a href="../.././foundational_types.html">(Type</a> u)</span></div></div><p><code><a href="../.././FLT/Deformations/LiftFunctor.html#Deformation.repnFunctor">repnFunctor</a> n G 𝓞</code> is the functor taking <code>R</code> to continuous reps <code>G → GLₙ(R)</code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Deformation.repnFunctor" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Deformation.repnFunctor_map"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Deformations/LiftFunctor.lean#L29-L32">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Deformations_LiftFunctor.html#Deformation.repnFunctor_map" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Deformations/LiftFunctor.html#Deformation.repnFunctor_map"><span class="name">Deformation</span>.<span class="name">repnFunctor_map</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">«𝓞»</span> : <a href="../.././foundational_types.html">Type</a> u)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">«𝓞»</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">S</span> : <span class="fn"><a href="../.././FLT/Deformations/Categories.html#Deformation.ProartinianCat">ProartinianCat</a> <span class="fn">«𝓞»</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">R</span> <a href="../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn">S</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">ρ</span> : <span class="fn">G</span> <a href="../.././Mathlib/Topology/Algebra/ContinuousMonoidHom.html#ContinuousMonoidHom">→ₜ*</a> <span class="fn"><a href="../.././Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Defs.html#Matrix.GeneralLinearGroup">GL</a> <span class="fn">n</span> <span class="fn">↑<span class="fn">R</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">(<a href="../.././FLT/Deformations/LiftFunctor.html#Deformation.repnFunctor">repnFunctor</a> <span class="fn">n</span> <span class="fn">G</span> <span class="fn">«𝓞»</span>)</span>.<a href="../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.map">map</a></span> <span class="fn">f</span> <span class="fn">ρ</span>)</span> <span class="fn">x</span></span> <a href="../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn">(<a href="../.././Mathlib/LinearAlgebra/Matrix/GeneralLinearGroup/Defs.html#Matrix.GeneralLinearGroup.map">Matrix.GeneralLinearGroup.map</a> <span class="fn"><span class="fn"><span class="fn">f</span>.<a href="../.././FLT/Deformations/Categories.html#Deformation.ProartinianCat.Hom.hom">hom</a></span>.<a href="../.././Mathlib/Algebra/Algebra/Hom.html#AlgHom.toRingHom">toRingHom</a></span>)</span> <span class="fn">(<span class="fn">ρ</span> <span class="fn">x</span>)</span></span></div></div></div></div><div class="decl" id="Deformation.toRepresentation"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Deformations/LiftFunctor.lean#L35-L38">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Deformations_LiftFunctor.html#Deformation.toRepresentation" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Deformations/LiftFunctor.html#Deformation.toRepresentation"><span class="name">Deformation</span>.<span class="name">toRepresentation</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">«𝓞»</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">«𝓞»</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <span class="fn"><a href="../.././FLT/Deformations/Categories.html#Deformation.ProartinianCat">ProartinianCat</a> <span class="fn">«𝓞»</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">ρ</span> : <span class="fn"><span class="fn"><span class="fn">(<a href="../.././FLT/Deformations/LiftFunctor.html#Deformation.repnFunctor">repnFunctor</a> <span class="fn">n</span> <span class="fn">G</span> <span class="fn">«𝓞»</span>)</span>.<a href="../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">R</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/RepresentationTheory/Basic.html#Representation">Representation</a> <span class="fn">(↑<span class="fn">R</span>)</span> <span class="fn">G</span> <span class="fn">(<span class="fn">n</span> → <span class="fn">↑<span class="fn">R</span></span>)</span></span></div></div><p>Turn an element in <code><a href="../.././FLT/Deformations/LiftFunctor.html#Deformation.repnFunctor">repnFunctor</a></code> into an actual <code><a href="../.././Mathlib/RepresentationTheory/Basic.html#Representation">Representation</a></code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Deformation.toRepresentation" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Deformation.toFramedGaloisRep"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Deformations/LiftFunctor.lean#L41-L45">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Deformations_LiftFunctor.html#Deformation.toFramedGaloisRep" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Deformations/LiftFunctor.html#Deformation.toFramedGaloisRep"><span class="name">Deformation</span>.<span class="name">toFramedGaloisRep</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">«𝓞»</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">«𝓞»</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <span class="fn"><a href="../.././FLT/Deformations/Categories.html#Deformation.ProartinianCat">ProartinianCat</a> <span class="fn">«𝓞»</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">ρ</span> : <span class="fn"><span class="fn"><span class="fn">(<a href="../.././FLT/Deformations/LiftFunctor.html#Deformation.repnFunctor">repnFunctor</a> <span class="fn">n</span> <span class="fn">(<a href="../.././Mathlib/FieldTheory/AbsoluteGaloisGroup.html#Field.absoluteGaloisGroup">Field.absoluteGaloisGroup</a> <span class="fn">K</span>)</span> <span class="fn">«𝓞»</span>)</span>.<a href="../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">R</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././FLT/Deformations/RepresentationTheory/GaloisRep.html#FramedGaloisRep">FramedGaloisRep</a> <span class="fn">K</span> <span class="fn">(↑<span class="fn">R</span>)</span> <span class="fn">n</span></span></div></div><p>Turn an element in <code><a href="../.././FLT/Deformations/LiftFunctor.html#Deformation.repnFunctor">repnFunctor</a></code> into an actual <code><a href="../.././FLT/Deformations/RepresentationTheory/GaloisRep.html#GaloisRep">GaloisRep</a></code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Deformation.toFramedGaloisRep" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Deformation.toFramedGaloisRep_map"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Deformations/LiftFunctor.lean#L48-L54">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Deformations_LiftFunctor.html#Deformation.toFramedGaloisRep_map" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Deformations/LiftFunctor.html#Deformation.toFramedGaloisRep_map"><span class="name">Deformation</span>.<span class="name">toFramedGaloisRep_map</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">«𝓞»</span> : <a href="../.././foundational_types.html">Type</a> u)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">«𝓞»</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">S</span> : <span class="fn"><a href="../.././FLT/Deformations/Categories.html#Deformation.ProartinianCat">ProartinianCat</a> <span class="fn">«𝓞»</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">R</span> <a href="../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn">S</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">ρ</span> : <span class="fn"><span class="fn"><span class="fn">(<a href="../.././FLT/Deformations/LiftFunctor.html#Deformation.repnFunctor">repnFunctor</a> <span class="fn">n</span> <span class="fn">(<a href="../.././Mathlib/FieldTheory/AbsoluteGaloisGroup.html#Field.absoluteGaloisGroup">Field.absoluteGaloisGroup</a> <span class="fn">K</span>)</span> <span class="fn">«𝓞»</span>)</span>.<a href="../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">R</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././FLT/Deformations/LiftFunctor.html#Deformation.toFramedGaloisRep">toFramedGaloisRep</a> <span class="fn">(<span class="fn"><span class="fn">(<a href="../.././FLT/Deformations/LiftFunctor.html#Deformation.repnFunctor">repnFunctor</a> <span class="fn">n</span> <span class="fn">(<a href="../.././Mathlib/FieldTheory/AbsoluteGaloisGroup.html#Field.absoluteGaloisGroup">Field.absoluteGaloisGroup</a> <span class="fn">K</span>)</span> <span class="fn">«𝓞»</span>)</span>.<a href="../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.map">map</a></span> <span class="fn">f</span> <span class="fn">ρ</span>)</span></span> <a href="../.././Init/Prelude.html#Eq">=</a>   <span class="fn"><span class="fn"><span class="fn">(<a href="../.././FLT/Deformations/LiftFunctor.html#Deformation.toFramedGaloisRep">toFramedGaloisRep</a> <span class="fn">ρ</span>)</span>.<a href="../.././FLT/Deformations/RepresentationTheory/GaloisRep.html#FramedGaloisRep.baseChange">baseChange</a></span> <span class="fn">↑<span class="fn"><span class="fn">f</span>.<a href="../.././FLT/Deformations/Categories.html#Deformation.ProartinianCat.Hom.hom">hom</a></span></span> <span class="fn">⋯</span></span></div></div></div></div><div class="decl" id="Deformation.repnQuotFunctor"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Deformations/LiftFunctor.lean#L58-L76">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Deformations_LiftFunctor.html#Deformation.repnQuotFunctor" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Deformations/LiftFunctor.html#Deformation.repnQuotFunctor"><span class="name">Deformation</span>.<span class="name">repnQuotFunctor</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">«𝓞»</span> : <a href="../.././foundational_types.html">Type</a> u)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">«𝓞»</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/RingTheory/LocalRing/Defs.html#IsLocalRing">IsLocalRing</a> <span class="fn">«𝓞»</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor">CategoryTheory.Functor</a> <span class="fn">(<a href="../.././FLT/Deformations/Categories.html#Deformation.ProartinianCat">ProartinianCat</a> <span class="fn">«𝓞»</span>)</span> <a href="../.././foundational_types.html">(Type</a> u)</span></div></div><p><code><a href="../.././FLT/Deformations/LiftFunctor.html#Deformation.repnQuotFunctor">repnQuotFunctor</a> n G 𝓞</code> is the functor taking <code>R</code> to continuous reps <code>G → GLₙ(R)</code> up to
+conjugation by some <code>γ</code> in the kernel of <code>GLₙ(R) → GLₙ(𝕜)</code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Deformation.repnQuotFunctor" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Deformation.toRepnQuot"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Deformations/LiftFunctor.lean#L78-L82">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Deformations_LiftFunctor.html#Deformation.toRepnQuot" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Deformations/LiftFunctor.html#Deformation.toRepnQuot"><span class="name">Deformation</span>.<span class="name">toRepnQuot</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">«𝓞»</span> : <a href="../.././foundational_types.html">Type</a> u)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">«𝓞»</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/RingTheory/LocalRing/Defs.html#IsLocalRing">IsLocalRing</a> <span class="fn">«𝓞»</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././FLT/Deformations/LiftFunctor.html#Deformation.repnFunctor">repnFunctor</a> <span class="fn">n</span> <span class="fn">G</span> <span class="fn">«𝓞»</span></span> <a href="../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn"><a href="../.././FLT/Deformations/LiftFunctor.html#Deformation.repnQuotFunctor">repnQuotFunctor</a> <span class="fn">n</span> <span class="fn">G</span> <span class="fn">«𝓞»</span></span></div></div><p>The quotient map taking representations to &quot;representations up to equivalence&quot;.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Deformation.toRepnQuot" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Deformation.liftFunctor"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Deformations/LiftFunctor.lean#L84-L87">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Deformations_LiftFunctor.html#Deformation.liftFunctor" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Deformations/LiftFunctor.html#Deformation.liftFunctor"><span class="name">Deformation</span>.<span class="name">liftFunctor</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">«𝓞»</span> : <a href="../.././foundational_types.html">Type</a> u)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">«𝓞»</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/RingTheory/LocalRing/Defs.html#IsLocalRing">IsLocalRing</a> <span class="fn">«𝓞»</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">ρ</span> : <span class="fn"><span class="fn"><span class="fn">(<a href="../.././FLT/Deformations/LiftFunctor.html#Deformation.repnFunctor">repnFunctor</a> <span class="fn">n</span> <span class="fn">G</span> <span class="fn">«𝓞»</span>)</span>.<a href="../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <a href="../.././FLT/Deformations/Categories.html#Deformation.ProartinianCat.residueField">ProartinianCat.residueField</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././FLT/Deformations/Subfunctor.html#CategoryTheory.Subfunctor">CategoryTheory.Subfunctor</a> <span class="fn">(<a href="../.././FLT/Deformations/LiftFunctor.html#Deformation.repnFunctor">repnFunctor</a> <span class="fn">n</span> <span class="fn">G</span> <span class="fn">«𝓞»</span>)</span></span></div></div><p><code><a href="../.././FLT/Deformations/LiftFunctor.html#Deformation.liftFunctor">liftFunctor</a> n G 𝓞</code> is the functor taking <code>R</code> to lifts <code>G → GLₙ(R)</code> of <code>ρ : G → GLₙ(𝕜)</code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Deformation.liftFunctor" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Deformation.deformationFunctor"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Deformations/LiftFunctor.lean#L89-L94">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Deformations_LiftFunctor.html#Deformation.deformationFunctor" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Deformations/LiftFunctor.html#Deformation.deformationFunctor"><span class="name">Deformation</span>.<span class="name">deformationFunctor</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <a href="../.././foundational_types.html">Type</a> u)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">«𝓞»</span> : <a href="../.././foundational_types.html">Type</a> u)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">«𝓞»</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/RingTheory/LocalRing/Defs.html#IsLocalRing">IsLocalRing</a> <span class="fn">«𝓞»</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">ρ</span> : <span class="fn"><span class="fn"><span class="fn">(<a href="../.././FLT/Deformations/LiftFunctor.html#Deformation.repnFunctor">repnFunctor</a> <span class="fn">n</span> <span class="fn">G</span> <span class="fn">«𝓞»</span>)</span>.<a href="../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <a href="../.././FLT/Deformations/Categories.html#Deformation.ProartinianCat.residueField">ProartinianCat.residueField</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././FLT/Deformations/Subfunctor.html#CategoryTheory.Subfunctor">CategoryTheory.Subfunctor</a> <span class="fn">(<a href="../.././FLT/Deformations/LiftFunctor.html#Deformation.repnQuotFunctor">repnQuotFunctor</a> <span class="fn">n</span> <span class="fn">G</span> <span class="fn">«𝓞»</span>)</span></span></div></div><p><code><a href="../.././FLT/Deformations/LiftFunctor.html#Deformation.deformationFunctor">deformationFunctor</a> n G 𝓞</code> is the functor taking <code>R</code> to lifts <code>G → GLₙ(R)</code> of <code>ρ : G → GLₙ(𝕜)</code>,
+up to conjugation by some <code>γ</code> in the kernel of <code>GLₙ(R) → GLₙ(𝕜)</code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Deformation.deformationFunctor" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Deformation.flatFunctor"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Deformations/LiftFunctor.lean#L96-L99">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Deformations_LiftFunctor.html#Deformation.flatFunctor" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Deformations/LiftFunctor.html#Deformation.flatFunctor"><span class="name">Deformation</span>.<span class="name">flatFunctor</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">«𝓞»</span> : <a href="../.././foundational_types.html">Type</a> u)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">«𝓞»</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/NumberTheory/NumberField/Basic.html#NumberField">NumberField</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">v</span> : <span class="fn"><a href="../.././Mathlib/RingTheory/DedekindDomain/Ideal/Lemmas.html#IsDedekindDomain.HeightOneSpectrum">IsDedekindDomain.HeightOneSpectrum</a> <span class="fn">(<a href="../.././Mathlib/NumberTheory/NumberField/Basic.html#NumberField.RingOfIntegers">NumberField.RingOfIntegers</a> <span class="fn">K</span>)</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././FLT/Deformations/Subfunctor.html#CategoryTheory.Subfunctor">CategoryTheory.Subfunctor</a> <span class="fn">(<a href="../.././FLT/Deformations/LiftFunctor.html#Deformation.repnFunctor">repnFunctor</a> <span class="fn">n</span> <span class="fn">(<a href="../.././Mathlib/FieldTheory/AbsoluteGaloisGroup.html#Field.absoluteGaloisGroup">Field.absoluteGaloisGroup</a> <span class="fn">K</span>)</span> <span class="fn">«𝓞»</span>)</span></span></div></div><p>The subfunctor of flat lifts. This probably only makes sense when <code>𝓞</code> is <code>v</code>-adic.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Deformation.flatFunctor" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Deformation.unramifiedFunctor"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Deformations/LiftFunctor.lean#L101-L108">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Deformations_LiftFunctor.html#Deformation.unramifiedFunctor" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Deformations/LiftFunctor.html#Deformation.unramifiedFunctor"><span class="name">Deformation</span>.<span class="name">unramifiedFunctor</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">«𝓞»</span> : <a href="../.././foundational_types.html">Type</a> u)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">«𝓞»</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/NumberTheory/NumberField/Basic.html#NumberField">NumberField</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">v</span> : <span class="fn"><a href="../.././Mathlib/RingTheory/DedekindDomain/Ideal/Lemmas.html#IsDedekindDomain.HeightOneSpectrum">IsDedekindDomain.HeightOneSpectrum</a> <span class="fn">(<a href="../.././Mathlib/NumberTheory/NumberField/Basic.html#NumberField.RingOfIntegers">NumberField.RingOfIntegers</a> <span class="fn">K</span>)</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././FLT/Deformations/Subfunctor.html#CategoryTheory.Subfunctor">CategoryTheory.Subfunctor</a> <span class="fn">(<a href="../.././FLT/Deformations/LiftFunctor.html#Deformation.repnFunctor">repnFunctor</a> <span class="fn">n</span> <span class="fn">(<a href="../.././Mathlib/FieldTheory/AbsoluteGaloisGroup.html#Field.absoluteGaloisGroup">Field.absoluteGaloisGroup</a> <span class="fn">K</span>)</span> <span class="fn">«𝓞»</span>)</span></span></div></div><p>The subfunctor of unramified (at <code>v</code>) representations.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Deformation.unramifiedFunctor" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Deformation.traceConditionFunctor"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Deformations/LiftFunctor.lean#L110-L119">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Deformations_LiftFunctor.html#Deformation.traceConditionFunctor" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Deformations/LiftFunctor.html#Deformation.traceConditionFunctor"><span class="name">Deformation</span>.<span class="name">traceConditionFunctor</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">«𝓞»</span> : <a href="../.././foundational_types.html">Type</a> u)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">«𝓞»</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/NumberTheory/NumberField/Basic.html#NumberField">NumberField</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">v</span> : <span class="fn"><a href="../.././Mathlib/RingTheory/DedekindDomain/Ideal/Lemmas.html#IsDedekindDomain.HeightOneSpectrum">IsDedekindDomain.HeightOneSpectrum</a> <span class="fn">(<a href="../.././Mathlib/NumberTheory/NumberField/Basic.html#NumberField.RingOfIntegers">NumberField.RingOfIntegers</a> <span class="fn">K</span>)</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././FLT/Deformations/Subfunctor.html#CategoryTheory.Subfunctor">CategoryTheory.Subfunctor</a> <span class="fn">(<a href="../.././FLT/Deformations/LiftFunctor.html#Deformation.repnFunctor">repnFunctor</a> <span class="fn">(<a href="../.././Init/Prelude.html#Fin">Fin</a> <span class="fn">2</span>)</span> <span class="fn">(<a href="../.././Mathlib/FieldTheory/AbsoluteGaloisGroup.html#Field.absoluteGaloisGroup">Field.absoluteGaloisGroup</a> <span class="fn">K</span>)</span> <span class="fn">«𝓞»</span>)</span></span></div></div><p>The subfunctor of representations whose trace is <code>2</code> on <code>ker(Iᵥ → k(v)ˣ)</code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Deformation.traceConditionFunctor" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Deformation.narrowTraceConditionFunctor"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Deformations/LiftFunctor.lean#L121-L130">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Deformations_LiftFunctor.html#Deformation.narrowTraceConditionFunctor" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Deformations/LiftFunctor.html#Deformation.narrowTraceConditionFunctor"><span class="name">Deformation</span>.<span class="name">narrowTraceConditionFunctor</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">«𝓞»</span> : <a href="../.././foundational_types.html">Type</a> u)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">«𝓞»</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/NumberTheory/NumberField/Basic.html#NumberField">NumberField</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">v</span> : <span class="fn"><a href="../.././Mathlib/RingTheory/DedekindDomain/Ideal/Lemmas.html#IsDedekindDomain.HeightOneSpectrum">IsDedekindDomain.HeightOneSpectrum</a> <span class="fn">(<a href="../.././Mathlib/NumberTheory/NumberField/Basic.html#NumberField.RingOfIntegers">NumberField.RingOfIntegers</a> <span class="fn">K</span>)</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././FLT/Deformations/Subfunctor.html#CategoryTheory.Subfunctor">CategoryTheory.Subfunctor</a> <span class="fn">(<a href="../.././FLT/Deformations/LiftFunctor.html#Deformation.repnFunctor">repnFunctor</a> <span class="fn">(<a href="../.././Init/Prelude.html#Fin">Fin</a> <span class="fn">2</span>)</span> <span class="fn">(<a href="../.././Mathlib/FieldTheory/AbsoluteGaloisGroup.html#Field.absoluteGaloisGroup">Field.absoluteGaloisGroup</a> <span class="fn">K</span>)</span> <span class="fn">«𝓞»</span>)</span></span></div></div><p>The subfunctor of representations whose trace is <code>2</code> on <code>Iᵥ</code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Deformation.narrowTraceConditionFunctor" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Deformation.detConditionFunctor"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/Deformations/LiftFunctor.lean#L132-L143">source</a></div><div class="verification_link">
+<a href="../../../modules/FLT_Deformations_LiftFunctor.html#Deformation.detConditionFunctor" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././FLT/Deformations/LiftFunctor.html#Deformation.detConditionFunctor"><span class="name">Deformation</span>.<span class="name">detConditionFunctor</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Init/Prelude.html#DecidableEq">DecidableEq</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">«𝓞»</span> : <a href="../.././foundational_types.html">Type</a> u)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">«𝓞»</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <a href="../.././Init/Prelude.html#Nat">ℕ</a>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Logic/Basic.html#Fact">Fact</a> <span class="fn">(<a href="../.././Mathlib/Data/Nat/Prime/Defs.html#Nat.Prime">Nat.Prime</a> <span class="fn">l</span>)</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <a href="../.././Mathlib/NumberTheory/Padics/PadicIntegers.html#PadicInt">ℤ_[</a><span class="fn">l</span><a href="../.././Mathlib/NumberTheory/Padics/PadicIntegers.html#PadicInt">]</a> <span class="fn">«𝓞»</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././FLT/Deformations/Subfunctor.html#CategoryTheory.Subfunctor">CategoryTheory.Subfunctor</a> <span class="fn">(<a href="../.././FLT/Deformations/LiftFunctor.html#Deformation.repnFunctor">repnFunctor</a> <span class="fn">n</span> <span class="fn">(<a href="../.././Mathlib/FieldTheory/AbsoluteGaloisGroup.html#Field.absoluteGaloisGroup">Field.absoluteGaloisGroup</a> <span class="fn">K</span>)</span> <span class="fn">«𝓞»</span>)</span></span></div></div><p>The subfunctor of representations with <code>det = εₗ</code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Deformation.detConditionFunctor" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div></main>
+<nav class="nav"><iframe src="../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>
