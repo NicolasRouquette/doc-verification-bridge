@@ -1,0 +1,248 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href=".././style.css"></link><link rel="icon" href=".././favicon.svg"></link><link rel="mask-icon" href=".././favicon.svg" color="#000000"></link><link rel="prefetch" href=".././/declarations/declaration-data.bmp" as="image"></link><title>LeanLangur.QuickSort</title><script defer="true" src=".././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT=".././";</script><script>const MODULE_NAME="LeanLangur.QuickSort";</script><script type="module" src=".././jump-src.js"></script><script type="module" src=".././search.js"></script><script type="module" src=".././expand-nav.js"></script><script type="module" src=".././how-about.js"></script><script type="module" src=".././instances.js"></script><script type="module" src=".././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">LeanLangur</span>.<span class="name">QuickSort</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/siddhartha-gadgil/LeanLangur/blob/8cd999b74c84f4c632bc98a6e9a9696da62f810d/LeanLangur/QuickSort.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href=".././Init.html">Init</a></li><li><a href=".././LeanLangur/Basic.html">LeanLangur.Basic</a></li><li><a href=".././Mathlib/Tactic.html">Mathlib.Tactic</a></li><li><a href=".././Mathlib/Data/List/Basic.html">Mathlib.Data.List.Basic</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-LeanLangur.QuickSort" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#smaller"><span class="name">smaller</span></a></div><div class="nav_link"><a class="break_within" href="#larger"><span class="name">larger</span></a></div><div class="nav_link"><a class="break_within" href="#naiveQuickSort"><span class="name">naiveQuickSort</span></a></div><div class="nav_link"><a class="break_within" href="#quickSort"><span class="name">quickSort</span></a></div><div class="nav_link"><a class="break_within" href="#quickSort_nil"><span class="name">quickSort_nil</span></a></div><div class="nav_link"><a class="break_within" href="#quickSort_cons"><span class="name">quickSort_cons</span></a></div><div class="nav_link"><a class="break_within" href="#mem_iff_below_or_above_pivot"><span class="name">mem_iff_below_or_above_pivot</span></a></div><div class="nav_link"><a class="break_within" href="#mem_iff_mem_quickSort"><span class="name">mem_iff_mem_quickSort</span></a></div><div class="nav_link"><a class="break_within" href="#count_sum_above_below_pivot"><span class="name">count_sum_above_below_pivot</span></a></div><div class="nav_link"><a class="break_within" href="#count_eq_count_quickSort"><span class="name">count_eq_count_quickSort</span></a></div><div class="nav_link"><a class="break_within" href="#Sorted"><span class="name">Sorted</span></a></div><div class="nav_link"><a class="break_within" href="#head_le_of_sorted"><span class="name">head_le_of_sorted</span></a></div><div class="nav_link"><a class="break_within" href="#cons_sorted"><span class="name">cons_sorted</span></a></div><div class="nav_link"><a class="break_within" href="#sorted_sandwitch"><span class="name">sorted_sandwitch</span></a></div><div class="nav_link"><a class="break_within" href="#quickSort_sorted"><span class="name">quickSort_sorted</span></a></div><div class="nav_link"><a class="break_within" href="#monotone"><span class="name">monotone</span></a></div><div class="nav_link"><a class="break_within" href="#monotone_of_sorted"><span class="name">monotone_of_sorted</span></a></div><div class="nav_link"><a class="break_within" href="#tail_monotone_of_monotone"><span class="name">tail_monotone_of_monotone</span></a></div><div class="nav_link"><a class="break_within" href="#sorted_of_monotone"><span class="name">sorted_of_monotone</span></a></div></nav><main>
+<div class="mod_doc"><h2 id="Quicksort-Algorithm-Pivot-from-Head" class="markdown-heading">Quicksort Algorithm (Pivot from Head) <a class="hover-link" href="#Quicksort-Algorithm-Pivot-from-Head">#</a></h2><p>Quicksort is a divide-and-conquer sorting algorithm known for its efficiency. It works by recursively partitioning the list around a chosen element (pivot) and then sorting the sub-lists.</p><p>Our implementation of quicksort for lists follows the following steps:</p><ul><li>If the list is empty, return the empty list.</li><li>Otherwise, let <code>pivot</code> be the first element (<code>head</code>) of the list.</li><li>Let <code><a href=".././LeanLangur/QuickSort.html#smaller">smaller</a></code> be the list of elements smaller (<code>≤</code>) than <code>pivot</code> and <code><a href=".././LeanLangur/QuickSort.html#larger">larger</a></code> be the list of elements larger (<code>&gt;</code>) than <code>pivot</code>.</li><li>Recursively sort <code><a href=".././LeanLangur/QuickSort.html#smaller">smaller</a></code> and <code><a href=".././LeanLangur/QuickSort.html#larger">larger</a></code> lists and concatenate them with <code>pivot</code> in between.</li></ul><p>We begin by defining <code><a href=".././LeanLangur/QuickSort.html#smaller">smaller</a></code> and <code><a href=".././LeanLangur/QuickSort.html#larger">larger</a></code> lists. We define them as abbreviations so that they are automatically unfolded by Lean.</p></div><div class="decl" id="smaller"><div class="def"><div class="gh_link"><a href="https://github.com/siddhartha-gadgil/LeanLangur/blob/8cd999b74c84f4c632bc98a6e9a9696da62f810d/LeanLangur/QuickSort.lean#L22-L24">source</a></div><div class="verification_link">
+<a href="../../modules/LeanLangur_QuickSort.html#smaller" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href=".././LeanLangur/QuickSort.html#smaller"><span class="name">smaller</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href=".././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LinearOrder</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">pivot</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span></div></div><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href=".././LeanLangur/QuickSort.html#smaller">smaller</a> <span class="fn">pivot</span> <span class="fn">l</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">List.filter</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">α</span>) =&gt; <span class="fn"><span class="fn">decide</span> <span class="fn">(<span class="fn">x</span> <span class="fn">≤</span> <span class="fn">pivot</span>)</span></span>)</span> <span class="fn">l</span></span></span></li></ul></details><details id="instances-for-list-smaller" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="larger"><div class="def"><div class="gh_link"><a href="https://github.com/siddhartha-gadgil/LeanLangur/blob/8cd999b74c84f4c632bc98a6e9a9696da62f810d/LeanLangur/QuickSort.lean#L26-L28">source</a></div><div class="verification_link">
+<a href="../../modules/LeanLangur_QuickSort.html#larger" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href=".././LeanLangur/QuickSort.html#larger"><span class="name">larger</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href=".././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LinearOrder</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">pivot</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span></div></div><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href=".././LeanLangur/QuickSort.html#larger">larger</a> <span class="fn">pivot</span> <span class="fn">l</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">List.filter</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">α</span>) =&gt; <span class="fn"><span class="fn">decide</span> <span class="fn">(<span class="fn">pivot</span> <span class="fn">&lt;</span> <span class="fn">x</span>)</span></span>)</span> <span class="fn">l</span></span></span></li></ul></details><details id="instances-for-list-larger" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="naiveQuickSort"><div class="opaque"><div class="gh_link"><a href="https://github.com/siddhartha-gadgil/LeanLangur/blob/8cd999b74c84f4c632bc98a6e9a9696da62f810d/LeanLangur/QuickSort.lean#L30-L34">source</a></div><div class="verification_link">
+<a href="../../modules/LeanLangur_QuickSort.html#naiveQuickSort" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">partial def</span>
+<span class="decl_name"><a class="break_within" href=".././LeanLangur/QuickSort.html#naiveQuickSort"><span class="name">naiveQuickSort</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href=".././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LinearOrder</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span></span></div></div></div></div><div class="decl" id="quickSort"><div class="def"><div class="gh_link"><a href="https://github.com/siddhartha-gadgil/LeanLangur/blob/8cd999b74c84f4c632bc98a6e9a9696da62f810d/LeanLangur/QuickSort.lean#L36-L40">source</a></div><div class="verification_link">
+<a href="../../modules/LeanLangur_QuickSort.html#quickSort" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[irreducible]</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href=".././LeanLangur/QuickSort.html#quickSort"><span class="name">quickSort</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href=".././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LinearOrder</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span></span></div></div><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href=".././LeanLangur/QuickSort.html#quickSort">quickSort</a> <span class="fn"><span class="fn">[</span><span class="fn">]</span></span></span> <span class="fn">=</span> <span class="fn"><span class="fn">[</span><span class="fn">]</span></span></span></li><li class="equation"><span class="fn"><span class="fn"><a href=".././LeanLangur/QuickSort.html#quickSort">quickSort</a> <span class="fn">(<span class="fn">pivot</span> <span class="fn">::</span> <span class="fn">l</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><a href=".././LeanLangur/QuickSort.html#quickSort">quickSort</a> <span class="fn">(<a href=".././LeanLangur/QuickSort.html#smaller">smaller</a> <span class="fn">pivot</span> <span class="fn">l</span>)</span></span> <span class="fn">++</span> <span class="fn"><span class="fn">pivot</span> <span class="fn">::</span> <span class="fn"><a href=".././LeanLangur/QuickSort.html#quickSort">quickSort</a> <span class="fn">(<a href=".././LeanLangur/QuickSort.html#larger">larger</a> <span class="fn">pivot</span> <span class="fn">l</span>)</span></span></span></span></span></li></ul></details><details id="instances-for-list-quickSort" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="quickSort_nil"><div class="theorem"><div class="gh_link"><a href="https://github.com/siddhartha-gadgil/LeanLangur/blob/8cd999b74c84f4c632bc98a6e9a9696da62f810d/LeanLangur/QuickSort.lean#L43-L45">source</a></div><div class="verification_link">
+<a href="../../modules/LeanLangur_QuickSort.html#quickSort_nil" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href=".././LeanLangur/QuickSort.html#quickSort_nil"><span class="name">quickSort_nil</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href=".././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LinearOrder</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href=".././LeanLangur/QuickSort.html#quickSort">quickSort</a> <span class="fn"><span class="fn">[</span><span class="fn">]</span></span></span> <span class="fn">=</span> <span class="fn"><span class="fn">[</span><span class="fn">]</span></span></span></div></div></div></div><div class="decl" id="quickSort_cons"><div class="theorem"><div class="gh_link"><a href="https://github.com/siddhartha-gadgil/LeanLangur/blob/8cd999b74c84f4c632bc98a6e9a9696da62f810d/LeanLangur/QuickSort.lean#L47-L51">source</a></div><div class="verification_link">
+<a href="../../modules/LeanLangur_QuickSort.html#quickSort_cons" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href=".././LeanLangur/QuickSort.html#quickSort_cons"><span class="name">quickSort_cons</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href=".././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LinearOrder</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">pivot</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href=".././LeanLangur/QuickSort.html#quickSort">quickSort</a> <span class="fn">(<span class="fn">pivot</span> <span class="fn">::</span> <span class="fn">l</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><a href=".././LeanLangur/QuickSort.html#quickSort">quickSort</a> <span class="fn">(<a href=".././LeanLangur/QuickSort.html#smaller">smaller</a> <span class="fn">pivot</span> <span class="fn">l</span>)</span></span> <span class="fn">++</span> <span class="fn"><span class="fn">pivot</span> <span class="fn">::</span> <span class="fn"><a href=".././LeanLangur/QuickSort.html#quickSort">quickSort</a> <span class="fn">(<a href=".././LeanLangur/QuickSort.html#larger">larger</a> <span class="fn">pivot</span> <span class="fn">l</span>)</span></span></span></span></span></div></div></div></div><div class="decl" id="mem_iff_below_or_above_pivot"><div class="theorem"><div class="gh_link"><a href="https://github.com/siddhartha-gadgil/LeanLangur/blob/8cd999b74c84f4c632bc98a6e9a9696da62f810d/LeanLangur/QuickSort.lean#L53-L56">source</a></div><div class="verification_link">
+<a href="../../modules/LeanLangur_QuickSort.html#mem_iff_below_or_above_pivot" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href=".././LeanLangur/QuickSort.html#mem_iff_below_or_above_pivot"><span class="name">mem_iff_below_or_above_pivot</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href=".././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LinearOrder</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">pivot</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">x</span> <span class="fn">∈</span> <span class="fn">l</span></span> <span class="fn">↔</span> <span class="fn"><span class="fn"><span class="fn">x</span> <span class="fn">∈</span> <span class="fn"><a href=".././LeanLangur/QuickSort.html#smaller">smaller</a> <span class="fn">pivot</span> <span class="fn">l</span></span></span> <span class="fn">∨</span> <span class="fn"><span class="fn">x</span> <span class="fn">∈</span> <span class="fn"><a href=".././LeanLangur/QuickSort.html#larger">larger</a> <span class="fn">pivot</span> <span class="fn">l</span></span></span></span></span></div></div></div></div><div class="decl" id="mem_iff_mem_quickSort"><div class="theorem"><div class="gh_link"><a href="https://github.com/siddhartha-gadgil/LeanLangur/blob/8cd999b74c84f4c632bc98a6e9a9696da62f810d/LeanLangur/QuickSort.lean#L58-L61">source</a></div><div class="verification_link">
+<a href="../../modules/LeanLangur_QuickSort.html#mem_iff_mem_quickSort" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href=".././LeanLangur/QuickSort.html#mem_iff_mem_quickSort"><span class="name">mem_iff_mem_quickSort</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href=".././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LinearOrder</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">x</span> <span class="fn">∈</span> <span class="fn">l</span></span> <span class="fn">↔</span> <span class="fn"><span class="fn">x</span> <span class="fn">∈</span> <span class="fn"><a href=".././LeanLangur/QuickSort.html#quickSort">quickSort</a> <span class="fn">l</span></span></span></span></div></div></div></div><div class="mod_doc"><h3 id="Exercises" class="markdown-heading">Exercises <a class="hover-link" href="#Exercises">#</a></h3><p>Prove that quickSort preserves the count of each element. A useful lemma was not annotated with <code>grind</code> so this is done below.</p></div><div class="decl sorried" id="count_sum_above_below_pivot"><div class="theorem"><div class="gh_link"><a href="https://github.com/siddhartha-gadgil/LeanLangur/blob/8cd999b74c84f4c632bc98a6e9a9696da62f810d/LeanLangur/QuickSort.lean#L72-L77">source</a></div><div class="verification_link">
+<a href="../../modules/LeanLangur_QuickSort.html#count_sum_above_below_pivot" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name" title="declaration uses 'sorry'"><a class="break_within" href=".././LeanLangur/QuickSort.html#count_sum_above_below_pivot"><span class="name">count_sum_above_below_pivot</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href=".././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LinearOrder</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">pivot</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List.count</span> <span class="fn">x</span> <span class="fn">l</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">List.count</span> <span class="fn">x</span> <span class="fn">(<a href=".././LeanLangur/QuickSort.html#smaller">smaller</a> <span class="fn">pivot</span> <span class="fn">l</span>)</span></span> <span class="fn">+</span> <span class="fn"><span class="fn">List.count</span> <span class="fn">x</span> <span class="fn">(<a href=".././LeanLangur/QuickSort.html#larger">larger</a> <span class="fn">pivot</span> <span class="fn">l</span>)</span></span></span></span></div></div></div></div><div class="decl sorried" id="count_eq_count_quickSort"><div class="theorem"><div class="gh_link"><a href="https://github.com/siddhartha-gadgil/LeanLangur/blob/8cd999b74c84f4c632bc98a6e9a9696da62f810d/LeanLangur/QuickSort.lean#L79-L82">source</a></div><div class="verification_link">
+<a href="../../modules/LeanLangur_QuickSort.html#count_eq_count_quickSort" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name" title="declaration uses 'sorry'"><a class="break_within" href=".././LeanLangur/QuickSort.html#count_eq_count_quickSort"><span class="name">count_eq_count_quickSort</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href=".././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LinearOrder</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List.count</span> <span class="fn">x</span> <span class="fn">l</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">List.count</span> <span class="fn">x</span> <span class="fn">(<a href=".././LeanLangur/QuickSort.html#quickSort">quickSort</a> <span class="fn">l</span>)</span></span></span></div></div></div></div><div class="decl" id="Sorted"><div class="inductive"><div class="gh_link"><a href="https://github.com/siddhartha-gadgil/LeanLangur/blob/8cd999b74c84f4c632bc98a6e9a9696da62f810d/LeanLangur/QuickSort.lean#L86-L90">source</a></div><div class="verification_link">
+<a href="../../modules/LeanLangur_QuickSort.html#Sorted" class="verification-badge comp-datatype" title="Computational datatype">🔶 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">inductive</span>
+<span class="decl_name"><a class="break_within" href=".././LeanLangur/QuickSort.html#Sorted"><span class="name">Sorted</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href=".././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LinearOrder</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <a href=".././foundational_types.html">Prop</a></span></div></div><ul class="constructors"><li class="constructor" id="Sorted.nil">nil<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href=".././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LinearOrder</span> <span class="fn">α</span></span>]</span></span>
+</span> : <span class="fn"><a href=".././LeanLangur/QuickSort.html#Sorted">Sorted</a> <span class="fn"><span class="fn">[</span><span class="fn">]</span></span></span></li><li class="constructor" id="Sorted.singleton">singleton<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href=".././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LinearOrder</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">α</span>)</span></span>
+ : <span class="fn"><a href=".././LeanLangur/QuickSort.html#Sorted">Sorted</a> <span class="fn"><span class="fn">[</span><span class="fn">x</span><span class="fn">]</span></span></span></li><li class="constructor" id="Sorted.step">step<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href=".././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LinearOrder</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x </span><span class="fn">y</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hxy</span> : <span class="fn"><span class="fn">x</span> <span class="fn">≤</span> <span class="fn">y</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">tail_sorted</span> : <span class="fn"><a href=".././LeanLangur/QuickSort.html#Sorted">Sorted</a> <span class="fn">(<span class="fn">y</span> <span class="fn">::</span> <span class="fn">l</span>)</span></span>)</span></span>
+ : <span class="fn"><a href=".././LeanLangur/QuickSort.html#Sorted">Sorted</a> <span class="fn">(<span class="fn">x</span> <span class="fn">::</span> <span class="fn"><span class="fn">y</span> <span class="fn">::</span> <span class="fn">l</span></span>)</span></span></li></ul><details id="instances-for-list-Sorted" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="head_le_of_sorted"><div class="theorem"><div class="gh_link"><a href="https://github.com/siddhartha-gadgil/LeanLangur/blob/8cd999b74c84f4c632bc98a6e9a9696da62f810d/LeanLangur/QuickSort.lean#L92-L100">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href=".././LeanLangur/QuickSort.html#head_le_of_sorted"><span class="name">head_le_of_sorted</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href=".././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LinearOrder</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href=".././LeanLangur/QuickSort.html#Sorted">Sorted</a> <span class="fn">(<span class="fn">a</span> <span class="fn">::</span> <span class="fn">l</span>)</span></span> → <span class="fn">∀ <span class="fn">x</span> ∈ <span class="fn">l</span>, <span class="fn"><span class="fn">a</span> <span class="fn">≤</span> <span class="fn">x</span></span></span></span></div></div></div></div><div class="decl" id="cons_sorted"><div class="theorem"><div class="gh_link"><a href="https://github.com/siddhartha-gadgil/LeanLangur/blob/8cd999b74c84f4c632bc98a6e9a9696da62f810d/LeanLangur/QuickSort.lean#L102-L110">source</a></div><div class="verification_link">
+<a href="../../modules/LeanLangur_QuickSort.html#cons_sorted" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href=".././LeanLangur/QuickSort.html#cons_sorted"><span class="name">cons_sorted</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href=".././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LinearOrder</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href=".././LeanLangur/QuickSort.html#Sorted">Sorted</a> <span class="fn">l</span></span> → <span class="fn">∀ (<span class="fn">a</span> : <span class="fn">α</span>), <span class="fn"><span class="fn">(∀ <span class="fn">y</span> ∈ <span class="fn">l</span>, <span class="fn"><span class="fn">a</span> <span class="fn">≤</span> <span class="fn">y</span></span>)</span> → <span class="fn"><a href=".././LeanLangur/QuickSort.html#Sorted">Sorted</a> <span class="fn">(<span class="fn">a</span> <span class="fn">::</span> <span class="fn">l</span>)</span></span></span></span></span></div></div></div></div><div class="decl" id="sorted_sandwitch"><div class="theorem"><div class="gh_link"><a href="https://github.com/siddhartha-gadgil/LeanLangur/blob/8cd999b74c84f4c632bc98a6e9a9696da62f810d/LeanLangur/QuickSort.lean#L112-L123">source</a></div><div class="verification_link">
+<a href="../../modules/LeanLangur_QuickSort.html#sorted_sandwitch" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href=".././LeanLangur/QuickSort.html#sorted_sandwitch"><span class="name">sorted_sandwitch</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href=".././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LinearOrder</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">l₁</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h₁</span> : <span class="fn"><a href=".././LeanLangur/QuickSort.html#Sorted">Sorted</a> <span class="fn">l₁</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">l₂</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h₂</span> : <span class="fn"><a href=".././LeanLangur/QuickSort.html#Sorted">Sorted</a> <span class="fn">l₂</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">bound</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_bound₁</span> : <span class="fn">∀ <span class="fn">x</span> ∈ <span class="fn">l₁</span>, <span class="fn"><span class="fn">x</span> <span class="fn">≤</span> <span class="fn">bound</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_bound₂</span> : <span class="fn">∀ <span class="fn">x</span> ∈ <span class="fn">l₂</span>, <span class="fn"><span class="fn">bound</span> <span class="fn">≤</span> <span class="fn">x</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href=".././LeanLangur/QuickSort.html#Sorted">Sorted</a> <span class="fn">(<span class="fn">l₁</span> <span class="fn">++</span> <span class="fn"><span class="fn">bound</span> <span class="fn">::</span> <span class="fn">l₂</span></span>)</span></span></div></div></div></div><div class="decl" id="quickSort_sorted"><div class="theorem"><div class="gh_link"><a href="https://github.com/siddhartha-gadgil/LeanLangur/blob/8cd999b74c84f4c632bc98a6e9a9696da62f810d/LeanLangur/QuickSort.lean#L125-L137">source</a></div><div class="verification_link">
+<a href="../../modules/LeanLangur_QuickSort.html#quickSort_sorted" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[irreducible]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href=".././LeanLangur/QuickSort.html#quickSort_sorted"><span class="name">quickSort_sorted</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href=".././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LinearOrder</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href=".././LeanLangur/QuickSort.html#Sorted">Sorted</a> <span class="fn">(<a href=".././LeanLangur/QuickSort.html#quickSort">quickSort</a> <span class="fn">l</span>)</span></span></div></div></div></div><div class="decl" id="monotone"><div class="def"><div class="gh_link"><a href="https://github.com/siddhartha-gadgil/LeanLangur/blob/8cd999b74c84f4c632bc98a6e9a9696da62f810d/LeanLangur/QuickSort.lean#L140-L143">source</a></div><div class="verification_link">
+<a href="../../modules/LeanLangur_QuickSort.html#monotone" class="verification-badge math-definition" title="Mathematical definition (Prop-valued)">🔹 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href=".././LeanLangur/QuickSort.html#monotone"><span class="name">monotone</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href=".././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LinearOrder</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href=".././foundational_types.html">Prop</a></div></div><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href=".././LeanLangur/QuickSort.html#monotone">monotone</a> <span class="fn">l</span></span> <span class="fn">=</span> <span class="fn">∀ (<span class="fn">i </span><span class="fn">j</span> : <span class="fn">ℕ</span>) (<span class="fn">h₁</span> : <span class="fn"><span class="fn">i</span> <span class="fn">&lt;</span> <span class="fn">j</span></span>) (<span class="fn">h₂</span> : <span class="fn"><span class="fn">j</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">l</span>.<span class="fn">length</span></span></span>), <span class="fn"><span class="fn"><span class="fn">l</span><span class="fn">[</span><span class="fn">i</span><span class="fn">]</span></span> <span class="fn">≤</span> <span class="fn"><span class="fn">l</span><span class="fn">[</span><span class="fn">j</span><span class="fn">]</span></span></span></span></span></li></ul></details><details id="instances-for-list-monotone" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="monotone_of_sorted"><div class="theorem"><div class="gh_link"><a href="https://github.com/siddhartha-gadgil/LeanLangur/blob/8cd999b74c84f4c632bc98a6e9a9696da62f810d/LeanLangur/QuickSort.lean#L145-L162">source</a></div><div class="verification_link">
+<a href="../../modules/LeanLangur_QuickSort.html#monotone_of_sorted" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href=".././LeanLangur/QuickSort.html#monotone_of_sorted"><span class="name">monotone_of_sorted</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href=".././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LinearOrder</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href=".././LeanLangur/QuickSort.html#Sorted">Sorted</a> <span class="fn">l</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href=".././LeanLangur/QuickSort.html#monotone">monotone</a> <span class="fn">l</span></span></div></div></div></div><div class="decl" id="tail_monotone_of_monotone"><div class="theorem"><div class="gh_link"><a href="https://github.com/siddhartha-gadgil/LeanLangur/blob/8cd999b74c84f4c632bc98a6e9a9696da62f810d/LeanLangur/QuickSort.lean#L164-L174">source</a></div><div class="verification_link">
+<a href="../../modules/LeanLangur_QuickSort.html#tail_monotone_of_monotone" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href=".././LeanLangur/QuickSort.html#tail_monotone_of_monotone"><span class="name">tail_monotone_of_monotone</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href=".././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LinearOrder</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">y</span> : <span class="fn">α</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ys</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href=".././LeanLangur/QuickSort.html#monotone">monotone</a> <span class="fn">(<span class="fn">y</span> <span class="fn">::</span> <span class="fn">ys</span>)</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href=".././LeanLangur/QuickSort.html#monotone">monotone</a> <span class="fn">ys</span></span></div></div></div></div><div class="decl" id="sorted_of_monotone"><div class="theorem"><div class="gh_link"><a href="https://github.com/siddhartha-gadgil/LeanLangur/blob/8cd999b74c84f4c632bc98a6e9a9696da62f810d/LeanLangur/QuickSort.lean#L176-L186">source</a></div><div class="verification_link">
+<a href="../../modules/LeanLangur_QuickSort.html#sorted_of_monotone" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href=".././LeanLangur/QuickSort.html#sorted_of_monotone"><span class="name">sorted_of_monotone</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href=".././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LinearOrder</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">l</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href=".././LeanLangur/QuickSort.html#monotone">monotone</a> <span class="fn">l</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href=".././LeanLangur/QuickSort.html#Sorted">Sorted</a> <span class="fn">l</span></span></div></div></div></div></main>
+<nav class="nav"><iframe src=".././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

@@ -1,0 +1,848 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../.././style.css"></link><link rel="icon" href="../../.././favicon.svg"></link><link rel="mask-icon" href="../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../.././/declarations/declaration-data.bmp" as="image"></link><title>ClassFieldTheory.Cohomology.FiniteCyclic.UpDown</title><script defer="true" src="../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../.././";</script><script>const MODULE_NAME="ClassFieldTheory.Cohomology.FiniteCyclic.UpDown";</script><script type="module" src="../../.././jump-src.js"></script><script type="module" src="../../.././search.js"></script><script type="module" src="../../.././expand-nav.js"></script><script type="module" src="../../.././how-about.js"></script><script type="module" src="../../.././instances.js"></script><script type="module" src="../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">ClassFieldTheory</span>.<span class="name">Cohomology</span>.<span class="name">FiniteCyclic</span>.<span class="name">UpDown</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/kbuzzard/ClassFieldTheory">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../.././Init.html">Init</a></li><li><a href="../../.././ClassFieldTheory/Cohomology/Functors/UpDown.html">ClassFieldTheory.Cohomology.Functors.UpDown</a></li><li><a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html">ClassFieldTheory.Cohomology.IndCoind.Finite</a></li><li><a href="../../.././ClassFieldTheory/Mathlib/GroupTheory/SpecificGroups/Cyclic.html">ClassFieldTheory.Mathlib.GroupTheory.SpecificGroups.Cyclic</a></li><li><a href="../../.././ClassFieldTheory/Mathlib/Algebra/Homology/ShortComplex/Exact.html">ClassFieldTheory.Mathlib.Algebra.Homology.ShortComplex.Exact</a></li><li><a href="../../.././ClassFieldTheory/Mathlib/Algebra/Homology/ShortComplex/ModuleCat.html">ClassFieldTheory.Mathlib.Algebra.Homology.ShortComplex.ModuleCat</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-ClassFieldTheory.Cohomology.FiniteCyclic.UpDown" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#ofHom_sub"><span class="name">ofHom_sub</span></a></div><div class="nav_link"><a class="break_within" href="#ofHom_add"><span class="name">ofHom_add</span></a></div><div class="nav_link"><a class="break_within" href="#ofHom_zero"><span class="name">ofHom_zero</span></a></div><div class="nav_link"><a class="break_within" href="#ofHom_one"><span class="name">ofHom_one</span></a></div><div class="nav_link"><a class="break_within" href="#Representation.map₁"><span class="name">Representation</span>.<span class="name">map₁</span></a></div><div class="nav_link"><a class="break_within" href="#Representation.map₁_apply"><span class="name">Representation</span>.<span class="name">map₁_apply</span></a></div><div class="nav_link"><a class="break_within" href="#Representation.map₁_comm"><span class="name">Representation</span>.<span class="name">map₁_comm</span></a></div><div class="nav_link"><a class="break_within" href="#Representation.map₁_comp_coind_ι"><span class="name">Representation</span>.<span class="name">map₁_comp_coind_ι</span></a></div><div class="nav_link"><a class="break_within" href="#Representation.map₁_ker"><span class="name">Representation</span>.<span class="name">map₁_ker</span></a></div><div class="nav_link"><a class="break_within" href="#Representation.map₂"><span class="name">Representation</span>.<span class="name">map₂</span></a></div><div class="nav_link"><a class="break_within" href="#Representation.map₂_apply_apply"><span class="name">Representation</span>.<span class="name">map₂_apply_apply</span></a></div><div class="nav_link"><a class="break_within" href="#Representation.map₂_apply_support"><span class="name">Representation</span>.<span class="name">map₂_apply_support</span></a></div><div class="nav_link"><a class="break_within" href="#Representation.map₂_apply"><span class="name">Representation</span>.<span class="name">map₂_apply</span></a></div><div class="nav_link"><a class="break_within" href="#Representation.map₂_comp_lsingle"><span class="name">Representation</span>.<span class="name">map₂_comp_lsingle</span></a></div><div class="nav_link"><a class="break_within" href="#Representation.map₂_comm"><span class="name">Representation</span>.<span class="name">map₂_comm</span></a></div><div class="nav_link"><a class="break_within" href="#Representation.ind₁'_π_comp_map₂"><span class="name">Representation</span>.<span class="name">ind₁'_π_comp_map₂</span></a></div><div class="nav_link"><a class="break_within" href="#Representation.map₂_range"><span class="name">Representation</span>.<span class="name">map₂_range</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.map₁"><span class="name">Rep</span>.<span class="name">map₁</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.coind_ι_gg_map₁_app"><span class="name">Rep</span>.<span class="name">coind_ι_gg_map₁_app</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.coind_ι_gg_map₁"><span class="name">Rep</span>.<span class="name">coind_ι_gg_map₁</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.map₂"><span class="name">Rep</span>.<span class="name">map₂</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.map₂_app_gg_ind₁'_π_app"><span class="name">Rep</span>.<span class="name">map₂_app_gg_ind₁'_π_app</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.map₂_gg_ind₁'_π"><span class="name">Rep</span>.<span class="name">map₂_gg_ind₁'_π</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.map₁_comp_ind₁'_iso_coind₁'"><span class="name">Rep</span>.<span class="name">map₁_comp_ind₁'_iso_coind₁'</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.periodSeq₁"><span class="name">Rep</span>.<span class="name">periodSeq₁</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.periodSeq₁_X₁"><span class="name">Rep</span>.<span class="name">periodSeq₁_X₁</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.periodSeq₁_X₃"><span class="name">Rep</span>.<span class="name">periodSeq₁_X₃</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.periodSeq₁_X₂"><span class="name">Rep</span>.<span class="name">periodSeq₁_X₂</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.periodSeq₁_g"><span class="name">Rep</span>.<span class="name">periodSeq₁_g</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.periodSeq₁_f"><span class="name">Rep</span>.<span class="name">periodSeq₁_f</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.periodSeq₂"><span class="name">Rep</span>.<span class="name">periodSeq₂</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.periodSeq₂_X₁"><span class="name">Rep</span>.<span class="name">periodSeq₂_X₁</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.periodSeq₂_X₂"><span class="name">Rep</span>.<span class="name">periodSeq₂_X₂</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.periodSeq₂_f"><span class="name">Rep</span>.<span class="name">periodSeq₂_f</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.periodSeq₂_X₃"><span class="name">Rep</span>.<span class="name">periodSeq₂_X₃</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.periodSeq₂_g"><span class="name">Rep</span>.<span class="name">periodSeq₂_g</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.periodSeq₁Functor"><span class="name">Rep</span>.<span class="name">periodSeq₁Functor</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.periodSeq₁Functor_obj"><span class="name">Rep</span>.<span class="name">periodSeq₁Functor_obj</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.periodSeq₁Functor_map"><span class="name">Rep</span>.<span class="name">periodSeq₁Functor_map</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.periodSeq₂Functor"><span class="name">Rep</span>.<span class="name">periodSeq₂Functor</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.periodSeq₂Functor_map"><span class="name">Rep</span>.<span class="name">periodSeq₂Functor_map</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.periodSeq₂Functor_obj"><span class="name">Rep</span>.<span class="name">periodSeq₂Functor_obj</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.exact_periodSeq₁"><span class="name">Rep</span>.<span class="name">exact_periodSeq₁</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.exact_periodSeq₂"><span class="name">Rep</span>.<span class="name">exact_periodSeq₂</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.upIsoDown"><span class="name">Rep</span>.<span class="name">upIsoDown</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.periodicCohomologyAux"><span class="name">Rep</span>.<span class="name">periodicCohomologyAux</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.periodicCohomology"><span class="name">Rep</span>.<span class="name">periodicCohomology</span></a></div><div class="nav_link"><a class="break_within" href="#Rep.isZero_ofEven_odd"><span class="name">Rep</span>.<span class="name">isZero_ofEven_odd</span></a></div><div class="nav_link"><a class="break_within" href="#periodicTateCohomologyAux"><span class="name">periodicTateCohomologyAux</span></a></div><div class="nav_link"><a class="break_within" href="#periodicTateCohomology"><span class="name">periodicTateCohomology</span></a></div><div class="nav_link"><a class="break_within" href="#groupCohomology.TateCohomology.evenTrivialInt"><span class="name">groupCohomology</span>.<span class="name">TateCohomology</span>.<span class="name">evenTrivialInt</span></a></div><div class="nav_link"><a class="break_within" href="#groupCohomology.TateCohomology.isZero_odd_trivial_of_isAddTorsionFree"><span class="name">groupCohomology</span>.<span class="name">TateCohomology</span>.<span class="name">isZero_odd_trivial_of_isAddTorsionFree</span></a></div><div class="nav_link"><a class="break_within" href="#groupCohomology.evenTrivialInt"><span class="name">groupCohomology</span>.<span class="name">evenTrivialInt</span></a></div><div class="nav_link"><a class="break_within" href="#groupCohomology.isZero_odd_trivial_of_isAddTorsionFree"><span class="name">groupCohomology</span>.<span class="name">isZero_odd_trivial_of_isAddTorsionFree</span></a></div><div class="nav_link"><a class="break_within" href="#groupHomology.oddTrivialInt"><span class="name">groupHomology</span>.<span class="name">oddTrivialInt</span></a></div><div class="nav_link"><a class="break_within" href="#groupHomology.isZero_even_trivial_of_isAddTorsionFree"><span class="name">groupHomology</span>.<span class="name">isZero_even_trivial_of_isAddTorsionFree</span></a></div></nav><main>
+<div class="mod_doc"><p>Let <code>M : <a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> R G</code>, where <code>G</code> is a finite cyclic group.
+We construct an exact sequence</p><p><code>0 ⟶ M ⟶ coind₁'.obj M ⟶ ind₁'.obj M ⟶ M ⟶ 0</code>.</p><p>In fact, we construct this as two exact short complexes</p><p><code><a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₁Functor">periodSeq₁Functor</a> : <a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> R G ⥤ ShortComplex (Rep R G)</code>
+sending <code>M</code> to the exact complex <code><a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₁">periodSeq₁</a> M : M ⟶ coind₁'.obj M ⟶ ind₁'.obj M</code>
+and
+<code><a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₂Functor">periodSeq₂Functor</a> : <a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> R G ⥤ ShortComplex (Rep R G)</code>
+sending <code>M</code> to the exact complex <code><a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₂">periodSeq₂</a> M : coind₁'.obj M ⟶ ind₁'.obj M ⟶ M</code></p><p>Using this sequence, we construct an isomorphism</p><p><code>dimensionShift.up.obj M ≅ dimensionShift.down.obj M</code>.</p><p>Using this, construct isomorphisms</p><p><code>Hⁿ⁺¹(G,M) ≅ Hⁿ⁺³(G,M)</code>.</p></div><div class="decl" id="ofHom_sub"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L49-L50">source</a></div><div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#ofHom_sub"><span class="name">ofHom_sub</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A </span><span class="fn">B</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Category/ModuleCat/Basic.html#ModuleCat">ModuleCat</a> <span class="fn">R</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f₁ </span><span class="fn">f₂</span> : <span class="fn">↑<span class="fn">A</span></span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn">↑<span class="fn">B</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/CategoryTheory/ConcreteCategory/Basic.html#CategoryTheory.ConcreteCategory.ofHom">CategoryTheory.ConcreteCategory.ofHom</a> (<span class="fn">f₁</span> <a href="../../.././Init/Prelude.html#HSub.hSub">-</a> <span class="fn">f₂</span>)</span> <a href="../../.././Init/Prelude.html#Eq">=</a>   <span class="fn"><a href="../../.././Mathlib/CategoryTheory/ConcreteCategory/Basic.html#CategoryTheory.ConcreteCategory.ofHom">CategoryTheory.ConcreteCategory.ofHom</a> <span class="fn">f₁</span></span> <a href="../../.././Init/Prelude.html#HSub.hSub">-</a> <span class="fn"><a href="../../.././Mathlib/CategoryTheory/ConcreteCategory/Basic.html#CategoryTheory.ConcreteCategory.ofHom">CategoryTheory.ConcreteCategory.ofHom</a> <span class="fn">f₂</span></span></div></div></div></div><div class="decl" id="ofHom_add"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L52-L53">source</a></div><div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#ofHom_add"><span class="name">ofHom_add</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A </span><span class="fn">B</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Category/ModuleCat/Basic.html#ModuleCat">ModuleCat</a> <span class="fn">R</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f₁ </span><span class="fn">f₂</span> : <span class="fn">↑<span class="fn">A</span></span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn">↑<span class="fn">B</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/CategoryTheory/ConcreteCategory/Basic.html#CategoryTheory.ConcreteCategory.ofHom">CategoryTheory.ConcreteCategory.ofHom</a> (<span class="fn">f₁</span> <a href="../../.././Init/Prelude.html#HAdd.hAdd">+</a> <span class="fn">f₂</span>)</span> <a href="../../.././Init/Prelude.html#Eq">=</a>   <span class="fn"><a href="../../.././Mathlib/CategoryTheory/ConcreteCategory/Basic.html#CategoryTheory.ConcreteCategory.ofHom">CategoryTheory.ConcreteCategory.ofHom</a> <span class="fn">f₁</span></span> <a href="../../.././Init/Prelude.html#HAdd.hAdd">+</a> <span class="fn"><a href="../../.././Mathlib/CategoryTheory/ConcreteCategory/Basic.html#CategoryTheory.ConcreteCategory.ofHom">CategoryTheory.ConcreteCategory.ofHom</a> <span class="fn">f₂</span></span></div></div></div></div><div class="decl" id="ofHom_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L55-L55">source</a></div><div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#ofHom_zero"><span class="name">ofHom_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A </span><span class="fn">B</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Category/ModuleCat/Basic.html#ModuleCat">ModuleCat</a> <span class="fn">R</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/CategoryTheory/ConcreteCategory/Basic.html#CategoryTheory.ConcreteCategory.ofHom">CategoryTheory.ConcreteCategory.ofHom</a> <span class="fn">0</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">0</span></div></div></div></div><div class="decl" id="ofHom_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L56-L56">source</a></div><div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#ofHom_one"><span class="name">ofHom_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Category/ModuleCat/Basic.html#ModuleCat">ModuleCat</a> <span class="fn">R</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/CategoryTheory/ConcreteCategory/Basic.html#CategoryTheory.ConcreteCategory.ofHom">CategoryTheory.ConcreteCategory.ofHom</a> <span class="fn">1</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.id">CategoryTheory.CategoryStruct.id</a> <span class="fn">A</span></span></div></div></div></div><div class="decl" id="Representation.map₁"><div class="def"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L62-L67">source</a></div><div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Representation.map₁"><span class="name">Representation</span>.<span class="name">map₁</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn">(<span class="fn">G</span> → <span class="fn">A</span>)</span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn"><span class="fn">G</span> → <span class="fn">A</span></span></div></div><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Representation.map₁" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Representation.map₁_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L62-L62">source</a></div><div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Representation.map₁_apply"><span class="name">Representation</span>.<span class="name">map₁_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">G</span> → <span class="fn">A</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Representation.map₁">map₁</a> <span class="fn">f</span> <span class="fn">x</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn">f</span> <span class="fn">x</span></span> <a href="../../.././Init/Prelude.html#HSub.hSub">-</a> <span class="fn"><span class="fn">f</span> (<span class="fn">(<a href="../../.././ClassFieldTheory/Mathlib/GroupTheory/SpecificGroups/Cyclic.html#IsCyclic.gen">IsCyclic.gen</a> <span class="fn">G</span>)</span><a href="../../.././Init/Prelude.html#Inv.inv">⁻¹</a> <a href="../../.././Init/Prelude.html#HMul.hMul">*</a> <span class="fn">x</span>)</span></div></div></div></div><div class="decl" id="Representation.map₁_comm"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L69-L75">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Representation.map₁_comm"><span class="name">Representation</span>.<span class="name">map₁_comm</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">ρ</span> : <span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Basic.html#Representation">Representation</a> <span class="fn">R</span> <span class="fn">G</span> <span class="fn">A</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Representation.map₁">map₁</a> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap.comp">∘ₗ</a> <span class="fn"><span class="fn"><span class="fn">ρ</span>.<a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Representation.coind₁'">coind₁'</a></span> <span class="fn">g</span></span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn"><span class="fn"><span class="fn">ρ</span>.<a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Representation.coind₁'">coind₁'</a></span> <span class="fn">g</span></span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap.comp">∘ₗ</a> <a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Representation.map₁">map₁</a></span></div></div></div></div><div class="decl" id="Representation.map₁_comp_coind_ι"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L77-L79">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Representation.map₁_comp_coind_ι"><span class="name">Representation</span>.<span class="name">map₁_comp_coind_ι</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Representation.map₁">map₁</a> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap.comp">∘ₗ</a> <a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Representation.coind₁'_ι">coind₁'_ι</a></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">0</span></div></div></div></div><div class="decl" id="Representation.map₁_ker"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L81-L112">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Representation.map₁_ker"><span class="name">Representation</span>.<span class="name">map₁_ker</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Representation.map₁">map₁</a>.<a href="../../.././Mathlib/Algebra/Module/Submodule/Ker.html#LinearMap.ker">ker</a></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Representation.coind₁'_ι">coind₁'_ι</a>.<a href="../../.././Mathlib/Algebra/Module/Submodule/Range.html#LinearMap.range">range</a></span></div></div></div></div><div class="decl" id="Representation.map₂"><div class="def"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L114-L115">source</a></div><div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Representation.map₂"><span class="name">Representation</span>.<span class="name">map₂</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type">(<span class="fn">G</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">A</span>) <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">→ₗ[</a><span class="fn">R</span><a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap">]</a> <span class="fn">G</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">A</span></div></div><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Representation.map₂" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Representation.map₂_apply_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L114-L114">source</a></div><div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Representation.map₂_apply_apply"><span class="name">Representation</span>.<span class="name">map₂_apply_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">G</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">A</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a✝</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Representation.map₂">map₂</a> <span class="fn">a</span>)</span> <span class="fn">a✝</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../.././Init/Prelude.html#Sub.sub">Sub.sub</a> <span class="fn">(<span class="fn">a</span> <span class="fn">a✝</span>)</span> <span class="fn">(<span class="fn">(<a href="../../.././Mathlib/Data/Finsupp/Basic.html#Finsupp.mapDomain">Finsupp.mapDomain</a> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">G</span>) =&gt; <span class="fn"><a href="../../.././ClassFieldTheory/Mathlib/GroupTheory/SpecificGroups/Cyclic.html#IsCyclic.gen">IsCyclic.gen</a> <span class="fn">G</span></span> <a href="../../.././Init/Prelude.html#HMul.hMul">*</a> <span class="fn">x</span>)</span> <span class="fn">a</span>)</span> <span class="fn">a✝</span>)</span></span></div></div></div></div><div class="decl" id="Representation.map₂_apply_support"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L114-L114">source</a></div><div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Representation.map₂_apply_support"><span class="name">Representation</span>.<span class="name">map₂_apply_support</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">G</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">A</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Representation.map₂">map₂</a> <span class="fn">a</span>)</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span> <a href="../../.././Init/Prelude.html#Eq">=</a>   <span class="fn"><a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.onFinset_support">Finsupp.onFinset_support</a> (<span class="fn"><span class="fn">a</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span> <a href="../../.././Init/Core.html#Union.union">∪</a> <span class="fn"><span class="fn">(<a href="../../.././Mathlib/Data/Finsupp/Basic.html#Finsupp.mapDomain">Finsupp.mapDomain</a> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">G</span>) =&gt; <span class="fn"><a href="../../.././ClassFieldTheory/Mathlib/GroupTheory/SpecificGroups/Cyclic.html#IsCyclic.gen">IsCyclic.gen</a> <span class="fn">G</span></span> <a href="../../.././Init/Prelude.html#HMul.hMul">*</a> <span class="fn">x</span>)</span> <span class="fn">a</span>)</span>.<a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp.support">support</a></span>)
+    <span class="fn">fun (<span class="fn">a_1</span> : <span class="fn">G</span>) =&gt; <span class="fn"><a href="../../.././Init/Prelude.html#Sub.sub">Sub.sub</a> <span class="fn">(<span class="fn">a</span> <span class="fn">a_1</span>)</span> <span class="fn">(<span class="fn">(<a href="../../.././Mathlib/Data/Finsupp/Basic.html#Finsupp.mapDomain">Finsupp.mapDomain</a> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">G</span>) =&gt; <span class="fn"><a href="../../.././ClassFieldTheory/Mathlib/GroupTheory/SpecificGroups/Cyclic.html#IsCyclic.gen">IsCyclic.gen</a> <span class="fn">G</span></span> <a href="../../.././Init/Prelude.html#HMul.hMul">*</a> <span class="fn">x</span>)</span> <span class="fn">a</span>)</span> <span class="fn">a_1</span>)</span></span></span></span></div></div></div></div><div class="decl" id="Representation.map₂_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L117-L124">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Representation.map₂_apply"><span class="name">Representation</span>.<span class="name">map₂_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">G</span> <a href="../../.././Mathlib/Data/Finsupp/Defs.html#Finsupp">→₀</a> <span class="fn">A</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Representation.map₂">map₂</a> <span class="fn">f</span>)</span> <span class="fn">x</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn">f</span> <span class="fn">x</span></span> <a href="../../.././Init/Prelude.html#HSub.hSub">-</a> <span class="fn"><span class="fn">f</span> (<span class="fn">(<a href="../../.././ClassFieldTheory/Mathlib/GroupTheory/SpecificGroups/Cyclic.html#IsCyclic.gen">IsCyclic.gen</a> <span class="fn">G</span>)</span><a href="../../.././Init/Prelude.html#Inv.inv">⁻¹</a> <a href="../../.././Init/Prelude.html#HMul.hMul">*</a> <span class="fn">x</span>)</span></div></div></div></div><div class="decl" id="Representation.map₂_comp_lsingle"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L126-L129">source</a></div><div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Representation.map₂_comp_lsingle"><span class="name">Representation</span>.<span class="name">map₂_comp_lsingle</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Representation.map₂">map₂</a> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap.comp">∘ₗ</a> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Finsupp/Defs.html#Finsupp.lsingle">Finsupp.lsingle</a> <span class="fn">x</span></span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Finsupp/Defs.html#Finsupp.lsingle">Finsupp.lsingle</a> <span class="fn">x</span></span> <a href="../../.././Init/Prelude.html#HSub.hSub">-</a> <span class="fn"><a href="../../.././Mathlib/LinearAlgebra/Finsupp/Defs.html#Finsupp.lsingle">Finsupp.lsingle</a> (<span class="fn"><a href="../../.././ClassFieldTheory/Mathlib/GroupTheory/SpecificGroups/Cyclic.html#IsCyclic.gen">IsCyclic.gen</a> <span class="fn">G</span></span> <a href="../../.././Init/Prelude.html#HMul.hMul">*</a> <span class="fn">x</span>)</span></div></div></div></div><div class="decl" id="Representation.map₂_comm"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L131-L136">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Representation.map₂_comm"><span class="name">Representation</span>.<span class="name">map₂_comm</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">ρ</span> : <span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Basic.html#Representation">Representation</a> <span class="fn">R</span> <span class="fn">G</span> <span class="fn">A</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">G</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Representation.map₂">map₂</a> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap.comp">∘ₗ</a> <span class="fn"><span class="fn"><span class="fn">ρ</span>.<a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Representation.ind₁'">ind₁'</a></span> <span class="fn">g</span></span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn"><span class="fn"><span class="fn">ρ</span>.<a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Representation.ind₁'">ind₁'</a></span> <span class="fn">g</span></span> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap.comp">∘ₗ</a> <a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Representation.map₂">map₂</a></span></div></div></div></div><div class="decl" id="Representation.ind₁'_π_comp_map₂"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L138-L142">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Representation.ind₁'_π_comp_map₂"><span class="name">Representation</span>.<span class="name">ind₁'_π_comp_map₂</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Representation.ind₁'_π">ind₁'_π</a> <a href="../../.././Mathlib/Algebra/Module/LinearMap/Defs.html#LinearMap.comp">∘ₗ</a> <a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Representation.map₂">map₂</a></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">0</span></div></div></div></div><div class="decl" id="Representation.map₂_range"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L144-L219">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Representation.map₂_range"><span class="name">Representation</span>.<span class="name">map₂_range</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Module/Defs.html#Module">Module</a> <span class="fn">R</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Representation.map₂">map₂</a>.<a href="../../.././Mathlib/Algebra/Module/Submodule/Range.html#LinearMap.range">range</a></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Representation.ind₁'_π">ind₁'_π</a>.<a href="../../.././Mathlib/Algebra/Module/Submodule/Ker.html#LinearMap.ker">ker</a></span></div></div></div></div><div class="decl" id="Rep.map₁"><div class="def"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L225-L240">source</a></div><div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.map₁"><span class="name">Rep</span>.<span class="name">map₁</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Rep.coind₁'">coind₁'</a> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Rep.coind₁'">coind₁'</a></div></div><p>The map <code>coind₁'.obj M ⟶ coind₁' M</code> which takes a function <code>f : G → M.V</code> to
+<code>x ↦ f x - f ((gen G)⁻¹ * x)</code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Rep.map₁" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Rep.coind_ι_gg_map₁_app"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L242-L244">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.coind_ι_gg_map₁_app"><span class="name">Rep</span>.<span class="name">coind_ι_gg_map₁_app</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> <span class="fn">R</span> <span class="fn">G</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a> <span class="fn">(<span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Rep.coind₁'_ι">coind₁'_ι</a>.<a href="../../.././Mathlib/CategoryTheory/NatTrans.html#CategoryTheory.NatTrans.app">app</a></span> <span class="fn">M</span>)</span> <span class="fn">(<span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.map₁">map₁</a>.<a href="../../.././Mathlib/CategoryTheory/NatTrans.html#CategoryTheory.NatTrans.app">app</a></span> <span class="fn">M</span>)</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">0</span></div></div></div></div><div class="decl" id="Rep.coind_ι_gg_map₁"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L246-L248">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.coind_ι_gg_map₁"><span class="name">Rep</span>.<span class="name">coind_ι_gg_map₁</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a> <a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Rep.coind₁'_ι">coind₁'_ι</a> <a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.map₁">map₁</a></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">0</span></div></div></div></div><div class="decl" id="Rep.map₂"><div class="def"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L250-L263">source</a></div><div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.map₂"><span class="name">Rep</span>.<span class="name">map₂</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Rep.ind₁'">ind₁'</a> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Rep.ind₁'">ind₁'</a></div></div><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Rep.map₂" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Rep.map₂_app_gg_ind₁'_π_app"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L265-L267">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.map₂_app_gg_ind₁'_π_app"><span class="name">Rep</span>.<span class="name">map₂_app_gg_ind₁'_π_app</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> <span class="fn">R</span> <span class="fn">G</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a> <span class="fn">(<span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.map₂">map₂</a>.<a href="../../.././Mathlib/CategoryTheory/NatTrans.html#CategoryTheory.NatTrans.app">app</a></span> <span class="fn">M</span>)</span> <span class="fn">(<span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Rep.ind₁'_π">ind₁'_π</a>.<a href="../../.././Mathlib/CategoryTheory/NatTrans.html#CategoryTheory.NatTrans.app">app</a></span> <span class="fn">M</span>)</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">0</span></div></div></div></div><div class="decl" id="Rep.map₂_gg_ind₁'_π"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L269-L271">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.map₂_gg_ind₁'_π"><span class="name">Rep</span>.<span class="name">map₂_gg_ind₁'_π</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a> <a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.map₂">map₂</a> <a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Rep.ind₁'_π">ind₁'_π</a></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">0</span></div></div></div></div><div class="decl" id="Rep.map₁_comp_ind₁'_iso_coind₁'"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L275-L296">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.map₁_comp_ind₁'_iso_coind₁'"><span class="name">Rep</span>.<span class="name">map₁_comp_ind₁'_iso_coind₁'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> <span class="fn">R</span> <span class="fn">G</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a> <span class="fn">(<span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.map₁">map₁</a>.<a href="../../.././Mathlib/CategoryTheory/NatTrans.html#CategoryTheory.NatTrans.app">app</a></span> <span class="fn">M</span>)</span> <span class="fn"><span class="fn">(<span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Rep.ind₁'_iso_coind₁'">ind₁'_iso_coind₁'</a>.<a href="../../.././Mathlib/CategoryTheory/NatIso.html#CategoryTheory.Iso.app">app</a></span> <span class="fn">M</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/Iso.html#CategoryTheory.Iso.inv">inv</a></span></span> <a href="../../.././Init/Prelude.html#Eq">=</a>   <span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a> <span class="fn"><span class="fn">(<span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Rep.ind₁'_iso_coind₁'">ind₁'_iso_coind₁'</a>.<a href="../../.././Mathlib/CategoryTheory/NatIso.html#CategoryTheory.Iso.app">app</a></span> <span class="fn">M</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/Iso.html#CategoryTheory.Iso.inv">inv</a></span> <span class="fn">(<span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.map₂">map₂</a>.<a href="../../.././Mathlib/CategoryTheory/NatTrans.html#CategoryTheory.NatTrans.app">app</a></span> <span class="fn">M</span>)</span></span></div></div><p>Let <code>M</code> be a representation of a finite cyclic group <code>G</code>.
+Then the following square commutes</p><p><code>coind₁'.obj M -------&gt; coind₁'.obj M</code>
+<code>     |                      |       </code>
+<code>     |                      |       </code>
+<code>     ↓                      ↓       </code>
+<code>  ind₁'.obj M -------&gt;   ind₁'.obj M</code></p><p>The vertical maps are the canonical isomorphism <code>ind₁'_iso_coind₁</code>
+and the horizontal maps are <code><a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Representation.map₁">map₁</a></code> and <code><a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Representation.map₂">map₂</a></code>.</p></div></div><div class="decl" id="Rep.periodSeq₁"><div class="def"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L298-L305">source</a></div><div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₁"><span class="name">Rep</span>.<span class="name">periodSeq₁</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> <span class="fn">R</span> <span class="fn">G</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ShortComplex/Basic.html#CategoryTheory.ShortComplex">CategoryTheory.ShortComplex</a> <span class="fn">(<a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> <span class="fn">R</span> <span class="fn">G</span>)</span></span></div></div><p>The first short complex in the periodicity sequence.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Rep.periodSeq₁" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Rep.periodSeq₁_X₁"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L299-L299">source</a></div><div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₁_X₁"><span class="name">Rep</span>.<span class="name">periodSeq₁_X₁</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> <span class="fn">R</span> <span class="fn">G</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">M</span>.<a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₁">periodSeq₁</a></span>.<a href="../../.././Mathlib/Algebra/Homology/ShortComplex/Basic.html#CategoryTheory.ShortComplex.X₁">X₁</a></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">M</span></div></div></div></div><div class="decl" id="Rep.periodSeq₁_X₃"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L299-L299">source</a></div><div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₁_X₃"><span class="name">Rep</span>.<span class="name">periodSeq₁_X₃</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> <span class="fn">R</span> <span class="fn">G</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">M</span>.<a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₁">periodSeq₁</a></span>.<a href="../../.././Mathlib/Algebra/Homology/ShortComplex/Basic.html#CategoryTheory.ShortComplex.X₃">X₃</a></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Rep.ind₁'">ind₁'</a>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">M</span></span></div></div></div></div><div class="decl" id="Rep.periodSeq₁_X₂"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L299-L299">source</a></div><div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₁_X₂"><span class="name">Rep</span>.<span class="name">periodSeq₁_X₂</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> <span class="fn">R</span> <span class="fn">G</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">M</span>.<a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₁">periodSeq₁</a></span>.<a href="../../.././Mathlib/Algebra/Homology/ShortComplex/Basic.html#CategoryTheory.ShortComplex.X₂">X₂</a></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Rep.coind₁'">coind₁'</a>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">M</span></span></div></div></div></div><div class="decl" id="Rep.periodSeq₁_g"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L299-L299">source</a></div><div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₁_g"><span class="name">Rep</span>.<span class="name">periodSeq₁_g</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> <span class="fn">R</span> <span class="fn">G</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">M</span>.<a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₁">periodSeq₁</a></span>.<a href="../../.././Mathlib/Algebra/Homology/ShortComplex/Basic.html#CategoryTheory.ShortComplex.g">g</a></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a> <span class="fn">(<span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.map₁">map₁</a>.<a href="../../.././Mathlib/CategoryTheory/NatTrans.html#CategoryTheory.NatTrans.app">app</a></span> <span class="fn">M</span>)</span> <span class="fn"><span class="fn">(<span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Rep.ind₁'_iso_coind₁'">ind₁'_iso_coind₁'</a>.<a href="../../.././Mathlib/CategoryTheory/NatIso.html#CategoryTheory.Iso.app">app</a></span> <span class="fn">M</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/Iso.html#CategoryTheory.Iso.inv">inv</a></span></span></div></div></div></div><div class="decl" id="Rep.periodSeq₁_f"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L299-L299">source</a></div><div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₁_f"><span class="name">Rep</span>.<span class="name">periodSeq₁_f</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> <span class="fn">R</span> <span class="fn">G</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">M</span>.<a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₁">periodSeq₁</a></span>.<a href="../../.././Mathlib/Algebra/Homology/ShortComplex/Basic.html#CategoryTheory.ShortComplex.f">f</a></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Rep.coind₁'_ι">coind₁'_ι</a>.<a href="../../.././Mathlib/CategoryTheory/NatTrans.html#CategoryTheory.NatTrans.app">app</a></span> <span class="fn">M</span></span></div></div></div></div><div class="decl" id="Rep.periodSeq₂"><div class="def"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L307-L315">source</a></div><div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₂"><span class="name">Rep</span>.<span class="name">periodSeq₂</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> <span class="fn">R</span> <span class="fn">G</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ShortComplex/Basic.html#CategoryTheory.ShortComplex">CategoryTheory.ShortComplex</a> <span class="fn">(<a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> <span class="fn">R</span> <span class="fn">G</span>)</span></span></div></div><p>The second short complex in the periodicity sequence.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Rep.periodSeq₂" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Rep.periodSeq₂_X₁"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L308-L308">source</a></div><div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₂_X₁"><span class="name">Rep</span>.<span class="name">periodSeq₂_X₁</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> <span class="fn">R</span> <span class="fn">G</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">M</span>.<a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₂">periodSeq₂</a></span>.<a href="../../.././Mathlib/Algebra/Homology/ShortComplex/Basic.html#CategoryTheory.ShortComplex.X₁">X₁</a></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Rep.coind₁'">coind₁'</a>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">M</span></span></div></div></div></div><div class="decl" id="Rep.periodSeq₂_X₂"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L308-L308">source</a></div><div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₂_X₂"><span class="name">Rep</span>.<span class="name">periodSeq₂_X₂</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> <span class="fn">R</span> <span class="fn">G</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">M</span>.<a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₂">periodSeq₂</a></span>.<a href="../../.././Mathlib/Algebra/Homology/ShortComplex/Basic.html#CategoryTheory.ShortComplex.X₂">X₂</a></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Rep.ind₁'">ind₁'</a>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">M</span></span></div></div></div></div><div class="decl" id="Rep.periodSeq₂_f"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L308-L308">source</a></div><div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₂_f"><span class="name">Rep</span>.<span class="name">periodSeq₂_f</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> <span class="fn">R</span> <span class="fn">G</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">M</span>.<a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₂">periodSeq₂</a></span>.<a href="../../.././Mathlib/Algebra/Homology/ShortComplex/Basic.html#CategoryTheory.ShortComplex.f">f</a></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../.././Mathlib/CategoryTheory/Category/Basic.html#CategoryTheory.CategoryStruct.comp">CategoryTheory.CategoryStruct.comp</a> <span class="fn">(<span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.map₁">map₁</a>.<a href="../../.././Mathlib/CategoryTheory/NatTrans.html#CategoryTheory.NatTrans.app">app</a></span> <span class="fn">M</span>)</span> <span class="fn"><span class="fn">(<span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Rep.ind₁'_iso_coind₁'">ind₁'_iso_coind₁'</a>.<a href="../../.././Mathlib/CategoryTheory/NatIso.html#CategoryTheory.Iso.app">app</a></span> <span class="fn">M</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/Iso.html#CategoryTheory.Iso.inv">inv</a></span></span></div></div></div></div><div class="decl" id="Rep.periodSeq₂_X₃"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L308-L308">source</a></div><div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₂_X₃"><span class="name">Rep</span>.<span class="name">periodSeq₂_X₃</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> <span class="fn">R</span> <span class="fn">G</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">M</span>.<a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₂">periodSeq₂</a></span>.<a href="../../.././Mathlib/Algebra/Homology/ShortComplex/Basic.html#CategoryTheory.ShortComplex.X₃">X₃</a></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">M</span></div></div></div></div><div class="decl" id="Rep.periodSeq₂_g"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L308-L308">source</a></div><div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₂_g"><span class="name">Rep</span>.<span class="name">periodSeq₂_g</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> <span class="fn">R</span> <span class="fn">G</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">M</span>.<a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₂">periodSeq₂</a></span>.<a href="../../.././Mathlib/Algebra/Homology/ShortComplex/Basic.html#CategoryTheory.ShortComplex.g">g</a></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Rep.ind₁'_π">ind₁'_π</a>.<a href="../../.././Mathlib/CategoryTheory/NatTrans.html#CategoryTheory.NatTrans.app">app</a></span> <span class="fn">M</span></span></div></div></div></div><div class="decl" id="Rep.periodSeq₁Functor"><div class="def"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L317-L320">source</a></div><div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₁Functor"><span class="name">Rep</span>.<span class="name">periodSeq₁Functor</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor">CategoryTheory.Functor</a> <span class="fn">(<a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> <span class="fn">R</span> <span class="fn">G</span>)</span> <span class="fn">(<a href="../../.././Mathlib/Algebra/Homology/ShortComplex/Basic.html#CategoryTheory.ShortComplex">CategoryTheory.ShortComplex</a> <span class="fn">(<a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> <span class="fn">R</span> <span class="fn">G</span>)</span>)</span></span></div></div><p>The first short complex in the periodicity sequence as a functor.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Rep.periodSeq₁Functor" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Rep.periodSeq₁Functor_obj"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L318-L318">source</a></div><div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₁Functor_obj"><span class="name">Rep</span>.<span class="name">periodSeq₁Functor_obj</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> <span class="fn">R</span> <span class="fn">G</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₁Functor">periodSeq₁Functor</a>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">M</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn">M</span>.<a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₁">periodSeq₁</a></span></div></div></div></div><div class="decl" id="Rep.periodSeq₁Functor_map"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L318-L318">source</a></div><div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₁Functor_map"><span class="name">Rep</span>.<span class="name">periodSeq₁Functor_map</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M </span><span class="fn">N</span> : <span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> <span class="fn">R</span> <span class="fn">G</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">M</span> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn">N</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₁Functor">periodSeq₁Functor</a>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.map">map</a></span> <span class="fn">f</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ShortComplex/Basic.html#CategoryTheory.ShortComplex.homMk">CategoryTheory.ShortComplex.homMk</a> <span class="fn">f</span> <span class="fn">(<span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Rep.coind₁'">coind₁'</a>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.map">map</a></span> <span class="fn">f</span>)</span> <span class="fn">(<span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Rep.ind₁'">ind₁'</a>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.map">map</a></span> <span class="fn">f</span>)</span> <span class="fn">⋯</span> <span class="fn">⋯</span></span></div></div></div></div><div class="decl" id="Rep.periodSeq₂Functor"><div class="def"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L322-L325">source</a></div><div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₂Functor"><span class="name">Rep</span>.<span class="name">periodSeq₂Functor</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor">CategoryTheory.Functor</a> <span class="fn">(<a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> <span class="fn">R</span> <span class="fn">G</span>)</span> <span class="fn">(<a href="../../.././Mathlib/Algebra/Homology/ShortComplex/Basic.html#CategoryTheory.ShortComplex">CategoryTheory.ShortComplex</a> <span class="fn">(<a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> <span class="fn">R</span> <span class="fn">G</span>)</span>)</span></span></div></div><p>The second short complex in the periodicity sequence as a functor.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Rep.periodSeq₂Functor" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Rep.periodSeq₂Functor_map"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L323-L323">source</a></div><div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₂Functor_map"><span class="name">Rep</span>.<span class="name">periodSeq₂Functor_map</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M </span><span class="fn">N</span> : <span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> <span class="fn">R</span> <span class="fn">G</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">M</span> <a href="../../.././Mathlib/Combinatorics/Quiver/Basic.html#Quiver.Hom">⟶</a> <span class="fn">N</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₂Functor">periodSeq₂Functor</a>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.map">map</a></span> <span class="fn">f</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><a href="../../.././Mathlib/Algebra/Homology/ShortComplex/Basic.html#CategoryTheory.ShortComplex.homMk">CategoryTheory.ShortComplex.homMk</a> <span class="fn">(<span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Rep.coind₁'">coind₁'</a>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.map">map</a></span> <span class="fn">f</span>)</span> <span class="fn">(<span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/IndCoind/Finite.html#Rep.ind₁'">ind₁'</a>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.map">map</a></span> <span class="fn">f</span>)</span> <span class="fn">f</span> <span class="fn">⋯</span> <span class="fn">⋯</span></span></div></div></div></div><div class="decl" id="Rep.periodSeq₂Functor_obj"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L323-L323">source</a></div><div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₂Functor_obj"><span class="name">Rep</span>.<span class="name">periodSeq₂Functor_obj</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> <span class="fn">R</span> <span class="fn">G</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₂Functor">periodSeq₂Functor</a>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">M</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn"><span class="fn">M</span>.<a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₂">periodSeq₂</a></span></div></div></div></div><div class="decl" id="Rep.exact_periodSeq₁"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L327-L343">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.exact_periodSeq₁"><span class="name">Rep</span>.<span class="name">exact_periodSeq₁</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> <span class="fn">R</span> <span class="fn">G</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">M</span>.<a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₁">periodSeq₁</a></span>.<a href="../../.././Mathlib/Algebra/Homology/ShortComplex/Exact.html#CategoryTheory.ShortComplex.Exact">Exact</a></span></div></div></div></div><div class="decl" id="Rep.exact_periodSeq₂"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L345-L362">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.exact_periodSeq₂"><span class="name">Rep</span>.<span class="name">exact_periodSeq₂</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">M</span> : <span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> <span class="fn">R</span> <span class="fn">G</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">M</span>.<a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodSeq₂">periodSeq₂</a></span>.<a href="../../.././Mathlib/Algebra/Homology/ShortComplex/Exact.html#CategoryTheory.ShortComplex.Exact">Exact</a></span></div></div></div></div><div class="decl" id="Rep.upIsoDown"><div class="def"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L364-L373">source</a></div><div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.upIsoDown"><span class="name">Rep</span>.<span class="name">upIsoDown</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><a href="../../.././ClassFieldTheory/Cohomology/Functors/UpDown.html#Rep.dimensionShift.up">dimensionShift.up</a> <a href="../../.././Mathlib/CategoryTheory/Iso.html#CategoryTheory.Iso">≅</a> <a href="../../.././ClassFieldTheory/Cohomology/Functors/UpDown.html#Rep.dimensionShift.down">dimensionShift.down</a></div></div><p>The up and down functors for a finite cyclic group are naturally isomorphic.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Rep.upIsoDown" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Rep.periodicCohomologyAux"><div class="def"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L375-L383">source</a></div><div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodicCohomologyAux"><span class="name">Rep</span>.<span class="name">periodicCohomologyAux</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../../.././Init/Prelude.html#Nat">ℕ</a>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Init/Data/NeZero.html#NeZero">NeZero</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">k</span> : <a href="../../.././Init/Prelude.html#Nat">ℕ</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Homological/GroupCohomology/Functoriality.html#groupCohomology.functor">groupCohomology.functor</a> <span class="fn">R</span> <span class="fn">G</span> <span class="fn">n</span></span> <a href="../../.././Mathlib/CategoryTheory/Iso.html#CategoryTheory.Iso">≅</a> <span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Homological/GroupCohomology/Functoriality.html#groupCohomology.functor">groupCohomology.functor</a> <span class="fn">R</span> <span class="fn">G</span> (<span class="fn">n</span> <a href="../../.././Init/Prelude.html#HAdd.hAdd">+</a> <span class="fn">2</span> <a href="../../.././Init/Prelude.html#HMul.hMul">*</a> <span class="fn">k</span>)</span></div></div><p>Auxiliary definition for <code><a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodicCohomology">periodicCohomology</a></code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Rep.periodicCohomologyAux" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Rep.periodicCohomology"><div class="def"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L385-L398">source</a></div><div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.periodicCohomology"><span class="name">Rep</span>.<span class="name">periodicCohomology</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">m </span><span class="fn">n</span> : <a href="../../.././Init/Prelude.html#Nat">ℕ</a>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Init/Data/NeZero.html#NeZero">NeZero</a> <span class="fn">m</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Init/Data/NeZero.html#NeZero">NeZero</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hmn</span> : <span class="fn">m</span> <a href="../../.././Mathlib/Data/Nat/ModEq.html#Nat.ModEq">≡</a> <span class="fn">n</span> <a href="../../.././Mathlib/Data/Nat/ModEq.html#Nat.ModEq">[MOD</a> <span class="fn">2</span><a href="../../.././Mathlib/Data/Nat/ModEq.html#Nat.ModEq">]</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Homological/GroupCohomology/Functoriality.html#groupCohomology.functor">groupCohomology.functor</a> <span class="fn">R</span> <span class="fn">G</span> <span class="fn">m</span></span> <a href="../../.././Mathlib/CategoryTheory/Iso.html#CategoryTheory.Iso">≅</a> <span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Homological/GroupCohomology/Functoriality.html#groupCohomology.functor">groupCohomology.functor</a> <span class="fn">R</span> <span class="fn">G</span> <span class="fn">n</span></span></div></div><p>The non-zero cohomology of a finite cyclic group is 2-periodic.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-Rep.periodicCohomology" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Rep.isZero_ofEven_odd"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L401-L416">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#Rep.isZero_ofEven_odd"><span class="name">Rep</span>.<span class="name">isZero_ofEven_odd</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep">Rep</a> <span class="fn">R</span> <span class="fn">G</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">e </span><span class="fn">o</span> : <a href="../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Init/Data/NeZero.html#NeZero">NeZero</a> <span class="fn">e</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">he</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Even.html#Even">Even</a> <span class="fn">e</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">ho</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Parity.html#Odd">Odd</a> <span class="fn">o</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hₑ</span> : <span class="fn"><a href="../../.././Mathlib/CategoryTheory/Limits/Shapes/ZeroObjects.html#CategoryTheory.Limits.IsZero">CategoryTheory.Limits.IsZero</a> <span class="fn">(<a href="../../.././Mathlib/RepresentationTheory/Homological/GroupCohomology/Basic.html#groupCohomology">groupCohomology</a> <span class="fn">M</span> <span class="fn">e</span>)</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hₒ</span> : <span class="fn"><a href="../../.././Mathlib/CategoryTheory/Limits/Shapes/ZeroObjects.html#CategoryTheory.Limits.IsZero">CategoryTheory.Limits.IsZero</a> <span class="fn">(<a href="../../.././Mathlib/RepresentationTheory/Homological/GroupCohomology/Basic.html#groupCohomology">groupCohomology</a> <span class="fn">M</span> <span class="fn">o</span>)</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../../.././Init/Prelude.html#Nat">ℕ</a>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Init/Data/NeZero.html#NeZero">NeZero</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/CategoryTheory/Limits/Shapes/ZeroObjects.html#CategoryTheory.Limits.IsZero">CategoryTheory.Limits.IsZero</a> <span class="fn">(<a href="../../.././Mathlib/RepresentationTheory/Homological/GroupCohomology/Basic.html#groupCohomology">groupCohomology</a> <span class="fn">M</span> <span class="fn">n</span>)</span></span></div></div><p>Let <code>M</code> be a representation of a finite cyclic group <code>G</code>. Suppose there are even
+and positive integers <code>e</code> and <code>o</code> with <code>e</code> even and <code>o</code> odd, such that
+<code>Hᵉ(G,M)</code> and <code>Hᵒ(G,M)</code> are both zero.
+Then <code>Hⁿ(G,M)</code> is zero for all <code>n &gt; 0</code>.</p></div></div><div class="decl" id="periodicTateCohomologyAux"><div class="def"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L420-L430">source</a></div><div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#periodicTateCohomologyAux"><span class="name">periodicTateCohomologyAux</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../../.././Init/Data/Int/Basic.html#Int">ℤ</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">k</span> : <a href="../../.././Init/Prelude.html#Nat">ℕ</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/TateCohomology.html#groupCohomology.tateCohomology">groupCohomology.tateCohomology</a> <span class="fn">n</span></span> <a href="../../.././Mathlib/CategoryTheory/Iso.html#CategoryTheory.Iso">≅</a> <span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/TateCohomology.html#groupCohomology.tateCohomology">groupCohomology.tateCohomology</a> (<span class="fn">n</span> <a href="../../.././Init/Prelude.html#HAdd.hAdd">+</a> <span class="fn">2</span> <a href="../../.././Init/Prelude.html#HMul.hMul">*</a> <span class="fn">↑<span class="fn">k</span></span>)</span></div></div><p>Auxiliary definition for <code><a href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#periodicTateCohomology">periodicTateCohomology</a></code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-periodicTateCohomologyAux" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="periodicTateCohomology"><div class="def"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L432-L446">source</a></div><div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#periodicTateCohomology"><span class="name">periodicTateCohomology</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R </span><span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Defs.html#CommRing">CommRing</a> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">m </span><span class="fn">n</span> : <a href="../../.././Init/Data/Int/Basic.html#Int">ℤ</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hmn</span> : <span class="fn">m</span> <a href="../../.././Mathlib/Data/Int/ModEq.html#Int.ModEq">≡</a> <span class="fn">n</span> <a href="../../.././Mathlib/Data/Int/ModEq.html#Int.ModEq">[ZMOD</a> <span class="fn">2</span><a href="../../.././Mathlib/Data/Int/ModEq.html#Int.ModEq">]</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/TateCohomology.html#groupCohomology.tateCohomology">groupCohomology.tateCohomology</a> <span class="fn">m</span></span> <a href="../../.././Mathlib/CategoryTheory/Iso.html#CategoryTheory.Iso">≅</a> <span class="fn"><a href="../../.././ClassFieldTheory/Cohomology/TateCohomology.html#groupCohomology.tateCohomology">groupCohomology.tateCohomology</a> <span class="fn">n</span></span></div></div><p>The Tate cohomology of a finite cyclic group is 2-periodic.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-periodicTateCohomology" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="groupCohomology.TateCohomology.evenTrivialInt"><div class="def"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L454-L461">source</a></div><div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#groupCohomology.TateCohomology.evenTrivialInt"><span class="name">groupCohomology</span>.<span class="name">TateCohomology</span>.<span class="name">evenTrivialInt</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././Init/Data/Int/Basic.html#Int">ℤ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">N</span> : <a href="../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hG</span> : <span class="fn"><a href="../../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a> <span class="fn">G</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">N</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hn</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Even.html#Even">Even</a> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././ClassFieldTheory/Cohomology/TateCohomology.html#groupCohomology.tateCohomology">tateCohomology</a> <span class="fn">n</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">(<a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep.trivial">Rep.trivial</a> <a href="../../.././Init/Data/Int/Basic.html#Int">ℤ</a> <span class="fn">G</span> <a href="../../.././Init/Data/Int/Basic.html#Int">ℤ</a>)</span></span> <a href="../../.././Mathlib/CategoryTheory/Iso.html#CategoryTheory.Iso">≅</a> <span class="fn"><a href="../../.././Mathlib/Algebra/Category/ModuleCat/Basic.html#ModuleCat.of">ModuleCat.of</a> <a href="../../.././Init/Data/Int/Basic.html#Int">ℤ</a> <span class="fn">(<a href="../../.././Mathlib/Data/ZMod/Defs.html#ZMod">ZMod</a> <span class="fn">N</span>)</span></span></div></div><p>The even Tate cohomology of a trivial representation of a finite cyclic group of order <code>N</code> is
+<code>ℤ/Nℤ</code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-groupCohomology.TateCohomology.evenTrivialInt" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="groupCohomology.TateCohomology.isZero_odd_trivial_of_isAddTorsionFree"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L463-L468">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#groupCohomology.TateCohomology.isZero_odd_trivial_of_isAddTorsionFree"><span class="name">groupCohomology</span>.<span class="name">TateCohomology</span>.<span class="name">isZero_odd_trivial_of_isAddTorsionFree</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././Init/Data/Int/Basic.html#Int">ℤ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsAddTorsionFree">IsAddTorsionFree</a> <span class="fn">M</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hn</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Parity.html#Odd">Odd</a> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/CategoryTheory/Limits/Shapes/ZeroObjects.html#CategoryTheory.Limits.IsZero">CategoryTheory.Limits.IsZero</a> <span class="fn">(<span class="fn"><span class="fn">(<a href="../../.././ClassFieldTheory/Cohomology/TateCohomology.html#groupCohomology.tateCohomology">tateCohomology</a> <span class="fn">n</span>)</span>.<a href="../../.././Mathlib/CategoryTheory/Functor/Basic.html#CategoryTheory.Functor.obj">obj</a></span> <span class="fn">(<a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep.trivial">Rep.trivial</a> <a href="../../.././Init/Data/Int/Basic.html#Int">ℤ</a> <span class="fn">G</span> <span class="fn">M</span>)</span>)</span></span></div></div><p>A trivial torsion-free representation of a finite cyclic group has trivial odd Tate cohomology.</p></div></div><div class="decl" id="groupCohomology.evenTrivialInt"><div class="def"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L472-L478">source</a></div><div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#groupCohomology.evenTrivialInt"><span class="name">groupCohomology</span>.<span class="name">evenTrivialInt</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">N</span> : <a href="../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hG</span> : <span class="fn"><a href="../../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a> <span class="fn">G</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">N</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <a href="../../.././Init/Prelude.html#Nat">ℕ</a>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Init/Data/NeZero.html#NeZero">NeZero</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hn</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Even.html#Even">Even</a> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Homological/GroupCohomology/Basic.html#groupCohomology">groupCohomology</a> <span class="fn">(<a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep.trivial">Rep.trivial</a> <a href="../../.././Init/Data/Int/Basic.html#Int">ℤ</a> <span class="fn">G</span> <a href="../../.././Init/Data/Int/Basic.html#Int">ℤ</a>)</span> <span class="fn">n</span></span> <a href="../../.././Mathlib/CategoryTheory/Iso.html#CategoryTheory.Iso">≅</a> <span class="fn"><a href="../../.././Mathlib/Algebra/Category/ModuleCat/Basic.html#ModuleCat.of">ModuleCat.of</a> <a href="../../.././Init/Data/Int/Basic.html#Int">ℤ</a> <span class="fn">(<a href="../../.././Mathlib/Data/ZMod/Defs.html#ZMod">ZMod</a> <span class="fn">N</span>)</span></span></div></div><p>The nonzero even group cohomology of a trivial representation of a finite cyclic group of order
+<code>N</code> is <code>ℤ/Nℤ</code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-groupCohomology.evenTrivialInt" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="groupCohomology.isZero_odd_trivial_of_isAddTorsionFree"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L481-L488">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#groupCohomology.isZero_odd_trivial_of_isAddTorsionFree"><span class="name">groupCohomology</span>.<span class="name">isZero_odd_trivial_of_isAddTorsionFree</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsAddTorsionFree">IsAddTorsionFree</a> <span class="fn">M</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hn</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Parity.html#Odd">Odd</a> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/CategoryTheory/Limits/Shapes/ZeroObjects.html#CategoryTheory.Limits.IsZero">CategoryTheory.Limits.IsZero</a> <span class="fn">(<a href="../../.././Mathlib/RepresentationTheory/Homological/GroupCohomology/Basic.html#groupCohomology">groupCohomology</a> <span class="fn">(<a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep.trivial">Rep.trivial</a> <a href="../../.././Init/Data/Int/Basic.html#Int">ℤ</a> <span class="fn">G</span> <span class="fn">M</span>)</span> <span class="fn">n</span>)</span></span></div></div><p>A trivial torsion-free representation of a finite cyclic group has trivial odd group
+cohomology.</p></div></div><div class="decl" id="groupHomology.oddTrivialInt"><div class="def"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L494-L500">source</a></div><div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#groupHomology.oddTrivialInt"><span class="name">groupHomology</span>.<span class="name">oddTrivialInt</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">N</span> : <a href="../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Fintype/Defs.html#Fintype">Fintype</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hG</span> : <span class="fn"><a href="../../.././Mathlib/SetTheory/Cardinal/Finite.html#Nat.card">Nat.card</a> <span class="fn">G</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">N</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hn</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Ring/Parity.html#Odd">Odd</a> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/RepresentationTheory/Homological/GroupHomology/Basic.html#groupHomology">groupHomology</a> <span class="fn">(<a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep.trivial">Rep.trivial</a> <a href="../../.././Init/Data/Int/Basic.html#Int">ℤ</a> <span class="fn">G</span> <a href="../../.././Init/Data/Int/Basic.html#Int">ℤ</a>)</span> <span class="fn">n</span></span> <a href="../../.././Mathlib/CategoryTheory/Iso.html#CategoryTheory.Iso">≅</a> <span class="fn"><a href="../../.././Mathlib/Algebra/Category/ModuleCat/Basic.html#ModuleCat.of">ModuleCat.of</a> <a href="../../.././Init/Data/Int/Basic.html#Int">ℤ</a> <span class="fn">(<a href="../../.././Mathlib/Data/ZMod/Defs.html#ZMod">ZMod</a> <span class="fn">N</span>)</span></span></div></div><p>The odd group homology of a trivial representation of a finite cyclic group of order <code>N</code> is
+<code>ℤ/Nℤ</code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-groupHomology.oddTrivialInt" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="groupHomology.isZero_even_trivial_of_isAddTorsionFree"><div class="theorem"><div class="gh_link"><a href="https://github.com/kbuzzard/ClassFieldTheory#L503-L510">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././ClassFieldTheory/Cohomology/FiniteCyclic/UpDown.html#groupHomology.isZero_even_trivial_of_isAddTorsionFree"><span class="name">groupHomology</span>.<span class="name">isZero_even_trivial_of_isAddTorsionFree</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#Group">Group</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsCyclic">IsCyclic</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Data/Finite/Defs.html#Finite">Finite</a> <span class="fn">G</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#AddCommGroup">AddCommGroup</a> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Group/Defs.html#IsAddTorsionFree">IsAddTorsionFree</a> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../.././Init/Prelude.html#Nat">ℕ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Init/Data/NeZero.html#NeZero">NeZero</a> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hn</span> : <span class="fn"><a href="../../.././Mathlib/Algebra/Group/Even.html#Even">Even</a> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/CategoryTheory/Limits/Shapes/ZeroObjects.html#CategoryTheory.Limits.IsZero">CategoryTheory.Limits.IsZero</a> <span class="fn">(<a href="../../.././Mathlib/RepresentationTheory/Homological/GroupHomology/Basic.html#groupHomology">groupHomology</a> <span class="fn">(<a href="../../.././Mathlib/RepresentationTheory/Rep.html#Rep.trivial">Rep.trivial</a> <a href="../../.././Init/Data/Int/Basic.html#Int">ℤ</a> <span class="fn">G</span> <span class="fn">M</span>)</span> <span class="fn">n</span>)</span></span></div></div><p>A trivial torsion-free representation of a finite cyclic group has trivial nonzero even group
+homology.</p></div></div></main>
+<nav class="nav"><iframe src="../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

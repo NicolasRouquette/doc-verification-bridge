@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aesop_Forward_State - Documentation Verification</title>
+  <link rel="stylesheet" href="../style.css">
+  <script defer src="../verification.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Documentation Verification Report</h1>
+    <nav>
+      <a href="../index.html">Overview</a>
+      <a href="index.html">Modules</a>
+      <a href="../search.html">Search</a>
+      <a href="../api/index.html">API Docs</a>
+    </nav>
+  </header>
+  <main>
+    <div class="container">
+      <nav class="breadcrumbs">
+        <a href="../index.html">Verification</a> /
+        <a href="index.html">Modules</a> /
+        Aesop_Forward_State
+      </nav>
+      <h1>State</h1>
+<p>📁 <strong>Source:</strong> <a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean">Aesop/Forward/State.lean</a></p>
+<h2>Statistics</h2>
+<table class="verification-table">
+<tr><th>Metric</th><th>Count</th></tr>
+<tr><td><details><summary>Definitions</summary><a href="#Aesop-ClusterState"><code>ClusterState</code></a>, <a href="#Aesop-ClusterState-AddM"><code>AddM</code></a>, <a href="#Aesop-ClusterState-AddM-Context"><code>Context</code></a>, <a href="#Aesop-ClusterState-AddM-Context-premiseLMVars"><code>premiseLMVars</code></a>, <a href="#Aesop-ClusterState-AddM-Context-premiseMVars"><code>premiseMVars</code></a>, <a href="#Aesop-ClusterState-AddM-run"><code>run</code></a>, <a href="#Aesop-ClusterState-addHyp"><code>addHyp</code></a>, <a href="#Aesop-ClusterState-addMatch"><code>addMatch</code></a>, <a href="#Aesop-ClusterState-addQueuedRawHyps"><code>addQueuedRawHyps</code></a>, <a href="#Aesop-ClusterState-addRawHyp"><code>addRawHyp</code></a>, <a href="#Aesop-ClusterState-completeMatches"><code>completeMatches</code></a>, <a href="#Aesop-ClusterState-conclusionDeps"><code>conclusionDeps</code></a>, <a href="#Aesop-ClusterState-enqueueRawHyp"><code>enqueueRawHyp</code></a>, <a href="#Aesop-ClusterState-eraseEnqueuedRawHyp"><code>eraseEnqueuedRawHyp</code></a>, <a href="#Aesop-ClusterState-eraseHyp"><code>eraseHyp</code></a>, <a href="#Aesop-ClusterState-erasePatSubst"><code>erasePatSubst</code></a>, <a href="#Aesop-ClusterState-findSlot?"><code>findSlot?</code></a>, <a href="#Aesop-ClusterState-haveHypForEachSlot"><code>haveHypForEachSlot</code></a>, <a href="#Aesop-ClusterState-instInhabited"><code>instInhabited</code></a>, <a href="#Aesop-ClusterState-instToMessageData"><code>instToMessageData</code></a>, <a href="#Aesop-ClusterState-matchPremise?"><code>matchPremise?</code></a>, <a href="#Aesop-ClusterState-slot!"><code>slot!</code></a>, <a href="#Aesop-ClusterState-slotQueues"><code>slotQueues</code></a>, <a href="#Aesop-ClusterState-slots"><code>slots</code></a>, <a href="#Aesop-ClusterState-stats"><code>stats</code></a>, <a href="#Aesop-ClusterState-update"><code>update</code></a>, <a href="#Aesop-ClusterState-variableMap"><code>variableMap</code></a>, <a href="#Aesop-ForwardRule-initialRuleState"><code>initialRuleState</code></a>, <a href="#Aesop-ForwardState"><code>ForwardState</code></a>, <a href="#Aesop-ForwardState-enqueueHyp"><code>enqueueHyp</code></a>, <a href="#Aesop-ForwardState-enqueueHypWithPatSubsts"><code>enqueueHypWithPatSubsts</code></a>, <a href="#Aesop-ForwardState-enqueuePatSubst"><code>enqueuePatSubst</code></a>, <a href="#Aesop-ForwardState-enqueuePatSubsts"><code>enqueuePatSubsts</code></a>, <a href="#Aesop-ForwardState-enqueueTargetPatSubsts"><code>enqueueTargetPatSubsts</code></a>, <a href="#Aesop-ForwardState-eraseHyp"><code>eraseHyp</code></a>, <a href="#Aesop-ForwardState-erasePatSubsts"><code>erasePatSubsts</code></a>, <a href="#Aesop-ForwardState-eraseTargetPatSubsts"><code>eraseTargetPatSubsts</code></a>, <a href="#Aesop-ForwardState-hyps"><code>hyps</code></a>, <a href="#Aesop-ForwardState-instEmptyCollection"><code>instEmptyCollection</code></a>, <a href="#Aesop-ForwardState-instToMessageData"><code>instToMessageData</code></a>, <a href="#Aesop-ForwardState-patSubsts"><code>patSubsts</code></a>, <a href="#Aesop-ForwardState-ruleStates"><code>ruleStates</code></a>, <a href="#Aesop-ForwardState-stats"><code>stats</code></a>, <a href="#Aesop-ForwardState-update"><code>update</code></a>, <a href="#Aesop-Hyp"><code>Hyp</code></a>, <a href="#Aesop-Hyp-containsHyp"><code>containsHyp</code></a>, <a href="#Aesop-Hyp-fvarId?"><code>fvarId?</code></a>, <a href="#Aesop-Hyp-instBEq"><code>instBEq</code></a>, <a href="#Aesop-Hyp-instHashable"><code>instHashable</code></a>, <a href="#Aesop-Hyp-isPatSubst"><code>isPatSubst</code></a>, <a href="#Aesop-Hyp-subst"><code>subst</code></a>, <a href="#Aesop-InstMap"><code>InstMap</code></a>, <a href="#Aesop-InstMap-eraseHyp"><code>eraseHyp</code></a>, <a href="#Aesop-InstMap-erasePatSubst"><code>erasePatSubst</code></a>, <a href="#Aesop-InstMap-find?"><code>find?</code></a>, <a href="#Aesop-InstMap-findD"><code>findD</code></a>, <a href="#Aesop-InstMap-insertHyp"><code>insertHyp</code></a>, <a href="#Aesop-InstMap-insertMatch"><code>insertMatch</code></a>, <a href="#Aesop-InstMap-insertMatchCore"><code>insertMatchCore</code></a>, <a href="#Aesop-InstMap-instEmptyCollection"><code>instEmptyCollection</code></a>, <a href="#Aesop-InstMap-instToMessageData"><code>instToMessageData</code></a>, <a href="#Aesop-InstMap-map"><code>map</code></a>, <a href="#Aesop-InstMap-modify"><code>modify</code></a>, <a href="#Aesop-InstMap-modifyMapsForSlotsFrom"><code>modifyMapsForSlotsFrom</code></a>, <a href="#Aesop-InstMap-stats"><code>stats</code></a>, <a href="#Aesop-PatSubstSource"><code>PatSubstSource</code></a>, <a href="#Aesop-RawHyp"><code>RawHyp</code></a>, <a href="#Aesop-RuleState"><code>RuleState</code></a>, <a href="#Aesop-RuleState-clusterStates"><code>clusterStates</code></a>, <a href="#Aesop-RuleState-enqueueRawHyp"><code>enqueueRawHyp</code></a>, <a href="#Aesop-RuleState-eraseHyp"><code>eraseHyp</code></a>, <a href="#Aesop-RuleState-erasePatSubst"><code>erasePatSubst</code></a>, <a href="#Aesop-RuleState-patSubstSources"><code>patSubstSources</code></a>, <a href="#Aesop-RuleState-rule"><code>rule</code></a>, <a href="#Aesop-RuleState-stats"><code>stats</code></a>, <a href="#Aesop-RuleState-update"><code>update</code></a>, <a href="#Aesop-VariableMap"><code>VariableMap</code></a>, <a href="#Aesop-VariableMap-addHyp"><code>addHyp</code></a>, <a href="#Aesop-VariableMap-addMatch"><code>addMatch</code></a>, <a href="#Aesop-VariableMap-eraseHyp"><code>eraseHyp</code></a>, <a href="#Aesop-VariableMap-erasePatSubst"><code>erasePatSubst</code></a>, <a href="#Aesop-VariableMap-find"><code>find</code></a>, <a href="#Aesop-VariableMap-find?"><code>find?</code></a>, <a href="#Aesop-VariableMap-findHyps"><code>findHyps</code></a>, <a href="#Aesop-VariableMap-findMatches"><code>findMatches</code></a>, <a href="#Aesop-VariableMap-instEmptyCollection"><code>instEmptyCollection</code></a>, <a href="#Aesop-VariableMap-instToMessageData"><code>instToMessageData</code></a>, <a href="#Aesop-VariableMap-map"><code>map</code></a>, <a href="#Aesop-VariableMap-modify"><code>modify</code></a>, <a href="#Aesop-VariableMap-modifyM"><code>modifyM</code></a>, <a href="#Aesop-VariableMap-stats"><code>stats</code></a>, <a href="#Aesop-instBEqPatSubstSource"><code>instBEqPatSubstSource</code></a>, <a href="#Aesop-instBEqPatSubstSource-beq"><code>beq</code></a>, <a href="#Aesop-instBEqRawHyp"><code>instBEqRawHyp</code></a>, <a href="#Aesop-instBEqRawHyp-beq"><code>beq</code></a>, <a href="#Aesop-instHashablePatSubstSource"><code>instHashablePatSubstSource</code></a>, <a href="#Aesop-instHashablePatSubstSource-hash"><code>hash</code></a>, <a href="#Aesop-instHashableRawHyp"><code>instHashableRawHyp</code></a>, <a href="#Aesop-instHashableRawHyp-hash"><code>hash</code></a>, <a href="#Aesop-instInhabitedForwardState"><code>instInhabitedForwardState</code></a>, <a href="#Aesop-instInhabitedForwardState-default"><code>default</code></a>, <a href="#Aesop-instInhabitedHyp"><code>instInhabitedHyp</code></a>, <a href="#Aesop-instInhabitedHyp-default"><code>default</code></a>, <a href="#Aesop-instInhabitedInstMap"><code>instInhabitedInstMap</code></a>, <a href="#Aesop-instInhabitedInstMap-default"><code>default</code></a>, <a href="#Aesop-instInhabitedPatSubstSource"><code>instInhabitedPatSubstSource</code></a>, <a href="#Aesop-instInhabitedPatSubstSource-default"><code>default</code></a>, <a href="#Aesop-instInhabitedRawHyp"><code>instInhabitedRawHyp</code></a>, <a href="#Aesop-instInhabitedRawHyp-default"><code>default</code></a>, <a href="#Aesop-instInhabitedRuleState"><code>instInhabitedRuleState</code></a>, <a href="#Aesop-instInhabitedRuleState-default"><code>default</code></a>, <a href="#Aesop-instInhabitedVariableMap"><code>instInhabitedVariableMap</code></a>, <a href="#Aesop-instInhabitedVariableMap-default"><code>default</code></a>, <a href="#Aesop-instToMessageDataRawHyp"><code>instToMessageDataRawHyp</code></a>, <a href="#Aesop-instToMessageDataRuleState"><code>instToMessageDataRuleState</code></a></details></td><td>115</td></tr>
+<tr><td><details><summary>Theorems</summary><a href="#Aesop-ClusterState-slotQueues_size"><code>slotQueues_size</code></a></details></td><td>1</td></tr>
+<tr><td><strong>Total</strong></td><td><strong>116</strong></td></tr>
+</table>
+<h2>Aesop</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L367" id="Aesop-ClusterState"><code>ClusterState</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ClusterState" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L766" id="Aesop-ForwardState"><code>ForwardState</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ForwardState" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L52" id="Aesop-Hyp"><code>Hyp</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.Hyp" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L90" id="Aesop-InstMap"><code>InstMap</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.InstMap" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L623" id="Aesop-PatSubstSource"><code>PatSubstSource</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.PatSubstSource" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L38" id="Aesop-RawHyp"><code>RawHyp</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.RawHyp" title="API Documentation">📖</a></td><td>CompData</td><td><details><summary>1 math</summary><strong>math:</strong> <a href="#Aesop-ClusterState-slotQueues_size"><code>ClusterState.slotQueues_size</code></a><br></details></td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L634" id="Aesop-RuleState"><code>RuleState</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.RuleState" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L236" id="Aesop-VariableMap"><code>VariableMap</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.VariableMap" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L628" id="Aesop-instBEqPatSubstSource"><code>instBEqPatSubstSource</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.instBEqPatSubstSource" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L43" id="Aesop-instBEqRawHyp"><code>instBEqRawHyp</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.instBEqRawHyp" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L628" id="Aesop-instHashablePatSubstSource"><code>instHashablePatSubstSource</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.instHashablePatSubstSource" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L43" id="Aesop-instHashableRawHyp"><code>instHashableRawHyp</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.instHashableRawHyp" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L779" id="Aesop-instInhabitedForwardState"><code>instInhabitedForwardState</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.instInhabitedForwardState" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L58" id="Aesop-instInhabitedHyp"><code>instInhabitedHyp</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.instInhabitedHyp" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L92" id="Aesop-instInhabitedInstMap"><code>instInhabitedInstMap</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.instInhabitedInstMap" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L628" id="Aesop-instInhabitedPatSubstSource"><code>instInhabitedPatSubstSource</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.instInhabitedPatSubstSource" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L43" id="Aesop-instInhabitedRawHyp"><code>instInhabitedRawHyp</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.instInhabitedRawHyp" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L643" id="Aesop-instInhabitedRuleState"><code>instInhabitedRuleState</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.instInhabitedRuleState" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L238" id="Aesop-instInhabitedVariableMap"><code>instInhabitedVariableMap</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.instInhabitedVariableMap" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L45" id="Aesop-instToMessageDataRawHyp"><code>instToMessageDataRawHyp</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.instToMessageDataRawHyp" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L645" id="Aesop-instToMessageDataRuleState"><code>instToMessageDataRuleState</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.instToMessageDataRuleState" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Aesop.ClusterState</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L467" id="Aesop-ClusterState-AddM"><code>AddM</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ClusterState.AddM" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L503" id="Aesop-ClusterState-addHyp"><code>addHyp</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ClusterState.addHyp" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L476" id="Aesop-ClusterState-addMatch"><code>addMatch</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ClusterState.addMatch" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L538" id="Aesop-ClusterState-addQueuedRawHyps"><code>addQueuedRawHyps</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ClusterState.addQueuedRawHyps" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L523" id="Aesop-ClusterState-addRawHyp"><code>addRawHyp</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ClusterState.addRawHyp" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L376" id="Aesop-ClusterState-completeMatches"><code>completeMatches</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ClusterState.completeMatches" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L372" id="Aesop-ClusterState-conclusionDeps"><code>conclusionDeps</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ClusterState.conclusionDeps" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L551" id="Aesop-ClusterState-enqueueRawHyp"><code>enqueueRawHyp</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ClusterState.enqueueRawHyp" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L565" id="Aesop-ClusterState-eraseEnqueuedRawHyp"><code>eraseEnqueuedRawHyp</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ClusterState.eraseEnqueuedRawHyp" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L579" id="Aesop-ClusterState-eraseHyp"><code>eraseHyp</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ClusterState.eraseHyp" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L594" id="Aesop-ClusterState-erasePatSubst"><code>erasePatSubst</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ClusterState.erasePatSubst" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L409" id="Aesop-ClusterState-findSlot?"><code>findSlot?</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ClusterState.findSlot?" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L380" id="Aesop-ClusterState-haveHypForEachSlot"><code>haveHypForEachSlot</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ClusterState.haveHypForEachSlot" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L389" id="Aesop-ClusterState-instInhabited"><code>instInhabited</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ClusterState.instInhabited" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L397" id="Aesop-ClusterState-instToMessageData"><code>instToMessageData</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ClusterState.instToMessageData" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L414" id="Aesop-ClusterState-matchPremise?"><code>matchPremise?</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ClusterState.matchPremise?" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L405" id="Aesop-ClusterState-slot!"><code>slot!</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ClusterState.slot!" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L383" id="Aesop-ClusterState-slotQueues"><code>slotQueues</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ClusterState.slotQueues" title="API Documentation">📖</a></td><td>CompOp</td><td><details><summary>1 math</summary><strong>math:</strong> <a href="#Aesop-ClusterState-slotQueues_size"><code>slotQueues_size</code></a><br></details></td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L369" id="Aesop-ClusterState-slots"><code>slots</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ClusterState.slots" title="API Documentation">📖</a></td><td>CompOp</td><td><details><summary>1 math</summary><strong>math:</strong> <a href="#Aesop-ClusterState-slotQueues_size"><code>slotQueues_size</code></a><br></details></td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L615" id="Aesop-ClusterState-stats"><code>stats</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ClusterState.stats" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L609" id="Aesop-ClusterState-update"><code>update</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ClusterState.update" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L374" id="Aesop-ClusterState-variableMap"><code>variableMap</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ClusterState.variableMap" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h3>Theorems</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Kind</th><th>Assumes</th><th>Proves</th><th>Validates</th><th>Depends On</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L385" id="Aesop-ClusterState-slotQueues_size"><code>slotQueues_size</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ClusterState.slotQueues_size" title="API Documentation">📖</a></td><td>mathematical</td><td>—</td><td><a href="#Aesop-RawHyp"><code>Aesop.RawHyp</code></a><br><a href="#Aesop-ClusterState-slotQueues"><code>slotQueues</code></a><br><a href="#Aesop-Slot"><code>Aesop.Slot</code></a><br><a href="#Aesop-ClusterState-slots"><code>slots</code></a></td><td>—</td><td>—</td></tr>
+</table>
+<h2>Aesop.ClusterState.AddM</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L457" id="Aesop-ClusterState-AddM-Context"><code>Context</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ClusterState.AddM.Context" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L470" id="Aesop-ClusterState-AddM-run"><code>run</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ClusterState.AddM.run" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Aesop.ClusterState.AddM.Context</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L462" id="Aesop-ClusterState-AddM-Context-premiseLMVars"><code>premiseLMVars</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ClusterState.AddM.Context.premiseLMVars" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L460" id="Aesop-ClusterState-AddM-Context-premiseMVars"><code>premiseMVars</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ClusterState.AddM.Context.premiseMVars" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Aesop.ForwardRule</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L652" id="Aesop-ForwardRule-initialRuleState"><code>initialRuleState</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ForwardRule.initialRuleState" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Aesop.ForwardState</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L806" id="Aesop-ForwardState-enqueueHyp"><code>enqueueHyp</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ForwardState.enqueueHyp" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L844" id="Aesop-ForwardState-enqueueHypWithPatSubsts"><code>enqueueHypWithPatSubsts</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ForwardState.enqueueHypWithPatSubsts" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L817" id="Aesop-ForwardState-enqueuePatSubst"><code>enqueuePatSubst</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ForwardState.enqueuePatSubst" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L836" id="Aesop-ForwardState-enqueuePatSubsts"><code>enqueuePatSubsts</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ForwardState.enqueuePatSubsts" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L881" id="Aesop-ForwardState-enqueueTargetPatSubsts"><code>enqueueTargetPatSubsts</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ForwardState.enqueueTargetPatSubsts" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L864" id="Aesop-ForwardState-eraseHyp"><code>eraseHyp</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ForwardState.eraseHyp" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L852" id="Aesop-ForwardState-erasePatSubsts"><code>erasePatSubsts</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ForwardState.erasePatSubsts" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L875" id="Aesop-ForwardState-eraseTargetPatSubsts"><code>eraseTargetPatSubsts</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ForwardState.eraseTargetPatSubsts" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L774" id="Aesop-ForwardState-hyps"><code>hyps</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ForwardState.hyps" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L783" id="Aesop-ForwardState-instEmptyCollection"><code>instEmptyCollection</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ForwardState.instEmptyCollection" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L786" id="Aesop-ForwardState-instToMessageData"><code>instToMessageData</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ForwardState.instToMessageData" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L778" id="Aesop-ForwardState-patSubsts"><code>patSubsts</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ForwardState.patSubsts" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L768" id="Aesop-ForwardState-ruleStates"><code>ruleStates</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ForwardState.ruleStates" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L916" id="Aesop-ForwardState-stats"><code>stats</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ForwardState.stats" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L891" id="Aesop-ForwardState-update"><code>update</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.ForwardState.update" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Aesop.Hyp</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L77" id="Aesop-Hyp-containsHyp"><code>containsHyp</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.Hyp.containsHyp" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L54" id="Aesop-Hyp-fvarId?"><code>fvarId?</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.Hyp.fvarId?" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L62" id="Aesop-Hyp-instBEq"><code>instBEq</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.Hyp.instBEq" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L69" id="Aesop-Hyp-instHashable"><code>instHashable</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.Hyp.instHashable" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L81" id="Aesop-Hyp-isPatSubst"><code>isPatSubst</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.Hyp.isPatSubst" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L57" id="Aesop-Hyp-subst"><code>subst</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.Hyp.subst" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Aesop.InstMap</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L203" id="Aesop-InstMap-eraseHyp"><code>eraseHyp</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.InstMap.eraseHyp" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L213" id="Aesop-InstMap-erasePatSubst"><code>erasePatSubst</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.InstMap.erasePatSubst" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L114" id="Aesop-InstMap-find?"><code>find?</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.InstMap.find?" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L122" id="Aesop-InstMap-findD"><code>findD</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.InstMap.findD" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L157" id="Aesop-InstMap-insertHyp"><code>insertHyp</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.InstMap.insertHyp" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L180" id="Aesop-InstMap-insertMatch"><code>insertMatch</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.InstMap.insertMatch" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L168" id="Aesop-InstMap-insertMatchCore"><code>insertMatchCore</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.InstMap.insertMatchCore" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L96" id="Aesop-InstMap-instEmptyCollection"><code>instEmptyCollection</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.InstMap.instEmptyCollection" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L98" id="Aesop-InstMap-instToMessageData"><code>instToMessageData</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.InstMap.instToMessageData" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L91" id="Aesop-InstMap-map"><code>map</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.InstMap.map" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L129" id="Aesop-InstMap-modify"><code>modify</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.InstMap.modify" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L187" id="Aesop-InstMap-modifyMapsForSlotsFrom"><code>modifyMapsForSlotsFrom</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.InstMap.modifyMapsForSlotsFrom" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L224" id="Aesop-InstMap-stats"><code>stats</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.InstMap.stats" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Aesop.RuleState</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L638" id="Aesop-RuleState-clusterStates"><code>clusterStates</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.RuleState.clusterStates" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L669" id="Aesop-RuleState-enqueueRawHyp"><code>enqueueRawHyp</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.RuleState.enqueueRawHyp" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L694" id="Aesop-RuleState-eraseHyp"><code>eraseHyp</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.RuleState.eraseHyp" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L673" id="Aesop-RuleState-erasePatSubst"><code>erasePatSubst</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.RuleState.erasePatSubst" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L642" id="Aesop-RuleState-patSubstSources"><code>patSubstSources</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.RuleState.patSubstSources" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L636" id="Aesop-RuleState-rule"><code>rule</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.RuleState.rule" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L758" id="Aesop-RuleState-stats"><code>stats</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.RuleState.stats" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L700" id="Aesop-RuleState-update"><code>update</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.RuleState.update" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Aesop.VariableMap</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L278" id="Aesop-VariableMap-addHyp"><code>addHyp</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.VariableMap.addHyp" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L289" id="Aesop-VariableMap-addMatch"><code>addMatch</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.VariableMap.addMatch" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L297" id="Aesop-VariableMap-eraseHyp"><code>eraseHyp</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.VariableMap.eraseHyp" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L302" id="Aesop-VariableMap-erasePatSubst"><code>erasePatSubst</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.VariableMap.erasePatSubst" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L253" id="Aesop-VariableMap-find"><code>find</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.VariableMap.find" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L249" id="Aesop-VariableMap-find?"><code>find?</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.VariableMap.find?" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L336" id="Aesop-VariableMap-findHyps"><code>findHyps</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.VariableMap.findHyps" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L309" id="Aesop-VariableMap-findMatches"><code>findMatches</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.VariableMap.findMatches" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L242" id="Aesop-VariableMap-instEmptyCollection"><code>instEmptyCollection</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.VariableMap.instEmptyCollection" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L245" id="Aesop-VariableMap-instToMessageData"><code>instToMessageData</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.VariableMap.instToMessageData" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L237" id="Aesop-VariableMap-map"><code>map</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.VariableMap.map" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L270" id="Aesop-VariableMap-modify"><code>modify</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.VariableMap.modify" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L259" id="Aesop-VariableMap-modifyM"><code>modifyM</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.VariableMap.modifyM" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L358" id="Aesop-VariableMap-stats"><code>stats</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.VariableMap.stats" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Aesop.instBEqPatSubstSource</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L628" id="Aesop-instBEqPatSubstSource-beq"><code>beq</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.instBEqPatSubstSource.beq" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Aesop.instBEqRawHyp</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L43" id="Aesop-instBEqRawHyp-beq"><code>beq</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.instBEqRawHyp.beq" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Aesop.instHashablePatSubstSource</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L628" id="Aesop-instHashablePatSubstSource-hash"><code>hash</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.instHashablePatSubstSource.hash" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Aesop.instHashableRawHyp</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L43" id="Aesop-instHashableRawHyp-hash"><code>hash</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.instHashableRawHyp.hash" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Aesop.instInhabitedForwardState</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L779" id="Aesop-instInhabitedForwardState-default"><code>default</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.instInhabitedForwardState.default" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Aesop.instInhabitedHyp</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L58" id="Aesop-instInhabitedHyp-default"><code>default</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.instInhabitedHyp.default" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Aesop.instInhabitedInstMap</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L92" id="Aesop-instInhabitedInstMap-default"><code>default</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.instInhabitedInstMap.default" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Aesop.instInhabitedPatSubstSource</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L628" id="Aesop-instInhabitedPatSubstSource-default"><code>default</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.instInhabitedPatSubstSource.default" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Aesop.instInhabitedRawHyp</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L43" id="Aesop-instInhabitedRawHyp-default"><code>default</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.instInhabitedRawHyp.default" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Aesop.instInhabitedRuleState</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L643" id="Aesop-instInhabitedRuleState-default"><code>default</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.instInhabitedRuleState.default" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Aesop.instInhabitedVariableMap</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/leanprover-community/aesop/blob/master/Aesop/Forward/State.lean#L238" id="Aesop-instInhabitedVariableMap-default"><code>default</code></a> <a href="../api/Aesop/Forward/State.html#Aesop.instInhabitedVariableMap.default" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<p>---</p>
+<p><a href="index.html">← Back to Index</a></p>
+    </div>
+  </main>
+</body>
+</html>

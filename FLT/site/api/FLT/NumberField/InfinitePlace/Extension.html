@@ -1,0 +1,660 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../.././style.css"></link><link rel="icon" href="../../.././favicon.svg"></link><link rel="mask-icon" href="../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../.././/declarations/declaration-data.bmp" as="image"></link><title>FLT.NumberField.InfinitePlace.Extension</title><script defer="true" src="../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../.././";</script><script>const MODULE_NAME="FLT.NumberField.InfinitePlace.Extension";</script><script type="module" src="../../.././jump-src.js"></script><script type="module" src="../../.././search.js"></script><script type="module" src="../../.././expand-nav.js"></script><script type="module" src="../../.././how-about.js"></script><script type="module" src="../../.././instances.js"></script><script type="module" src="../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">FLT</span>.<span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">Extension</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../.././Init.html">Init</a></li><li><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Ramification.html">Mathlib.NumberTheory.NumberField.InfinitePlace.Ramification</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-FLT.NumberField.InfinitePlace.Extension" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#NumberField.ComplexEmbedding.IsExtension"><span class="name">NumberField</span>.<span class="name">ComplexEmbedding</span>.<span class="name">IsExtension</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.ComplexEmbedding.IsExtension.not_isExtension_conjugate"><span class="name">NumberField</span>.<span class="name">ComplexEmbedding</span>.<span class="name">IsExtension</span>.<span class="name">not_isExtension_conjugate</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.ComplexEmbedding.IsExtension.ne"><span class="name">NumberField</span>.<span class="name">ComplexEmbedding</span>.<span class="name">IsExtension</span>.<span class="name">ne</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.ComplexEmbedding.IsMixedExtension"><span class="name">NumberField</span>.<span class="name">ComplexEmbedding</span>.<span class="name">IsMixedExtension</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.ComplexEmbedding.not_isReal_of_not_isReal"><span class="name">NumberField</span>.<span class="name">ComplexEmbedding</span>.<span class="name">not_isReal_of_not_isReal</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.ComplexEmbedding.IsMixedExtension.isExtension"><span class="name">NumberField</span>.<span class="name">ComplexEmbedding</span>.<span class="name">IsMixedExtension</span>.<span class="name">isExtension</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.ComplexEmbedding.IsMixedExtension.isReal"><span class="name">NumberField</span>.<span class="name">ComplexEmbedding</span>.<span class="name">IsMixedExtension</span>.<span class="name">isReal</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.ComplexEmbedding.IsMixedExtension.not_isReal"><span class="name">NumberField</span>.<span class="name">ComplexEmbedding</span>.<span class="name">IsMixedExtension</span>.<span class="name">not_isReal</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.ComplexEmbedding.IsUnmixedExtension"><span class="name">NumberField</span>.<span class="name">ComplexEmbedding</span>.<span class="name">IsUnmixedExtension</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.ComplexEmbedding.IsUnmixedExtension.isReal_of_isReal"><span class="name">NumberField</span>.<span class="name">ComplexEmbedding</span>.<span class="name">IsUnmixedExtension</span>.<span class="name">isReal_of_isReal</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.ComplexEmbedding.isExtensionEquivSum"><span class="name">NumberField</span>.<span class="name">ComplexEmbedding</span>.<span class="name">isExtensionEquivSum</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.InfinitePlace.Extension"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">Extension</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.InfinitePlace.Extension.isComplex_of_isComplex"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">Extension</span>.<span class="name">isComplex_of_isComplex</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.InfinitePlace.Extension.isReal_base"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">Extension</span>.<span class="name">isReal_base</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.InfinitePlace.Extension.mk_embedding"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">Extension</span>.<span class="name">mk_embedding</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.InfinitePlace.Extension.isExtension_or_isExtension_conjugate"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">Extension</span>.<span class="name">isExtension_or_isExtension_conjugate</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.InfinitePlace.Extension.isExtension_conjugate_of_not_isExtension"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">Extension</span>.<span class="name">isExtension_conjugate_of_not_isExtension</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.InfinitePlace.Extension.IsLift"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">Extension</span>.<span class="name">IsLift</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.InfinitePlace.Extension.IsLift.isExtension"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">Extension</span>.<span class="name">IsLift</span>.<span class="name">isExtension</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.InfinitePlace.Extension.IsConjugateLift"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">Extension</span>.<span class="name">IsConjugateLift</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.InfinitePlace.Extension.IsConjugateLift.isExtension"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">Extension</span>.<span class="name">IsConjugateLift</span>.<span class="name">isExtension</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.InfinitePlace.Extension.isLift_or_isConjugateLift"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">Extension</span>.<span class="name">isLift_or_isConjugateLift</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.InfinitePlace.RamifiedExtension"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">RamifiedExtension</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.InfinitePlace.UnramifiedExtension"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">UnramifiedExtension</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.InfinitePlace.Extension.toRamifiedExtension"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">Extension</span>.<span class="name">toRamifiedExtension</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.InfinitePlace.Extension.toUnramifiedExtension"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">Extension</span>.<span class="name">toUnramifiedExtension</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.InfinitePlace.RamifiedExtension.comap_eq"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">RamifiedExtension</span>.<span class="name">comap_eq</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.InfinitePlace.RamifiedExtension.isRamified"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">RamifiedExtension</span>.<span class="name">isRamified</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.InfinitePlace.RamifiedExtension.isReal_comap"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">RamifiedExtension</span>.<span class="name">isReal_comap</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.InfinitePlace.RamifiedExtension.instCoeExtension"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">RamifiedExtension</span>.<span class="name">instCoeExtension</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.InfinitePlace.RamifiedExtension.isReal"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">RamifiedExtension</span>.<span class="name">isReal</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.InfinitePlace.RamifiedExtension.isComplex"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">RamifiedExtension</span>.<span class="name">isComplex</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.InfinitePlace.UnramifiedExtension.comap_eq"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">UnramifiedExtension</span>.<span class="name">comap_eq</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.InfinitePlace.UnramifiedExtension.isUnramified"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">UnramifiedExtension</span>.<span class="name">isUnramified</span></a></div><div class="nav_link"><a class="break_within" href="#NumberField.InfinitePlace.UnramifiedExtension.instCoeExtension"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">UnramifiedExtension</span>.<span class="name">instCoeExtension</span></a></div></nav><main>
+<div class="mod_doc"><h1 class="markdown-heading" id="Extensions-of-complex-embeddings-and-infinite-places-of-a-number-field">Extensions of complex embeddings and infinite places of a number field <a class="hover-link" href="#Extensions-of-complex-embeddings-and-infinite-places-of-a-number-field">#</a></h1><p>This file defines objects and classes for extensions of complex embeddings and extensions of
+infinite places. The relationship between the two is not one-to-one. If <code>L / K</code> are fields, <code>w</code>
+is an infinite place of <code>L</code> that extends the infinite place <code>v</code> over <code>K</code>, then there are
+four possibilities for the relationship between their respective associated complex
+embeddings <code>w.embedding</code> and <code>v.embedding</code>:</p><ul>
+<li><code>v</code> is real, <code>w</code> is complex (<code>w</code> is a ramified extension of <code>v</code>), and
+both <code>w.embedding</code> and <code>conjugate w.embedding</code> extend <code>v.embedding</code>.</li>
+<li><code>v</code> and <code>w</code> are both real (i.e., <code>w</code> is an unramified real extension of <code>v</code>) and
+<code>w.embedding</code> extends <code>v.embedding</code>.</li>
+<li><code>v</code> and <code>w</code> are both complex (<code>w</code> is an unramified complex extension of <code>v</code>), and
+<code>w.embedding</code> extends <code>v.embedding</code>.</li>
+<li><code>v</code> and <code>w</code> are both complex, and <code>conjugate w.embedding</code> extends <code>v.embedding</code>.</li>
+</ul><h2 class="markdown-heading" id="Main-definitions">Main definitions <a class="hover-link" href="#Main-definitions">#</a></h2><ul>
+<li><code><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsExtension">ComplexEmbedding.IsExtension</a> f g</code> : predicate asserting that <code>g : L →+* ℂ</code>
+extends <code>f : L →+* ℂ</code>.</li>
+<li><code><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsMixedExtension">ComplexEmbedding.IsMixedExtension</a> f g</code> : predicate asserting that <code>g : L →+* ℂ</code> extends
+<code>f : L →+* ℂ</code> and <code>g</code> is complex while <code>f</code> is real.</li>
+<li><code><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsUnmixedExtension">ComplexEmbedding.IsUnmixedExtension</a> f g</code> : predicate asserting <code>g : L →+* ℂ</code> extends
+<code>f : L →+* ℂ</code> and that <code>g</code> is real if and only if <code>f</code> is real.</li>
+<li><code><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension">InfinitePlace.Extension</a> L v</code> : the type of infinite places of <code>L</code> extending
+<code>v : InfinitePlace K</code> .</li>
+<li><code><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.RamifiedExtension">InfinitePlace.RamifiedExtension</a> L v</code> : the type of infinite places of <code>L</code> that are
+ramified extensions of <code>v : InfinitePlace K</code>.</li>
+<li><code><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.UnramifiedExtension">InfinitePlace.UnramifiedExtension</a> L v</code> : the type of infinite places of <code>L</code> that are
+unramified extensions of <code>v : InfinitePlace K</code>.</li>
+<li><code><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension.IsLift">InfinitePlace.Extension.IsLift</a> L v w</code>: class encoding the property that <code>w.embedding</code> extends
+<code>v.embedding</code>.</li>
+<li><code><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension.IsConjugateLift">InfinitePlace.Extension.IsConjugateLift</a> L v w</code> : class encoding the property that
+<code>conjugate w.embedding</code> extends <code>v.embedding</code>.</li>
+</ul></div><div class="decl" id="NumberField.ComplexEmbedding.IsExtension"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L50-L56">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_NumberField_InfinitePlace_Extension.html#NumberField.ComplexEmbedding.IsExtension" class="verification-badge math-definition" title="Mathematical definition (Prop-valued)">🔹 coverage</a>
+</div>
+<div class="attributes">@[reducible, inline]</div>
+<div class="decl_header"><span class="decl_kind">abbrev</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsExtension"><span class="name">NumberField</span>.<span class="name">ComplexEmbedding</span>.<span class="name">IsExtension</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">K</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <a href="../../.././Mathlib/Data/Complex/Basic.html#Complex">ℂ</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">L</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <a href="../../.././Mathlib/Data/Complex/Basic.html#Complex">ℂ</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../.././foundational_types.html">Prop</a></div></div><p>If <code>L/K</code> and <code>f : K →+* ℂ</code>, <code>g : L →+* ℂ</code>, then we say <code>g</code> is an extension of <code>f</code> if
+<code>g</code> restricted to <code>K</code> is <code>f</code>.</p><p>This is the complex embedding analogue of <code><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension">InfinitePlace.Extension</a></code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-NumberField.ComplexEmbedding.IsExtension" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="NumberField.ComplexEmbedding.IsExtension.not_isExtension_conjugate"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L59-L62">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsExtension.not_isExtension_conjugate"><span class="name">NumberField</span>.<span class="name">ComplexEmbedding</span>.<span class="name">IsExtension</span>.<span class="name">not_isExtension_conjugate</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn">K</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <a href="../../.././Mathlib/Data/Complex/Basic.html#Complex">ℂ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn">L</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <a href="../../.././Mathlib/Data/Complex/Basic.html#Complex">ℂ</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsExtension">IsExtension</a> <span class="fn">f</span> <span class="fn">g</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <a href="../../.././Init/Prelude.html#Not">¬</a><span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Embeddings.html#NumberField.ComplexEmbedding.IsReal">IsReal</a> <span class="fn">f</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../.././Init/Prelude.html#Not">¬</a><span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsExtension">IsExtension</a> <span class="fn">f</span> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Embeddings.html#NumberField.ComplexEmbedding.conjugate">conjugate</a> <span class="fn">g</span>)</span></span></div></div></div></div><div class="decl" id="NumberField.ComplexEmbedding.IsExtension.ne"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L65-L70">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsExtension.ne"><span class="name">NumberField</span>.<span class="name">ComplexEmbedding</span>.<span class="name">IsExtension</span>.<span class="name">ne</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn">K</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <a href="../../.././Mathlib/Data/Complex/Basic.html#Complex">ℂ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g </span><span class="fn">r</span> : <span class="fn">L</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <a href="../../.././Mathlib/Data/Complex/Basic.html#Complex">ℂ</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hg</span> : <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsExtension">IsExtension</a> <span class="fn">f</span> <span class="fn">g</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hr</span> : <a href="../../.././Init/Prelude.html#Not">¬</a><span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsExtension">IsExtension</a> <span class="fn">f</span> <span class="fn">r</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">g</span> <a href="../../.././Init/Core.html#Ne">≠</a> <span class="fn">r</span></div></div></div></div><div class="decl" id="NumberField.ComplexEmbedding.IsMixedExtension"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L72-L79">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_NumberField_InfinitePlace_Extension.html#NumberField.ComplexEmbedding.IsMixedExtension" class="verification-badge math-definition" title="Mathematical definition (Prop-valued)">🔹 coverage</a>
+</div>
+<div class="attributes">@[reducible, inline]</div>
+<div class="decl_header"><span class="decl_kind">abbrev</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsMixedExtension"><span class="name">NumberField</span>.<span class="name">ComplexEmbedding</span>.<span class="name">IsMixedExtension</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">K</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <a href="../../.././Mathlib/Data/Complex/Basic.html#Complex">ℂ</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">L</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <a href="../../.././Mathlib/Data/Complex/Basic.html#Complex">ℂ</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../.././foundational_types.html">Prop</a></div></div><p>If <code>L/K</code> and <code>f : K →+* ℂ</code>, <code>g : L →+* ℂ</code>, then <code>g</code> is a <em>mixed extension</em> of <code>f</code> if the
+image of <code>f</code> is real while the image of <code>g</code> is complex.</p><p>This is the complex embedding analogue of <code><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.RamifiedExtension">InfinitePlace.RamifiedExtension</a></code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-NumberField.ComplexEmbedding.IsMixedExtension" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="NumberField.ComplexEmbedding.not_isReal_of_not_isReal"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L81-L84">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.not_isReal_of_not_isReal"><span class="name">NumberField</span>.<span class="name">ComplexEmbedding</span>.<span class="name">not_isReal_of_not_isReal</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn">K</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <a href="../../.././Mathlib/Data/Complex/Basic.html#Complex">ℂ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn">L</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <a href="../../.././Mathlib/Data/Complex/Basic.html#Complex">ℂ</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsExtension">IsExtension</a> <span class="fn">f</span> <span class="fn">g</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <a href="../../.././Init/Prelude.html#Not">¬</a><span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Embeddings.html#NumberField.ComplexEmbedding.IsReal">IsReal</a> <span class="fn">f</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../.././Init/Prelude.html#Not">¬</a><span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Embeddings.html#NumberField.ComplexEmbedding.IsReal">IsReal</a> <span class="fn">g</span></span></div></div></div></div><div class="decl" id="NumberField.ComplexEmbedding.IsMixedExtension.isExtension"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L88-L89">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_NumberField_InfinitePlace_Extension.html#NumberField.ComplexEmbedding.IsMixedExtension.isExtension" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsMixedExtension.isExtension"><span class="name">NumberField</span>.<span class="name">ComplexEmbedding</span>.<span class="name">IsMixedExtension</span>.<span class="name">isExtension</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">K</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <a href="../../.././Mathlib/Data/Complex/Basic.html#Complex">ℂ</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">L</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <a href="../../.././Mathlib/Data/Complex/Basic.html#Complex">ℂ</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsMixedExtension">IsMixedExtension</a> <span class="fn">f</span> <span class="fn">g</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsExtension">IsExtension</a> <span class="fn">f</span> <span class="fn">g</span></span></div></div></div></div><div class="decl" id="NumberField.ComplexEmbedding.IsMixedExtension.isReal"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L91-L92">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsMixedExtension.isReal"><span class="name">NumberField</span>.<span class="name">ComplexEmbedding</span>.<span class="name">IsMixedExtension</span>.<span class="name">isReal</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">K</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <a href="../../.././Mathlib/Data/Complex/Basic.html#Complex">ℂ</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">L</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <a href="../../.././Mathlib/Data/Complex/Basic.html#Complex">ℂ</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsMixedExtension">IsMixedExtension</a> <span class="fn">f</span> <span class="fn">g</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Embeddings.html#NumberField.ComplexEmbedding.IsReal">IsReal</a> <span class="fn">f</span></span></div></div></div></div><div class="decl" id="NumberField.ComplexEmbedding.IsMixedExtension.not_isReal"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L94-L95">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsMixedExtension.not_isReal"><span class="name">NumberField</span>.<span class="name">ComplexEmbedding</span>.<span class="name">IsMixedExtension</span>.<span class="name">not_isReal</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">K</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <a href="../../.././Mathlib/Data/Complex/Basic.html#Complex">ℂ</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">L</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <a href="../../.././Mathlib/Data/Complex/Basic.html#Complex">ℂ</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsMixedExtension">IsMixedExtension</a> <span class="fn">f</span> <span class="fn">g</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../.././Init/Prelude.html#Not">¬</a><span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Embeddings.html#NumberField.ComplexEmbedding.IsReal">IsReal</a> <span class="fn">g</span></span></div></div></div></div><div class="decl" id="NumberField.ComplexEmbedding.IsUnmixedExtension"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L99-L106">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_NumberField_InfinitePlace_Extension.html#NumberField.ComplexEmbedding.IsUnmixedExtension" class="verification-badge math-definition" title="Mathematical definition (Prop-valued)">🔹 coverage</a>
+</div>
+<div class="attributes">@[reducible, inline]</div>
+<div class="decl_header"><span class="decl_kind">abbrev</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsUnmixedExtension"><span class="name">NumberField</span>.<span class="name">ComplexEmbedding</span>.<span class="name">IsUnmixedExtension</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">K</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <a href="../../.././Mathlib/Data/Complex/Basic.html#Complex">ℂ</a>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">g</span> : <span class="fn">L</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <a href="../../.././Mathlib/Data/Complex/Basic.html#Complex">ℂ</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../.././foundational_types.html">Prop</a></div></div><p>If <code>L/K</code> and <code>f : K →+* ℂ</code>, <code>g : L →+* ℂ</code>, then <code>g</code> is an <em>unmixed extension</em> of <code>f</code> if <code>g</code> is an
+extension of <code>f</code> but is not a mixed extension. In other words, the image of <code>f</code> is real
+if and only if the image of <code>g</code> is real.</p><p>This is the complex embedding analogue of <code><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.UnramifiedExtension">InfinitePlace.UnramifiedExtension</a></code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-NumberField.ComplexEmbedding.IsUnmixedExtension" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="NumberField.ComplexEmbedding.IsUnmixedExtension.isReal_of_isReal"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L109-L113">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsUnmixedExtension.isReal_of_isReal"><span class="name">NumberField</span>.<span class="name">ComplexEmbedding</span>.<span class="name">IsUnmixedExtension</span>.<span class="name">isReal_of_isReal</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn">K</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <a href="../../.././Mathlib/Data/Complex/Basic.html#Complex">ℂ</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">g</span> : <span class="fn">L</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <a href="../../.././Mathlib/Data/Complex/Basic.html#Complex">ℂ</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsUnmixedExtension">IsUnmixedExtension</a> <span class="fn">f</span> <span class="fn">g</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Embeddings.html#NumberField.ComplexEmbedding.IsReal">IsReal</a> <span class="fn">f</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Embeddings.html#NumberField.ComplexEmbedding.IsReal">IsReal</a> <span class="fn">g</span></span></div></div></div></div><div class="decl" id="NumberField.ComplexEmbedding.isExtensionEquivSum"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L116-L129">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_NumberField_InfinitePlace_Extension.html#NumberField.ComplexEmbedding.isExtensionEquivSum" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.isExtensionEquivSum"><span class="name">NumberField</span>.<span class="name">ComplexEmbedding</span>.<span class="name">isExtensionEquivSum</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn">K</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <a href="../../.././Mathlib/Data/Complex/Basic.html#Complex">ℂ</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../.././Init/Prelude.html#Subtype">{</a> <span class="fn">g</span> <a href="../../.././Init/Prelude.html#Subtype">:</a> <span class="fn">L</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <a href="../../.././Mathlib/Data/Complex/Basic.html#Complex">ℂ</a> <a href="../../.././Init/Prelude.html#Subtype">//</a> <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsExtension">IsExtension</a> <span class="fn">f</span> <span class="fn">g</span></span> <a href="../../.././Init/Prelude.html#Subtype">}</a> <a href="../../.././Mathlib/Logic/Equiv/Defs.html#Equiv">≃</a> <a href="../../.././Init/Prelude.html#Subtype">{</a> <span class="fn">g</span> <a href="../../.././Init/Prelude.html#Subtype">:</a> <span class="fn">L</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <a href="../../.././Mathlib/Data/Complex/Basic.html#Complex">ℂ</a> <a href="../../.././Init/Prelude.html#Subtype">//</a> <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsMixedExtension">IsMixedExtension</a> <span class="fn">f</span> <span class="fn">g</span></span> <a href="../../.././Init/Prelude.html#Subtype">}</a> <a href="../../.././Init/Core.html#Sum">⊕</a> <a href="../../.././Init/Prelude.html#Subtype">{</a> <span class="fn">g</span> <a href="../../.././Init/Prelude.html#Subtype">:</a> <span class="fn">L</span> <a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom">→+*</a> <a href="../../.././Mathlib/Data/Complex/Basic.html#Complex">ℂ</a> <a href="../../.././Init/Prelude.html#Subtype">//</a> <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsUnmixedExtension">IsUnmixedExtension</a> <span class="fn">f</span> <span class="fn">g</span></span> <a href="../../.././Init/Prelude.html#Subtype">}</a></div></div><p>The extensions <code>g : L →+* ℂ</code> of <code>f : K →+* ℂ</code> are the direct sum of the mixed and the unmixed
+extensions.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-NumberField.ComplexEmbedding.isExtensionEquivSum" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="NumberField.InfinitePlace.Extension"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L142-L148">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_NumberField_InfinitePlace_Extension.html#NumberField.InfinitePlace.Extension" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[reducible, inline]</div>
+<div class="decl_header"><span class="decl_kind">abbrev</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">Extension</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace">InfinitePlace</a> <span class="fn">K</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../.././foundational_types.html">Type</a> u_2</div></div><p>If <code>L / K</code> are fields and <code>v</code> is an infinite place of <code>K</code>, then we say an infinite place <code>w</code>
+of <code>L</code> <em>extends</em> <code>v</code> if <code>w</code> can be constructed from a complex embedding <code>L →+* ℂ</code> whose
+restriction to <code>K</code> is an associated complex embedding <code>K →+* ℂ</code> of <code>v</code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-NumberField.InfinitePlace.Extension" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="NumberField.InfinitePlace.Extension.isComplex_of_isComplex"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L154-L162">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension.isComplex_of_isComplex"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">Extension</span>.<span class="name">isComplex_of_isComplex</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace">InfinitePlace</a> <span class="fn">K</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">w</span> : <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension">Extension</a> <span class="fn">L</span> <span class="fn">v</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hv</span> : <span class="fn"><span class="fn">v</span>.<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace.IsComplex">IsComplex</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(↑<span class="fn">w</span>)</span>.<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace.IsComplex">IsComplex</a></span></div></div></div></div><div class="decl" id="NumberField.InfinitePlace.Extension.isReal_base"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L164-L167">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension.isReal_base"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">Extension</span>.<span class="name">isReal_base</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace">InfinitePlace</a> <span class="fn">K</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">w</span> : <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension">Extension</a> <span class="fn">L</span> <span class="fn">v</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hw</span> : <span class="fn"><span class="fn">(↑<span class="fn">w</span>)</span>.<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace.IsReal">IsReal</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">v</span>.<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace.IsReal">IsReal</a></span></div></div></div></div><div class="decl" id="NumberField.InfinitePlace.Extension.mk_embedding"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L169-L170">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension.mk_embedding"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">Extension</span>.<span class="name">mk_embedding</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace">InfinitePlace</a> <span class="fn">K</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">w</span> : <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension">Extension</a> <span class="fn">L</span> <span class="fn">v</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace.mk">mk</a> <span class="fn">(<span class="fn"><span class="fn"><span class="fn">(↑<span class="fn">w</span>)</span>.<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace.embedding">embedding</a></span>.<a href="../../.././Mathlib/Algebra/Ring/Hom/Defs.html#RingHom.comp">comp</a></span> <span class="fn">(<a href="../../.././Mathlib/Algebra/Algebra/Defs.html#algebraMap">algebraMap</a> <span class="fn">K</span> <span class="fn">L</span>)</span>)</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">v</span></div></div></div></div><div class="decl" id="NumberField.InfinitePlace.Extension.isExtension_or_isExtension_conjugate"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L172-L178">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_NumberField_InfinitePlace_Extension.html#NumberField.InfinitePlace.Extension.isExtension_or_isExtension_conjugate" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension.isExtension_or_isExtension_conjugate"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">Extension</span>.<span class="name">isExtension_or_isExtension_conjugate</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace">InfinitePlace</a> <span class="fn">K</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">w</span> : <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension">Extension</a> <span class="fn">L</span> <span class="fn">v</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsExtension">ComplexEmbedding.IsExtension</a> <span class="fn"><span class="fn">v</span>.<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace.embedding">embedding</a></span> <span class="fn"><span class="fn">(↑<span class="fn">w</span>)</span>.<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace.embedding">embedding</a></span></span> <a href="../../.././Init/Prelude.html#Or">∨</a>   <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsExtension">ComplexEmbedding.IsExtension</a> <span class="fn"><span class="fn">v</span>.<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace.embedding">embedding</a></span> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Embeddings.html#NumberField.ComplexEmbedding.conjugate">ComplexEmbedding.conjugate</a> <span class="fn"><span class="fn">(↑<span class="fn">w</span>)</span>.<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace.embedding">embedding</a></span>)</span></span></div></div></div></div><div class="decl" id="NumberField.InfinitePlace.Extension.isExtension_conjugate_of_not_isExtension"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L180-L182">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension.isExtension_conjugate_of_not_isExtension"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">Extension</span>.<span class="name">isExtension_conjugate_of_not_isExtension</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace">InfinitePlace</a> <span class="fn">K</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">w</span> : <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension">Extension</a> <span class="fn">L</span> <span class="fn">v</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <a href="../../.././Init/Prelude.html#Not">¬</a><span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsExtension">ComplexEmbedding.IsExtension</a> <span class="fn"><span class="fn">v</span>.<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace.embedding">embedding</a></span> <span class="fn"><span class="fn">(↑<span class="fn">w</span>)</span>.<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace.embedding">embedding</a></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsExtension">ComplexEmbedding.IsExtension</a> <span class="fn"><span class="fn">v</span>.<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace.embedding">embedding</a></span> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Embeddings.html#NumberField.ComplexEmbedding.conjugate">ComplexEmbedding.conjugate</a> <span class="fn"><span class="fn">(↑<span class="fn">w</span>)</span>.<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace.embedding">embedding</a></span>)</span></span></div></div></div></div><div class="decl" id="NumberField.InfinitePlace.Extension.IsLift"><div class="class"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L188-L197">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_NumberField_InfinitePlace_Extension.html#NumberField.InfinitePlace.Extension.IsLift" class="verification-badge comp-datatype" title="Computational datatype">🔶 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">class</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension.IsLift"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">Extension</span>.<span class="name">IsLift</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace">InfinitePlace</a> <span class="fn">K</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">w</span> : <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension">Extension</a> <span class="fn">L</span> <span class="fn">v</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../.././foundational_types.html">Prop</a></div></div><p>If <code>w</code> is an infinite place of <code>L</code> lying above the infinite place <code>v</code> of
+<code>K</code>, then there are two possibilities:</p><ul>
+<li><code>w.embedding</code> extends <code>v.embedding</code>.</li>
+<li><code>conjugate w.embedding</code> extends <code>v.embedding</code>.</li>
+</ul><p><code><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension.IsLift">IsLift</a> w</code> encodes the first case.</p><ul class="structure_fields" id="NumberField.InfinitePlace.Extension.IsLift.mk"><li id="NumberField.InfinitePlace.Extension.IsLift.isExtension'" class="structure_field"><div class="structure_field_info">isExtension' : <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsExtension">ComplexEmbedding.IsExtension</a> <span class="fn"><span class="fn">v</span>.<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace.embedding">embedding</a></span> <span class="fn"><span class="fn">(↑<span class="fn">w</span>)</span>.<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace.embedding">embedding</a></span></span></div></li></ul><details class="instances"><summary>Instances</summary><ul id="instances-list-NumberField.InfinitePlace.Extension.IsLift" class="instances-list"></ul></details></div></div><div class="decl" id="NumberField.InfinitePlace.Extension.IsLift.isExtension"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L199-L200">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_NumberField_InfinitePlace_Extension.html#NumberField.InfinitePlace.Extension.IsLift.isExtension" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension.IsLift.isExtension"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">Extension</span>.<span class="name">IsLift</span>.<span class="name">isExtension</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace">InfinitePlace</a> <span class="fn">K</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">w</span> : <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension">Extension</a> <span class="fn">L</span> <span class="fn">v</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension.IsLift">IsLift</a> <span class="fn">L</span> <span class="fn">v</span> <span class="fn">w</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsExtension">ComplexEmbedding.IsExtension</a> <span class="fn"><span class="fn">v</span>.<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace.embedding">embedding</a></span> <span class="fn"><span class="fn">(↑<span class="fn">w</span>)</span>.<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace.embedding">embedding</a></span></span></div></div></div></div><div class="decl" id="NumberField.InfinitePlace.Extension.IsConjugateLift"><div class="class"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L202-L211">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_NumberField_InfinitePlace_Extension.html#NumberField.InfinitePlace.Extension.IsConjugateLift" class="verification-badge comp-datatype" title="Computational datatype">🔶 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">class</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension.IsConjugateLift"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">Extension</span>.<span class="name">IsConjugateLift</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace">InfinitePlace</a> <span class="fn">K</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">w</span> : <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension">Extension</a> <span class="fn">L</span> <span class="fn">v</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../.././foundational_types.html">Prop</a></div></div><p>If <code>w</code> is an infinite place of <code>L</code> lying above the infinite place <code>v</code> of
+<code>K</code>, then there are two possibilities:</p><ul>
+<li><code>w.embedding</code> extends <code>v.embedding</code>.</li>
+<li><code>conjugate w.embedding</code> extends <code>v.embedding</code>.</li>
+</ul><p><code><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension.IsConjugateLift">IsConjugateLift</a> w</code> encodes the second case.</p><ul class="structure_fields" id="NumberField.InfinitePlace.Extension.IsConjugateLift.mk"><li id="NumberField.InfinitePlace.Extension.IsConjugateLift.isExtension'" class="structure_field"><div class="structure_field_info">isExtension' : <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsExtension">ComplexEmbedding.IsExtension</a> <span class="fn"><span class="fn">v</span>.<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace.embedding">embedding</a></span> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Embeddings.html#NumberField.ComplexEmbedding.conjugate">ComplexEmbedding.conjugate</a> <span class="fn"><span class="fn">(↑<span class="fn">w</span>)</span>.<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace.embedding">embedding</a></span>)</span></span></div></li></ul><details class="instances"><summary>Instances</summary><ul id="instances-list-NumberField.InfinitePlace.Extension.IsConjugateLift" class="instances-list"></ul></details></div></div><div class="decl" id="NumberField.InfinitePlace.Extension.IsConjugateLift.isExtension"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L213-L214">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_NumberField_InfinitePlace_Extension.html#NumberField.InfinitePlace.Extension.IsConjugateLift.isExtension" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension.IsConjugateLift.isExtension"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">Extension</span>.<span class="name">IsConjugateLift</span>.<span class="name">isExtension</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace">InfinitePlace</a> <span class="fn">K</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">w</span> : <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension">Extension</a> <span class="fn">L</span> <span class="fn">v</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension.IsConjugateLift">IsConjugateLift</a> <span class="fn">L</span> <span class="fn">v</span> <span class="fn">w</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.ComplexEmbedding.IsExtension">ComplexEmbedding.IsExtension</a> <span class="fn"><span class="fn">v</span>.<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace.embedding">embedding</a></span> <span class="fn">(<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Embeddings.html#NumberField.ComplexEmbedding.conjugate">ComplexEmbedding.conjugate</a> <span class="fn"><span class="fn">(↑<span class="fn">w</span>)</span>.<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace.embedding">embedding</a></span>)</span></span></div></div></div></div><div class="decl" id="NumberField.InfinitePlace.Extension.isLift_or_isConjugateLift"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L216-L220">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_NumberField_InfinitePlace_Extension.html#NumberField.InfinitePlace.Extension.isLift_or_isConjugateLift" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension.isLift_or_isConjugateLift"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">Extension</span>.<span class="name">isLift_or_isConjugateLift</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace">InfinitePlace</a> <span class="fn">K</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">w</span> : <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension">Extension</a> <span class="fn">L</span> <span class="fn">v</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension.IsLift">IsLift</a> <span class="fn">L</span> <span class="fn">v</span> <span class="fn">w</span></span> <a href="../../.././Init/Prelude.html#Or">∨</a> <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension.IsConjugateLift">IsConjugateLift</a> <span class="fn">L</span> <span class="fn">v</span> <span class="fn">w</span></span></div></div></div></div><div class="decl" id="NumberField.InfinitePlace.RamifiedExtension"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L226-L229">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_NumberField_InfinitePlace_Extension.html#NumberField.InfinitePlace.RamifiedExtension" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[reducible, inline]</div>
+<div class="decl_header"><span class="decl_kind">abbrev</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.RamifiedExtension"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">RamifiedExtension</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace">InfinitePlace</a> <span class="fn">K</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../.././foundational_types.html">Type</a> u_2</div></div><p>For a given infinite place <code>v</code> of <code>K</code>, <code><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.RamifiedExtension">RamifiedExtension</a> L v</code> are all the infinite places
+of <code>L / K</code> that extend <code>v</code> and are ramified over <code>K</code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-NumberField.InfinitePlace.RamifiedExtension" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="NumberField.InfinitePlace.UnramifiedExtension"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L231-L234">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_NumberField_InfinitePlace_Extension.html#NumberField.InfinitePlace.UnramifiedExtension" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[reducible, inline]</div>
+<div class="decl_header"><span class="decl_kind">abbrev</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.UnramifiedExtension"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">UnramifiedExtension</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace">InfinitePlace</a> <span class="fn">K</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../.././foundational_types.html">Type</a> u_2</div></div><p>For a given infinite place <code>v</code> of <code>K</code>, <code><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.UnramifiedExtension">UnramifiedExtension</a> L v</code> are all the infinite places
+of <code>L / K</code> that extend <code>v</code> and are unramified over <code>K</code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-NumberField.InfinitePlace.UnramifiedExtension" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="NumberField.InfinitePlace.Extension.toRamifiedExtension"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L238-L241">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_NumberField_InfinitePlace_Extension.html#NumberField.InfinitePlace.Extension.toRamifiedExtension" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension.toRamifiedExtension"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">Extension</span>.<span class="name">toRamifiedExtension</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace">InfinitePlace</a> <span class="fn">K</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">w</span> : <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension">Extension</a> <span class="fn">L</span> <span class="fn">v</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Ramification.html#NumberField.InfinitePlace.IsRamified">IsRamified</a> <span class="fn">K</span> <span class="fn">↑<span class="fn">w</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.RamifiedExtension">RamifiedExtension</a> <span class="fn">L</span> <span class="fn">v</span></span></div></div><p>Construct a <code>v.<a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.RamifiedExtension">RamifiedExtension</a> L</code> term from a <code>w : v.<a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension">Extension</a> L</code> such that
+<code>w.1.IsRamified K</code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-NumberField.InfinitePlace.Extension.toRamifiedExtension" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="NumberField.InfinitePlace.Extension.toUnramifiedExtension"><div class="def"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L243-L246">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_NumberField_InfinitePlace_Extension.html#NumberField.InfinitePlace.Extension.toUnramifiedExtension" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension.toUnramifiedExtension"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">Extension</span>.<span class="name">toUnramifiedExtension</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace">InfinitePlace</a> <span class="fn">K</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">w</span> : <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension">Extension</a> <span class="fn">L</span> <span class="fn">v</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Ramification.html#NumberField.InfinitePlace.IsUnramified">IsUnramified</a> <span class="fn">K</span> <span class="fn">↑<span class="fn">w</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.UnramifiedExtension">UnramifiedExtension</a> <span class="fn">L</span> <span class="fn">v</span></span></div></div><p>Construct a <code>v.<a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.UnramifiedExtension">UnramifiedExtension</a> L</code> term from a <code>w : v.<a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension">Extension</a> L</code> such that
+<code>w.1.IsUnramified K</code>.</p><details><summary>Equations</summary><ul class="equations"></ul></details><details id="instances-for-list-NumberField.InfinitePlace.Extension.toUnramifiedExtension" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="NumberField.InfinitePlace.RamifiedExtension.comap_eq"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L250-L250">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.RamifiedExtension.comap_eq"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">RamifiedExtension</span>.<span class="name">comap_eq</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace">InfinitePlace</a> <span class="fn">K</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">w</span> : <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.RamifiedExtension">RamifiedExtension</a> <span class="fn">L</span> <span class="fn">v</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(↑<span class="fn">w</span>)</span>.<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Ramification.html#NumberField.InfinitePlace.comap">comap</a></span> <span class="fn">(<a href="../../.././Mathlib/Algebra/Algebra/Defs.html#algebraMap">algebraMap</a> <span class="fn">K</span> <span class="fn">L</span>)</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">v</span></div></div></div></div><div class="decl" id="NumberField.InfinitePlace.RamifiedExtension.isRamified"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L252-L252">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.RamifiedExtension.isRamified"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">RamifiedExtension</span>.<span class="name">isRamified</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace">InfinitePlace</a> <span class="fn">K</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">w</span> : <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.RamifiedExtension">RamifiedExtension</a> <span class="fn">L</span> <span class="fn">v</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Ramification.html#NumberField.InfinitePlace.IsRamified">IsRamified</a> <span class="fn">K</span> <span class="fn">↑<span class="fn">w</span></span></span></div></div></div></div><div class="decl" id="NumberField.InfinitePlace.RamifiedExtension.isReal_comap"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L254-L255">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.RamifiedExtension.isReal_comap"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">RamifiedExtension</span>.<span class="name">isReal_comap</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace">InfinitePlace</a> <span class="fn">K</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">w</span> : <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.RamifiedExtension">RamifiedExtension</a> <span class="fn">L</span> <span class="fn">v</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">(↑<span class="fn">w</span>)</span>.<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Ramification.html#NumberField.InfinitePlace.comap">comap</a></span> <span class="fn">(<a href="../../.././Mathlib/Algebra/Algebra/Defs.html#algebraMap">algebraMap</a> <span class="fn">K</span> <span class="fn">L</span>)</span>)</span>.<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace.IsReal">IsReal</a></span></div></div></div></div><div class="decl" id="NumberField.InfinitePlace.RamifiedExtension.instCoeExtension"><div class="instance"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L257-L258">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_NumberField_InfinitePlace_Extension.html#NumberField.InfinitePlace.RamifiedExtension.instCoeExtension" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.RamifiedExtension.instCoeExtension"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">RamifiedExtension</span>.<span class="name">instCoeExtension</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace">InfinitePlace</a> <span class="fn">K</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Init/Coe.html#Coe">Coe</a> <span class="fn">(<a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.RamifiedExtension">RamifiedExtension</a> <span class="fn">L</span> <span class="fn">v</span>)</span> <span class="fn">(<a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension">Extension</a> <span class="fn">L</span> <span class="fn">v</span>)</span></span></div></div><details><summary>Equations</summary><ul class="equations"></ul></details></div></div><div class="decl" id="NumberField.InfinitePlace.RamifiedExtension.isReal"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L260-L261">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.RamifiedExtension.isReal"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">RamifiedExtension</span>.<span class="name">isReal</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace">InfinitePlace</a> <span class="fn">K</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">w</span> : <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.RamifiedExtension">RamifiedExtension</a> <span class="fn">L</span> <span class="fn">v</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">v</span>.<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace.IsReal">IsReal</a></span></div></div></div></div><div class="decl" id="NumberField.InfinitePlace.RamifiedExtension.isComplex"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L263-L265">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.RamifiedExtension.isComplex"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">RamifiedExtension</span>.<span class="name">isComplex</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace">InfinitePlace</a> <span class="fn">K</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">w</span> : <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.RamifiedExtension">RamifiedExtension</a> <span class="fn">L</span> <span class="fn">v</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(↑<span class="fn">w</span>)</span>.<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace.IsComplex">IsComplex</a></span></div></div></div></div><div class="decl" id="NumberField.InfinitePlace.UnramifiedExtension.comap_eq"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L271-L271">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.UnramifiedExtension.comap_eq"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">UnramifiedExtension</span>.<span class="name">comap_eq</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace">InfinitePlace</a> <span class="fn">K</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">w</span> : <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.UnramifiedExtension">UnramifiedExtension</a> <span class="fn">L</span> <span class="fn">v</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(↑<span class="fn">w</span>)</span>.<a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Ramification.html#NumberField.InfinitePlace.comap">comap</a></span> <span class="fn">(<a href="../../.././Mathlib/Algebra/Algebra/Defs.html#algebraMap">algebraMap</a> <span class="fn">K</span> <span class="fn">L</span>)</span></span> <a href="../../.././Init/Prelude.html#Eq">=</a> <span class="fn">v</span></div></div></div></div><div class="decl" id="NumberField.InfinitePlace.UnramifiedExtension.isUnramified"><div class="theorem"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L273-L273">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.UnramifiedExtension.isUnramified"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">UnramifiedExtension</span>.<span class="name">isUnramified</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace">InfinitePlace</a> <span class="fn">K</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">w</span> : <span class="fn"><a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.UnramifiedExtension">UnramifiedExtension</a> <span class="fn">L</span> <span class="fn">v</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Ramification.html#NumberField.InfinitePlace.IsUnramified">IsUnramified</a> <span class="fn">K</span> <span class="fn">↑<span class="fn">w</span></span></span></div></div></div></div><div class="decl" id="NumberField.InfinitePlace.UnramifiedExtension.instCoeExtension"><div class="instance"><div class="gh_link"><a href="https://github.com/ImperialCollegeLondon/FLT/blob/3241815d18908e47af83c0d5be8ef8455ee8ab3f/FLT/NumberField/InfinitePlace/Extension.lean#L275-L276">source</a></div><div class="verification_link">
+<a href="../../../../modules/FLT_NumberField_InfinitePlace_Extension.html#NumberField.InfinitePlace.UnramifiedExtension.instCoeExtension" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.UnramifiedExtension.instCoeExtension"><span class="name">NumberField</span>.<span class="name">InfinitePlace</span>.<span class="name">UnramifiedExtension</span>.<span class="name">instCoeExtension</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">L</span> : <a href="../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Field/Defs.html#Field">Field</a> <span class="fn">L</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><a href="../../.././Mathlib/NumberTheory/NumberField/InfinitePlace/Basic.html#NumberField.InfinitePlace">InfinitePlace</a> <span class="fn">K</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Algebra/Algebra/Defs.html#Algebra">Algebra</a> <span class="fn">K</span> <span class="fn">L</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Init/Coe.html#Coe">Coe</a> <span class="fn">(<a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.UnramifiedExtension">UnramifiedExtension</a> <span class="fn">L</span> <span class="fn">v</span>)</span> <span class="fn">(<a href="../../.././FLT/NumberField/InfinitePlace/Extension.html#NumberField.InfinitePlace.Extension">Extension</a> <span class="fn">L</span> <span class="fn">v</span>)</span></span></div></div><details><summary>Equations</summary><ul class="equations"></ul></details></div></div></main>
+<nav class="nav"><iframe src="../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>
