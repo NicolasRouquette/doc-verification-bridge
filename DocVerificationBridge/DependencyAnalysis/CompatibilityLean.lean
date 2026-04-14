@@ -1,4 +1,4 @@
--- DocVerificationBridge/CompatibilityLean.lean
+-- DependencyAnalysis/CompatibilityLean.lean
 -- Cross-version compatibility tests that require `import Lean`
 
 import Lean
@@ -21,7 +21,7 @@ We use the newer pattern which works across all versions.
 
 open Lean
 
-namespace DocVerificationBridge.CompatibilityLean
+namespace DependencyAnalysis.CompatibilityLean
 
 /-- Test that Options.empty and setBool work (required for MetaM config).
     This pattern works across all supported Lean versions. -/
@@ -49,4 +49,4 @@ def testCoreContext : Core.Context := {
 -- Verify context options field is accessible
 #check testCoreContext.options
 
-end DocVerificationBridge.CompatibilityLean
+end DependencyAnalysis.CompatibilityLean

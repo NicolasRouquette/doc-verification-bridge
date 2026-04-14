@@ -1,18 +1,15 @@
--- DocVerificationBridge/Classify.lean
--- Automatic classification of declarations using doc-gen4's infrastructure
+-- DependencyAnalysis/Classify.lean
+-- Automatic classification of declarations (no doc-gen4 dependency)
 
 import Lean
-import DocGen4.Process.Analyze
-import DocGen4.Process.DocInfo
-import DocVerificationBridge.Types
-import DocVerificationBridge.Inference
+import DependencyAnalysis.Types
+import DependencyAnalysis.Inference
 
 /-!
 # Automatic Declaration Classification
 
 This module provides automatic classification of declarations without requiring
-source code annotations. It uses doc-gen4's analysis infrastructure to enumerate
-all declarations, then applies heuristics to classify them according to the
+source code annotations. It applies heuristics to classify them according to the
 Four-Category Ontology.
 
 ## Classification Strategy
@@ -30,10 +27,9 @@ Four-Category Ontology.
    - Classify based on pattern (bridging, soundness, completeness, etc.)
 -/
 
-namespace DocVerificationBridge
+namespace DependencyAnalysis
 
 open Lean Meta
-open DocGen4.Process
 
 /-!
 ## Classification Helpers
@@ -710,4 +706,4 @@ def updateCoverageStatus (entries : NameMap APIMeta) (provedBy : NameMap (Array 
 
   return result
 
-end DocVerificationBridge
+end DependencyAnalysis

@@ -1,8 +1,8 @@
--- DocVerificationBridge/Attributes.lean
+-- DependencyAnalysis/Attributes.lean
 -- Attribute syntax for manual annotation (optional, for precise control)
 
 import Lean
-import DocVerificationBridge.Types
+import DependencyAnalysis.Types
 
 /-!
 # Optional Annotation Attributes
@@ -28,7 +28,7 @@ theorem lookup_sound : lookupBool m k = true → lookupProp m k := ...
 ```
 -/
 
-namespace DocVerificationBridge
+namespace DependencyAnalysis
 
 open Lean
 open Lean.Elab
@@ -395,4 +395,4 @@ initialize registerBuiltinAttribute {
     setEnv <| apiTheoremAttrExt.addEntry env (declName, apiMeta)
 }
 
-end DocVerificationBridge
+end DependencyAnalysis

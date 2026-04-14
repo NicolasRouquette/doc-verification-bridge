@@ -1,9 +1,9 @@
--- DocVerificationBridge/Inference.lean
+-- DependencyAnalysis/Inference.lean
 -- Automatic inference of assumes/proves/validates from theorem types
 
 import Lean
-import DocVerificationBridge.Types
-import DocVerificationBridge.Compatibility
+import DependencyAnalysis.Types
+import DependencyAnalysis.Compatibility
 
 /-!
 # Automatic Inference of Theorem Annotations
@@ -50,7 +50,7 @@ We use **separate deduplication** for hypotheses vs conclusion to ensure predica
 appearing in both contexts are correctly recorded in both `assumes` and `proves`.
 -/
 
-namespace DocVerificationBridge
+namespace DependencyAnalysis
 
 open Lean Meta
 
@@ -623,4 +623,4 @@ def inferBridgingDirection (inferred : InferredTheoremAnnotations) : Option Brid
     else if hasValidatesInConc then some .complete
     else some .iff  -- Default to iff if unclear
 
-end DocVerificationBridge
+end DependencyAnalysis

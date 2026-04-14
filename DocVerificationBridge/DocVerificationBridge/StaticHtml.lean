@@ -7,10 +7,10 @@ import Lean
 import DocGen4.Output.ToHtmlFormat
 import DocGen4.Output.Base
 import DocGen4.Process.Analyze
-import DocVerificationBridge.Classify
+import DependencyAnalysis.Classify
 import DocVerificationBridge.Report
-import DocVerificationBridge.TableData
-import DocVerificationBridge.Compatibility
+import DependencyAnalysis.TableData
+import DependencyAnalysis.Compatibility
 
 /-!
 # Static HTML Generation
@@ -35,7 +35,7 @@ It generates styled HTML output with parallel HTML generation directly from Lean
 
 namespace DocVerificationBridge.StaticHtml
 
-open Lean
+open Lean DependencyAnalysis
 open scoped DocGen4.Jsx
 open DocGen4 (Html Hierarchy)
 open DocGen4.Output (BaseHtmlM SiteBaseContext BibItem)

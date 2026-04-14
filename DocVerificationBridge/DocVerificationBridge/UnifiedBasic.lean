@@ -8,8 +8,8 @@ import DocGen4.Load
 import DocGen4.Output
 import DocGen4.Process.Analyze
 import DocGen4.Process.Hierarchy
-import DocVerificationBridge.Cache
-import DocVerificationBridge.Classify
+import DependencyAnalysis.Cache
+import DependencyAnalysis.Classify
 import DocVerificationBridge.Report
 import DocVerificationBridge.StaticHtml
 
@@ -30,7 +30,7 @@ the new DB-based htmlOutputResultsParallel API.
 
 namespace DocVerificationBridge.Unified
 
-open Lean
+open Lean DependencyAnalysis
 open DocGen4
 
 /-- Format milliseconds as human-readable duration -/

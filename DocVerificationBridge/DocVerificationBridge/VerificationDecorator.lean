@@ -4,10 +4,10 @@
 import Lean
 import DocGen4.Output.Base
 import DocGen4.Output.ToHtmlFormat
-import DocVerificationBridge.Types
-import DocVerificationBridge.Classify
+import DependencyAnalysis.Types
+import DependencyAnalysis.Classify
 
-open Lean
+open Lean DependencyAnalysis
 open scoped DocGen4.Jsx
 open DocGen4 (Html)
 open DocGen4.Output (DeclarationDecoratorFn)

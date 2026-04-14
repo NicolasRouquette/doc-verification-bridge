@@ -1,4 +1,4 @@
--- DocVerificationBridge/Compatibility.lean
+-- DependencyAnalysis/Compatibility.lean
 -- Cross-version compatibility helpers for Lean 4
 
 /-!

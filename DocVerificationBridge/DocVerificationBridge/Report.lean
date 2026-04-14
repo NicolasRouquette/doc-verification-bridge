@@ -2,9 +2,9 @@
 -- Report generation for verification coverage
 
 import Lean
-import DocVerificationBridge.Types
-import DocVerificationBridge.Classify
-import DocVerificationBridge.Compatibility
+import DependencyAnalysis.Types
+import DependencyAnalysis.Classify
+import DependencyAnalysis.Compatibility
 
 /-!
 # Report Generation
@@ -18,7 +18,7 @@ This module generates markdown reports showing:
 
 namespace DocVerificationBridge
 
-open Lean
+open Lean DependencyAnalysis
 
 /-!
 ## Git Platform Configuration

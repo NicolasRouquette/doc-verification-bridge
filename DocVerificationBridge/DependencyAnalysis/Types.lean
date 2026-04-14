@@ -1,8 +1,8 @@
--- DocVerificationBridge/Types.lean
+-- DependencyAnalysis/Types.lean
 -- Core types for theorem classification and verification tracking
 
 import Lean
-import DocVerificationBridge.Compatibility
+import DependencyAnalysis.Compatibility
 
 /-!
 # Core Types for Doc Verification Bridge
@@ -24,7 +24,7 @@ The key insight: **bridging theorems are the ontological glue** — they prove t
 fundamental relations between abstraction levels.
 -/
 
-namespace DocVerificationBridge
+namespace DependencyAnalysis
 
 open Lean
 
@@ -393,4 +393,4 @@ def getAPIMeta? (env : Environment) (name : Name) : Option APIMeta :=
 def addAPIMeta (env : Environment) (name : Name) (apiMeta : APIMeta) : Environment :=
   apiCoverageExt.addEntry env (name, apiMeta)
 
-end DocVerificationBridge
+end DependencyAnalysis

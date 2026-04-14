@@ -1,9 +1,9 @@
--- DocVerificationBridge/TableData.lean
+-- DependencyAnalysis/TableData.lean
 -- JSON-serializable data structures for module table data
 
 import Lean
-import DocVerificationBridge.Types
-import DocVerificationBridge.Compatibility
+import DependencyAnalysis.Types
+import DependencyAnalysis.Compatibility
 
 /-!
 # Module Table Data
@@ -18,7 +18,7 @@ to table data without needing to scrape HTML.
 2. **Theorems Table**: Shows all theorems with their relationships and dependencies
 -/
 
-namespace DocVerificationBridge.TableData
+namespace DependencyAnalysis.TableData
 
 open Lean
 
@@ -288,4 +288,4 @@ def saveAllModuleTableDataCombined (allModuleData : Array ModuleTableData) (outp
   IO.FS.writeFile outputFile json.compress
   IO.println s!"Saved combined table data for {allModuleData.size} modules to {outputFile}"
 
-end DocVerificationBridge.TableData
+end DependencyAnalysis.TableData

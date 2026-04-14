@@ -1,9 +1,9 @@
--- DocVerificationBridge/Cache.lean
+-- DependencyAnalysis/Cache.lean
 -- JSON serialization for classification cache using Lean.Json
 
 import Lean
 import Lean.Data.Json
-import DocVerificationBridge.Types
+import DependencyAnalysis.Types
 
 /-!
 # Classification Cache
@@ -44,7 +44,7 @@ The CLI accepts a base path without extension (e.g., `--save-classification foo/
 and creates both `foo/cache.json` and `foo/cache.jsonl`.
 -/
 
-namespace DocVerificationBridge.Cache
+namespace DependencyAnalysis.Cache
 
 open Lean
 
@@ -394,4 +394,4 @@ def loadClassification (basePath : System.FilePath) : IO (NameMap APIMeta) := do
 def defaultCachePath (buildDir : System.FilePath) : System.FilePath :=
   buildDir / "classification-cache"
 
-end DocVerificationBridge.Cache
+end DependencyAnalysis.Cache

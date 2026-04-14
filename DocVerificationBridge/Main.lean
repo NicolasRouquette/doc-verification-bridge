@@ -8,7 +8,7 @@ import DocGen4.Load
 import DocGen4.Process.Hierarchy
 import DocVerificationBridge
 import DocVerificationBridge.Unified
-import DocVerificationBridge.Cache
+import DependencyAnalysis.Cache
 
 /-!
 # Unified Documentation CLI
@@ -27,7 +27,7 @@ This CLI provides commands to:
 The unified mode shares module loading for efficiency.
 -/
 
-open Lean System Cli DocVerificationBridge DocVerificationBridge.Unified DocVerificationBridge.StaticHtml DocGen4.Process
+open Lean System Cli DependencyAnalysis DocVerificationBridge DocVerificationBridge.Unified DocVerificationBridge.StaticHtml DocGen4.Process
 
 /-!
 ## Timing Helpers
@@ -52,15 +52,15 @@ deriving Repr, BEq
 
 /-- Get api_type annotation metadata from the environment extension -/
 def getApiTypeAnnotation (env : Environment) (declName : Name) : MetaM (Option APIMeta) := do
-  return DocVerificationBridge.getApiTypeAttr env declName
+  return DependencyAnalysis.getApiTypeAttr env declName
 
 /-- Get api_def annotation metadata from the environment extension -/
 def getApiDefAnnotation (env : Environment) (declName : Name) : MetaM (Option APIMeta) := do
-  return DocVerificationBridge.getApiDefAttr env declName
+  return DependencyAnalysis.getApiDefAttr env declName
 
 /-- Get api_theorem annotation metadata from the environment extension -/
 def getApiTheoremAnnotation (env : Environment) (declName : Name) : MetaM (Option APIMeta) := do
-  return DocVerificationBridge.getApiTheoremAttr env declName
+  return DependencyAnalysis.getApiTheoremAttr env declName
 
 /-- Try to get annotation metadata for a declaration -/
 def tryGetAnnotation (env : Environment) (declName : Name) : MetaM (Option APIMeta) := do
