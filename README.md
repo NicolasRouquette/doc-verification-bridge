@@ -64,31 +64,136 @@ DocVerificationBridge depends on Lean and doc-gen4 APIs that have **breaking cha
 **Dependencies**: Lean 4, doc-gen4 (version-specific)
 
 **Executables**:
-- `unified-doc`: Combined doc-gen4 + verification pipeline
+- `unified-doc` — combined doc-gen4 + verification HTML pipeline
+- `unified-dep-table` — per-namespace dependency tables and dead-code analysis
 
 ### Building
 
 ```bash
 cd DocVerificationBridge
-lake build unified-doc
+lake build           # builds the library and both executables
 ```
 
-### Usage
+### CLI Tools
+
+#### `unified-doc` — combined HTML documentation
+
+Generates doc-gen4 HTML output side-by-side with a verification coverage
+report based on the Four-Category Ontology classification.
 
 ```bash
-# Generate documentation with auto-classification
 lake exe unified-doc unified \
   --repo https://github.com/owner/repo \
   --project "MyProject" \
   --auto \
   MyModule
 
-# Generate with explicit annotations only
-lake exe unified-doc unified \
-  --repo https://github.com/owner/repo \
-  --annotated \
-  MyModule
+# Annotation-only mode
+lake exe unified-doc unified --annotated MyModule
 ```
+
+Subcommands: `unified` (full pipeline), `docgen4` (HTML only), `verify`
+(verification report only).  See `lake exe unified-doc --help` for the
+full flag list, or the [Classification Modes](#classification-modes)
+section below.
+
+#### `unified-dep-table` — per-namespace dependency table
+
+Produces a Markdown or JSON table covering every classified declaration
+in a chosen namespace, with forward proof-term dependencies, an inverse
+caller map, and `hasSorry` annotations.  The actionable output is the
+**deletion candidates** section — declarations that carry `sorry` and
+have no in-scope callers — plus a complementary **dead non-sorry**
+section that surfaces unreferenced helper machinery.
+
+```bash
+# Fresh classification + table for one namespace.  Run from the project
+# being analyzed so `lake env` exposes its olean tree.
+cd /path/to/some-lean-project
+lake env /path/to/unified-dep-table fresh \
+  --namespace MyProject.Subnamespace \
+  --external-only \
+  --proof-dep-workers 4 \
+  --output deps.md \
+  MyProject
+
+# Reuse a saved classification cache (much faster than `fresh`)
+unified-dep-table cached \
+  --namespace MyProject.Subnamespace \
+  --classification cache.json \
+  --output deps.md
+```
+
+The `--external-only` flag is the key for cleanup work: it suppresses
+callers from inside the same namespace, which surfaces transitively-dead
+clusters that look "alive" with intra-namespace references but have no
+out-of-namespace consumers.  Without it, the deletion-candidate filter
+only catches singleton dead leaves, missing the more common case of
+mutually-referencing dead theorem groups.
+
+### Using DocVerificationBridge as a Library
+
+The CLI tools are thin wrappers; the same analysis is available
+programmatically by importing the library.
+
+#### Adding as a dependency
+
+```toml
+# In your project's lakefile.toml:
+[[require]]
+name = "DocVerificationBridge"
+git = "https://github.com/NicolasRouquette/doc-verification-bridge.git"
+rev = "main"
+subDir = "DocVerificationBridge"
+```
+
+Then `import DocVerificationBridge` in your Lean modules.  Toolchain
+constraint: your project's `lean-toolchain` must match what
+`DocVerificationBridge/lean-toolchain` pins, since classifying a project
+requires its olean files to be ABI-compatible with DVB's own.
+
+#### Key entry points
+
+| Module | What it gives you |
+|---|---|
+| `DocVerificationBridge.Types` | `APIMeta`, `DeclKind`, `TheoremData`, `DefData` — the schema for every classified declaration |
+| `DocVerificationBridge.Classify` | `classifyAllDeclarations env modPrefix` — produces a `NameMap APIMeta` covering every declaration whose source file matches `modPrefix`, including extracted proof-term dependencies |
+| `DocVerificationBridge.Inference` | `extractProofDependencies` (proof-term refs), `inferTheoremAnnotations` (heuristic annotations), `collectProofDependencies` (low-level walker) |
+| `DocVerificationBridge.Cache` | `saveClassification` / `loadClassification` — persist a `NameMap APIMeta` to JSON for reuse |
+| `DocVerificationBridge.DependencyTable` | `Table.build`, `Table.toMarkdown`, `Table.toJson`, `Table.deletionCandidates`, `Table.deadDeclarations` — the dep-table analysis used by `unified-dep-table` |
+
+#### Example: programmatic dependency table
+
+```lean
+import Lean
+import DocVerificationBridge
+
+open Lean DocVerificationBridge
+
+def main (args : List String) : IO UInt32 := do
+  let modName := args.head!.toName
+  Lean.initSearchPath (← Lean.findSysroot)
+  let env ← importModules #[{ module := modName }] {}
+
+  -- Classify every declaration whose source file is under `modName`.
+  let coreCtx : Core.Context :=
+    { fileName := "<demo>", fileMap := default, maxHeartbeats := 0 }
+  let coreState : Core.State := { env }
+  let (result, _) ←
+    (classifyAllDeclarations env modName).run' {} |>.toIO coreCtx coreState
+
+  -- Build a dep table restricted to `modName`, suppressing in-namespace
+  -- callers so transitively-dead clusters surface together.
+  let table := DependencyTable.build result.entries modName (externalOnly := true)
+  IO.println s!"{table.deletionCandidates.size} deletion candidates"
+  IO.println s!"{table.deadDeclarations.size} total dead declarations"
+  IO.FS.writeFile "deps.md" table.toMarkdown
+  return 0
+```
+
+This is the same code path `unified-dep-table` follows internally — use
+it when you want to embed dependency analysis in larger tooling
+(blueprint regeneration, CI gates, etc.).
 
 ### Supported Lean Versions
 
