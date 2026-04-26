@@ -386,6 +386,66 @@ If source links point to the wrong branch:
 2. Override with `branch = "branch-name"` in config.toml if needed
 3. Re-run the project to regenerate with correct links
 
+## Updating the Lean Toolchain
+
+doc-verification-bridge tracks a supported Lean version range so it can refuse projects whose toolchains it can't analyze. When a new Lean release ships (or a downstream project bumps to one that's currently rejected as "too new"), the supported range and the bridge's own toolchain need to be bumped together.
+
+Files to touch (paths relative to the doc-verification-bridge root):
+
+| File | What to change |
+|------|----------------|
+| [Experiments/Experiments/ExperimentsCore.lean](../Experiments/Experiments/ExperimentsCore.lean) | Bump `maxSupportedVersion` (and `minSupportedVersion` if dropping older releases) |
+| [DocVerificationBridge/lean-toolchain](../DocVerificationBridge/lean-toolchain) | Pin to the new toolchain (e.g. `leanprover/lean4:v4.30.0-rc2`) |
+| [DocVerificationBridge/lakefile.toml](../DocVerificationBridge/lakefile.toml) | Update `leanVersion` and the `rev` for `doc-gen4` and `Cli` to the matching tag |
+
+Procedure:
+
+1. **Bump the supported range** in `ExperimentsCore.lean`:
+   ```lean
+   def maxSupportedVersion : (Nat × Nat × Nat) := (4, 30, 0)
+   ```
+   The version comparator strips RC suffixes, so `(4, 30, 0)` accepts `v4.30.0-rc1`, `v4.30.0-rc2`, … and the eventual stable `v4.30.0`.
+
+2. **Bump the bridge's own toolchain** in `DocVerificationBridge/lean-toolchain`:
+   ```
+   leanprover/lean4:v4.30.0-rc2
+   ```
+
+3. **Bump the dep revs** in `DocVerificationBridge/lakefile.toml`:
+   ```toml
+   leanVersion = "leanprover/lean4:v4.30.0-rc2"
+
+   [[require]]
+   name = "doc-gen4"
+   git = "https://github.com/leanprover/doc-gen4"
+   rev = "v4.30.0-rc2"
+
+   [[require]]
+   name = "Cli"
+   git = "https://github.com/leanprover/lean4-cli"
+   rev = "v4.30.0-rc2"
+   ```
+
+4. **Refresh the manifest** so all transitive deps resolve against the new toolchain:
+   ```bash
+   cd DocVerificationBridge
+   lake update
+   lake build
+   ```
+
+5. **RC-only releases need an exception.** doc-gen4 sometimes publishes only `vX.Y.Z-rcN` tags before the stable `vX.Y.Z` is cut. In that window, `extractVersionTag` (in `ExperimentsCore.lean`) must preserve the RC suffix and pick a fallback RC for newer toolchains, mirroring the existing `v4.29.0-rc` / `v4.30.0-rc` cases:
+   ```lean
+   else if rawTag.startsWith "v4.30.0-rc" then
+     let rcNum := rawTag.replace "v4.30.0-rc" "" |>.toNat!
+     if rcNum > 2 then "v4.30.0-rc2" else rawTag
+   ```
+   Once a stable `vX.Y.Z` doc-gen4 tag exists, that branch can be dropped so RC suffixes get stripped normally.
+
+6. **Verify against a real project.** Run the pipeline on at least one project that uses the new toolchain to confirm the compatibility check passes and doc-gen4 builds cleanly:
+   ```bash
+   ./run.sh run --resume      # or --reanalyze if repos are already cloned
+   ```
+
 ## Publishing to GitHub Pages
 
 The generated `site/` folder for each project is ready for GitHub Pages deployment:

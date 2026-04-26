@@ -26,7 +26,7 @@ When adding support for new versions, update these values and test with
 def minSupportedVersion : (Nat × Nat × Nat) := (4, 24, 0)
 
 /-- Maximum supported Lean version for doc-verification-bridge -/
-def maxSupportedVersion : (Nat × Nat × Nat) := (4, 29, 0)
+def maxSupportedVersion : (Nat × Nat × Nat) := (4, 30, 0)
 
 /-! ## Configuration Types -/
 
@@ -1203,12 +1203,12 @@ structure ToolchainCheck where
 /-- Strip RC suffix from version tag (e.g., "v4.25.0-rc2" → "v4.25.0")
     doc-gen4 typically only has release tags, not RC tags.
 
-    EXCEPTION: For Lean 4.29.0+, we preserve RC suffixes because doc-gen4
-    only has RC tags (v4.29.0-rc1, v4.29.0-rc2, v4.29.0-rc3) and no stable
-    v4.29.0 tag yet. -/
+    EXCEPTION: For Lean 4.29.0 and 4.30.0, we preserve RC suffixes because
+    doc-gen4 only has RC tags (e.g. v4.29.0-rc1..rc3, v4.30.0-rc2) and no
+    stable release tag yet. -/
 def stripRcSuffix (version : String) : String :=
-  -- For 4.29.0-rcX, preserve the RC suffix (doc-gen4 only has RC tags)
-  if version.startsWith "v4.29.0-rc" then
+  -- For 4.29.0-rcX and 4.30.0-rcX, preserve the RC suffix
+  if version.startsWith "v4.29.0-rc" || version.startsWith "v4.30.0-rc" then
     version
   else
     match version.splitOn "-rc" with
@@ -1219,7 +1219,8 @@ def stripRcSuffix (version : String) : String :=
 
 /-- Extract version tag from toolchain string (e.g., "leanprover/lean4:v4.26.0" → "v4.26.0")
     For stable releases, strips RC suffixes since doc-gen4 typically only has release tags.
-    For 4.29.0, preserves RC suffix and falls back to rc3 if newer RC is requested. -/
+    For 4.29.0, preserves RC suffix and falls back to rc3 if newer RC is requested.
+    For 4.30.0, preserves RC suffix and falls back to rc2 (the latest published doc-gen4 tag). -/
 def extractVersionTag (toolchain : String) : String :=
   let rawTag := match toolchain.splitOn ":v" with
     | [_, ver] => s!"v{ver.trimCompat}"
@@ -1234,6 +1235,13 @@ def extractVersionTag (toolchain : String) : String :=
     if rcNum > 3 then
       -- Fallback to rc3 (known to exist) for rc4, rc5, etc.
       "v4.29.0-rc3"
+    else
+      rawTag
+  -- Special handling for 4.30.0-rcX: fallback to rc2 for newer RCs
+  else if rawTag.startsWith "v4.30.0-rc" then
+    let rcNum := rawTag.replace "v4.30.0-rc" "" |>.toNat!
+    if rcNum > 2 then
+      "v4.30.0-rc2"
     else
       rawTag
   else
