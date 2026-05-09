@@ -65,24 +65,42 @@ def filterNames : Array Name :=
     ``Decidable, ``DecidableEq, ``DecidablePred, ``DecidableRel,
     ``BEq, ``Hashable, ``Ord, ``LT, ``LE, ``Inhabited, ``Nonempty]
 
-/-- Suffixes that indicate compiler-generated auxiliary definitions -/
-def auxiliarySuffixes : List String :=
-  [".match_", ".rec", ".recOn", ".casesOn", ".brecOn", ".below", ".ndrec", ".ndrecOn",
-   ".noConfusion", ".noConfusionType", ".sizeOf", ".sizeOf_spec", ".injEq", ".inj", ".mk"]
+/-- Auxiliary marker components for compiler-generated companions of
+    inductives (recursors, eliminators, constructor injectivity, …)
+    and pattern matching (`match_N`).
 
-/-- Check if a name is a compiler-generated auxiliary -/
+    Each entry is matched against a complete `Name` component, never
+    as a substring. This is the deliberate fix: a previous version
+    used `String.endsWith` on the rendered name, which falsely
+    classified user identifiers like `g_listrec`, `myrec`, or `vec`
+    as auxiliary because they end in `"rec"`.
+
+    Internal compiler names — those whose components start with `_`,
+    such as `_unsafe_rec`, `_mutual_*`, `_proof_N`, `_sunfold`,
+    `_cstage1` — are caught separately by `Name.isInternal`, which
+    `shouldFilter` consults alongside this predicate. -/
+def auxiliarySuffixComponents : List String :=
+  ["rec", "recOn", "casesOn", "brecOn", "below", "ndrec", "ndrecOn",
+   "noConfusion", "noConfusionType", "sizeOf", "sizeOf_spec",
+   "injEq", "inj", "mk"]
+
+/-- True iff `s` is `match_<digits>` (e.g., `match_1`, `match_42`).
+    `match_N` is the only auxiliary marker with a numeric tail; the
+    rest are exact strings. -/
+private def isMatchN (s : String) : Bool :=
+  let pfx := "match_"
+  s.startsWith pfx && s.length > pfx.length &&
+    (s.drop pfx.length).all Char.isDigit
+
+/-- Check if a name is a compiler-generated auxiliary by examining its
+    *last* `Name` component against `auxiliarySuffixComponents` (or the
+    `match_N` shape). The match is on full component boundaries, not
+    on string suffixes — so user identifiers like `g_listrec`, `myrec`,
+    or `vec` are not misclassified. -/
 def isAuxiliaryName (n : Name) : Bool :=
-  let str := n.toString
-  auxiliarySuffixes.any fun suffix =>
-    let suffixNoLeadingDot := suffix.dropWhile (· == '.')
-    if str.endsWith suffixNoLeadingDot then true
-    else
-      let parts := str.splitOn suffix
-      if parts.length <= 1 then false
-      else parts.drop 1 |>.all fun part =>
-        match part.toList with
-        | [] => true
-        | c :: _ => c.isDigit || c == '.'
+  match n with
+  | .str _ s => auxiliarySuffixComponents.contains s || isMatchN s
+  | _ => false
 
 /-- Check if a name should be filtered out -/
 def shouldFilter (n : Name) : Bool :=
