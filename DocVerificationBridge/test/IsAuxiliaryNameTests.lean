@@ -89,6 +89,18 @@ open Lean DependencyAnalysis
 /-- info: true -/
 #guard_msgs in #eval isAuxiliaryName `Foo.brecOn_1.go.eq
 
+-- Standalone equation-lemma suffixes on a user function (`eq_def`,
+-- `eq_unfold`, `eq_<digits>`) — Lean elaborator emits these for every
+-- non-trivial `def`; they are not authored, so they're filtered.
+/-- info: true -/
+#guard_msgs in #eval isAuxiliaryName `Foo.eq_def
+/-- info: true -/
+#guard_msgs in #eval isAuxiliaryName `Foo.eq_unfold
+/-- info: true -/
+#guard_msgs in #eval isAuxiliaryName `Foo.eq_1
+/-- info: true -/
+#guard_msgs in #eval isAuxiliaryName `Foo.eq_42
+
 /-! ## Must NOT filter — discrimination tests -/
 
 -- User function happens to be called `go`/`eq` — last component is a
@@ -131,5 +143,74 @@ open Lean DependencyAnalysis
 #guard_msgs in #eval isAuxiliaryName `Foo.myrec
 /-- info: false -/
 #guard_msgs in #eval isAuxiliaryName `Foo.vec
+
+/-! ## Policy customization — `addBases` / `addMatcher` -/
+
+-- Client adds `myaux` as a new base. After extension, `Foo.myaux`
+-- becomes auxiliary while the default policy still says false.
+private def policyWithMyaux : AuxiliaryNamePolicy :=
+  defaultPolicy.addBases ["myaux"]
+
+/-- info: false -/
+#guard_msgs in #eval isAuxiliaryName `Foo.myaux defaultPolicy
+/-- info: true -/
+#guard_msgs in #eval isAuxiliaryName `Foo.myaux policyWithMyaux
+
+-- Numbered + sub-helper walk through a custom base.
+/-- info: true -/
+#guard_msgs in #eval isAuxiliaryName `Foo.myaux.go policyWithMyaux
+
+-- `addMatcher` accepts any `String → Bool`. Client filters names ending
+-- in "Helper".
+private def policyEndsHelper : AuxiliaryNamePolicy :=
+  defaultPolicy.addMatcher (·.endsWith "Helper")
+
+/-- info: true -/
+#guard_msgs in #eval isAuxiliaryName `Foo.someHelper policyEndsHelper
+/-- info: false -/
+#guard_msgs in #eval isAuxiliaryName `Foo.someHelper defaultPolicy
+
+/-! ## Policy customization — `removeBases` / `removeMatcher` -/
+
+-- `removeBases` lets a client subtract a default base. With
+-- `removeBases ["recOn"]`, `Foo.recOn` is no longer filtered, but
+-- other defaults survive.
+private def policyKeepRecOn : AuxiliaryNamePolicy :=
+  defaultPolicy.removeBases ["recOn"]
+
+/-- info: true -/
+#guard_msgs in #eval isAuxiliaryName `Foo.recOn defaultPolicy
+/-- info: false -/
+#guard_msgs in #eval isAuxiliaryName `Foo.recOn policyKeepRecOn
+/-- info: true -/
+#guard_msgs in #eval isAuxiliaryName `Foo.brecOn policyKeepRecOn
+/-- info: true -/
+#guard_msgs in #eval isAuxiliaryName `Foo.injEq policyKeepRecOn
+
+-- `removeMatcher` drops a *predicate* (any matcher that accepts the
+-- given samples). Removing the equation-lemma matcher unfilters
+-- `Foo.eq_def` / `Foo.eq_1` / `Foo.eq_unfold` while leaving the rest
+-- of the policy intact.
+private def policyKeepEqns : AuxiliaryNamePolicy :=
+  defaultPolicy.removeMatcher ["eq_def"]
+
+/-- info: true -/
+#guard_msgs in #eval isAuxiliaryName `Foo.eq_def defaultPolicy
+/-- info: false -/
+#guard_msgs in #eval isAuxiliaryName `Foo.eq_def policyKeepEqns
+/-- info: false -/
+#guard_msgs in #eval isAuxiliaryName `Foo.eq_1 policyKeepEqns
+/-- info: true -/
+#guard_msgs in #eval isAuxiliaryName `Foo.brecOn policyKeepEqns
+
+/-! ## `shouldFilter` honours the policy argument -/
+
+/-- info: true -/
+#guard_msgs in #eval shouldFilter `Foo.brecOn
+/-- info: false -/
+#guard_msgs in #eval shouldFilter `Foo.brecOn (defaultPolicy.removeBases ["brecOn"])
+-- Still filtered because `filterNames` covers logical-connective `And`.
+/-- info: true -/
+#guard_msgs in #eval shouldFilter ``And
 
 end DependencyAnalysis.Tests

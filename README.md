@@ -195,6 +195,116 @@ This is the same code path `unified-dep-table` follows internally — use
 it when you want to embed dependency analysis in larger tooling
 (blueprint regeneration, CI gates, etc.).
 
+### `DependencyAnalysis` API — auxiliary-name policy
+
+`DependencyAnalysis.isAuxiliaryName` and `shouldFilter`
+(`DocVerificationBridge/DependencyAnalysis/Inference.lean`) classify
+compiler-generated companion declarations so downstream cross-reference
+and call-graph tools can exclude them. Behaviour is governed by an
+`AuxiliaryNamePolicy`:
+
+```lean
+structure AuxiliaryNamePolicy where
+  lastComponentMatchers : List (String → Bool) := []
+  subHelperMatchers     : List (String → Bool) := []
+```
+
+A name is auxiliary if **any** `lastComponentMatchers` predicate
+accepts its last component, or if walking up through
+`subHelperMatchers`-recognised components leads to such a match.
+The walk stops at any unrecognised component, so user names like
+`Foo.go`, `Foo.bar.go`, or `Foo.below.helper` are not filtered.
+
+Default + customization:
+
+```lean
+-- Use the defaults (tracks Lean v4.30.0-rc2's elaborator):
+#eval isAuxiliaryName `Foo.brecOn_1.go    -- true
+#eval isAuxiliaryName `Foo.bar.go         -- false
+
+-- Or pass a custom policy:
+def myPolicy : AuxiliaryNamePolicy :=
+  defaultPolicy
+    |>.addBases ["myaux"]                 -- extend with a project base
+    |>.addMatcher (·.endsWith "Helper")   -- arbitrary string predicate
+    |>.removeBases ["recOn"]              -- exclude a default
+    |>.removeMatcher ["eq_def"]           -- drop any matcher accepting "eq_def"
+
+#eval isAuxiliaryName `Foo.myaux.go myPolicy  -- true
+#eval isAuxiliaryName `Foo.recOn myPolicy     -- false
+#eval shouldFilter `Foo.brecOn myPolicy       -- true (filterNames + isInternal also consulted)
+```
+
+`AuxiliaryNamePolicy` is `Inhabited`; helpers `addBases`,
+`addMatcher`, `addSubHelper`, `removeBases`, `removeMatcher` return
+new policies (no mutation). All policy fields and predicate
+helpers are public — see
+[`DependencyAnalysis/Inference.lean`](DocVerificationBridge/DependencyAnalysis/Inference.lean).
+
+#### Default policy — Lean elaborator emission sites
+
+The defaults track names Lean's elaborator emits as of `v4.30.0-rc2`.
+Each entry below links to the upstream source so the list can be
+audited against future Lean releases.
+
+**Last-component bases** (`auxiliarySuffixComponents`, exact match):
+
+| Last component | Lean source |
+|---|---|
+| `rec` (primitive recursor) | Kernel-emitted; numbered variants for nested inductives at [`Lean.Meta.IndPredBelow:225–226`](https://github.com/leanprover/lean4/blob/v4.30.0-rc2/src/Lean/Meta/IndPredBelow.lean#L225-L226) |
+| `recOn` | [`Lean.AuxRecursor:17`](https://github.com/leanprover/lean4/blob/v4.30.0-rc2/src/Lean/AuxRecursor.lean#L17) (`recOnSuffix`); construction in `Lean.Meta.Constructions.RecOn` |
+| `casesOn` | [`Lean.AuxRecursor:16`](https://github.com/leanprover/lean4/blob/v4.30.0-rc2/src/Lean/AuxRecursor.lean#L16) (`casesOnSuffix`); construction in `Lean.Meta.CasesOn` |
+| `brecOn` | [`Lean.AuxRecursor:18`](https://github.com/leanprover/lean4/blob/v4.30.0-rc2/src/Lean/AuxRecursor.lean#L18) (`brecOnSuffix`); construction in [`Lean.Meta.Constructions.BRecOn`](https://github.com/leanprover/lean4/blob/v4.30.0-rc2/src/Lean/Meta/Constructions/BRecOn.lean); numbered nested variants at [`Lean.Meta.IndPredBelow:229–230`](https://github.com/leanprover/lean4/blob/v4.30.0-rc2/src/Lean/Meta/IndPredBelow.lean#L229-L230) |
+| `below` | [`Lean.AuxRecursor:19`](https://github.com/leanprover/lean4/blob/v4.30.0-rc2/src/Lean/AuxRecursor.lean#L19) (`belowSuffix`); numbered nested variants at [`Lean.Meta.IndPredBelow:227–228`](https://github.com/leanprover/lean4/blob/v4.30.0-rc2/src/Lean/Meta/IndPredBelow.lean#L227-L228) |
+| `ndrec` | [`Lean.AuxRecursor:36`](https://github.com/leanprover/lean4/blob/v4.30.0-rc2/src/Lean/AuxRecursor.lean#L36) (`Eq.ndrec` special case) |
+| `ndrecOn` | [`Lean.AuxRecursor:37`](https://github.com/leanprover/lean4/blob/v4.30.0-rc2/src/Lean/AuxRecursor.lean#L37) (`Eq.ndrecOn` special case) |
+| `noConfusion` | [`Lean.Meta.Constructions.NoConfusion:148`](https://github.com/leanprover/lean4/blob/v4.30.0-rc2/src/Lean/Meta/Constructions/NoConfusion.lean#L148) |
+| `noConfusionType` | [`Lean.Meta.Constructions.NoConfusion:53`](https://github.com/leanprover/lean4/blob/v4.30.0-rc2/src/Lean/Meta/Constructions/NoConfusion.lean#L53) (`mkNoConfusionTypeName`) |
+| `sizeOf` | [`Lean.Meta.SizeOf`](https://github.com/leanprover/lean4/blob/v4.30.0-rc2/src/Lean/Meta/SizeOf.lean) (instance `<T>.sizeOf`) |
+| `sizeOf_spec` | [`Lean.Meta.SizeOf:194`](https://github.com/leanprover/lean4/blob/v4.30.0-rc2/src/Lean/Meta/SizeOf.lean#L194) |
+| `injEq` | [`Lean.Meta.Injective:117`](https://github.com/leanprover/lean4/blob/v4.30.0-rc2/src/Lean/Meta/Injective.lean#L117) |
+| `inj` | [`Lean.Meta.Injective:102`](https://github.com/leanprover/lean4/blob/v4.30.0-rc2/src/Lean/Meta/Injective.lean#L102) |
+| `mk` | Anonymous structure constructor — emitted by [`Lean.Elab.Structure`](https://github.com/leanprover/lean4/blob/v4.30.0-rc2/src/Lean/Elab/Structure.lean) |
+
+**Numeric variants on the last component** (`isNumberedAuxComponentOver auxiliarySuffixComponents`):
+
+Lean's own check is [`Lean.AuxRecursor:41`](https://github.com/leanprover/lean4/blob/v4.30.0-rc2/src/Lean/AuxRecursor.lean#L41) — `s.startsWith s!"{suffix}_"` combined with `isAuxRecursor`. We match `<base>_<digits>` for every entry in `auxiliarySuffixComponents`, plus the pattern-matcher family:
+
+| Numeric pattern | Lean source |
+|---|---|
+| `match_<digits>` | [`Lean.Elab.Match:1136`](https://github.com/leanprover/lean4/blob/v4.30.0-rc2/src/Lean/Elab/Match.lean#L1136) (`mkAuxName \`match`) → [`Lean.CoreM:147`](https://github.com/leanprover/lean4/blob/v4.30.0-rc2/src/Lean/CoreM.lean#L147) (`mkAuxDeclName`) |
+| `<base>_<digits>` | Generated via `appendIndexAfter` at [`Lean.Meta.IndPredBelow:225–230`](https://github.com/leanprover/lean4/blob/v4.30.0-rc2/src/Lean/Meta/IndPredBelow.lean#L225-L230) for nested inductives |
+
+**Standalone equation-lemma suffixes** (`isEqnLikeSuffix`, also on the last component):
+
+| Last component | Lean source |
+|---|---|
+| `eq_def` | [`Lean.Meta.Eqns:72`](https://github.com/leanprover/lean4/blob/v4.30.0-rc2/src/Lean/Meta/Eqns.lean#L72) (`unfoldThmSuffix`) |
+| `eq_unfold` | [`Lean.Meta.Eqns:73`](https://github.com/leanprover/lean4/blob/v4.30.0-rc2/src/Lean/Meta/Eqns.lean#L73) (`eqUnfoldThmSuffix`) |
+| `eq_<digits>` | [`Lean.Meta.Eqns:65–69`](https://github.com/leanprover/lean4/blob/v4.30.0-rc2/src/Lean/Meta/Eqns.lean#L65-L69) (`eqn1ThmSuffix`, `isEqnReservedNameSuffix`) |
+
+**Sub-helpers** (`subHelperMatchers`, traversed during walk):
+
+| Sub-component | Lean source |
+|---|---|
+| `go` | [`Lean.Meta.Constructions.BRecOn:194`](https://github.com/leanprover/lean4/blob/v4.30.0-rc2/src/Lean/Meta/Constructions/BRecOn.lean#L194) (`brecOnName.str "go"`) |
+| `eq` | [`Lean.Meta.Constructions.BRecOn:195`](https://github.com/leanprover/lean4/blob/v4.30.0-rc2/src/Lean/Meta/Constructions/BRecOn.lean#L195) (`brecOnName.str "eq"`) |
+| `eq_def`, `eq_unfold`, `eq_<digits>` | Same `Lean.Meta.Eqns` sources as above — also walked through so `Foo.brecOn.eq_1` is reached |
+
+#### Tests
+
+```sh
+cd DocVerificationBridge
+lake build DependencyAnalysisTests
+```
+
+[`DocVerificationBridge/test/IsAuxiliaryNameTests.lean`](DocVerificationBridge/test/IsAuxiliaryNameTests.lean)
+pins the three classification layers (exact-base, numeric, walk-up),
+the standalone-equation-lemma case, the must-not-filter
+discrimination (`Foo.go`, `Foo.bar.go`, `Foo.below.helper`,
+`g_listrec`/`myrec`/`vec`), and the policy-customization helpers
+(`addBases`, `addMatcher`, `removeBases`, `removeMatcher`).
+
 ### Supported Lean Versions
 
 | Branch | Lean Versions | Notes |

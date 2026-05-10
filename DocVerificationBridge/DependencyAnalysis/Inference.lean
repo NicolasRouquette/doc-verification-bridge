@@ -65,100 +65,218 @@ def filterNames : Array Name :=
     ``Decidable, ``DecidableEq, ``DecidablePred, ``DecidableRel,
     ``BEq, ``Hashable, ``Ord, ``LT, ``LE, ``Inhabited, ``Nonempty]
 
+/-!
+### Auxiliary-name policy
+
+Lean's elaborator emits compiler-generated companion declarations for
+every inductive type and pattern-matcher: recursors, eliminators,
+constructor-injectivity lemmas, brecOn/below auxiliaries, equation
+lemmas, and pattern-matcher functions. Cross-reference, call-graph,
+and theorem-dependency tools generally want to exclude these from
+their analysis because they pollute the graph with mechanical
+plumbing that doesn't correspond to authored content.
+
+The `AuxiliaryNamePolicy` structure captures *which* name shapes
+count as auxiliary. Defaults reflect Lean's elaborator as of
+`v4.30.0-rc2`; clients can extend or restrict them through the
+`addBases` / `addMatcher` / `removeBases` / `removeMatcher`
+helpers. See the project README's "DependencyAnalysis API" section
+for source-code links to each emission site in Lean.
+-/
+
 /-- Auxiliary marker components for compiler-generated companions of
     inductives (recursors, eliminators, constructor injectivity, …)
     and pattern matching (`match_N`).
 
     Each entry is matched against a complete `Name` component, never
-    as a substring. This is the deliberate fix: a previous version
-    used `String.endsWith` on the rendered name, which falsely
-    classified user identifiers like `g_listrec`, `myrec`, or `vec`
-    as auxiliary because they end in `"rec"`.
+    as a substring. A previous version used `String.endsWith` on the
+    rendered name, which falsely classified user identifiers like
+    `g_listrec`, `myrec`, or `vec` as auxiliary because they end in
+    `"rec"`.
 
     Internal compiler names — those whose components start with `_`,
     such as `_unsafe_rec`, `_mutual_*`, `_proof_N`, `_sunfold`,
     `_cstage1` — are caught separately by `Name.isInternal`, which
-    `shouldFilter` consults alongside this predicate. -/
+    `shouldFilter` consults alongside `isAuxiliaryName`. -/
 def auxiliarySuffixComponents : List String :=
   ["rec", "recOn", "casesOn", "brecOn", "below", "ndrec", "ndrecOn",
    "noConfusion", "noConfusionType", "sizeOf", "sizeOf_spec",
    "injEq", "inj", "mk"]
 
-/-- True iff `s` is `match_<digits>` (e.g., `match_1`, `match_42`).
-    `match_N` is one of several aux markers with a numeric tail —
-    see also `isNumberedAuxComponent` for the brecOn / below family. -/
-private def isMatchN (s : String) : Bool :=
-  let pfx := "match_"
-  s.startsWith pfx && s.length > pfx.length &&
-    (s.drop pfx.length).all Char.isDigit
-
-/-- True iff `s` matches `<base>_<digits>` for some base in
-    `auxiliarySuffixComponents`. Examples: `brecOn_1`, `below_2`,
-    `binductionOn_3`, `recOn_5`. The elaborator emits these
-    numbered variants when an inductive type carries multiple
-    motives (e.g. mutual inductives, Prop-valued recursors).
-    The unnumbered base (`brecOn`, `below`, …) is already caught
-    by the exact-string check in `auxiliarySuffixComponents`. -/
-private def isNumberedAuxComponent (s : String) : Bool :=
-  auxiliarySuffixComponents.any fun base =>
-    s.startsWith (base ++ "_") &&
-    let suf := s.drop (base.length + 1)
+/-- True iff `s` matches `<prefix>_<digits>` with non-empty digit
+    tail. Building block for `match_N`, `brecOn_N`, etc. -/
+def isNumericSuffixOf (pfx : String) (s : String) : Bool :=
+  s.startsWith (pfx ++ "_") &&
+    let suf := s.drop (pfx.length + 1)
     !suf.isEmpty && suf.all Char.isDigit
 
-/-- True iff `s` is a recognised sub-helper component of an
-    auxiliary name: `go`, `eq`, `eq_def`, or `eq_<digits>`.
-    The Lean elaborator emits these as descendants of brecOn /
-    below auxiliaries (e.g. `Foo.brecOn_1.go`,
-    `Foo.brecOn.eq_1`). Used to walk up Name chains in
-    `isAuxiliaryName`. -/
-private def isAuxSubHelperString (s : String) : Bool :=
-  s == "go" || s == "eq" || s == "eq_def" ||
-  (s.startsWith "eq_" && (s.drop 3).all Char.isDigit && s.length > 3)
+/-- True iff `s` is `match_<digits>` (e.g. `match_1`, `match_42`).
+    Lean's elaborator generates one such declaration per match
+    expression — see `Lean.Elab.Match.lean:1136`
+    (`mkAuxName \`match`). -/
+def isMatchN (s : String) : Bool := isNumericSuffixOf "match" s
 
-/-- True iff some ancestor component of `n` is a recognised
-    auxiliary (an exact `auxiliarySuffixComponents` entry, a
-    `match_<digits>`, or a `<base>_<digits>` numbered variant),
-    reached by walking up only through recognised sub-helper
-    components (`go`, `eq`, `eq_<digits>`, `eq_def`). -/
-private partial def hasAuxAncestor : Name → Bool
+/-- True iff `s` is a recognised standalone equation-lemma suffix:
+    `eq_def`, `eq_unfold`, or `eq_<digits>`. Tracks Lean's own
+    `isEqnLikeSuffix` (`Lean.Meta.Eqns.lean:75`). -/
+def isEqnLikeSuffix (s : String) : Bool :=
+  s == "eq_def" || s == "eq_unfold" || isNumericSuffixOf "eq" s
+
+/-- True iff `s` matches `<base>_<digits>` for some `base` in the
+    supplied list. Each Lean aux recursor admits a numbered family —
+    the kernel-side test is in `Lean.AuxRecursor.lean:41`
+    (`s.startsWith s!"{suffix}_"` combined with `isAuxRecursor`).
+    Nested-inductive elaboration emits these via `appendIndexAfter`
+    on `rec`/`below`/`brecOn`
+    (`Lean.Meta.IndPredBelow.lean:225-230`). -/
+def isNumberedAuxComponentOver (bases : List String) (s : String) : Bool :=
+  bases.any (isNumericSuffixOf · s)
+
+/-- A predicate over the last component of a `Name`, used to classify
+    a name as auxiliary or to extend a walk. Equivalent to
+    `String → Bool` but named for documentation. -/
+abbrev StringPredicate := String → Bool
+
+/--
+A configurable policy for `isAuxiliaryName`.
+
+Two predicate lists describe how the classifier walks a `Name`:
+
+* `lastComponentMatchers` — if **any** returns true on a name's
+  *last* component, the name is auxiliary.
+* `subHelperMatchers` — if **any** returns true on a component,
+  the classifier walks **up** one level (toward the namespace
+  root) and re-evaluates. The walk stops at any unrecognised
+  component.
+
+Together they catch three classes of generated names:
+
+1. exact-base last components (`Foo.brecOn`, `Foo.injEq`) — via
+   `lastComponentMatchers`,
+2. numeric variants on the last component (`Foo.brecOn_1`,
+   `Foo.match_2`) — via `lastComponentMatchers`,
+3. sub-helpers of an aux declaration (`Foo.brecOn_1.go`,
+   `Foo.brecOn.eq`, `Foo.brecOn_1.eq_2`) — via the
+   `subHelperMatchers` walk landing on a recognised last
+   component.
+
+The walk is restricted to recognised sub-helpers so user names
+like `Foo.go`, `Foo.bar.go`, `Foo.below.helper`, or
+`Foo.brecOn_1.helper` are **not** filtered.
+
+See `defaultPolicy` for the standard configuration tracking Lean's
+elaborator. -/
+structure AuxiliaryNamePolicy where
+  lastComponentMatchers : List StringPredicate := []
+  subHelperMatchers : List StringPredicate := []
+  deriving Inhabited
+
+/-- Default policy tracking Lean `v4.30.0-rc2`'s elaborator emission.
+    Combines `auxiliarySuffixComponents`, `match_N` and the
+    `<base>_<digits>` numbered family on the last component, with
+    `go` / `eq` / `eq_def` / `eq_unfold` / `eq_<digits>` walked as
+    sub-helpers. The standalone equation suffixes are *also* in
+    `lastComponentMatchers` so a user-function equation lemma like
+    `Foo.eq_1` (auto-generated by Lean, not authored) is filtered. -/
+def defaultPolicy : AuxiliaryNamePolicy where
+  lastComponentMatchers :=
+    [ auxiliarySuffixComponents.contains
+    , isMatchN
+    , isNumberedAuxComponentOver auxiliarySuffixComponents
+    , isEqnLikeSuffix ]
+  subHelperMatchers :=
+    [ fun s => s == "go" || s == "eq"
+    , isEqnLikeSuffix ]
+
+/-- Prepend bases to the policy's last-component matchers. The new
+    bases extend the existing match (they are *not* added to
+    `auxiliarySuffixComponents`, which stays canonical). -/
+def AuxiliaryNamePolicy.addBases (p : AuxiliaryNamePolicy)
+    (extra : List String) : AuxiliaryNamePolicy :=
+  { p with lastComponentMatchers :=
+      extra.contains :: p.lastComponentMatchers }
+
+/-- Prepend a custom last-component predicate. -/
+def AuxiliaryNamePolicy.addMatcher (p : AuxiliaryNamePolicy)
+    (pred : StringPredicate) : AuxiliaryNamePolicy :=
+  { p with lastComponentMatchers := pred :: p.lastComponentMatchers }
+
+/-- Prepend a custom sub-helper predicate, extending which
+    components the walk traverses upward. -/
+def AuxiliaryNamePolicy.addSubHelper (p : AuxiliaryNamePolicy)
+    (pred : StringPredicate) : AuxiliaryNamePolicy :=
+  { p with subHelperMatchers := pred :: p.subHelperMatchers }
+
+/-- Wrap every last-component matcher so it rejects strings in
+    `bases`. Use to subtract a default base (e.g. a client that
+    wants `binductionOn` visible after a hypothetical default
+    extension). -/
+def AuxiliaryNamePolicy.removeBases (p : AuxiliaryNamePolicy)
+    (bases : List String) : AuxiliaryNamePolicy :=
+  { p with lastComponentMatchers :=
+      p.lastComponentMatchers.map fun m s =>
+        !bases.contains s && m s }
+
+/-- Drop every last-component matcher that returns true on some
+    string in `samples`. Use to remove a *predicate* rather than a
+    set of strings — e.g. `removeMatcher [\"eq_def\"]` discards the
+    `isEqnLikeSuffix` matcher because it accepts `\"eq_def\"`,
+    leaving the others intact. -/
+def AuxiliaryNamePolicy.removeMatcher (p : AuxiliaryNamePolicy)
+    (samples : List String) : AuxiliaryNamePolicy :=
+  { p with lastComponentMatchers :=
+      p.lastComponentMatchers.filter fun m =>
+        !samples.any (m ·) }
+
+/-- True iff some last-component matcher in `policy` accepts `s`. -/
+def AuxiliaryNamePolicy.matchesLast (policy : AuxiliaryNamePolicy)
+    (s : String) : Bool :=
+  policy.lastComponentMatchers.any (· s)
+
+/-- True iff some sub-helper matcher in `policy` accepts `s`. -/
+def AuxiliaryNamePolicy.matchesSubHelper (policy : AuxiliaryNamePolicy)
+    (s : String) : Bool :=
+  policy.subHelperMatchers.any (· s)
+
+/-- Walks `n` toward the namespace root through recognised
+    sub-helpers, returning true on the first component matched by
+    `policy.lastComponentMatchers`. Stops at any unrecognised
+    component. -/
+partial def hasAuxAncestor (policy : AuxiliaryNamePolicy) :
+    Name → Bool
   | .str p s =>
-    if auxiliarySuffixComponents.contains s ||
-       isMatchN s ||
-       isNumberedAuxComponent s then true
-    else if isAuxSubHelperString s then hasAuxAncestor p
+    if policy.matchesLast s then true
+    else if policy.matchesSubHelper s then hasAuxAncestor policy p
     else false
-  | .num p _ => hasAuxAncestor p
+  | .num p _ => hasAuxAncestor policy p
   | .anonymous => false
 
-/-- Check if a name is a compiler-generated auxiliary by examining its
-    name chain. The match is on full `Name` component boundaries,
-    not on string suffixes — so user identifiers like `g_listrec`,
-    `myrec`, or `vec` are not misclassified.
+/-- Check if a name is a compiler-generated auxiliary under `policy`
+    (default: `defaultPolicy`).
 
-    Recognises three layers:
+    Recognises three layers via `AuxiliaryNamePolicy`:
 
-    1. Exact match on the last component against
-       `auxiliarySuffixComponents` (e.g. `Foo.brecOn`,
-       `Foo.recOn`).
-    2. `match_<digits>` and `<base>_<digits>` numeric variants
-       on the last component (e.g. `Foo.match_1`,
-       `Foo.brecOn_1`).
-    3. Walks up through `go` / `eq` / `eq_<digits>` / `eq_def`
-       sub-helpers and re-applies layers (1) and (2) — catches
-       `Foo.brecOn.go`, `Foo.brecOn_1.go`,
-       `Foo.brecOn_1.eq_2`, etc. The walk stops at any
-       unrecognised component, so user names like `Foo.go`,
-       `Foo.bar.go`, or `Foo.below.helper` are *not* filtered.
+    1. Exact-match base components on the last component (e.g.
+       `Foo.brecOn`, `Foo.recOn`).
+    2. Numeric variants on the last component (e.g. `Foo.match_1`,
+       `Foo.brecOn_1`, `Foo.eq_2`).
+    3. Walks up through `go` / `eq` / `eq_def` / `eq_unfold` /
+       `eq_<digits>` sub-helpers and re-applies layers (1) and (2) —
+       catches `Foo.brecOn.go`, `Foo.brecOn_1.go`,
+       `Foo.brecOn_1.eq_2`, etc.
 
-    Layer 3 was added after the L4YAML.FGM Phase 4 case study
-    found that the IFG metric on L4YAML was dominated by
-    `<inductive>.brecOn_N → <…>.brecOn_N.go` aux→aux edges. -/
-def isAuxiliaryName (n : Name) : Bool :=
-  hasAuxAncestor n
+    The walk only continues through recognised sub-helpers, so user
+    names like `Foo.go`, `Foo.bar.go`, `Foo.below.helper`, or
+    `Foo.brecOn_1.helper` are **not** filtered. -/
+def isAuxiliaryName (n : Name)
+    (policy : AuxiliaryNamePolicy := defaultPolicy) : Bool :=
+  hasAuxAncestor policy n
 
-/-- Check if a name should be filtered out -/
-def shouldFilter (n : Name) : Bool :=
-  filterNames.contains n || n.isInternal || isAuxiliaryName n
+/-- Check if a name should be filtered out under `policy`. Combines
+    `filterNames`, `Name.isInternal`, and `isAuxiliaryName policy`. -/
+def shouldFilter (n : Name)
+    (policy : AuxiliaryNamePolicy := defaultPolicy) : Bool :=
+  filterNames.contains n || n.isInternal || isAuxiliaryName n policy
 
 /-- Get the root namespace (first component) from a declaration name -/
 def getRootNamespace (declName : Name) : Name :=
