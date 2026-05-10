@@ -85,22 +85,76 @@ def auxiliarySuffixComponents : List String :=
    "injEq", "inj", "mk"]
 
 /-- True iff `s` is `match_<digits>` (e.g., `match_1`, `match_42`).
-    `match_N` is the only auxiliary marker with a numeric tail; the
-    rest are exact strings. -/
+    `match_N` is one of several aux markers with a numeric tail —
+    see also `isNumberedAuxComponent` for the brecOn / below family. -/
 private def isMatchN (s : String) : Bool :=
   let pfx := "match_"
   s.startsWith pfx && s.length > pfx.length &&
     (s.drop pfx.length).all Char.isDigit
 
+/-- True iff `s` matches `<base>_<digits>` for some base in
+    `auxiliarySuffixComponents`. Examples: `brecOn_1`, `below_2`,
+    `binductionOn_3`, `recOn_5`. The elaborator emits these
+    numbered variants when an inductive type carries multiple
+    motives (e.g. mutual inductives, Prop-valued recursors).
+    The unnumbered base (`brecOn`, `below`, …) is already caught
+    by the exact-string check in `auxiliarySuffixComponents`. -/
+private def isNumberedAuxComponent (s : String) : Bool :=
+  auxiliarySuffixComponents.any fun base =>
+    s.startsWith (base ++ "_") &&
+    let suf := s.drop (base.length + 1)
+    !suf.isEmpty && suf.all Char.isDigit
+
+/-- True iff `s` is a recognised sub-helper component of an
+    auxiliary name: `go`, `eq`, `eq_def`, or `eq_<digits>`.
+    The Lean elaborator emits these as descendants of brecOn /
+    below auxiliaries (e.g. `Foo.brecOn_1.go`,
+    `Foo.brecOn.eq_1`). Used to walk up Name chains in
+    `isAuxiliaryName`. -/
+private def isAuxSubHelperString (s : String) : Bool :=
+  s == "go" || s == "eq" || s == "eq_def" ||
+  (s.startsWith "eq_" && (s.drop 3).all Char.isDigit && s.length > 3)
+
+/-- True iff some ancestor component of `n` is a recognised
+    auxiliary (an exact `auxiliarySuffixComponents` entry, a
+    `match_<digits>`, or a `<base>_<digits>` numbered variant),
+    reached by walking up only through recognised sub-helper
+    components (`go`, `eq`, `eq_<digits>`, `eq_def`). -/
+private partial def hasAuxAncestor : Name → Bool
+  | .str p s =>
+    if auxiliarySuffixComponents.contains s ||
+       isMatchN s ||
+       isNumberedAuxComponent s then true
+    else if isAuxSubHelperString s then hasAuxAncestor p
+    else false
+  | .num p _ => hasAuxAncestor p
+  | .anonymous => false
+
 /-- Check if a name is a compiler-generated auxiliary by examining its
-    *last* `Name` component against `auxiliarySuffixComponents` (or the
-    `match_N` shape). The match is on full component boundaries, not
-    on string suffixes — so user identifiers like `g_listrec`, `myrec`,
-    or `vec` are not misclassified. -/
+    name chain. The match is on full `Name` component boundaries,
+    not on string suffixes — so user identifiers like `g_listrec`,
+    `myrec`, or `vec` are not misclassified.
+
+    Recognises three layers:
+
+    1. Exact match on the last component against
+       `auxiliarySuffixComponents` (e.g. `Foo.brecOn`,
+       `Foo.recOn`).
+    2. `match_<digits>` and `<base>_<digits>` numeric variants
+       on the last component (e.g. `Foo.match_1`,
+       `Foo.brecOn_1`).
+    3. Walks up through `go` / `eq` / `eq_<digits>` / `eq_def`
+       sub-helpers and re-applies layers (1) and (2) — catches
+       `Foo.brecOn.go`, `Foo.brecOn_1.go`,
+       `Foo.brecOn_1.eq_2`, etc. The walk stops at any
+       unrecognised component, so user names like `Foo.go`,
+       `Foo.bar.go`, or `Foo.below.helper` are *not* filtered.
+
+    Layer 3 was added after the L4YAML.FGM Phase 4 case study
+    found that the IFG metric on L4YAML was dominated by
+    `<inductive>.brecOn_N → <…>.brecOn_N.go` aux→aux edges. -/
 def isAuxiliaryName (n : Name) : Bool :=
-  match n with
-  | .str _ s => auxiliarySuffixComponents.contains s || isMatchN s
-  | _ => false
+  hasAuxAncestor n
 
 /-- Check if a name should be filtered out -/
 def shouldFilter (n : Name) : Bool :=
