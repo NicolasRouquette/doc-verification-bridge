@@ -1,5 +1,5 @@
 import Lean
-import DocVerificationBridge.Types
+import DependencyAnalysis.Types
 
 /-!
 # Theorem dependency table
@@ -22,7 +22,7 @@ external-edge accuracy.
 
 namespace DocVerificationBridge.DependencyTable
 
-open Lean
+open Lean DependencyAnalysis
 
 /-- One row of the dependency table. -/
 structure Entry where

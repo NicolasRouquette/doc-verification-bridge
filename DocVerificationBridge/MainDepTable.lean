@@ -30,8 +30,9 @@ import Cli
 import Lean
 import DocVerificationBridge
 import DocVerificationBridge.DependencyTable
+import DependencyAnalysis.Cache
 
-open Lean System Cli DocVerificationBridge
+open Lean System Cli DependencyAnalysis DocVerificationBridge
 
 /-- Run classification for one or more modules and return a unified
     `NameMap APIMeta`.  This is the *fresh* path; it walks each module's
