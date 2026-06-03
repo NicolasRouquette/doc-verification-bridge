@@ -1579,6 +1579,20 @@ def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
     else
       pure false
 
+  -- Check whether the main project already depends on doc-gen4 (under any package name,
+  -- e.g. L4YAML requires it as «DocGen4»). If it does, adding our own `require «doc-gen4»`
+  -- would materialise a SECOND package providing the `DocGen4.*` modules, producing
+  -- "could not disambiguate the module DocGen4.Output.Base" errors at build time.
+  -- In that case we rely on the transitive dependency through the main project instead.
+  -- Detection is by the doc-gen4 git URL so it is independent of the package's local name.
+  let projectHasDocGen4Dep ← do
+    let manifest := projectDir / "lake-manifest.json"
+    if ← manifest.pathExists then
+      let content ← IO.FS.readFile manifest
+      pure ((content.splitOn "doc-gen4").length != 1)
+    else
+      pure false
+
   -- Determine doc-gen4 reference based on project toolchain:
   -- - Use the version tag that matches the project's Lean toolchain (e.g., v4.28.0 for Lean 4.28.0)
   -- - This avoids conflicts when the project already has doc-gen4 as a dependency
@@ -1599,6 +1613,15 @@ def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
     nestedSourceDir  -- New nested structure (v4.29.0+)
   else
     dvbPackageDir  -- Old flat structure (v4.28.0)
+
+  -- Detect the standalone `DependencyAnalysis` library. Recent DocVerificationBridge
+  -- versions refactored the core analysis engine (Types/Classify/Compatibility/…) out of
+  -- the `DocVerificationBridge` lib into a sibling top-level lib whose sources live at the
+  -- package root (`DependencyAnalysis.lean` + `DependencyAnalysis/*.lean`), next to the
+  -- nested DocVerificationBridge source dir. The decorator modules now `import
+  -- DependencyAnalysis.*`, so this library must be vendored and declared alongside.
+  let dependencyAnalysisRoot := dvbPackageDir / "DependencyAnalysis.lean"
+  let hasDependencyAnalysisLib ← dependencyAnalysisRoot.pathExists
 
   -- Copy doc-verification-bridge source files to docvb (avoids cross-toolchain dependency)
   -- Skip this when the project already depends on doc-verification-bridge —
@@ -1631,11 +1654,30 @@ def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
       discard <| copyFileIfExists (dvbSourceDir / "UnifiedBasic.lean") (dvbSrcDir / "Unified.lean")
       copiedModules := copiedModules.push "Unified"
 
-    -- Generate DocVerificationBridge.lean root module from the files we actually copied
-    let imports := copiedModules.map (s!"import DocVerificationBridge.{·}")
+    -- Generate DocVerificationBridge.lean root module from the files we actually copied.
+    -- Prepend `import DependencyAnalysis` (the lib's aggregate root) when that lib was
+    -- vendored, so the full DependencyAnalysis API — including `DependencyAnalysis.Attributes`,
+    -- which only the aggregate root pulls in — is in scope for consumers of this root (Main
+    -- imports it transitively and references e.g. `DependencyAnalysis.getApiTypeAttr`).
+    let depImports := if hasDependencyAnalysisLib then #["import DependencyAnalysis"] else #[]
+    let imports := depImports ++ copiedModules.map (s!"import DocVerificationBridge.{·}")
     let rootContent := "-- Auto-generated root module for DocVerificationBridge\n"
       ++ String.intercalate "\n" imports.toList ++ "\n"
     IO.FS.writeFile (docvbDir / "DocVerificationBridge.lean") rootContent
+
+    -- Vendor the standalone DependencyAnalysis library when present. Its root module and
+    -- sources sit at the cloned package root (a sibling of the nested DocVerificationBridge
+    -- source dir), so the copy loop above never reaches them. Copying the root file plus the
+    -- flat `DependencyAnalysis/` directory makes `import DependencyAnalysis.*` resolvable.
+    if hasDependencyAnalysisLib then
+      discard <| copyFileIfExists dependencyAnalysisRoot (docvbDir / "DependencyAnalysis.lean")
+      let depAnalysisSrcDir := dvbPackageDir / "DependencyAnalysis"
+      let depAnalysisDstDir := docvbDir / "DependencyAnalysis"
+      IO.FS.createDirAll depAnalysisDstDir
+      for entry in ← System.FilePath.readDir depAnalysisSrcDir do
+        let fileName := entry.fileName
+        if fileName.endsWith ".lean" then
+          discard <| copyFileIfExists (depAnalysisSrcDir / fileName) (depAnalysisDstDir / fileName)
 
   -- Copy Main.lean (the executable entry point)
   -- For older toolchains (< 4.29.0), use MainBasic.lean which has v4.28.0-compatible
@@ -1659,7 +1701,20 @@ def setupDocvbDirectory (projectDir : FilePath) (projectName : String)
   let dvbLibSection := if projectHasDvbDep then
     s!"-- DocVerificationBridge is provided by the project's own dependency\n"
   else
-    s!"-- Local library with doc-verification-bridge sources (cloned from git at version {project.docvbVersion})\nlean_lib DocVerificationBridge where\n"
+    -- Declare the standalone DependencyAnalysis lib first when it was vendored, so the
+    -- DocVerificationBridge modules that `import DependencyAnalysis.*` can resolve it.
+    let depAnalysisLib := if hasDependencyAnalysisLib then
+        "-- Standalone dependency-analysis engine (refactored out of DocVerificationBridge)\nlean_lib DependencyAnalysis where\n\n"
+      else ""
+    s!"{depAnalysisLib}-- Local library with doc-verification-bridge sources (cloned from git at version {project.docvbVersion})\nlean_lib DocVerificationBridge where\n"
+  -- Only require doc-gen4 ourselves when the main project does not already provide it.
+  -- Requiring it alongside a project that also depends on doc-gen4 (under any name) creates
+  -- two packages exporting `DocGen4.*`, which the build rejects as ambiguous. When the parent
+  -- has it, we import the `DocGen4.*` modules transitively through «{mainPackage}» instead.
+  let docgen4RequireSection := if projectHasDocGen4Dep then
+    s!"-- doc-gen4 is provided transitively by «{mainPackage}»; requiring it again here would\n-- create a duplicate package exporting DocGen4.* and an ambiguous-module error\n"
+  else
+    s!"-- Require doc-gen4 (version-matched to project's Lean toolchain)\n-- This ensures compatibility and avoids package conflicts when the project\n-- already has doc-gen4 as a dependency\nrequire «doc-gen4» from git\n  \"https://github.com/leanprover/doc-gen4\" @ \"{docgen4Ref}\"\n"
   let lakefileContent := s!"import Lake
 open Lake DSL
 
@@ -1670,12 +1725,7 @@ package docvb where
 -- Require the main project
 require «{mainPackage}» from \"../\"
 
--- Require doc-gen4 (version-matched to project's Lean toolchain)
--- This ensures compatibility and avoids package conflicts when the project
--- already has doc-gen4 as a dependency
-require «doc-gen4» from git
-  \"https://github.com/leanprover/doc-gen4\" @ \"{docgen4Ref}\"
-
+{docgen4RequireSection}
 {dvbLibSection}
 -- Unified CLI executable
 @[default_target]
