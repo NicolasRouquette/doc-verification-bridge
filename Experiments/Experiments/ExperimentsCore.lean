@@ -2389,6 +2389,32 @@ def processProject (project : Project) (config : Config) (mode : RunMode) : IO P
       return { name, repo, success := false,
                errorMessage := some "Clone failed", buildLog := cloneLog }
 
+  -- Checkout the configured branch in the project repo.
+  -- The clone/pull above only fetches the repo's default branch (shallow clone),
+  -- so when a non-default branch is configured we must explicitly fetch and check
+  -- it out. Skipped for reanalyze/reclassify/docgenOnly/htmlOnly modes, which reuse
+  -- the existing build that was already produced from the correct branch.
+  let isReuseMode := mode == .reanalyze || mode == .reclassify || mode == .docgenOnly || mode == .htmlOnly
+  if let some configuredBranch := project.branch then
+    if !isReuseMode then
+      -- SECURITY: git fetch/checkout do not execute repo code or hooks. Safe.
+      let (fetchOk, fetchLog, newLog) ← runCmdLogged "git-fetch-branch" "git"
+        #["fetch", "--depth", "1", "origin", configuredBranch] (some repoDir) cmdLog (some logCtx)
+      cmdLog := newLog
+      if !fetchOk then
+        writeProjectState config.sitesDir name .failed
+        return { name, repo, success := false,
+                 errorMessage := some s!"Failed to fetch branch '{configuredBranch}'", buildLog := fetchLog }
+      -- -B creates or resets the local branch to the fetched commit, so this works
+      -- whether the repo was freshly cloned (on the default branch) or already existed.
+      let (coOk, coLog, newLog2) ← runCmdLogged "git-checkout-branch" "git"
+        #["checkout", "-B", configuredBranch, "FETCH_HEAD"] (some repoDir) cmdLog (some logCtx)
+      cmdLog := newLog2
+      if !coOk then
+        writeProjectState config.sitesDir name .failed
+        return { name, repo, success := false,
+                 errorMessage := some s!"Failed to checkout branch '{configuredBranch}'", buildLog := coLog }
+
   -- Detect git branch (use configured value or auto-detect from repo)
   let branch ← match project.branch with
     | some b => pure b
