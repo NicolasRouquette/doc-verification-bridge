@@ -117,5 +117,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git commit --no-gpg-sign -m "Deploy: ${{ github.sha }}"
-          git lfs prune --verify-remote --verbose
           git push --force "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:pages
+          git lfs prune || true  # Clean up LFS objects from this temporary repo
