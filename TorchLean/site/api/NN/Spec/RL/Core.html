@@ -1,0 +1,176 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../.././style.css"></link><link rel="icon" href="../../.././favicon.svg"></link><link rel="mask-icon" href="../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../.././/declarations/declaration-data.bmp" as="image"></link><title>NN.Spec.RL.Core</title><script defer="true" src="../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../.././";</script><script>const MODULE_NAME="NN.Spec.RL.Core";</script><script type="module" src="../../.././jump-src.js"></script><script type="module" src="../../.././search.js"></script><script type="module" src="../../.././expand-nav.js"></script><script type="module" src="../../.././how-about.js"></script><script type="module" src="../../.././instances.js"></script><script type="module" src="../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">NN</span>.<span class="name">Spec</span>.<span class="name">RL</span>.<span class="name">Core</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Spec/RL/Core.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../.././Init.html">Init</a></li><li><a href="../../.././Mathlib/Data/List/Basic.html">Mathlib.Data.List.Basic</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-NN.Spec.RL.Core" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#Spec.RL.AdvantageStep"><span class="name">Spec</span>.<span class="name">RL</span>.<span class="name">AdvantageStep</span></a></div><div class="nav_link"><a class="break_within" href="#Spec.RL.continueMask"><span class="name">Spec</span>.<span class="name">RL</span>.<span class="name">continueMask</span></a></div><div class="nav_link"><a class="break_within" href="#Spec.RL.discountedBackup"><span class="name">Spec</span>.<span class="name">RL</span>.<span class="name">discountedBackup</span></a></div><div class="nav_link"><a class="break_within" href="#Spec.RL.tdTarget"><span class="name">Spec</span>.<span class="name">RL</span>.<span class="name">tdTarget</span></a></div><div class="nav_link"><a class="break_within" href="#Spec.RL.tdResidual"><span class="name">Spec</span>.<span class="name">RL</span>.<span class="name">tdResidual</span></a></div><div class="nav_link"><a class="break_within" href="#Spec.RL.discountedReturnsFrom"><span class="name">Spec</span>.<span class="name">RL</span>.<span class="name">discountedReturnsFrom</span></a></div><div class="nav_link"><a class="break_within" href="#Spec.RL.discountedReturns"><span class="name">Spec</span>.<span class="name">RL</span>.<span class="name">discountedReturns</span></a></div><div class="nav_link"><a class="break_within" href="#Spec.RL.discountedReturnsDone"><span class="name">Spec</span>.<span class="name">RL</span>.<span class="name">discountedReturnsDone</span></a></div><div class="nav_link"><a class="break_within" href="#Spec.RL.generalizedAdvantageEstimation"><span class="name">Spec</span>.<span class="name">RL</span>.<span class="name">generalizedAdvantageEstimation</span></a></div><div class="nav_link"><a class="break_within" href="#Spec.RL.returnsFromAdvantages"><span class="name">Spec</span>.<span class="name">RL</span>.<span class="name">returnsFromAdvantages</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Core-Reinforcement-Learning-Definitions" class="markdown-heading">Core Reinforcement-Learning Definitions <a class="hover-link" href="#Core-Reinforcement-Learning-Definitions">#</a></h1><p>This module collects the small mathematical definitions that sit underneath TorchLean's RL
+development.</p><p>These definitions are intentionally spec-level rather than runtime-level:</p><ul><li>Bellman-style backups,</li><li>discounted returns,</li><li>generalized advantage estimation (GAE),</li><li>and simple typed rollout records.</li></ul><p>That keeps the actual RL mathematics in a proof-friendly namespace and avoids duplicating it inside
+runtime/trainer code.</p><h2 id="Why-Lists-Not-Tensors" class="markdown-heading">Why Lists (Not Tensors)? <a class="hover-link" href="#Why-Lists-Not-Tensors">#</a></h2><p>Several helpers here operate on <code>List α</code> rather than <code>Tensor α (.dim n .scalar)</code> on purpose.</p><ul><li>A trajectory length is usually <em>data-dependent</em> (episode termination, truncation, variable rollout
+horizon), so a dependent tensor length is often the wrong abstraction.</li><li>TorchLean uses typed tensors heavily for <em>fixed-shape</em> objects (value tables, Q-tables, logits,
+etc.). For variable-length traces, <code>List</code> is the proof-friendly finite-sequence choice.</li></ul><p>When you do have a fixed horizon <code>n</code>, it is reasonable to use <code>Fin n → α</code> or a vector tensor and
+define specialized “returns/GAE” helpers on top. We keep the core definitions here compact and
+general, and add fixed-horizon variants where they meaningfully improve downstream code.</p><p>Primary references:</p><ul><li>Sutton, &quot;Learning to Predict by the Methods of Temporal Differences&quot; (1988):
+https://doi.org/10.1023/A:1022633531479</li><li>Watkins and Dayan, &quot;Q-learning&quot; (1992): <a href="https://doi.org/10.1007/BF00992698">https://doi.org/10.1007/BF00992698</a></li><li>Sutton and Barto, <em>Reinforcement Learning: An Introduction</em> (2nd ed.):
+<a href="http://incompleteideas.net/book/the-book-2nd.html">http://incompleteideas.net/book/the-book-2nd.html</a></li><li>Schulman et al., &quot;High-Dimensional Continuous Control Using Generalized Advantage Estimation&quot;
+(2015): <a href="https://arxiv.org/abs/1506.02438">https://arxiv.org/abs/1506.02438</a></li><li>TorchRL documentation (rollouts, tensordicts, and GAE-style objectives):
+<a href="https://pytorch.org/rl/">https://pytorch.org/rl/</a></li></ul></div><div class="decl" id="Spec.RL.AdvantageStep"><div class="structure"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Spec/RL/Core.lean#L60-L69">source</a></div><div class="verification_link">
+<a href="../../../../modules/NN_Spec_RL_Core.html#Spec.RL.AdvantageStep" class="verification-badge comp-datatype" title="Computational datatype">🔶 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">structure</span>
+<span class="decl_name"><a class="break_within" href="../../.././NN/Spec/RL/Core.html#Spec.RL.AdvantageStep"><span class="name">Spec</span>.<span class="name">RL</span>.<span class="name">AdvantageStep</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../.././foundational_types.html">Type</a></div></div><p>Small record used by generalized-advantage-estimation helpers.</p><ul class="structure_fields" id="Spec.RL.AdvantageStep.mk"><li id="Spec.RL.AdvantageStep.reward" class="structure_field"><div class="structure_field_info">reward : <span class="fn">α</span></div><div class="structure_field_doc"><p>Immediate reward <code>r_t</code>.</p></div></li><li id="Spec.RL.AdvantageStep.value" class="structure_field"><div class="structure_field_info">value : <span class="fn">α</span></div><div class="structure_field_doc"><p>Baseline / critic value estimate <code>V(s_t)</code>.</p></div></li><li id="Spec.RL.AdvantageStep.nextValue" class="structure_field"><div class="structure_field_info">nextValue : <span class="fn">α</span></div><div class="structure_field_doc"><p>Bootstrap value <code>V(s_{t+1})</code>.</p></div></li><li id="Spec.RL.AdvantageStep.done" class="structure_field"><div class="structure_field_info">done : <span class="fn">Bool</span></div><div class="structure_field_doc"><p>Episode termination flag.</p></div></li></ul><details id="instances-for-list-Spec.RL.AdvantageStep" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Spec.RL.continueMask"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Spec/RL/Core.lean#L71-L74">source</a></div><div class="verification_link">
+<a href="../../../../modules/NN_Spec_RL_Core.html#Spec.RL.continueMask" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././NN/Spec/RL/Core.html#Spec.RL.continueMask"><span class="name">Spec</span>.<span class="name">RL</span>.<span class="name">continueMask</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">One</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">done</span> : <span class="fn">Bool</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">α</span></div></div><p>Convert a terminal flag into a multiplicative continuation mask (<code>1</code> for continue, <code>0</code> for
+stop).</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../.././NN/Spec/RL/Core.html#Spec.RL.continueMask">Spec.RL.continueMask</a> <span class="fn">done</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">if</span> <span class="fn"><span class="fn">done</span> <span class="fn">=</span> <span class="fn">true</span></span> <span class="fn">then</span> <span class="fn">0</span> <span class="fn">else</span> <span class="fn">1</span></span></span></li></ul></details><details id="instances-for-list-Spec.RL.continueMask" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Spec.RL.discountedBackup"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Spec/RL/Core.lean#L76-L80">source</a></div><div class="verification_link">
+<a href="../../../../modules/NN_Spec_RL_Core.html#Spec.RL.discountedBackup" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././NN/Spec/RL/Core.html#Spec.RL.discountedBackup"><span class="name">Spec</span>.<span class="name">RL</span>.<span class="name">discountedBackup</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">One</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Add</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">reward </span><span class="fn">gamma </span><span class="fn">bootstrap</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">done</span> : <span class="fn">Bool</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">α</span></div></div><p>Bellman-style one-step backup:
+<code>r + γ * (1 - done) * bootstrap</code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../.././NN/Spec/RL/Core.html#Spec.RL.discountedBackup">Spec.RL.discountedBackup</a> <span class="fn">reward</span> <span class="fn">gamma</span> <span class="fn">bootstrap</span> <span class="fn">done</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">reward</span> <span class="fn">+</span> <span class="fn"><span class="fn"><span class="fn">gamma</span> <span class="fn">*</span> <span class="fn"><a href="../../.././NN/Spec/RL/Core.html#Spec.RL.continueMask">Spec.RL.continueMask</a> <span class="fn">done</span></span></span> <span class="fn">*</span> <span class="fn">bootstrap</span></span></span></span></li></ul></details><details id="instances-for-list-Spec.RL.discountedBackup" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Spec.RL.tdTarget"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Spec/RL/Core.lean#L82-L85">source</a></div><div class="verification_link">
+<a href="../../../../modules/NN_Spec_RL_Core.html#Spec.RL.tdTarget" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././NN/Spec/RL/Core.html#Spec.RL.tdTarget"><span class="name">Spec</span>.<span class="name">RL</span>.<span class="name">tdTarget</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">One</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Add</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">reward </span><span class="fn">gamma </span><span class="fn">nextValue</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">done</span> : <span class="fn">Bool</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">α</span></div></div><p>One-step TD target for state-value or action-value updates.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../.././NN/Spec/RL/Core.html#Spec.RL.tdTarget">Spec.RL.tdTarget</a> <span class="fn">reward</span> <span class="fn">gamma</span> <span class="fn">nextValue</span> <span class="fn">done</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././NN/Spec/RL/Core.html#Spec.RL.discountedBackup">Spec.RL.discountedBackup</a> <span class="fn">reward</span> <span class="fn">gamma</span> <span class="fn">nextValue</span> <span class="fn">done</span></span></span></li></ul></details><details id="instances-for-list-Spec.RL.tdTarget" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Spec.RL.tdResidual"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Spec/RL/Core.lean#L87-L91">source</a></div><div class="verification_link">
+<a href="../../../../modules/NN_Spec_RL_Core.html#Spec.RL.tdResidual" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././NN/Spec/RL/Core.html#Spec.RL.tdResidual"><span class="name">Spec</span>.<span class="name">RL</span>.<span class="name">tdResidual</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">One</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Add</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Sub</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">value </span><span class="fn">reward </span><span class="fn">gamma </span><span class="fn">nextValue</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">done</span> : <span class="fn">Bool</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">α</span></div></div><p>TD residual / Bellman error:
+<code>r + γ * (1-d) * <a href="../../.././NN/Spec/RL/Core.html#Spec.RL.AdvantageStep.nextValue">nextValue</a> - <a href="../../.././NN/Spec/RL/Core.html#Spec.RL.AdvantageStep.value">value</a></code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../.././NN/Spec/RL/Core.html#Spec.RL.tdResidual">Spec.RL.tdResidual</a> <span class="fn">value</span> <span class="fn">reward</span> <span class="fn">gamma</span> <span class="fn">nextValue</span> <span class="fn">done</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><a href="../../.././NN/Spec/RL/Core.html#Spec.RL.tdTarget">Spec.RL.tdTarget</a> <span class="fn">reward</span> <span class="fn">gamma</span> <span class="fn">nextValue</span> <span class="fn">done</span></span> <span class="fn">-</span> <span class="fn">value</span></span></span></li></ul></details><details id="instances-for-list-Spec.RL.tdResidual" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Spec.RL.discountedReturnsFrom"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Spec/RL/Core.lean#L93-L103">source</a></div><div class="verification_link">
+<a href="../../../../modules/NN_Spec_RL_Core.html#Spec.RL.discountedReturnsFrom" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././NN/Spec/RL/Core.html#Spec.RL.discountedReturnsFrom"><span class="name">Spec</span>.<span class="name">RL</span>.<span class="name">discountedReturnsFrom</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Add</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">gamma</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">rewards</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">bootstrap</span> : <span class="fn">α</span> := <span class="fn">0</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span></div></div><p>Discounted returns with a bootstrap value on the far right:
+<code>G_t = r_t + γ G_{t+1}</code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation">One or more equations did not get rendered due to their size.</li></ul></details><details id="instances-for-list-Spec.RL.discountedReturnsFrom" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Spec.RL.discountedReturns"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Spec/RL/Core.lean#L105-L107">source</a></div><div class="verification_link">
+<a href="../../../../modules/NN_Spec_RL_Core.html#Spec.RL.discountedReturns" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././NN/Spec/RL/Core.html#Spec.RL.discountedReturns"><span class="name">Spec</span>.<span class="name">RL</span>.<span class="name">discountedReturns</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Add</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">gamma</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">rewards</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span></div></div><p>Discounted returns for a terminal trajectory (bootstrap defaults to <code>0</code>).</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../.././NN/Spec/RL/Core.html#Spec.RL.discountedReturns">Spec.RL.discountedReturns</a> <span class="fn">gamma</span> <span class="fn">rewards</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././NN/Spec/RL/Core.html#Spec.RL.discountedReturnsFrom">Spec.RL.discountedReturnsFrom</a> <span class="fn">gamma</span> <span class="fn">rewards</span></span></span></li></ul></details><details id="instances-for-list-Spec.RL.discountedReturns" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Spec.RL.discountedReturnsDone"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Spec/RL/Core.lean#L109-L122">source</a></div><div class="verification_link">
+<a href="../../../../modules/NN_Spec_RL_Core.html#Spec.RL.discountedReturnsDone" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././NN/Spec/RL/Core.html#Spec.RL.discountedReturnsDone"><span class="name">Spec</span>.<span class="name">RL</span>.<span class="name">discountedReturnsDone</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">One</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Add</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">gamma</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">rewards</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">dones</span> : <span class="fn"><span class="fn">List</span> <span class="fn">Bool</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">bootstrap</span> : <span class="fn">α</span> := <span class="fn">0</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span></div></div><p>Discounted returns with explicit termination markers.</p><p>When <code><a href="../../.././NN/Spec/RL/Core.html#Spec.RL.AdvantageStep.done">done</a> = true</code>, the future return is reset before bootstrapping the current reward.</p><details><summary>Equations</summary><ul class="equations"><li class="equation">One or more equations did not get rendered due to their size.</li></ul></details><details id="instances-for-list-Spec.RL.discountedReturnsDone" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Spec.RL.generalizedAdvantageEstimation"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Spec/RL/Core.lean#L124-L139">source</a></div><div class="verification_link">
+<a href="../../../../modules/NN_Spec_RL_Core.html#Spec.RL.generalizedAdvantageEstimation" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././NN/Spec/RL/Core.html#Spec.RL.generalizedAdvantageEstimation"><span class="name">Spec</span>.<span class="name">RL</span>.<span class="name">generalizedAdvantageEstimation</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">One</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Add</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Sub</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">gamma </span><span class="fn">lam</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">steps</span> : <span class="fn"><span class="fn">List</span> <span class="fn">(<a href="../../.././NN/Spec/RL/Core.html#Spec.RL.AdvantageStep">AdvantageStep</a> <span class="fn">α</span>)</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span></div></div><p>Generalized Advantage Estimation (GAE).</p><p>Each input step provides <code>r_t</code>, <code>V(s_t)</code>, <code>V(s_{t+1})</code>, and <code>done_t</code>. The resulting list contains
+advantages in forward time order.</p><details><summary>Equations</summary><ul class="equations"><li class="equation">One or more equations did not get rendered due to their size.</li></ul></details><details id="instances-for-list-Spec.RL.generalizedAdvantageEstimation" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Spec.RL.returnsFromAdvantages"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Spec/RL/Core.lean#L141-L145">source</a></div><div class="verification_link">
+<a href="../../../../modules/NN_Spec_RL_Core.html#Spec.RL.returnsFromAdvantages" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../.././NN/Spec/RL/Core.html#Spec.RL.returnsFromAdvantages"><span class="name">Spec</span>.<span class="name">RL</span>.<span class="name">returnsFromAdvantages</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Add</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span> → <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span></span></div></div><p>Recover lambda-returns from advantages and baseline values via <code>R_t = A_t + V(s_t)</code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../.././NN/Spec/RL/Core.html#Spec.RL.returnsFromAdvantages">Spec.RL.returnsFromAdvantages</a> <span class="fn"><span class="fn">[</span><span class="fn">]</span></span> <span class="fn">x✝</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">[</span><span class="fn">]</span></span></span></li><li class="equation"><span class="fn"><span class="fn"><a href="../../.././NN/Spec/RL/Core.html#Spec.RL.returnsFromAdvantages">Spec.RL.returnsFromAdvantages</a> <span class="fn">x✝</span> <span class="fn"><span class="fn">[</span><span class="fn">]</span></span></span> <span class="fn">=</span> <span class="fn"><span class="fn">[</span><span class="fn">]</span></span></span></li><li class="equation"><span class="fn"><span class="fn"><a href="../../.././NN/Spec/RL/Core.html#Spec.RL.returnsFromAdvantages">Spec.RL.returnsFromAdvantages</a> <span class="fn">(<span class="fn">a</span> <span class="fn">::</span> <span class="fn">as</span>)</span> <span class="fn">(<span class="fn">v</span> <span class="fn">::</span> <span class="fn">vs</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">(<span class="fn">a</span> <span class="fn">+</span> <span class="fn">v</span>)</span> <span class="fn">::</span> <span class="fn"><a href="../../.././NN/Spec/RL/Core.html#Spec.RL.returnsFromAdvantages">Spec.RL.returnsFromAdvantages</a> <span class="fn">as</span> <span class="fn">vs</span></span></span></span></li></ul></details><details id="instances-for-list-Spec.RL.returnsFromAdvantages" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div></main>
+<nav class="nav"><iframe src="../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

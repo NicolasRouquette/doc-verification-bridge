@@ -1,0 +1,267 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../../../.././style.css"></link><link rel="icon" href="../../../../.././favicon.svg"></link><link rel="mask-icon" href="../../../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../../../.././/declarations/declaration-data.bmp" as="image"></link><title>NN.Runtime.Autograd.Engine.Core.ActivationsLoss</title><script defer="true" src="../../../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../../../.././";</script><script>const MODULE_NAME="NN.Runtime.Autograd.Engine.Core.ActivationsLoss";</script><script type="module" src="../../../../.././jump-src.js"></script><script type="module" src="../../../../.././search.js"></script><script type="module" src="../../../../.././expand-nav.js"></script><script type="module" src="../../../../.././how-about.js"></script><script type="module" src="../../../../.././instances.js"></script><script type="module" src="../../../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">NN</span>.<span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">Engine</span>.<span class="name">Core</span>.<span class="name">ActivationsLoss</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/Core/ActivationsLoss.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../../../.././Init.html">Init</a></li><li><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Neural.html">NN.Runtime.Autograd.Engine.Core.Neural</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-NN.Runtime.Autograd.Engine.Core.ActivationsLoss" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.Tape.sigmoid"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">Tape</span>.<span class="name">sigmoid</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.Tape.tanh"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">Tape</span>.<span class="name">tanh</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.Tape.softmax"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">Tape</span>.<span class="name">softmax</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.Tape.logSoftmax"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">Tape</span>.<span class="name">logSoftmax</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.Tape.softplus"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">Tape</span>.<span class="name">softplus</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.Tape.exp"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">Tape</span>.<span class="name">exp</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.Tape.log"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">Tape</span>.<span class="name">log</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.Tape.inv"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">Tape</span>.<span class="name">inv</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.Tape.safeLog"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">Tape</span>.<span class="name">safeLog</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.Tape.sum"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">Tape</span>.<span class="name">sum</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.Tape.mseSpecBasic"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">Tape</span>.<span class="name">mseSpecBasic</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.Tape.mseDerivSpecBasic"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">Tape</span>.<span class="name">mseDerivSpecBasic</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.Tape.mseLoss"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">Tape</span>.<span class="name">mseLoss</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Core-Tape-Activations-and-Losses" class="markdown-heading">Core Tape Activations and Losses <a class="hover-link" href="#Core-Tape-Activations-and-Losses">#</a></h1><p>This file implements activation and loss tape nodes for the backend-independent autograd engine.
+Each node records the spec-layer forward value and a backward closure that computes the corresponding
+VJP contribution.</p></div><div class="decl" id="Runtime.Autograd.Tape.sigmoid"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/Core/ActivationsLoss.lean#L30-L54">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/NN_Runtime_Autograd_Engine_Core_ActivationsLoss.html#Runtime.Autograd.Tape.sigmoid" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.sigmoid"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">Tape</span>.<span class="name">sigmoid</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">t</span> : <span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Result">Result</a> <span class="fn">(<span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span></span> <span class="fn">×</span> <span class="fn">ℕ</span>)</span></span></div></div><p>Elementwise logistic sigmoid activation.</p><p>This builds a tape node whose forward pass is <code>Activation.sigmoid_spec</code>, and whose backward pass
+multiplies the upstream gradient by <code>Activation.sigmoid_deriv_spec</code> (i.e. <code>σ(x) * (1 - σ(x))</code>,
+pointwise).</p><p>PyTorch comparison: <code>torch.<a href="../../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.sigmoid">sigmoid</a></code> / <code>torch.nn.functional.<a href="../../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.sigmoid">sigmoid</a></code>.
+Reference: <a href="https://pytorch.org/docs/stable/generated/torch.sigmoid.html">https://pytorch.org/docs/stable/generated/torch.sigmoid.html</a></p><details><summary>Equations</summary><ul class="equations"><li class="equation">One or more equations did not get rendered due to their size.</li></ul></details><details id="instances-for-list-Runtime.Autograd.Tape.sigmoid" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.Tape.tanh"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/Core/ActivationsLoss.lean#L56-L79">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/NN_Runtime_Autograd_Engine_Core_ActivationsLoss.html#Runtime.Autograd.Tape.tanh" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.tanh"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">Tape</span>.<span class="name">tanh</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">t</span> : <span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Result">Result</a> <span class="fn">(<span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span></span> <span class="fn">×</span> <span class="fn">ℕ</span>)</span></span></div></div><p>Elementwise hyperbolic tangent activation.</p><p>Forward uses <code>Activation.tanh_spec</code>; backward uses <code>Activation.tanh_deriv_spec</code> (pointwise
+derivative, usually <code>1 - tanh(x)^2</code>).</p><p>PyTorch comparison: <code>torch.<a href="../../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.tanh">tanh</a></code>.
+Reference: <a href="https://pytorch.org/docs/stable/generated/torch.tanh.html">https://pytorch.org/docs/stable/generated/torch.tanh.html</a></p><details><summary>Equations</summary><ul class="equations"><li class="equation">One or more equations did not get rendered due to their size.</li></ul></details><details id="instances-for-list-Runtime.Autograd.Tape.tanh" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.Tape.softmax"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/Core/ActivationsLoss.lean#L81-L105">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/NN_Runtime_Autograd_Engine_Core_ActivationsLoss.html#Runtime.Autograd.Tape.softmax" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.softmax"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">Tape</span>.<span class="name">softmax</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">t</span> : <span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Result">Result</a> <span class="fn">(<span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span></span> <span class="fn">×</span> <span class="fn">ℕ</span>)</span></span></div></div><p>Softmax along the last axis (recursing over outer dimensions).</p><p>This matches <code>Activation.softmax_spec</code> (which applies softmax to the final dimension and recurses
+over earlier dimensions). The backward pass uses the standard Jacobian-vector product implemented
+by <code>Activation.softmax_backward_spec</code>, avoiding materializing an <code>n×n</code> Jacobian per slice.</p><p>PyTorch comparison: <code>torch.softmax(x, dim=-1)</code>.
+Reference: <a href="https://pytorch.org/docs/stable/generated/torch.softmax.html">https://pytorch.org/docs/stable/generated/torch.softmax.html</a></p><details><summary>Equations</summary><ul class="equations"><li class="equation">One or more equations did not get rendered due to their size.</li></ul></details><details id="instances-for-list-Runtime.Autograd.Tape.softmax" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.Tape.logSoftmax"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/Core/ActivationsLoss.lean#L107-L128">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/NN_Runtime_Autograd_Engine_Core_ActivationsLoss.html#Runtime.Autograd.Tape.logSoftmax" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.logSoftmax"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">Tape</span>.<span class="name">logSoftmax</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">t</span> : <span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Result">Result</a> <span class="fn">(<span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span></span> <span class="fn">×</span> <span class="fn">ℕ</span>)</span></span></div></div><p>Stable log-softmax along the last axis.</p><p>Unlike <code><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.log">log</a> (softmax x)</code>, this uses <code><a href="../../../../.././NN/Spec/Layers/Activation.html#Activation.logSoftmaxSpec">Activation.logSoftmaxSpec</a></code>, i.e. the max-shifted
+<code>x - max(x) - log(sum(exp(x - max(x))))</code> formulation.  That matches the numerical contract of
+<code>torch.nn.functional.log_softmax</code> and is the right primitive for cross-entropy on logits.</p><details><summary>Equations</summary><ul class="equations"><li class="equation">One or more equations did not get rendered due to their size.</li></ul></details><details id="instances-for-list-Runtime.Autograd.Tape.logSoftmax" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.Tape.softplus"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/Core/ActivationsLoss.lean#L130-L152">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/NN_Runtime_Autograd_Engine_Core_ActivationsLoss.html#Runtime.Autograd.Tape.softplus" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.softplus"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">Tape</span>.<span class="name">softplus</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">t</span> : <span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Result">Result</a> <span class="fn">(<span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span></span> <span class="fn">×</span> <span class="fn">ℕ</span>)</span></span></div></div><p>Elementwise softplus activation.</p><p>Forward uses <code>Activation.softplus_spec</code>; backward uses <code>Activation.softplus_deriv_spec</code>.</p><p>PyTorch comparison: <code>torch.nn.functional.<a href="../../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.softplus">softplus</a></code>.
+Reference: <a href="https://pytorch.org/docs/stable/generated/torch.nn.functional.softplus.html">https://pytorch.org/docs/stable/generated/torch.nn.functional.softplus.html</a></p><details><summary>Equations</summary><ul class="equations"><li class="equation">One or more equations did not get rendered due to their size.</li></ul></details><details id="instances-for-list-Runtime.Autograd.Tape.softplus" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.Tape.exp"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/Core/ActivationsLoss.lean#L154-L175">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/NN_Runtime_Autograd_Engine_Core_ActivationsLoss.html#Runtime.Autograd.Tape.exp" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.exp"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">Tape</span>.<span class="name">exp</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">t</span> : <span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Result">Result</a> <span class="fn">(<span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span></span> <span class="fn">×</span> <span class="fn">ℕ</span>)</span></span></div></div><p>Elementwise exponential.</p><p>Forward uses <code>exp_spec</code>; backward multiplies by <code>exp(x)</code> (pointwise), i.e. <code>d/dx exp(x) = exp(x)</code>.</p><p>PyTorch comparison: <code>torch.<a href="../../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.exp">exp</a></code>.
+Reference: <a href="https://pytorch.org/docs/stable/generated/torch.exp.html">https://pytorch.org/docs/stable/generated/torch.exp.html</a></p><details><summary>Equations</summary><ul class="equations"><li class="equation">One or more equations did not get rendered due to their size.</li></ul></details><details id="instances-for-list-Runtime.Autograd.Tape.exp" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.Tape.log"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/Core/ActivationsLoss.lean#L177-L204">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/NN_Runtime_Autograd_Engine_Core_ActivationsLoss.html#Runtime.Autograd.Tape.log" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.log"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">Tape</span>.<span class="name">log</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">t</span> : <span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Result">Result</a> <span class="fn">(<span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span></span> <span class="fn">×</span> <span class="fn">ℕ</span>)</span></span></div></div><p>Elementwise natural logarithm.</p><p>Forward uses <code>log_spec</code>; backward multiplies by <code>1/x</code> (pointwise), i.e. <code>d/dx log(x) = 1/x</code>
+(on its mathematical domain; this runtime does not model NaNs/Infs explicitly).</p><p>PyTorch comparison: <code>torch.<a href="../../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.log">log</a></code>.
+Reference: <a href="https://pytorch.org/docs/stable/generated/torch.log.html">https://pytorch.org/docs/stable/generated/torch.log.html</a></p><details><summary>Equations</summary><ul class="equations"><li class="equation">One or more equations did not get rendered due to their size.</li></ul></details><details id="instances-for-list-Runtime.Autograd.Tape.log" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.Tape.inv"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/Core/ActivationsLoss.lean#L206-L231">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/NN_Runtime_Autograd_Engine_Core_ActivationsLoss.html#Runtime.Autograd.Tape.inv" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.inv"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">Tape</span>.<span class="name">inv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">t</span> : <span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Result">Result</a> <span class="fn">(<span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span></span> <span class="fn">×</span> <span class="fn">ℕ</span>)</span></span></div></div><p>Elementwise reciprocal <code>x ↦ 1/x</code>.</p><p>Backward implements <code>d/dx (x⁻¹) = -(x⁻¹)²</code> (pointwise).</p><p>PyTorch comparison: <code>torch.reciprocal</code>.
+Reference: <a href="https://pytorch.org/docs/stable/generated/torch.reciprocal.html">https://pytorch.org/docs/stable/generated/torch.reciprocal.html</a></p><details><summary>Equations</summary><ul class="equations"><li class="equation">One or more equations did not get rendered due to their size.</li></ul></details><details id="instances-for-list-Runtime.Autograd.Tape.inv" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.Tape.safeLog"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/Core/ActivationsLoss.lean#L233-L257">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/NN_Runtime_Autograd_Engine_Core_ActivationsLoss.html#Runtime.Autograd.Tape.safeLog" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.safeLog"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">Tape</span>.<span class="name">safeLog</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">t</span> : <span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">ε</span> : <span class="fn">α</span> := <a href="../../../../.././NN/Spec/Core/Context.html#Numbers.epsilon">Numbers.epsilon</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Result">Result</a> <span class="fn">(<span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span></span> <span class="fn">×</span> <span class="fn">ℕ</span>)</span></span></div></div><p>Elementwise &quot;safe log&quot; that protects against <code>log(0)</code> by adding a small <code>ε</code> internally.</p><p>This uses <code>Activation.safe_log_spec</code> and <code>Activation.safe_log_deriv_spec</code>. The exact behavior is
+controlled by the spec-layer definition; conceptually it is similar to <code>log(x + ε)</code> used in
+numerically-stable losses.</p><p>PyTorch comparison: commonly written as <code>torch.log(x + eps)</code> in user code (there is no single
+dedicated <code>torch.safe_log</code> primitive).</p><details><summary>Equations</summary><ul class="equations"><li class="equation">One or more equations did not get rendered due to their size.</li></ul></details><details id="instances-for-list-Runtime.Autograd.Tape.safeLog" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.Tape.sum"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/Core/ActivationsLoss.lean#L259-L281">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/NN_Runtime_Autograd_Engine_Core_ActivationsLoss.html#Runtime.Autograd.Tape.sum" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.sum"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">Tape</span>.<span class="name">sum</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Add</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">t</span> : <span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Result">Result</a> <span class="fn">(<span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span></span> <span class="fn">×</span> <span class="fn">ℕ</span>)</span></span></div></div><p>Reduce-sum over all entries, producing a scalar node.</p><p>Backward replicates the upstream scalar gradient to every entry of the input tensor (i.e.
+<code>d/dx Σ_i x_i = 1</code> per coordinate).</p><p>PyTorch comparison: <code>torch.sum(x)</code> with <code>dim=None</code>.
+Reference: <a href="https://pytorch.org/docs/stable/generated/torch.sum.html">https://pytorch.org/docs/stable/generated/torch.sum.html</a></p><details><summary>Equations</summary><ul class="equations"><li class="equation">One or more equations did not get rendered due to their size.</li></ul></details><details id="instances-for-list-Runtime.Autograd.Tape.sum" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.Tape.mseSpecBasic"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/Core/ActivationsLoss.lean#L283-L296">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/NN_Runtime_Autograd_Engine_Core_ActivationsLoss.html#Runtime.Autograd.Tape.mseSpecBasic" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.mseSpecBasic"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">Tape</span>.<span class="name">mseSpecBasic</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Add</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Sub</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Div</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Coe</span> <span class="fn">ℕ</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">predicted </span><span class="fn">target</span> : <span class="fn"><a href="../../../../.././NN/Spec/Core/Tensor/Core.html#Spec.Tensor">Spec.Tensor</a> <span class="fn">α</span> <span class="fn">s</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">α</span></div></div><p>Mean-squared error (MSE) scalar loss with <code>&quot;mean&quot;</code> reduction over all entries.</p><p><code>mse_spec_basic</code> is the scalar loss <code>(Σ_i (yhat_i - target_i)^2) / N</code> where <code>N = Shape.size s</code>.
+This matches the default reduction of <code>torch.nn.functional.mse_loss(..., reduction=&quot;mean&quot;)</code>.</p><p>Note: the derivative is defined everywhere in this spec-level setting; we do not model NaNs/Infs.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.mseSpecBasic">Runtime.Autograd.Tape.mseSpecBasic</a> <span class="fn">predicted</span> <span class="fn">target</span></span> <span class="fn">=</span>   <span class="fn"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">(<span class="fn"><span class="fn">predicted</span>.<a href="../../../../.././NN/Spec/Core/TensorOps.html#Spec.Tensor.subSpec">subSpec</a></span> <span class="fn">target</span>)</span>.<a href="../../../../.././NN/Spec/Core/TensorOps.html#Spec.Tensor.mulSpec">mulSpec</a></span> <span class="fn">(<span class="fn"><span class="fn">predicted</span>.<a href="../../../../.././NN/Spec/Core/TensorOps.html#Spec.Tensor.subSpec">subSpec</a></span> <span class="fn">target</span>)</span>)</span>.<a href="../../../../.././NN/Spec/Core/TensorReductionShape/Reductions.html#Spec.Tensor.sumSpec">sumSpec</a></span> <span class="fn">/</span> <span class="fn"><a href="../../../../.././NN/Spec/Core/Context.html#Coe.coe">Coe.coe</a> <span class="fn"><span class="fn">s</span>.<a href="../../../../.././NN/Spec/Core/Shape.html#Spec.Shape.size">size</a></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.Tape.mseSpecBasic" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.Tape.mseDerivSpecBasic"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/Core/ActivationsLoss.lean#L298-L308">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/NN_Runtime_Autograd_Engine_Core_ActivationsLoss.html#Runtime.Autograd.Tape.mseDerivSpecBasic" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.mseDerivSpecBasic"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">Tape</span>.<span class="name">mseDerivSpecBasic</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Add</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Sub</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Div</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">One</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Coe</span> <span class="fn">ℕ</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">predicted </span><span class="fn">target</span> : <span class="fn"><a href="../../../../.././NN/Spec/Core/Tensor/Core.html#Spec.Tensor">Spec.Tensor</a> <span class="fn">α</span> <span class="fn">s</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../../.././NN/Spec/Core/Tensor/Core.html#Spec.Tensor">Spec.Tensor</a> <span class="fn">α</span> <span class="fn">s</span></span></div></div><p>Gradient of <code>mse_spec_basic</code> with respect to <code>predicted</code> (same shape as the inputs).</p><p>If <code>mse = (Σ_i (yhat_i - target_i)^2) / N</code>, then:
+<code>∂mse/∂yhat = (2/N) * (yhat - target)</code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.mseDerivSpecBasic">Runtime.Autograd.Tape.mseDerivSpecBasic</a> <span class="fn">predicted</span> <span class="fn">target</span></span> <span class="fn">=</span>   <span class="fn"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">predicted</span>.<a href="../../../../.././NN/Spec/Core/TensorOps.html#Spec.Tensor.subSpec">subSpec</a></span> <span class="fn">target</span>)</span>.<a href="../../../../.././NN/Spec/Core/TensorOps.html#Spec.Tensor.scaleSpec">scaleSpec</a></span> <span class="fn">(<span class="fn">(<span class="fn">1</span> <span class="fn">+</span> <span class="fn">1</span>)</span> <span class="fn">/</span> <span class="fn"><a href="../../../../.././NN/Spec/Core/Context.html#Coe.coe">Coe.coe</a> <span class="fn"><span class="fn">s</span>.<a href="../../../../.././NN/Spec/Core/Shape.html#Spec.Shape.size">size</a></span></span>)</span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.Tape.mseDerivSpecBasic" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.Tape.mseLoss"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/Core/ActivationsLoss.lean#L310-L338">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/NN_Runtime_Autograd_Engine_Core_ActivationsLoss.html#Runtime.Autograd.Tape.mseLoss" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.mseLoss"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">Tape</span>.<span class="name">mseLoss</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Add</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Sub</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Div</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">One</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Coe</span> <span class="fn">ℕ</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">t</span> : <span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">yhatId </span><span class="fn">targetId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Result">Result</a> <span class="fn">(<span class="fn"><a href="../../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span></span> <span class="fn">×</span> <span class="fn">ℕ</span>)</span></span></div></div><p>Tape node for MSE loss with <code>&quot;mean&quot;</code> reduction.</p><p>The forward value is a scalar. The backward pass returns gradients for both inputs:
+<code>dL/dyhat</code> from <code>mse_deriv_spec_basic</code>, and <code>dL/dtarget = - dL/dyhat</code>.</p><p>PyTorch comparison: <code>torch.nn.functional.mse_loss</code>.
+Reference: <a href="https://pytorch.org/docs/stable/generated/torch.nn.functional.mse_loss.html">https://pytorch.org/docs/stable/generated/torch.nn.functional.mse_loss.html</a></p><details><summary>Equations</summary><ul class="equations"><li class="equation">One or more equations did not get rendered due to their size.</li></ul></details><details id="instances-for-list-Runtime.Autograd.Tape.mseLoss" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div></main>
+<nav class="nav"><iframe src="../../../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

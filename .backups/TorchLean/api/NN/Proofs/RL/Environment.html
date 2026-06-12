@@ -1,0 +1,152 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../.././style.css"></link><link rel="icon" href="../../.././favicon.svg"></link><link rel="mask-icon" href="../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../.././/declarations/declaration-data.bmp" as="image"></link><title>NN.Proofs.RL.Environment</title><script defer="true" src="../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../.././";</script><script>const MODULE_NAME="NN.Proofs.RL.Environment";</script><script type="module" src="../../.././jump-src.js"></script><script type="module" src="../../.././search.js"></script><script type="module" src="../../.././expand-nav.js"></script><script type="module" src="../../.././how-about.js"></script><script type="module" src="../../.././instances.js"></script><script type="module" src="../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">NN</span>.<span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Environment</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Proofs/RL/Environment.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../.././Init.html">Init</a></li><li><a href="../../.././Mathlib/Data/List/Basic.html">Mathlib.Data.List.Basic</a></li><li><a href="../../.././NN/Spec/RL/Environment.html">NN.Spec.RL.Environment</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-NN.Proofs.RL.Environment" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#Proofs.RL.Environment.statesFrom_length"><span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Environment</span>.<span class="name">statesFrom_length</span></a></div><div class="nav_link"><a class="break_within" href="#Proofs.RL.Environment.states_length"><span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Environment</span>.<span class="name">states_length</span></a></div><div class="nav_link"><a class="break_within" href="#Proofs.RL.Environment.rolloutFrom_length"><span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Environment</span>.<span class="name">rolloutFrom_length</span></a></div><div class="nav_link"><a class="break_within" href="#Proofs.RL.Environment.rollout_length"><span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Environment</span>.<span class="name">rollout_length</span></a></div><div class="nav_link"><a class="break_within" href="#Proofs.RL.Environment.evolveFrom_safe"><span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Environment</span>.<span class="name">evolveFrom_safe</span></a></div><div class="nav_link"><a class="break_within" href="#Proofs.RL.Environment.evolve_safe"><span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Environment</span>.<span class="name">evolve_safe</span></a></div><div class="nav_link"><a class="break_within" href="#Proofs.RL.Environment.statesFrom_safe"><span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Environment</span>.<span class="name">statesFrom_safe</span></a></div><div class="nav_link"><a class="break_within" href="#Proofs.RL.Environment.states_safe"><span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Environment</span>.<span class="name">states_safe</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="RL-Environment-Proofs" class="markdown-heading">RL Environment Proofs <a class="hover-link" href="#RL-Environment-Proofs">#</a></h1><p>These theorems capture the first &quot;guarantee layer&quot; for TorchLean's Gym-style environment API:</p><ul><li>state traces have predictable lengths,</li><li>rollouts have predictable lengths,</li><li>safe environments preserve invariants along valid action paths.</li></ul><p>References:</p><ul><li>Gymnasium API design (reset/step, terminated vs truncated): <a href="https://gymnasium.farama.org/">https://gymnasium.farama.org/</a></li><li>This module’s <code>SafeEnv</code> invariants are a finite-state formal analogue of the “safety wrapper”
+patterns used in practical RL systems.</li></ul></div><div class="decl" id="Proofs.RL.Environment.statesFrom_length"><div class="theorem"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Proofs/RL/Environment.lean#L37-L45">source</a></div><div class="verification_link">
+<a href="../../../../modules/NN_Proofs_RL_Environment.html#Proofs.RL.Environment.statesFrom_length" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././NN/Proofs/RL/Environment.html#Proofs.RL.Environment.statesFrom_length"><span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Environment</span>.<span class="name">statesFrom_length</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">State</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Action</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Observation</span> : <a href="../../.././foundational_types.html">Type</a> w}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Reward</span> : <a href="../../.././foundational_types.html">Type</a> z}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">env</span> : <span class="fn"><a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.Env">Spec.RL.Env</a> <span class="fn">State</span> <span class="fn">Action</span> <span class="fn">Observation</span> <span class="fn">Reward</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">state</span> : <span class="fn">State</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">actions</span> : <span class="fn"><span class="fn">List</span> <span class="fn">Action</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.statesFrom">Spec.RL.statesFrom</a> <span class="fn">env</span> <span class="fn">state</span> <span class="fn">actions</span>)</span>.<span class="fn">length</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">actions</span>.<span class="fn">length</span></span> <span class="fn">+</span> <span class="fn">1</span></span></span></div></div><p><code>statesFrom</code> records the initial state plus one state per action.</p></div></div><div class="decl" id="Proofs.RL.Environment.states_length"><div class="theorem"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Proofs/RL/Environment.lean#L47-L51">source</a></div><div class="verification_link">
+<a href="../../../../modules/NN_Proofs_RL_Environment.html#Proofs.RL.Environment.states_length" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././NN/Proofs/RL/Environment.html#Proofs.RL.Environment.states_length"><span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Environment</span>.<span class="name">states_length</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">State</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Action</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Observation</span> : <a href="../../.././foundational_types.html">Type</a> w}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Reward</span> : <a href="../../.././foundational_types.html">Type</a> z}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">env</span> : <span class="fn"><a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.Env">Spec.RL.Env</a> <span class="fn">State</span> <span class="fn">Action</span> <span class="fn">Observation</span> <span class="fn">Reward</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">actions</span> : <span class="fn"><span class="fn">List</span> <span class="fn">Action</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.states">Spec.RL.states</a> <span class="fn">env</span> <span class="fn">actions</span>)</span>.<span class="fn">length</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">actions</span>.<span class="fn">length</span></span> <span class="fn">+</span> <span class="fn">1</span></span></span></div></div><p><code>states</code> records the initial state plus one successor per action.</p></div></div><div class="decl" id="Proofs.RL.Environment.rolloutFrom_length"><div class="theorem"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Proofs/RL/Environment.lean#L53-L61">source</a></div><div class="verification_link">
+<a href="../../../../modules/NN_Proofs_RL_Environment.html#Proofs.RL.Environment.rolloutFrom_length" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././NN/Proofs/RL/Environment.html#Proofs.RL.Environment.rolloutFrom_length"><span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Environment</span>.<span class="name">rolloutFrom_length</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">State</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Action</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Observation</span> : <a href="../../.././foundational_types.html">Type</a> w}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Reward</span> : <a href="../../.././foundational_types.html">Type</a> z}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">env</span> : <span class="fn"><a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.Env">Spec.RL.Env</a> <span class="fn">State</span> <span class="fn">Action</span> <span class="fn">Observation</span> <span class="fn">Reward</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">state</span> : <span class="fn">State</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">actions</span> : <span class="fn"><span class="fn">List</span> <span class="fn">Action</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.rolloutFrom">Spec.RL.rolloutFrom</a> <span class="fn">env</span> <span class="fn">state</span> <span class="fn">actions</span>)</span>.<span class="fn">length</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">actions</span>.<span class="fn">length</span></span></span></div></div><p><code>rolloutFrom</code> emits exactly one observed transition per action.</p></div></div><div class="decl" id="Proofs.RL.Environment.rollout_length"><div class="theorem"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Proofs/RL/Environment.lean#L63-L67">source</a></div><div class="verification_link">
+<a href="../../../../modules/NN_Proofs_RL_Environment.html#Proofs.RL.Environment.rollout_length" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././NN/Proofs/RL/Environment.html#Proofs.RL.Environment.rollout_length"><span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Environment</span>.<span class="name">rollout_length</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">State</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Action</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Observation</span> : <a href="../../.././foundational_types.html">Type</a> w}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Reward</span> : <a href="../../.././foundational_types.html">Type</a> z}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">env</span> : <span class="fn"><a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.Env">Spec.RL.Env</a> <span class="fn">State</span> <span class="fn">Action</span> <span class="fn">Observation</span> <span class="fn">Reward</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">actions</span> : <span class="fn"><span class="fn">List</span> <span class="fn">Action</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.rollout">Spec.RL.rollout</a> <span class="fn">env</span> <span class="fn">actions</span>)</span>.<span class="fn">length</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">actions</span>.<span class="fn">length</span></span></span></div></div><p><code>rollout</code> emits exactly one observed transition per action.</p></div></div><div class="decl" id="Proofs.RL.Environment.evolveFrom_safe"><div class="theorem"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Proofs/RL/Environment.lean#L69-L84">source</a></div><div class="verification_link">
+<a href="../../../../modules/NN_Proofs_RL_Environment.html#Proofs.RL.Environment.evolveFrom_safe" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././NN/Proofs/RL/Environment.html#Proofs.RL.Environment.evolveFrom_safe"><span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Environment</span>.<span class="name">evolveFrom_safe</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">State</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Action</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Observation</span> : <a href="../../.././foundational_types.html">Type</a> w}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Reward</span> : <a href="../../.././foundational_types.html">Type</a> z}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">env</span> : <span class="fn"><a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.SafeEnv">Spec.RL.SafeEnv</a> <span class="fn">State</span> <span class="fn">Action</span> <span class="fn">Observation</span> <span class="fn">Reward</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">state</span> : <span class="fn">State</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">actions</span> : <span class="fn"><span class="fn">List</span> <span class="fn">Action</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hInv</span> : <span class="fn"><span class="fn"><span class="fn">env</span>.<a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.SafeEnv.Invariant">Invariant</a></span> <span class="fn">state</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hOk</span> : <span class="fn"><span class="fn"><span class="fn">env</span>.<a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.SafeEnv.actionPathOk">actionPathOk</a></span> <span class="fn">state</span> <span class="fn">actions</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">env</span>.<a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.SafeEnv.Invariant">Invariant</a></span> <span class="fn">(<a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.evolveFrom">Spec.RL.evolveFrom</a> <span class="fn"><span class="fn">env</span>.<a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.SafeEnv.toEnv">toEnv</a></span> <span class="fn">state</span> <span class="fn">actions</span>)</span></span></div></div><p>Safe environments preserve the invariant along any valid action path.</p></div></div><div class="decl" id="Proofs.RL.Environment.evolve_safe"><div class="theorem"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Proofs/RL/Environment.lean#L86-L93">source</a></div><div class="verification_link">
+<a href="../../../../modules/NN_Proofs_RL_Environment.html#Proofs.RL.Environment.evolve_safe" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././NN/Proofs/RL/Environment.html#Proofs.RL.Environment.evolve_safe"><span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Environment</span>.<span class="name">evolve_safe</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">State</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Action</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Observation</span> : <a href="../../.././foundational_types.html">Type</a> w}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Reward</span> : <a href="../../.././foundational_types.html">Type</a> z}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">env</span> : <span class="fn"><a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.SafeEnv">Spec.RL.SafeEnv</a> <span class="fn">State</span> <span class="fn">Action</span> <span class="fn">Observation</span> <span class="fn">Reward</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">actions</span> : <span class="fn"><span class="fn">List</span> <span class="fn">Action</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hOk</span> : <span class="fn"><span class="fn"><span class="fn">env</span>.<a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.SafeEnv.actionPathOk">actionPathOk</a></span> <span class="fn"><span class="fn"><span class="fn">env</span>.<a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.SafeEnv.toEnv">toEnv</a></span>.<a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.Env.initialState">initialState</a></span> <span class="fn">actions</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">env</span>.<a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.SafeEnv.Invariant">Invariant</a></span> <span class="fn">(<a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.evolve">Spec.RL.evolve</a> <span class="fn"><span class="fn">env</span>.<a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.SafeEnv.toEnv">toEnv</a></span> <span class="fn">actions</span>)</span></span></div></div><p>Safe environments preserve the invariant from reset under any valid action path.</p></div></div><div class="decl" id="Proofs.RL.Environment.statesFrom_safe"><div class="theorem"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Proofs/RL/Environment.lean#L95-L110">source</a></div><div class="verification_link">
+<a href="../../../../modules/NN_Proofs_RL_Environment.html#Proofs.RL.Environment.statesFrom_safe" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././NN/Proofs/RL/Environment.html#Proofs.RL.Environment.statesFrom_safe"><span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Environment</span>.<span class="name">statesFrom_safe</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">State</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Action</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Observation</span> : <a href="../../.././foundational_types.html">Type</a> w}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Reward</span> : <a href="../../.././foundational_types.html">Type</a> z}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">env</span> : <span class="fn"><a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.SafeEnv">Spec.RL.SafeEnv</a> <span class="fn">State</span> <span class="fn">Action</span> <span class="fn">Observation</span> <span class="fn">Reward</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">state</span> : <span class="fn">State</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">actions</span> : <span class="fn"><span class="fn">List</span> <span class="fn">Action</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hInv</span> : <span class="fn"><span class="fn"><span class="fn">env</span>.<a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.SafeEnv.Invariant">Invariant</a></span> <span class="fn">state</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hOk</span> : <span class="fn"><span class="fn"><span class="fn">env</span>.<a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.SafeEnv.actionPathOk">actionPathOk</a></span> <span class="fn">state</span> <span class="fn">actions</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">List.Forall</span> <span class="fn"><span class="fn">env</span>.<a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.SafeEnv.Invariant">Invariant</a></span> <span class="fn">(<a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.statesFrom">Spec.RL.statesFrom</a> <span class="fn"><span class="fn">env</span>.<a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.SafeEnv.toEnv">toEnv</a></span> <span class="fn">state</span> <span class="fn">actions</span>)</span></span></div></div><p>Every state in <code>statesFrom</code> satisfies the invariant along a valid action path.</p></div></div><div class="decl" id="Proofs.RL.Environment.states_safe"><div class="theorem"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Proofs/RL/Environment.lean#L112-L119">source</a></div><div class="verification_link">
+<a href="../../../../modules/NN_Proofs_RL_Environment.html#Proofs.RL.Environment.states_safe" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././NN/Proofs/RL/Environment.html#Proofs.RL.Environment.states_safe"><span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Environment</span>.<span class="name">states_safe</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">State</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Action</span> : <a href="../../.././foundational_types.html">Type</a> v}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Observation</span> : <a href="../../.././foundational_types.html">Type</a> w}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Reward</span> : <a href="../../.././foundational_types.html">Type</a> z}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">env</span> : <span class="fn"><a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.SafeEnv">Spec.RL.SafeEnv</a> <span class="fn">State</span> <span class="fn">Action</span> <span class="fn">Observation</span> <span class="fn">Reward</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">actions</span> : <span class="fn"><span class="fn">List</span> <span class="fn">Action</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hOk</span> : <span class="fn"><span class="fn"><span class="fn">env</span>.<a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.SafeEnv.actionPathOk">actionPathOk</a></span> <span class="fn"><span class="fn"><span class="fn">env</span>.<a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.SafeEnv.toEnv">toEnv</a></span>.<a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.Env.initialState">initialState</a></span> <span class="fn">actions</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">List.Forall</span> <span class="fn"><span class="fn">env</span>.<a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.SafeEnv.Invariant">Invariant</a></span> <span class="fn">(<a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.states">Spec.RL.states</a> <span class="fn"><span class="fn">env</span>.<a href="../../.././NN/Spec/RL/Environment.html#Spec.RL.SafeEnv.toEnv">toEnv</a></span> <span class="fn">actions</span>)</span></span></div></div><p>Every state in <code>states</code> satisfies the invariant from reset along a valid action path.</p></div></div></main>
+<nav class="nav"><iframe src="../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

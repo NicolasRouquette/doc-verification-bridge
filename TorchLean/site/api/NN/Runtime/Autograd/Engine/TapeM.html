@@ -1,0 +1,869 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../../.././style.css"></link><link rel="icon" href="../../../.././favicon.svg"></link><link rel="mask-icon" href="../../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../../.././/declarations/declaration-data.bmp" as="image"></link><title>NN.Runtime.Autograd.Engine.TapeM</title><script defer="true" src="../../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../../.././";</script><script>const MODULE_NAME="NN.Runtime.Autograd.Engine.TapeM";</script><script type="module" src="../../../.././jump-src.js"></script><script type="module" src="../../../.././search.js"></script><script type="module" src="../../../.././expand-nav.js"></script><script type="module" src="../../../.././how-about.js"></script><script type="module" src="../../../.././instances.js"></script><script type="module" src="../../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">NN</span>.<span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">Engine</span>.<span class="name">TapeM</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../../.././Init.html">Init</a></li><li><a href="../../../.././NN/Runtime/Autograd/Engine/Core.html">NN.Runtime.Autograd.Engine.Core</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-NN.Runtime.Autograd.Engine.TapeM" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.run"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">run</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.eval"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">eval</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.exec"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">exec</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.getTape"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">getTape</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.setTape"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">setTape</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.leaf"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">leaf</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.add"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">add</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.sub"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">sub</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.mul"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">mul</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.scale"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">scale</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.abs"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">abs</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.sqrt"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">sqrt</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.clamp"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">clamp</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.max"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">max</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.min"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">min</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.relu"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">relu</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.linear"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">linear</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.matmul"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">matmul</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.concatVectors"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">concatVectors</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.conv2d"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">conv2d</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.convTranspose"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">convTranspose</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.convTranspose2d"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">convTranspose2d</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.maxPool2d"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">maxPool2d</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.maxPool2dPad"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">maxPool2dPad</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.smoothMaxPool2d"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">smoothMaxPool2d</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.avgPool2d"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">avgPool2d</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.avgPool2dPad"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">avgPool2dPad</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.layerNorm"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">layerNorm</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.batchnormChannelFirst"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">batchnormChannelFirst</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.multiHeadAttention"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">multiHeadAttention</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.mseLoss"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">mseLoss</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.sigmoid"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">sigmoid</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.tanh"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">tanh</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.softmax"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">softmax</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.softplus"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">softplus</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.exp"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">exp</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.log"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">log</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.inv"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">inv</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.safeLog"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">safeLog</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.sum"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">sum</span></a></div><div class="nav_link"><a class="break_within" href="#Runtime.Autograd.TapeM.backwardScalar"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">backwardScalar</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="TapeM" class="markdown-heading">TapeM <a class="hover-link" href="#TapeM">#</a></h1><p>Tape-building convenience API.</p><p>The core autograd runtime (<code><a href="../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Runtime.Autograd.Tape</a></code>) is pure and explicitly threaded:
+each op returns an updated tape plus the new node id. This makes the engine easy to reason
+about and convenient for proofs, but it can feel verbose in user code.</p><p><code><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">Runtime.Autograd.TapeM</a></code> is a small <code>StateT</code> wrapper that threads the tape implicitly,
+closer to the &quot;define ops; then call backward&quot; ergonomics users expect from frameworks
+like PyTorch.</p><p>For training scripts/tests, also see <code><a href="../../../.././NN/Runtime/Autograd/Utils.html">NN.Runtime.Autograd.Utils</a></code> which provides small helpers
+for common patterns (reading scalar losses, extracting typed grads, simple SGD loops).</p><h2 id="Reading-map" class="markdown-heading">Reading map <a class="hover-link" href="#Reading-map">#</a></h2><ul><li><code><a href="../../../.././NN/Runtime/Autograd/Engine/Core.html">NN.Runtime.Autograd.Engine.Core</a></code> contains the pure tape and low-level node constructors.</li><li><code><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.run">TapeM.run</a></code> / <code><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.eval">TapeM.eval</a></code> / <code><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.exec">TapeM.exec</a></code> are the main control-flow wrappers.</li><li>The op wrappers below (<code><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.add">add</a></code>, <code><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.linear">linear</a></code>, <code><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.conv2d">conv2d</a></code>, etc.) mirror the <code>Tape</code> namespace while
+threading state implicitly.</li></ul></div><div class="decl" id="Runtime.Autograd.TapeM"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L44-L52">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[reducible, inline]</div>
+<div class="decl_header"><span class="decl_kind">abbrev</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././foundational_types.html">Type</a> → <a href="../../../.././foundational_types.html">Type</a></span></div></div><p>A convenient tape-builder monad.</p><p><code><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> α β</code> is <code>StateT (Tape α) Result β</code>: a pure tape threaded implicitly with errors reported
+via <code>Except String</code>. This mirrors the common eager style of building a computation and then calling
+<code>backward</code>, similar to PyTorch's imperative API, but remains purely functional.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">Runtime.Autograd.TapeM</a> <span class="fn">α</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">StateT</span> <span class="fn">(<a href="../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Runtime.Autograd.Tape</a> <span class="fn">α</span>)</span> <a href="../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Result">Runtime.Autograd.Result</a></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.run"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L58-L60">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.run" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.run"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">run</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α </span><span class="fn">β</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">t</span> : <span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">m</span> : <span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Result">Result</a> <span class="fn">(<span class="fn">β</span> <span class="fn">×</span> <span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span></span>)</span></span></div></div><p>Run a <code><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a></code> computation from an initial tape, returning both the result and the final tape.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.run">Runtime.Autograd.TapeM.run</a> <span class="fn">t</span> <span class="fn">m</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">StateT.run</span> <span class="fn">m</span> <span class="fn">t</span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.run" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.eval"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L62-L65">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.eval" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.eval"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">eval</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α </span><span class="fn">β</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">t</span> : <span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">m</span> : <span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Result">Result</a> <span class="fn">β</span></span></div></div><p>Evaluate a <code><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a></code> computation, discarding the final tape.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.eval">Runtime.Autograd.TapeM.eval</a> <span class="fn">t</span> <span class="fn">m</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">__discr</span> ← <span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.run">Runtime.Autograd.TapeM.run</a> <span class="fn">t</span> <span class="fn">m</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">a</span><span class="fn">,</span> <span class="fn">snd</span><span class="fn">)</span></span> =&gt; <span class="fn"><span class="fn">pure</span> <span class="fn">a</span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.eval" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.exec"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L67-L70">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.exec" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.exec"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">exec</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α </span><span class="fn">β</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">t</span> : <span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">m</span> : <span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Result">Result</a> <span class="fn">(<a href="../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span>)</span></span></div></div><p>Execute a <code><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a></code> computation, discarding the produced value and returning the final tape.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.exec">Runtime.Autograd.TapeM.exec</a> <span class="fn">t</span> <span class="fn">m</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">__discr</span> ← <span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.run">Runtime.Autograd.TapeM.run</a> <span class="fn">t</span> <span class="fn">m</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">fst</span><span class="fn">,</span> <span class="fn">t'</span><span class="fn">)</span></span> =&gt; <span class="fn"><span class="fn">pure</span> <span class="fn">t'</span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.exec" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.getTape"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L72-L74">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.getTape" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.getTape"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">getTape</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">(<a href="../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span>)</span></span></div></div><p>Get the current tape state.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.getTape">Runtime.Autograd.TapeM.getTape</a> <span class="fn">=</span> <span class="fn">get</span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.getTape" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.setTape"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L76-L78">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.setTape" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.setTape"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">setTape</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">t</span> : <span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape">Tape</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">Unit</span></span></div></div><p>Replace the current tape state.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.setTape">Runtime.Autograd.TapeM.setTape</a> <span class="fn">t</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">set</span> <span class="fn">t</span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.setTape" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.leaf"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L80-L92">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.leaf" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.leaf"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">leaf</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">value</span> : <span class="fn"><a href="../../../.././NN/Spec/Core/Tensor/Core.html#Spec.Tensor">Spec.Tensor</a> <span class="fn">α</span> <span class="fn">s</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">name</span> : <span class="fn"><span class="fn">Option</span> <span class="fn">String</span></span> := <span class="fn">none</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">requires_grad</span> : <span class="fn">Bool</span> := <span class="fn">true</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>Create a leaf node holding a concrete tensor value.</p><p>A leaf is the &quot;input tensor&quot; analogue: it has no parents. Setting <code>requires_grad := true</code>
+corresponds to PyTorch tensors created with <code>requires_grad=True</code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.leaf">Runtime.Autograd.TapeM.leaf</a> <span class="fn">value</span> <span class="fn">name</span> <span class="fn">requires_grad</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  <span class="fn">match <span class="fn"><span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/Core.html#Runtime.Autograd.Tape.leaf">leaf</a></span> <span class="fn">value</span> <span class="fn">name</span> <span class="fn">requires_grad</span></span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.leaf" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.add"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L94-L100">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.add" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.add"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">add</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Add</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">aId </span><span class="fn">bId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.add">add</a></code>. PyTorch comparison: <code>torch.add(a, b)</code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.add">Runtime.Autograd.TapeM.add</a> <span class="fn">aId</span> <span class="fn">bId</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  let <span class="fn">__discr</span> ← <span class="fn"><span class="fn">liftM</span> <span class="fn">(<span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/Elementwise.html#Runtime.Autograd.Tape.add">add</a></span> <span class="fn">aId</span> <span class="fn">bId</span>)</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.add" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.sub"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L102-L108">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.sub" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.sub"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">sub</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Sub</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">aId </span><span class="fn">bId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.sub">sub</a></code>. PyTorch comparison: <code>torch.sub(a, b)</code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.sub">Runtime.Autograd.TapeM.sub</a> <span class="fn">aId</span> <span class="fn">bId</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  let <span class="fn">__discr</span> ← <span class="fn"><span class="fn">liftM</span> <span class="fn">(<span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/Elementwise.html#Runtime.Autograd.Tape.sub">sub</a></span> <span class="fn">aId</span> <span class="fn">bId</span>)</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.sub" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.mul"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L110-L116">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.mul" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.mul"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">mul</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">aId </span><span class="fn">bId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.mul">mul</a></code>. PyTorch comparison: <code>torch.mul(a, b)</code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.mul">Runtime.Autograd.TapeM.mul</a> <span class="fn">aId</span> <span class="fn">bId</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  let <span class="fn">__discr</span> ← <span class="fn"><span class="fn">liftM</span> <span class="fn">(<span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/Elementwise.html#Runtime.Autograd.Tape.mul">mul</a></span> <span class="fn">aId</span> <span class="fn">bId</span>)</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.mul" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.scale"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L118-L124">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.scale" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.scale"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">scale</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.scale">scale</a></code>. PyTorch comparison: <code>c * x</code> / <code>torch.mul(x, c)</code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.scale">Runtime.Autograd.TapeM.scale</a> <span class="fn">xId</span> <span class="fn">c</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  let <span class="fn">__discr</span> ← <span class="fn"><span class="fn">liftM</span> <span class="fn">(<span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/Elementwise.html#Runtime.Autograd.Tape.scale">scale</a></span> <span class="fn">xId</span> <span class="fn">c</span>)</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.scale" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.abs"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L126-L132">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.abs" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.abs"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">abs</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableRel</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">α</span>) =&gt; <span class="fn"><span class="fn">x1</span> <span class="fn">&gt;</span> <span class="fn">x2</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.abs">abs</a></code>. PyTorch comparison: <code>torch.abs(x)</code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.abs">Runtime.Autograd.TapeM.abs</a> <span class="fn">xId</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  let <span class="fn">__discr</span> ← <span class="fn"><span class="fn">liftM</span> <span class="fn">(<span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/Elementwise.html#Runtime.Autograd.Tape.abs">abs</a></span> <span class="fn">xId</span>)</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.abs" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.sqrt"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L134-L140">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.sqrt" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.sqrt"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">sqrt</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableRel</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">α</span>) =&gt; <span class="fn"><span class="fn">x1</span> <span class="fn">&gt;</span> <span class="fn">x2</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.sqrt">sqrt</a></code>. PyTorch comparison: <code>torch.sqrt(x)</code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.sqrt">Runtime.Autograd.TapeM.sqrt</a> <span class="fn">xId</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  let <span class="fn">__discr</span> ← <span class="fn"><span class="fn">liftM</span> <span class="fn">(<span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/Elementwise.html#Runtime.Autograd.Tape.sqrt">sqrt</a></span> <span class="fn">xId</span>)</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.sqrt" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.clamp"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L142-L148">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.clamp" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.clamp"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">clamp</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableRel</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">α</span>) =&gt; <span class="fn"><span class="fn">x1</span> <span class="fn">&gt;</span> <span class="fn">x2</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">minVal </span><span class="fn">maxVal</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.clamp">clamp</a></code>. PyTorch comparison: <code>torch.clamp(x, min, max)</code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.clamp">Runtime.Autograd.TapeM.clamp</a> <span class="fn">xId</span> <span class="fn">minVal</span> <span class="fn">maxVal</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  let <span class="fn">__discr</span> ← <span class="fn"><span class="fn">liftM</span> <span class="fn">(<span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/Elementwise.html#Runtime.Autograd.Tape.clamp">clamp</a></span> <span class="fn">xId</span> <span class="fn">minVal</span> <span class="fn">maxVal</span>)</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.clamp" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.max"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L150-L156">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.max" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.max"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">max</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableRel</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">α</span>) =&gt; <span class="fn"><span class="fn">x1</span> <span class="fn">&gt;</span> <span class="fn">x2</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">aId </span><span class="fn">bId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.max">max</a></code>. PyTorch comparison: <code>torch.maximum(a, b)</code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.max">Runtime.Autograd.TapeM.max</a> <span class="fn">aId</span> <span class="fn">bId</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  let <span class="fn">__discr</span> ← <span class="fn"><span class="fn">liftM</span> <span class="fn">(<span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/Elementwise.html#Runtime.Autograd.Tape.max">max</a></span> <span class="fn">aId</span> <span class="fn">bId</span>)</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.max" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.min"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L158-L164">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.min" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.min"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">min</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableRel</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">α</span>) =&gt; <span class="fn"><span class="fn">x1</span> <span class="fn">&gt;</span> <span class="fn">x2</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">aId </span><span class="fn">bId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.min">min</a></code>. PyTorch comparison: <code>torch.minimum(a, b)</code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.min">Runtime.Autograd.TapeM.min</a> <span class="fn">aId</span> <span class="fn">bId</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  let <span class="fn">__discr</span> ← <span class="fn"><span class="fn">liftM</span> <span class="fn">(<span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/Elementwise.html#Runtime.Autograd.Tape.min">min</a></span> <span class="fn">aId</span> <span class="fn">bId</span>)</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.min" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.relu"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L166-L174">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.relu" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.relu"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">relu</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Max</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">One</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LT</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableRel</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">α</span>) =&gt; <span class="fn"><span class="fn">x1</span> <span class="fn">&gt;</span> <span class="fn">x2</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.relu">relu</a></code>. PyTorch comparison: <code>torch.nn.functional.relu(x)</code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.relu">Runtime.Autograd.TapeM.relu</a> <span class="fn">xId</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  let <span class="fn">__discr</span> ← <span class="fn"><span class="fn">liftM</span> <span class="fn">(<span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/Elementwise.html#Runtime.Autograd.Tape.relu">relu</a></span> <span class="fn">xId</span>)</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.relu" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.linear"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L176-L182">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.linear" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.linear"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">linear</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Add</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">inDim </span><span class="fn">outDim</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">wId </span><span class="fn">bId </span><span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.linear">linear</a></code>. PyTorch comparison: <code>torch.nn.functional.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.linear">linear</a></code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.linear">Runtime.Autograd.TapeM.linear</a> <span class="fn">wId</span> <span class="fn">bId</span> <span class="fn">xId</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  let <span class="fn">__discr</span> ← <span class="fn"><span class="fn">liftM</span> <span class="fn">(<span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/Linear.html#Runtime.Autograd.Tape.linear">linear</a></span> <span class="fn">wId</span> <span class="fn">bId</span> <span class="fn">xId</span>)</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.linear" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.matmul"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L184-L190">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.matmul" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.matmul"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">matmul</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableRel</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">α</span>) =&gt; <span class="fn"><span class="fn">x1</span> <span class="fn">&gt;</span> <span class="fn">x2</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m </span><span class="fn">n </span><span class="fn">p</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">aId </span><span class="fn">bId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.matmul">matmul</a></code>. PyTorch comparison: <code>torch.matmul(a, b)</code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.matmul">Runtime.Autograd.TapeM.matmul</a> <span class="fn">aId</span> <span class="fn">bId</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  let <span class="fn">__discr</span> ← <span class="fn"><span class="fn">liftM</span> <span class="fn">(<span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/Linear.html#Runtime.Autograd.Tape.matmul">matmul</a></span> <span class="fn">aId</span> <span class="fn">bId</span>)</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.matmul" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.concatVectors"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L192-L200">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.concatVectors" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.concatVectors"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">concatVectors</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableRel</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">α</span>) =&gt; <span class="fn"><span class="fn">x1</span> <span class="fn">&gt;</span> <span class="fn">x2</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n </span><span class="fn">m</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">aId </span><span class="fn">bId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.concat_vectors</code>. PyTorch comparison: <code>torch.cat([a,b], dim=0)</code> for
+vectors.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.concatVectors">Runtime.Autograd.TapeM.concatVectors</a> <span class="fn">aId</span> <span class="fn">bId</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  let <span class="fn">__discr</span> ← <span class="fn"><span class="fn">liftM</span> <span class="fn">(<span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/Linear.html#Runtime.Autograd.Tape.concatVectors">concatVectors</a></span> <span class="fn">aId</span> <span class="fn">bId</span>)</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.concatVectors" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.conv2d"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L202-L218">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.conv2d" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.conv2d"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">conv2d</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableRel</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">α</span>) =&gt; <span class="fn"><span class="fn">x1</span> <span class="fn">&gt;</span> <span class="fn">x2</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">inC </span><span class="fn">outC </span><span class="fn">kH </span><span class="fn">kW </span><span class="fn">stride </span><span class="fn">padding </span><span class="fn">inH </span><span class="fn">inW</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">h1</span> : <span class="fn"><span class="fn">inC</span> <span class="fn">≠</span> <span class="fn">0</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">h2</span> : <span class="fn"><span class="fn">kH</span> <span class="fn">≠</span> <span class="fn">0</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">h3</span> : <span class="fn"><span class="fn">kW</span> <span class="fn">≠</span> <span class="fn">0</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">kernelId </span><span class="fn">biasId </span><span class="fn">inputId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.conv2d">conv2d</a></code>.</p><p>PyTorch comparison: <code>torch.nn.functional.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.conv2d">conv2d</a></code> (this codebase uses a single-image specialization;
+see <code>Tape.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.conv2d">conv2d</a></code> for the exact shape conventions).</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.conv2d">Runtime.Autograd.TapeM.conv2d</a> <span class="fn">kernelId</span> <span class="fn">biasId</span> <span class="fn">inputId</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  let <span class="fn">__discr</span> ← <span class="fn"><span class="fn">liftM</span> <span class="fn">(<span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/ConvPool.html#Runtime.Autograd.Tape.conv2d">conv2d</a></span> <span class="fn">kernelId</span> <span class="fn">biasId</span> <span class="fn">inputId</span>)</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.conv2d" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.convTranspose"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L220-L238">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.convTranspose" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.convTranspose"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">convTranspose</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableRel</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">α</span>) =&gt; <span class="fn"><span class="fn">x1</span> <span class="fn">&gt;</span> <span class="fn">x2</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">d </span><span class="fn">inC </span><span class="fn">outC</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">kernel </span><span class="fn">stride </span><span class="fn">padding </span><span class="fn">inSpatial</span> : <span class="fn"><span class="fn">Vector</span> <span class="fn">ℕ</span> <span class="fn">d</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">kernelId </span><span class="fn">biasId </span><span class="fn">inputId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">name</span> : <span class="fn">String</span> := <span class="fn">&quot;conv_transpose&quot;</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.conv_transpose</code>.</p><p>PyTorch comparison: <code>torch.nn.functional.conv_transpose{d}d</code> specialized to a single sample
+(no batch axis).</p><details><summary>Equations</summary><ul class="equations"><li class="equation">One or more equations did not get rendered due to their size.</li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.convTranspose" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.convTranspose2d"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L240-L256">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.convTranspose2d" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.convTranspose2d"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">convTranspose2d</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">inC </span><span class="fn">outC </span><span class="fn">kH </span><span class="fn">kW </span><span class="fn">stride </span><span class="fn">padding </span><span class="fn">inH </span><span class="fn">inW</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">h1</span> : <span class="fn"><span class="fn">inC</span> <span class="fn">≠</span> <span class="fn">0</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">h2</span> : <span class="fn"><span class="fn">kH</span> <span class="fn">≠</span> <span class="fn">0</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">h3</span> : <span class="fn"><span class="fn">kW</span> <span class="fn">≠</span> <span class="fn">0</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">kernelId </span><span class="fn">biasId </span><span class="fn">inputId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.conv_transpose2d</code>.</p><p>PyTorch comparison: <code>torch.nn.functional.conv_transpose2d</code> (single-image specialization; see
+<code>Tape.conv_transpose2d</code> for exact shape conventions).</p><details><summary>Equations</summary><ul class="equations"><li class="equation">One or more equations did not get rendered due to their size.</li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.convTranspose2d" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.maxPool2d"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L258-L268">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.maxPool2d" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.maxPool2d"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">maxPool2d</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">kH </span><span class="fn">kW </span><span class="fn">inH </span><span class="fn">inW </span><span class="fn">inC </span><span class="fn">stride</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">h1</span> : <span class="fn"><span class="fn">kH</span> <span class="fn">≠</span> <span class="fn">0</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">h2</span> : <span class="fn"><span class="fn">kW</span> <span class="fn">≠</span> <span class="fn">0</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.max_pool2d</code>. PyTorch comparison: <code>torch.nn.functional.max_pool2d</code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.maxPool2d">Runtime.Autograd.TapeM.maxPool2d</a> <span class="fn">xId</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  let <span class="fn">__discr</span> ← <span class="fn"><span class="fn">liftM</span> <span class="fn">(<span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/ConvPool.html#Runtime.Autograd.Tape.maxPool2d">maxPool2d</a></span> <span class="fn">xId</span>)</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.maxPool2d" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.maxPool2dPad"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L270-L281">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.maxPool2dPad" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.maxPool2dPad"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">maxPool2dPad</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">kH </span><span class="fn">kW </span><span class="fn">inH </span><span class="fn">inW </span><span class="fn">inC </span><span class="fn">stride </span><span class="fn">padding</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">h1</span> : <span class="fn"><span class="fn">kH</span> <span class="fn">≠</span> <span class="fn">0</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">h2</span> : <span class="fn"><span class="fn">kW</span> <span class="fn">≠</span> <span class="fn">0</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.max_pool2d_pad</code>. PyTorch comparison:
+<code>torch.nn.functional.max_pool2d</code> with padding.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.maxPool2dPad">Runtime.Autograd.TapeM.maxPool2dPad</a> <span class="fn">xId</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  let <span class="fn">__discr</span> ← <span class="fn"><span class="fn">liftM</span> <span class="fn">(<span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/ConvPool.html#Runtime.Autograd.Tape.maxPool2dPad">maxPool2dPad</a></span> <span class="fn">xId</span>)</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.maxPool2dPad" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.smoothMaxPool2d"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L283-L296">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.smoothMaxPool2d" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.smoothMaxPool2d"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">smoothMaxPool2d</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">kH </span><span class="fn">kW </span><span class="fn">inH </span><span class="fn">inW </span><span class="fn">inC </span><span class="fn">stride</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">h1</span> : <span class="fn"><span class="fn">kH</span> <span class="fn">≠</span> <span class="fn">0</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">h2</span> : <span class="fn"><span class="fn">kW</span> <span class="fn">≠</span> <span class="fn">0</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">beta</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.smooth_max_pool2d</code>.</p><p>This is a differentiable (soft) approximation to max-pooling controlled by <code>beta</code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.smoothMaxPool2d">Runtime.Autograd.TapeM.smoothMaxPool2d</a> <span class="fn">xId</span> <span class="fn">beta</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  let <span class="fn">__discr</span> ← <span class="fn"><span class="fn">liftM</span> <span class="fn">(<span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/ConvPool.html#Runtime.Autograd.Tape.smoothMaxPool2d">smoothMaxPool2d</a></span> <span class="fn">xId</span> <span class="fn">beta</span>)</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.smoothMaxPool2d" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.avgPool2d"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L298-L308">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.avgPool2d" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.avgPool2d"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">avgPool2d</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">kH </span><span class="fn">kW </span><span class="fn">inH </span><span class="fn">inW </span><span class="fn">inC </span><span class="fn">stride</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h1</span> : <span class="fn"><span class="fn">kH</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h2</span> : <span class="fn"><span class="fn">kW</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.avg_pool2d</code>. PyTorch comparison: <code>torch.nn.functional.avg_pool2d</code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.avgPool2d">Runtime.Autograd.TapeM.avgPool2d</a> <span class="fn">h1</span> <span class="fn">h2</span> <span class="fn">xId</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  let <span class="fn">__discr</span> ← <span class="fn"><span class="fn">liftM</span> <span class="fn">(<a href="../../../.././NN/Runtime/Autograd/Engine/Core/ConvPool.html#Runtime.Autograd.Tape.avgPool2d">Runtime.Autograd.Tape.avgPool2d</a> <span class="fn">h1</span> <span class="fn">h2</span> <span class="fn">t</span> <span class="fn">xId</span>)</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.avgPool2d" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.avgPool2dPad"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L310-L321">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.avgPool2dPad" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.avgPool2dPad"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">avgPool2dPad</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">kH </span><span class="fn">kW </span><span class="fn">inH </span><span class="fn">inW </span><span class="fn">inC </span><span class="fn">stride </span><span class="fn">padding</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h1</span> : <span class="fn"><span class="fn">kH</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h2</span> : <span class="fn"><span class="fn">kW</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.avg_pool2d_pad</code>. PyTorch comparison:
+<code>torch.nn.functional.avg_pool2d</code> with padding.</p><details><summary>Equations</summary><ul class="equations"><li class="equation">One or more equations did not get rendered due to their size.</li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.avgPool2dPad" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.layerNorm"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L323-L332">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.layerNorm" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.layerNorm"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">layerNorm</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableRel</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">α</span>) =&gt; <span class="fn"><span class="fn">x1</span> <span class="fn">&gt;</span> <span class="fn">x2</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">seqLen </span><span class="fn">embedDim</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h_seq_pos</span> : <span class="fn"><span class="fn">seqLen</span> <span class="fn">&gt;</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_embed_pos</span> : <span class="fn"><span class="fn">embedDim</span> <span class="fn">&gt;</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">xId </span><span class="fn">gammaId </span><span class="fn">betaId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.layer_norm</code>. PyTorch comparison: <code>torch.nn.LayerNorm</code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation">One or more equations did not get rendered due to their size.</li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.layerNorm" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.batchnormChannelFirst"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L334-L346">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.batchnormChannelFirst" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.batchnormChannelFirst"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">batchnormChannelFirst</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableRel</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">α</span>) =&gt; <span class="fn"><span class="fn">x1</span> <span class="fn">&gt;</span> <span class="fn">x2</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">channels </span><span class="fn">height </span><span class="fn">width</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h_c</span> : <span class="fn"><span class="fn">channels</span> <span class="fn">&gt;</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_h</span> : <span class="fn"><span class="fn">height</span> <span class="fn">&gt;</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_w</span> : <span class="fn"><span class="fn">width</span> <span class="fn">&gt;</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">xId </span><span class="fn">gammaId </span><span class="fn">betaId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.batchnorm_channel_first</code>. PyTorch comparison: <code>torch.nn.BatchNorm2d</code>
+in channel-first layout.</p><details><summary>Equations</summary><ul class="equations"><li class="equation">One or more equations did not get rendered due to their size.</li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.batchnormChannelFirst" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.multiHeadAttention"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L348-L360">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.multiHeadAttention" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.multiHeadAttention"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">multiHeadAttention</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableRel</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">α</span>) =&gt; <span class="fn"><span class="fn">x1</span> <span class="fn">&gt;</span> <span class="fn">x2</span></span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n </span><span class="fn">numHeads </span><span class="fn">dModel </span><span class="fn">headDim</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h1</span> : <span class="fn"><span class="fn">n</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">wqId </span><span class="fn">wkId </span><span class="fn">wvId </span><span class="fn">woId </span><span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">mask</span> : <span class="fn"><span class="fn">Option</span> <span class="fn">(<a href="../../../.././NN/Spec/Core/Tensor/Core.html#Spec.Tensor">Spec.Tensor</a> <span class="fn">Bool</span> <span class="fn">(<a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape.dim">Spec.Shape.dim</a> <span class="fn">n</span> <span class="fn">(<a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape.dim">Spec.Shape.dim</a> <span class="fn">n</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape.scalar">Spec.Shape.scalar</a>)</span>)</span>)</span></span> := <span class="fn">none</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.multi_head_attention</code>. PyTorch comparison:
+<code>torch.nn.MultiheadAttention</code> / scaled dot-product attention.</p><details><summary>Equations</summary><ul class="equations"><li class="equation">One or more equations did not get rendered due to their size.</li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.multiHeadAttention" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.mseLoss"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L362-L369">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.mseLoss" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.mseLoss"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">mseLoss</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Add</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Sub</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Div</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">One</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Coe</span> <span class="fn">ℕ</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">yhatId </span><span class="fn">targetId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.mse_loss</code>. PyTorch comparison: <code>torch.nn.functional.mse_loss</code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.mseLoss">Runtime.Autograd.TapeM.mseLoss</a> <span class="fn">yhatId</span> <span class="fn">targetId</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  let <span class="fn">__discr</span> ← <span class="fn"><span class="fn">liftM</span> <span class="fn">(<span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.mseLoss">mseLoss</a></span> <span class="fn">yhatId</span> <span class="fn">targetId</span>)</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.mseLoss" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.sigmoid"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L371-L377">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.sigmoid" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.sigmoid"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">sigmoid</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.sigmoid">sigmoid</a></code>. PyTorch comparison: <code>torch.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.sigmoid">sigmoid</a></code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.sigmoid">Runtime.Autograd.TapeM.sigmoid</a> <span class="fn">xId</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  let <span class="fn">__discr</span> ← <span class="fn"><span class="fn">liftM</span> <span class="fn">(<span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.sigmoid">sigmoid</a></span> <span class="fn">xId</span>)</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.sigmoid" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.tanh"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L379-L385">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.tanh" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.tanh"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">tanh</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.tanh">tanh</a></code>. PyTorch comparison: <code>torch.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.tanh">tanh</a></code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.tanh">Runtime.Autograd.TapeM.tanh</a> <span class="fn">xId</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  let <span class="fn">__discr</span> ← <span class="fn"><span class="fn">liftM</span> <span class="fn">(<span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.tanh">tanh</a></span> <span class="fn">xId</span>)</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.tanh" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.softmax"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L387-L394">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.softmax" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.softmax"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">softmax</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.softmax">softmax</a></code> (last-axis). PyTorch comparison: <code>torch.softmax(x, dim=-1)</code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.softmax">Runtime.Autograd.TapeM.softmax</a> <span class="fn">xId</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  let <span class="fn">__discr</span> ← <span class="fn"><span class="fn">liftM</span> <span class="fn">(<span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.softmax">softmax</a></span> <span class="fn">xId</span>)</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.softmax" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.softplus"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L396-L402">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.softplus" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.softplus"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">softplus</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.softplus">softplus</a></code>. PyTorch comparison: <code>torch.nn.functional.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.softplus">softplus</a></code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.softplus">Runtime.Autograd.TapeM.softplus</a> <span class="fn">xId</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  let <span class="fn">__discr</span> ← <span class="fn"><span class="fn">liftM</span> <span class="fn">(<span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.softplus">softplus</a></span> <span class="fn">xId</span>)</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.softplus" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.exp"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L404-L410">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.exp" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.exp"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">exp</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.exp">exp</a></code>. PyTorch comparison: <code>torch.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.exp">exp</a></code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.exp">Runtime.Autograd.TapeM.exp</a> <span class="fn">xId</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  let <span class="fn">__discr</span> ← <span class="fn"><span class="fn">liftM</span> <span class="fn">(<span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.exp">exp</a></span> <span class="fn">xId</span>)</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.exp" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.log"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L412-L418">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.log" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.log"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">log</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.log">log</a></code>. PyTorch comparison: <code>torch.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.log">log</a></code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.log">Runtime.Autograd.TapeM.log</a> <span class="fn">xId</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  let <span class="fn">__discr</span> ← <span class="fn"><span class="fn">liftM</span> <span class="fn">(<span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.log">log</a></span> <span class="fn">xId</span>)</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.log" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.inv"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L420-L426">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.inv" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.inv"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">inv</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.inv">inv</a></code>. PyTorch comparison: <code>torch.reciprocal</code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.inv">Runtime.Autograd.TapeM.inv</a> <span class="fn">xId</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  let <span class="fn">__discr</span> ← <span class="fn"><span class="fn">liftM</span> <span class="fn">(<span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.inv">inv</a></span> <span class="fn">xId</span>)</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.inv" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.safeLog"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L428-L434">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.safeLog" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.safeLog"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">safeLog</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../../.././NN/Spec/Core/Context.html#Context">Context</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">ε</span> : <span class="fn">α</span> := <a href="../../../.././NN/Spec/Core/Context.html#Numbers.epsilon">Numbers.epsilon</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.safe_log</code> (a numerically-stable <code><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.log">log</a></code>).</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.safeLog">Runtime.Autograd.TapeM.safeLog</a> <span class="fn">xId</span> <span class="fn">ε</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  let <span class="fn">__discr</span> ← <span class="fn"><span class="fn">liftM</span> <span class="fn">(<span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.safeLog">safeLog</a></span> <span class="fn">xId</span> <span class="fn">ε</span>)</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.safeLog" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.sum"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L436-L442">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.sum" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.sum"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">sum</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Add</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">xId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">ℕ</span></span></div></div><p>StateT wrapper around <code>Tape.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.sum">sum</a></code>. PyTorch comparison: <code>torch.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.sum">sum</a></code>.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.sum">Runtime.Autograd.TapeM.sum</a> <span class="fn">xId</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  let <span class="fn">__discr</span> ← <span class="fn"><span class="fn">liftM</span> <span class="fn">(<span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/ActivationsLoss.html#Runtime.Autograd.Tape.sum">sum</a></span> <span class="fn">xId</span>)</span></span>
+  <span class="fn">match <span class="fn">__discr</span> with
+    | <span class="fn"><span class="fn">(</span><span class="fn">t'</span><span class="fn">,</span> <span class="fn">id</span><span class="fn">)</span></span> =&gt; <span class="fn">do
+      <span class="fn"><span class="fn">set</span> <span class="fn">t'</span></span>
+      <span class="fn"><span class="fn">pure</span> <span class="fn">id</span></span></span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.sum" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Runtime.Autograd.TapeM.backwardScalar"><div class="def"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Runtime/Autograd/Engine/TapeM.lean#L444-L453">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_Runtime_Autograd_Engine_TapeM.html#Runtime.Autograd.TapeM.backwardScalar" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.backwardScalar"><span class="name">Runtime</span>.<span class="name">Autograd</span>.<span class="name">TapeM</span>.<span class="name">backwardScalar</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Add</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">One</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <a href="../../../.././NN/Spec/Core/Shape.html#Spec.Shape">Spec.Shape</a></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">outId</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM">TapeM</a> <span class="fn">α</span> <span class="fn">(<span class="fn">Std.HashMap</span> <span class="fn">ℕ</span> <span class="fn">(<a href="../../../.././NN/Runtime/Context.html#Runtime.AnyTensor">AnyTensor</a> <span class="fn">α</span>)</span>)</span></span></div></div><p>Run reverse-mode autodiff from a scalar output and return accumulated gradients.</p><p>This calls <code>Tape.<a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.backwardScalar">backwardScalar</a></code> on the current tape and returns a <code>HashMap</code> from node ids to
+gradient tensors.</p><details><summary>Equations</summary><ul class="equations"><li class="equation"><span class="fn"><span class="fn"><a href="../../../.././NN/Runtime/Autograd/Engine/TapeM.html#Runtime.Autograd.TapeM.backwardScalar">Runtime.Autograd.TapeM.backwardScalar</a> <span class="fn">outId</span></span> <span class="fn">=</span> <span class="fn">do
+  let <span class="fn">t</span> ← <span class="fn">get</span>
+  <span class="fn"><span class="fn">liftM</span> <span class="fn">(<span class="fn"><span class="fn">t</span>.<a href="../../../.././NN/Runtime/Autograd/Engine/Core/Backward.html#Runtime.Autograd.Tape.backwardScalar">backwardScalar</a></span> <span class="fn">outId</span>)</span></span></span></span></li></ul></details><details id="instances-for-list-Runtime.Autograd.TapeM.backwardScalar" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div></main>
+<nav class="nav"><iframe src="../../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>L4YAML_Config_Limits - Documentation Verification</title>
+  <link rel="stylesheet" href="../style.css">
+  <script defer src="../verification.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Documentation Verification Report</h1>
+    <nav>
+      <a href="../index.html">Overview</a>
+      <a href="index.html">Modules</a>
+      <a href="../search.html">Search</a>
+      <a href="../api/index.html">API Docs</a>
+    </nav>
+  </header>
+  <main>
+    <div class="container">
+      <nav class="breadcrumbs">
+        <a href="../index.html">Verification</a> /
+        <a href="index.html">Modules</a> /
+        L4YAML_Config_Limits
+      </nav>
+      <h1>Limits</h1>
+<p>📁 <strong>Source:</strong> <a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean">L4YAML/Config/Limits.lean</a></p>
+<h2>Statistics</h2>
+<table class="verification-table">
+<tr><th>Metric</th><th>Count</th></tr>
+<tr><td><details><summary>Definitions</summary><a href="#L4YAML-AliasLimitError"><code>AliasLimitError</code></a>, <a href="#L4YAML-AliasLimitError-toString"><code>toString</code></a>, <a href="#L4YAML-AliasLimits"><code>AliasLimits</code></a>, <a href="#L4YAML-AliasLimits-maxAliasDepth"><code>maxAliasDepth</code></a>, <a href="#L4YAML-AliasLimits-maxAliasExpansions"><code>maxAliasExpansions</code></a>, <a href="#L4YAML-AliasLimits-maxResolvedNodes"><code>maxResolvedNodes</code></a>, <a href="#L4YAML-AliasLimits-rejectCycles"><code>rejectCycles</code></a>, <a href="#L4YAML-AliasResolveState"><code>AliasResolveState</code></a>, <a href="#L4YAML-AliasResolveState-expansions"><code>expansions</code></a>, <a href="#L4YAML-AliasResolveState-nodeCount"><code>nodeCount</code></a>, <a href="#L4YAML-DocumentLimitError"><code>DocumentLimitError</code></a>, <a href="#L4YAML-DocumentLimitError-toString"><code>toString</code></a>, <a href="#L4YAML-DocumentLimits"><code>DocumentLimits</code></a>, <a href="#L4YAML-DocumentLimits-maxAnchors"><code>maxAnchors</code></a>, <a href="#L4YAML-DocumentLimits-maxDocuments"><code>maxDocuments</code></a>, <a href="#L4YAML-DocumentLimits-maxInputBytes"><code>maxInputBytes</code></a>, <a href="#L4YAML-LimitError"><code>LimitError</code></a>, <a href="#L4YAML-LimitError-toString"><code>toString</code></a>, <a href="#L4YAML-ParseError"><code>ParseError</code></a>, <a href="#L4YAML-ParseError-toString"><code>toString</code></a>, <a href="#L4YAML-ParserLimits"><code>ParserLimits</code></a>, <a href="#L4YAML-ParserLimits-alias"><code>alias</code></a>, <a href="#L4YAML-ParserLimits-document"><code>document</code></a>, <a href="#L4YAML-ParserLimits-enabled"><code>enabled</code></a>, <a href="#L4YAML-ParserLimits-permissive"><code>permissive</code></a>, <a href="#L4YAML-ParserLimits-safeTagsOnly"><code>safeTagsOnly</code></a>, <a href="#L4YAML-ParserLimits-strict"><code>strict</code></a>, <a href="#L4YAML-ParserLimits-structural"><code>structural</code></a>, <a href="#L4YAML-ParserLimits-tag"><code>tag</code></a>, <a href="#L4YAML-ParserLimits-unlimited"><code>unlimited</code></a>, <a href="#L4YAML-StructuralLimitError"><code>StructuralLimitError</code></a>, <a href="#L4YAML-StructuralLimitError-toString"><code>toString</code></a>, <a href="#L4YAML-StructuralLimits"><code>StructuralLimits</code></a>, <a href="#L4YAML-StructuralLimits-maxDepth"><code>maxDepth</code></a>, <a href="#L4YAML-StructuralLimits-maxMappingSize"><code>maxMappingSize</code></a>, <a href="#L4YAML-StructuralLimits-maxScalarBytes"><code>maxScalarBytes</code></a>, <a href="#L4YAML-StructuralLimits-maxSequenceLength"><code>maxSequenceLength</code></a>, <a href="#L4YAML-StructuralLimits-maxTotalNodes"><code>maxTotalNodes</code></a>, <a href="#L4YAML-TagLimits"><code>TagLimits</code></a>, <a href="#L4YAML-TagLimits-maxHandlePrefixLength"><code>maxHandlePrefixLength</code></a>, <a href="#L4YAML-TagLimits-maxTagLength"><code>maxTagLength</code></a>, <a href="#L4YAML-TagLimits-maxUniqueTags"><code>maxUniqueTags</code></a>, <a href="#L4YAML-TagLimits-policy"><code>policy</code></a>, <a href="#L4YAML-TagLimits-rejectCustomHandles"><code>rejectCustomHandles</code></a>, <a href="#L4YAML-TagLimits-rejectLanguageTags"><code>rejectLanguageTags</code></a>, <a href="#L4YAML-TagPolicy"><code>TagPolicy</code></a>, <a href="#L4YAML-TagSecurityError"><code>TagSecurityError</code></a>, <a href="#L4YAML-TagSecurityError-extractLanguage"><code>extractLanguage</code></a>, <a href="#L4YAML-TagSecurityError-toString"><code>toString</code></a>, <a href="#L4YAML-collectTags"><code>collectTags</code></a>, <a href="#L4YAML-collectTags-go"><code>go</code></a>, <a href="#L4YAML-composeLimited"><code>composeLimited</code></a>, <a href="#L4YAML-coreSchemaWhitelist"><code>coreSchemaWhitelist</code></a>, <a href="#L4YAML-countNodes"><code>countNodes</code></a>, <a href="#L4YAML-dangerousTagPrefixes"><code>dangerousTagPrefixes</code></a>, <a href="#L4YAML-getNodeTag"><code>getNodeTag</code></a>, <a href="#L4YAML-instBEqAliasLimitError"><code>instBEqAliasLimitError</code></a>, <a href="#L4YAML-instBEqAliasLimitError-beq"><code>beq</code></a>, <a href="#L4YAML-instBEqAliasLimits"><code>instBEqAliasLimits</code></a>, <a href="#L4YAML-instBEqAliasLimits-beq"><code>beq</code></a>, <a href="#L4YAML-instBEqDocumentLimitError"><code>instBEqDocumentLimitError</code></a>, <a href="#L4YAML-instBEqDocumentLimitError-beq"><code>beq</code></a>, <a href="#L4YAML-instBEqDocumentLimits"><code>instBEqDocumentLimits</code></a>, <a href="#L4YAML-instBEqDocumentLimits-beq"><code>beq</code></a>, <a href="#L4YAML-instBEqLimitError"><code>instBEqLimitError</code></a>, <a href="#L4YAML-instBEqLimitError-beq"><code>beq</code></a>, <a href="#L4YAML-instBEqParseError"><code>instBEqParseError</code></a>, <a href="#L4YAML-instBEqParseError-beq"><code>beq</code></a>, <a href="#L4YAML-instBEqParserLimits"><code>instBEqParserLimits</code></a>, <a href="#L4YAML-instBEqParserLimits-beq"><code>beq</code></a>, <a href="#L4YAML-instBEqStructuralLimitError"><code>instBEqStructuralLimitError</code></a>, <a href="#L4YAML-instBEqStructuralLimitError-beq"><code>beq</code></a>, <a href="#L4YAML-instBEqStructuralLimits"><code>instBEqStructuralLimits</code></a>, <a href="#L4YAML-instBEqStructuralLimits-beq"><code>beq</code></a>, <a href="#L4YAML-instBEqTagLimits"><code>instBEqTagLimits</code></a>, <a href="#L4YAML-instBEqTagLimits-beq"><code>beq</code></a>, <a href="#L4YAML-instBEqTagPolicy"><code>instBEqTagPolicy</code></a>, <a href="#L4YAML-instBEqTagPolicy-beq"><code>beq</code></a>, <a href="#L4YAML-instBEqTagSecurityError"><code>instBEqTagSecurityError</code></a>, <a href="#L4YAML-instBEqTagSecurityError-beq"><code>beq</code></a>, <a href="#L4YAML-instInhabitedAliasLimitError"><code>instInhabitedAliasLimitError</code></a>, <a href="#L4YAML-instInhabitedAliasLimitError-default"><code>default</code></a>, <a href="#L4YAML-instInhabitedAliasLimits"><code>instInhabitedAliasLimits</code></a>, <a href="#L4YAML-instInhabitedAliasLimits-default"><code>default</code></a>, <a href="#L4YAML-instInhabitedDocumentLimitError"><code>instInhabitedDocumentLimitError</code></a>, <a href="#L4YAML-instInhabitedDocumentLimitError-default"><code>default</code></a>, <a href="#L4YAML-instInhabitedDocumentLimits"><code>instInhabitedDocumentLimits</code></a>, <a href="#L4YAML-instInhabitedDocumentLimits-default"><code>default</code></a>, <a href="#L4YAML-instInhabitedLimitError"><code>instInhabitedLimitError</code></a>, <a href="#L4YAML-instInhabitedLimitError-default"><code>default</code></a>, <a href="#L4YAML-instInhabitedParseError"><code>instInhabitedParseError</code></a>, <a href="#L4YAML-instInhabitedParseError-default"><code>default</code></a>, <a href="#L4YAML-instInhabitedParserLimits"><code>instInhabitedParserLimits</code></a>, <a href="#L4YAML-instInhabitedParserLimits-default"><code>default</code></a>, <a href="#L4YAML-instInhabitedStructuralLimitError"><code>instInhabitedStructuralLimitError</code></a>, <a href="#L4YAML-instInhabitedStructuralLimitError-default"><code>default</code></a>, <a href="#L4YAML-instInhabitedStructuralLimits"><code>instInhabitedStructuralLimits</code></a>, <a href="#L4YAML-instInhabitedStructuralLimits-default"><code>default</code></a>, <a href="#L4YAML-instInhabitedTagLimits"><code>instInhabitedTagLimits</code></a>, <a href="#L4YAML-instInhabitedTagLimits-default"><code>default</code></a>, <a href="#L4YAML-instInhabitedTagPolicy"><code>instInhabitedTagPolicy</code></a>, <a href="#L4YAML-instInhabitedTagPolicy-default"><code>default</code></a>, <a href="#L4YAML-instInhabitedTagSecurityError"><code>instInhabitedTagSecurityError</code></a>, <a href="#L4YAML-instInhabitedTagSecurityError-default"><code>default</code></a>, <a href="#L4YAML-instReprAliasLimitError"><code>instReprAliasLimitError</code></a>, <a href="#L4YAML-instReprAliasLimitError-repr"><code>repr</code></a>, <a href="#L4YAML-instReprAliasLimits"><code>instReprAliasLimits</code></a>, <a href="#L4YAML-instReprAliasLimits-repr"><code>repr</code></a>, <a href="#L4YAML-instReprDocumentLimitError"><code>instReprDocumentLimitError</code></a>, <a href="#L4YAML-instReprDocumentLimitError-repr"><code>repr</code></a>, <a href="#L4YAML-instReprDocumentLimits"><code>instReprDocumentLimits</code></a>, <a href="#L4YAML-instReprDocumentLimits-repr"><code>repr</code></a>, <a href="#L4YAML-instReprLimitError"><code>instReprLimitError</code></a>, <a href="#L4YAML-instReprLimitError-repr"><code>repr</code></a>, <a href="#L4YAML-instReprParseError"><code>instReprParseError</code></a>, <a href="#L4YAML-instReprParseError-repr"><code>repr</code></a>, <a href="#L4YAML-instReprParserLimits"><code>instReprParserLimits</code></a>, <a href="#L4YAML-instReprParserLimits-repr"><code>repr</code></a>, <a href="#L4YAML-instReprStructuralLimitError"><code>instReprStructuralLimitError</code></a>, <a href="#L4YAML-instReprStructuralLimitError-repr"><code>repr</code></a>, <a href="#L4YAML-instReprStructuralLimits"><code>instReprStructuralLimits</code></a>, <a href="#L4YAML-instReprStructuralLimits-repr"><code>repr</code></a>, <a href="#L4YAML-instReprTagLimits"><code>instReprTagLimits</code></a>, <a href="#L4YAML-instReprTagLimits-repr"><code>repr</code></a>, <a href="#L4YAML-instReprTagPolicy"><code>instReprTagPolicy</code></a>, <a href="#L4YAML-instReprTagPolicy-repr"><code>repr</code></a>, <a href="#L4YAML-instReprTagSecurityError"><code>instReprTagSecurityError</code></a>, <a href="#L4YAML-instReprTagSecurityError-repr"><code>repr</code></a>, <a href="#L4YAML-instToStringAliasLimitError"><code>instToStringAliasLimitError</code></a>, <a href="#L4YAML-instToStringDocumentLimitError"><code>instToStringDocumentLimitError</code></a>, <a href="#L4YAML-instToStringLimitError"><code>instToStringLimitError</code></a>, <a href="#L4YAML-instToStringParseError"><code>instToStringParseError</code></a>, <a href="#L4YAML-instToStringStructuralLimitError"><code>instToStringStructuralLimitError</code></a>, <a href="#L4YAML-instToStringTagSecurityError"><code>instToStringTagSecurityError</code></a>, <a href="#L4YAML-parseYamlSafe"><code>parseYamlSafe</code></a>, <a href="#L4YAML-parseYamlSingleRawSafe"><code>parseYamlSingleRawSafe</code></a>, <a href="#L4YAML-parseYamlSingleSafe"><code>parseYamlSingleSafe</code></a>, <a href="#L4YAML-pathToString"><code>pathToString</code></a>, <a href="#L4YAML-resolveAliasesLimited"><code>resolveAliasesLimited</code></a>, <a href="#L4YAML-resolveAliasesLimited-go"><code>go</code></a>, <a href="#L4YAML-resolveAliasesLimited-goList"><code>goList</code></a>, <a href="#L4YAML-resolveAliasesLimited-goPairs"><code>goPairs</code></a>, <a href="#L4YAML-validateDirectives"><code>validateDirectives</code></a>, <a href="#L4YAML-validateStructure"><code>validateStructure</code></a>, <a href="#L4YAML-validateStructure-goMap"><code>goMap</code></a>, <a href="#L4YAML-validateStructure-goSeq"><code>goSeq</code></a>, <a href="#L4YAML-validateTag"><code>validateTag</code></a>, <a href="#L4YAML-validateValueTags"><code>validateValueTags</code></a></details></td><td>148</td></tr>
+<tr><td>Theorems</td><td>0</td></tr>
+<tr><td><strong>Total</strong></td><td><strong>148</strong></td></tr>
+</table>
+<h2>L4YAML</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L181" id="L4YAML-AliasLimitError"><code>AliasLimitError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.AliasLimitError" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L38" id="L4YAML-AliasLimits"><code>AliasLimits</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.AliasLimits" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L409" id="L4YAML-AliasResolveState"><code>AliasResolveState</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.AliasResolveState" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L231" id="L4YAML-DocumentLimitError"><code>DocumentLimitError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.DocumentLimitError" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L75" id="L4YAML-DocumentLimits"><code>DocumentLimits</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.DocumentLimits" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L285" id="L4YAML-LimitError"><code>LimitError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.LimitError" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L301" id="L4YAML-ParseError"><code>ParseError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.ParseError" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L119" id="L4YAML-ParserLimits"><code>ParserLimits</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.ParserLimits" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L201" id="L4YAML-StructuralLimitError"><code>StructuralLimitError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.StructuralLimitError" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L56" id="L4YAML-StructuralLimits"><code>StructuralLimits</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.StructuralLimits" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L102" id="L4YAML-TagLimits"><code>TagLimits</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.TagLimits" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L88" id="L4YAML-TagPolicy"><code>TagPolicy</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.TagPolicy" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L248" id="L4YAML-TagSecurityError"><code>TagSecurityError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.TagSecurityError" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L383" id="L4YAML-collectTags"><code>collectTags</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.collectTags" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L528" id="L4YAML-composeLimited"><code>composeLimited</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.composeLimited" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L315" id="L4YAML-coreSchemaWhitelist"><code>coreSchemaWhitelist</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.coreSchemaWhitelist" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L476" id="L4YAML-countNodes"><code>countNodes</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.countNodes" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L328" id="L4YAML-dangerousTagPrefixes"><code>dangerousTagPrefixes</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.dangerousTagPrefixes" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L376" id="L4YAML-getNodeTag"><code>getNodeTag</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.getNodeTag" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L186" id="L4YAML-instBEqAliasLimitError"><code>instBEqAliasLimitError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instBEqAliasLimitError" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L53" id="L4YAML-instBEqAliasLimits"><code>instBEqAliasLimits</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instBEqAliasLimits" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L235" id="L4YAML-instBEqDocumentLimitError"><code>instBEqDocumentLimitError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instBEqDocumentLimitError" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L85" id="L4YAML-instBEqDocumentLimits"><code>instBEqDocumentLimits</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instBEqDocumentLimits" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L290" id="L4YAML-instBEqLimitError"><code>instBEqLimitError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instBEqLimitError" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L304" id="L4YAML-instBEqParseError"><code>instBEqParseError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instBEqParseError" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L126" id="L4YAML-instBEqParserLimits"><code>instBEqParserLimits</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instBEqParserLimits" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L207" id="L4YAML-instBEqStructuralLimitError"><code>instBEqStructuralLimitError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instBEqStructuralLimitError" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L72" id="L4YAML-instBEqStructuralLimits"><code>instBEqStructuralLimits</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instBEqStructuralLimits" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L116" id="L4YAML-instBEqTagLimits"><code>instBEqTagLimits</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instBEqTagLimits" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L99" id="L4YAML-instBEqTagPolicy"><code>instBEqTagPolicy</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instBEqTagPolicy" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L256" id="L4YAML-instBEqTagSecurityError"><code>instBEqTagSecurityError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instBEqTagSecurityError" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L186" id="L4YAML-instInhabitedAliasLimitError"><code>instInhabitedAliasLimitError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instInhabitedAliasLimitError" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L53" id="L4YAML-instInhabitedAliasLimits"><code>instInhabitedAliasLimits</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instInhabitedAliasLimits" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L235" id="L4YAML-instInhabitedDocumentLimitError"><code>instInhabitedDocumentLimitError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instInhabitedDocumentLimitError" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L85" id="L4YAML-instInhabitedDocumentLimits"><code>instInhabitedDocumentLimits</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instInhabitedDocumentLimits" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L290" id="L4YAML-instInhabitedLimitError"><code>instInhabitedLimitError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instInhabitedLimitError" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L304" id="L4YAML-instInhabitedParseError"><code>instInhabitedParseError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instInhabitedParseError" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L126" id="L4YAML-instInhabitedParserLimits"><code>instInhabitedParserLimits</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instInhabitedParserLimits" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L207" id="L4YAML-instInhabitedStructuralLimitError"><code>instInhabitedStructuralLimitError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instInhabitedStructuralLimitError" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L72" id="L4YAML-instInhabitedStructuralLimits"><code>instInhabitedStructuralLimits</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instInhabitedStructuralLimits" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L116" id="L4YAML-instInhabitedTagLimits"><code>instInhabitedTagLimits</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instInhabitedTagLimits" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L99" id="L4YAML-instInhabitedTagPolicy"><code>instInhabitedTagPolicy</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instInhabitedTagPolicy" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L256" id="L4YAML-instInhabitedTagSecurityError"><code>instInhabitedTagSecurityError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instInhabitedTagSecurityError" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L186" id="L4YAML-instReprAliasLimitError"><code>instReprAliasLimitError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instReprAliasLimitError" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L53" id="L4YAML-instReprAliasLimits"><code>instReprAliasLimits</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instReprAliasLimits" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L235" id="L4YAML-instReprDocumentLimitError"><code>instReprDocumentLimitError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instReprDocumentLimitError" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L85" id="L4YAML-instReprDocumentLimits"><code>instReprDocumentLimits</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instReprDocumentLimits" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L290" id="L4YAML-instReprLimitError"><code>instReprLimitError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instReprLimitError" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L304" id="L4YAML-instReprParseError"><code>instReprParseError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instReprParseError" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L126" id="L4YAML-instReprParserLimits"><code>instReprParserLimits</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instReprParserLimits" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L207" id="L4YAML-instReprStructuralLimitError"><code>instReprStructuralLimitError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instReprStructuralLimitError" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L72" id="L4YAML-instReprStructuralLimits"><code>instReprStructuralLimits</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instReprStructuralLimits" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L116" id="L4YAML-instReprTagLimits"><code>instReprTagLimits</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instReprTagLimits" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L99" id="L4YAML-instReprTagPolicy"><code>instReprTagPolicy</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instReprTagPolicy" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L256" id="L4YAML-instReprTagSecurityError"><code>instReprTagSecurityError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instReprTagSecurityError" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L198" id="L4YAML-instToStringAliasLimitError"><code>instToStringAliasLimitError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instToStringAliasLimitError" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L245" id="L4YAML-instToStringDocumentLimitError"><code>instToStringDocumentLimitError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instToStringDocumentLimitError" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L298" id="L4YAML-instToStringLimitError"><code>instToStringLimitError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instToStringLimitError" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L310" id="L4YAML-instToStringParseError"><code>instToStringParseError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instToStringParseError" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L228" id="L4YAML-instToStringStructuralLimitError"><code>instToStringStructuralLimitError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instToStringStructuralLimitError" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L282" id="L4YAML-instToStringTagSecurityError"><code>instToStringTagSecurityError</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instToStringTagSecurityError" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L590" id="L4YAML-parseYamlSafe"><code>parseYamlSafe</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.parseYamlSafe" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L622" id="L4YAML-parseYamlSingleRawSafe"><code>parseYamlSingleRawSafe</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.parseYamlSingleRawSafe" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L612" id="L4YAML-parseYamlSingleSafe"><code>parseYamlSingleSafe</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.parseYamlSingleSafe" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L209" id="L4YAML-pathToString"><code>pathToString</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.pathToString" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L418" id="L4YAML-resolveAliasesLimited"><code>resolveAliasesLimited</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.resolveAliasesLimited" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L362" id="L4YAML-validateDirectives"><code>validateDirectives</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.validateDirectives" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L486" id="L4YAML-validateStructure"><code>validateStructure</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.validateStructure" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L338" id="L4YAML-validateTag"><code>validateTag</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.validateTag" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L397" id="L4YAML-validateValueTags"><code>validateValueTags</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.validateValueTags" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.AliasLimitError</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L188" id="L4YAML-AliasLimitError-toString"><code>toString</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.AliasLimitError.toString" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.AliasLimits</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L42" id="L4YAML-AliasLimits-maxAliasDepth"><code>maxAliasDepth</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.AliasLimits.maxAliasDepth" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L46" id="L4YAML-AliasLimits-maxAliasExpansions"><code>maxAliasExpansions</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.AliasLimits.maxAliasExpansions" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L49" id="L4YAML-AliasLimits-maxResolvedNodes"><code>maxResolvedNodes</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.AliasLimits.maxResolvedNodes" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L52" id="L4YAML-AliasLimits-rejectCycles"><code>rejectCycles</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.AliasLimits.rejectCycles" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.AliasResolveState</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L410" id="L4YAML-AliasResolveState-expansions"><code>expansions</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.AliasResolveState.expansions" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L411" id="L4YAML-AliasResolveState-nodeCount"><code>nodeCount</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.AliasResolveState.nodeCount" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.DocumentLimitError</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L237" id="L4YAML-DocumentLimitError-toString"><code>toString</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.DocumentLimitError.toString" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.DocumentLimits</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L81" id="L4YAML-DocumentLimits-maxAnchors"><code>maxAnchors</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.DocumentLimits.maxAnchors" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L78" id="L4YAML-DocumentLimits-maxDocuments"><code>maxDocuments</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.DocumentLimits.maxDocuments" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L84" id="L4YAML-DocumentLimits-maxInputBytes"><code>maxInputBytes</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.DocumentLimits.maxInputBytes" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.LimitError</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L292" id="L4YAML-LimitError-toString"><code>toString</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.LimitError.toString" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.ParseError</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L306" id="L4YAML-ParseError-toString"><code>toString</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.ParseError.toString" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.ParserLimits</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L120" id="L4YAML-ParserLimits-alias"><code>alias</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.ParserLimits.alias" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L122" id="L4YAML-ParserLimits-document"><code>document</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.ParserLimits.document" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L125" id="L4YAML-ParserLimits-enabled"><code>enabled</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.ParserLimits.enabled" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L145" id="L4YAML-ParserLimits-permissive"><code>permissive</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.ParserLimits.permissive" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L162" id="L4YAML-ParserLimits-safeTagsOnly"><code>safeTagsOnly</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.ParserLimits.safeTagsOnly" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L131" id="L4YAML-ParserLimits-strict"><code>strict</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.ParserLimits.strict" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L121" id="L4YAML-ParserLimits-structural"><code>structural</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.ParserLimits.structural" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L123" id="L4YAML-ParserLimits-tag"><code>tag</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.ParserLimits.tag" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L159" id="L4YAML-ParserLimits-unlimited"><code>unlimited</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.ParserLimits.unlimited" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.StructuralLimitError</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L216" id="L4YAML-StructuralLimitError-toString"><code>toString</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.StructuralLimitError.toString" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.StructuralLimits</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L59" id="L4YAML-StructuralLimits-maxDepth"><code>maxDepth</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.StructuralLimits.maxDepth" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L65" id="L4YAML-StructuralLimits-maxMappingSize"><code>maxMappingSize</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.StructuralLimits.maxMappingSize" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L68" id="L4YAML-StructuralLimits-maxScalarBytes"><code>maxScalarBytes</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.StructuralLimits.maxScalarBytes" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L62" id="L4YAML-StructuralLimits-maxSequenceLength"><code>maxSequenceLength</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.StructuralLimits.maxSequenceLength" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L71" id="L4YAML-StructuralLimits-maxTotalNodes"><code>maxTotalNodes</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.StructuralLimits.maxTotalNodes" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.TagLimits</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L115" id="L4YAML-TagLimits-maxHandlePrefixLength"><code>maxHandlePrefixLength</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.TagLimits.maxHandlePrefixLength" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L109" id="L4YAML-TagLimits-maxTagLength"><code>maxTagLength</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.TagLimits.maxTagLength" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L111" id="L4YAML-TagLimits-maxUniqueTags"><code>maxUniqueTags</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.TagLimits.maxUniqueTags" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L104" id="L4YAML-TagLimits-policy"><code>policy</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.TagLimits.policy" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L113" id="L4YAML-TagLimits-rejectCustomHandles"><code>rejectCustomHandles</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.TagLimits.rejectCustomHandles" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L107" id="L4YAML-TagLimits-rejectLanguageTags"><code>rejectLanguageTags</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.TagLimits.rejectLanguageTags" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.TagSecurityError</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L258" id="L4YAML-TagSecurityError-extractLanguage"><code>extractLanguage</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.TagSecurityError.extractLanguage" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L266" id="L4YAML-TagSecurityError-toString"><code>toString</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.TagSecurityError.toString" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.collectTags</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L386" id="L4YAML-collectTags-go"><code>go</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.collectTags.go" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instBEqAliasLimitError</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L186" id="L4YAML-instBEqAliasLimitError-beq"><code>beq</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instBEqAliasLimitError.beq" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instBEqAliasLimits</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L53" id="L4YAML-instBEqAliasLimits-beq"><code>beq</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instBEqAliasLimits.beq" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instBEqDocumentLimitError</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L235" id="L4YAML-instBEqDocumentLimitError-beq"><code>beq</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instBEqDocumentLimitError.beq" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instBEqDocumentLimits</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L85" id="L4YAML-instBEqDocumentLimits-beq"><code>beq</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instBEqDocumentLimits.beq" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instBEqLimitError</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L290" id="L4YAML-instBEqLimitError-beq"><code>beq</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instBEqLimitError.beq" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instBEqParseError</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L304" id="L4YAML-instBEqParseError-beq"><code>beq</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instBEqParseError.beq" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instBEqParserLimits</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L126" id="L4YAML-instBEqParserLimits-beq"><code>beq</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instBEqParserLimits.beq" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instBEqStructuralLimitError</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L207" id="L4YAML-instBEqStructuralLimitError-beq"><code>beq</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instBEqStructuralLimitError.beq" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instBEqStructuralLimits</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L72" id="L4YAML-instBEqStructuralLimits-beq"><code>beq</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instBEqStructuralLimits.beq" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instBEqTagLimits</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L116" id="L4YAML-instBEqTagLimits-beq"><code>beq</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instBEqTagLimits.beq" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instBEqTagPolicy</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L99" id="L4YAML-instBEqTagPolicy-beq"><code>beq</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instBEqTagPolicy.beq" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instBEqTagSecurityError</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L256" id="L4YAML-instBEqTagSecurityError-beq"><code>beq</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instBEqTagSecurityError.beq" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instInhabitedAliasLimitError</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L186" id="L4YAML-instInhabitedAliasLimitError-default"><code>default</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instInhabitedAliasLimitError.default" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instInhabitedAliasLimits</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L53" id="L4YAML-instInhabitedAliasLimits-default"><code>default</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instInhabitedAliasLimits.default" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instInhabitedDocumentLimitError</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L235" id="L4YAML-instInhabitedDocumentLimitError-default"><code>default</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instInhabitedDocumentLimitError.default" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instInhabitedDocumentLimits</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L85" id="L4YAML-instInhabitedDocumentLimits-default"><code>default</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instInhabitedDocumentLimits.default" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instInhabitedLimitError</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L290" id="L4YAML-instInhabitedLimitError-default"><code>default</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instInhabitedLimitError.default" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instInhabitedParseError</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L304" id="L4YAML-instInhabitedParseError-default"><code>default</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instInhabitedParseError.default" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instInhabitedParserLimits</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L126" id="L4YAML-instInhabitedParserLimits-default"><code>default</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instInhabitedParserLimits.default" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instInhabitedStructuralLimitError</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L207" id="L4YAML-instInhabitedStructuralLimitError-default"><code>default</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instInhabitedStructuralLimitError.default" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instInhabitedStructuralLimits</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L72" id="L4YAML-instInhabitedStructuralLimits-default"><code>default</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instInhabitedStructuralLimits.default" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instInhabitedTagLimits</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L116" id="L4YAML-instInhabitedTagLimits-default"><code>default</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instInhabitedTagLimits.default" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instInhabitedTagPolicy</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L99" id="L4YAML-instInhabitedTagPolicy-default"><code>default</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instInhabitedTagPolicy.default" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instInhabitedTagSecurityError</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L256" id="L4YAML-instInhabitedTagSecurityError-default"><code>default</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instInhabitedTagSecurityError.default" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instReprAliasLimitError</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L186" id="L4YAML-instReprAliasLimitError-repr"><code>repr</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instReprAliasLimitError.repr" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instReprAliasLimits</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L53" id="L4YAML-instReprAliasLimits-repr"><code>repr</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instReprAliasLimits.repr" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instReprDocumentLimitError</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L235" id="L4YAML-instReprDocumentLimitError-repr"><code>repr</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instReprDocumentLimitError.repr" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instReprDocumentLimits</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L85" id="L4YAML-instReprDocumentLimits-repr"><code>repr</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instReprDocumentLimits.repr" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instReprLimitError</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L290" id="L4YAML-instReprLimitError-repr"><code>repr</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instReprLimitError.repr" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instReprParseError</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L304" id="L4YAML-instReprParseError-repr"><code>repr</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instReprParseError.repr" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instReprParserLimits</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L126" id="L4YAML-instReprParserLimits-repr"><code>repr</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instReprParserLimits.repr" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instReprStructuralLimitError</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L207" id="L4YAML-instReprStructuralLimitError-repr"><code>repr</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instReprStructuralLimitError.repr" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instReprStructuralLimits</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L72" id="L4YAML-instReprStructuralLimits-repr"><code>repr</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instReprStructuralLimits.repr" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instReprTagLimits</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L116" id="L4YAML-instReprTagLimits-repr"><code>repr</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instReprTagLimits.repr" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instReprTagPolicy</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L99" id="L4YAML-instReprTagPolicy-repr"><code>repr</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instReprTagPolicy.repr" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.instReprTagSecurityError</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L256" id="L4YAML-instReprTagSecurityError-repr"><code>repr</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.instReprTagSecurityError.repr" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.resolveAliasesLimited</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L423" id="L4YAML-resolveAliasesLimited-go"><code>go</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.resolveAliasesLimited.go" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L453" id="L4YAML-resolveAliasesLimited-goList"><code>goList</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.resolveAliasesLimited.goList" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L462" id="L4YAML-resolveAliasesLimited-goPairs"><code>goPairs</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.resolveAliasesLimited.goPairs" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>L4YAML.validateStructure</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L513" id="L4YAML-validateStructure-goMap"><code>goMap</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.validateStructure.goMap" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/nasa-jpl/L4YAML/blob/feature/intrinsic-foundations/L4YAML/Config/Limits.lean#L506" id="L4YAML-validateStructure-goSeq"><code>goSeq</code></a> <a href="../api/L4YAML/Config/Limits.html#L4YAML.validateStructure.goSeq" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<p>---</p>
+<p><a href="index.html">← Back to Index</a></p>
+    </div>
+  </main>
+</body>
+</html>

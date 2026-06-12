@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NN_Spec_Models_Transformer - Documentation Verification</title>
+  <link rel="stylesheet" href="../style.css">
+  <script defer src="../verification.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Documentation Verification Report</h1>
+    <nav>
+      <a href="../index.html">Overview</a>
+      <a href="index.html">Modules</a>
+      <a href="../search.html">Search</a>
+      <a href="../api/index.html">API Docs</a>
+    </nav>
+  </header>
+  <main>
+    <div class="container">
+      <nav class="breadcrumbs">
+        <a href="../index.html">Verification</a> /
+        <a href="index.html">Modules</a> /
+        NN_Spec_Models_Transformer
+      </nav>
+      <h1>Transformer</h1>
+<p>📁 <strong>Source:</strong> <a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean">NN/Spec/Models/Transformer.lean</a></p>
+<h2>Statistics</h2>
+<table class="verification-table">
+<tr><th>Metric</th><th>Count</th></tr>
+<tr><td><details><summary>Definitions</summary><a href="#Spec-FeedForward-W1"><code>W1</code></a>, <a href="#Spec-FeedForward-W2"><code>W2</code></a>, <a href="#Spec-FeedForward-b1"><code>b1</code></a>, <a href="#Spec-FeedForward-b2"><code>b2</code></a>, <a href="#Spec-FeedForward-backward"><code>backward</code></a>, <a href="#Spec-FeedForward-forward"><code>forward</code></a>, <a href="#Spec-FeedForwardGrads"><code>FeedForwardGrads</code></a>, <a href="#Spec-FeedForwardGrads-dW1"><code>dW1</code></a>, <a href="#Spec-FeedForwardGrads-dW2"><code>dW2</code></a>, <a href="#Spec-FeedForwardGrads-db1"><code>db1</code></a>, <a href="#Spec-FeedForwardGrads-db2"><code>db2</code></a>, <a href="#Spec-MultiHeadAttentionGrads"><code>MultiHeadAttentionGrads</code></a>, <a href="#Spec-MultiHeadAttentionGrads-dWk"><code>dWk</code></a>, <a href="#Spec-MultiHeadAttentionGrads-dWo"><code>dWo</code></a>, <a href="#Spec-MultiHeadAttentionGrads-dWq"><code>dWq</code></a>, <a href="#Spec-MultiHeadAttentionGrads-dWv"><code>dWv</code></a>, <a href="#Spec-Transformer"><code>Transformer</code></a>, <a href="#Spec-Transformer-decoder"><code>decoder</code></a>, <a href="#Spec-Transformer-encoder"><code>encoder</code></a>, <a href="#Spec-Transformer-forward"><code>forward</code></a>, <a href="#Spec-Transformer-inputEmbedding"><code>inputEmbedding</code></a>, <a href="#Spec-Transformer-outputEmbedding"><code>outputEmbedding</code></a>, <a href="#Spec-Transformer-outputProjection"><code>outputProjection</code></a>, <a href="#Spec-TransformerDecoder"><code>TransformerDecoder</code></a>, <a href="#Spec-TransformerDecoder-forward"><code>forward</code></a>, <a href="#Spec-TransformerDecoder-layers"><code>layers</code></a>, <a href="#Spec-TransformerDecoderLayer"><code>TransformerDecoderLayer</code></a>, <a href="#Spec-TransformerDecoderLayer-crossAttn"><code>crossAttn</code></a>, <a href="#Spec-TransformerDecoderLayer-ffn"><code>ffn</code></a>, <a href="#Spec-TransformerDecoderLayer-forward"><code>forward</code></a>, <a href="#Spec-TransformerDecoderLayer-norm1_beta"><code>norm1_beta</code></a>, <a href="#Spec-TransformerDecoderLayer-norm1_gamma"><code>norm1_gamma</code></a>, <a href="#Spec-TransformerDecoderLayer-norm2_beta"><code>norm2_beta</code></a>, <a href="#Spec-TransformerDecoderLayer-norm2_gamma"><code>norm2_gamma</code></a>, <a href="#Spec-TransformerDecoderLayer-norm3_beta"><code>norm3_beta</code></a>, <a href="#Spec-TransformerDecoderLayer-norm3_gamma"><code>norm3_gamma</code></a>, <a href="#Spec-TransformerDecoderLayer-selfAttn"><code>selfAttn</code></a>, <a href="#Spec-TransformerEncoder"><code>TransformerEncoder</code></a>, <a href="#Spec-TransformerEncoder-backward"><code>backward</code></a>, <a href="#Spec-TransformerEncoder-backward-collect_inputs"><code>collect_inputs</code></a>, <a href="#Spec-TransformerEncoder-forward"><code>forward</code></a>, <a href="#Spec-TransformerEncoder-layers"><code>layers</code></a>, <a href="#Spec-TransformerEncoderCfg"><code>TransformerEncoderCfg</code></a>, <a href="#Spec-TransformerEncoderLayer"><code>TransformerEncoderLayer</code></a>, <a href="#Spec-TransformerEncoderLayer-backward"><code>backward</code></a>, <a href="#Spec-TransformerEncoderLayer-ffn"><code>ffn</code></a>, <a href="#Spec-TransformerEncoderLayer-forward"><code>forward</code></a>, <a href="#Spec-TransformerEncoderLayer-mha"><code>mha</code></a>, <a href="#Spec-TransformerEncoderLayer-norm1_beta"><code>norm1_beta</code></a>, <a href="#Spec-TransformerEncoderLayer-norm1_gamma"><code>norm1_gamma</code></a>, <a href="#Spec-TransformerEncoderLayer-norm2_beta"><code>norm2_beta</code></a>, <a href="#Spec-TransformerEncoderLayer-norm2_gamma"><code>norm2_gamma</code></a>, <a href="#Spec-TransformerEncoderLayerGrads"><code>TransformerEncoderLayerGrads</code></a>, <a href="#Spec-TransformerEncoderLayerGrads-d_norm1_beta"><code>d_norm1_beta</code></a>, <a href="#Spec-TransformerEncoderLayerGrads-d_norm1_gamma"><code>d_norm1_gamma</code></a>, <a href="#Spec-TransformerEncoderLayerGrads-d_norm2_beta"><code>d_norm2_beta</code></a>, <a href="#Spec-TransformerEncoderLayerGrads-d_norm2_gamma"><code>d_norm2_gamma</code></a>, <a href="#Spec-TransformerEncoderLayerGrads-ffn"><code>ffn</code></a>, <a href="#Spec-TransformerEncoderLayerGrads-mha"><code>mha</code></a>, <a href="#Spec-TransformerEncoderLayerGradsCfg"><code>TransformerEncoderLayerGradsCfg</code></a>, <a href="#Spec-TransformerLayerConfig"><code>TransformerLayerConfig</code></a>, <a href="#Spec-TransformerLayerConfig-WF"><code>WF</code></a>, <a href="#Spec-TransformerLayerConfig-embedDim"><code>embedDim</code></a>, <a href="#Spec-TransformerLayerConfig-headCount"><code>headCount</code></a>, <a href="#Spec-TransformerLayerConfig-hiddenDim"><code>hiddenDim</code></a>, <a href="#Spec-TransformerStackConfig"><code>TransformerStackConfig</code></a>, <a href="#Spec-TransformerStackConfig-WF"><code>WF</code></a>, <a href="#Spec-TransformerStackConfig-numLayers"><code>numLayers</code></a>, <a href="#Spec-TransformerStackConfig-toTransformerLayerConfig"><code>toTransformerLayerConfig</code></a>, <a href="#Spec-maskedMultiHeadAttention"><code>maskedMultiHeadAttention</code></a>, <a href="#Spec-multiHeadCrossAttention"><code>multiHeadCrossAttention</code></a>, <a href="#Spec-positionalEncoding"><code>positionalEncoding</code></a>, <a href="#Spec-transformerBaseConfig"><code>transformerBaseConfig</code></a>, <a href="#Spec-transformerBigConfig"><code>transformerBigConfig</code></a></details></td><td>74</td></tr>
+<tr><td><details><summary>Theorems</summary><a href="#Spec-TransformerLayerConfig-WF-embedDim_pos"><code>embedDim_pos</code></a>, <a href="#Spec-TransformerLayerConfig-WF-headCount_dvd_embedDim"><code>headCount_dvd_embedDim</code></a>, <a href="#Spec-TransformerLayerConfig-WF-headCount_pos"><code>headCount_pos</code></a>, <a href="#Spec-TransformerLayerConfig-WF-hiddenDim_pos"><code>hiddenDim_pos</code></a>, <a href="#Spec-TransformerStackConfig-WF-layer"><code>layer</code></a>, <a href="#Spec-transformerBaseConfig_wf"><code>transformerBaseConfig_wf</code></a>, <a href="#Spec-transformerBigConfig_wf"><code>transformerBigConfig_wf</code></a></details></td><td>7</td></tr>
+<tr><td><strong>Total</strong></td><td><strong>81</strong></td></tr>
+</table>
+<h2>Spec</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L151" id="Spec-FeedForwardGrads"><code>FeedForwardGrads</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.FeedForwardGrads" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L166" id="Spec-MultiHeadAttentionGrads"><code>MultiHeadAttentionGrads</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.MultiHeadAttentionGrads" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L503" id="Spec-Transformer"><code>Transformer</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.Transformer" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L470" id="Spec-TransformerDecoder"><code>TransformerDecoder</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerDecoder" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L409" id="Spec-TransformerDecoderLayer"><code>TransformerDecoderLayer</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerDecoderLayer" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L294" id="Spec-TransformerEncoder"><code>TransformerEncoder</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerEncoder" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L322" id="Spec-TransformerEncoderCfg"><code>TransformerEncoderCfg</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerEncoderCfg" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L253" id="Spec-TransformerEncoderLayer"><code>TransformerEncoderLayer</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerEncoderLayer" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L181" id="Spec-TransformerEncoderLayerGrads"><code>TransformerEncoderLayerGrads</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerEncoderLayerGrads" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L318" id="Spec-TransformerEncoderLayerGradsCfg"><code>TransformerEncoderLayerGradsCfg</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerEncoderLayerGradsCfg" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L78" id="Spec-TransformerLayerConfig"><code>TransformerLayerConfig</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerLayerConfig" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L87" id="Spec-TransformerStackConfig"><code>TransformerStackConfig</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerStackConfig" title="API Documentation">📖</a></td><td>CompData</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L784" id="Spec-maskedMultiHeadAttention"><code>maskedMultiHeadAttention</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.maskedMultiHeadAttention" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L366" id="Spec-multiHeadCrossAttention"><code>multiHeadCrossAttention</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.multiHeadCrossAttention" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L758" id="Spec-positionalEncoding"><code>positionalEncoding</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.positionalEncoding" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L108" id="Spec-transformerBaseConfig"><code>transformerBaseConfig</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.transformerBaseConfig" title="API Documentation">📖</a></td><td>CompOp</td><td><details><summary>1 math</summary><strong>math:</strong> <a href="#Spec-transformerBaseConfig_wf"><code>transformerBaseConfig_wf</code></a><br></details></td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L124" id="Spec-transformerBigConfig"><code>transformerBigConfig</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.transformerBigConfig" title="API Documentation">📖</a></td><td>CompOp</td><td><details><summary>1 math</summary><strong>math:</strong> <a href="#Spec-transformerBigConfig_wf"><code>transformerBigConfig_wf</code></a><br></details></td></tr>
+</table>
+<h3>Theorems</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Kind</th><th>Assumes</th><th>Proves</th><th>Validates</th><th>Depends On</th></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L115" id="Spec-transformerBaseConfig_wf"><code>transformerBaseConfig_wf</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.transformerBaseConfig_wf" title="API Documentation">📖</a></td><td>mathematical</td><td>—</td><td><a href="#Spec-TransformerStackConfig-WF"><code>TransformerStackConfig.WF</code></a><br><a href="#Spec-transformerBaseConfig"><code>transformerBaseConfig</code></a></td><td>—</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L131" id="Spec-transformerBigConfig_wf"><code>transformerBigConfig_wf</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.transformerBigConfig_wf" title="API Documentation">📖</a></td><td>mathematical</td><td>—</td><td><a href="#Spec-TransformerStackConfig-WF"><code>TransformerStackConfig.WF</code></a><br><a href="#Spec-transformerBigConfig"><code>transformerBigConfig</code></a></td><td>—</td><td>—</td></tr>
+</table>
+<h2>Spec.FeedForward</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L206" id="Spec-FeedForward-W1"><code>W1</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.FeedForward.W1" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L208" id="Spec-FeedForward-W2"><code>W2</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.FeedForward.W2" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L210" id="Spec-FeedForward-b1"><code>b1</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.FeedForward.b1" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L212" id="Spec-FeedForward-b2"><code>b2</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.FeedForward.b2" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L562" id="Spec-FeedForward-backward"><code>backward</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.FeedForward.backward" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L220" id="Spec-FeedForward-forward"><code>forward</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.FeedForward.forward" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Spec.FeedForwardGrads</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L153" id="Spec-FeedForwardGrads-dW1"><code>dW1</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.FeedForwardGrads.dW1" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L155" id="Spec-FeedForwardGrads-dW2"><code>dW2</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.FeedForwardGrads.dW2" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L157" id="Spec-FeedForwardGrads-db1"><code>db1</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.FeedForwardGrads.db1" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L159" id="Spec-FeedForwardGrads-db2"><code>db2</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.FeedForwardGrads.db2" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Spec.MultiHeadAttentionGrads</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L170" id="Spec-MultiHeadAttentionGrads-dWk"><code>dWk</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.MultiHeadAttentionGrads.dWk" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L174" id="Spec-MultiHeadAttentionGrads-dWo"><code>dWo</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.MultiHeadAttentionGrads.dWo" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L168" id="Spec-MultiHeadAttentionGrads-dWq"><code>dWq</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.MultiHeadAttentionGrads.dWq" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L172" id="Spec-MultiHeadAttentionGrads-dWv"><code>dWv</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.MultiHeadAttentionGrads.dWv" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Spec.Transformer</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L508" id="Spec-Transformer-decoder"><code>decoder</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.Transformer.decoder" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L506" id="Spec-Transformer-encoder"><code>encoder</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.Transformer.encoder" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L528" id="Spec-Transformer-forward"><code>forward</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.Transformer.forward" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L510" id="Spec-Transformer-inputEmbedding"><code>inputEmbedding</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.Transformer.inputEmbedding" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L512" id="Spec-Transformer-outputEmbedding"><code>outputEmbedding</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.Transformer.outputEmbedding" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L514" id="Spec-Transformer-outputProjection"><code>outputProjection</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.Transformer.outputProjection" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Spec.TransformerDecoder</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L480" id="Spec-TransformerDecoder-forward"><code>forward</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerDecoder.forward" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L473" id="Spec-TransformerDecoder-layers"><code>layers</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerDecoder.layers" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Spec.TransformerDecoderLayer</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L414" id="Spec-TransformerDecoderLayer-crossAttn"><code>crossAttn</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerDecoderLayer.crossAttn" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L416" id="Spec-TransformerDecoderLayer-ffn"><code>ffn</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerDecoderLayer.ffn" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L438" id="Spec-TransformerDecoderLayer-forward"><code>forward</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerDecoderLayer.forward" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L420" id="Spec-TransformerDecoderLayer-norm1_beta"><code>norm1_beta</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerDecoderLayer.norm1_beta" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L418" id="Spec-TransformerDecoderLayer-norm1_gamma"><code>norm1_gamma</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerDecoderLayer.norm1_gamma" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L425" id="Spec-TransformerDecoderLayer-norm2_beta"><code>norm2_beta</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerDecoderLayer.norm2_beta" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L423" id="Spec-TransformerDecoderLayer-norm2_gamma"><code>norm2_gamma</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerDecoderLayer.norm2_gamma" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L430" id="Spec-TransformerDecoderLayer-norm3_beta"><code>norm3_beta</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerDecoderLayer.norm3_beta" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L428" id="Spec-TransformerDecoderLayer-norm3_gamma"><code>norm3_gamma</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerDecoderLayer.norm3_gamma" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L412" id="Spec-TransformerDecoderLayer-selfAttn"><code>selfAttn</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerDecoderLayer.selfAttn" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Spec.TransformerEncoder</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L712" id="Spec-TransformerEncoder-backward"><code>backward</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerEncoder.backward" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L304" id="Spec-TransformerEncoder-forward"><code>forward</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerEncoder.forward" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L297" id="Spec-TransformerEncoder-layers"><code>layers</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerEncoder.layers" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Spec.TransformerEncoder.backward</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L721" id="Spec-TransformerEncoder-backward-collect_inputs"><code>collect_inputs</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerEncoder.backward.collect_inputs" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Spec.TransformerEncoderLayer</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L634" id="Spec-TransformerEncoderLayer-backward"><code>backward</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerEncoderLayer.backward" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L258" id="Spec-TransformerEncoderLayer-ffn"><code>ffn</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerEncoderLayer.ffn" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L276" id="Spec-TransformerEncoderLayer-forward"><code>forward</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerEncoderLayer.forward" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L256" id="Spec-TransformerEncoderLayer-mha"><code>mha</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerEncoderLayer.mha" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L263" id="Spec-TransformerEncoderLayer-norm1_beta"><code>norm1_beta</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerEncoderLayer.norm1_beta" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L261" id="Spec-TransformerEncoderLayer-norm1_gamma"><code>norm1_gamma</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerEncoderLayer.norm1_gamma" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L268" id="Spec-TransformerEncoderLayer-norm2_beta"><code>norm2_beta</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerEncoderLayer.norm2_beta" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L266" id="Spec-TransformerEncoderLayer-norm2_gamma"><code>norm2_gamma</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerEncoderLayer.norm2_gamma" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Spec.TransformerEncoderLayerGrads</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L189" id="Spec-TransformerEncoderLayerGrads-d_norm1_beta"><code>d_norm1_beta</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerEncoderLayerGrads.d_norm1_beta" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L187" id="Spec-TransformerEncoderLayerGrads-d_norm1_gamma"><code>d_norm1_gamma</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerEncoderLayerGrads.d_norm1_gamma" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L193" id="Spec-TransformerEncoderLayerGrads-d_norm2_beta"><code>d_norm2_beta</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerEncoderLayerGrads.d_norm2_beta" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L191" id="Spec-TransformerEncoderLayerGrads-d_norm2_gamma"><code>d_norm2_gamma</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerEncoderLayerGrads.d_norm2_gamma" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L185" id="Spec-TransformerEncoderLayerGrads-ffn"><code>ffn</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerEncoderLayerGrads.ffn" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L183" id="Spec-TransformerEncoderLayerGrads-mha"><code>mha</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerEncoderLayerGrads.mha" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+</table>
+<h2>Spec.TransformerLayerConfig</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L97" id="Spec-TransformerLayerConfig-WF"><code>WF</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerLayerConfig.WF" title="API Documentation">📖</a></td><td>CompData</td><td><details><summary>1 math</summary><strong>math:</strong> <a href="#Spec-TransformerStackConfig-WF-layer"><code>Spec.TransformerStackConfig.WF.layer</code></a><br></details></td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L82" id="Spec-TransformerLayerConfig-embedDim"><code>embedDim</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerLayerConfig.embedDim" title="API Documentation">📖</a></td><td>CompOp</td><td><details><summary>2 math</summary><strong>math:</strong> <a href="#Spec-TransformerLayerConfig-WF-headCount_dvd_embedDim"><code>WF.headCount_dvd_embedDim</code></a>, <a href="#Spec-TransformerLayerConfig-WF-embedDim_pos"><code>WF.embedDim_pos</code></a><br></details></td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L80" id="Spec-TransformerLayerConfig-headCount"><code>headCount</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerLayerConfig.headCount" title="API Documentation">📖</a></td><td>CompOp</td><td><details><summary>2 math</summary><strong>math:</strong> <a href="#Spec-TransformerLayerConfig-WF-headCount_dvd_embedDim"><code>WF.headCount_dvd_embedDim</code></a>, <a href="#Spec-TransformerLayerConfig-WF-headCount_pos"><code>WF.headCount_pos</code></a><br></details></td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L84" id="Spec-TransformerLayerConfig-hiddenDim"><code>hiddenDim</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerLayerConfig.hiddenDim" title="API Documentation">📖</a></td><td>CompOp</td><td><details><summary>1 math</summary><strong>math:</strong> <a href="#Spec-TransformerLayerConfig-WF-hiddenDim_pos"><code>WF.hiddenDim_pos</code></a><br></details></td></tr>
+</table>
+<h2>Spec.TransformerLayerConfig.WF</h2>
+<h3>Theorems</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Kind</th><th>Assumes</th><th>Proves</th><th>Validates</th><th>Depends On</th></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L99" id="Spec-TransformerLayerConfig-WF-embedDim_pos"><code>embedDim_pos</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerLayerConfig.WF.embedDim_pos" title="API Documentation">📖</a></td><td>mathematical</td><td><a href="#Spec-TransformerLayerConfig-WF"><code>Spec.TransformerLayerConfig.WF</code></a></td><td><a href="#Spec-TransformerLayerConfig-embedDim"><code>Spec.TransformerLayerConfig.embedDim</code></a></td><td>—</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L101" id="Spec-TransformerLayerConfig-WF-headCount_dvd_embedDim"><code>headCount_dvd_embedDim</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerLayerConfig.WF.headCount_dvd_embedDim" title="API Documentation">📖</a></td><td>mathematical</td><td><a href="#Spec-TransformerLayerConfig-WF"><code>Spec.TransformerLayerConfig.WF</code></a></td><td><a href="#Spec-TransformerLayerConfig-headCount"><code>Spec.TransformerLayerConfig.headCount</code></a><br><a href="#Spec-TransformerLayerConfig-embedDim"><code>Spec.TransformerLayerConfig.embedDim</code></a></td><td>—</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L98" id="Spec-TransformerLayerConfig-WF-headCount_pos"><code>headCount_pos</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerLayerConfig.WF.headCount_pos" title="API Documentation">📖</a></td><td>mathematical</td><td><a href="#Spec-TransformerLayerConfig-WF"><code>Spec.TransformerLayerConfig.WF</code></a></td><td><a href="#Spec-TransformerLayerConfig-headCount"><code>Spec.TransformerLayerConfig.headCount</code></a></td><td>—</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L100" id="Spec-TransformerLayerConfig-WF-hiddenDim_pos"><code>hiddenDim_pos</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerLayerConfig.WF.hiddenDim_pos" title="API Documentation">📖</a></td><td>mathematical</td><td><a href="#Spec-TransformerLayerConfig-WF"><code>Spec.TransformerLayerConfig.WF</code></a></td><td><a href="#Spec-TransformerLayerConfig-hiddenDim"><code>Spec.TransformerLayerConfig.hiddenDim</code></a></td><td>—</td><td>—</td></tr>
+</table>
+<h2>Spec.TransformerStackConfig</h2>
+<h3>Definitions</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Category</th><th>Theorems</th></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L104" id="Spec-TransformerStackConfig-WF"><code>WF</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerStackConfig.WF" title="API Documentation">📖</a></td><td>CompData</td><td><details><summary>2 math</summary><strong>math:</strong> <a href="#Spec-transformerBigConfig_wf"><code>Spec.transformerBigConfig_wf</code></a>, <a href="#Spec-transformerBaseConfig_wf"><code>Spec.transformerBaseConfig_wf</code></a><br></details></td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L89" id="Spec-TransformerStackConfig-numLayers"><code>numLayers</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerStackConfig.numLayers" title="API Documentation">📖</a></td><td>CompOp</td><td>—</td></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L87" id="Spec-TransformerStackConfig-toTransformerLayerConfig"><code>toTransformerLayerConfig</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerStackConfig.toTransformerLayerConfig" title="API Documentation">📖</a></td><td>CompOp</td><td><details><summary>1 math</summary><strong>math:</strong> <a href="#Spec-TransformerStackConfig-WF-layer"><code>WF.layer</code></a><br></details></td></tr>
+</table>
+<h2>Spec.TransformerStackConfig.WF</h2>
+<h3>Theorems</h3>
+<table class="verification-table">
+<tr><th>Name</th><th>Kind</th><th>Assumes</th><th>Proves</th><th>Validates</th><th>Depends On</th></tr>
+<tr><td><a href="https://github.com/lean-dojo/TorchLean/blob/main/NN/Spec/Models/Transformer.lean#L105" id="Spec-TransformerStackConfig-WF-layer"><code>layer</code></a> <a href="../api/NN/Spec/Models/Transformer.html#Spec.TransformerStackConfig.WF.layer" title="API Documentation">📖</a></td><td>mathematical</td><td><a href="#Spec-TransformerStackConfig-WF"><code>Spec.TransformerStackConfig.WF</code></a></td><td><a href="#Spec-TransformerLayerConfig-WF"><code>Spec.TransformerLayerConfig.WF</code></a><br><a href="#Spec-TransformerStackConfig-toTransformerLayerConfig"><code>Spec.TransformerStackConfig.toTransformerLayerConfig</code></a></td><td>—</td><td>—</td></tr>
+</table>
+<p>---</p>
+<p><a href="index.html">← Back to Index</a></p>
+    </div>
+  </main>
+</body>
+</html>

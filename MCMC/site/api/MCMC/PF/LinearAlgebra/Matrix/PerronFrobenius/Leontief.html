@@ -1,0 +1,215 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../../../.././style.css"></link><link rel="icon" href="../../../../.././favicon.svg"></link><link rel="mask-icon" href="../../../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../../../.././/declarations/declaration-data.bmp" as="image"></link><title>MCMC.PF.LinearAlgebra.Matrix.PerronFrobenius.Leontief</title><script defer="true" src="../../../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../../../.././";</script><script>const MODULE_NAME="MCMC.PF.LinearAlgebra.Matrix.PerronFrobenius.Leontief";</script><script type="module" src="../../../../.././jump-src.js"></script><script type="module" src="../../../../.././search.js"></script><script type="module" src="../../../../.././expand-nav.js"></script><script type="module" src="../../../../.././how-about.js"></script><script type="module" src="../../../../.././instances.js"></script><script type="module" src="../../../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">MCMC</span>.<span class="name">PF</span>.<span class="name">LinearAlgebra</span>.<span class="name">Matrix</span>.<span class="name">PerronFrobenius</span>.<span class="name">Leontief</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Leontief.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../../../.././Init.html">Init</a></li><li><a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Dominance.html">MCMC.PF.LinearAlgebra.Matrix.PerronFrobenius.Dominance</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-MCMC.PF.LinearAlgebra.Matrix.PerronFrobenius.Leontief" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#Matrix.resolventPartialSums"><span class="name">Matrix</span>.<span class="name">resolventPartialSums</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.resolventPartialSums_zero"><span class="name">Matrix</span>.<span class="name">resolventPartialSums_zero</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.tendsto_resolventPartialSums"><span class="name">Matrix</span>.<span class="name">tendsto_resolventPartialSums</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.tendsto_resolventPartialSums_apply"><span class="name">Matrix</span>.<span class="name">tendsto_resolventPartialSums_apply</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.resolvent_nonneg_of_perronRoot_lt"><span class="name">Matrix</span>.<span class="name">resolvent_nonneg_of_perronRoot_lt</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.resolvent_pos_of_perronRoot_lt"><span class="name">Matrix</span>.<span class="name">resolvent_pos_of_perronRoot_lt</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.perronRoot_lt_of_resolvent_pos"><span class="name">Matrix</span>.<span class="name">perronRoot_lt_of_resolvent_pos</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.resolvent_pos_iff_perronRoot_lt"><span class="name">Matrix</span>.<span class="name">resolvent_pos_iff_perronRoot_lt</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.perronRoot_lt_of_exists_unique_pos_solution"><span class="name">Matrix</span>.<span class="name">perronRoot_lt_of_exists_unique_pos_solution</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.exists_unique_pos_solution_iff_perronRoot_lt"><span class="name">Matrix</span>.<span class="name">exists_unique_pos_solution_iff_perronRoot_lt</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.perronRoot_lt_iff_principalMinors_pos"><span class="name">Matrix</span>.<span class="name">perronRoot_lt_iff_principalMinors_pos</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Leontief-systems-and-Hawkins-Simon-criteria" class="markdown-heading">Leontief systems and Hawkins-Simon criteria <a class="hover-link" href="#Leontief-systems-and-Hawkins-Simon-criteria">#</a></h1><p>This file starts a Chapter 2 style formalization of Seneta's treatment of Leontief systems
+<code>(s • 1 - A) *ᵥ x = c</code>, using the matrix resolvent.</p></div><div class="decl" id="Matrix.resolventPartialSums"><div class="def"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Leontief.lean#L21-L24">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/MCMC_PF_LinearAlgebra_Matrix_PerronFrobenius_Leontief.html#Matrix.resolventPartialSums" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Leontief.html#Matrix.resolventPartialSums"><span class="name">Matrix</span>.<span class="name">resolventPartialSums</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">s</span> : <span class="fn">ℝ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">N</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span></div></div><p>The finite Neumann sums approximating the resolvent.</p><details id="instances-for-list-Matrix.resolventPartialSums" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Matrix.resolventPartialSums_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Leontief.lean#L26-L28">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/MCMC_PF_LinearAlgebra_Matrix_PerronFrobenius_Leontief.html#Matrix.resolventPartialSums_zero" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Leontief.html#Matrix.resolventPartialSums_zero"><span class="name">Matrix</span>.<span class="name">resolventPartialSums_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">s</span> : <span class="fn">ℝ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">A</span>.<a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Leontief.html#Matrix.resolventPartialSums">resolventPartialSums</a></span> <span class="fn">s</span> <span class="fn">0</span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div></div></div><div class="decl sorried" id="Matrix.tendsto_resolventPartialSums"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Leontief.lean#L98-L110">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/MCMC_PF_LinearAlgebra_Matrix_PerronFrobenius_Leontief.html#Matrix.tendsto_resolventPartialSums" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name" title="declaration uses 'sorry'"><a class="break_within" href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Leontief.html#Matrix.tendsto_resolventPartialSums"><span class="name">Matrix</span>.<span class="name">tendsto_resolventPartialSums</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nonempty</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hA_nonneg</span> : <span class="fn">∀ (<span class="fn">i </span><span class="fn">j</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">A</span> <span class="fn">i</span> <span class="fn">j</span></span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn">ℝ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hs</span> : <span class="fn"><span class="fn"><a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/CollatzWielandt.html#Matrix.CollatzWielandt.perronRoot">CollatzWielandt.perronRoot</a> <span class="fn">A</span></span> <span class="fn">&lt;</span> <span class="fn">s</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Filter.Tendsto</span> <span class="fn">(fun (<span class="fn">N</span> : <span class="fn">ℕ</span>) =&gt; <span class="fn"><span class="fn"><span class="fn">A</span>.<a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Leontief.html#Matrix.resolventPartialSums">resolventPartialSums</a></span> <span class="fn">s</span> <span class="fn">N</span></span>)</span> <span class="fn">Filter.atTop</span> <span class="fn">(<span class="fn">nhds</span> <span class="fn">(<span class="fn">resolvent</span> <span class="fn">A</span> <span class="fn">s</span>)</span>)</span></span></div></div><p>Neumann-series expansion of the resolvent in the productive regime <code>perronRoot A &lt; s</code>.</p><p>This is the analytic bridge still to be proved: it should ultimately follow from a Neumann-series
+or spectral-radius argument, rather than bespoke entrywise manipulation.</p></div></div><div class="decl" id="Matrix.tendsto_resolventPartialSums_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Leontief.lean#L112-L122">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/MCMC_PF_LinearAlgebra_Matrix_PerronFrobenius_Leontief.html#Matrix.tendsto_resolventPartialSums_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Leontief.html#Matrix.tendsto_resolventPartialSums_apply"><span class="name">Matrix</span>.<span class="name">tendsto_resolventPartialSums_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nonempty</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hA_nonneg</span> : <span class="fn">∀ (<span class="fn">i </span><span class="fn">j</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">A</span> <span class="fn">i</span> <span class="fn">j</span></span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn">ℝ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hs</span> : <span class="fn"><span class="fn"><a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/CollatzWielandt.html#Matrix.CollatzWielandt.perronRoot">CollatzWielandt.perronRoot</a> <span class="fn">A</span></span> <span class="fn">&lt;</span> <span class="fn">s</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">n</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Filter.Tendsto</span> <span class="fn">(fun (<span class="fn">N</span> : <span class="fn">ℕ</span>) =&gt; <span class="fn"><span class="fn"><span class="fn">A</span>.<a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Leontief.html#Matrix.resolventPartialSums">resolventPartialSums</a></span> <span class="fn">s</span> <span class="fn">N</span> <span class="fn">i</span> <span class="fn">j</span></span>)</span> <span class="fn">Filter.atTop</span> <span class="fn">(<span class="fn">nhds</span> <span class="fn">(<span class="fn">resolvent</span> <span class="fn">A</span> <span class="fn">s</span> <span class="fn">i</span> <span class="fn">j</span>)</span>)</span></span></div></div><p>Entrywise form of <code><a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Leontief.html#Matrix.tendsto_resolventPartialSums">tendsto_resolventPartialSums</a></code>.</p></div></div><div class="decl" id="Matrix.resolvent_nonneg_of_perronRoot_lt"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Leontief.lean#L124-L140">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Leontief.html#Matrix.resolvent_nonneg_of_perronRoot_lt"><span class="name">Matrix</span>.<span class="name">resolvent_nonneg_of_perronRoot_lt</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nonempty</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hA_nonneg</span> : <span class="fn">∀ (<span class="fn">i </span><span class="fn">j</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">A</span> <span class="fn">i</span> <span class="fn">j</span></span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn">ℝ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hs</span> : <span class="fn"><span class="fn"><a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/CollatzWielandt.html#Matrix.CollatzWielandt.perronRoot">CollatzWielandt.perronRoot</a> <span class="fn">A</span></span> <span class="fn">&lt;</span> <span class="fn">s</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">n</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">resolvent</span> <span class="fn">A</span> <span class="fn">s</span> <span class="fn">i</span> <span class="fn">j</span></span></span></div></div><p>If the Perron root lies strictly below <code>s</code>, the resolvent is entrywise nonnegative.
+This is the matrix-valued Neumann positivity statement.</p></div></div><div class="decl" id="Matrix.resolvent_pos_of_perronRoot_lt"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Leontief.lean#L142-L164">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Leontief.html#Matrix.resolvent_pos_of_perronRoot_lt"><span class="name">Matrix</span>.<span class="name">resolvent_pos_of_perronRoot_lt</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nonempty</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hA_irred</span> : <span class="fn"><span class="fn">A</span>.<span class="fn">IsIrreducible</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn">ℝ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hs</span> : <span class="fn"><span class="fn"><a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/CollatzWielandt.html#Matrix.CollatzWielandt.perronRoot">CollatzWielandt.perronRoot</a> <span class="fn">A</span></span> <span class="fn">&lt;</span> <span class="fn">s</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">n</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">resolvent</span> <span class="fn">A</span> <span class="fn">s</span> <span class="fn">i</span> <span class="fn">j</span></span></span></div></div><p>In the productive regime, irreducibility upgrades nonnegativity of the resolvent to strict
+entrywise positivity.</p></div></div><div class="decl" id="Matrix.perronRoot_lt_of_resolvent_pos"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Leontief.lean#L189-L239">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/MCMC_PF_LinearAlgebra_Matrix_PerronFrobenius_Leontief.html#Matrix.perronRoot_lt_of_resolvent_pos" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Leontief.html#Matrix.perronRoot_lt_of_resolvent_pos"><span class="name">Matrix</span>.<span class="name">perronRoot_lt_of_resolvent_pos</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nonempty</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hA_irred</span> : <span class="fn"><span class="fn">A</span>.<span class="fn">IsIrreducible</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn">ℝ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h_pos</span> : <span class="fn">∀ (<span class="fn">i </span><span class="fn">j</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">resolvent</span> <span class="fn">A</span> <span class="fn">s</span> <span class="fn">i</span> <span class="fn">j</span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/CollatzWielandt.html#Matrix.CollatzWielandt.perronRoot">CollatzWielandt.perronRoot</a> <span class="fn">A</span></span> <span class="fn">&lt;</span> <span class="fn">s</span></span></div></div><p>For an irreducible nonnegative matrix, entrywise positivity of the resolvent forces the
+strict productivity inequality <code>perronRoot A &lt; s</code>.</p></div></div><div class="decl" id="Matrix.resolvent_pos_iff_perronRoot_lt"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Leontief.lean#L241-L251">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/MCMC_PF_LinearAlgebra_Matrix_PerronFrobenius_Leontief.html#Matrix.resolvent_pos_iff_perronRoot_lt" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Leontief.html#Matrix.resolvent_pos_iff_perronRoot_lt"><span class="name">Matrix</span>.<span class="name">resolvent_pos_iff_perronRoot_lt</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nonempty</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hA_irred</span> : <span class="fn"><span class="fn">A</span>.<span class="fn">IsIrreducible</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn">ℝ</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(∀ (<span class="fn">i </span><span class="fn">j</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">resolvent</span> <span class="fn">A</span> <span class="fn">s</span> <span class="fn">i</span> <span class="fn">j</span></span></span>)</span> <span class="fn">↔</span> <span class="fn"><span class="fn"><a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/CollatzWielandt.html#Matrix.CollatzWielandt.perronRoot">CollatzWielandt.perronRoot</a> <span class="fn">A</span></span> <span class="fn">&lt;</span> <span class="fn">s</span></span></span></div></div><p>For an irreducible nonnegative matrix, entrywise positivity of the resolvent exactly detects the
+strict inequality <code>perronRoot A &lt; s</code>.</p></div></div><div class="decl" id="Matrix.perronRoot_lt_of_exists_unique_pos_solution"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Leontief.lean#L253-L295">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/MCMC_PF_LinearAlgebra_Matrix_PerronFrobenius_Leontief.html#Matrix.perronRoot_lt_of_exists_unique_pos_solution" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Leontief.html#Matrix.perronRoot_lt_of_exists_unique_pos_solution"><span class="name">Matrix</span>.<span class="name">perronRoot_lt_of_exists_unique_pos_solution</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nonempty</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hA_irred</span> : <span class="fn"><span class="fn">A</span>.<span class="fn">IsIrreducible</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn">ℝ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h_solve</span> : <span class="fn">∀ (<span class="fn">c</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>), <span class="fn"><span class="fn">(∀ (<span class="fn">i</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">c</span> <span class="fn">i</span></span></span>)</span> → <span class="fn"><span class="fn">∃!</span> <span class="fn">x</span> <span class="fn">:</span> <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span><span class="fn">,</span> <span class="fn"><span class="fn">(∀ (<span class="fn">i</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">x</span> <span class="fn">i</span></span></span>)</span> <span class="fn">∧</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">s</span> <span class="fn">•</span> <span class="fn">1</span></span> <span class="fn">-</span> <span class="fn">A</span>)</span>.<span class="fn">mulVec</span></span> <span class="fn">x</span></span> <span class="fn">=</span> <span class="fn">c</span></span></span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/CollatzWielandt.html#Matrix.CollatzWielandt.perronRoot">CollatzWielandt.perronRoot</a> <span class="fn">A</span></span> <span class="fn">&lt;</span> <span class="fn">s</span></span></div></div><p>Leontief-Seneta positivity criterion:
+for an irreducible nonnegative matrix, solvability of the Leontief system by a strictly positive
+vector for every strictly positive demand vector forces strict productivity.</p></div></div><div class="decl" id="Matrix.exists_unique_pos_solution_iff_perronRoot_lt"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Leontief.lean#L297-L345">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/MCMC_PF_LinearAlgebra_Matrix_PerronFrobenius_Leontief.html#Matrix.exists_unique_pos_solution_iff_perronRoot_lt" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Leontief.html#Matrix.exists_unique_pos_solution_iff_perronRoot_lt"><span class="name">Matrix</span>.<span class="name">exists_unique_pos_solution_iff_perronRoot_lt</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nonempty</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hA_irred</span> : <span class="fn"><span class="fn">A</span>.<span class="fn">IsIrreducible</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn">ℝ</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(∀ (<span class="fn">c</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>), <span class="fn"><span class="fn">(∀ (<span class="fn">i</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">c</span> <span class="fn">i</span></span></span>)</span> → <span class="fn"><span class="fn">∃!</span> <span class="fn">x</span> <span class="fn">:</span> <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span><span class="fn">,</span> <span class="fn"><span class="fn">(∀ (<span class="fn">i</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">x</span> <span class="fn">i</span></span></span>)</span> <span class="fn">∧</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">s</span> <span class="fn">•</span> <span class="fn">1</span></span> <span class="fn">-</span> <span class="fn">A</span>)</span>.<span class="fn">mulVec</span></span> <span class="fn">x</span></span> <span class="fn">=</span> <span class="fn">c</span></span></span></span></span>)</span> <span class="fn">↔</span>   <span class="fn"><span class="fn"><a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/CollatzWielandt.html#Matrix.CollatzWielandt.perronRoot">CollatzWielandt.perronRoot</a> <span class="fn">A</span></span> <span class="fn">&lt;</span> <span class="fn">s</span></span></span></div></div><p>Leontief-Seneta positivity criterion:
+for an irreducible nonnegative matrix, strict productivity is equivalent to solvability of the
+Leontief system by a strictly positive vector for every strictly positive demand vector.</p></div></div><div class="decl sorried" id="Matrix.perronRoot_lt_iff_principalMinors_pos"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Leontief.lean#L347-L357">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/MCMC_PF_LinearAlgebra_Matrix_PerronFrobenius_Leontief.html#Matrix.perronRoot_lt_iff_principalMinors_pos" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name" title="declaration uses 'sorry'"><a class="break_within" href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Leontief.html#Matrix.perronRoot_lt_iff_principalMinors_pos"><span class="name">Matrix</span>.<span class="name">perronRoot_lt_iff_principalMinors_pos</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nonempty</span> <span class="fn">(<span class="fn">Fin</span> <span class="fn">m</span>)</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">(<span class="fn">Fin</span> <span class="fn">m</span>)</span> <span class="fn">(<span class="fn">Fin</span> <span class="fn">m</span>)</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hA_nonneg</span> : <span class="fn">∀ (<span class="fn">i </span><span class="fn">j</span> : <span class="fn"><span class="fn">Fin</span> <span class="fn">m</span></span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">A</span> <span class="fn">i</span> <span class="fn">j</span></span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn">ℝ</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/CollatzWielandt.html#Matrix.CollatzWielandt.perronRoot">CollatzWielandt.perronRoot</a> <span class="fn">A</span></span> <span class="fn">&lt;</span> <span class="fn">s</span></span> <span class="fn">↔</span> <span class="fn">∀ {<span class="fn">k</span> : <span class="fn">ℕ</span>} (<span class="fn">e</span> : <span class="fn"><span class="fn"><span class="fn">Fin</span> <span class="fn">k</span></span> <span class="fn">↪</span> <span class="fn"><span class="fn">Fin</span> <span class="fn">m</span></span></span>), <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">(<span class="fn"><span class="fn">(<span class="fn"><span class="fn">s</span> <span class="fn">•</span> <span class="fn">1</span></span> <span class="fn">-</span> <span class="fn">A</span>)</span>.<span class="fn">submatrix</span></span> <span class="fn">⇑<span class="fn">e</span></span> <span class="fn">⇑<span class="fn">e</span></span>)</span>.<span class="fn">det</span></span></span></span></span></div></div><p>Coordinate-free Hawkins-Simon statement: all principal minors of <code>s I - A</code> are positive exactly in
+the strictly productive regime.</p></div></div></main>
+<nav class="nav"><iframe src="../../../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

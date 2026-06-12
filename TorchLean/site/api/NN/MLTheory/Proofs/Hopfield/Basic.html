@@ -1,0 +1,147 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../../.././style.css"></link><link rel="icon" href="../../../.././favicon.svg"></link><link rel="mask-icon" href="../../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../../.././/declarations/declaration-data.bmp" as="image"></link><title>NN.MLTheory.Proofs.Hopfield.Basic</title><script defer="true" src="../../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../../.././";</script><script>const MODULE_NAME="NN.MLTheory.Proofs.Hopfield.Basic";</script><script type="module" src="../../../.././jump-src.js"></script><script type="module" src="../../../.././search.js"></script><script type="module" src="../../../.././expand-nav.js"></script><script type="module" src="../../../.././how-about.js"></script><script type="module" src="../../../.././instances.js"></script><script type="module" src="../../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">NN</span>.<span class="name">MLTheory</span>.<span class="name">Proofs</span>.<span class="name">Hopfield</span>.<span class="name">Basic</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/MLTheory/Proofs/Hopfield/Basic.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../../.././Init.html">Init</a></li><li><a href="../../../.././NN/Spec/Models/Hopfield.html">NN.Spec.Models.Hopfield</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-NN.MLTheory.Proofs.Hopfield.Basic" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#NN.MLTheory.Proofs.Hopfield.updateAt_apply_eq_update"><span class="name">NN</span>.<span class="name">MLTheory</span>.<span class="name">Proofs</span>.<span class="name">Hopfield</span>.<span class="name">updateAt_apply_eq_update</span></a></div><div class="nav_link"><a class="break_within" href="#NN.MLTheory.Proofs.Hopfield.updateAt_apply_self"><span class="name">NN</span>.<span class="name">MLTheory</span>.<span class="name">Proofs</span>.<span class="name">Hopfield</span>.<span class="name">updateAt_apply_self</span></a></div><div class="nav_link"><a class="break_within" href="#NN.MLTheory.Proofs.Hopfield.updateAt_apply_ne"><span class="name">NN</span>.<span class="name">MLTheory</span>.<span class="name">Proofs</span>.<span class="name">Hopfield</span>.<span class="name">updateAt_apply_ne</span></a></div><div class="nav_link"><a class="break_within" href="#NN.MLTheory.Proofs.Hopfield.pluses_updateAt_eq_succ_of_set_true"><span class="name">NN</span>.<span class="name">MLTheory</span>.<span class="name">Proofs</span>.<span class="name">Hopfield</span>.<span class="name">pluses_updateAt_eq_succ_of_set_true</span></a></div><div class="nav_link"><a class="break_within" href="#NN.MLTheory.Proofs.Hopfield.pluses_updateAt_eq_pred_of_set_false"><span class="name">NN</span>.<span class="name">MLTheory</span>.<span class="name">Proofs</span>.<span class="name">Hopfield</span>.<span class="name">pluses_updateAt_eq_pred_of_set_false</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Hopfield-basic-lemmas" class="markdown-heading">Hopfield: basic lemmas <a class="hover-link" href="#Hopfield-basic-lemmas">#</a></h1><p>This file contains small, reusable lemmas about the spec-level Hopfield definitions.</p><p>The “paper theorems” (energy monotonicity, convergence, Hebbian stability) should live in
+separate files once proved.</p></div><div class="decl" id="NN.MLTheory.Proofs.Hopfield.updateAt_apply_eq_update"><div class="theorem"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/MLTheory/Proofs/Hopfield/Basic.lean#L29-L34">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_MLTheory_Proofs_Hopfield_Basic.html#NN.MLTheory.Proofs.Hopfield.updateAt_apply_eq_update" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/MLTheory/Proofs/Hopfield/Basic.html#NN.MLTheory.Proofs.Hopfield.updateAt_apply_eq_update"><span class="name">NN</span>.<span class="name">MLTheory</span>.<span class="name">Proofs</span>.<span class="name">Hopfield</span>.<span class="name">updateAt_apply_eq_update</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">AddCommMonoid</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">One</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Neg</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableRel</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">α</span>) =&gt; <span class="fn">x1</span> <a href="../../../.././NN/Spec/Core/Context.html#LE.le">≤</a> <span class="fn">x2</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn"><a href="../../../.././NN/Spec/Models/Hopfield.html#Spec.Hopfield.Params">Spec.Hopfield.Params</a> <span class="fn">α</span> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">s</span> : <span class="fn"><a href="../../../.././NN/Spec/Models/Hopfield.html#Spec.Hopfield.State">Spec.Hopfield.State</a> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">u</span> : <span class="fn"><span class="fn">Fin</span> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../../.././NN/Spec/Models/Hopfield.html#Spec.Hopfield.updateAt">Spec.Hopfield.updateAt</a> <span class="fn">p</span> <span class="fn">s</span> <span class="fn">u</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">Function.update</span> <span class="fn">s</span> <span class="fn">u</span> <span class="fn">(<span class="fn">decide</span> (<span class="fn"><span class="fn"><span class="fn">p</span>.<a href="../../../.././NN/Spec/Models/Hopfield.html#Spec.Hopfield.Params.θ">θ</a></span> <span class="fn">u</span></span> <a href="../../../.././NN/Spec/Core/Context.html#LE.le">≤</a> <span class="fn"><a href="../../../.././NN/Spec/Models/Hopfield.html#Spec.Hopfield.net">Spec.Hopfield.net</a> <span class="fn">p</span> <span class="fn">s</span> <span class="fn">u</span></span>))</span></span></span></div></div></div></div><div class="decl" id="NN.MLTheory.Proofs.Hopfield.updateAt_apply_self"><div class="theorem"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/MLTheory/Proofs/Hopfield/Basic.lean#L36-L40">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_MLTheory_Proofs_Hopfield_Basic.html#NN.MLTheory.Proofs.Hopfield.updateAt_apply_self" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/MLTheory/Proofs/Hopfield/Basic.html#NN.MLTheory.Proofs.Hopfield.updateAt_apply_self"><span class="name">NN</span>.<span class="name">MLTheory</span>.<span class="name">Proofs</span>.<span class="name">Hopfield</span>.<span class="name">updateAt_apply_self</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">AddCommMonoid</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">One</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Neg</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableRel</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">α</span>) =&gt; <span class="fn">x1</span> <a href="../../../.././NN/Spec/Core/Context.html#LE.le">≤</a> <span class="fn">x2</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn"><a href="../../../.././NN/Spec/Models/Hopfield.html#Spec.Hopfield.Params">Spec.Hopfield.Params</a> <span class="fn">α</span> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">s</span> : <span class="fn"><a href="../../../.././NN/Spec/Models/Hopfield.html#Spec.Hopfield.State">Spec.Hopfield.State</a> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">u</span> : <span class="fn"><span class="fn">Fin</span> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../../.././NN/Spec/Models/Hopfield.html#Spec.Hopfield.updateAt">Spec.Hopfield.updateAt</a> <span class="fn">p</span> <span class="fn">s</span> <span class="fn">u</span> <span class="fn">u</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">decide</span> (<span class="fn"><span class="fn"><span class="fn">p</span>.<a href="../../../.././NN/Spec/Models/Hopfield.html#Spec.Hopfield.Params.θ">θ</a></span> <span class="fn">u</span></span> <a href="../../../.././NN/Spec/Core/Context.html#LE.le">≤</a> <span class="fn"><a href="../../../.././NN/Spec/Models/Hopfield.html#Spec.Hopfield.net">Spec.Hopfield.net</a> <span class="fn">p</span> <span class="fn">s</span> <span class="fn">u</span></span>)</span></span></div></div></div></div><div class="decl" id="NN.MLTheory.Proofs.Hopfield.updateAt_apply_ne"><div class="theorem"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/MLTheory/Proofs/Hopfield/Basic.lean#L42-L46">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_MLTheory_Proofs_Hopfield_Basic.html#NN.MLTheory.Proofs.Hopfield.updateAt_apply_ne" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/MLTheory/Proofs/Hopfield/Basic.html#NN.MLTheory.Proofs.Hopfield.updateAt_apply_ne"><span class="name">NN</span>.<span class="name">MLTheory</span>.<span class="name">Proofs</span>.<span class="name">Hopfield</span>.<span class="name">updateAt_apply_ne</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">AddCommMonoid</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">One</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Neg</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableRel</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">α</span>) =&gt; <span class="fn">x1</span> <a href="../../../.././NN/Spec/Core/Context.html#LE.le">≤</a> <span class="fn">x2</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn"><a href="../../../.././NN/Spec/Models/Hopfield.html#Spec.Hopfield.Params">Spec.Hopfield.Params</a> <span class="fn">α</span> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">s</span> : <span class="fn"><a href="../../../.././NN/Spec/Models/Hopfield.html#Spec.Hopfield.State">Spec.Hopfield.State</a> <span class="fn">n</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">u </span><span class="fn">v</span> : <span class="fn"><span class="fn">Fin</span> <span class="fn">n</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">v</span> <span class="fn">≠</span> <span class="fn">u</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../../.././NN/Spec/Models/Hopfield.html#Spec.Hopfield.updateAt">Spec.Hopfield.updateAt</a> <span class="fn">p</span> <span class="fn">s</span> <span class="fn">u</span> <span class="fn">v</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">s</span> <span class="fn">v</span></span></span></div></div></div></div><div class="decl" id="NN.MLTheory.Proofs.Hopfield.pluses_updateAt_eq_succ_of_set_true"><div class="theorem"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/MLTheory/Proofs/Hopfield/Basic.lean#L48-L84">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_MLTheory_Proofs_Hopfield_Basic.html#NN.MLTheory.Proofs.Hopfield.pluses_updateAt_eq_succ_of_set_true" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/MLTheory/Proofs/Hopfield/Basic.html#NN.MLTheory.Proofs.Hopfield.pluses_updateAt_eq_succ_of_set_true"><span class="name">NN</span>.<span class="name">MLTheory</span>.<span class="name">Proofs</span>.<span class="name">Hopfield</span>.<span class="name">pluses_updateAt_eq_succ_of_set_true</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">AddCommMonoid</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">One</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Neg</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableRel</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">α</span>) =&gt; <span class="fn">x1</span> <a href="../../../.././NN/Spec/Core/Context.html#LE.le">≤</a> <span class="fn">x2</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn"><a href="../../../.././NN/Spec/Models/Hopfield.html#Spec.Hopfield.Params">Spec.Hopfield.Params</a> <span class="fn">α</span> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">s</span> : <span class="fn"><a href="../../../.././NN/Spec/Models/Hopfield.html#Spec.Hopfield.State">Spec.Hopfield.State</a> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">u</span> : <span class="fn"><span class="fn">Fin</span> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hsu</span> : <span class="fn"><span class="fn"><span class="fn">s</span> <span class="fn">u</span></span> <span class="fn">=</span> <span class="fn">false</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hdec</span> : <span class="fn"><span class="fn"><span class="fn">decide</span> (<span class="fn"><span class="fn"><span class="fn">p</span>.<a href="../../../.././NN/Spec/Models/Hopfield.html#Spec.Hopfield.Params.θ">θ</a></span> <span class="fn">u</span></span> <a href="../../../.././NN/Spec/Core/Context.html#LE.le">≤</a> <span class="fn"><a href="../../../.././NN/Spec/Models/Hopfield.html#Spec.Hopfield.net">Spec.Hopfield.net</a> <span class="fn">p</span> <span class="fn">s</span> <span class="fn">u</span></span>)</span> <span class="fn">=</span> <span class="fn">true</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../../.././NN/Spec/Models/Hopfield.html#Spec.Hopfield.pluses">Spec.Hopfield.pluses</a> <span class="fn">(<a href="../../../.././NN/Spec/Models/Hopfield.html#Spec.Hopfield.updateAt">Spec.Hopfield.updateAt</a> <span class="fn">p</span> <span class="fn">s</span> <span class="fn">u</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><a href="../../../.././NN/Spec/Models/Hopfield.html#Spec.Hopfield.pluses">Spec.Hopfield.pluses</a> <span class="fn">s</span></span> <span class="fn">+</span> <span class="fn">1</span></span></span></div></div></div></div><div class="decl" id="NN.MLTheory.Proofs.Hopfield.pluses_updateAt_eq_pred_of_set_false"><div class="theorem"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/MLTheory/Proofs/Hopfield/Basic.lean#L86-L126">source</a></div><div class="verification_link">
+<a href="../../../../../modules/NN_MLTheory_Proofs_Hopfield_Basic.html#NN.MLTheory.Proofs.Hopfield.pluses_updateAt_eq_pred_of_set_false" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././NN/MLTheory/Proofs/Hopfield/Basic.html#NN.MLTheory.Proofs.Hopfield.pluses_updateAt_eq_pred_of_set_false"><span class="name">NN</span>.<span class="name">MLTheory</span>.<span class="name">Proofs</span>.<span class="name">Hopfield</span>.<span class="name">pluses_updateAt_eq_pred_of_set_false</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">AddCommMonoid</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">One</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Neg</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LE</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableRel</span> <span class="fn">fun (<span class="fn">x1</span> <span class="fn">x2</span> : <span class="fn">α</span>) =&gt; <span class="fn">x1</span> <a href="../../../.././NN/Spec/Core/Context.html#LE.le">≤</a> <span class="fn">x2</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn"><a href="../../../.././NN/Spec/Models/Hopfield.html#Spec.Hopfield.Params">Spec.Hopfield.Params</a> <span class="fn">α</span> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">s</span> : <span class="fn"><a href="../../../.././NN/Spec/Models/Hopfield.html#Spec.Hopfield.State">Spec.Hopfield.State</a> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">u</span> : <span class="fn"><span class="fn">Fin</span> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hsu</span> : <span class="fn"><span class="fn"><span class="fn">s</span> <span class="fn">u</span></span> <span class="fn">=</span> <span class="fn">true</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hdec</span> : <span class="fn"><span class="fn"><span class="fn">decide</span> (<span class="fn"><span class="fn"><span class="fn">p</span>.<a href="../../../.././NN/Spec/Models/Hopfield.html#Spec.Hopfield.Params.θ">θ</a></span> <span class="fn">u</span></span> <a href="../../../.././NN/Spec/Core/Context.html#LE.le">≤</a> <span class="fn"><a href="../../../.././NN/Spec/Models/Hopfield.html#Spec.Hopfield.net">Spec.Hopfield.net</a> <span class="fn">p</span> <span class="fn">s</span> <span class="fn">u</span></span>)</span> <span class="fn">=</span> <span class="fn">false</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><a href="../../../.././NN/Spec/Models/Hopfield.html#Spec.Hopfield.pluses">Spec.Hopfield.pluses</a> <span class="fn">(<a href="../../../.././NN/Spec/Models/Hopfield.html#Spec.Hopfield.updateAt">Spec.Hopfield.updateAt</a> <span class="fn">p</span> <span class="fn">s</span> <span class="fn">u</span>)</span></span> <span class="fn">+</span> <span class="fn">1</span></span> <span class="fn">=</span> <span class="fn"><a href="../../../.././NN/Spec/Models/Hopfield.html#Spec.Hopfield.pluses">Spec.Hopfield.pluses</a> <span class="fn">s</span></span></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

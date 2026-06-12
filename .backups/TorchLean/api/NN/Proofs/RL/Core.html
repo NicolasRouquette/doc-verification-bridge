@@ -1,0 +1,118 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../.././style.css"></link><link rel="icon" href="../../.././favicon.svg"></link><link rel="mask-icon" href="../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../.././/declarations/declaration-data.bmp" as="image"></link><title>NN.Proofs.RL.Core</title><script defer="true" src="../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../.././";</script><script>const MODULE_NAME="NN.Proofs.RL.Core";</script><script type="module" src="../../.././jump-src.js"></script><script type="module" src="../../.././search.js"></script><script type="module" src="../../.././expand-nav.js"></script><script type="module" src="../../.././how-about.js"></script><script type="module" src="../../.././instances.js"></script><script type="module" src="../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">NN</span>.<span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Core</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Proofs/RL/Core.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../.././Init.html">Init</a></li><li><a href="../../.././Mathlib/Data/List/Basic.html">Mathlib.Data.List.Basic</a></li><li><a href="../../.././NN/Spec/RL/Core.html">NN.Spec.RL.Core</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-NN.Proofs.RL.Core" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#Proofs.RL.Core.discountedReturnsFrom_length"><span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Core</span>.<span class="name">discountedReturnsFrom_length</span></a></div><div class="nav_link"><a class="break_within" href="#Proofs.RL.Core.discountedReturns_length"><span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Core</span>.<span class="name">discountedReturns_length</span></a></div><div class="nav_link"><a class="break_within" href="#Proofs.RL.Core.discountedReturnsDone_length_eq_min"><span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Core</span>.<span class="name">discountedReturnsDone_length_eq_min</span></a></div><div class="nav_link"><a class="break_within" href="#Proofs.RL.Core.discountedReturnsDone_length_of_eqLength"><span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Core</span>.<span class="name">discountedReturnsDone_length_of_eqLength</span></a></div><div class="nav_link"><a class="break_within" href="#Proofs.RL.Core.generalizedAdvantageEstimation_length"><span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Core</span>.<span class="name">generalizedAdvantageEstimation_length</span></a></div><div class="nav_link"><a class="break_within" href="#Proofs.RL.Core.returnsFromAdvantages_length"><span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Core</span>.<span class="name">returnsFromAdvantages_length</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="RL-Core-Proofs" class="markdown-heading">RL Core Proofs <a class="hover-link" href="#RL-Core-Proofs">#</a></h1><p>Small structural theorems about TorchLean's pure RL helper functions in <code><a href="../../.././NN/Spec/RL/Core.html">NN.Spec.RL.Core</a></code>.</p><p>The emphasis here is on <em>shape/structure</em> properties (mostly list lengths and truncation
+behaviour). These facts are often used to justify that derived quantities (discounted returns,
+GAE advantages, etc.) align with the rollout data they came from.</p><p>These are kept modest but useful:</p><ul><li>discounted-return helpers preserve list length,</li><li>GAE preserves list length,</li><li><code>returnsFromAdvantages</code> truncates to the shorter list.</li></ul><p>References:</p><ul><li>Sutton and Barto, <em>Reinforcement Learning: An Introduction</em> (2nd ed., 2018),
+Sections 3-6 (returns, discounted backups, TD ideas):
+<a href="http://incompleteideas.net/book/the-book-2nd.html">http://incompleteideas.net/book/the-book-2nd.html</a></li><li>Schulman et al., “High-Dimensional Continuous Control Using Generalized Advantage Estimation”
+(2016): <a href="https://arxiv.org/abs/1506.02438">https://arxiv.org/abs/1506.02438</a></li></ul></div><div class="decl" id="Proofs.RL.Core.discountedReturnsFrom_length"><div class="theorem"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Proofs/RL/Core.lean#L55-L62">source</a></div><div class="verification_link">
+<a href="../../../../modules/NN_Proofs_RL_Core.html#Proofs.RL.Core.discountedReturnsFrom_length" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././NN/Proofs/RL/Core.html#Proofs.RL.Core.discountedReturnsFrom_length"><span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Core</span>.<span class="name">discountedReturnsFrom_length</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Add</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">gamma</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">rewards</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">bootstrap</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././NN/Spec/RL/Core.html#Spec.RL.discountedReturnsFrom">Spec.RL.discountedReturnsFrom</a> <span class="fn">gamma</span> <span class="fn">rewards</span> <span class="fn">bootstrap</span>)</span>.<span class="fn">length</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">rewards</span>.<span class="fn">length</span></span></span></div></div><p><code>discountedReturnsFrom</code> produces exactly one return per input reward.</p></div></div><div class="decl" id="Proofs.RL.Core.discountedReturns_length"><div class="theorem"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Proofs/RL/Core.lean#L64-L69">source</a></div><div class="verification_link">
+<a href="../../../../modules/NN_Proofs_RL_Core.html#Proofs.RL.Core.discountedReturns_length" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././NN/Proofs/RL/Core.html#Proofs.RL.Core.discountedReturns_length"><span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Core</span>.<span class="name">discountedReturns_length</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Add</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">gamma</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">rewards</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././NN/Spec/RL/Core.html#Spec.RL.discountedReturns">Spec.RL.discountedReturns</a> <span class="fn">gamma</span> <span class="fn">rewards</span>)</span>.<span class="fn">length</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">rewards</span>.<span class="fn">length</span></span></span></div></div><p><code>discountedReturns</code> preserves list length.</p></div></div><div class="decl" id="Proofs.RL.Core.discountedReturnsDone_length_eq_min"><div class="theorem"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Proofs/RL/Core.lean#L84-L92">source</a></div><div class="verification_link">
+<a href="../../../../modules/NN_Proofs_RL_Core.html#Proofs.RL.Core.discountedReturnsDone_length_eq_min" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././NN/Proofs/RL/Core.html#Proofs.RL.Core.discountedReturnsDone_length_eq_min"><span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Core</span>.<span class="name">discountedReturnsDone_length_eq_min</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">One</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Add</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">gamma</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">rewards</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">dones</span> : <span class="fn"><span class="fn">List</span> <span class="fn">Bool</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">bootstrap</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././NN/Spec/RL/Core.html#Spec.RL.discountedReturnsDone">Spec.RL.discountedReturnsDone</a> <span class="fn">gamma</span> <span class="fn">rewards</span> <span class="fn">dones</span> <span class="fn">bootstrap</span>)</span>.<span class="fn">length</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././NN/Spec/Core/Context.html#Min.min">min</a> <span class="fn"><span class="fn">rewards</span>.<span class="fn">length</span></span> <span class="fn"><span class="fn">dones</span>.<span class="fn">length</span></span></span></span></div></div><p><code>discountedReturnsDone</code> returns one value per paired reward/done entry.</p></div></div><div class="decl" id="Proofs.RL.Core.discountedReturnsDone_length_of_eqLength"><div class="theorem"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Proofs/RL/Core.lean#L94-L102">source</a></div><div class="verification_link">
+<a href="../../../../modules/NN_Proofs_RL_Core.html#Proofs.RL.Core.discountedReturnsDone_length_of_eqLength" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././NN/Proofs/RL/Core.html#Proofs.RL.Core.discountedReturnsDone_length_of_eqLength"><span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Core</span>.<span class="name">discountedReturnsDone_length_of_eqLength</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">One</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Add</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">gamma</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">rewards</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">dones</span> : <span class="fn"><span class="fn">List</span> <span class="fn">Bool</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">bootstrap</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn"><span class="fn">rewards</span>.<span class="fn">length</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">dones</span>.<span class="fn">length</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././NN/Spec/RL/Core.html#Spec.RL.discountedReturnsDone">Spec.RL.discountedReturnsDone</a> <span class="fn">gamma</span> <span class="fn">rewards</span> <span class="fn">dones</span> <span class="fn">bootstrap</span>)</span>.<span class="fn">length</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">rewards</span>.<span class="fn">length</span></span></span></div></div><p>When reward and done lists have the same length, <code>discountedReturnsDone</code> preserves that length.</p></div></div><div class="decl" id="Proofs.RL.Core.generalizedAdvantageEstimation_length"><div class="theorem"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Proofs/RL/Core.lean#L119-L127">source</a></div><div class="verification_link">
+<a href="../../../../modules/NN_Proofs_RL_Core.html#Proofs.RL.Core.generalizedAdvantageEstimation_length" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././NN/Proofs/RL/Core.html#Proofs.RL.Core.generalizedAdvantageEstimation_length"><span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Core</span>.<span class="name">generalizedAdvantageEstimation_length</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">One</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Add</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Mul</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Sub</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">gamma </span><span class="fn">lam</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">steps</span> : <span class="fn"><span class="fn">List</span> <span class="fn">(<a href="../../.././NN/Spec/RL/Core.html#Spec.RL.AdvantageStep">Spec.RL.AdvantageStep</a> <span class="fn">α</span>)</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././NN/Spec/RL/Core.html#Spec.RL.generalizedAdvantageEstimation">Spec.RL.generalizedAdvantageEstimation</a> <span class="fn">gamma</span> <span class="fn">lam</span> <span class="fn">steps</span>)</span>.<span class="fn">length</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">steps</span>.<span class="fn">length</span></span></span></div></div><p>Generalized-advantage-estimation returns one advantage per input step.</p></div></div><div class="decl" id="Proofs.RL.Core.returnsFromAdvantages_length"><div class="theorem"><div class="gh_link"><a href="https://github.com/lean-dojo/TorchLean/blob/a19506ec750653a13e7ce6a7dae30b5978b46827/NN/Proofs/RL/Core.lean#L129-L138">source</a></div><div class="verification_link">
+<a href="../../../../modules/NN_Proofs_RL_Core.html#Proofs.RL.Core.returnsFromAdvantages_length" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././NN/Proofs/RL/Core.html#Proofs.RL.Core.returnsFromAdvantages_length"><span class="name">Proofs</span>.<span class="name">RL</span>.<span class="name">Core</span>.<span class="name">returnsFromAdvantages_length</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Add</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">advantages </span><span class="fn">values</span> : <span class="fn"><span class="fn">List</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../../.././NN/Spec/RL/Core.html#Spec.RL.returnsFromAdvantages">Spec.RL.returnsFromAdvantages</a> <span class="fn">advantages</span> <span class="fn">values</span>)</span>.<span class="fn">length</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././NN/Spec/Core/Context.html#Min.min">min</a> <span class="fn"><span class="fn">advantages</span>.<span class="fn">length</span></span> <span class="fn"><span class="fn">values</span>.<span class="fn">length</span></span></span></span></div></div><p><code>returnsFromAdvantages</code> truncates to the shorter of the two input lists.</p></div></div></main>
+<nav class="nav"><iframe src="../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>
