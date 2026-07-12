@@ -57,15 +57,6 @@ touch "$SITE/.nojekyll"
 # carries neither.
 rm -rf "$SITE/.git" "$SITE/.gitattributes"
 
-# Belt-and-braces: warn about any file GitHub would reject on a non-LFS push
-# (>100 MB) that our exclude rules below do NOT already drop.
-BIG="$(find "$SITE" -type f -size +100M \
-        ! -name '*.jsonl' ! -name '*.sqlite' ! -path '*/api-temp/*' 2>/dev/null || true)"
-if [ -n "$BIG" ]; then
-  echo "::warning::the following files exceed GitHub's 100 MB non-LFS limit and will still be pushed (may be rejected):" >&2
-  printf '%s\n' "$BIG" >&2
-fi
-
 SRC_REF="$(git -C "$ROOT" rev-parse --short HEAD 2>/dev/null || echo unknown)"
 
 # Build the single orphan commit in a throwaway git dir.
@@ -74,14 +65,34 @@ trap 'rm -rf "$TMP"' EXIT
 GD="$TMP/git"
 git --git-dir="$GD" --work-tree="$SITE" init -q
 
-# Stage the whole site EXCEPT the regenerable internal artifacts. Pathspec
-# excludes (glob magic → ** spans directories) keep them out of the commit
-# without deleting them from the persistent sites cache.
+# Stage the whole site EXCEPT regenerable internal artifacts and anything
+# GitHub would reject as a plain blob. Pathspec excludes (glob magic → **
+# spans directories) keep them out of the commit WITHOUT deleting them from
+# the persistent sites cache.
+EXCLUDES=(
+  ':(exclude,glob)**/*.jsonl'      # classification-cache "entries" (>100 MB)
+  ':(exclude,glob)**/*.sqlite'     # doc-gen4 build databases
+  ':(exclude,glob)**/api-temp/**'  # doc-gen4 intermediate SQLite/BMP dirs
+  ':(exclude,glob)**/.backups/**'  # pipeline backup copies (never served)
+)
+
+# GitHub hard-rejects any plain blob >100 MB. Exclude such files explicitly so
+# the push can never fail on size (the combined table-data.json programmatic
+# export can reach hundreds of MB; the browsed site does not fetch it — the
+# HTML tables carry their own data, and the per-module table-data/*.json files
+# stay published). Report exactly what was dropped — no silent truncation.
+mapfile -d '' -t BIGFILES < <(cd "$SITE" && find . -type f -size +100M -print0)
+if [ "${#BIGFILES[@]}" -gt 0 ]; then
+  echo "note: excluding ${#BIGFILES[@]} file(s) >100 MB (GitHub's non-LFS blob limit) from the publish:"
+  for f in "${BIGFILES[@]}"; do
+    rel="${f#./}"
+    printf '  - %s (%s)\n' "$rel" "$(du -h "$SITE/$rel" | cut -f1)"
+    EXCLUDES+=( ":(exclude,literal)$rel" )
+  done
+fi
+
 ( cd "$SITE"
-  git --git-dir="$GD" --work-tree="$SITE" add -A -- . \
-    ':(exclude,glob)**/*.jsonl' \
-    ':(exclude,glob)**/*.sqlite' \
-    ':(exclude,glob)**/api-temp/**'
+  git --git-dir="$GD" --work-tree="$SITE" add -A -- . "${EXCLUDES[@]}"
 )
 
 git --git-dir="$GD" --work-tree="$SITE" \
