@@ -84,38 +84,19 @@ jobs:
           fi
         timeout-minutes: 1440  # 24 hours max for self-hosted
       
-      - name: Deploy to GitHub Pages
+      - name: Publish site to pages branch
         env:
-          # Disable GPG signing for deployment commits (self-hosted runner may have signing configured)
-          GIT_COMMITTER_NAME: github-actions[bot]
-          GIT_COMMITTER_EMAIL: github-actions[bot]@users.noreply.github.com
+          # Publish to the github.com repo; GitHub Pages serves the `pages` branch.
+          #
+          # The site is published as a single orphan commit of PLAIN git blobs —
+          # deliberately NO Git LFS. GitHub Pages serves LFS objects as broken
+          # pointer stubs, and GitHub never garbage-collects unreferenced LFS
+          # objects, so the previous `git lfs track "*.json"/"*.jsonl"/"*.sqlite"`
+          # both broke the served JSON and grew this repo's LFS storage without
+          # bound. scripts/publish-pages.sh instead excludes the regenerable
+          # multi-hundred-MB artifacts (classification-cache.jsonl caches and the
+          # api-temp/ doc-gen4 SQLite dirs) and builds the orphan in a throwaway
+          # git dir so the runner's persistent .git never accumulates the site.
+          PAGES_PUSH_URL: https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
         run: |
-          # Disable commit signing for this deployment
-          git config --global commit.gpgsign false
-          
-          cd experiments/sites
-          
-          # Clean up build artifacts from doc-gen4's DB pipeline
-          # The api-temp/ directories contain intermediate SQLite databases
-          # (mathlib4's is ~571 MB) that are not needed in the deployed site
-          find . -type d -name "api-temp" -exec rm -rf {} + 2>/dev/null || true
-          
-          # Clean up any existing git state from previous runs
-          rm -rf .git
-          
-          git init
-          git checkout --orphan pages
-          
-          # Set up Git LFS for large files (classification-cache.jsonl can exceed 100MB)
-          git lfs install
-          git lfs track "*.json"
-          git lfs track "*.jsonl"
-          git lfs track "*.sqlite"
-          git add .gitattributes
-          
-          git add -A
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git commit --no-gpg-sign -m "Deploy: ${{ github.sha }}"
-          git push --force "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:pages
-          git lfs prune || true  # Clean up LFS objects from this temporary repo
+          PAGES_PUSH=1 PAGES_BRANCH=pages bash scripts/publish-pages.sh
