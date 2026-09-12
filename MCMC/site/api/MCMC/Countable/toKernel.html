@@ -1,0 +1,159 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../.././style.css"></link><link rel="icon" href="../.././favicon.svg"></link><link rel="mask-icon" href="../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../.././/declarations/declaration-data.bmp" as="image"></link><title>MCMC.Countable.toKernel</title><script defer="true" src="../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../.././";</script><script>const MODULE_NAME="MCMC.Countable.toKernel";</script><script type="module" src="../.././jump-src.js"></script><script type="module" src="../.././search.js"></script><script type="module" src="../.././expand-nav.js"></script><script type="module" src="../.././how-about.js"></script><script type="module" src="../.././instances.js"></script><script type="module" src="../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">MCMC</span>.<span class="name">Countable</span>.<span class="name">toKernel</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Countable/toKernel.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../.././Init.html">Init</a></li><li><a href="../.././MCMC/Countable/CountableStochastic.html">MCMC.Countable.CountableStochastic</a></li><li><a href="../.././Mathlib/MeasureTheory/Measure/Count.html">Mathlib.MeasureTheory.Measure.Count</a></li><li><a href="../.././Mathlib/Probability/Kernel/Invariance.html">Mathlib.Probability.Kernel.Invariance</a></li><li><a href="../.././Mathlib/Probability/Kernel/Irreducible.html">Mathlib.Probability.Kernel.Irreducible</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-MCMC.Countable.toKernel" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#MCMC.Countable.weightsToMeasure"><span class="name">MCMC</span>.<span class="name">Countable</span>.<span class="name">weightsToMeasure</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Countable.weightsToMeasure_apply_singleton"><span class="name">MCMC</span>.<span class="name">Countable</span>.<span class="name">weightsToMeasure_apply_singleton</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Countable.matrixToKernel"><span class="name">MCMC</span>.<span class="name">Countable</span>.<span class="name">matrixToKernel</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Countable.matrixToKernel_apply"><span class="name">MCMC</span>.<span class="name">Countable</span>.<span class="name">matrixToKernel_apply</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Countable.matrixToKernel_apply_singleton"><span class="name">MCMC</span>.<span class="name">Countable</span>.<span class="name">matrixToKernel_apply_singleton</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Countable.isStochastic_iff_isMarkovKernel"><span class="name">MCMC</span>.<span class="name">Countable</span>.<span class="name">isStochastic_iff_isMarkovKernel</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Countable.isInvariantMeasure_iff_invariant"><span class="name">MCMC</span>.<span class="name">Countable</span>.<span class="name">isInvariantMeasure_iff_invariant</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Countable.kernel_isIrreducible_of_isIrreducible"><span class="name">MCMC</span>.<span class="name">Countable</span>.<span class="name">kernel_isIrreducible_of_isIrreducible</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Countable-matrices-as-kernels" class="markdown-heading">Countable matrices as kernels <a class="hover-link" href="#Countable-matrices-as-kernels">#</a></h1><p>This file bridges the countable-state matrix interface in
+<code><a href="../.././MCMC/Countable/CountableStochastic.html">MCMC.Countable.CountableStochastic</a></code> with mathlib's <code>Kernel</code> API on discrete measurable spaces.</p><h2 id="Main-definitions" class="markdown-heading">Main definitions <a class="hover-link" href="#Main-definitions">#</a></h2><ul><li><code><a href="../.././MCMC/Countable/toKernel.html#MCMC.Countable.weightsToMeasure">weightsToMeasure</a></code>: the atomic measure attached to a nonnegative weight function.</li><li><code><a href="../.././MCMC/Countable/toKernel.html#MCMC.Countable.matrixToKernel">matrixToKernel</a></code>: the kernel attached to a nonnegative infinite matrix.</li></ul><h2 id="Main-statements" class="markdown-heading">Main statements <a class="hover-link" href="#Main-statements">#</a></h2><ul><li><code><a href="../.././MCMC/Countable/toKernel.html#MCMC.Countable.isStochastic_iff_isMarkovKernel">isStochastic_iff_isMarkovKernel</a></code>: a nonnegative matrix is stochastic iff the associated kernel is
+Markov.</li><li><code><a href="../.././MCMC/Countable/toKernel.html#MCMC.Countable.isInvariantMeasure_iff_invariant">isInvariantMeasure_iff_invariant</a></code>: pointwise invariant measures agree with kernel invariance.</li><li><code><a href="../.././MCMC/Countable/toKernel.html#MCMC.Countable.kernel_isIrreducible_of_isIrreducible">kernel_isIrreducible_of_isIrreducible</a></code>: countable irreducibility implies kernel irreducibility
+with respect to counting measure.</li></ul><h2 id="Implementation-notes" class="markdown-heading">Implementation notes <a class="hover-link" href="#Implementation-notes">#</a></h2><p>The elementary Chapter 5 definitions are kept in pointwise form in
+<code><a href="../.././MCMC/Countable/CountableStochastic.html">MCMC.Countable.CountableStochastic</a></code>. This file provides the measure-theoretic bridge needed to
+reuse mathlib's kernel API without hard-coding measurable-space assumptions into the core file.</p><h2 id="References" class="markdown-heading">References <a class="hover-link" href="#References">#</a></h2><ul><li>E. Seneta, <em>Non-negative Matrices and Markov Chains</em>, Springer, 2006.</li></ul><h2 id="Tags" class="markdown-heading">Tags <a class="hover-link" href="#Tags">#</a></h2><p>kernel, invariant measure, stochastic matrix, countable state space</p></div><div class="decl" id="MCMC.Countable.weightsToMeasure"><div class="def"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Countable/toKernel.lean#L50-L55">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Countable_toKernel.html#MCMC.Countable.weightsToMeasure" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/Countable/toKernel.html#MCMC.Countable.weightsToMeasure"><span class="name">MCMC</span>.<span class="name">Countable</span>.<span class="name">weightsToMeasure</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">MeasurableSpace</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">w</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">_hw</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">α</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">w</span> <span class="fn">i</span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">MeasureTheory.Measure</span> <span class="fn">α</span></span></div></div><p>Turn a nonnegative weight function on a countable discrete space into the corresponding atomic
+measure.</p><details id="instances-for-list-MCMC.Countable.weightsToMeasure" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl sorried" id="MCMC.Countable.weightsToMeasure_apply_singleton"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Countable/toKernel.lean#L57-L60">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Countable_toKernel.html#MCMC.Countable.weightsToMeasure_apply_singleton" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name" title="declaration uses 'sorry'"><a class="break_within" href="../.././MCMC/Countable/toKernel.html#MCMC.Countable.weightsToMeasure_apply_singleton"><span class="name">MCMC</span>.<span class="name">Countable</span>.<span class="name">weightsToMeasure_apply_singleton</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Countable</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">MeasurableSpace</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">MeasurableSingletonClass</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">w</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hw</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">α</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">w</span> <span class="fn">i</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../.././MCMC/Countable/toKernel.html#MCMC.Countable.weightsToMeasure">weightsToMeasure</a> <span class="fn">w</span> <span class="fn">hw</span>)</span> <span class="fn"><span class="fn">{</span><span class="fn">i</span><span class="fn">}</span></span></span> <span class="fn">=</span> <span class="fn"><span class="fn">ENNReal.ofReal</span> <span class="fn">(<span class="fn">w</span> <span class="fn">i</span>)</span></span></span></div></div></div></div><div class="decl" id="MCMC.Countable.matrixToKernel"><div class="def"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Countable/toKernel.lean#L62-L67">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Countable_toKernel.html#MCMC.Countable.matrixToKernel" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/Countable/toKernel.html#MCMC.Countable.matrixToKernel"><span class="name">MCMC</span>.<span class="name">Countable</span>.<span class="name">matrixToKernel</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Countable</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">MeasurableSpace</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">MeasurableSingletonClass</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././MCMC/Countable/CountableStochastic.html#MCMC.Countable.InfMatrix">InfMatrix</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hP_nonneg</span> : <span class="fn">∀ (<span class="fn">i </span><span class="fn">j</span> : <span class="fn">α</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">P</span> <span class="fn">i</span> <span class="fn">j</span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">ProbabilityTheory.Kernel</span> <span class="fn">α</span> <span class="fn">α</span></span></div></div><p>Interpret a nonnegative countable-state matrix as a kernel on the associated discrete measurable
+space.</p><details id="instances-for-list-MCMC.Countable.matrixToKernel" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="MCMC.Countable.matrixToKernel_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Countable/toKernel.lean#L70-L72">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Countable_toKernel.html#MCMC.Countable.matrixToKernel_apply" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/Countable/toKernel.html#MCMC.Countable.matrixToKernel_apply"><span class="name">MCMC</span>.<span class="name">Countable</span>.<span class="name">matrixToKernel_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Countable</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">MeasurableSpace</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">MeasurableSingletonClass</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././MCMC/Countable/CountableStochastic.html#MCMC.Countable.InfMatrix">InfMatrix</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hP_nonneg</span> : <span class="fn">∀ (<span class="fn">i </span><span class="fn">j</span> : <span class="fn">α</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">P</span> <span class="fn">i</span> <span class="fn">j</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<a href="../.././MCMC/Countable/toKernel.html#MCMC.Countable.matrixToKernel">matrixToKernel</a> <span class="fn">P</span> <span class="fn">hP_nonneg</span>)</span> <span class="fn">i</span></span> <span class="fn">=</span> <span class="fn"><a href="../.././MCMC/Countable/toKernel.html#MCMC.Countable.weightsToMeasure">weightsToMeasure</a> <span class="fn">(<span class="fn">P</span> <span class="fn">i</span>)</span> <span class="fn">⋯</span></span></span></div></div></div></div><div class="decl" id="MCMC.Countable.matrixToKernel_apply_singleton"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Countable/toKernel.lean#L74-L79">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Countable_toKernel.html#MCMC.Countable.matrixToKernel_apply_singleton" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/Countable/toKernel.html#MCMC.Countable.matrixToKernel_apply_singleton"><span class="name">MCMC</span>.<span class="name">Countable</span>.<span class="name">matrixToKernel_apply_singleton</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Countable</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">MeasurableSpace</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">MeasurableSingletonClass</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><a href="../.././MCMC/Countable/CountableStochastic.html#MCMC.Countable.InfMatrix">InfMatrix</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hP_nonneg</span> : <span class="fn">∀ (<span class="fn">i </span><span class="fn">j</span> : <span class="fn">α</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">P</span> <span class="fn">i</span> <span class="fn">j</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">(<a href="../.././MCMC/Countable/toKernel.html#MCMC.Countable.matrixToKernel">matrixToKernel</a> <span class="fn">P</span> <span class="fn">hP_nonneg</span>)</span> <span class="fn">i</span>)</span> <span class="fn"><span class="fn">{</span><span class="fn">j</span><span class="fn">}</span></span></span> <span class="fn">=</span> <span class="fn"><span class="fn">ENNReal.ofReal</span> <span class="fn">(<span class="fn">P</span> <span class="fn">i</span> <span class="fn">j</span>)</span></span></span></div></div><p>The matrix-induced kernel evaluates on singletons by reading off the corresponding entry.</p></div></div><div class="decl sorried" id="MCMC.Countable.isStochastic_iff_isMarkovKernel"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Countable/toKernel.lean#L81-L88">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Countable_toKernel.html#MCMC.Countable.isStochastic_iff_isMarkovKernel" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name" title="declaration uses 'sorry'"><a class="break_within" href="../.././MCMC/Countable/toKernel.html#MCMC.Countable.isStochastic_iff_isMarkovKernel"><span class="name">MCMC</span>.<span class="name">Countable</span>.<span class="name">isStochastic_iff_isMarkovKernel</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Countable</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">MeasurableSpace</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">MeasurableSingletonClass</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P</span> : <span class="fn"><a href="../.././MCMC/Countable/CountableStochastic.html#MCMC.Countable.InfMatrix">InfMatrix</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hP_nonneg</span> : <span class="fn">∀ (<span class="fn">i </span><span class="fn">j</span> : <span class="fn">α</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">P</span> <span class="fn">i</span> <span class="fn">j</span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././MCMC/Countable/CountableStochastic.html#MCMC.Countable.IsStochastic">IsStochastic</a> <span class="fn">P</span></span> <span class="fn">↔</span> <span class="fn"><span class="fn">ProbabilityTheory.IsMarkovKernel</span> <span class="fn">(<a href="../.././MCMC/Countable/toKernel.html#MCMC.Countable.matrixToKernel">matrixToKernel</a> <span class="fn">P</span> <span class="fn">hP_nonneg</span>)</span></span></span></div></div><p>For a nonnegative matrix, stochasticity is equivalent to the associated discrete kernel being
+Markov.</p></div></div><div class="decl sorried" id="MCMC.Countable.isInvariantMeasure_iff_invariant"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Countable/toKernel.lean#L90-L98">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Countable_toKernel.html#MCMC.Countable.isInvariantMeasure_iff_invariant" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name" title="declaration uses 'sorry'"><a class="break_within" href="../.././MCMC/Countable/toKernel.html#MCMC.Countable.isInvariantMeasure_iff_invariant"><span class="name">MCMC</span>.<span class="name">Countable</span>.<span class="name">isInvariantMeasure_iff_invariant</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Countable</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">MeasurableSpace</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">MeasurableSingletonClass</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P</span> : <span class="fn"><a href="../.././MCMC/Countable/CountableStochastic.html#MCMC.Countable.InfMatrix">InfMatrix</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hP_nonneg</span> : <span class="fn">∀ (<span class="fn">i </span><span class="fn">j</span> : <span class="fn">α</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">P</span> <span class="fn">i</span> <span class="fn">j</span></span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hv_nonneg</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">α</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">v</span> <span class="fn">i</span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././MCMC/Countable/CountableStochastic.html#MCMC.Countable.IsInvariantMeasure">IsInvariantMeasure</a> <span class="fn">P</span> <span class="fn">v</span></span> <span class="fn">↔</span> <span class="fn"><span class="fn"><span class="fn">v</span> <span class="fn">≠</span> <span class="fn">0</span></span> <span class="fn">∧</span> <span class="fn"><span class="fn"><span class="fn">(<a href="../.././MCMC/Countable/toKernel.html#MCMC.Countable.matrixToKernel">matrixToKernel</a> <span class="fn">P</span> <span class="fn">hP_nonneg</span>)</span>.<span class="fn">Invariant</span></span> <span class="fn">(<a href="../.././MCMC/Countable/toKernel.html#MCMC.Countable.weightsToMeasure">weightsToMeasure</a> <span class="fn">v</span> <span class="fn">hv_nonneg</span>)</span></span></span></span></div></div><p>Pointwise invariant measures coincide with invariant measures for the associated discrete kernel.</p></div></div><div class="decl sorried" id="MCMC.Countable.kernel_isIrreducible_of_isIrreducible"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Countable/toKernel.lean#L100-L107">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Countable_toKernel.html#MCMC.Countable.kernel_isIrreducible_of_isIrreducible" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name" title="declaration uses 'sorry'"><a class="break_within" href="../.././MCMC/Countable/toKernel.html#MCMC.Countable.kernel_isIrreducible_of_isIrreducible"><span class="name">MCMC</span>.<span class="name">Countable</span>.<span class="name">kernel_isIrreducible_of_isIrreducible</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Countable</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">MeasurableSpace</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">MeasurableSingletonClass</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P</span> : <span class="fn"><a href="../.././MCMC/Countable/CountableStochastic.html#MCMC.Countable.InfMatrix">InfMatrix</a> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hP_irred</span> : <span class="fn"><a href="../.././MCMC/Countable/CountableStochastic.html#MCMC.Countable.IsIrreducible">IsIrreducible</a> <span class="fn">P</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">ProbabilityTheory.Kernel.IsIrreducible</span> <span class="fn">MeasureTheory.Measure.count</span> <span class="fn">(<a href="../.././MCMC/Countable/toKernel.html#MCMC.Countable.matrixToKernel">matrixToKernel</a> <span class="fn">P</span> <span class="fn">⋯</span>)</span></span></div></div><p>Countable irreducibility implies irreducibility of the associated discrete kernel with respect to
+counting measure.</p></div></div></main>
+<nav class="nav"><iframe src="../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

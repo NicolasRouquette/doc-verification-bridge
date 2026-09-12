@@ -1,0 +1,263 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../../.././style.css"></link><link rel="icon" href="../../../.././favicon.svg"></link><link rel="mask-icon" href="../../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../../.././/declarations/declaration-data.bmp" as="image"></link><title>MCMC.PF.Combinatorics.Quiver.Cyclic</title><script defer="true" src="../../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../../.././";</script><script>const MODULE_NAME="MCMC.PF.Combinatorics.Quiver.Cyclic";</script><script type="module" src="../../../.././jump-src.js"></script><script type="module" src="../../../.././search.js"></script><script type="module" src="../../../.././expand-nav.js"></script><script type="module" src="../../../.././how-about.js"></script><script type="module" src="../../../.././instances.js"></script><script type="module" src="../../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">MCMC</span>.<span class="name">PF</span>.<span class="name">Combinatorics</span>.<span class="name">Quiver</span>.<span class="name">Cyclic</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/Combinatorics/Quiver/Cyclic.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../../.././Init.html">Init</a></li><li><a href="../../../.././Mathlib/Data/Nat/Find.html">Mathlib.Data.Nat.Find</a></li><li><a href="../../../.././Mathlib/Data/Nat/ModEq.html">Mathlib.Data.Nat.ModEq</a></li><li><a href="../../../.././Mathlib/LinearAlgebra/Matrix/Irreducible/Defs.html">Mathlib.LinearAlgebra.Matrix.Irreducible.Defs</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-MCMC.PF.Combinatorics.Quiver.Cyclic" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#Quiver.CycleLengths"><span class="name">Quiver</span>.<span class="name">CycleLengths</span></a></div><div class="nav_link"><a class="break_within" href="#Quiver.commonDivisorsSet"><span class="name">Quiver</span>.<span class="name">commonDivisorsSet</span></a></div><div class="nav_link"><a class="break_within" href="#Quiver.one_mem_commonDivisorsSet"><span class="name">Quiver</span>.<span class="name">one_mem_commonDivisorsSet</span></a></div><div class="nav_link"><a class="break_within" href="#Quiver.commonDivisorsSet_nonempty"><span class="name">Quiver</span>.<span class="name">commonDivisorsSet_nonempty</span></a></div><div class="nav_link"><a class="break_within" href="#Quiver.period"><span class="name">Quiver</span>.<span class="name">period</span></a></div><div class="nav_link"><a class="break_within" href="#Quiver.period_min"><span class="name">Quiver</span>.<span class="name">period_min</span></a></div><div class="nav_link"><a class="break_within" href="#Quiver.period_spec"><span class="name">Quiver</span>.<span class="name">period_spec</span></a></div><div class="nav_link"><a class="break_within" href="#Quiver.period_mem_commonDivisorsSet"><span class="name">Quiver</span>.<span class="name">period_mem_commonDivisorsSet</span></a></div><div class="nav_link"><a class="break_within" href="#Quiver.period_le_of_commonDivisor"><span class="name">Quiver</span>.<span class="name">period_le_of_commonDivisor</span></a></div><div class="nav_link"><a class="break_within" href="#Quiver.divides_cycle_length"><span class="name">Quiver</span>.<span class="name">divides_cycle_length</span></a></div><div class="nav_link"><a class="break_within" href="#Quiver.period_divides_cycle_lengths"><span class="name">Quiver</span>.<span class="name">period_divides_cycle_lengths</span></a></div><div class="nav_link"><a class="break_within" href="#Quiver.period_pos_of_nonempty_cycles"><span class="name">Quiver</span>.<span class="name">period_pos_of_nonempty_cycles</span></a></div><div class="nav_link"><a class="break_within" href="#Quiver.period_constant_of_strongly_connected"><span class="name">Quiver</span>.<span class="name">period_constant_of_strongly_connected</span></a></div><div class="nav_link"><a class="break_within" href="#Quiver.IsAperiodic"><span class="name">Quiver</span>.<span class="name">IsAperiodic</span></a></div><div class="nav_link"><a class="break_within" href="#Quiver.IsAperiodic.exists_period_eq_one"><span class="name">Quiver</span>.<span class="name">IsAperiodic</span>.<span class="name">exists_period_eq_one</span></a></div><div class="nav_link"><a class="break_within" href="#Quiver.IsAperiodic.period_eq_one"><span class="name">Quiver</span>.<span class="name">IsAperiodic</span>.<span class="name">period_eq_one</span></a></div><div class="nav_link"><a class="break_within" href="#Quiver.isAperiodic_iff_period_eq_one"><span class="name">Quiver</span>.<span class="name">isAperiodic_iff_period_eq_one</span></a></div><div class="nav_link"><a class="break_within" href="#Quiver.IsCyclicPartition"><span class="name">Quiver</span>.<span class="name">IsCyclicPartition</span></a></div><div class="nav_link"><a class="break_within" href="#Quiver.mem_CycleLengths_of_comp_right"><span class="name">Quiver</span>.<span class="name">mem_CycleLengths_of_comp_right</span></a></div><div class="nav_link"><a class="break_within" href="#Quiver.mem_CycleLengths_of_cons_comp_right"><span class="name">Quiver</span>.<span class="name">mem_CycleLengths_of_cons_comp_right</span></a></div><div class="nav_link"><a class="break_within" href="#Quiver.exists_cyclic_partition_of_strongly_connected"><span class="name">Quiver</span>.<span class="name">exists_cyclic_partition_of_strongly_connected</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Periodicity-and-aperiodicity-in-quivers" class="markdown-heading">Periodicity and aperiodicity in quivers <a class="hover-link" href="#Periodicity-and-aperiodicity-in-quivers">#</a></h1><p>This file develops the basic periodicity API for quivers via cycle lengths and periods.</p><p>The fundamental invariant is <code><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.period">period</a> i</code>, attached to a vertex <code>i</code>. For strongly connected quivers,
+<code><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.period_constant_of_strongly_connected">period_constant_of_strongly_connected</a></code> shows that the period is independent of the vertex. The
+predicate <code><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.IsAperiodic">IsAperiodic</a></code> is then expressed by the existence of a vertex of period <code>1</code>.</p></div><div class="decl" id="Quiver.CycleLengths"><div class="def"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/Combinatorics/Quiver/Cyclic.lean#L20-L20">source</a></div><div class="verification_link">
+<a href="../../../../../modules/MCMC_PF_Combinatorics_Quiver_Cyclic.html#Quiver.CycleLengths" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.CycleLengths"><span class="name">Quiver</span>.<span class="name">CycleLengths</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Quiver</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">V</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Set</span> <span class="fn">ℕ</span></span></div></div><details id="instances-for-list-Quiver.CycleLengths" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Quiver.commonDivisorsSet"><div class="def"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/Combinatorics/Quiver/Cyclic.lean#L22-L24">source</a></div><div class="verification_link">
+<a href="../../../../../modules/MCMC_PF_Combinatorics_Quiver_Cyclic.html#Quiver.commonDivisorsSet" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.commonDivisorsSet"><span class="name">Quiver</span>.<span class="name">commonDivisorsSet</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Quiver</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">V</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Set</span> <span class="fn">ℕ</span></span></div></div><p>The set of common divisors of all cycle lengths at <code>i</code>. (If there are no cycles this is all
+of <code>ℕ</code>, so the least element is <code>0</code>.)</p><details id="instances-for-list-Quiver.commonDivisorsSet" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Quiver.one_mem_commonDivisorsSet"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/Combinatorics/Quiver/Cyclic.lean#L26-L28">source</a></div><div class="verification_link">
+<a href="../../../../../modules/MCMC_PF_Combinatorics_Quiver_Cyclic.html#Quiver.one_mem_commonDivisorsSet" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.one_mem_commonDivisorsSet"><span class="name">Quiver</span>.<span class="name">one_mem_commonDivisorsSet</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Quiver</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">V</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">1</span> <span class="fn">∈</span> <span class="fn"><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.commonDivisorsSet">commonDivisorsSet</a> <span class="fn">i</span></span></span></div></div></div></div><div class="decl" id="Quiver.commonDivisorsSet_nonempty"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/Combinatorics/Quiver/Cyclic.lean#L30-L31">source</a></div><div class="verification_link">
+<a href="../../../../../modules/MCMC_PF_Combinatorics_Quiver_Cyclic.html#Quiver.commonDivisorsSet_nonempty" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.commonDivisorsSet_nonempty"><span class="name">Quiver</span>.<span class="name">commonDivisorsSet_nonempty</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Quiver</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">V</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.commonDivisorsSet">commonDivisorsSet</a> <span class="fn">i</span>)</span>.<span class="fn">Nonempty</span></span></div></div></div></div><div class="decl" id="Quiver.period"><div class="def"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/Combinatorics/Quiver/Cyclic.lean#L33-L39">source</a></div><div class="verification_link">
+<a href="../../../../../modules/MCMC_PF_Combinatorics_Quiver_Cyclic.html#Quiver.period" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.period"><span class="name">Quiver</span>.<span class="name">period</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Quiver</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">V</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">ℕ</span></div></div><p>The period of a vertex <code>i</code>: the least common divisor of all cycle lengths at <code>i</code>.</p><p>If there are no cycles, this is <code>0</code> (since then <code><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.commonDivisorsSet">commonDivisorsSet</a> i = Set.univ</code>).</p><details id="instances-for-list-Quiver.period" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Quiver.period_min"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/Combinatorics/Quiver/Cyclic.lean#L41-L49">source</a></div><div class="verification_link">
+<a href="../../../../../modules/MCMC_PF_Combinatorics_Quiver_Cyclic.html#Quiver.period_min" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.period_min"><span class="name">Quiver</span>.<span class="name">period_min</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Quiver</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">V</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.period">period</a> <span class="fn">i</span></span> <span class="fn">∈</span> <span class="fn"><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.commonDivisorsSet">commonDivisorsSet</a> <span class="fn">i</span></span></span> <span class="fn">∧</span> <span class="fn">∀ <span class="fn">m</span> ∈ <span class="fn"><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.commonDivisorsSet">commonDivisorsSet</a> <span class="fn">i</span></span>, <span class="fn"><span class="fn"><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.period">period</a> <span class="fn">i</span></span> <span class="fn">≤</span> <span class="fn">m</span></span></span></span></div></div><p><code><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.period">period</a> i</code> is the least element of the set of common divisors of all cycle lengths at <code>i</code>.</p></div></div><div class="decl" id="Quiver.period_spec"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/Combinatorics/Quiver/Cyclic.lean#L51-L61">source</a></div><div class="verification_link">
+<a href="../../../../../modules/MCMC_PF_Combinatorics_Quiver_Cyclic.html#Quiver.period_spec" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.period_spec"><span class="name">Quiver</span>.<span class="name">period_spec</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Quiver</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">V</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(∀ <span class="fn">k</span> ∈ <span class="fn"><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.CycleLengths">CycleLengths</a> <span class="fn">i</span></span>, <span class="fn"><span class="fn"><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.period">period</a> <span class="fn">i</span></span> <span class="fn">∣</span> <span class="fn">k</span></span>)</span> <span class="fn">∧</span> <span class="fn">∀ (<span class="fn">m</span> : <span class="fn">ℕ</span>), <span class="fn"><span class="fn">(∀ <span class="fn">k</span> ∈ <span class="fn"><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.CycleLengths">CycleLengths</a> <span class="fn">i</span></span>, <span class="fn"><span class="fn">m</span> <span class="fn">∣</span> <span class="fn">k</span></span>)</span> → <span class="fn"><span class="fn"><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.period">period</a> <span class="fn">i</span></span> <span class="fn">≤</span> <span class="fn">m</span></span></span></span></span></div></div><p>Basic characterization of <code><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.period">period</a></code>: divisibility plus minimality.
+TODO: it may be needed a more rigorous characterization</p></div></div><div class="decl" id="Quiver.period_mem_commonDivisorsSet"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/Combinatorics/Quiver/Cyclic.lean#L63-L65">source</a></div><div class="verification_link">
+<a href="../../../../../modules/MCMC_PF_Combinatorics_Quiver_Cyclic.html#Quiver.period_mem_commonDivisorsSet" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.period_mem_commonDivisorsSet"><span class="name">Quiver</span>.<span class="name">period_mem_commonDivisorsSet</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Quiver</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">V</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.period">period</a> <span class="fn">i</span></span> <span class="fn">∈</span> <span class="fn"><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.commonDivisorsSet">commonDivisorsSet</a> <span class="fn">i</span></span></span></div></div></div></div><div class="decl" id="Quiver.period_le_of_commonDivisor"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/Combinatorics/Quiver/Cyclic.lean#L67-L70">source</a></div><div class="verification_link">
+<a href="../../../../../modules/MCMC_PF_Combinatorics_Quiver_Cyclic.html#Quiver.period_le_of_commonDivisor" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.period_le_of_commonDivisor"><span class="name">Quiver</span>.<span class="name">period_le_of_commonDivisor</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Quiver</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">V</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">m</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hm</span> : <span class="fn">∀ <span class="fn">k</span> ∈ <span class="fn"><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.CycleLengths">CycleLengths</a> <span class="fn">i</span></span>, <span class="fn"><span class="fn">m</span> <span class="fn">∣</span> <span class="fn">k</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.period">period</a> <span class="fn">i</span></span> <span class="fn">≤</span> <span class="fn">m</span></span></div></div></div></div><div class="decl" id="Quiver.divides_cycle_length"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/Combinatorics/Quiver/Cyclic.lean#L72-L75">source</a></div><div class="verification_link">
+<a href="../../../../../modules/MCMC_PF_Combinatorics_Quiver_Cyclic.html#Quiver.divides_cycle_length" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.divides_cycle_length"><span class="name">Quiver</span>.<span class="name">divides_cycle_length</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Quiver</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">i</span> : <span class="fn">V</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hk</span> : <span class="fn"><span class="fn">k</span> <span class="fn">∈</span> <span class="fn"><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.CycleLengths">CycleLengths</a> <span class="fn">i</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.period">period</a> <span class="fn">i</span></span> <span class="fn">∣</span> <span class="fn">k</span></span></div></div></div></div><div class="decl" id="Quiver.period_divides_cycle_lengths"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/Combinatorics/Quiver/Cyclic.lean#L78-L81">source</a></div><div class="verification_link">
+<a href="../../../../../modules/MCMC_PF_Combinatorics_Quiver_Cyclic.html#Quiver.period_divides_cycle_lengths" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.period_divides_cycle_lengths"><span class="name">Quiver</span>.<span class="name">period_divides_cycle_lengths</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Quiver</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">V</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">k</span> <span class="fn">∈</span> <span class="fn"><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.CycleLengths">CycleLengths</a> <span class="fn">i</span></span></span> → <span class="fn"><span class="fn"><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.period">period</a> <span class="fn">i</span></span> <span class="fn">∣</span> <span class="fn">k</span></span></span></div></div></div></div><div class="decl" id="Quiver.period_pos_of_nonempty_cycles"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/Combinatorics/Quiver/Cyclic.lean#L84-L95">source</a></div><div class="verification_link">
+<a href="../../../../../modules/MCMC_PF_Combinatorics_Quiver_Cyclic.html#Quiver.period_pos_of_nonempty_cycles" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.period_pos_of_nonempty_cycles"><span class="name">Quiver</span>.<span class="name">period_pos_of_nonempty_cycles</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Quiver</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">V</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_nonempty</span> : <span class="fn"><span class="fn">(<a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.CycleLengths">CycleLengths</a> <span class="fn">i</span>)</span>.<span class="fn">Nonempty</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.period">period</a> <span class="fn">i</span></span> <span class="fn">&gt;</span> <span class="fn">0</span></span></div></div></div></div><div class="decl" id="Quiver.period_constant_of_strongly_connected"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/Combinatorics/Quiver/Cyclic.lean#L102-L174">source</a></div><div class="verification_link">
+<a href="../../../../../modules/MCMC_PF_Combinatorics_Quiver_Cyclic.html#Quiver.period_constant_of_strongly_connected" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.period_constant_of_strongly_connected"><span class="name">Quiver</span>.<span class="name">period_constant_of_strongly_connected</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Quiver</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h_sc</span> : <span class="fn"><span class="fn">IsSStronglyConnected</span> <span class="fn">V</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">V</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.period">period</a> <span class="fn">i</span></span> <span class="fn">=</span> <span class="fn"><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.period">period</a> <span class="fn">j</span></span></span></div></div><p><strong>Theorem: In a strongly connected quiver, the period is the same for all vertices</strong>.</p></div></div><div class="decl" id="Quiver.IsAperiodic"><div class="def"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/Combinatorics/Quiver/Cyclic.lean#L176-L179">source</a></div><div class="verification_link">
+<a href="../../../../../modules/MCMC_PF_Combinatorics_Quiver_Cyclic.html#Quiver.IsAperiodic" class="verification-badge math-definition" title="Mathematical definition (Prop-valued)">🔹 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.IsAperiodic"><span class="name">Quiver</span>.<span class="name">IsAperiodic</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">G</span> : <span class="fn"><span class="fn">Quiver</span> <span class="fn">V</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../../.././foundational_types.html">Prop</a></div></div><p>A quiver is aperiodic if some vertex has period <code>1</code>.</p><details id="instances-for-list-Quiver.IsAperiodic" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Quiver.IsAperiodic.exists_period_eq_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/Combinatorics/Quiver/Cyclic.lean#L182-L186">source</a></div><div class="verification_link">
+<a href="../../../../../modules/MCMC_PF_Combinatorics_Quiver_Cyclic.html#Quiver.IsAperiodic.exists_period_eq_one" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.IsAperiodic.exists_period_eq_one"><span class="name">Quiver</span>.<span class="name">IsAperiodic</span>.<span class="name">exists_period_eq_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <span class="fn"><span class="fn">Quiver</span> <span class="fn">V</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hG</span> : <span class="fn"><span class="fn">G</span>.<a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.IsAperiodic">IsAperiodic</a></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">∃ (<span class="fn">i</span> : <span class="fn">V</span>), <span class="fn"><span class="fn"><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.period">period</a> <span class="fn">i</span></span> <span class="fn">=</span> <span class="fn">1</span></span></span></div></div><p>Unpack <code><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.IsAperiodic">Quiver.IsAperiodic</a></code> as the existence of a period-one vertex.</p></div></div><div class="decl" id="Quiver.IsAperiodic.period_eq_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/Combinatorics/Quiver/Cyclic.lean#L189-L198">source</a></div><div class="verification_link">
+<a href="../../../../../modules/MCMC_PF_Combinatorics_Quiver_Cyclic.html#Quiver.IsAperiodic.period_eq_one" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.IsAperiodic.period_eq_one"><span class="name">Quiver</span>.<span class="name">IsAperiodic</span>.<span class="name">period_eq_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <span class="fn"><span class="fn">Quiver</span> <span class="fn">V</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h_sc</span> : <span class="fn"><span class="fn">IsSStronglyConnected</span> <span class="fn">V</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hG</span> : <span class="fn"><span class="fn">G</span>.<a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.IsAperiodic">IsAperiodic</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">V</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.period">period</a> <span class="fn">i</span></span> <span class="fn">=</span> <span class="fn">1</span></span></div></div><p>In a strongly connected quiver, aperiodicity forces every vertex to have period <code>1</code>.</p></div></div><div class="decl" id="Quiver.isAperiodic_iff_period_eq_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/Combinatorics/Quiver/Cyclic.lean#L201-L213">source</a></div><div class="verification_link">
+<a href="../../../../../modules/MCMC_PF_Combinatorics_Quiver_Cyclic.html#Quiver.isAperiodic_iff_period_eq_one" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.isAperiodic_iff_period_eq_one"><span class="name">Quiver</span>.<span class="name">isAperiodic_iff_period_eq_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">G</span> : <span class="fn"><span class="fn">Quiver</span> <span class="fn">V</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h_sc</span> : <span class="fn"><span class="fn">IsSStronglyConnected</span> <span class="fn">V</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">V</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">G</span>.<a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.IsAperiodic">IsAperiodic</a></span> <span class="fn">↔</span> <span class="fn"><span class="fn"><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.period">period</a> <span class="fn">i</span></span> <span class="fn">=</span> <span class="fn">1</span></span></span></div></div><p>For a strongly connected quiver, aperiodicity is equivalent to the period-one condition at any
+chosen vertex.</p></div></div><div class="mod_doc"><h1 id="Cyclic-Structure-and-Frobenius-Normal-Form" class="markdown-heading">Cyclic Structure and Frobenius Normal Form <a class="hover-link" href="#Cyclic-Structure-and-Frobenius-Normal-Form">#</a></h1></div><div class="decl" id="Quiver.IsCyclicPartition"><div class="def"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/Combinatorics/Quiver/Cyclic.lean#L217-L223">source</a></div><div class="verification_link">
+<a href="../../../../../modules/MCMC_PF_Combinatorics_Quiver_Cyclic.html#Quiver.IsCyclicPartition" class="verification-badge math-definition" title="Mathematical definition (Prop-valued)">🔹 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.IsCyclicPartition"><span class="name">Quiver</span>.<span class="name">IsCyclicPartition</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Quiver</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">h</span> : <span class="fn">ℕ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h_pos</span> : <span class="fn"><span class="fn">h</span> <span class="fn">&gt;</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">partition</span> : <span class="fn"><span class="fn">V</span> → <span class="fn"><span class="fn">Fin</span> <span class="fn">h</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../../.././foundational_types.html">Prop</a></div></div><p>A cyclic partition of the vertices with period h.
+The partition is represented by a map from V to Fin h.
+Edges only go from one class to the next one cyclically.
+We define the successor within <code>Fin h</code> by modular addition of 1 (staying in <code>Fin h</code>).</p><details id="instances-for-list-Quiver.IsCyclicPartition" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Quiver.mem_CycleLengths_of_comp_right"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/Combinatorics/Quiver/Cyclic.lean#L225-L236">source</a></div><div class="verification_link">
+<a href="../../../../../modules/MCMC_PF_Combinatorics_Quiver_Cyclic.html#Quiver.mem_CycleLengths_of_comp_right" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.mem_CycleLengths_of_comp_right"><span class="name">Quiver</span>.<span class="name">mem_CycleLengths_of_comp_right</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Quiver</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">i </span><span class="fn">v</span> : <span class="fn">V</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn"><span class="fn">Path</span> <span class="fn">i</span> <span class="fn">v</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">s</span> : <span class="fn"><span class="fn">Path</span> <span class="fn">v</span> <span class="fn">i</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hs_pos</span> : <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">s</span>.<span class="fn">length</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">p</span>.<span class="fn">comp</span></span> <span class="fn">s</span>)</span>.<span class="fn">length</span></span> <span class="fn">∈</span> <span class="fn"><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.CycleLengths">CycleLengths</a> <span class="fn">i</span></span></span></div></div><p>If the right factor of a composed path has positive length, the composed cycle at <code>i</code>
+belongs to <code><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.CycleLengths">CycleLengths</a> i</code>.</p></div></div><div class="decl" id="Quiver.mem_CycleLengths_of_cons_comp_right"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/Combinatorics/Quiver/Cyclic.lean#L238-L243">source</a></div><div class="verification_link">
+<a href="../../../../../modules/MCMC_PF_Combinatorics_Quiver_Cyclic.html#Quiver.mem_CycleLengths_of_cons_comp_right" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.mem_CycleLengths_of_cons_comp_right"><span class="name">Quiver</span>.<span class="name">mem_CycleLengths_of_cons_comp_right</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Quiver</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">i </span><span class="fn">v </span><span class="fn">w</span> : <span class="fn">V</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn"><span class="fn">Path</span> <span class="fn">i</span> <span class="fn">v</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">e</span> : <span class="fn"><span class="fn">v</span> <span class="fn">⟶</span> <span class="fn">w</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">s</span> : <span class="fn"><span class="fn">Path</span> <span class="fn">w</span> <span class="fn">i</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hs_pos</span> : <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">s</span>.<span class="fn">length</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">(<span class="fn"><span class="fn">p</span>.<span class="fn">cons</span></span> <span class="fn">e</span>)</span>.<span class="fn">comp</span></span> <span class="fn">s</span>)</span>.<span class="fn">length</span></span> <span class="fn">∈</span> <span class="fn"><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.CycleLengths">CycleLengths</a> <span class="fn">i</span></span></span></div></div><p>Variant: if we first extend a path by a single edge using <code>cons</code> and then compose on the right
+with a positive-length path back to the base, we still get a cycle length in <code><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.CycleLengths">CycleLengths</a></code>.</p></div></div><div class="decl" id="Quiver.exists_cyclic_partition_of_strongly_connected"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/Combinatorics/Quiver/Cyclic.lean#L245-L310">source</a></div><div class="verification_link">
+<a href="../../../../../modules/MCMC_PF_Combinatorics_Quiver_Cyclic.html#Quiver.exists_cyclic_partition_of_strongly_connected" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.exists_cyclic_partition_of_strongly_connected"><span class="name">Quiver</span>.<span class="name">exists_cyclic_partition_of_strongly_connected</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Quiver</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">i0</span> : <span class="fn">V</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_sc</span> : <span class="fn"><span class="fn">IsSStronglyConnected</span> <span class="fn">V</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_pos</span> : <span class="fn"><span class="fn"><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.period">period</a> <span class="fn">i0</span></span> <span class="fn">&gt;</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">∃ (<span class="fn">partition</span> : <span class="fn"><span class="fn">V</span> → <span class="fn"><span class="fn">Fin</span> <span class="fn">(<a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.period">period</a> <span class="fn">i0</span>)</span></span></span>), <span class="fn"><a href="../../../.././MCMC/PF/Combinatorics/Quiver/Cyclic.html#Quiver.IsCyclicPartition">IsCyclicPartition</a> <span class="fn">h_pos</span> <span class="fn">partition</span></span></span></div></div><p>A strongly connected quiver with positive period at a chosen base vertex admits a cyclic partition.</p></div></div></main>
+<nav class="nav"><iframe src="../../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>
