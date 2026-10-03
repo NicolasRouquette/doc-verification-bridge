@@ -1,7 +1,11 @@
 -- DependencyAnalysis/CompatibilityLean.lean
 -- Cross-version compatibility tests that require `import Lean`
 
-import Lean
+module
+
+public import Lean
+
+public section Interface
 
 /-!
 # Lean-Specific Compatibility Tests
@@ -50,3 +54,5 @@ def testCoreContext : Core.Context := {
 #check testCoreContext.options
 
 end DependencyAnalysis.CompatibilityLean
+
+end Interface

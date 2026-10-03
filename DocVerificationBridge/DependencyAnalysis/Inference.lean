@@ -1,9 +1,13 @@
 -- DependencyAnalysis/Inference.lean
 -- Automatic inference of assumes/proves/validates from theorem types
 
-import Lean
-import DependencyAnalysis.Types
-import DependencyAnalysis.Compatibility
+module
+
+public import Lean
+public import DependencyAnalysis.Types
+public import DependencyAnalysis.Compatibility
+
+public section Interface
 
 /-!
 # Automatic Inference of Theorem Annotations
@@ -796,3 +800,5 @@ def inferBridgingDirection (inferred : InferredTheoremAnnotations) : Option Brid
     else some .iff  -- Default to iff if unclear
 
 end DependencyAnalysis
+
+end Interface

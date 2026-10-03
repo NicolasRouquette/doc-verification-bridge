@@ -1,6 +1,11 @@
 -- DependencyAnalysis/Compatibility.lean
 -- Cross-version compatibility helpers for Lean 4
 
+module
+
+
+public section Interface
+
 /-!
 # Cross-version Compatibility
 
@@ -125,3 +130,5 @@ def String.findOccurrenceCompat (s : String) (sub : String) : Option Nat :=
         if remaining.take subChars.length == subChars then some idx
         else go rest (idx + 1)
     go chars 0
+
+end Interface

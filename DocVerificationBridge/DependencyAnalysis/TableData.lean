@@ -1,9 +1,13 @@
 -- DependencyAnalysis/TableData.lean
 -- JSON-serializable data structures for module table data
 
-import Lean
-import DependencyAnalysis.Types
-import DependencyAnalysis.Compatibility
+module
+
+public import Lean
+public import DependencyAnalysis.Types
+public import DependencyAnalysis.Compatibility
+
+public section Interface
 
 /-!
 # Module Table Data
@@ -289,3 +293,5 @@ def saveAllModuleTableDataCombined (allModuleData : Array ModuleTableData) (outp
   IO.println s!"Saved combined table data for {allModuleData.size} modules to {outputFile}"
 
 end DependencyAnalysis.TableData
+
+end Interface

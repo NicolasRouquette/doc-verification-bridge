@@ -1,9 +1,13 @@
 -- DependencyAnalysis/Cache.lean
 -- JSON serialization for classification cache using Lean.Json
 
-import Lean
-import Lean.Data.Json
-import DependencyAnalysis.Types
+module
+
+public import Lean
+public import Lean.Data.Json
+public import DependencyAnalysis.Types
+
+public section Interface
 
 /-!
 # Classification Cache
@@ -395,3 +399,5 @@ def defaultCachePath (buildDir : System.FilePath) : System.FilePath :=
   buildDir / "classification-cache"
 
 end DependencyAnalysis.Cache
+
+end Interface

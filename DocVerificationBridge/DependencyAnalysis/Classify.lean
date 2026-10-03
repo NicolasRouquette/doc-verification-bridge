@@ -1,9 +1,13 @@
 -- DependencyAnalysis/Classify.lean
 -- Automatic classification of declarations (no doc-gen4 dependency)
 
-import Lean
-import DependencyAnalysis.Types
-import DependencyAnalysis.Inference
+module
+
+public import Lean
+public import DependencyAnalysis.Types
+public import DependencyAnalysis.Inference
+
+public section Interface
 
 /-!
 # Automatic Declaration Classification
@@ -707,3 +711,5 @@ def updateCoverageStatus (entries : NameMap APIMeta) (provedBy : NameMap (Array 
   return result
 
 end DependencyAnalysis
+
+end Interface

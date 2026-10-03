@@ -1,8 +1,12 @@
 -- DependencyAnalysis/Types.lean
 -- Core types for theorem classification and verification tracking
 
-import Lean
-import DependencyAnalysis.Compatibility
+module
+
+public import Lean
+public import DependencyAnalysis.Compatibility
+
+public section Interface
 
 /-!
 # Core Types for Doc Verification Bridge
@@ -394,3 +398,5 @@ def addAPIMeta (env : Environment) (name : Name) (apiMeta : APIMeta) : Environme
   apiCoverageExt.addEntry env (name, apiMeta)
 
 end DependencyAnalysis
+
+end Interface

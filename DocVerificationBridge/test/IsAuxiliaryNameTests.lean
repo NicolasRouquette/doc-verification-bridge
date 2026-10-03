@@ -1,4 +1,7 @@
+module
+
 import DependencyAnalysis.Inference
+meta import DependencyAnalysis.Inference
 
 /-!
 # `isAuxiliaryName` smoke tests

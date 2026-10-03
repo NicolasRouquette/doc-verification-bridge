@@ -1,8 +1,12 @@
 -- DependencyAnalysis/Attributes.lean
 -- Attribute syntax for manual annotation (optional, for precise control)
 
-import Lean
-import DependencyAnalysis.Types
+module
+
+public import Lean
+public import DependencyAnalysis.Types
+
+public section Interface
 
 /-!
 # Optional Annotation Attributes
@@ -396,3 +400,5 @@ initialize registerBuiltinAttribute {
 }
 
 end DependencyAnalysis
+
+end Interface
