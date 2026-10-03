@@ -1,0 +1,229 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../.././style.css"></link><link rel="icon" href="../.././favicon.svg"></link><link rel="mask-icon" href="../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../.././/declarations/declaration-data.bmp" as="image"></link><title>MCMC.Finite.AbsorbingChain</title><script defer="true" src="../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../.././";</script><script>const MODULE_NAME="MCMC.Finite.AbsorbingChain";</script><script type="module" src="../.././jump-src.js"></script><script type="module" src="../.././search.js"></script><script type="module" src="../.././expand-nav.js"></script><script type="module" src="../.././how-about.js"></script><script type="module" src="../.././instances.js"></script><script type="module" src="../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">AbsorbingChain</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/AbsorbingChain.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../.././Init.html">Init</a></li><li><a href="../.././MCMC/Finite/Core.html">MCMC.Finite.Core</a></li><li><a href="../.././Mathlib/Topology/Algebra/InfiniteSum/Basic.html">Mathlib.Topology.Algebra.InfiniteSum.Basic</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-MCMC.Finite.AbsorbingChain" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#MCMC.Finite.IsSubstochastic"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">IsSubstochastic</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Finite.IsTransient"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">IsTransient</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Finite.IsTransientSubstochastic"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">IsTransientSubstochastic</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Finite.geometricPartialSums"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">geometricPartialSums</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Finite.geometricPartialSums_zero"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">geometricPartialSums_zero</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Finite.fundamentalMatrix"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">fundamentalMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Finite.expectedVisitsMatrix"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">expectedVisitsMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Finite.expectedAbsorptionTime"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">expectedAbsorptionTime</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Finite.IsTransient.tendsto_pow_zero"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">IsTransient</span>.<span class="name">tendsto_pow_zero</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Finite.transient_tendsto_zero"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">transient_tendsto_zero</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Finite.one_sub_mul_geometricPartialSums"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">one_sub_mul_geometricPartialSums</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Finite.geometricPartialSums_tendsto_expectedVisitsMatrix"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">geometricPartialSums_tendsto_expectedVisitsMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Finite.geometricPartialSums_tendsto_fundamentalMatrix"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">geometricPartialSums_tendsto_fundamentalMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Finite.fundamentalMatrix_isUnit_and_nonneg"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">fundamentalMatrix_isUnit_and_nonneg</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Finite.expectedVisitsMatrix_eq_fundamentalMatrix"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">expectedVisitsMatrix_eq_fundamentalMatrix</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Finite.expectedAbsorptionTime_eq_expectedVisitsMatrix_mulVec_one"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">expectedAbsorptionTime_eq_expectedVisitsMatrix_mulVec_one</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Finite.expectedAbsorptionTime_eq_fundamentalMatrix_mulVec_one"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">expectedAbsorptionTime_eq_fundamentalMatrix_mulVec_one</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Absorbing-chains-and-the-fundamental-matrix" class="markdown-heading">Absorbing chains and the fundamental matrix <a class="hover-link" href="#Absorbing-chains-and-the-fundamental-matrix">#</a></h1><p>This file contains the Chapter 4 absorbing-chain scaffold.</p><p>The transient regime is encoded structurally through summability of the geometric series
+<code>∑ Q^k</code>, so the Green-kernel objects <code><a href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.expectedVisitsMatrix">expectedVisitsMatrix</a></code> and <code><a href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.expectedAbsorptionTime">expectedAbsorptionTime</a></code> are only
+defined after providing a transient witness.</p></div><div class="decl" id="MCMC.Finite.IsSubstochastic"><div class="def"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/AbsorbingChain.lean#L21-L23">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Finite_AbsorbingChain.html#MCMC.Finite.IsSubstochastic" class="verification-badge math-definition" title="Mathematical definition (Prop-valued)">🔹 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.IsSubstochastic"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">IsSubstochastic</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">Q</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../.././foundational_types.html">Prop</a></div></div><p>A finite matrix is substochastic if it is entrywise nonnegative and every row sum is at most <code>1</code>.</p><details id="instances-for-list-MCMC.Finite.IsSubstochastic" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="MCMC.Finite.IsTransient"><div class="def"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/AbsorbingChain.lean#L25-L30">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Finite_AbsorbingChain.html#MCMC.Finite.IsTransient" class="verification-badge math-definition" title="Mathematical definition (Prop-valued)">🔹 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.IsTransient"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">IsTransient</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">Q</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../.././foundational_types.html">Prop</a></div></div><p>Transience of the transient block is encoded by summability of the geometric series
+<code>∑ Q^k</code>.</p><details id="instances-for-list-MCMC.Finite.IsTransient" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="MCMC.Finite.IsTransientSubstochastic"><div class="def"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/AbsorbingChain.lean#L32-L34">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Finite_AbsorbingChain.html#MCMC.Finite.IsTransientSubstochastic" class="verification-badge math-definition" title="Mathematical definition (Prop-valued)">🔹 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.IsTransientSubstochastic"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">IsTransientSubstochastic</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">Q</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../.././foundational_types.html">Prop</a></div></div><p>A transient substochastic matrix.</p><details id="instances-for-list-MCMC.Finite.IsTransientSubstochastic" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="MCMC.Finite.geometricPartialSums"><div class="def"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/AbsorbingChain.lean#L36-L38">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Finite_AbsorbingChain.html#MCMC.Finite.geometricPartialSums" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.geometricPartialSums"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">geometricPartialSums</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">Q</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">N</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span></div></div><p>The finite geometric partial sums attached to <code>Q</code>.</p><details id="instances-for-list-MCMC.Finite.geometricPartialSums" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="MCMC.Finite.geometricPartialSums_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/AbsorbingChain.lean#L40-L43">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Finite_AbsorbingChain.html#MCMC.Finite.geometricPartialSums_zero" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.geometricPartialSums_zero"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">geometricPartialSums_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">Q</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.geometricPartialSums">geometricPartialSums</a> <span class="fn">Q</span> <span class="fn">0</span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div></div></div><div class="decl" id="MCMC.Finite.fundamentalMatrix"><div class="def"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/AbsorbingChain.lean#L45-L47">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Finite_AbsorbingChain.html#MCMC.Finite.fundamentalMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.fundamentalMatrix"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">fundamentalMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">Q</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span></div></div><p>The classical fundamental matrix <code>(I - Q)⁻¹</code>.</p><details id="instances-for-list-MCMC.Finite.fundamentalMatrix" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="MCMC.Finite.expectedVisitsMatrix"><div class="def"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/AbsorbingChain.lean#L49-L53">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Finite_AbsorbingChain.html#MCMC.Finite.expectedVisitsMatrix" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.expectedVisitsMatrix"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">expectedVisitsMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">Q</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">_hQ</span> : <span class="fn"><a href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.IsTransient">IsTransient</a> <span class="fn">Q</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span></div></div><p>The Green kernel attached to <code>Q</code>, defined only in the transient regime.</p><details id="instances-for-list-MCMC.Finite.expectedVisitsMatrix" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="MCMC.Finite.expectedAbsorptionTime"><div class="def"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/AbsorbingChain.lean#L55-L59">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Finite_AbsorbingChain.html#MCMC.Finite.expectedAbsorptionTime" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.expectedAbsorptionTime"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">expectedAbsorptionTime</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">Q</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">_hQ</span> : <span class="fn"><a href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.IsTransient">IsTransient</a> <span class="fn">Q</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span></div></div><p>Expected absorption times as the Green kernel applied to the all-ones vector.</p><details id="instances-for-list-MCMC.Finite.expectedAbsorptionTime" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl sorried" id="MCMC.Finite.IsTransient.tendsto_pow_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/AbsorbingChain.lean#L61-L65">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name" title="declaration uses 'sorry'"><a class="break_within" href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.IsTransient.tendsto_pow_zero"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">IsTransient</span>.<span class="name">tendsto_pow_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Q</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hQ</span> : <span class="fn"><a href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.IsTransient">IsTransient</a> <span class="fn">Q</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Filter.Tendsto</span> <span class="fn">(fun (<span class="fn">k</span> : <span class="fn">ℕ</span>) =&gt; <span class="fn"><span class="fn">Q</span> <span class="fn">^</span> <span class="fn">k</span></span>)</span> <span class="fn">Filter.atTop</span> <span class="fn">(<span class="fn">nhds</span> <span class="fn">0</span>)</span></span></div></div><p>Summability of the powers implies their convergence to zero.</p></div></div><div class="decl" id="MCMC.Finite.transient_tendsto_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/AbsorbingChain.lean#L67-L71">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.transient_tendsto_zero"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">transient_tendsto_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Q</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hQ</span> : <span class="fn"><a href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.IsTransientSubstochastic">IsTransientSubstochastic</a> <span class="fn">Q</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Filter.Tendsto</span> <span class="fn">(fun (<span class="fn">k</span> : <span class="fn">ℕ</span>) =&gt; <span class="fn"><span class="fn">Q</span> <span class="fn">^</span> <span class="fn">k</span></span>)</span> <span class="fn">Filter.atTop</span> <span class="fn">(<span class="fn">nhds</span> <span class="fn">0</span>)</span></span></div></div><p>Transient substochastic matrices have powers converging to zero.</p></div></div><div class="decl sorried" id="MCMC.Finite.one_sub_mul_geometricPartialSums"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/AbsorbingChain.lean#L73-L79">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Finite_AbsorbingChain.html#MCMC.Finite.one_sub_mul_geometricPartialSums" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name" title="declaration uses 'sorry'"><a class="break_within" href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.one_sub_mul_geometricPartialSums"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">one_sub_mul_geometricPartialSums</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Q</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">N</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">1</span> <span class="fn">-</span> <span class="fn">Q</span>)</span> <span class="fn">*</span> <span class="fn"><a href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.geometricPartialSums">geometricPartialSums</a> <span class="fn">Q</span> <span class="fn">N</span></span></span> <span class="fn">=</span> <span class="fn"><span class="fn">1</span> <span class="fn">-</span> <span class="fn"><span class="fn">Q</span> <span class="fn">^</span> <span class="fn">N</span></span></span></span></div></div><p>Finite geometric-sum identity for matrices.</p></div></div><div class="decl sorried" id="MCMC.Finite.geometricPartialSums_tendsto_expectedVisitsMatrix"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/AbsorbingChain.lean#L81-L88">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Finite_AbsorbingChain.html#MCMC.Finite.geometricPartialSums_tendsto_expectedVisitsMatrix" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name" title="declaration uses 'sorry'"><a class="break_within" href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.geometricPartialSums_tendsto_expectedVisitsMatrix"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">geometricPartialSums_tendsto_expectedVisitsMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Q</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hQ</span> : <span class="fn"><a href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.IsTransient">IsTransient</a> <span class="fn">Q</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Filter.Tendsto</span> <span class="fn">(fun (<span class="fn">N</span> : <span class="fn">ℕ</span>) =&gt; <span class="fn"><a href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.geometricPartialSums">geometricPartialSums</a> <span class="fn">Q</span> <span class="fn">N</span></span>)</span> <span class="fn">Filter.atTop</span> <span class="fn">(<span class="fn">nhds</span> <span class="fn">(<a href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.expectedVisitsMatrix">expectedVisitsMatrix</a> <span class="fn">Q</span> <span class="fn">hQ</span>)</span>)</span></span></div></div><p>The geometric partial sums converge to the Green kernel in the transient regime.</p></div></div><div class="decl sorried" id="MCMC.Finite.geometricPartialSums_tendsto_fundamentalMatrix"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/AbsorbingChain.lean#L90-L98">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Finite_AbsorbingChain.html#MCMC.Finite.geometricPartialSums_tendsto_fundamentalMatrix" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name" title="declaration uses 'sorry'"><a class="break_within" href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.geometricPartialSums_tendsto_fundamentalMatrix"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">geometricPartialSums_tendsto_fundamentalMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Q</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hQ</span> : <span class="fn"><a href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.IsTransientSubstochastic">IsTransientSubstochastic</a> <span class="fn">Q</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Filter.Tendsto</span> <span class="fn">(fun (<span class="fn">N</span> : <span class="fn">ℕ</span>) =&gt; <span class="fn"><a href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.geometricPartialSums">geometricPartialSums</a> <span class="fn">Q</span> <span class="fn">N</span></span>)</span> <span class="fn">Filter.atTop</span> <span class="fn">(<span class="fn">nhds</span> <span class="fn">(<a href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.fundamentalMatrix">fundamentalMatrix</a> <span class="fn">Q</span>)</span>)</span></span></div></div><p>The geometric partial sums converge to the fundamental matrix in the transient substochastic
+regime.</p></div></div><div class="decl sorried" id="MCMC.Finite.fundamentalMatrix_isUnit_and_nonneg"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/AbsorbingChain.lean#L100-L106">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Finite_AbsorbingChain.html#MCMC.Finite.fundamentalMatrix_isUnit_and_nonneg" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name" title="declaration uses 'sorry'"><a class="break_within" href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.fundamentalMatrix_isUnit_and_nonneg"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">fundamentalMatrix_isUnit_and_nonneg</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Q</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hQ</span> : <span class="fn"><a href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.IsTransientSubstochastic">IsTransientSubstochastic</a> <span class="fn">Q</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">IsUnit</span> <span class="fn">(<span class="fn">1</span> <span class="fn">-</span> <span class="fn">Q</span>)</span></span> <span class="fn">∧</span> <span class="fn">∀ (<span class="fn">i </span><span class="fn">j</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><a href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.fundamentalMatrix">fundamentalMatrix</a> <span class="fn">Q</span> <span class="fn">i</span> <span class="fn">j</span></span></span></span></span></div></div><p>Existence and entrywise nonnegativity of the fundamental matrix.</p></div></div><div class="decl sorried" id="MCMC.Finite.expectedVisitsMatrix_eq_fundamentalMatrix"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/AbsorbingChain.lean#L108-L114">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Finite_AbsorbingChain.html#MCMC.Finite.expectedVisitsMatrix_eq_fundamentalMatrix" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name" title="declaration uses 'sorry'"><a class="break_within" href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.expectedVisitsMatrix_eq_fundamentalMatrix"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">expectedVisitsMatrix_eq_fundamentalMatrix</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Q</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hQ</span> : <span class="fn"><a href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.IsTransientSubstochastic">IsTransientSubstochastic</a> <span class="fn">Q</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.expectedVisitsMatrix">expectedVisitsMatrix</a> <span class="fn">Q</span> <span class="fn">⋯</span></span> <span class="fn">=</span> <span class="fn"><a href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.fundamentalMatrix">fundamentalMatrix</a> <span class="fn">Q</span></span></span></div></div><p>The Green-kernel series agrees with the fundamental matrix.</p></div></div><div class="decl" id="MCMC.Finite.expectedAbsorptionTime_eq_expectedVisitsMatrix_mulVec_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/AbsorbingChain.lean#L116-L122">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Finite_AbsorbingChain.html#MCMC.Finite.expectedAbsorptionTime_eq_expectedVisitsMatrix_mulVec_one" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.expectedAbsorptionTime_eq_expectedVisitsMatrix_mulVec_one"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">expectedAbsorptionTime_eq_expectedVisitsMatrix_mulVec_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Q</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hQ</span> : <span class="fn"><a href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.IsTransientSubstochastic">IsTransientSubstochastic</a> <span class="fn">Q</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.expectedAbsorptionTime">expectedAbsorptionTime</a> <span class="fn">Q</span> <span class="fn">⋯</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">(<a href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.expectedVisitsMatrix">expectedVisitsMatrix</a> <span class="fn">Q</span> <span class="fn">⋯</span>)</span>.<span class="fn">mulVec</span></span> <span class="fn">1</span></span></span></div></div><p>Expected absorption times are obtained by summing the expected visits.</p></div></div><div class="decl sorried" id="MCMC.Finite.expectedAbsorptionTime_eq_fundamentalMatrix_mulVec_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/AbsorbingChain.lean#L124-L130">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Finite_AbsorbingChain.html#MCMC.Finite.expectedAbsorptionTime_eq_fundamentalMatrix_mulVec_one" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name" title="declaration uses 'sorry'"><a class="break_within" href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.expectedAbsorptionTime_eq_fundamentalMatrix_mulVec_one"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">expectedAbsorptionTime_eq_fundamentalMatrix_mulVec_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Q</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hQ</span> : <span class="fn"><a href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.IsTransientSubstochastic">IsTransientSubstochastic</a> <span class="fn">Q</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.expectedAbsorptionTime">expectedAbsorptionTime</a> <span class="fn">Q</span> <span class="fn">⋯</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">(<a href="../.././MCMC/Finite/AbsorbingChain.html#MCMC.Finite.fundamentalMatrix">fundamentalMatrix</a> <span class="fn">Q</span>)</span>.<span class="fn">mulVec</span></span> <span class="fn">1</span></span></span></div></div><p>Expected absorption times are given by the fundamental matrix applied to the all-ones vector.</p></div></div></main>
+<nav class="nav"><iframe src="../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>
