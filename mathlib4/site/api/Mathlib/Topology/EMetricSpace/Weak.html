@@ -1,0 +1,331 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../.././style.css"></link><link rel="icon" href="../../.././favicon.svg"></link><link rel="mask-icon" href="../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../.././/declarations/declaration-data.bmp" as="image"></link><title>Mathlib.Topology.EMetricSpace.Weak</title><script defer="true" src="../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../.././";</script><script>const MODULE_NAME="Mathlib.Topology.EMetricSpace.Weak";</script><script type="module" src="../../.././jump-src.js"></script><script type="module" src="../../.././search.js"></script><script type="module" src="../../.././expand-nav.js"></script><script type="module" src="../../.././how-about.js"></script><script type="module" src="../../.././instances.js"></script><script type="module" src="../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">Mathlib</span>.<span class="name">Topology</span>.<span class="name">EMetricSpace</span>.<span class="name">Weak</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/leanprover-community/mathlib4/blob/2d792c9bea7859d32dd125ee02ad72fa54a7a237/Mathlib/Topology/EMetricSpace/Weak.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../.././Init.html">Init</a></li><li><a href="../../.././Mathlib/Topology/Bornology/Real.html">Mathlib.Topology.Bornology.Real</a></li><li><a href="../../.././Mathlib/Topology/Instances/ENat.html">Mathlib.Topology.Instances.ENat</a></li><li><a href="../../.././Mathlib/Topology/Instances/Nat.html">Mathlib.Topology.Instances.Nat</a></li><li><a href="../../.././Mathlib/Topology/Order/Real.html">Mathlib.Topology.Order.Real</a></li><li><a href="../../.././Mathlib/Topology/Order/WithTop.html">Mathlib.Topology.Order.WithTop</a></li><li><a href="../../.././Mathlib/Topology/Compactification/OnePoint/Basic.html">Mathlib.Topology.Compactification.OnePoint.Basic</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-Mathlib.Topology.EMetricSpace.Weak" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#Option.toEDist"><span class="name">Option</span>.<span class="name">toEDist</span></a></div><div class="nav_link"><a class="break_within" href="#Option.edist_none_none"><span class="name">Option</span>.<span class="name">edist_none_none</span></a></div><div class="nav_link"><a class="break_within" href="#Option.edist_none_some"><span class="name">Option</span>.<span class="name">edist_none_some</span></a></div><div class="nav_link"><a class="break_within" href="#Option.edist_some_none"><span class="name">Option</span>.<span class="name">edist_some_none</span></a></div><div class="nav_link"><a class="break_within" href="#Option.edist_some_some"><span class="name">Option</span>.<span class="name">edist_some_some</span></a></div><div class="nav_link"><a class="break_within" href="#Option.some_eball"><span class="name">Option</span>.<span class="name">some_eball</span></a></div><div class="nav_link"><a class="break_within" href="#Option.edist_self'"><span class="name">Option</span>.<span class="name">edist_self'</span></a></div><div class="nav_link"><a class="break_within" href="#Option.edist_comm'"><span class="name">Option</span>.<span class="name">edist_comm'</span></a></div><div class="nav_link"><a class="break_within" href="#Option.edist_triangle'"><span class="name">Option</span>.<span class="name">edist_triangle'</span></a></div><div class="nav_link"><a class="break_within" href="#Option.ball_infty_of_pos"><span class="name">Option</span>.<span class="name">ball_infty_of_pos</span></a></div><div class="nav_link"><a class="break_within" href="#Option.WeakPseudoEMetricSpace.OfIsOpenEmbedding"><span class="name">Option</span>.<span class="name">WeakPseudoEMetricSpace</span>.<span class="name">OfIsOpenEmbedding</span></a></div><div class="nav_link"><a class="break_within" href="#Option.WeakEMetricSpace.OfIsOpenEmbedding"><span class="name">Option</span>.<span class="name">WeakEMetricSpace</span>.<span class="name">OfIsOpenEmbedding</span></a></div><div class="nav_link"><a class="break_within" href="#WithTop.isOpenEmbedding_some"><span class="name">WithTop</span>.<span class="name">isOpenEmbedding_some</span></a></div><div class="nav_link"><a class="break_within" href="#WithBot.isOpenEmbedding_some"><span class="name">WithBot</span>.<span class="name">isOpenEmbedding_some</span></a></div><div class="nav_link"><a class="break_within" href="#instEDistWithTop"><span class="name">instEDistWithTop</span></a></div><div class="nav_link"><a class="break_within" href="#instEDistWithBot"><span class="name">instEDistWithBot</span></a></div><div class="nav_link"><a class="break_within" href="#instWeakPseudoEMetricSpaceWithTop"><span class="name">instWeakPseudoEMetricSpaceWithTop</span></a></div><div class="nav_link"><a class="break_within" href="#instWeakPseudoEMetricSpaceWithBot"><span class="name">instWeakPseudoEMetricSpaceWithBot</span></a></div><div class="nav_link"><a class="break_within" href="#instWeakEMetricSpaceWithTop"><span class="name">instWeakEMetricSpaceWithTop</span></a></div><div class="nav_link"><a class="break_within" href="#instWeakEMetricSpaceWithBot"><span class="name">instWeakEMetricSpaceWithBot</span></a></div><div class="nav_link"><a class="break_within" href="#instEDistOnePoint"><span class="name">instEDistOnePoint</span></a></div><div class="nav_link"><a class="break_within" href="#instWeakPseudoEMetricSpaceOnePoint"><span class="name">instWeakPseudoEMetricSpaceOnePoint</span></a></div><div class="nav_link"><a class="break_within" href="#instWeakEMetricSpaceOnePoint"><span class="name">instWeakEMetricSpaceOnePoint</span></a></div><div class="nav_link"><a class="break_within" href="#instWeakEMetricSpaceENNReal"><span class="name">instWeakEMetricSpaceENNReal</span></a></div><div class="nav_link"><a class="break_within" href="#instWeakEMetricSpaceEReal"><span class="name">instWeakEMetricSpaceEReal</span></a></div><div class="nav_link"><a class="break_within" href="#instWeakEMetricSpaceENat"><span class="name">instWeakEMetricSpaceENat</span></a></div><div class="nav_link"><a class="break_within" href="#ENNReal.edist_eq_top_iff"><span class="name">ENNReal</span>.<span class="name">edist_eq_top_iff</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Lemmas-around-weak-pseudo-extended-metric-spaces" class="markdown-heading">Lemmas around weak (pseudo) extended metric spaces. <a class="hover-link" href="#Lemmas-around-weak-pseudo-extended-metric-spaces">#</a></h1><p>In this file we show that whenever <code>some : α → Option α</code> is an open embedding and <code>α</code> is a
+<code><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakPseudoEMetricSpace">WeakPseudoEMetricSpace</a></code>, then <code>Option α</code> is as well in a natural manner. We then use this to prove
+<code>ℝ≥0</code> and <code><a href="../../.././Mathlib/Data/EReal/Basic.html#EReal">EReal</a></code> are weak extended metric spaces.</p><h2 id="Main-statements" class="markdown-heading">Main statements <a class="hover-link" href="#Main-statements">#</a></h2><ul><li><code>Option.weakPseudoEMetricSpace_of_isOpenEmbedding</code>: states that under a weak condition, if <code>α</code> is
+a weak pseudo extended space, so is <code>Option α</code>.</li><li><code><a href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#instWeakPseudoEMetricSpaceOnePoint">instWeakPseudoEMetricSpaceOnePoint</a></code>: The one point compactification of a weak pseudo extended
+metric space is a weak pseudo extended metric space.</li><li><code><a href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#instWeakEMetricSpaceENNReal">instWeakEMetricSpaceENNReal</a></code>: <code>ℝ≥0∞</code> is a weak extended metric space.</li><li><code><a href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#instWeakEMetricSpaceEReal">instWeakEMetricSpaceEReal</a></code>: <code><a href="../../.././Mathlib/Data/EReal/Basic.html#EReal">EReal</a></code> is a weak extended metric space.</li></ul><p>TODO: Some lemmas around order topologies can likely be generalised from linear orders to pre-
+or partial orders.</p></div><div class="decl" id="Option.toEDist"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/2d792c9bea7859d32dd125ee02ad72fa54a7a237/Mathlib/Topology/EMetricSpace/Weak.lean#L50-L57">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_EMetricSpace_Weak.html#Option.toEDist" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible, instance 100]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#Option.toEDist"><span class="name">Option</span>.<span class="name">toEDist</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#EDist">EDist</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#EDist">EDist</a> <span class="fn">(<span class="fn">Option</span> <span class="fn">α</span>)</span></span></div></div><p>Given some (extended) distance function on <code>α</code>, it can be extended to a distance function on
+<code>Option α</code> by defining <code>edist none a = 0</code> if <code>a = none</code> and <code>∞</code> otherwise.</p></div></div><div class="decl" id="Option.edist_none_none"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/2d792c9bea7859d32dd125ee02ad72fa54a7a237/Mathlib/Topology/EMetricSpace/Weak.lean#L61-L63">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_EMetricSpace_Weak.html#Option.edist_none_none" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#Option.edist_none_none"><span class="name">Option</span>.<span class="name">edist_none_none</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">m</span> : <span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakPseudoEMetricSpace">WeakPseudoEMetricSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#EDist.edist">edist</a> <span class="fn">none</span> <span class="fn">none</span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div></div></div><div class="decl" id="Option.edist_none_some"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/2d792c9bea7859d32dd125ee02ad72fa54a7a237/Mathlib/Topology/EMetricSpace/Weak.lean#L65-L67">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_EMetricSpace_Weak.html#Option.edist_none_some" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#Option.edist_none_some"><span class="name">Option</span>.<span class="name">edist_none_some</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">m</span> : <span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakPseudoEMetricSpace">WeakPseudoEMetricSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#EDist.edist">edist</a> <span class="fn">none</span> <span class="fn">(<span class="fn">some</span> <span class="fn">a</span>)</span></span> <span class="fn">=</span> <a href="../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span></div></div></div></div><div class="decl" id="Option.edist_some_none"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/2d792c9bea7859d32dd125ee02ad72fa54a7a237/Mathlib/Topology/EMetricSpace/Weak.lean#L69-L71">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_EMetricSpace_Weak.html#Option.edist_some_none" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#Option.edist_some_none"><span class="name">Option</span>.<span class="name">edist_some_none</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">m</span> : <span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakPseudoEMetricSpace">WeakPseudoEMetricSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#EDist.edist">edist</a> <span class="fn">(<span class="fn">some</span> <span class="fn">a</span>)</span> <span class="fn">none</span></span> <span class="fn">=</span> <a href="../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span></div></div></div></div><div class="decl" id="Option.edist_some_some"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/2d792c9bea7859d32dd125ee02ad72fa54a7a237/Mathlib/Topology/EMetricSpace/Weak.lean#L73-L75">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_EMetricSpace_Weak.html#Option.edist_some_some" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#Option.edist_some_some"><span class="name">Option</span>.<span class="name">edist_some_some</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">m</span> : <span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakPseudoEMetricSpace">WeakPseudoEMetricSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a </span><span class="fn">b</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#EDist.edist">edist</a> <span class="fn">(<span class="fn">some</span> <span class="fn">a</span>)</span> <span class="fn">(<span class="fn">some</span> <span class="fn">b</span>)</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#EDist.edist">edist</a> <span class="fn">a</span> <span class="fn">b</span></span></span></div></div></div></div><div class="decl" id="Option.some_eball"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/2d792c9bea7859d32dd125ee02ad72fa54a7a237/Mathlib/Topology/EMetricSpace/Weak.lean#L77-L87">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_EMetricSpace_Weak.html#Option.some_eball" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#Option.some_eball"><span class="name">Option</span>.<span class="name">some_eball</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">m</span> : <span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakPseudoEMetricSpace">WeakPseudoEMetricSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">r</span> : <a href="../../.././Mathlib/Data/ENNReal/Basic.html#ENNReal">ENNReal</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">some</span> <a href="../../.././Mathlib/Data/Set/Defs.html#Set.image">''</a> <span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#Metric.eball">Metric.eball</a> <span class="fn">a</span> <span class="fn">r</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#Metric.eball">Metric.eball</a> <span class="fn">(<span class="fn">some</span> <span class="fn">a</span>)</span> <span class="fn">r</span></span></span></div></div></div></div><div class="decl" id="Option.edist_self'"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/2d792c9bea7859d32dd125ee02ad72fa54a7a237/Mathlib/Topology/EMetricSpace/Weak.lean#L89-L92">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_EMetricSpace_Weak.html#Option.edist_self'" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#Option.edist_self'"><span class="name">Option</span>.<span class="name">edist_self'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">m</span> : <span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakPseudoEMetricSpace">WeakPseudoEMetricSpace</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">Option</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#EDist.edist">edist</a> <span class="fn">x</span> <span class="fn">x</span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div></div></div><div class="decl" id="Option.edist_comm'"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/2d792c9bea7859d32dd125ee02ad72fa54a7a237/Mathlib/Topology/EMetricSpace/Weak.lean#L94-L99">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_EMetricSpace_Weak.html#Option.edist_comm'" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#Option.edist_comm'"><span class="name">Option</span>.<span class="name">edist_comm'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">m</span> : <span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakPseudoEMetricSpace">WeakPseudoEMetricSpace</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x </span><span class="fn">y</span> : <span class="fn"><span class="fn">Option</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#EDist.edist">edist</a> <span class="fn">x</span> <span class="fn">y</span></span> <span class="fn">=</span> <span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#EDist.edist">edist</a> <span class="fn">y</span> <span class="fn">x</span></span></span></div></div></div></div><div class="decl" id="Option.edist_triangle'"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/2d792c9bea7859d32dd125ee02ad72fa54a7a237/Mathlib/Topology/EMetricSpace/Weak.lean#L101-L110">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_EMetricSpace_Weak.html#Option.edist_triangle'" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#Option.edist_triangle'"><span class="name">Option</span>.<span class="name">edist_triangle'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">m</span> : <span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakPseudoEMetricSpace">WeakPseudoEMetricSpace</a> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x </span><span class="fn">y </span><span class="fn">z</span> : <span class="fn"><span class="fn">Option</span> <span class="fn">α</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#EDist.edist">edist</a> <span class="fn">x</span> <span class="fn">z</span></span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LE.le">≤</a> <span class="fn"><span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#EDist.edist">edist</a> <span class="fn">x</span> <span class="fn">y</span></span> <span class="fn">+</span> <span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#EDist.edist">edist</a> <span class="fn">y</span> <span class="fn">z</span></span></span></div></div></div></div><div class="decl" id="Option.ball_infty_of_pos"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/2d792c9bea7859d32dd125ee02ad72fa54a7a237/Mathlib/Topology/EMetricSpace/Weak.lean#L112-L118">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_EMetricSpace_Weak.html#Option.ball_infty_of_pos" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#Option.ball_infty_of_pos"><span class="name">Option</span>.<span class="name">ball_infty_of_pos</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">m</span> : <span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakPseudoEMetricSpace">WeakPseudoEMetricSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">r</span> : <a href="../../.././Mathlib/Data/ENNReal/Basic.html#ENNReal">ENNReal</a>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hr</span> : <span class="fn">0</span> <a href="../../.././Mathlib/Algebra/Order/Kleene.html#LT.lt">&lt;</a> <span class="fn">r</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#Metric.eball">Metric.eball</a> <span class="fn">none</span> <span class="fn">r</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">{</span><span class="fn">none</span><span class="fn">}</span></span></span></div></div></div></div><div class="decl" id="Option.WeakPseudoEMetricSpace.OfIsOpenEmbedding"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/2d792c9bea7859d32dd125ee02ad72fa54a7a237/Mathlib/Topology/EMetricSpace/Weak.lean#L120-L163">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_EMetricSpace_Weak.html#Option.WeakPseudoEMetricSpace.OfIsOpenEmbedding" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[reducible, inline]</div>
+<div class="decl_header"><span class="decl_kind">abbrev</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#Option.WeakPseudoEMetricSpace.OfIsOpenEmbedding"><span class="name">Option</span>.<span class="name">WeakPseudoEMetricSpace</span>.<span class="name">OfIsOpenEmbedding</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">(<span class="fn">Option</span> <span class="fn">α</span>)</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">m</span> : <span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakPseudoEMetricSpace">WeakPseudoEMetricSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">inst</span> : <span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#EDist">EDist</a> <span class="fn">(<span class="fn">Option</span> <span class="fn">α</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h_edist</span> : <span class="fn"><span class="fn">inst</span> <span class="fn">=</span> <a href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#Option.toEDist">toEDist</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Defs/Induced.html#Topology.IsOpenEmbedding">Topology.IsOpenEmbedding</a> <span class="fn">some</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakPseudoEMetricSpace">WeakPseudoEMetricSpace</a> <span class="fn">(<span class="fn">Option</span> <span class="fn">α</span>)</span></span></div></div><p>If <code>some : α → Option α</code> is an open embedding and <code>α</code> is has a weak pseudo extended metric
+structure, the structure extends naturally to <code>Option α</code>.</p><details id="instances-for-list-Option.WeakPseudoEMetricSpace.OfIsOpenEmbedding" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Option.WeakEMetricSpace.OfIsOpenEmbedding"><div class="def"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/2d792c9bea7859d32dd125ee02ad72fa54a7a237/Mathlib/Topology/EMetricSpace/Weak.lean#L165-L179">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_EMetricSpace_Weak.html#Option.WeakEMetricSpace.OfIsOpenEmbedding" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[reducible, inline]</div>
+<div class="decl_header"><span class="decl_kind">abbrev</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#Option.WeakEMetricSpace.OfIsOpenEmbedding"><span class="name">Option</span>.<span class="name">WeakEMetricSpace</span>.<span class="name">OfIsOpenEmbedding</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">(<span class="fn">Option</span> <span class="fn">α</span>)</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">m</span> : <span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakEMetricSpace">WeakEMetricSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">inst</span> : <span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#EDist">EDist</a> <span class="fn">(<span class="fn">Option</span> <span class="fn">α</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h_edist</span> : <span class="fn"><span class="fn">inst</span> <span class="fn">=</span> <a href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#Option.toEDist">toEDist</a></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Defs/Induced.html#Topology.IsOpenEmbedding">Topology.IsOpenEmbedding</a> <span class="fn">some</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakEMetricSpace">WeakEMetricSpace</a> <span class="fn">(<span class="fn">Option</span> <span class="fn">α</span>)</span></span></div></div><p>If <code>some : α → Option α</code> is an open embedding and <code>α</code> is has a weak pseudo extended metric
+structure, the structure extends naturally to <code>Option α</code>.</p><details id="instances-for-list-Option.WeakEMetricSpace.OfIsOpenEmbedding" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="WithTop.isOpenEmbedding_some"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/2d792c9bea7859d32dd125ee02ad72fa54a7a237/Mathlib/Topology/EMetricSpace/Weak.lean#L185-L190">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_EMetricSpace_Weak.html#WithTop.isOpenEmbedding_some" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#WithTop.isOpenEmbedding_some"><span class="name">WithTop</span>.<span class="name">isOpenEmbedding_some</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/LinearOrder.html#LinearOrder">LinearOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Order/Basic.html#OrderTopology">OrderTopology</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Topology/Defs/Induced.html#Topology.IsOpenEmbedding">Topology.IsOpenEmbedding</a> <a href="../../.././Mathlib/Order/TypeTags.html#WithTop.some">some</a></span></div></div><p>If <code>α</code> has a linear order topology, <code>some : α → <a href="../../.././Mathlib/Order/TypeTags.html#WithTop">WithTop</a> α</code> is an open embedding with respect to
+the order topologies.</p></div></div><div class="decl" id="WithBot.isOpenEmbedding_some"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/2d792c9bea7859d32dd125ee02ad72fa54a7a237/Mathlib/Topology/EMetricSpace/Weak.lean#L187-L187">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_EMetricSpace_Weak.html#WithBot.isOpenEmbedding_some" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#WithBot.isOpenEmbedding_some"><span class="name">WithBot</span>.<span class="name">isOpenEmbedding_some</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/LinearOrder.html#LinearOrder">LinearOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Order/Basic.html#OrderTopology">OrderTopology</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Topology/Defs/Induced.html#Topology.IsOpenEmbedding">Topology.IsOpenEmbedding</a> <a href="../../.././Mathlib/Order/TypeTags.html#WithBot.some">some</a></span></div></div></div></div><div class="decl" id="instEDistWithTop"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/2d792c9bea7859d32dd125ee02ad72fa54a7a237/Mathlib/Topology/EMetricSpace/Weak.lean#L192-L198">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_EMetricSpace_Weak.html#instEDistWithTop" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#instEDistWithTop"><span class="name">instEDistWithTop</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#EDist">EDist</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#EDist">EDist</a> <span class="fn">(<a href="../../.././Mathlib/Order/TypeTags.html#WithTop">WithTop</a> <span class="fn">α</span>)</span></span></div></div></div></div><div class="decl" id="instEDistWithBot"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/2d792c9bea7859d32dd125ee02ad72fa54a7a237/Mathlib/Topology/EMetricSpace/Weak.lean#L192-L192">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_EMetricSpace_Weak.html#instEDistWithBot" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#instEDistWithBot"><span class="name">instEDistWithBot</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#EDist">EDist</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#EDist">EDist</a> <span class="fn">(<a href="../../.././Mathlib/Order/TypeTags.html#WithBot">WithBot</a> <span class="fn">α</span>)</span></span></div></div></div></div><div class="decl" id="instWeakPseudoEMetricSpaceWithTop"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/2d792c9bea7859d32dd125ee02ad72fa54a7a237/Mathlib/Topology/EMetricSpace/Weak.lean#L200-L209">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_EMetricSpace_Weak.html#instWeakPseudoEMetricSpaceWithTop" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#instWeakPseudoEMetricSpaceWithTop"><span class="name">instWeakPseudoEMetricSpaceWithTop</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/LinearOrder.html#LinearOrder">LinearOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Order/Basic.html#OrderTopology">OrderTopology</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">m</span> : <span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakPseudoEMetricSpace">WeakPseudoEMetricSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakPseudoEMetricSpace">WeakPseudoEMetricSpace</a> <span class="fn">(<a href="../../.././Mathlib/Order/TypeTags.html#WithTop">WithTop</a> <span class="fn">α</span>)</span></span></div></div><p>If <code>α</code> has a topology induced by a linear order and is a weak pseudo extended metric space,
+so is <code><a href="../../.././Mathlib/Order/TypeTags.html#WithTop">WithTop</a> α</code></p></div></div><div class="decl" id="instWeakPseudoEMetricSpaceWithBot"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/2d792c9bea7859d32dd125ee02ad72fa54a7a237/Mathlib/Topology/EMetricSpace/Weak.lean#L202-L202">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_EMetricSpace_Weak.html#instWeakPseudoEMetricSpaceWithBot" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#instWeakPseudoEMetricSpaceWithBot"><span class="name">instWeakPseudoEMetricSpaceWithBot</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/LinearOrder.html#LinearOrder">LinearOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Order/Basic.html#OrderTopology">OrderTopology</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">m</span> : <span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakPseudoEMetricSpace">WeakPseudoEMetricSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakPseudoEMetricSpace">WeakPseudoEMetricSpace</a> <span class="fn">(<a href="../../.././Mathlib/Order/TypeTags.html#WithBot">WithBot</a> <span class="fn">α</span>)</span></span></div></div></div></div><div class="decl" id="instWeakEMetricSpaceWithTop"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/2d792c9bea7859d32dd125ee02ad72fa54a7a237/Mathlib/Topology/EMetricSpace/Weak.lean#L211-L218">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_EMetricSpace_Weak.html#instWeakEMetricSpaceWithTop" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#instWeakEMetricSpaceWithTop"><span class="name">instWeakEMetricSpaceWithTop</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/LinearOrder.html#LinearOrder">LinearOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Order/Basic.html#OrderTopology">OrderTopology</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">m</span> : <span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakEMetricSpace">WeakEMetricSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakEMetricSpace">WeakEMetricSpace</a> <span class="fn">(<a href="../../.././Mathlib/Order/TypeTags.html#WithTop">WithTop</a> <span class="fn">α</span>)</span></span></div></div><p>If <code>α</code> has a topology induced by a linear order and is a weak extended metric space,
+so is <code><a href="../../.././Mathlib/Order/TypeTags.html#WithTop">WithTop</a> α</code></p></div></div><div class="decl" id="instWeakEMetricSpaceWithBot"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/2d792c9bea7859d32dd125ee02ad72fa54a7a237/Mathlib/Topology/EMetricSpace/Weak.lean#L213-L213">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_EMetricSpace_Weak.html#instWeakEMetricSpaceWithBot" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#instWeakEMetricSpaceWithBot"><span class="name">instWeakEMetricSpaceWithBot</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Order/Defs/LinearOrder.html#LinearOrder">LinearOrder</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/Order/Basic.html#OrderTopology">OrderTopology</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">m</span> : <span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakEMetricSpace">WeakEMetricSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakEMetricSpace">WeakEMetricSpace</a> <span class="fn">(<a href="../../.././Mathlib/Order/TypeTags.html#WithBot">WithBot</a> <span class="fn">α</span>)</span></span></div></div></div></div><div class="decl" id="instEDistOnePoint"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/2d792c9bea7859d32dd125ee02ad72fa54a7a237/Mathlib/Topology/EMetricSpace/Weak.lean#L221-L226">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_EMetricSpace_Weak.html#instEDistOnePoint" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#instEDistOnePoint"><span class="name">instEDistOnePoint</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#EDist">EDist</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#EDist">EDist</a> <span class="fn">(<a href="../../.././Mathlib/Topology/Compactification/OnePoint/Basic.html#OnePoint">OnePoint</a> <span class="fn">α</span>)</span></span></div></div></div></div><div class="decl" id="instWeakPseudoEMetricSpaceOnePoint"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/2d792c9bea7859d32dd125ee02ad72fa54a7a237/Mathlib/Topology/EMetricSpace/Weak.lean#L228-L235">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_EMetricSpace_Weak.html#instWeakPseudoEMetricSpaceOnePoint" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#instWeakPseudoEMetricSpaceOnePoint"><span class="name">instWeakPseudoEMetricSpaceOnePoint</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">m</span> : <span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakPseudoEMetricSpace">WeakPseudoEMetricSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakPseudoEMetricSpace">WeakPseudoEMetricSpace</a> <span class="fn">(<a href="../../.././Mathlib/Topology/Compactification/OnePoint/Basic.html#OnePoint">OnePoint</a> <span class="fn">α</span>)</span></span></div></div><p>The one point compactification of a weak pseudo extended metric space is again a weak pseudo
+extended metric space.</p></div></div><div class="decl" id="instWeakEMetricSpaceOnePoint"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/2d792c9bea7859d32dd125ee02ad72fa54a7a237/Mathlib/Topology/EMetricSpace/Weak.lean#L237-L244">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_EMetricSpace_Weak.html#instWeakEMetricSpaceOnePoint" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#instWeakEMetricSpaceOnePoint"><span class="name">instWeakEMetricSpaceOnePoint</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../../.././foundational_types.html">Type</a> u}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">t</span> : <span class="fn"><a href="../../.././Mathlib/Topology/Defs/Basic.html#TopologicalSpace">TopologicalSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn">m</span> : <span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakEMetricSpace">WeakEMetricSpace</a> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakEMetricSpace">WeakEMetricSpace</a> <span class="fn">(<a href="../../.././Mathlib/Topology/Compactification/OnePoint/Basic.html#OnePoint">OnePoint</a> <span class="fn">α</span>)</span></span></div></div><p>The one point compactification of a weak extended metric space is again a weak extended metric
+space.</p></div></div><div class="decl" id="instWeakEMetricSpaceENNReal"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/2d792c9bea7859d32dd125ee02ad72fa54a7a237/Mathlib/Topology/EMetricSpace/Weak.lean#L246-L248">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_EMetricSpace_Weak.html#instWeakEMetricSpaceENNReal" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">noncomputable instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#instWeakEMetricSpaceENNReal"><span class="name">instWeakEMetricSpaceENNReal</span></a></span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakEMetricSpace">WeakEMetricSpace</a> <a href="../../.././Mathlib/Data/ENNReal/Basic.html#ENNReal">ENNReal</a></span></div></div><p><code>ℝ≥0∞</code> is a weak extended metric space with its usual distance function.</p></div></div><div class="decl" id="instWeakEMetricSpaceEReal"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/2d792c9bea7859d32dd125ee02ad72fa54a7a237/Mathlib/Topology/EMetricSpace/Weak.lean#L250-L252">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_EMetricSpace_Weak.html#instWeakEMetricSpaceEReal" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">noncomputable instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#instWeakEMetricSpaceEReal"><span class="name">instWeakEMetricSpaceEReal</span></a></span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakEMetricSpace">WeakEMetricSpace</a> <a href="../../.././Mathlib/Data/EReal/Basic.html#EReal">EReal</a></span></div></div><p><code><a href="../../.././Mathlib/Data/EReal/Basic.html#EReal">EReal</a></code> is a weak extended metric space with its usual distance function.</p></div></div><div class="decl" id="instWeakEMetricSpaceENat"><div class="instance"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/2d792c9bea7859d32dd125ee02ad72fa54a7a237/Mathlib/Topology/EMetricSpace/Weak.lean#L254-L256">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_EMetricSpace_Weak.html#instWeakEMetricSpaceENat" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="attributes">@[implicit_reducible]</div>
+<div class="decl_header"><span class="decl_kind">noncomputable instance</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#instWeakEMetricSpaceENat"><span class="name">instWeakEMetricSpaceENat</span></a></span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#WeakEMetricSpace">WeakEMetricSpace</a> <a href="../../.././Mathlib/Data/ENat/Defs.html#ENat">ℕ∞</a></span></div></div><p><code>ℕ∞</code> is a weak extended metric space with its usual distance function.</p></div></div><div class="decl" id="ENNReal.edist_eq_top_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/leanprover-community/mathlib4/blob/2d792c9bea7859d32dd125ee02ad72fa54a7a237/Mathlib/Topology/EMetricSpace/Weak.lean#L258-L265">source</a></div><div class="verification_link">
+<a href="../../../../modules/Mathlib_Topology_EMetricSpace_Weak.html#ENNReal.edist_eq_top_iff" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../.././Mathlib/Topology/EMetricSpace/Weak.html#ENNReal.edist_eq_top_iff"><span class="name">ENNReal</span>.<span class="name">edist_eq_top_iff</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">a </span><span class="fn">b</span> : <a href="../../.././Mathlib/Data/ENNReal/Basic.html#ENNReal">ENNReal</a>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><a href="../../.././Mathlib/Topology/EMetricSpace/Defs.html#EDist.edist">edist</a> <span class="fn">a</span> <span class="fn">b</span></span> <span class="fn">=</span> <a href="../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span> <span class="fn">↔</span> <span class="fn"><span class="fn"><span class="fn">a</span> <span class="fn">≠</span> <span class="fn">b</span></span> <span class="fn">∧</span> <span class="fn">(<span class="fn"><span class="fn">a</span> <span class="fn">=</span> <a href="../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span> <span class="fn">∨</span> <span class="fn"><span class="fn">b</span> <span class="fn">=</span> <a href="../../.././Mathlib/Order/Notation.html#Top.top">⊤</a></span>)</span></span></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>
