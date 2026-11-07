@@ -1,0 +1,736 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../../.././style.css"></link><link rel="icon" href="../../../.././favicon.svg"></link><link rel="mask-icon" href="../../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../../.././/declarations/declaration-data.bmp" as="image"></link><title>MCMC.PF.LinearAlgebra.Matrix.Spectrum</title><script defer="true" src="../../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../../.././";</script><script>const MODULE_NAME="MCMC.PF.LinearAlgebra.Matrix.Spectrum";</script><script type="module" src="../../../.././jump-src.js"></script><script type="module" src="../../../.././search.js"></script><script type="module" src="../../../.././expand-nav.js"></script><script type="module" src="../../../.././how-about.js"></script><script type="module" src="../../../.././instances.js"></script><script type="module" src="../../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">MCMC</span>.<span class="name">PF</span>.<span class="name">LinearAlgebra</span>.<span class="name">Matrix</span>.<span class="name">Spectrum</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../../.././Init.html">Init</a></li><li><a href="../../../.././Mathlib/RingTheory/FiniteLength.html">Mathlib.RingTheory.FiniteLength</a></li><li><a href="../../../.././Mathlib/Algebra/Lie/OfAssociative.html">Mathlib.Algebra.Lie.OfAssociative</a></li><li><a href="../../../.././Mathlib/Analysis/InnerProductSpace/Basic.html">Mathlib.Analysis.InnerProductSpace.Basic</a></li><li><a href="../../../.././Mathlib/Analysis/RCLike/Lemmas.html">Mathlib.Analysis.RCLike.Lemmas</a></li><li><a href="../../../.././Mathlib/Data/Real/StarOrdered.html">Mathlib.Data.Real.StarOrdered</a></li><li><a href="../../../.././Mathlib/LinearAlgebra/Eigenspace/Basic.html">Mathlib.LinearAlgebra.Eigenspace.Basic</a></li><li><a href="../../../.././Mathlib/RingTheory/DedekindDomain/Dvr.html">Mathlib.RingTheory.DedekindDomain.Dvr</a></li><li><a href="../../../.././Mathlib/RingTheory/SimpleRing/Principal.html">Mathlib.RingTheory.SimpleRing.Principal</a></li><li><a href="../../../.././Mathlib/Analysis/Normed/Algebra/Spectrum.html">Mathlib.Analysis.Normed.Algebra.Spectrum</a></li><li><a href="../../../.././Mathlib/LinearAlgebra/Matrix/Charpoly/Eigs.html">Mathlib.LinearAlgebra.Matrix.Charpoly.Eigs</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-MCMC.PF.LinearAlgebra.Matrix.Spectrum" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#Matrix.stdSimplex_nonempty"><span class="name">Matrix</span>.<span class="name">stdSimplex_nonempty</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.isCompact_stdSimplex"><span class="name">Matrix</span>.<span class="name">isCompact_stdSimplex</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.convex_stdSimplex"><span class="name">Matrix</span>.<span class="name">convex_stdSimplex</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.spectrum_eq_spectrum_toLin'"><span class="name">Matrix</span>.<span class="name">spectrum_eq_spectrum_toLin'</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.det_smul_sub_eq_eval_charpoly"><span class="name">Matrix</span>.<span class="name">det_smul_sub_eq_eval_charpoly</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.spectrum_eq_spectrum_transpose"><span class="name">Matrix</span>.<span class="name">spectrum_eq_spectrum_transpose</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.det_toLin'"><span class="name">Matrix</span>.<span class="name">det_toLin'</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.ker_ne_bot_of_not_injective"><span class="name">Matrix</span>.<span class="name">ker_ne_bot_of_not_injective</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.LinearMap.isUnit_iff_bijective"><span class="name">Matrix</span>.<span class="name">LinearMap</span>.<span class="name">isUnit_iff_bijective</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.LinearMap.injective_of_isUnit"><span class="name">Matrix</span>.<span class="name">LinearMap</span>.<span class="name">injective_of_isUnit</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.det_eq_zero_of_ker_ne_bot"><span class="name">Matrix</span>.<span class="name">det_eq_zero_of_ker_ne_bot</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.det_eq_zero_of_exists_mem_ker"><span class="name">Matrix</span>.<span class="name">det_eq_zero_of_exists_mem_ker</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.det_eq_zero_of_not_injective"><span class="name">Matrix</span>.<span class="name">det_eq_zero_of_not_injective</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.not_injective_of_det_eq_zero"><span class="name">Matrix</span>.<span class="name">not_injective_of_det_eq_zero</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.ker_toLin'_ne_bot_iff_det_eq_zero"><span class="name">Matrix</span>.<span class="name">ker_toLin'_ne_bot_iff_det_eq_zero</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.hasEigenvalue_toLin'_iff_det_sub_eq_zero"><span class="name">Matrix</span>.<span class="name">hasEigenvalue_toLin'_iff_det_sub_eq_zero</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.not_isUnit_iff_eq_zero"><span class="name">Matrix</span>.<span class="name">not_isUnit_iff_eq_zero</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.LinearMap.bijective_iff_ker_eq_bot_and_range_eq_top"><span class="name">Matrix</span>.<span class="name">LinearMap</span>.<span class="name">bijective_iff_ker_eq_bot_and_range_eq_top</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.ker_ne_bot_of_det_eq_zero"><span class="name">Matrix</span>.<span class="name">ker_ne_bot_of_det_eq_zero</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.ker_eq_bot_iff_injective_toLin'"><span class="name">Matrix</span>.<span class="name">ker_eq_bot_iff_injective_toLin'</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.injective_iff_bijective_toLin'"><span class="name">Matrix</span>.<span class="name">injective_iff_bijective_toLin'</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.bijective_iff_isUnit_toLin'"><span class="name">Matrix</span>.<span class="name">bijective_iff_isUnit_toLin'</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.isUnit_of_det_ne_zero"><span class="name">Matrix</span>.<span class="name">isUnit_of_det_ne_zero</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.AlgEquiv.isUnit_map_iff"><span class="name">Matrix</span>.<span class="name">AlgEquiv</span>.<span class="name">isUnit_map_iff</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.isUnit_of_det_ne_zero'"><span class="name">Matrix</span>.<span class="name">isUnit_of_det_ne_zero'</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.det_eq_zero_of_ker_ne_bot'"><span class="name">Matrix</span>.<span class="name">det_eq_zero_of_ker_ne_bot'</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.det_eq_zero_iff_exists_nontrivial_ker"><span class="name">Matrix</span>.<span class="name">det_eq_zero_iff_exists_nontrivial_ker</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.spectralRadius_le_nnnorm_of_mem_spectrum"><span class="name">Matrix</span>.<span class="name">spectralRadius_le_nnnorm_of_mem_spectrum</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.spectralRadius_lt_top"><span class="name">Matrix</span>.<span class="name">spectralRadius_lt_top</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.spectrum.nnnorm_le_nnnorm_of_mem"><span class="name">Matrix</span>.<span class="name">spectrum</span>.<span class="name">nnnorm_le_nnnorm_of_mem</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.vecMul_eq_mulVec_transpose"><span class="name">Matrix</span>.<span class="name">vecMul_eq_mulVec_transpose</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.dotProduct_le_dotProduct_of_nonneg_left'"><span class="name">Matrix</span>.<span class="name">dotProduct_le_dotProduct_of_nonneg_left'</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.eq_zero_of_nonneg_of_dotProduct_eq_zero"><span class="name">Matrix</span>.<span class="name">eq_zero_of_nonneg_of_dotProduct_eq_zero</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.Module.End.exists_eigenvector_of_mem_spectrum"><span class="name">Matrix</span>.<span class="name">Module</span>.<span class="name">End</span>.<span class="name">exists_eigenvector_of_mem_spectrum</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.spectralRadius_le_nnnorm"><span class="name">Matrix</span>.<span class="name">spectralRadius_le_nnnorm</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.spectralRadius_le_nnnorm_continuousLinearMap"><span class="name">Matrix</span>.<span class="name">spectralRadius_le_nnnorm_continuousLinearMap</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.spectralRadius_eq_spectralRadius_transpose"><span class="name">Matrix</span>.<span class="name">spectralRadius_eq_spectralRadius_transpose</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.spectralRadius_le_opNorm"><span class="name">Matrix</span>.<span class="name">spectralRadius_le_opNorm</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.spectralRadius_finite"><span class="name">Matrix</span>.<span class="name">spectralRadius_finite</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.norm_mulVec_le_of_row_stochastic"><span class="name">Matrix</span>.<span class="name">norm_mulVec_le_of_row_stochastic</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.spectralRadius_stochastic_le_one"><span class="name">Matrix</span>.<span class="name">spectralRadius_stochastic_le_one</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.supportFinset"><span class="name">Matrix</span>.<span class="name">supportFinset</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.kernelFinset"><span class="name">Matrix</span>.<span class="name">kernelFinset</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.disjoint_kernel_support"><span class="name">Matrix</span>.<span class="name">disjoint_kernel_support</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.Submodule.ne_bot_of_mem"><span class="name">Matrix</span>.<span class="name">Submodule</span>.<span class="name">ne_bot_of_mem</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.support_nonempty_of_ne_zero"><span class="name">Matrix</span>.<span class="name">support_nonempty_of_ne_zero</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.spectrum.of_eigenspace_ne_bot"><span class="name">Matrix</span>.<span class="name">spectrum</span>.<span class="name">of_eigenspace_ne_bot</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.exists_pos_of_sum_pos"><span class="name">Matrix</span>.<span class="name">exists_pos_of_sum_pos</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.mul_pos_iff_of_nonneg_left"><span class="name">Matrix</span>.<span class="name">mul_pos_iff_of_nonneg_left</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.isRoot_of_hasEigenvalue"><span class="name">Matrix</span>.<span class="name">isRoot_of_hasEigenvalue</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.spectrum.Matrix_toLin'_eq_spectrum"><span class="name">Matrix</span>.<span class="name">spectrum</span>.<span class="name">Matrix_toLin'_eq_spectrum</span></a></div><div class="nav_link"><a class="break_within" href="#Module.End.mem_spectrum_of_hasEigenvector"><span class="name">Module</span>.<span class="name">End</span>.<span class="name">mem_spectrum_of_hasEigenvector</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Perron-Frobenius-Theory-for-Matrices" class="markdown-heading">Perron-Frobenius Theory for Matrices <a class="hover-link" href="#Perron-Frobenius-Theory-for-Matrices">#</a></h1><p>This file develops the essential Perron-Frobenius theory needed for MCMC convergence proofs.</p><p>I. Core Algebraic Structures &amp; Utilities</p><p>Rings/Fields:
+CommRing R, DivisionRing K, Field K
+Nontrivial R: Typeclass asserting R has at least two distinct elements.
+Modules/Vector Spaces:
+Module R M: Standard R-module structure on M.
+VectorSpace K V: Alias for Module K V when K is a field.
+Algebras:
+Algebra R A: A is an R-algebra.
+algebraMap R A : R →+* A: The structural ring homomorphism.
+Polynomials (R[X] or Polynomial R):
+Polynomial.eval (μ : R) (p : R[X]) : R: Evaluation of polynomial p at scalar μ.
+Polynomial.aeval (a : A) (p : R[X]) : A: Evaluation of p at an element a in an R-algebra A.
+Polynomial.IsRoot p μ : Prop := Polynomial.eval μ p = 0.
+Polynomial.coeff p n : R: The n-th coefficient of p.
+Polynomial.leadingCoeff p : R.
+Polynomial.monic p : Prop.
+Polynomial.natDegree p : ℕ.
+Polynomial.natTrailingDegree p : ℕ.
+minpoly K a : K[X]: Minimal polynomial of a : A over a field K.
+minpoly.aeval K a : aeval a (minpoly K a) = 0.
+minpoly.dvd K a p (hp : aeval a p = 0) : minpoly K a ∣ p.
+Polynomial.annIdealGenerator_eq_minpoly {𝕜 A} [Field 𝕜] [Ring A] [Algebra 𝕜 A] (a : A) : Polynomial.annIdealGenerator 𝕜 a = minpoly 𝕜 a.</p><p>II. Linear Algebra: Maps, Submodules, Basis, Dimension</p><p>Linear Maps (M →ₗ[R] N):
+LinearMap.ker : Submodule R M, LinearMap.range : Submodule R N.
+LinearMap.id : M →ₗ[R] M, LinearMap.comp (g : N →ₗ[R] P) (f : M →ₗ[R] N) : M →ₗ[R] P.
+Function.Injective, Function.Surjective, Function.Bijective.
+LinearMap.quotKerEquivRange (f : M →ₗ[R] N) : M ⧸ LinearMap.ker f ≃ₗ[R] LinearMap.range f.
+Linear Equivalences (M ≃ₗ[R] N).
+Submodules (Submodule R M):
+⊥ (zero submodule), ⊤ (entire module).
+Submodule.span R (s : Set M) : Submodule R M.
+Submodule.mkQ (p : Submodule R M) : M →ₗ[R] M ⧸ p (quotient map).
+Basis (Basis ι R M):
+b i : M: The i-th basis vector.
+repr : M ≃ₗ[R] (ι →₀ R): The isomorphism to the module of finitely supported functions (coordinates).
+Basis.mk (hli : LinearIndependent R v) (hsp : Submodule.span R (Set.range v) = ⊤) : Basis ι R M.
+Basis.linearIndependent : LinearIndependent R b.
+Basis.span_eq : Submodule.span R (Set.range b) = ⊤.
+Basis.ofVectorSpace K V : Basis (Basis.ofVectorSpaceIndex K V) K V (existence of a basis for vector spaces over a field K).
+Pi.basisFun R n : Basis (Fin n) R (Fin n → R).
+Linear Independence (LinearIndependent R v):
+linearIndependent_iff.
+LinearIndependent.cardinal_le_rank : #ι ≤ Module.rank R M (if Nontrivial R).
+Rank (Cardinal-valued dimension): Module.rank R M : Cardinal.
+Basis.mk_eq_rank'' (b : Basis ι R M) : #ι = Module.rank R M (for rings with Strong Rank Condition).
+LinearMap.lift_rank_le_of_injective (f : M →ₗ[R] N') (hf : Injective f).
+LinearMap.rank_le_of_surjective (f : M →ₗ[R] N) (hf : Surjective f).
+LinearMap.rank_range_add_rank_ker (f : M →ₗ[R] N) : Module.rank R (LinearMap.range f) + Module.rank R (LinearMap.ker f) = Module.rank R M (for rings with HasRankNullity, e.g., division rings).
+rank_quotient_add_rank_of_divisionRing (p : Submodule K V).
+Finrank (Nat-valued dimension): Module.finrank R M : ℕ.
+finrank_eq_rank : ↑(finrank R M) = Module.rank R M (if Module.Finite R M and StrongRankCondition R).
+FiniteDimensional K V: Typeclass, equivalent to Module.Finite K V for division rings.
+FiniteDimensional.of_fintype_basis (b : Basis ι K V) [Fintype ι].
+finrank_eq_card_basis [Fintype ι] (b : Basis ι K V) : finrank K V = Fintype.card ι (for StrongRankCondition R).
+LinearMap.injective_iff_surjective [FiniteDimensional K V] (f : End K V).
+Submodule.finrank_lt [FiniteDimensional K V] {s : Submodule K V} (h : s ≠ ⊤) : finrank K s &lt; finrank K V.
+Submodule.finrank_quotient_add_finrank [FiniteDimensional K V] (N : Submodule K V).</p><p>III. Matrices</p><p>Matrix n n R (Square matrices, often n is a Fintype).
+Matrix.det (A : Matrix n n R) : R.
+Matrix.det_mul, Matrix.det_one, Matrix.det_transpose.
+Matrix.isUnit_iff_isUnit_det.
+Matrix.det_smul_sub_eq_eval_charpoly (A : Matrix n n ℝ) (μ : ℝ) : det (μ • 1 - A) = (Matrix.charpoly A).eval μ.
+Matrix.toLin' (A : Matrix n n R) : (Fin n → R) →ₗ[R] (Fin n → R) (matrix as a linear map on Fin n → R).
+LinearMap.toMatrix (b₁ : Basis ι R M) (b₂ : Basis ι' R N) (f : M →ₗ[R] N) : Matrix ι' ι R.
+Matrix.toLinAlgEquiv (b : Basis ι R M) [Fintype ι] [DecidableEq ι] : End R M ≃ₐ[R] Matrix ι ι R.
+Matrix.charpoly (A : Matrix n n R) : R[X].
+Matrix.aeval_self_charpoly A : Polynomial.aeval A (Matrix.charpoly A) = 0 (Cayley-Hamilton for matrices).
+Matrix.charpoly_transpose A : Matrix.charpoly Aᵀ = Matrix.charpoly A.</p><p>IV. Endomorphisms, Eigenvalues, Eigenspaces, Spectrum</p><p>Module.End R M := M →ₗ[R] M.
+LinearMap.det (f : End R M) : R.
+LinearMap.det_toMatrix (b : Basis ι R M) f : Matrix.det (LinearMap.toMatrix b b f) = LinearMap.det f.
+LinearMap.isUnit_iff_isUnit_det.
+LinearMap.det_eq_sign_charpoly_coeff {R M} [CommRing R] [Module.Free R M] [Module.Finite R M] (f : End R M) : LinearMap.det f = (-1) ^ Module.finrank R M * (LinearMap.charpoly f).coeff 0.
+LinearMap.charpoly (f : End R M) : R[X] (where M is finite and free).
+LinearMap.aeval_self_charpoly f : Polynomial.aeval f (LinearMap.charpoly f) = 0 (Cayley-Hamilton for endomorphisms).
+LinearMap.charpoly_toMatrix (b : Basis ι R M) f : (Matrix.toMatrix b b f).charpoly = LinearMap.charpoly f.
+LinearMap.minpoly_dvd_charpoly {K V} [Field K] [FiniteDimensional K V] (f : End K V).
+spectrum R a (for a : A in an R-algebra A).
+spectrum.mem_iff : μ ∈ spectrum R a ↔ ¬IsUnit (algebraMap R A μ - a).
+Matrix.spectrum_eq_spectrum_toLin' (A : Matrix n n ℝ).
+Module.End.hasEigenvalue_iff_mem_spectrum {f : End K V} {μ : K}.
+Matrix.mem_spectrum_iff_isRoot_charpoly (A : Matrix n n ℝ) (μ : ℝ).
+Module.End.HasEigenvalue (f : End R M) (μ : R) : Prop.
+Module.End.HasEigenvector (f : End R M) (μ : R) (x : M) : Prop.
+Module.End.HasEigenvector.apply_eq_smul (h : HasEigenvector f μ x) : f x = μ • x.
+Module.End.eigenspace (f : End R M) (μ : R) : Submodule R M.
+Module.End.eigenspace_def : eigenspace f μ = LinearMap.ker (f - μ • LinearMap.id).
+Module.End.mem_eigenspace_iff : x ∈ eigenspace f μ ↔ f x = μ • x.
+Module.End.genEigenspace (f : End R M) (μ : R) (k : ℕ∞).
+Module.End.maxGenEigenspace (f : End R M) (μ : R) := ⨆ k, genEigenspace f μ k.
+Module.End.iSup_maxGenEigenspace_eq_top [IsAlgClosed K] [FiniteDimensional K V] (f : End K V).
+Module.End.IsFinitelySemisimple.genEigenspace_eq_eigenspace (hf : f.IsFinitelySemisimple).
+Module.End.isRoot_of_hasEigenvalue {f : End K V} {μ : K} (h : HasEigenvalue f μ) : (minpoly K f).IsRoot μ.
+Module.End.hasEigenvalue_of_isRoot {f : End K V} {μ : K} (h : (minpoly K f).IsRoot μ) : HasEigenvalue f μ.
+LinearMap.hasEigenvalue_zero_tfae (φ : End K M): List of equivalent conditions for 0 being an eigenvalue (e.g., det φ = 0, ker φ ≠ ⊥).
+Matrix.hasEigenvalue_toLin'_iff_det_sub_eq_zero (A : Matrix n n ℝ) (μ : ℝ).
+Module.End.exists_eigenvalue [IsAlgClosed K] [FiniteDimensional K V] [Nontrivial V] (f : End K V).
+Module.End.eigenvectors_linearIndependent [NoZeroSMulDivisors R M] (f : End R M) (μs : Set R) (xs : μs → M) (h_eigenvec).</p></div><div class="mod_doc"><h2 id="The-Standard-Simplex" class="markdown-heading">The Standard Simplex <a class="hover-link" href="#The-Standard-Simplex">#</a></h2></div><div class="decl" id="Matrix.stdSimplex_nonempty"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L138-L139">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.stdSimplex_nonempty"><span class="name">Matrix</span>.<span class="name">stdSimplex_nonempty</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nonempty</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<span class="fn">stdSimplex</span> <span class="fn">ℝ</span> <span class="fn">n</span>)</span>.<span class="fn">Nonempty</span></span></div></div></div></div><div class="decl" id="Matrix.isCompact_stdSimplex"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L142-L143">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.isCompact_stdSimplex"><span class="name">Matrix</span>.<span class="name">isCompact_stdSimplex</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">IsCompact</span> <span class="fn">(<span class="fn">stdSimplex</span> <span class="fn">ℝ</span> <span class="fn">n</span>)</span></span></div></div></div></div><div class="decl" id="Matrix.convex_stdSimplex"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L146-L147">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.convex_stdSimplex"><span class="name">Matrix</span>.<span class="name">convex_stdSimplex</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Convex</span> <span class="fn">ℝ</span> <span class="fn">(<span class="fn">stdSimplex</span> <span class="fn">ℝ</span> <span class="fn">n</span>)</span></span></div></div></div></div><div class="mod_doc"><h2 id="Spectral-Properties-of-Matrices" class="markdown-heading">Spectral Properties of Matrices <a class="hover-link" href="#Spectral-Properties-of-Matrices">#</a></h2></div><div class="decl" id="Matrix.spectrum_eq_spectrum_toLin'"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L153-L157">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.spectrum_eq_spectrum_toLin'"><span class="name">Matrix</span>.<span class="name">spectrum_eq_spectrum_toLin'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">spectrum</span> <span class="fn">ℝ</span> <span class="fn">A</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">spectrum</span> <span class="fn">ℝ</span> <span class="fn">(<span class="fn">toLin'</span> <span class="fn">A</span>)</span></span></span></div></div><p>The spectrum of a matrix <code>A</code> is equal to the spectrum of its corresponding linear map
+<code>Matrix.toLin' A</code>.</p></div></div><div class="decl" id="Matrix.det_smul_sub_eq_eval_charpoly"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L159-L167">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.det_smul_sub_eq_eval_charpoly"><span class="name">Matrix</span>.<span class="name">det_smul_sub_eq_eval_charpoly</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">μ</span> : <span class="fn">ℝ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">μ</span> <span class="fn">•</span> <span class="fn">1</span></span> <span class="fn">-</span> <span class="fn">A</span>)</span>.<span class="fn">det</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">Polynomial.eval</span> <span class="fn">μ</span> <span class="fn"><span class="fn">A</span>.<span class="fn">charpoly</span></span></span></span></div></div><p>The determinant of <code>μ • 1 - A</code> is the evaluation of the characteristic polynomial of <code>A</code> at <code>μ</code>.</p></div></div><div class="decl" id="Matrix.spectrum_eq_spectrum_transpose"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L170-L174">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.spectrum_eq_spectrum_transpose"><span class="name">Matrix</span>.<span class="name">spectrum_eq_spectrum_transpose</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">spectrum</span> <span class="fn">ℝ</span> <span class="fn">A</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">spectrum</span> <span class="fn">ℝ</span> <span class="fn"><span class="fn">A</span>.<span class="fn">transpose</span></span></span></span></div></div><p>A matrix and its transpose have the same spectrum.</p></div></div><div class="mod_doc"><h2 id="Determinant-Kernel-and-Invertibility" class="markdown-heading">Determinant, Kernel, and Invertibility <a class="hover-link" href="#Determinant-Kernel-and-Invertibility">#</a></h2></div><div class="decl" id="Matrix.det_toLin'"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L181-L184">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.det_toLin'"><span class="name">Matrix</span>.<span class="name">det_toLin'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">A</span>.<span class="fn">det</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">LinearMap.det</span> <span class="fn">(<span class="fn">toLin'</span> <span class="fn">A</span>)</span></span></span></div></div><p>The determinant of a matrix equals the determinant of its associated linear map.</p></div></div><div class="mod_doc"><h1 id="Perron-Frobenius-Theory-for-Matrices" class="markdown-heading">Perron-Frobenius Theory for Matrices <a class="hover-link" href="#Perron-Frobenius-Theory-for-Matrices">#</a></h1><p>This file provides core lemmas and theorems related to the Perron-Frobenius theory for non-negative,
+irreducible matrices.</p></div><div class="decl" id="Matrix.ker_ne_bot_of_not_injective"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L197-L202">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.ker_ne_bot_of_not_injective"><span class="name">Matrix</span>.<span class="name">ker_ne_bot_of_not_injective</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Field</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">AddCommGroup</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Module</span> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">V</span> <span class="fn">→ₗ[</span><span class="fn">K</span><span class="fn">]</span> <span class="fn">V</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">¬</span><span class="fn"><span class="fn">Function.Injective</span> <span class="fn">⇑<span class="fn">f</span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f</span>.<span class="fn">ker</span></span> <span class="fn">≠</span> <span class="fn">⊥</span></span></div></div><p>If a linear map is not injective, then its kernel is non-trivial.</p></div></div><div class="decl" id="Matrix.LinearMap.isUnit_iff_bijective"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L204-L212">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.LinearMap.isUnit_iff_bijective"><span class="name">Matrix</span>.<span class="name">LinearMap</span>.<span class="name">isUnit_iff_bijective</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Field</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">AddCommGroup</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Module</span> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">FiniteDimensional</span> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">V</span> <span class="fn">→ₗ[</span><span class="fn">K</span><span class="fn">]</span> <span class="fn">V</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">IsUnit</span> <span class="fn">f</span></span> <span class="fn">↔</span> <span class="fn"><span class="fn">Function.Bijective</span> <span class="fn">⇑<span class="fn">f</span></span></span></span></div></div></div></div><div class="decl" id="Matrix.LinearMap.injective_of_isUnit"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L214-L218">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.LinearMap.injective_of_isUnit"><span class="name">Matrix</span>.<span class="name">LinearMap</span>.<span class="name">injective_of_isUnit</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Field</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">AddCommGroup</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Module</span> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">FiniteDimensional</span> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">V</span> <span class="fn">→ₗ[</span><span class="fn">K</span><span class="fn">]</span> <span class="fn">V</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">IsUnit</span> <span class="fn">f</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Function.Injective</span> <span class="fn">⇑<span class="fn">f</span></span></span></div></div></div></div><div class="decl" id="Matrix.det_eq_zero_of_ker_ne_bot"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L220-L240">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.det_eq_zero_of_ker_ne_bot"><span class="name">Matrix</span>.<span class="name">det_eq_zero_of_ker_ne_bot</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Field</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">AddCommGroup</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Module</span> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">↑<span class="fn">(<span class="fn">Module.Basis.ofVectorSpaceIndex</span> <span class="fn">K</span> <span class="fn">V</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">FiniteDimensional</span> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">V</span> <span class="fn">→ₗ[</span><span class="fn">K</span><span class="fn">]</span> <span class="fn">V</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn"><span class="fn">f</span>.<span class="fn">ker</span></span> <span class="fn">≠</span> <span class="fn">⊥</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">LinearMap.det</span> <span class="fn">f</span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div><p>If the kernel of a linear endomorphism on a finite-dimensional vector space is non-trivial,
+then its determinant is zero.</p></div></div><div class="decl" id="Matrix.det_eq_zero_of_exists_mem_ker"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L242-L250">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.det_eq_zero_of_exists_mem_ker"><span class="name">Matrix</span>.<span class="name">det_eq_zero_of_exists_mem_ker</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Field</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">AddCommGroup</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Module</span> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">↑<span class="fn">(<span class="fn">Module.Basis.ofVectorSpaceIndex</span> <span class="fn">K</span> <span class="fn">V</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">FiniteDimensional</span> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">V</span> <span class="fn">→ₗ[</span><span class="fn">K</span><span class="fn">]</span> <span class="fn">V</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn">∃ (<span class="fn">v</span> : <span class="fn">V</span>), <span class="fn"><span class="fn"><span class="fn">v</span> <span class="fn">≠</span> <span class="fn">0</span></span> <span class="fn">∧</span> <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">v</span></span> <span class="fn">=</span> <span class="fn">0</span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">LinearMap.det</span> <span class="fn">f</span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div><p>If a non-zero vector <code>v</code> is in the kernel of a linear map <code>f</code>, then <code>det f</code> must be zero.</p></div></div><div class="decl" id="Matrix.det_eq_zero_of_not_injective"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L252-L258">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.det_eq_zero_of_not_injective"><span class="name">Matrix</span>.<span class="name">det_eq_zero_of_not_injective</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Field</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">AddCommGroup</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Module</span> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">↑<span class="fn">(<span class="fn">Module.Basis.ofVectorSpaceIndex</span> <span class="fn">K</span> <span class="fn">V</span>)</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">FiniteDimensional</span> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">V</span> <span class="fn">→ₗ[</span><span class="fn">K</span><span class="fn">]</span> <span class="fn">V</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">¬</span><span class="fn"><span class="fn">Function.Injective</span> <span class="fn">⇑<span class="fn">f</span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">LinearMap.det</span> <span class="fn">f</span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div><p>If a linear endomorphism on a finite-dimensional vector space is not injective,
+then its determinant is zero.</p></div></div><div class="decl" id="Matrix.not_injective_of_det_eq_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L261-L272">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.not_injective_of_det_eq_zero"><span class="name">Matrix</span>.<span class="name">not_injective_of_det_eq_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">(<span class="fn">n</span> → <span class="fn">ℝ</span>)</span> <span class="fn">→ₗ[</span><span class="fn">ℝ</span><span class="fn">]</span> <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn"><span class="fn">LinearMap.det</span> <span class="fn">f</span></span> <span class="fn">=</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">¬</span><span class="fn"><span class="fn">Function.Injective</span> <span class="fn">⇑<span class="fn">f</span></span></span></span></div></div><p>If the determinant is zero, the linear map is not injective.</p></div></div><div class="decl" id="Matrix.ker_toLin'_ne_bot_iff_det_eq_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L274-L291">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.ker_toLin'_ne_bot_iff_det_eq_zero"><span class="name">Matrix</span>.<span class="name">ker_toLin'_ne_bot_iff_det_eq_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">toLin'</span> <span class="fn">A</span>)</span>.<span class="fn">ker</span></span> <span class="fn">≠</span> <span class="fn">⊥</span></span> <span class="fn">↔</span> <span class="fn"><span class="fn"><span class="fn">A</span>.<span class="fn">det</span></span> <span class="fn">=</span> <span class="fn">0</span></span></span></div></div><p>For a matrix <code>A</code>, the associated linear map <code>toLin' A</code> has a non-trivial kernel
+if and only if the determinant of <code>A</code> is zero.</p></div></div><div class="decl" id="Matrix.hasEigenvalue_toLin'_iff_det_sub_eq_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L293-L297">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.hasEigenvalue_toLin'_iff_det_sub_eq_zero"><span class="name">Matrix</span>.<span class="name">hasEigenvalue_toLin'_iff_det_sub_eq_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">μ</span> : <span class="fn">ℝ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">Module.End.HasEigenvalue</span> <span class="fn">(<span class="fn">toLin'</span> <span class="fn">A</span>)</span> <span class="fn">μ</span></span> <span class="fn">↔</span> <span class="fn"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">μ</span> <span class="fn">•</span> <span class="fn">1</span></span> <span class="fn">-</span> <span class="fn">A</span>)</span>.<span class="fn">det</span></span> <span class="fn">=</span> <span class="fn">0</span></span></span></div></div><p>A real number <code>μ</code> is an eigenvalue of a matrix <code>A</code> if and only if <code>det(μ • 1 - A) = 0</code>.</p></div></div><div class="mod_doc"><h2 id="Spectral-Radius-Theory-for-Matrices" class="markdown-heading">Spectral Radius Theory for Matrices <a class="hover-link" href="#Spectral-Radius-Theory-for-Matrices">#</a></h2></div><div class="decl" id="Matrix.not_isUnit_iff_eq_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L301-L311">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.not_isUnit_iff_eq_zero"><span class="name">Matrix</span>.<span class="name">not_isUnit_iff_eq_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Field</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nontrivial</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">R</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">¬</span><span class="fn"><span class="fn">IsUnit</span> <span class="fn">a</span></span></span> <span class="fn">↔</span> <span class="fn"><span class="fn"><span class="fn">a</span> <span class="fn">=</span> <span class="fn">0</span></span> <span class="fn">∨</span> <span class="fn"><span class="fn">a</span> <span class="fn">∈</span> <span class="fn"><span class="fn">nonunits</span> <span class="fn">R</span></span></span></span></span></div></div></div></div><div class="decl" id="Matrix.LinearMap.bijective_iff_ker_eq_bot_and_range_eq_top"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L313-L324">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.LinearMap.bijective_iff_ker_eq_bot_and_range_eq_top"><span class="name">Matrix</span>.<span class="name">LinearMap</span>.<span class="name">bijective_iff_ker_eq_bot_and_range_eq_top</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Field</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">AddCommGroup</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Module</span> <span class="fn">R</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">M</span> <span class="fn">→ₗ[</span><span class="fn">R</span><span class="fn">]</span> <span class="fn">M</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">Function.Bijective</span> <span class="fn">⇑<span class="fn">f</span></span></span> <span class="fn">↔</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">f</span>.<span class="fn">ker</span></span> <span class="fn">=</span> <span class="fn">⊥</span></span> <span class="fn">∧</span> <span class="fn"><span class="fn"><span class="fn">f</span>.<span class="fn">range</span></span> <span class="fn">=</span> <span class="fn">⊤</span></span></span></span></div></div></div></div><div class="decl" id="Matrix.ker_ne_bot_of_det_eq_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L326-L336">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.ker_ne_bot_of_det_eq_zero"><span class="name">Matrix</span>.<span class="name">ker_ne_bot_of_det_eq_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">LinearMap.det</span> <span class="fn">(<span class="fn">toLin'</span> <span class="fn">A</span>)</span></span> <span class="fn">=</span> <span class="fn">0</span></span> → <span class="fn"><span class="fn"><span class="fn">(<span class="fn">toLin'</span> <span class="fn">A</span>)</span>.<span class="fn">ker</span></span> <span class="fn">≠</span> <span class="fn">⊥</span></span></span></div></div></div></div><div class="decl" id="Matrix.ker_eq_bot_iff_injective_toLin'"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L339-L341">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.ker_eq_bot_iff_injective_toLin'"><span class="name">Matrix</span>.<span class="name">ker_eq_bot_iff_injective_toLin'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">toLin'</span> <span class="fn">A</span>)</span>.<span class="fn">ker</span></span> <span class="fn">=</span> <span class="fn">⊥</span></span> <span class="fn">↔</span> <span class="fn"><span class="fn">Function.Injective</span> <span class="fn">⇑<span class="fn">(<span class="fn">toLin'</span> <span class="fn">A</span>)</span></span></span></span></div></div></div></div><div class="decl" id="Matrix.injective_iff_bijective_toLin'"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L344-L349">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.injective_iff_bijective_toLin'"><span class="name">Matrix</span>.<span class="name">injective_iff_bijective_toLin'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">Function.Injective</span> <span class="fn">⇑<span class="fn">(<span class="fn">toLin'</span> <span class="fn">A</span>)</span></span></span> <span class="fn">↔</span> <span class="fn"><span class="fn">Function.Bijective</span> <span class="fn">⇑<span class="fn">(<span class="fn">toLin'</span> <span class="fn">A</span>)</span></span></span></span></div></div></div></div><div class="decl" id="Matrix.bijective_iff_isUnit_toLin'"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L352-L359">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.bijective_iff_isUnit_toLin'"><span class="name">Matrix</span>.<span class="name">bijective_iff_isUnit_toLin'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">Function.Bijective</span> <span class="fn">⇑<span class="fn">(<span class="fn">toLin'</span> <span class="fn">A</span>)</span></span></span> <span class="fn">↔</span> <span class="fn"><span class="fn">IsUnit</span> <span class="fn">(<span class="fn">toLin'</span> <span class="fn">A</span>)</span></span></span></div></div></div></div><div class="decl" id="Matrix.isUnit_of_det_ne_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L361-L367">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.isUnit_of_det_ne_zero"><span class="name">Matrix</span>.<span class="name">isUnit_of_det_ne_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_det_ne_zero</span> : <span class="fn"><span class="fn"><span class="fn">LinearMap.det</span> <span class="fn">(<span class="fn">toLin'</span> <span class="fn">A</span>)</span></span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">IsUnit</span> <span class="fn">(<span class="fn">toLin'</span> <span class="fn">A</span>)</span></span></div></div></div></div><div class="decl" id="Matrix.AlgEquiv.isUnit_map_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L371-L378">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.AlgEquiv.isUnit_map_iff"><span class="name">Matrix</span>.<span class="name">AlgEquiv</span>.<span class="name">isUnit_map_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">B</span> : <a href="../../../.././foundational_types.html">Type</a> u_6}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CommSemiring</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Ring</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Ring</span> <span class="fn">B</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Algebra</span> <span class="fn">R</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Algebra</span> <span class="fn">R</span> <span class="fn">B</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">e</span> : <span class="fn"><span class="fn">A</span> <span class="fn">≃ₐ[</span><span class="fn">R</span><span class="fn">]</span> <span class="fn">B</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn">A</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">IsUnit</span> <span class="fn">(<span class="fn">e</span> <span class="fn">x</span>)</span></span> <span class="fn">↔</span> <span class="fn"><span class="fn">IsUnit</span> <span class="fn">x</span></span></span></div></div></div></div><div class="decl" id="Matrix.isUnit_of_det_ne_zero'"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L380-L399">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.isUnit_of_det_ne_zero'"><span class="name">Matrix</span>.<span class="name">isUnit_of_det_ne_zero'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_det_ne_zero</span> : <span class="fn"><span class="fn"><span class="fn">LinearMap.det</span> <span class="fn">(<span class="fn">toLin'</span> <span class="fn">A</span>)</span></span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">IsUnit</span> <span class="fn">(<span class="fn">toLin'</span> <span class="fn">A</span>)</span></span></div></div></div></div><div class="decl" id="Matrix.det_eq_zero_of_ker_ne_bot'"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L401-L413">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.det_eq_zero_of_ker_ne_bot'"><span class="name">Matrix</span>.<span class="name">det_eq_zero_of_ker_ne_bot'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">toLin'</span> <span class="fn">A</span>)</span>.<span class="fn">ker</span></span> <span class="fn">≠</span> <span class="fn">⊥</span></span> → <span class="fn"><span class="fn"><span class="fn">LinearMap.det</span> <span class="fn">(<span class="fn">toLin'</span> <span class="fn">A</span>)</span></span> <span class="fn">=</span> <span class="fn">0</span></span></span></div></div></div></div><div class="decl" id="Matrix.det_eq_zero_iff_exists_nontrivial_ker"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L415-L437">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.det_eq_zero_iff_exists_nontrivial_ker"><span class="name">Matrix</span>.<span class="name">det_eq_zero_iff_exists_nontrivial_ker</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">A</span>.<span class="fn">det</span></span> <span class="fn">=</span> <span class="fn">0</span></span> <span class="fn">↔</span> <span class="fn">∃ (<span class="fn">v</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>), <span class="fn"><span class="fn"><span class="fn">v</span> <span class="fn">≠</span> <span class="fn">0</span></span> <span class="fn">∧</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">A</span>.<span class="fn">mulVec</span></span> <span class="fn">v</span></span> <span class="fn">=</span> <span class="fn">0</span></span></span></span></span></div></div></div></div><div class="decl" id="Matrix.spectralRadius_le_nnnorm_of_mem_spectrum"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L439-L459">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.spectralRadius_le_nnnorm_of_mem_spectrum"><span class="name">Matrix</span>.<span class="name">spectralRadius_le_nnnorm_of_mem_spectrum</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">μ</span> : <span class="fn">ℝ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hμ</span> : <span class="fn"><span class="fn">μ</span> <span class="fn">∈</span> <span class="fn"><span class="fn">spectrum</span> <span class="fn">ℝ</span> <span class="fn">A</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">‖</span><span class="fn">μ</span><span class="fn">‖₊</span></span> <span class="fn">≤</span> <span class="fn"><span class="fn">‖</span><span class="fn"><span class="fn">LinearMap.toContinuousLinearMap</span> <span class="fn">(<span class="fn">toLin'</span> <span class="fn">A</span>)</span></span><span class="fn">‖₊</span></span></span></div></div></div></div><div class="decl" id="Matrix.spectralRadius_lt_top"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L461-L471">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.spectralRadius_lt_top"><span class="name">Matrix</span>.<span class="name">spectralRadius_lt_top</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">spectralRadius</span> <span class="fn">ℝ</span> <span class="fn">A</span></span> <span class="fn">&lt;</span> <span class="fn">⊤</span></span></div></div></div></div><div class="decl" id="Matrix.spectrum.nnnorm_le_nnnorm_of_mem"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L473-L482">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.spectrum.nnnorm_le_nnnorm_of_mem"><span class="name">Matrix</span>.<span class="name">spectrum</span>.<span class="name">nnnorm_le_nnnorm_of_mem</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedField</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedRing</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAlgebra</span> <span class="fn">𝕜</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormOneClass</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">A</span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">k</span> : <span class="fn">𝕜</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hk</span> : <span class="fn"><span class="fn">k</span> <span class="fn">∈</span> <span class="fn"><span class="fn">spectrum</span> <span class="fn">𝕜</span> <span class="fn">a</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">‖</span><span class="fn">k</span><span class="fn">‖₊</span></span> <span class="fn">≤</span> <span class="fn"><span class="fn">‖</span><span class="fn">a</span><span class="fn">‖₊</span></span></span></div></div></div></div><div class="decl" id="Matrix.vecMul_eq_mulVec_transpose"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L486-L490">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.vecMul_eq_mulVec_transpose"><span class="name">Matrix</span>.<span class="name">vecMul_eq_mulVec_transpose</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">v</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">vecMul</span> <span class="fn">v</span> <span class="fn">A</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">A</span>.<span class="fn">transpose</span></span>.<span class="fn">mulVec</span></span> <span class="fn">v</span></span></span></div></div></div></div><div class="decl" id="Matrix.dotProduct_le_dotProduct_of_nonneg_left'"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L492-L499">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.dotProduct_le_dotProduct_of_nonneg_left'"><span class="name">Matrix</span>.<span class="name">dotProduct_le_dotProduct_of_nonneg_left'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">u </span><span class="fn">x </span><span class="fn">y</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hu_nonneg</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">u</span> <span class="fn">i</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_le</span> : <span class="fn"><span class="fn">x</span> <span class="fn">≤</span> <span class="fn">y</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">u</span> <span class="fn">⬝ᵥ</span> <span class="fn">x</span></span> <span class="fn">≤</span> <span class="fn"><span class="fn">u</span> <span class="fn">⬝ᵥ</span> <span class="fn">y</span></span></span></div></div></div></div><div class="decl" id="Matrix.eq_zero_of_nonneg_of_dotProduct_eq_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L501-L510">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.eq_zero_of_nonneg_of_dotProduct_eq_zero"><span class="name">Matrix</span>.<span class="name">eq_zero_of_nonneg_of_dotProduct_eq_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">u </span><span class="fn">z</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hu_pos</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">u</span> <span class="fn">i</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hz_nonneg</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">z</span> <span class="fn">i</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_dot</span> : <span class="fn"><span class="fn"><span class="fn">u</span> <span class="fn">⬝ᵥ</span> <span class="fn">z</span></span> <span class="fn">=</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">z</span> <span class="fn">=</span> <span class="fn">0</span></span></div></div></div></div><div class="decl" id="Matrix.Module.End.exists_eigenvector_of_mem_spectrum"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L512-L520">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.Module.End.exists_eigenvector_of_mem_spectrum"><span class="name">Matrix</span>.<span class="name">Module</span>.<span class="name">End</span>.<span class="name">exists_eigenvector_of_mem_spectrum</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Field</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">AddCommGroup</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Module</span> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">FiniteDimensional</span> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">V</span> <span class="fn">→ₗ[</span><span class="fn">K</span><span class="fn">]</span> <span class="fn">V</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">μ</span> : <span class="fn">K</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h_is_eigenvalue</span> : <span class="fn"><span class="fn">μ</span> <span class="fn">∈</span> <span class="fn"><span class="fn">spectrum</span> <span class="fn">K</span> <span class="fn">f</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">∃ (<span class="fn">v</span> : <span class="fn">V</span>), <span class="fn"><span class="fn"><span class="fn">v</span> <span class="fn">≠</span> <span class="fn">0</span></span> <span class="fn">∧</span> <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">v</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">μ</span> <span class="fn">•</span> <span class="fn">v</span></span></span></span></span></div></div></div></div><div class="decl" id="Matrix.spectralRadius_le_nnnorm"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L523-L532">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.spectralRadius_le_nnnorm"><span class="name">Matrix</span>.<span class="name">spectralRadius_le_nnnorm</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">𝕜</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NontriviallyNormedField</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedField</span> <span class="fn">𝕜</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedRing</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAlgebra</span> <span class="fn">𝕜</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormOneClass</span> <span class="fn">A</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">A</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">spectralRadius</span> <span class="fn">𝕜</span> <span class="fn">a</span></span> <span class="fn">≤</span> <span class="fn">↑<span class="fn"><span class="fn">‖</span><span class="fn">a</span><span class="fn">‖₊</span></span></span></span></div></div></div></div><div class="decl" id="Matrix.spectralRadius_le_nnnorm_continuousLinearMap"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L535-L538">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.spectralRadius_le_nnnorm_continuousLinearMap"><span class="name">Matrix</span>.<span class="name">spectralRadius_le_nnnorm_continuousLinearMap</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">E</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedAddCommGroup</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormedSpace</span> <span class="fn">ℝ</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CompleteSpace</span> <span class="fn">E</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">NormOneClass</span> <span class="fn">(<span class="fn">E</span> <span class="fn">→L[</span><span class="fn">ℝ</span><span class="fn">]</span> <span class="fn">E</span>)</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">T</span> : <span class="fn"><span class="fn">E</span> <span class="fn">→L[</span><span class="fn">ℝ</span><span class="fn">]</span> <span class="fn">E</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">spectralRadius</span> <span class="fn">ℝ</span> <span class="fn">T</span></span> <span class="fn">≤</span> <span class="fn">↑<span class="fn"><span class="fn">‖</span><span class="fn">T</span><span class="fn">‖₊</span></span></span></span></div></div></div></div><div class="decl" id="Matrix.spectralRadius_eq_spectralRadius_transpose"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L541-L545">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.spectralRadius_eq_spectralRadius_transpose"><span class="name">Matrix</span>.<span class="name">spectralRadius_eq_spectralRadius_transpose</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">spectralRadius</span> <span class="fn">ℝ</span> <span class="fn">A</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">spectralRadius</span> <span class="fn">ℝ</span> <span class="fn"><span class="fn">A</span>.<span class="fn">transpose</span></span></span></span></div></div><p>The spectral radii of a matrix and its transpose are equal.</p></div></div><div class="decl" id="Matrix.spectralRadius_le_opNorm"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L547-L556">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.spectralRadius_le_opNorm"><span class="name">Matrix</span>.<span class="name">spectralRadius_le_opNorm</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">spectralRadius</span> <span class="fn">ℝ</span> <span class="fn">(<span class="fn">toLin'</span> <span class="fn">A</span>)</span></span> <span class="fn">≤</span> <span class="fn">↑<span class="fn"><span class="fn">‖</span><span class="fn"><span class="fn">LinearMap.toContinuousLinearMap</span> <span class="fn">(<span class="fn">toLin'</span> <span class="fn">A</span>)</span></span><span class="fn">‖₊</span></span></span></span></div></div></div></div><div class="decl" id="Matrix.spectralRadius_finite"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L558-L564">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.spectralRadius_finite"><span class="name">Matrix</span>.<span class="name">spectralRadius_finite</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">spectralRadius</span> <span class="fn">ℝ</span> <span class="fn">(<span class="fn">toLin'</span> <span class="fn">A</span>)</span></span> <span class="fn">≠</span> <span class="fn">⊤</span></span></div></div></div></div><div class="decl" id="Matrix.norm_mulVec_le_of_row_stochastic"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L567-L582">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.norm_mulVec_le_of_row_stochastic"><span class="name">Matrix</span>.<span class="name">norm_mulVec_le_of_row_stochastic</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h_stochastic</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">∑ <span class="fn">j</span> : <span class="fn">n</span>, <span class="fn"><span class="fn">A</span> <span class="fn">i</span> <span class="fn">j</span></span></span> <span class="fn">=</span> <span class="fn">1</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_nonneg</span> : <span class="fn">∀ (<span class="fn">i </span><span class="fn">j</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">A</span> <span class="fn">i</span> <span class="fn">j</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">v</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">‖</span><span class="fn"><span class="fn"><span class="fn">A</span>.<span class="fn">mulVec</span></span> <span class="fn">v</span></span><span class="fn">‖</span></span> <span class="fn">≤</span> <span class="fn"><span class="fn">‖</span><span class="fn">v</span><span class="fn">‖</span></span></span></div></div></div></div><div class="decl" id="Matrix.spectralRadius_stochastic_le_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L584-L600">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.spectralRadius_stochastic_le_one"><span class="name">Matrix</span>.<span class="name">spectralRadius_stochastic_le_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h_stochastic</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">∑ <span class="fn">j</span> : <span class="fn">n</span>, <span class="fn"><span class="fn">A</span> <span class="fn">i</span> <span class="fn">j</span></span></span> <span class="fn">=</span> <span class="fn">1</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_nonneg</span> : <span class="fn">∀ (<span class="fn">i </span><span class="fn">j</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">A</span> <span class="fn">i</span> <span class="fn">j</span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">spectralRadius</span> <span class="fn">ℝ</span> <span class="fn">(<span class="fn">toLin'</span> <span class="fn">A</span>)</span></span> <span class="fn">≤</span> <span class="fn">1</span></span></div></div><p>The spectral radius of a row-stochastic matrix with non-negative entries is at most 1.</p></div></div><div class="mod_doc"><h2 id="Core-Perron-Frobenius-Theory" class="markdown-heading">Core Perron-Frobenius Theory <a class="hover-link" href="#Core-Perron-Frobenius-Theory">#</a></h2></div><div class="decl" id="Matrix.supportFinset"><div class="def"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L604-L605">source</a></div><div class="verification_link">
+<a href="../../../../../modules/MCMC_PF_LinearAlgebra_Matrix_Spectrum.html#Matrix.supportFinset" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.supportFinset"><span class="name">Matrix</span>.<span class="name">supportFinset</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">v</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Finset</span> <span class="fn">n</span></span></div></div><details id="instances-for-list-Matrix.supportFinset" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Matrix.kernelFinset"><div class="def"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L607-L608">source</a></div><div class="verification_link">
+<a href="../../../../../modules/MCMC_PF_LinearAlgebra_Matrix_Spectrum.html#Matrix.kernelFinset" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.kernelFinset"><span class="name">Matrix</span>.<span class="name">kernelFinset</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">v</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Finset</span> <span class="fn">n</span></span></div></div><details id="instances-for-list-Matrix.kernelFinset" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Matrix.disjoint_kernel_support"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L611-L616">source</a></div><div class="verification_link">
+<a href="../../../../../modules/MCMC_PF_LinearAlgebra_Matrix_Spectrum.html#Matrix.disjoint_kernel_support" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.disjoint_kernel_support"><span class="name">Matrix</span>.<span class="name">disjoint_kernel_support</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Disjoint</span> <span class="fn">(<a href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.supportFinset">supportFinset</a> <span class="fn">v</span>)</span> <span class="fn">(<a href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.kernelFinset">kernelFinset</a> <span class="fn">v</span>)</span></span></div></div></div></div><div class="decl" id="Matrix.Submodule.ne_bot_of_mem"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L618-L625">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.Submodule.ne_bot_of_mem"><span class="name">Matrix</span>.<span class="name">Submodule</span>.<span class="name">ne_bot_of_mem</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Semiring</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">AddCommGroup</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Module</span> <span class="fn">R</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">Submodule</span> <span class="fn">R</span> <span class="fn">M</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">v</span> : <span class="fn">M</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hv_mem</span> : <span class="fn"><span class="fn">v</span> <span class="fn">∈</span> <span class="fn">p</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hv_ne_zero</span> : <span class="fn"><span class="fn">v</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">p</span> <span class="fn">≠</span> <span class="fn">⊥</span></span></div></div><p>If a submodule contains a non-zero vector, then it is not the zero submodule.</p></div></div><div class="decl" id="Matrix.support_nonempty_of_ne_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L628-L642">source</a></div><div class="verification_link">
+<a href="../../../../../modules/MCMC_PF_LinearAlgebra_Matrix_Spectrum.html#Matrix.support_nonempty_of_ne_zero" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.support_nonempty_of_ne_zero"><span class="name">Matrix</span>.<span class="name">support_nonempty_of_ne_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hv_nonneg</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">v</span> <span class="fn">i</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hv_ne_zero</span> : <span class="fn"><span class="fn">v</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<a href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.supportFinset">supportFinset</a> <span class="fn">v</span>)</span>.<span class="fn">Nonempty</span></span></div></div></div></div><div class="decl" id="Matrix.spectrum.of_eigenspace_ne_bot"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L644-L650">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.spectrum.of_eigenspace_ne_bot"><span class="name">Matrix</span>.<span class="name">spectrum</span>.<span class="name">of_eigenspace_ne_bot</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Field</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">AddCommGroup</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Module</span> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">FiniteDimensional</span> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">V</span> <span class="fn">→ₗ[</span><span class="fn">K</span><span class="fn">]</span> <span class="fn">V</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">μ</span> : <span class="fn">K</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn"><span class="fn">Module.End.eigenspace</span> <span class="fn">f</span> <span class="fn">μ</span></span> <span class="fn">≠</span> <span class="fn">⊥</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">μ</span> <span class="fn">∈</span> <span class="fn"><span class="fn">spectrum</span> <span class="fn">K</span> <span class="fn">f</span></span></span></div></div></div></div><div class="decl" id="Matrix.exists_pos_of_sum_pos"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L652-L663">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.exists_pos_of_sum_pos"><span class="name">Matrix</span>.<span class="name">exists_pos_of_sum_pos</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h_nonneg</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">ι</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">f</span> <span class="fn">i</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_sum_pos</span> : <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn">∑ <span class="fn">i</span> : <span class="fn">ι</span>, <span class="fn"><span class="fn">f</span> <span class="fn">i</span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">∃ (<span class="fn">i</span> : <span class="fn">ι</span>), <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">f</span> <span class="fn">i</span></span></span></span></div></div><p>If a finite sum of non-negative terms is positive, at least one term must be positive.</p></div></div><div class="decl" id="Matrix.mul_pos_iff_of_nonneg_left"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L665-L674">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.mul_pos_iff_of_nonneg_left"><span class="name">Matrix</span>.<span class="name">mul_pos_iff_of_nonneg_left</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a </span><span class="fn">b</span> : <span class="fn">ℝ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">ha_nonneg</span> : <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn">a</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">a</span> <span class="fn">*</span> <span class="fn">b</span></span></span> <span class="fn">↔</span> <span class="fn"><span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn">a</span></span> <span class="fn">∧</span> <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn">b</span></span></span></span></div></div><p>For a non-negative <code>a</code>, <code>a * b</code> is positive iff both <code>a</code> and <code>b</code> are positive.</p></div></div><div class="decl" id="Matrix.isRoot_of_hasEigenvalue"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L676-L682">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.isRoot_of_hasEigenvalue"><span class="name">Matrix</span>.<span class="name">isRoot_of_hasEigenvalue</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">μ</span> : <span class="fn">ℝ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h_eig</span> : <span class="fn"><span class="fn">Module.End.HasEigenvalue</span> <span class="fn">(<span class="fn">toLin'</span> <span class="fn">A</span>)</span> <span class="fn">μ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">A</span>.<span class="fn">charpoly</span></span>.<span class="fn">IsRoot</span></span> <span class="fn">μ</span></span></div></div><p>If a scalar <code>μ</code> is an eigenvalue of a matrix <code>A</code>, then it is a root of its
+characteristic polynomial.</p></div></div><div class="decl" id="Matrix.spectrum.Matrix_toLin'_eq_spectrum"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L684-L688">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Matrix.spectrum.Matrix_toLin'_eq_spectrum"><span class="name">Matrix</span>.<span class="name">spectrum</span>.<span class="name">Matrix_toLin'_eq_spectrum</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../.././foundational_types.html">Type</a> u_5}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">CommRing</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">R</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">spectrum</span> <span class="fn">R</span> <span class="fn">(<span class="fn">toLin'</span> <span class="fn">A</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">spectrum</span> <span class="fn">R</span> <span class="fn">A</span></span></span></div></div><p>The spectrum of a matrix <code>A</code> is equal to the spectrum of its corresponding linear map
+<code>Matrix.toLin' A</code>.</p></div></div><div class="decl" id="Module.End.mem_spectrum_of_hasEigenvector"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/Spectrum.lean#L691-L696">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html#Module.End.mem_spectrum_of_hasEigenvector"><span class="name">Module</span>.<span class="name">End</span>.<span class="name">mem_spectrum_of_hasEigenvector</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">V</span> : <a href="../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Field</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">AddCommGroup</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Module</span> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">FiniteDimensional</span> <span class="fn">K</span> <span class="fn">V</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">V</span> <span class="fn">→ₗ[</span><span class="fn">K</span><span class="fn">]</span> <span class="fn">V</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">μ</span> : <span class="fn">K</span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn">V</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">HasEigenvector</span> <span class="fn">f</span> <span class="fn">μ</span> <span class="fn">v</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">μ</span> <span class="fn">∈</span> <span class="fn"><span class="fn">spectrum</span> <span class="fn">K</span> <span class="fn">f</span></span></span></div></div><p>If a linear map <code>f</code> has an eigenvector <code>v</code> for an eigenvalue <code>μ</code>, then <code>μ</code> is in the spectrum of <code>f</code>.</p></div></div></main>
+<nav class="nav"><iframe src="../../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>
