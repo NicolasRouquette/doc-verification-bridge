@@ -1,0 +1,798 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../.././style.css"></link><link rel="icon" href="../.././favicon.svg"></link><link rel="mask-icon" href="../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../.././/declarations/declaration-data.bmp" as="image"></link><title>MCMC.PF.aux</title><script defer="true" src="../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../.././";</script><script>const MODULE_NAME="MCMC.PF.aux";</script><script type="module" src="../.././jump-src.js"></script><script type="module" src="../.././search.js"></script><script type="module" src="../.././expand-nav.js"></script><script type="module" src="../.././how-about.js"></script><script type="module" src="../.././instances.js"></script><script type="module" src="../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">MCMC</span>.<span class="name">PF</span>.<span class="name">aux</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../.././Init.html">Init</a></li><li><a href="../.././Mathlib/Analysis/Convex/StdSimplex.html">Mathlib.Analysis.Convex.StdSimplex</a></li><li><a href="../.././Mathlib/Data/Int/Star.html">Mathlib.Data.Int.Star</a></li><li><a href="../.././MCMC/PF/LinearAlgebra/Matrix/Spectrum.html">MCMC.PF.LinearAlgebra.Matrix.Spectrum</a></li><li><a href="../.././Mathlib/Algebra/Order/Ring/Star.html">Mathlib.Algebra.Order.Ring.Star</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-MCMC.PF.aux" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#stdSimplex_nonempty"><span class="name">stdSimplex_nonempty</span></a></div><div class="nav_link"><a class="break_within" href="#eventually_to_open"><span class="name">eventually_to_open</span></a></div><div class="nav_link"><a class="break_within" href="#continuousOn_finset_inf'"><span class="name">continuousOn_finset_inf'</span></a></div><div class="nav_link"><a class="break_within" href="#finset_inf'_mono_subset"><span class="name">finset_inf'_mono_subset</span></a></div><div class="nav_link"><a class="break_within" href="#mulVec_nonneg"><span class="name">mulVec_nonneg</span></a></div><div class="nav_link"><a class="break_within" href="#exists_pos_of_sum_one_of_nonneg"><span class="name">exists_pos_of_sum_one_of_nonneg</span></a></div><div class="nav_link"><a class="break_within" href="#pow_mulVec_succ"><span class="name">pow_mulVec_succ</span></a></div><div class="nav_link"><a class="break_within" href="#mul_div_cancel_pos_right"><span class="name">mul_div_cancel_pos_right</span></a></div><div class="nav_link"><a class="break_within" href="#mul_nonpos_of_nonpos_of_pos"><span class="name">mul_nonpos_of_nonpos_of_pos</span></a></div><div class="nav_link"><a class="break_within" href="#Fintype.card_gt_one_of_nonempty_ne"><span class="name">Fintype</span>.<span class="name">card_gt_one_of_nonempty_ne</span></a></div><div class="nav_link"><a class="break_within" href="#sum_pos_of_mem"><span class="name">sum_pos_of_mem</span></a></div><div class="nav_link"><a class="break_within" href="#exists_mem_of_sum_pos"><span class="name">exists_mem_of_sum_pos</span></a></div><div class="nav_link"><a class="break_within" href="#mul_pos_iff_of_nonneg"><span class="name">mul_pos_iff_of_nonneg</span></a></div><div class="nav_link"><a class="break_within" href="#Finset.inf'_eq_ciInf"><span class="name">Finset</span>.<span class="name">inf'_eq_ciInf</span></a></div><div class="nav_link"><a class="break_within" href="#isClosed_stdSimplex'"><span class="name">isClosed_stdSimplex'</span></a></div><div class="nav_link"><a class="break_within" href="#abs_le_of_le_of_neg_le"><span class="name">abs_le_of_le_of_neg_le</span></a></div><div class="nav_link"><a class="break_within" href="#sum_add_sum_erase"><span class="name">sum_add_sum_erase</span></a></div><div class="nav_link"><a class="break_within" href="#Finset.disjoint_compl_right"><span class="name">Finset</span>.<span class="name">disjoint_compl_right</span></a></div><div class="nav_link"><a class="break_within" href="#bounded_stdSimplex'"><span class="name">bounded_stdSimplex'</span></a></div><div class="nav_link"><a class="break_within" href="#mem_supp_of_sum_eq_one"><span class="name">mem_supp_of_sum_eq_one</span></a></div><div class="nav_link"><a class="break_within" href="#exists_pos_of_ne_zero"><span class="name">exists_pos_of_ne_zero</span></a></div><div class="nav_link"><a class="break_within" href="#exists_pos_maximal_of_nonneg_ne_zero"><span class="name">exists_pos_maximal_of_nonneg_ne_zero</span></a></div><div class="nav_link"><a class="break_within" href="#Set.toFinset_nonempty_iff"><span class="name">Set</span>.<span class="name">toFinset_nonempty_iff</span></a></div><div class="nav_link"><a class="break_within" href="#div_le_iff"><span class="name">div_le_iff</span></a></div><div class="nav_link"><a class="break_within" href="#le_div_iff"><span class="name">le_div_iff</span></a></div><div class="nav_link"><a class="break_within" href="#ratio_nonneg"><span class="name">ratio_nonneg</span></a></div><div class="nav_link"><a class="break_within" href="#Finset.inf'_pos"><span class="name">Finset</span>.<span class="name">inf'_pos</span></a></div><div class="nav_link"><a class="break_within" href="#lt_not_le"><span class="name">lt_not_le</span></a></div><div class="nav_link"><a class="break_within" href="#le_of_mem_upperBounds"><span class="name">le_of_mem_upperBounds</span></a></div><div class="nav_link"><a class="break_within" href="#bddAbove_iff_exists_upperBound"><span class="name">bddAbove_iff_exists_upperBound</span></a></div><div class="nav_link"><a class="break_within" href="#mulVec_apply"><span class="name">mulVec_apply</span></a></div><div class="nav_link"><a class="break_within" href="#eq_mul_of_eq_div"><span class="name">eq_mul_of_eq_div</span></a></div><div class="nav_link"><a class="break_within" href="#mul_div_mul_eq_div"><span class="name">mul_div_mul_eq_div</span></a></div><div class="nav_link"><a class="break_within" href="#le_sSup_of_mem"><span class="name">le_sSup_of_mem</span></a></div><div class="nav_link"><a class="break_within" href="#sum_pos_of_nonneg_of_ne_zero"><span class="name">sum_pos_of_nonneg_of_ne_zero</span></a></div><div class="nav_link"><a class="break_within" href="#le_sup'_of_mem"><span class="name">le_sup'_of_mem</span></a></div><div class="nav_link"><a class="break_within" href="#sup'_le_sup'_of_le"><span class="name">sup'_le_sup'_of_le</span></a></div><div class="nav_link"><a class="break_within" href="#Function.exists_ne_zero_of_ne_zero"><span class="name">Function</span>.<span class="name">exists_ne_zero_of_ne_zero</span></a></div><div class="nav_link"><a class="break_within" href="#mulVec_eq_zero_of_ratio_zero"><span class="name">mulVec_eq_zero_of_ratio_zero</span></a></div><div class="nav_link"><a class="break_within" href="#mul_vec_mul_vec"><span class="name">mul_vec_mul_vec</span></a></div><div class="nav_link"><a class="break_within" href="#zero_block_of_mulVec_eq_zero"><span class="name">zero_block_of_mulVec_eq_zero</span></a></div><div class="nav_link"><a class="break_within" href="#Nat.eq_one_or_one_lt"><span class="name">Nat</span>.<span class="name">eq_one_or_one_lt</span></a></div><div class="nav_link"><a class="break_within" href="#exists_eq_iInf"><span class="name">exists_eq_iInf</span></a></div><div class="nav_link"><a class="break_within" href="#le_csSup_of_mem"><span class="name">le_csSup_of_mem</span></a></div><div class="nav_link"><a class="break_within" href="#div_lt_iff"><span class="name">div_lt_iff</span></a></div><div class="nav_link"><a class="break_within" href="#smul_sum"><span class="name">smul_sum</span></a></div><div class="nav_link"><a class="break_within" href="#ones_norm_mem_simplex"><span class="name">ones_norm_mem_simplex</span></a></div><div class="nav_link"><a class="break_within" href="#Finset.inf'_eq_of_forall_le_of_exists_le"><span class="name">Finset</span>.<span class="name">inf'_eq_of_forall_le_of_exists_le</span></a></div><div class="nav_link"><a class="break_within" href="#ne_zero_of_mem_stdSimplex"><span class="name">ne_zero_of_mem_stdSimplex</span></a></div><div class="nav_link"><a class="break_within" href="#Real.le_sSup"><span class="name">Real</span>.<span class="name">le_sSup</span></a></div><div class="nav_link"><a class="break_within" href="#csSup_image'"><span class="name">csSup_image'</span></a></div><div class="nav_link"><a class="break_within" href="#iSup_eq_sSup"><span class="name">iSup_eq_sSup</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.dotProduct_pos_of_pos_of_pos"><span class="name">Matrix</span>.<span class="name">dotProduct_pos_of_pos_of_pos</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.dotProduct_pos_of_pos_of_nonneg_ne_zero"><span class="name">Matrix</span>.<span class="name">dotProduct_pos_of_pos_of_nonneg_ne_zero</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.dotProduct_smul_left"><span class="name">Matrix</span>.<span class="name">dotProduct_smul_left</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.dotProduct_smul_right"><span class="name">Matrix</span>.<span class="name">dotProduct_smul_right</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.dotProduct_le_dotProduct_of_nonneg"><span class="name">Matrix</span>.<span class="name">dotProduct_le_dotProduct_of_nonneg</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.dotProduct_mulVec_assoc"><span class="name">Matrix</span>.<span class="name">dotProduct_mulVec_assoc</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.matrix_mulVec_component"><span class="name">Matrix</span>.<span class="name">matrix_mulVec_component</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.transpose_mulVec"><span class="name">Matrix</span>.<span class="name">transpose_mulVec</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.dotProduct_mulVec_comm"><span class="name">Matrix</span>.<span class="name">dotProduct_mulVec_comm</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.diagonal_mulVec_ones"><span class="name">Matrix</span>.<span class="name">diagonal_mulVec_ones</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.diagonal_inv_mulVec_self"><span class="name">Matrix</span>.<span class="name">diagonal_inv_mulVec_self</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.diagonal_mulVec_diagonal_inv_mulVec"><span class="name">Matrix</span>.<span class="name">diagonal_mulVec_diagonal_inv_mulVec</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.diagonal_mulVec_mono"><span class="name">Matrix</span>.<span class="name">diagonal_mulVec_mono</span></a></div><div class="nav_link"><a class="break_within" href="#iSup_eq_sSup_image"><span class="name">iSup_eq_sSup_image</span></a></div><div class="nav_link"><a class="break_within" href="#eq_zero_of_sum_eq_zero"><span class="name">eq_zero_of_sum_eq_zero</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Auxiliary-lemmas-for-Perron-Frobenius-and-MCMC" class="markdown-heading">Auxiliary lemmas for Perron-Frobenius and MCMC <a class="hover-link" href="#Auxiliary-lemmas-for-Perron-Frobenius-and-MCMC">#</a></h1><p>Small results on the standard simplex, topology, matrices, and finsets shared by <code>MCMC.PF</code>.
+Prefer Mathlib statements when they already exist; this file keeps only what downstream modules use.</p><p>Includes <code><a href="../.././MCMC/PF/aux.html#eq_mul_of_eq_div">eq_mul_of_eq_div</a></code> (solve <code>a = c * b</code> from <code>c = a / b</code>) and <code><a href="../.././MCMC/PF/aux.html#mul_div_mul_eq_div">mul_div_mul_eq_div</a></code> (cancel a
+common nonzero factor in a field fraction).</p></div><div class="mod_doc"><h2 id="Standard-Simplex-Properties" class="markdown-heading">Standard Simplex Properties <a class="hover-link" href="#Standard-Simplex-Properties">#</a></h2></div><div class="decl" id="stdSimplex_nonempty"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L22-L24">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#stdSimplex_nonempty"><span class="name">stdSimplex_nonempty</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nonempty</span> <span class="fn">ι</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<span class="fn">stdSimplex</span> <span class="fn">ℝ</span> <span class="fn">ι</span>)</span>.<span class="fn">Nonempty</span></span></div></div></div></div><div class="mod_doc"><h2 id="Helper-Lemmas-for-Continuity" class="markdown-heading">Helper Lemmas for Continuity <a class="hover-link" href="#Helper-Lemmas-for-Continuity">#</a></h2></div><div class="decl" id="eventually_to_open"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L31-L44">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#eventually_to_open"><span class="name">eventually_to_open</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">TopologicalSpace</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">p</span> : <span class="fn"><span class="fn">α</span> → <a href="../.././foundational_types.html">Prop</a></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">∀ᶠ</span> (<span class="fn">x</span> : <span class="fn">α</span>) <span class="fn">in</span> <span class="fn"><span class="fn">nhds</span> <span class="fn">a</span></span><span class="fn">,</span> <span class="fn"><span class="fn">p</span> <span class="fn">x</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">∃ (<span class="fn">U</span> : <span class="fn"><span class="fn">Set</span> <span class="fn">α</span></span>), <span class="fn"><span class="fn"><span class="fn">IsOpen</span> <span class="fn">U</span></span> <span class="fn">∧</span> <span class="fn"><span class="fn"><span class="fn">a</span> <span class="fn">∈</span> <span class="fn">U</span></span> <span class="fn">∧</span> <span class="fn">∀ <span class="fn">x</span> ∈ <span class="fn">U</span>, <span class="fn"><span class="fn">p</span> <span class="fn">x</span></span></span></span></span></span></div></div></div></div><div class="decl" id="continuousOn_finset_inf'"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L47-L52">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#continuousOn_finset_inf'"><span class="name">continuousOn_finset_inf'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">TopologicalSpace</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LinearOrder</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">TopologicalSpace</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">OrderTopology</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">ι</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><span class="fn">Finset</span> <span class="fn">ι</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">U</span> : <span class="fn"><span class="fn">Set</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hs</span> : <span class="fn"><span class="fn">s</span>.<span class="fn">Nonempty</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn"><span class="fn">α</span> → <span class="fn">β</span></span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn">∀ <span class="fn">i</span> ∈ <span class="fn">s</span>, <span class="fn"><span class="fn">ContinuousOn</span> <span class="fn">(<span class="fn">f</span> <span class="fn">i</span>)</span> <span class="fn">U</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">ContinuousOn</span> <span class="fn">(fun (<span class="fn">x</span> : <span class="fn">α</span>) =&gt; <span class="fn"><span class="fn"><span class="fn">s</span>.<span class="fn">inf'</span></span> <span class="fn">hs</span> <span class="fn">fun (<span class="fn">i</span> : <span class="fn">ι</span>) =&gt; <span class="fn"><span class="fn">f</span> <span class="fn">i</span> <span class="fn">x</span></span></span></span>)</span> <span class="fn">U</span></span></div></div></div></div><div class="decl" id="finset_inf'_mono_subset"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L55-L58">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#finset_inf'_mono_subset"><span class="name">finset_inf'_mono_subset</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LinearOrder</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><span class="fn">Finset</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">s</span> <span class="fn">⊆</span> <span class="fn">t</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">β</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">hs</span> : <span class="fn"><span class="fn">s</span>.<span class="fn">Nonempty</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ht</span> : <span class="fn"><span class="fn">t</span>.<span class="fn">Nonempty</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">t</span>.<span class="fn">inf'</span></span> <span class="fn">ht</span> <span class="fn">f</span></span> <span class="fn">≤</span> <span class="fn"><span class="fn"><span class="fn">s</span>.<span class="fn">inf'</span></span> <span class="fn">hs</span> <span class="fn">f</span></span></span></div></div></div></div><div class="mod_doc"><h2 id="Matrix-Vector-Operations" class="markdown-heading">Matrix &amp; Vector Operations <a class="hover-link" href="#Matrix-Vector-Operations">#</a></h2></div><div class="decl" id="mulVec_nonneg"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L65-L69">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#mulVec_nonneg"><span class="name">mulVec_nonneg</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hA</span> : <span class="fn">∀ (<span class="fn">i </span><span class="fn">j</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">A</span> <span class="fn">i</span> <span class="fn">j</span></span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hx</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">x</span> <span class="fn">i</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">n</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn"><span class="fn">A</span>.<span class="fn">mulVec</span></span> <span class="fn">x</span> <span class="fn">i</span></span></span></div></div></div></div><div class="mod_doc"><h2 id="Utility-Lemmas" class="markdown-heading">Utility Lemmas <a class="hover-link" href="#Utility-Lemmas">#</a></h2></div><div class="decl" id="exists_pos_of_sum_one_of_nonneg"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L76-L86">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#exists_pos_of_sum_one_of_nonneg"><span class="name">exists_pos_of_sum_one_of_nonneg</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nonempty</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hsum</span> : <span class="fn"><span class="fn">∑ <span class="fn">i</span> : <span class="fn">n</span>, <span class="fn"><span class="fn">x</span> <span class="fn">i</span></span></span> <span class="fn">=</span> <span class="fn">1</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hnonneg</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">x</span> <span class="fn">i</span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">∃ (<span class="fn">j</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">x</span> <span class="fn">j</span></span></span></span></div></div></div></div><div class="decl" id="pow_mulVec_succ"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L89-L92">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#pow_mulVec_succ"><span class="name">pow_mulVec_succ</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nonempty</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">k</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">A</span> <span class="fn">^</span> <span class="fn">(<span class="fn">k</span> <span class="fn">+</span> <span class="fn">1</span>)</span>)</span>.<span class="fn">mulVec</span></span> <span class="fn">x</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">A</span>.<span class="fn">mulVec</span></span> <span class="fn">(<span class="fn"><span class="fn">(<span class="fn">A</span> <span class="fn">^</span> <span class="fn">k</span>)</span>.<span class="fn">mulVec</span></span> <span class="fn">x</span>)</span></span></span></div></div></div></div><div class="mod_doc"><h2 id="Order-Field-Properties" class="markdown-heading">Order &amp; Field Properties <a class="hover-link" href="#Order-Field-Properties">#</a></h2></div><div class="decl" id="mul_div_cancel_pos_right"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L100-L103">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#mul_div_cancel_pos_right"><span class="name">mul_div_cancel_pos_right</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">K</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Field</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LinearOrder</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">IsStrictOrderedRing</span> <span class="fn">K</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a </span><span class="fn">b </span><span class="fn">c</span> : <span class="fn">K</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn"><span class="fn">a</span> <span class="fn">*</span> <span class="fn">b</span></span> <span class="fn">=</span> <span class="fn">c</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hb</span> : <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn">b</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">c</span> <span class="fn">/</span> <span class="fn">b</span></span> <span class="fn">=</span> <span class="fn">a</span></span></div></div></div></div><div class="decl" id="mul_nonpos_of_nonpos_of_pos"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L106-L110">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#mul_nonpos_of_nonpos_of_pos"><span class="name">mul_nonpos_of_nonpos_of_pos</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Ring</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LinearOrder</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">IsStrictOrderedRing</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a </span><span class="fn">b</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">ha</span> : <span class="fn"><span class="fn">a</span> <span class="fn">≤</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hb</span> : <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn">b</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">a</span> <span class="fn">*</span> <span class="fn">b</span></span> <span class="fn">≤</span> <span class="fn">0</span></span></div></div></div></div><div class="decl" id="Fintype.card_gt_one_of_nonempty_ne"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L114-L137">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#Fintype.card_gt_one_of_nonempty_ne"><span class="name">Fintype</span>.<span class="name">card_gt_one_of_nonempty_ne</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nonempty</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">1</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">card</span> <span class="fn">α</span></span></span> <span class="fn">↔</span> <span class="fn">∃ (<span class="fn">i</span> : <span class="fn">α</span>) (<span class="fn">j</span> : <span class="fn">α</span>), <span class="fn"><span class="fn">i</span> <span class="fn">≠</span> <span class="fn">j</span></span></span></span></div></div></div></div><div class="mod_doc"><h2 id="Additional-Helper-Theorems" class="markdown-heading">Additional Helper Theorems <a class="hover-link" href="#Additional-Helper-Theorems">#</a></h2></div><div class="decl" id="sum_pos_of_mem"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L146-L154">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#sum_pos_of_mem"><span class="name">sum_pos_of_mem</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><span class="fn">Finset</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h_nonneg</span> : <span class="fn">∀ <span class="fn">a</span> ∈ <span class="fn">s</span>, <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">f</span> <span class="fn">a</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">ha_mem</span> : <span class="fn"><span class="fn">a</span> <span class="fn">∈</span> <span class="fn">s</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">ha_pos</span> : <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">f</span> <span class="fn">a</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn">∑ <span class="fn">x</span> ∈ <span class="fn">s</span>, <span class="fn"><span class="fn">f</span> <span class="fn">x</span></span></span></span></div></div></div></div><div class="decl" id="exists_mem_of_sum_pos"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L157-L163">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#exists_mem_of_sum_pos"><span class="name">exists_mem_of_sum_pos</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><span class="fn">Finset</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h_pos</span> : <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn">∑ <span class="fn">a</span> ∈ <span class="fn">s</span>, <span class="fn"><span class="fn">f</span> <span class="fn">a</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_nonneg</span> : <span class="fn">∀ <span class="fn">a</span> ∈ <span class="fn">s</span>, <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">f</span> <span class="fn">a</span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">∃ <span class="fn">a</span> ∈ <span class="fn">s</span>, <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">f</span> <span class="fn">a</span></span></span></span></div></div></div></div><div class="decl" id="mul_pos_iff_of_nonneg"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L166-L173">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#mul_pos_iff_of_nonneg"><span class="name">mul_pos_iff_of_nonneg</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a </span><span class="fn">b</span> : <span class="fn">ℝ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">ha</span> : <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn">a</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hb</span> : <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn">b</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">a</span> <span class="fn">*</span> <span class="fn">b</span></span></span> <span class="fn">↔</span> <span class="fn"><span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn">a</span></span> <span class="fn">∧</span> <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn">b</span></span></span></span></div></div></div></div><div class="decl" id="Finset.inf'_eq_ciInf"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L175-L183">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#Finset.inf'_eq_ciInf"><span class="name">Finset</span>.<span class="name">inf'_eq_ciInf</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">ConditionallyCompleteLinearOrder</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><span class="fn">Finset</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">s</span>.<span class="fn">Nonempty</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">s</span>.<span class="fn">inf'</span></span> <span class="fn">h</span> <span class="fn">f</span></span> <span class="fn">=</span> <span class="fn">⨅ (<span class="fn">i</span> : <span class="fn">↥<span class="fn">s</span></span>), <span class="fn"><span class="fn">f</span> <span class="fn">↑<span class="fn">i</span></span></span></span></span></div></div><p>The infimum over a non-empty finset is equal to the infimum over the corresponding subtype.</p></div></div><div class="decl" id="isClosed_stdSimplex'"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L185-L193">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#isClosed_stdSimplex'"><span class="name">isClosed_stdSimplex'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">IsClosed</span> <span class="fn">(<span class="fn">stdSimplex</span> <span class="fn">ℝ</span> <span class="fn">n</span>)</span></span></div></div><p>The standard simplex is a closed set.</p></div></div><div class="decl" id="abs_le_of_le_of_neg_le"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L195-L199">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#abs_le_of_le_of_neg_le"><span class="name">abs_le_of_le_of_neg_le</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x </span><span class="fn">y</span> : <span class="fn">ℝ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h_le</span> : <span class="fn"><span class="fn">x</span> <span class="fn">≤</span> <span class="fn">y</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_neg_le</span> : <span class="fn"><span class="fn"><span class="fn">-</span><span class="fn">x</span></span> <span class="fn">≤</span> <span class="fn">y</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">|</span><span class="fn">x</span><span class="fn">|</span></span> <span class="fn">≤</span> <span class="fn">y</span></span></div></div></div></div><div class="decl" id="sum_add_sum_erase"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L201-L206">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#sum_add_sum_erase"><span class="name">sum_add_sum_erase</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">M</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">AddCommMonoid</span> <span class="fn">M</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><span class="fn">Finset</span> <span class="fn">n</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">M</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">a</span> : <span class="fn">n</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">ha</span> : <span class="fn"><span class="fn">a</span> <span class="fn">∈</span> <span class="fn">s</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">a</span></span> <span class="fn">+</span> <span class="fn">∑ <span class="fn">i</span> ∈ <span class="fn"><span class="fn"><span class="fn">s</span>.<span class="fn">erase</span></span> <span class="fn">a</span></span>, <span class="fn"><span class="fn">f</span> <span class="fn">i</span></span></span></span> <span class="fn">=</span> <span class="fn">∑ <span class="fn">i</span> ∈ <span class="fn">s</span>, <span class="fn"><span class="fn">f</span> <span class="fn">i</span></span></span></span></div></div><p>A sum over a finset can be split into the value at a point <code>a</code>
+and the sum over the rest of the finset.</p></div></div><div class="decl" id="Finset.disjoint_compl_right"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L208-L213">source</a></div><div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#Finset.disjoint_compl_right"><span class="name">Finset</span>.<span class="name">disjoint_compl_right</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><span class="fn">Finset</span> <span class="fn">n</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Disjoint</span> <span class="fn">s</span> <span class="fn">(<span class="fn">univ</span> <span class="fn">\</span> <span class="fn">s</span>)</span></span></div></div><p>A finset <code>s</code> is disjoint from its right complement.</p></div></div><div class="decl" id="bounded_stdSimplex'"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L215-L229">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#bounded_stdSimplex'"><span class="name">bounded_stdSimplex'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Bornology.IsBounded</span> <span class="fn">(<span class="fn">stdSimplex</span> <span class="fn">ℝ</span> <span class="fn">n</span>)</span></span></div></div><p>The standard simplex is bounded.</p></div></div><div class="decl" id="mem_supp_of_sum_eq_one"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L233-L249">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#mem_supp_of_sum_eq_one"><span class="name">mem_supp_of_sum_eq_one</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hv</span> : <span class="fn"><span class="fn">v</span> <span class="fn">∈</span> <span class="fn"><span class="fn">stdSimplex</span> <span class="fn">ℝ</span> <span class="fn">n</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">S</span> : <span class="fn"><span class="fn">Finset</span> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_sum</span> : <span class="fn"><span class="fn">∑ <span class="fn">i</span> ∈ <span class="fn">S</span>, <span class="fn"><span class="fn">v</span> <span class="fn">i</span></span></span> <span class="fn">=</span> <span class="fn">1</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">n</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">v</span> <span class="fn">i</span></span> <span class="fn">≠</span> <span class="fn">0</span></span> → <span class="fn"><span class="fn">i</span> <span class="fn">∈</span> <span class="fn">S</span></span></span></div></div><p>For a vector on the standard simplex, if the sum of a subset of its components is 1,
+then the components outside that subset must be zero.</p></div></div><div class="decl" id="exists_pos_of_ne_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L251-L257">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#exists_pos_of_ne_zero"><span class="name">exists_pos_of_ne_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h_nonneg</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">v</span> <span class="fn">i</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_ne_zero</span> : <span class="fn"><span class="fn">v</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">∃ (<span class="fn">i</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">v</span> <span class="fn">i</span></span></span></span></div></div><p>A non-negative, non-zero vector must have a positive component.</p></div></div><div class="decl" id="exists_pos_maximal_of_nonneg_ne_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L259-L271">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#exists_pos_maximal_of_nonneg_ne_zero"><span class="name">exists_pos_maximal_of_nonneg_ne_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nonempty</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h_nonneg</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">v</span> <span class="fn">i</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_ne_zero</span> : <span class="fn"><span class="fn">v</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">∃ (<span class="fn">i</span> : <span class="fn">n</span>), <span class="fn"><span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">v</span> <span class="fn">i</span></span></span> <span class="fn">∧</span> <span class="fn">∀ (<span class="fn">j</span> : <span class="fn">n</span>), <span class="fn"><span class="fn"><span class="fn">v</span> <span class="fn">j</span></span> <span class="fn">≤</span> <span class="fn"><span class="fn">v</span> <span class="fn">i</span></span></span></span></span></span></div></div><p>A non-negative, non-zero vector has a positive component that dominates all others.</p></div></div><div class="decl" id="Set.toFinset_nonempty_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L273-L282">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#Set.toFinset_nonempty_iff"><span class="name">Set</span>.<span class="name">toFinset_nonempty_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">s</span> : <span class="fn"><span class="fn">Set</span> <span class="fn">α</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Finite</span> <span class="fn">↑<span class="fn">s</span></span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">↑<span class="fn">s</span></span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">s</span>.<span class="fn">toFinset</span></span>.<span class="fn">Nonempty</span></span> <span class="fn">↔</span> <span class="fn"><span class="fn">s</span>.<span class="fn">Nonempty</span></span></span></div></div><p>A set is nonempty if and only if its finite conversion is nonempty.</p></div></div><div class="decl" id="div_le_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L284-L287">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#div_le_iff"><span class="name">div_le_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a </span><span class="fn">b </span><span class="fn">c</span> : <span class="fn">ℝ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hb</span> : <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn">b</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">a</span> <span class="fn">/</span> <span class="fn">b</span></span> <span class="fn">≤</span> <span class="fn">c</span></span> <span class="fn">↔</span> <span class="fn"><span class="fn">a</span> <span class="fn">≤</span> <span class="fn"><span class="fn">c</span> <span class="fn">*</span> <span class="fn">b</span></span></span></span></div></div><p>Division inequality: a / b ≤ c ↔ a ≤ c * b when b &gt; 0.</p></div></div><div class="decl" id="le_div_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L289-L291">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#le_div_iff"><span class="name">le_div_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a </span><span class="fn">b </span><span class="fn">c</span> : <span class="fn">ℝ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hb</span> : <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn">b</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">a</span> <span class="fn">≤</span> <span class="fn"><span class="fn">c</span> <span class="fn">*</span> <span class="fn">b</span></span></span> <span class="fn">↔</span> <span class="fn"><span class="fn"><span class="fn">a</span> <span class="fn">/</span> <span class="fn">b</span></span> <span class="fn">≤</span> <span class="fn">c</span></span></span></div></div><p>For real numbers, if <code>0 &lt; b</code>, then <code>a ≤ c * b ↔ a / b ≤ c</code>.</p></div></div><div class="decl" id="ratio_nonneg"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L293-L296">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#ratio_nonneg"><span class="name">ratio_nonneg</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hA_nonneg</span> : <span class="fn">∀ (<span class="fn">i </span><span class="fn">j</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">A</span> <span class="fn">i</span> <span class="fn">j</span></span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hv_nonneg</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">v</span> <span class="fn">i</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">n</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hv_pos</span> : <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">v</span> <span class="fn">i</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn">A</span>.<span class="fn">mulVec</span></span> <span class="fn">v</span> <span class="fn">i</span></span> <span class="fn">/</span> <span class="fn"><span class="fn">v</span> <span class="fn">i</span></span></span></span></div></div><p>The ratio (A *ᵥ v) i / v i is nonnegative when A has nonnegative entries and v is nonnegative</p></div></div><div class="decl" id="Finset.inf'_pos"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L298-L304">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#Finset.inf'_pos"><span class="name">Finset</span>.<span class="name">inf'_pos</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><span class="fn">Finset</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hs</span> : <span class="fn"><span class="fn">s</span>.<span class="fn">Nonempty</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h_pos</span> : <span class="fn">∀ <span class="fn">a</span> ∈ <span class="fn">s</span>, <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">f</span> <span class="fn">a</span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn"><span class="fn">s</span>.<span class="fn">inf'</span></span> <span class="fn">hs</span> <span class="fn">f</span></span></span></div></div></div></div><div class="decl" id="lt_not_le"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L306-L308">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#lt_not_le"><span class="name">lt_not_le</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">PartialOrder</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">x </span><span class="fn">y</span> : <span class="fn">α</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">x</span> <span class="fn">&lt;</span> <span class="fn">y</span></span> → <span class="fn"><span class="fn">¬</span><span class="fn"><span class="fn">x</span> <span class="fn">≥</span> <span class="fn">y</span></span></span></span></div></div></div></div><div class="decl" id="le_of_mem_upperBounds"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L313-L315">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#le_of_mem_upperBounds"><span class="name">le_of_mem_upperBounds</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">ConditionallyCompleteLinearOrder</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><span class="fn">Set</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x </span><span class="fn">y</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hy</span> : <span class="fn"><span class="fn">y</span> <span class="fn">∈</span> <span class="fn"><span class="fn">upperBounds</span> <span class="fn">s</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hx</span> : <span class="fn"><span class="fn">x</span> <span class="fn">∈</span> <span class="fn">s</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">x</span> <span class="fn">≤</span> <span class="fn">y</span></span></div></div><p>If y is an upper bound of a set s, and x is in s, then x ≤ y</p></div></div><div class="decl" id="bddAbove_iff_exists_upperBound"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L317-L318">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#bddAbove_iff_exists_upperBound"><span class="name">bddAbove_iff_exists_upperBound</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">ConditionallyCompleteLinearOrder</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><span class="fn">Set</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">BddAbove</span> <span class="fn">s</span></span> <span class="fn">↔</span> <span class="fn">∃ (<span class="fn">b</span> : <span class="fn">α</span>), <span class="fn">∀ <span class="fn">x</span> ∈ <span class="fn">s</span>, <span class="fn"><span class="fn">x</span> <span class="fn">≤</span> <span class="fn">b</span></span></span></span></span></div></div></div></div><div class="decl" id="mulVec_apply"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L325-L331">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#mulVec_apply"><span class="name">mulVec_apply</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">n</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">A</span>.<span class="fn">mulVec</span></span> <span class="fn">v</span> <span class="fn">i</span></span> <span class="fn">=</span> <span class="fn">∑ <span class="fn">j</span> : <span class="fn">n</span>, <span class="fn"><span class="fn"><span class="fn">A</span> <span class="fn">i</span> <span class="fn">j</span></span> <span class="fn">*</span> <span class="fn"><span class="fn">v</span> <span class="fn">j</span></span></span></span></span></div></div><p>The definition of the <code>i</code>-th component of a matrix-vector product.
+This is standard in Mathlib and often available via <code>simp</code>.</p></div></div><div class="decl" id="eq_mul_of_eq_div"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L333-L335">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#eq_mul_of_eq_div"><span class="name">eq_mul_of_eq_div</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a </span><span class="fn">b </span><span class="fn">c</span> : <span class="fn">ℝ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hb</span> : <span class="fn"><span class="fn">b</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">c</span> <span class="fn">=</span> <span class="fn"><span class="fn">a</span> <span class="fn">/</span> <span class="fn">b</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">a</span> <span class="fn">=</span> <span class="fn"><span class="fn">c</span> <span class="fn">*</span> <span class="fn">b</span></span></span></div></div><p>If <code>c = a / b</code> with <code>b ≠ 0</code>, then <code>a = c * b</code>.</p></div></div><div class="decl" id="mul_div_mul_eq_div"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L337-L340">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#mul_div_mul_eq_div"><span class="name">mul_div_mul_eq_div</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Field</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a </span><span class="fn">b </span><span class="fn">c</span> : <span class="fn">R</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hc</span> : <span class="fn"><span class="fn">c</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hb</span> : <span class="fn"><span class="fn">b</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">c</span> <span class="fn">*</span> <span class="fn">a</span></span> <span class="fn">/</span> <span class="fn">(<span class="fn">c</span> <span class="fn">*</span> <span class="fn">b</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">a</span> <span class="fn">/</span> <span class="fn">b</span></span></span></div></div><p>Cancel a common nonzero factor from numerator and denominator in a field.</p></div></div><div class="decl" id="le_sSup_of_mem"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L342-L348">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#le_sSup_of_mem"><span class="name">le_sSup_of_mem</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><span class="fn">Set</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">s</span>.<span class="fn">Nonempty</span></span> → <span class="fn">∀ (<span class="fn">hs_bdd</span> : <span class="fn"><span class="fn">BddAbove</span> <span class="fn">s</span></span>) {<span class="fn">y</span> : <span class="fn">ℝ</span>} (<span class="fn">hy</span> : <span class="fn"><span class="fn">y</span> <span class="fn">∈</span> <span class="fn">s</span></span>), <span class="fn"><span class="fn">y</span> <span class="fn">≤</span> <span class="fn"><span class="fn">sSup</span> <span class="fn">s</span></span></span></span></span></div></div><p>An element of a set is less than or equal to the supremum of that set,
+provided the set is non-empty and bounded above.</p></div></div><div class="decl" id="sum_pos_of_nonneg_of_ne_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L350-L356">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#sum_pos_of_nonneg_of_ne_zero"><span class="name">sum_pos_of_nonneg_of_ne_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><span class="fn">Finset</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h_nonneg</span> : <span class="fn">∀ <span class="fn">a</span> ∈ <span class="fn">s</span>, <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">f</span> <span class="fn">a</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_ne_zero</span> : <span class="fn"><span class="fn">∑ <span class="fn">x</span> ∈ <span class="fn">s</span>, <span class="fn"><span class="fn">f</span> <span class="fn">x</span></span></span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn">∑ <span class="fn">x</span> ∈ <span class="fn">s</span>, <span class="fn"><span class="fn">f</span> <span class="fn">x</span></span></span></span></div></div><p>A sum of non-negative terms is strictly positive if and only if the sum is not zero.
+This is a direct consequence of the sum being non-negative.</p></div></div><div class="decl" id="le_sup'_of_mem"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L359-L361">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#le_sup'_of_mem"><span class="name">le_sup'_of_mem</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">SemilatticeSup</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><span class="fn">Finset</span> <span class="fn">β</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hs</span> : <span class="fn"><span class="fn">s</span>.<span class="fn">Nonempty</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">β</span> → <span class="fn">α</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">b</span> : <span class="fn">β</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hb</span> : <span class="fn"><span class="fn">b</span> <span class="fn">∈</span> <span class="fn">s</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">b</span></span> <span class="fn">≤</span> <span class="fn"><span class="fn"><span class="fn">s</span>.<span class="fn">sup'</span></span> <span class="fn">hs</span> <span class="fn">f</span></span></span></div></div></div></div><div class="decl" id="sup'_le_sup'_of_le"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L364-L367">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#sup'_le_sup'_of_le"><span class="name">sup'_le_sup'_of_le</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">SemilatticeSup</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s </span><span class="fn">t</span> : <span class="fn"><span class="fn">Finset</span> <span class="fn">β</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hs</span> : <span class="fn"><span class="fn">s</span>.<span class="fn">Nonempty</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">ht</span> : <span class="fn"><span class="fn">t</span>.<span class="fn">Nonempty</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">β</span> → <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">s</span> <span class="fn">⊆</span> <span class="fn">t</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">s</span>.<span class="fn">sup'</span></span> <span class="fn">hs</span> <span class="fn">f</span></span> <span class="fn">≤</span> <span class="fn"><span class="fn"><span class="fn">t</span>.<span class="fn">sup'</span></span> <span class="fn">ht</span> <span class="fn">f</span></span></span></div></div></div></div><div class="decl" id="Function.exists_ne_zero_of_ne_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L370-L375">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#Function.exists_ne_zero_of_ne_zero"><span class="name">Function</span>.<span class="name">exists_ne_zero_of_ne_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Sort</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Zero</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">β</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h</span> : <span class="fn"><span class="fn">f</span> <span class="fn">≠</span> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">α</span>) =&gt; <span class="fn">0</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">∃ (<span class="fn">i</span> : <span class="fn">α</span>), <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">i</span></span> <span class="fn">≠</span> <span class="fn">0</span></span></span></div></div></div></div><div class="decl" id="mulVec_eq_zero_of_ratio_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L377-L382">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#mulVec_eq_zero_of_ratio_zero"><span class="name">mulVec_eq_zero_of_ratio_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">n</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hv_pos</span> : <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">v</span> <span class="fn">i</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_ratio_zero</span> : <span class="fn"><span class="fn"><span class="fn"><span class="fn"><span class="fn">A</span>.<span class="fn">mulVec</span></span> <span class="fn">v</span> <span class="fn">i</span></span> <span class="fn">/</span> <span class="fn"><span class="fn">v</span> <span class="fn">i</span></span></span> <span class="fn">=</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">A</span>.<span class="fn">mulVec</span></span> <span class="fn">v</span> <span class="fn">i</span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div><p>If the ratio (A *ᵥ v) i / v i = 0 and v i &gt; 0, then (A *ᵥ v) i = 0.</p></div></div><div class="decl" id="mul_vec_mul_vec"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L384-L394">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#mul_vec_mul_vec"><span class="name">mul_vec_mul_vec</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nonempty</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A </span><span class="fn">B</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">v</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">A</span> <span class="fn">*</span> <span class="fn">B</span>)</span>.<span class="fn">mulVec</span></span> <span class="fn">v</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn">A</span>.<span class="fn">mulVec</span></span> <span class="fn">(<span class="fn"><span class="fn">B</span>.<span class="fn">mulVec</span></span> <span class="fn">v</span>)</span></span></span></div></div></div></div><div class="decl" id="zero_block_of_mulVec_eq_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L396-L410">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#zero_block_of_mulVec_eq_zero"><span class="name">zero_block_of_mulVec_eq_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hA_nonneg</span> : <span class="fn">∀ (<span class="fn">i </span><span class="fn">j</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">A</span> <span class="fn">i</span> <span class="fn">j</span></span></span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hv_nonneg</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">v</span> <span class="fn">i</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">S</span> : <span class="fn"><span class="fn">Set</span> <span class="fn">n</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hS_def</span> : <span class="fn"><span class="fn">S</span> <span class="fn">=</span> <span class="fn"><span class="fn">{</span><span class="fn">i</span> <span class="fn">:</span> <span class="fn">n</span> <span class="fn">|</span> <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">v</span> <span class="fn">i</span></span></span><span class="fn">}</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_Av_zero</span> : <span class="fn">∀ <span class="fn">i</span> ∈ <span class="fn">S</span>, <span class="fn"><span class="fn"><span class="fn"><span class="fn">A</span>.<span class="fn">mulVec</span></span> <span class="fn">v</span> <span class="fn">i</span></span> <span class="fn">=</span> <span class="fn">0</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">n</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">i</span> <span class="fn">∈</span> <span class="fn">S</span></span> → <span class="fn">∀ <span class="fn">k</span> ∈ <span class="fn">S</span>, <span class="fn"><span class="fn"><span class="fn">A</span> <span class="fn">i</span> <span class="fn">k</span></span> <span class="fn">=</span> <span class="fn">0</span></span></span></span></div></div><p>If <code>A *ᵥ v</code> is zero on the support <code>S</code> of <code>v</code>, then for any <code>i ∈ S</code>, <code>A i k</code> must be zero
+for all <code>k</code> where <code>v</code> is positive (i.e., <code>k ∈ S</code>).</p></div></div><div class="decl" id="Nat.eq_one_or_one_lt"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L412-L419">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#Nat.eq_one_or_one_lt"><span class="name">Nat</span>.<span class="name">eq_one_or_one_lt</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">n</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hn</span> : <span class="fn"><span class="fn">n</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">n</span> <span class="fn">=</span> <span class="fn">1</span></span> <span class="fn">∨</span> <span class="fn"><span class="fn">1</span> <span class="fn">&lt;</span> <span class="fn">n</span></span></span></div></div><p>For any natural number <code>n &gt; 0</code>, it is either equal to 1 or greater than 1.
+This is a helper for reasoning about the cardinality of a Fintype.</p></div></div><div class="decl" id="exists_eq_iInf"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L421-L423">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#exists_eq_iInf"><span class="name">exists_eq_iInf</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nonempty</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">∃ (<span class="fn">i</span> : <span class="fn">α</span>), <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">i</span></span> <span class="fn">=</span> <span class="fn">⨅ (<span class="fn">j</span> : <span class="fn">α</span>), <span class="fn"><span class="fn">f</span> <span class="fn">j</span></span></span></span></span></div></div><p>For a finite type, the infimum over the type is attained at some element.</p></div></div><div class="decl" id="le_csSup_of_mem"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L425-L428">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#le_csSup_of_mem"><span class="name">le_csSup_of_mem</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><span class="fn">Set</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hs_bdd</span> : <span class="fn"><span class="fn">BddAbove</span> <span class="fn">(<span class="fn">f</span> <span class="fn">''</span> <span class="fn">s</span>)</span></span>)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">y</span> : <span class="fn">α</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hy</span> : <span class="fn"><span class="fn">y</span> <span class="fn">∈</span> <span class="fn">s</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">y</span></span> <span class="fn">≤</span> <span class="fn"><span class="fn">sSup</span> <span class="fn">(<span class="fn">f</span> <span class="fn">''</span> <span class="fn">s</span>)</span></span></span></div></div><p>An element of the image of a set is less than or equal to the supremum of that set.</p></div></div><div class="decl" id="div_lt_iff"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L430-L431">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#div_lt_iff"><span class="name">div_lt_iff</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a </span><span class="fn">b </span><span class="fn">c</span> : <span class="fn">ℝ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hc</span> : <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn">c</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">b</span> <span class="fn">/</span> <span class="fn">c</span></span> <span class="fn">&lt;</span> <span class="fn">a</span></span> <span class="fn">↔</span> <span class="fn"><span class="fn">b</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">a</span> <span class="fn">*</span> <span class="fn">c</span></span></span></span></div></div></div></div><div class="decl" id="smul_sum"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L437-L439">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#smul_sum"><span class="name">smul_sum</span></a></span><span class="decl_args">
+<span class="fn">(<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_2)</span></span>
+<span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">r</span> : <span class="fn">ℝ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">r</span> <span class="fn">•</span> <span class="fn">∑ <span class="fn">i</span> : <span class="fn">α</span>, <span class="fn"><span class="fn">f</span> <span class="fn">i</span></span></span></span> <span class="fn">=</span> <span class="fn">∑ <span class="fn">i</span> : <span class="fn">α</span>, <span class="fn"><span class="fn">r</span> <span class="fn">•</span> <span class="fn"><span class="fn">f</span> <span class="fn">i</span></span></span></span></span></div></div></div></div><div class="decl" id="ones_norm_mem_simplex"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L441-L445">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#ones_norm_mem_simplex"><span class="name">ones_norm_mem_simplex</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nonempty</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(fun (<span class="fn">x</span> : <span class="fn">n</span>) =&gt; <span class="fn"><span class="fn">(↑<span class="fn">(<span class="fn">Fintype.card</span> <span class="fn">n</span>)</span>)</span><span class="fn">⁻¹</span></span>)</span> <span class="fn">∈</span> <span class="fn"><span class="fn">stdSimplex</span> <span class="fn">ℝ</span> <span class="fn">n</span></span></span></div></div></div></div><div class="decl" id="Finset.inf'_eq_of_forall_le_of_exists_le"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L447-L459">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#Finset.inf'_eq_of_forall_le_of_exists_le"><span class="name">Finset</span>.<span class="name">inf'_eq_of_forall_le_of_exists_le</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">LinearOrder</span> <span class="fn">β</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><span class="fn">Finset</span> <span class="fn">α</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hs</span> : <span class="fn"><span class="fn">s</span>.<span class="fn">Nonempty</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">α</span> → <span class="fn">β</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">y</span> : <span class="fn">β</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_le</span> : <span class="fn">∀ <span class="fn">i</span> ∈ <span class="fn">s</span>, <span class="fn"><span class="fn">y</span> <span class="fn">≤</span> <span class="fn"><span class="fn">f</span> <span class="fn">i</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_exists</span> : <span class="fn">∃ <span class="fn">i</span> ∈ <span class="fn">s</span>, <span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">i</span></span> <span class="fn">=</span> <span class="fn">y</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">s</span>.<span class="fn">inf'</span></span> <span class="fn">hs</span> <span class="fn">f</span></span> <span class="fn">=</span> <span class="fn">y</span></span></div></div><p>If a value <code>y</code> is a lower bound for a function <code>f</code> over a non-empty finset <code>s</code> and is
+also attained by <code>f</code> for some element in <code>s</code>, then <code>y</code> is the infimum of <code>f</code> over <code>s</code>.</p></div></div><div class="decl" id="ne_zero_of_mem_stdSimplex"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L461-L475">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#ne_zero_of_mem_stdSimplex"><span class="name">ne_zero_of_mem_stdSimplex</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nonempty</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">x</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hx</span> : <span class="fn"><span class="fn">x</span> <span class="fn">∈</span> <span class="fn"><span class="fn">stdSimplex</span> <span class="fn">ℝ</span> <span class="fn">n</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">x</span> <span class="fn">≠</span> <span class="fn">0</span></span></div></div><p>If a vector <code>x</code> lies in the standard simplex, then it cannot be the zero vector.
+Indeed, the coordinates of a simplex‐vector sum to <code>1</code>, whereas the coordinates of
+the zero vector sum to <code>0</code>.</p></div></div><div class="decl" id="Real.le_sSup"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L477-L479">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#Real.le_sSup"><span class="name">Real</span>.<span class="name">le_sSup</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><span class="fn">Set</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">y</span> : <span class="fn">ℝ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">h_mem</span> : <span class="fn"><span class="fn">y</span> <span class="fn">∈</span> <span class="fn">s</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_bdd</span> : <span class="fn"><span class="fn">BddAbove</span> <span class="fn">s</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">y</span> <span class="fn">≤</span> <span class="fn"><span class="fn">sSup</span> <span class="fn">s</span></span></span></div></div></div></div><div class="decl" id="csSup_image'"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L481-L487">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#csSup_image'"><span class="name">csSup_image'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">ConditionallyCompleteLattice</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">β</span> → <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><span class="fn">Set</span> <span class="fn">β</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hs</span> : <span class="fn"><span class="fn">s</span>.<span class="fn">Nonempty</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hb</span> : <span class="fn"><span class="fn">BddAbove</span> <span class="fn">(<span class="fn">f</span> <span class="fn">''</span> <span class="fn">s</span>)</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">sSup</span> <span class="fn">(<span class="fn">f</span> <span class="fn">''</span> <span class="fn">s</span>)</span></span> <span class="fn">=</span> <span class="fn">⨆ (<span class="fn">i</span> : <span class="fn">↑<span class="fn">s</span></span>), <span class="fn"><span class="fn">f</span> <span class="fn">↑<span class="fn">i</span></span></span></span></span></div></div><p>The supremum of the image of <code>s</code> under <code>f</code> equals the indexed supremum over the subtype.</p></div></div><div class="decl" id="iSup_eq_sSup"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L489-L494">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#iSup_eq_sSup"><span class="name">iSup_eq_sSup</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">β</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">ConditionallyCompleteLattice</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">β</span> → <span class="fn">α</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">s</span> : <span class="fn"><span class="fn">Set</span> <span class="fn">β</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">⨆ (<span class="fn">i</span> : <span class="fn">↑<span class="fn">s</span></span>), <span class="fn"><span class="fn">f</span> <span class="fn">↑<span class="fn">i</span></span></span></span> <span class="fn">=</span> <span class="fn"><span class="fn">sSup</span> <span class="fn">(<span class="fn">f</span> <span class="fn">''</span> <span class="fn">s</span>)</span></span></span></div></div></div></div><div class="decl" id="Matrix.dotProduct_pos_of_pos_of_pos"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L498-L506">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#Matrix.dotProduct_pos_of_pos_of_pos"><span class="name">Matrix</span>.<span class="name">dotProduct_pos_of_pos_of_pos</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nonempty</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">u </span><span class="fn">v</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hu_pos</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">u</span> <span class="fn">i</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hv_pos</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">v</span> <span class="fn">i</span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">u</span> <span class="fn">⬝ᵥ</span> <span class="fn">v</span></span></span></div></div><p>The dot product of two strictly positive vectors is positive.</p></div></div><div class="decl" id="Matrix.dotProduct_pos_of_pos_of_nonneg_ne_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L508-L525">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#Matrix.dotProduct_pos_of_pos_of_nonneg_ne_zero"><span class="name">Matrix</span>.<span class="name">dotProduct_pos_of_pos_of_nonneg_ne_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">u </span><span class="fn">v</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hu_pos</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">u</span> <span class="fn">i</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hv_nonneg</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">v</span> <span class="fn">i</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hv_ne_zero</span> : <span class="fn"><span class="fn">v</span> <span class="fn">≠</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn"><span class="fn">u</span> <span class="fn">⬝ᵥ</span> <span class="fn">v</span></span></span></div></div><p>The dot product of a positive vector with a non-negative, non-zero vector is positive.</p></div></div><div class="decl" id="Matrix.dotProduct_smul_left"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L527-L532">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#Matrix.dotProduct_smul_left"><span class="name">Matrix</span>.<span class="name">dotProduct_smul_left</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <span class="fn">ℝ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">v </span><span class="fn">w</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">c</span> <span class="fn">•</span> <span class="fn">v</span></span> <span class="fn">⬝ᵥ</span> <span class="fn">w</span></span> <span class="fn">=</span> <span class="fn"><span class="fn">c</span> <span class="fn">*</span> <span class="fn"><span class="fn">v</span> <span class="fn">⬝ᵥ</span> <span class="fn">w</span></span></span></span></div></div><p>Dot‐product is linear in the first argument.</p></div></div><div class="decl" id="Matrix.dotProduct_smul_right"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L534-L538">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#Matrix.dotProduct_smul_right"><span class="name">Matrix</span>.<span class="name">dotProduct_smul_right</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">c</span> : <span class="fn">ℝ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">v </span><span class="fn">w</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">v</span> <span class="fn">⬝ᵥ</span> <span class="fn"><span class="fn">c</span> <span class="fn">•</span> <span class="fn">w</span></span></span> <span class="fn">=</span> <span class="fn"><span class="fn">c</span> <span class="fn">*</span> <span class="fn"><span class="fn">v</span> <span class="fn">⬝ᵥ</span> <span class="fn">w</span></span></span></span></div></div><p>The dot product is linear in the right argument.</p></div></div><div class="decl" id="Matrix.dotProduct_le_dotProduct_of_nonneg"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L540-L551">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#Matrix.dotProduct_le_dotProduct_of_nonneg"><span class="name">Matrix</span>.<span class="name">dotProduct_le_dotProduct_of_nonneg</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">u </span><span class="fn">v </span><span class="fn">w</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hu_nonneg</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">u</span> <span class="fn">i</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_le</span> : <span class="fn"><span class="fn">v</span> <span class="fn">≤</span> <span class="fn">w</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">u</span> <span class="fn">⬝ᵥ</span> <span class="fn">v</span></span> <span class="fn">≤</span> <span class="fn"><span class="fn">u</span> <span class="fn">⬝ᵥ</span> <span class="fn">w</span></span></span></div></div><p>If <code>u</code> is a non-negative vector and <code>v ≤ w</code> component-wise, then <code>u ⬝ᵥ v ≤ u ⬝ᵥ w</code>.
+This is because the dot product is a sum of products, and multiplying by non-negative
+numbers preserves the inequality.</p></div></div><div class="decl" id="Matrix.dotProduct_mulVec_assoc"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L553-L563">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#Matrix.dotProduct_mulVec_assoc"><span class="name">Matrix</span>.<span class="name">dotProduct_mulVec_assoc</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">v </span><span class="fn">w</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">v</span> <span class="fn">⬝ᵥ</span> <span class="fn"><span class="fn"><span class="fn">A</span>.<span class="fn">mulVec</span></span> <span class="fn">w</span></span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn"><span class="fn">A</span>.<span class="fn">transpose</span></span>.<span class="fn">mulVec</span></span> <span class="fn">v</span></span> <span class="fn">⬝ᵥ</span> <span class="fn">w</span></span></span></div></div><p>The dot product is &quot;associative&quot; with matrix-vector multiplication, in the sense
+that <code>v ⬝ᵥ (A *ᵥ w) = (Aᵀ *ᵥ v) ⬝ᵥ w</code>. This is a consequence of the definition of
+the matrix transpose and dot product.</p></div></div><div class="decl" id="Matrix.matrix_mulVec_component"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L566-L569">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#Matrix.matrix_mulVec_component"><span class="name">Matrix</span>.<span class="name">matrix_mulVec_component</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">v</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">j</span> : <span class="fn">n</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">A</span>.<span class="fn">mulVec</span></span> <span class="fn">v</span> <span class="fn">j</span></span> <span class="fn">=</span> <span class="fn">∑ <span class="fn">i</span> : <span class="fn">n</span>, <span class="fn"><span class="fn"><span class="fn">A</span> <span class="fn">j</span> <span class="fn">i</span></span> <span class="fn">*</span> <span class="fn"><span class="fn">v</span> <span class="fn">i</span></span></span></span></span></div></div></div></div><div class="decl" id="Matrix.transpose_mulVec"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L571-L581">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#Matrix.transpose_mulVec"><span class="name">Matrix</span>.<span class="name">transpose_mulVec</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">v </span><span class="fn">w</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">v</span> <span class="fn">⬝ᵥ</span> <span class="fn"><span class="fn"><span class="fn">A</span>.<span class="fn">mulVec</span></span> <span class="fn">w</span></span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn"><span class="fn">A</span>.<span class="fn">transpose</span></span>.<span class="fn">mulVec</span></span> <span class="fn">v</span></span> <span class="fn">⬝ᵥ</span> <span class="fn">w</span></span></span></div></div><p>The dot product <code>v ⬝ᵥ (A *ᵥ w)</code> can be rewritten by moving the matrix <code>A</code>
+to the other argument, where it becomes its transpose <code>Aᵀ</code>.</p></div></div><div class="decl" id="Matrix.dotProduct_mulVec_comm"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L583-L590">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#Matrix.dotProduct_mulVec_comm"><span class="name">Matrix</span>.<span class="name">dotProduct_mulVec_comm</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">u </span><span class="fn">v</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">A</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">u</span> <span class="fn">⬝ᵥ</span> <span class="fn"><span class="fn"><span class="fn">A</span>.<span class="fn">mulVec</span></span> <span class="fn">v</span></span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><span class="fn"><span class="fn"><span class="fn">A</span>.<span class="fn">transpose</span></span>.<span class="fn">mulVec</span></span> <span class="fn">u</span></span> <span class="fn">⬝ᵥ</span> <span class="fn">v</span></span></span></div></div><p>Commutativity property for dot product with matrix-vector multiplication.
+For vectors <code>u</code>, <code>v</code> and matrix <code>A</code>: <code>u ⬝ᵥ (A *ᵥ v) = (A *ᵥ u) ⬝ᵥ v</code>.
+This follows from the fact that <code>u ⬝ᵥ (A *ᵥ v) = u ᵥ* A ⬝ᵥ v = (Aᵀ *ᵥ u) ⬝ᵥ v</code>.</p></div></div><div class="decl" id="Matrix.diagonal_mulVec_ones"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L593-L595">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#Matrix.diagonal_mulVec_ones"><span class="name">Matrix</span>.<span class="name">diagonal_mulVec_ones</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">d</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">(<span class="fn"><span class="fn">(<span class="fn">diagonal</span> <span class="fn">d</span>)</span>.<span class="fn">mulVec</span></span> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">n</span>) =&gt; <span class="fn">1</span></span>)</span> <span class="fn">=</span> <span class="fn">d</span></span></div></div></div></div><div class="decl" id="Matrix.diagonal_inv_mulVec_self"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L598-L602">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#Matrix.diagonal_inv_mulVec_self"><span class="name">Matrix</span>.<span class="name">diagonal_inv_mulVec_self</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">d</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hd</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">n</span>), <span class="fn"><span class="fn"><span class="fn">d</span> <span class="fn">i</span></span> <span class="fn">≠</span> <span class="fn">0</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">diagonal</span> <span class="fn"><span class="fn">d</span><span class="fn">⁻¹</span></span>)</span>.<span class="fn">mulVec</span></span> <span class="fn">d</span></span> <span class="fn">=</span> <span class="fn">fun (<span class="fn">x</span> : <span class="fn">n</span>) =&gt; <span class="fn">1</span></span></span></div></div></div></div><div class="decl" id="Matrix.diagonal_mulVec_diagonal_inv_mulVec"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L604-L608">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#Matrix.diagonal_mulVec_diagonal_inv_mulVec"><span class="name">Matrix</span>.<span class="name">diagonal_mulVec_diagonal_inv_mulVec</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">d </span><span class="fn">x</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hd</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">n</span>), <span class="fn"><span class="fn"><span class="fn">d</span> <span class="fn">i</span></span> <span class="fn">≠</span> <span class="fn">0</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">diagonal</span> <span class="fn">d</span>)</span>.<span class="fn">mulVec</span></span> <span class="fn">(<span class="fn"><span class="fn">(<span class="fn">diagonal</span> <span class="fn"><span class="fn">d</span><span class="fn">⁻¹</span></span>)</span>.<span class="fn">mulVec</span></span> <span class="fn">x</span>)</span></span> <span class="fn">=</span> <span class="fn">x</span></span></div></div></div></div><div class="decl" id="Matrix.diagonal_mulVec_mono"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L610-L615">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#Matrix.diagonal_mulVec_mono"><span class="name">Matrix</span>.<span class="name">diagonal_mulVec_mono</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">d </span><span class="fn">x </span><span class="fn">y</span> : <span class="fn"><span class="fn">n</span> → <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hd_nonneg</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">d</span> <span class="fn">i</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hxy</span> : <span class="fn"><span class="fn">x</span> <span class="fn">≤</span> <span class="fn">y</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn"><span class="fn">(<span class="fn">diagonal</span> <span class="fn">d</span>)</span>.<span class="fn">mulVec</span></span> <span class="fn">x</span></span> <span class="fn">≤</span> <span class="fn"><span class="fn"><span class="fn">(<span class="fn">diagonal</span> <span class="fn">d</span>)</span>.<span class="fn">mulVec</span></span> <span class="fn">y</span></span></span></div></div></div></div><div class="decl" id="iSup_eq_sSup_image"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L622-L624">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#iSup_eq_sSup_image"><span class="name">iSup_eq_sSup_image</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">α</span> : <a href="../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../.././foundational_types.html">Type</a> u_3}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">f</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">α</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">s</span> : <span class="fn"><span class="fn">Set</span> <span class="fn">ι</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">ConditionallyCompleteLattice</span> <span class="fn">α</span></span>]</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">⨆ (<span class="fn">x</span> : <span class="fn">↑<span class="fn">s</span></span>), <span class="fn"><span class="fn">f</span> <span class="fn">↑<span class="fn">x</span></span></span></span> <span class="fn">=</span> <span class="fn"><span class="fn">sSup</span> <span class="fn">(<span class="fn">f</span> <span class="fn">''</span> <span class="fn">s</span>)</span></span></span></div></div></div></div><div class="decl" id="eq_zero_of_sum_eq_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/aux.lean#L626-L633">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/PF/aux.html#eq_zero_of_sum_eq_zero"><span class="name">eq_zero_of_sum_eq_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">ι</span> : <a href="../.././foundational_types.html">Type</a> u_4}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">ι</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">f</span> : <span class="fn"><span class="fn">ι</span> → <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hf</span> : <span class="fn">∀ (<span class="fn">i</span> : <span class="fn">ι</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">f</span> <span class="fn">i</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hsum</span> : <span class="fn"><span class="fn">∑ <span class="fn">j</span> : <span class="fn">ι</span>, <span class="fn"><span class="fn">f</span> <span class="fn">j</span></span></span> <span class="fn">=</span> <span class="fn">0</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">i</span> : <span class="fn">ι</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">f</span> <span class="fn">i</span></span> <span class="fn">=</span> <span class="fn">0</span></span></div></div></div></div></main>
+<nav class="nav"><iframe src="../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>
