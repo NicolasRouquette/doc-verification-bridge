@@ -1,0 +1,175 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../.././style.css"></link><link rel="icon" href="../.././favicon.svg"></link><link rel="mask-icon" href="../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../.././/declarations/declaration-data.bmp" as="image"></link><title>MCMC.Finite.MetropolisHastings</title><script defer="true" src="../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../.././";</script><script>const MODULE_NAME="MCMC.Finite.MetropolisHastings";</script><script type="module" src="../.././jump-src.js"></script><script type="module" src="../.././search.js"></script><script type="module" src="../.././expand-nav.js"></script><script type="module" src="../.././how-about.js"></script><script type="module" src="../.././instances.js"></script><script type="module" src="../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">MetropolisHastings</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/MetropolisHastings.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../.././Init.html">Init</a></li><li><a href="../.././MCMC/Finite/Core.html">MCMC.Finite.Core</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-MCMC.Finite.MetropolisHastings" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#MCMC.Finite.IsReversible"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">IsReversible</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Finite.IsReversible.is_stationary"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">IsReversible</span>.<span class="name">is_stationary</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Finite.IsMCMC'"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">IsMCMC'</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Finite.mh_acceptance_prob"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">mh_acceptance_prob</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Finite.metropolisHastingsKernel"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">metropolisHastingsKernel</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Finite.mh_acceptance_prob_bounds"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">mh_acceptance_prob_bounds</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Finite.metropolisHastings_is_stochastic"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">metropolisHastings_is_stochastic</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Finite.mul_min_one_div_eq_min"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">mul_min_one_div_eq_min</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Finite.metropolisHastings_is_reversible"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">metropolisHastings_is_reversible</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Finite.metropolisHastings_is_stationary"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">metropolisHastings_is_stationary</span></a></div><div class="nav_link"><a class="break_within" href="#MCMC.Finite.isMCMC_MetropolisHastings"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">isMCMC_MetropolisHastings</span></a></div></nav><main>
+<div class="decl" id="MCMC.Finite.IsReversible"><div class="def"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/MetropolisHastings.lean#L12-L13">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Finite_MetropolisHastings.html#MCMC.Finite.IsReversible" class="verification-badge math-definition" title="Mathematical definition (Prop-valued)">🔹 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/Finite/MetropolisHastings.html#MCMC.Finite.IsReversible"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">IsReversible</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">π</span> : <span class="fn">↑<span class="fn">(<span class="fn">stdSimplex</span> <span class="fn">ℝ</span> <span class="fn">n</span>)</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../.././foundational_types.html">Prop</a></div></div><details id="instances-for-list-MCMC.Finite.IsReversible" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="MCMC.Finite.IsReversible.is_stationary"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/MetropolisHastings.lean#L15-L26">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Finite_MetropolisHastings.html#MCMC.Finite.IsReversible.is_stationary" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/Finite/MetropolisHastings.html#MCMC.Finite.IsReversible.is_stationary"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">IsReversible</span>.<span class="name">is_stationary</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">P</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">π</span> : <span class="fn">↑<span class="fn">(<span class="fn">stdSimplex</span> <span class="fn">ℝ</span> <span class="fn">n</span>)</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hP_stoch</span> : <span class="fn"><a href="../.././MCMC/Finite/Core.html#MCMC.Finite.IsStochastic">IsStochastic</a> <span class="fn">P</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">h_rev</span> : <span class="fn"><a href="../.././MCMC/Finite/MetropolisHastings.html#MCMC.Finite.IsReversible">IsReversible</a> <span class="fn">P</span> <span class="fn">π</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././MCMC/Finite/Core.html#MCMC.Finite.IsStationary">IsStationary</a> <span class="fn">P</span> <span class="fn">π</span></span></div></div></div></div><div class="decl" id="MCMC.Finite.IsMCMC'"><div class="class"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/MetropolisHastings.lean#L28-L32">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Finite_MetropolisHastings.html#MCMC.Finite.IsMCMC'" class="verification-badge comp-datatype" title="Computational datatype">🔶 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">class</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/Finite/MetropolisHastings.html#MCMC.Finite.IsMCMC'"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">IsMCMC'</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">P</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">π</span> : <span class="fn">↑<span class="fn">(<span class="fn">stdSimplex</span> <span class="fn">ℝ</span> <span class="fn">n</span>)</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../.././foundational_types.html">Prop</a></div></div><ul class="structure_fields" id="MCMC.Finite.IsMCMC'.mk"><li id="MCMC.Finite.IsMCMC'.stochastic" class="structure_field"><div class="structure_field_info">stochastic : <span class="fn"><a href="../.././MCMC/Finite/Core.html#MCMC.Finite.IsStochastic">IsStochastic</a> <span class="fn">P</span></span></div></li><li id="MCMC.Finite.IsMCMC'.stationary" class="structure_field"><div class="structure_field_info">stationary : <span class="fn"><a href="../.././MCMC/Finite/Core.html#MCMC.Finite.IsStationary">IsStationary</a> <span class="fn">P</span> <span class="fn">π</span></span></div></li><li id="MCMC.Finite.IsMCMC'.irreducible" class="structure_field"><div class="structure_field_info">irreducible : <span class="fn"><span class="fn">P</span>.<span class="fn">IsIrreducible</span></span></div></li><li id="MCMC.Finite.IsMCMC'.primitive" class="structure_field"><div class="structure_field_info">primitive : <span class="fn"><span class="fn">P</span>.<span class="fn">IsPrimitive</span></span></div></li></ul><details class="instances"><summary>Instances</summary><ul id="instances-list-MCMC.Finite.IsMCMC'" class="instances-list"></ul></details></div></div><div class="mod_doc"><h3 id="Algorithm-Definitions-Metropolis-Hastings" class="markdown-heading">Algorithm Definitions - Metropolis-Hastings <a class="hover-link" href="#Algorithm-Definitions-Metropolis-Hastings">#</a></h3></div><div class="decl" id="MCMC.Finite.mh_acceptance_prob"><div class="def"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/MetropolisHastings.lean#L38-L51">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Finite_MetropolisHastings.html#MCMC.Finite.mh_acceptance_prob" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/Finite/MetropolisHastings.html#MCMC.Finite.mh_acceptance_prob"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">mh_acceptance_prob</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">π</span> : <span class="fn">↑<span class="fn">(<span class="fn">stdSimplex</span> <span class="fn">ℝ</span> <span class="fn">n</span>)</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">Q</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x </span><span class="fn">y</span> : <span class="fn">n</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn">ℝ</span></div></div><p>The acceptance probability for a Metropolis-Hastings step.
+A(x, y) = min(1, (π(y) * Q(y, x)) / (π(x) * Q(x, y))).</p><p>If the denominator is 0, the move is impossible to propose from x (if π(x)&gt;0),
+or x is unreachable under π. We define the acceptance probability as 1 in this case.</p><details id="instances-for-list-MCMC.Finite.mh_acceptance_prob" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="MCMC.Finite.metropolisHastingsKernel"><div class="def"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/MetropolisHastings.lean#L53-L66">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Finite_MetropolisHastings.html#MCMC.Finite.metropolisHastingsKernel" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">noncomputable def</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/Finite/MetropolisHastings.html#MCMC.Finite.metropolisHastingsKernel"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">metropolisHastingsKernel</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">π</span> : <span class="fn">↑<span class="fn">(<span class="fn">stdSimplex</span> <span class="fn">ℝ</span> <span class="fn">n</span>)</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">Q</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span></div></div><p>The Metropolis-Hastings transition kernel (matrix).
+It is constructed by calculating the probability of proposal and acceptance (P_proposal),
+and then adding the remaining &quot;rejection mass&quot; (R) back to the diagonal to ensure stochasticity.
+P(x, y) = P_proposal(x, y) + δ(x, y) * R(x).</p><details id="instances-for-list-MCMC.Finite.metropolisHastingsKernel" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="MCMC.Finite.mh_acceptance_prob_bounds"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/MetropolisHastings.lean#L70-L89">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Finite_MetropolisHastings.html#MCMC.Finite.mh_acceptance_prob_bounds" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/Finite/MetropolisHastings.html#MCMC.Finite.mh_acceptance_prob_bounds"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">mh_acceptance_prob_bounds</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">π</span> : <span class="fn">↑<span class="fn">(<span class="fn">stdSimplex</span> <span class="fn">ℝ</span> <span class="fn">n</span>)</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Q</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hQ_nonneg</span> : <span class="fn">∀ (<span class="fn">i </span><span class="fn">j</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">Q</span> <span class="fn">i</span> <span class="fn">j</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">x </span><span class="fn">y</span> : <span class="fn">n</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><a href="../.././MCMC/Finite/MetropolisHastings.html#MCMC.Finite.mh_acceptance_prob">mh_acceptance_prob</a> <span class="fn">π</span> <span class="fn">Q</span> <span class="fn">x</span> <span class="fn">y</span></span></span> <span class="fn">∧</span> <span class="fn"><span class="fn"><a href="../.././MCMC/Finite/MetropolisHastings.html#MCMC.Finite.mh_acceptance_prob">mh_acceptance_prob</a> <span class="fn">π</span> <span class="fn">Q</span> <span class="fn">x</span> <span class="fn">y</span></span> <span class="fn">≤</span> <span class="fn">1</span></span></span></div></div><p>Helper lemma: The acceptance probability is bounded between 0 and 1.</p></div></div><div class="decl" id="MCMC.Finite.metropolisHastings_is_stochastic"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/MetropolisHastings.lean#L91-L133">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Finite_MetropolisHastings.html#MCMC.Finite.metropolisHastings_is_stochastic" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/Finite/MetropolisHastings.html#MCMC.Finite.metropolisHastings_is_stochastic"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">metropolisHastings_is_stochastic</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">π</span> : <span class="fn">↑<span class="fn">(<span class="fn">stdSimplex</span> <span class="fn">ℝ</span> <span class="fn">n</span>)</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Q</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hQ_stoch</span> : <span class="fn"><a href="../.././MCMC/Finite/Core.html#MCMC.Finite.IsStochastic">IsStochastic</a> <span class="fn">Q</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././MCMC/Finite/Core.html#MCMC.Finite.IsStochastic">IsStochastic</a> <span class="fn">(<a href="../.././MCMC/Finite/MetropolisHastings.html#MCMC.Finite.metropolisHastingsKernel">metropolisHastingsKernel</a> <span class="fn">π</span> <span class="fn">Q</span>)</span></span></div></div><p>The MH kernel is stochastic.</p></div></div><div class="decl" id="MCMC.Finite.mul_min_one_div_eq_min"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/MetropolisHastings.lean#L135-L154">source</a></div><div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/Finite/MetropolisHastings.html#MCMC.Finite.mul_min_one_div_eq_min"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">mul_min_one_div_eq_min</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">a </span><span class="fn">b</span> : <span class="fn">ℝ</span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">ha_pos</span> : <span class="fn"><span class="fn">0</span> <span class="fn">&lt;</span> <span class="fn">a</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">_hn_in</span> : <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn">b</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><span class="fn">a</span> <span class="fn">*</span> <span class="fn"><span class="fn">min</span> <span class="fn">1</span> <span class="fn">(<span class="fn">b</span> <span class="fn">/</span> <span class="fn">a</span>)</span></span></span> <span class="fn">=</span> <span class="fn"><span class="fn">min</span> <span class="fn">a</span> <span class="fn">b</span></span></span></div></div><p>Helper lemma: For a &gt; 0 and b ≥ 0: a * min(1, b/a) = min(a, b).
+This identity is central to the proof of detailed balance.</p></div></div><div class="decl" id="MCMC.Finite.metropolisHastings_is_reversible"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/MetropolisHastings.lean#L157-L210">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Finite_MetropolisHastings.html#MCMC.Finite.metropolisHastings_is_reversible" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/Finite/MetropolisHastings.html#MCMC.Finite.metropolisHastings_is_reversible"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">metropolisHastings_is_reversible</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">π</span> : <span class="fn">↑<span class="fn">(<span class="fn">stdSimplex</span> <span class="fn">ℝ</span> <span class="fn">n</span>)</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Q</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hQ_nonneg</span> : <span class="fn">∀ (<span class="fn">i </span><span class="fn">j</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">Q</span> <span class="fn">i</span> <span class="fn">j</span></span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././MCMC/Finite/MetropolisHastings.html#MCMC.Finite.IsReversible">IsReversible</a> <span class="fn">(<a href="../.././MCMC/Finite/MetropolisHastings.html#MCMC.Finite.metropolisHastingsKernel">metropolisHastingsKernel</a> <span class="fn">π</span> <span class="fn">Q</span>)</span> <span class="fn">π</span></span></div></div><p>Theorem: The MH kernel satisfies the detailed balance condition (reversibility)
+with respect to π. This proof is robust and does not require π to be strictly positive.</p></div></div><div class="decl" id="MCMC.Finite.metropolisHastings_is_stationary"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/MetropolisHastings.lean#L212-L219">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Finite_MetropolisHastings.html#MCMC.Finite.metropolisHastings_is_stationary" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/Finite/MetropolisHastings.html#MCMC.Finite.metropolisHastings_is_stationary"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">metropolisHastings_is_stationary</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">π</span> : <span class="fn">↑<span class="fn">(<span class="fn">stdSimplex</span> <span class="fn">ℝ</span> <span class="fn">n</span>)</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Q</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hQ_stoch</span> : <span class="fn"><a href="../.././MCMC/Finite/Core.html#MCMC.Finite.IsStochastic">IsStochastic</a> <span class="fn">Q</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././MCMC/Finite/Core.html#MCMC.Finite.IsStationary">IsStationary</a> <span class="fn">(<a href="../.././MCMC/Finite/MetropolisHastings.html#MCMC.Finite.metropolisHastingsKernel">metropolisHastingsKernel</a> <span class="fn">π</span> <span class="fn">Q</span>)</span> <span class="fn">π</span></span></div></div><p>The Metropolis-Hastings kernel has π as its stationary distribution.</p></div></div><div class="decl" id="MCMC.Finite.isMCMC_MetropolisHastings"><div class="def"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/Finite/MetropolisHastings.lean#L221-L234">source</a></div><div class="verification_link">
+<a href="../../../modules/MCMC_Finite_MetropolisHastings.html#MCMC.Finite.isMCMC_MetropolisHastings" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../.././MCMC/Finite/MetropolisHastings.html#MCMC.Finite.isMCMC_MetropolisHastings"><span class="name">MCMC</span>.<span class="name">Finite</span>.<span class="name">isMCMC_MetropolisHastings</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">π</span> : <span class="fn">↑<span class="fn">(<span class="fn">stdSimplex</span> <span class="fn">ℝ</span> <span class="fn">n</span>)</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">Q</span> : <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hQ_stoch</span> : <span class="fn"><a href="../.././MCMC/Finite/Core.html#MCMC.Finite.IsStochastic">IsStochastic</a> <span class="fn">Q</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hP_irred</span> : <span class="fn"><span class="fn">(<a href="../.././MCMC/Finite/MetropolisHastings.html#MCMC.Finite.metropolisHastingsKernel">metropolisHastingsKernel</a> <span class="fn">π</span> <span class="fn">Q</span>)</span>.<span class="fn">IsIrreducible</span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hP_prim</span> : <span class="fn"><span class="fn">(<a href="../.././MCMC/Finite/MetropolisHastings.html#MCMC.Finite.metropolisHastingsKernel">metropolisHastingsKernel</a> <span class="fn">π</span> <span class="fn">Q</span>)</span>.<span class="fn">IsPrimitive</span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../.././MCMC/Finite/Core.html#MCMC.Finite.IsMCMC">IsMCMC</a> <span class="fn">(<a href="../.././MCMC/Finite/MetropolisHastings.html#MCMC.Finite.metropolisHastingsKernel">metropolisHastingsKernel</a> <span class="fn">π</span> <span class="fn">Q</span>)</span> <span class="fn">π</span></span></div></div><p>The IsMCMC instance for the Metropolis-Hastings algorithm.
+Stochasticity and Stationarity are guaranteed by construction. Irreducibility and
+Primitivity depend on the properties of Q and π and must be supplied.</p><details id="instances-for-list-MCMC.Finite.isMCMC_MetropolisHastings" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div></main>
+<nav class="nav"><iframe src="../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>

@@ -1,0 +1,189 @@
+<html lang="en"><head><meta charset="UTF-8"></meta><meta name="viewport" content="width=device-width, initial-scale=1"></meta><link rel="stylesheet" href="../../../../.././style.css"></link><link rel="icon" href="../../../../.././favicon.svg"></link><link rel="mask-icon" href="../../../../.././favicon.svg" color="#000000"></link><link rel="prefetch" href="../../../../.././/declarations/declaration-data.bmp" as="image"></link><title>MCMC.PF.LinearAlgebra.Matrix.PerronFrobenius.Ergodicity</title><script defer="true" src="../../../../.././mathjax-config.js"></script><script defer="true" src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script><script defer="true" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script><script>const SITE_ROOT="../../../../.././";</script><script>const MODULE_NAME="MCMC.PF.LinearAlgebra.Matrix.PerronFrobenius.Ergodicity";</script><script type="module" src="../../../../.././jump-src.js"></script><script type="module" src="../../../../.././search.js"></script><script type="module" src="../../../../.././expand-nav.js"></script><script type="module" src="../../../../.././how-about.js"></script><script type="module" src="../../../../.././instances.js"></script><script type="module" src="../../../../.././importedBy.js"></script></head><body><input id="nav_toggle" type="checkbox"></input><header><h1><label for="nav_toggle"></label><span>Documentation</span></h1><h2 class="header_filename break_within"><span class="name">MCMC</span>.<span class="name">PF</span>.<span class="name">LinearAlgebra</span>.<span class="name">Matrix</span>.<span class="name">PerronFrobenius</span>.<span class="name">Ergodicity</span></h2><form id="search_form"><input type="text" name="q" autocomplete="off"></input>&#32;<button id="search_button" onclick="javascript: form.action='../../../../.././search.html';">Search</button></form></header><nav class="internal_nav"><p><a href="#top">return to top</a></p><p class="gh_nav_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.lean">source</a></p><div class="imports"><details><summary>Imports</summary><ul><li><a href="../../../../.././Init.html">Init</a></li><li><a href="../../../../.././MCMC/Finite/Core.html">MCMC.Finite.Core</a></li><li><a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/ProjectiveMetric.html">MCMC.PF.LinearAlgebra.Matrix.PerronFrobenius.ProjectiveMetric</a></li></ul></details><details><summary>Imported by</summary><ul id="imported-by-MCMC.PF.LinearAlgebra.Matrix.PerronFrobenius.Ergodicity" class="imported-by-list"></ul></details></div><div class="nav_link"><a class="break_within" href="#Matrix.forwardProd"><span class="name">Matrix</span>.<span class="name">forwardProd</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.forwardProd_zero"><span class="name">Matrix</span>.<span class="name">forwardProd_zero</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.forwardProd_succ"><span class="name">Matrix</span>.<span class="name">forwardProd_succ</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.IsWeaklyErgodic"><span class="name">Matrix</span>.<span class="name">IsWeaklyErgodic</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.IsWeaklyErgodicRatio"><span class="name">Matrix</span>.<span class="name">IsWeaklyErgodicRatio</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.IsStronglyErgodic"><span class="name">Matrix</span>.<span class="name">IsStronglyErgodic</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.forwardProd_nonneg"><span class="name">Matrix</span>.<span class="name">forwardProd_nonneg</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.forwardProd_isStochastic"><span class="name">Matrix</span>.<span class="name">forwardProd_isStochastic</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.weaklyErgodicRatio_iff_tendsto_birkhoffContraction_zero"><span class="name">Matrix</span>.<span class="name">weaklyErgodicRatio_iff_tendsto_birkhoffContraction_zero</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.stronglyErgodic_implies_weaklyErgodic"><span class="name">Matrix</span>.<span class="name">stronglyErgodic_implies_weaklyErgodic</span></a></div><div class="nav_link"><a class="break_within" href="#Matrix.weaklyErgodicRatio_of_tendsto_rows_to_positive"><span class="name">Matrix</span>.<span class="name">weaklyErgodicRatio_of_tendsto_rows_to_positive</span></a></div></nav><main>
+<div class="mod_doc"><h1 id="Inhomogeneous-products-and-ergodicity" class="markdown-heading">Inhomogeneous products and ergodicity <a class="hover-link" href="#Inhomogeneous-products-and-ergodicity">#</a></h1><p>This file contains the Chapter 3 scaffold for inhomogeneous products of nonnegative matrices.</p><p>The basic multiplicative object is <code><a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.html#Matrix.forwardProd">Matrix.forwardProd</a></code>. Weak and strong ergodicity are stated in
+forms adapted to the existing finite-matrix API, with the projective-metric formulation expressed
+through <code><a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/ProjectiveMetric.html#Matrix.birkhoffContraction">Matrix.birkhoffContraction</a></code>.</p></div><div class="decl" id="Matrix.forwardProd"><div class="def"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.lean#L23-L30">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/MCMC_PF_LinearAlgebra_Matrix_PerronFrobenius_Ergodicity.html#Matrix.forwardProd" class="verification-badge comp-operation" title="Computational operation (Bool/decidable)">🔸 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.html#Matrix.forwardProd"><span class="name">Matrix</span>.<span class="name">forwardProd</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Semiring</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">H</span> : <span class="fn"><span class="fn">ℕ</span> → <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">R</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">p </span><span class="fn">r</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">R</span></span></div></div><p>The forward inhomogeneous product
+<code>H (p + 1) * H (p + 2) * ... * H (p + r)</code>.</p><details id="instances-for-list-Matrix.forwardProd" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Matrix.forwardProd_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.lean#L32-L34">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/MCMC_PF_LinearAlgebra_Matrix_PerronFrobenius_Ergodicity.html#Matrix.forwardProd_zero" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.html#Matrix.forwardProd_zero"><span class="name">Matrix</span>.<span class="name">forwardProd_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Semiring</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">H</span> : <span class="fn"><span class="fn">ℕ</span> → <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">R</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">p</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.html#Matrix.forwardProd">forwardProd</a> <span class="fn">H</span> <span class="fn">p</span> <span class="fn">0</span></span> <span class="fn">=</span> <span class="fn">1</span></span></div></div></div></div><div class="decl" id="Matrix.forwardProd_succ"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.lean#L36-L39">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/MCMC_PF_LinearAlgebra_Matrix_PerronFrobenius_Ergodicity.html#Matrix.forwardProd_succ" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="attributes">@[simp]</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.html#Matrix.forwardProd_succ"><span class="name">Matrix</span>.<span class="name">forwardProd_succ</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Semiring</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">H</span> : <span class="fn"><span class="fn">ℕ</span> → <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">R</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">p </span><span class="fn">r</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.html#Matrix.forwardProd">forwardProd</a> <span class="fn">H</span> <span class="fn">p</span> <span class="fn">(<span class="fn">r</span> <span class="fn">+</span> <span class="fn">1</span>)</span></span> <span class="fn">=</span> <span class="fn"><span class="fn"><a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.html#Matrix.forwardProd">forwardProd</a> <span class="fn">H</span> <span class="fn">p</span> <span class="fn">r</span></span> <span class="fn">*</span> <span class="fn"><span class="fn">H</span> <span class="fn">(<span class="fn"><span class="fn">p</span> <span class="fn">+</span> <span class="fn">r</span></span> <span class="fn">+</span> <span class="fn">1</span>)</span></span></span></span></div></div></div></div><div class="decl" id="Matrix.IsWeaklyErgodic"><div class="def"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.lean#L47-L53">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/MCMC_PF_LinearAlgebra_Matrix_PerronFrobenius_Ergodicity.html#Matrix.IsWeaklyErgodic" class="verification-badge math-definition" title="Mathematical definition (Prop-valued)">🔹 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.html#Matrix.IsWeaklyErgodic"><span class="name">Matrix</span>.<span class="name">IsWeaklyErgodic</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">H</span> : <span class="fn"><span class="fn">ℕ</span> → <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../../../.././foundational_types.html">Prop</a></div></div><p>Weak ergodicity in row-difference form: the rows of the forward products become asymptotically
+independent of the initial row.</p><details id="instances-for-list-Matrix.IsWeaklyErgodic" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Matrix.IsWeaklyErgodicRatio"><div class="def"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.lean#L55-L63">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/MCMC_PF_LinearAlgebra_Matrix_PerronFrobenius_Ergodicity.html#Matrix.IsWeaklyErgodicRatio" class="verification-badge math-definition" title="Mathematical definition (Prop-valued)">🔹 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.html#Matrix.IsWeaklyErgodicRatio"><span class="name">Matrix</span>.<span class="name">IsWeaklyErgodicRatio</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">H</span> : <span class="fn"><span class="fn">ℕ</span> → <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../../../.././foundational_types.html">Prop</a></div></div><p>Weak ergodicity in Seneta's ratio form.
+This is the natural formulation in the positive cone.</p><details id="instances-for-list-Matrix.IsWeaklyErgodicRatio" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Matrix.IsStronglyErgodic"><div class="def"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.lean#L65-L70">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/MCMC_PF_LinearAlgebra_Matrix_PerronFrobenius_Ergodicity.html#Matrix.IsStronglyErgodic" class="verification-badge math-definition" title="Mathematical definition (Prop-valued)">🔹 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">def</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.html#Matrix.IsStronglyErgodic"><span class="name">Matrix</span>.<span class="name">IsStronglyErgodic</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">H</span> : <span class="fn"><span class="fn">ℕ</span> → <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><a href="../../../../.././foundational_types.html">Prop</a></div></div><p>Strong ergodicity: every row of every forward product converges to the same limit vector.</p><details id="instances-for-list-Matrix.IsStronglyErgodic" class="instances-for-list"><summary>Instances For</summary><ul class="instances-for-enum"></ul></details></div></div><div class="decl" id="Matrix.forwardProd_nonneg"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.lean#L73-L89">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/MCMC_PF_LinearAlgebra_Matrix_PerronFrobenius_Ergodicity.html#Matrix.forwardProd_nonneg" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.html#Matrix.forwardProd_nonneg"><span class="name">Matrix</span>.<span class="name">forwardProd_nonneg</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">R</span> : <a href="../../../../.././foundational_types.html">Type</a> u_2}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Semiring</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">PartialOrder</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">IsOrderedRing</span> <span class="fn">R</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <span class="fn"><span class="fn">ℕ</span> → <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">R</span></span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hH_nonneg</span> : <span class="fn">∀ (<span class="fn">k</span> : <span class="fn">ℕ</span>) (<span class="fn">i </span><span class="fn">j</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">H</span> <span class="fn">k</span> <span class="fn">i</span> <span class="fn">j</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">p </span><span class="fn">r</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">i </span><span class="fn">j</span> : <span class="fn">n</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.html#Matrix.forwardProd">forwardProd</a> <span class="fn">H</span> <span class="fn">p</span> <span class="fn">r</span> <span class="fn">i</span> <span class="fn">j</span></span></span></div></div><p>Forward products preserve entrywise nonnegativity.</p></div></div><div class="decl" id="Matrix.forwardProd_isStochastic"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.lean#L92-L102">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/MCMC_PF_LinearAlgebra_Matrix_PerronFrobenius_Ergodicity.html#Matrix.forwardProd_isStochastic" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.html#Matrix.forwardProd_isStochastic"><span class="name">Matrix</span>.<span class="name">forwardProd_isStochastic</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <span class="fn"><span class="fn">ℕ</span> → <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hH_stoch</span> : <span class="fn">∀ (<span class="fn">k</span> : <span class="fn">ℕ</span>), <span class="fn"><a href="../../../../.././MCMC/Finite/Core.html#MCMC.Finite.IsStochastic">MCMC.Finite.IsStochastic</a> <span class="fn">(<span class="fn">H</span> <span class="fn">k</span>)</span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">p </span><span class="fn">r</span> : <span class="fn">ℕ</span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../../.././MCMC/Finite/Core.html#MCMC.Finite.IsStochastic">MCMC.Finite.IsStochastic</a> <span class="fn">(<a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.html#Matrix.forwardProd">forwardProd</a> <span class="fn">H</span> <span class="fn">p</span> <span class="fn">r</span>)</span></span></div></div><p>Forward products of stochastic matrices remain stochastic.</p></div></div><div class="decl sorried" id="Matrix.weaklyErgodicRatio_iff_tendsto_birkhoffContraction_zero"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.lean#L104-L113">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/MCMC_PF_LinearAlgebra_Matrix_PerronFrobenius_Ergodicity.html#Matrix.weaklyErgodicRatio_iff_tendsto_birkhoffContraction_zero" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name" title="declaration uses 'sorry'"><a class="break_within" href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.html#Matrix.weaklyErgodicRatio_iff_tendsto_birkhoffContraction_zero"><span class="name">Matrix</span>.<span class="name">weaklyErgodicRatio_iff_tendsto_birkhoffContraction_zero</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Nonempty</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <span class="fn"><span class="fn">ℕ</span> → <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hH_nonneg</span> : <span class="fn">∀ (<span class="fn">k</span> : <span class="fn">ℕ</span>) (<span class="fn">i </span><span class="fn">j</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">0</span> <span class="fn">≤</span> <span class="fn"><span class="fn">H</span> <span class="fn">k</span> <span class="fn">i</span> <span class="fn">j</span></span></span></span>)</span></span>
+<span class="decl_args">
+<span class="fn">(<span class="fn">hH_allow</span> : <span class="fn">∀ (<span class="fn">k</span> : <span class="fn">ℕ</span>), <span class="fn"><span class="fn">(<span class="fn">H</span> <span class="fn">k</span>)</span>.<a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/ProjectiveMetric.html#Matrix.IsAllowable">IsAllowable</a></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.html#Matrix.IsWeaklyErgodicRatio">IsWeaklyErgodicRatio</a> <span class="fn">H</span></span> <span class="fn">↔</span>   <span class="fn">∀ (<span class="fn">p</span> : <span class="fn">ℕ</span>), <span class="fn"><span class="fn">Filter.Tendsto</span> <span class="fn">(fun (<span class="fn">r</span> : <span class="fn">ℕ</span>) =&gt; <span class="fn"><span class="fn">(<a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.html#Matrix.forwardProd">forwardProd</a> <span class="fn">H</span> <span class="fn">p</span> <span class="fn">r</span>)</span>.<a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/ProjectiveMetric.html#Matrix.birkhoffContraction">birkhoffContraction</a></span>)</span> <span class="fn">Filter.atTop</span> <span class="fn">(<span class="fn">nhds</span> <span class="fn">0</span>)</span></span></span></span></div></div><p>Ratio weak ergodicity is detected by decay of Birkhoff's contraction coefficient.</p></div></div><div class="decl" id="Matrix.stronglyErgodic_implies_weaklyErgodic"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.lean#L116-L121">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/MCMC_PF_LinearAlgebra_Matrix_PerronFrobenius_Ergodicity.html#Matrix.stronglyErgodic_implies_weaklyErgodic" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.html#Matrix.stronglyErgodic_implies_weaklyErgodic"><span class="name">Matrix</span>.<span class="name">stronglyErgodic_implies_weaklyErgodic</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <span class="fn"><span class="fn">ℕ</span> → <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span></span>}</span></span>
+</span><span class="decl_args"> :</span><div class="decl_type"><span class="fn"><span class="fn"><a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.html#Matrix.IsStronglyErgodic">IsStronglyErgodic</a> <span class="fn">H</span></span> → <span class="fn"><a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.html#Matrix.IsWeaklyErgodic">IsWeaklyErgodic</a> <span class="fn">H</span></span></span></div></div><p>Strong ergodicity implies weak ergodicity.</p></div></div><div class="decl" id="Matrix.weaklyErgodicRatio_of_tendsto_rows_to_positive"><div class="theorem"><div class="gh_link"><a href="https://github.com/or4nge19/MCMC/blob/5a93c41b1842d8a48adb78575370f893b6cf3894/MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.lean#L124-L142">source</a></div><div class="verification_link">
+<a href="../../../../../../modules/MCMC_PF_LinearAlgebra_Matrix_PerronFrobenius_Ergodicity.html#Matrix.weaklyErgodicRatio_of_tendsto_rows_to_positive" class="verification-badge mathematical" title="Mathematical property (specification layer)">📐 coverage</a>
+</div>
+<div class="decl_header"><span class="decl_kind">theorem</span>
+<span class="decl_name"><a class="break_within" href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.html#Matrix.weaklyErgodicRatio_of_tendsto_rows_to_positive"><span class="name">Matrix</span>.<span class="name">weaklyErgodicRatio_of_tendsto_rows_to_positive</span></a></span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">n</span> : <a href="../../../../.././foundational_types.html">Type</a> u_1}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">Fintype</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">[<span class="fn"><span class="fn">DecidableEq</span> <span class="fn">n</span></span>]</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">H</span> : <span class="fn"><span class="fn">ℕ</span> → <span class="fn"><span class="fn">Matrix</span> <span class="fn">n</span> <span class="fn">n</span> <span class="fn">ℝ</span></span></span>}</span></span>
+</span><span class="impl_arg"><span class="decl_args">
+<span class="fn">{<span class="fn">v</span> : <span class="fn"><a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/ProjectiveMetric.html#Matrix.PositiveVec">PositiveVec</a> <span class="fn">n</span></span>}</span></span>
+</span><span class="decl_args">
+<span class="fn">(<span class="fn">hH</span> : <span class="fn">∀ (<span class="fn">p</span> : <span class="fn">ℕ</span>) (<span class="fn">i</span> : <span class="fn">n</span>), <span class="fn"><span class="fn">Filter.Tendsto</span> <span class="fn">(fun (<span class="fn">r</span> : <span class="fn">ℕ</span>) =&gt; <span class="fn"><a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.html#Matrix.forwardProd">forwardProd</a> <span class="fn">H</span> <span class="fn">p</span> <span class="fn">r</span> <span class="fn">i</span></span>)</span> <span class="fn">Filter.atTop</span> <span class="fn">(<span class="fn">nhds</span> <span class="fn">↑<span class="fn">v</span></span>)</span></span></span>)</span></span>
+<span class="decl_args"> :</span><div class="decl_type"><span class="fn"><a href="../../../../.././MCMC/PF/LinearAlgebra/Matrix/PerronFrobenius/Ergodicity.html#Matrix.IsWeaklyErgodicRatio">IsWeaklyErgodicRatio</a> <span class="fn">H</span></span></div></div><p>If every row of every forward product converges to the same strictly positive limit vector, then
+Seneta's ratio-form weak ergodicity holds.</p></div></div></main>
+<nav class="nav"><iframe src="../../../../.././navbar.html" class="navframe" frameBorder="0"></iframe></nav></body></html>
